@@ -1,0 +1,260 @@
+.online-store-row{
+    grid-row-gap: 40px;
+  }
+  .online-stores-div {
+    text-decoration: none;
+    padding: 0 23px;
+  }
+  .online-stores-box-button{
+    border: none;
+    background: none;
+  }
+  .online-stores .online-stores-box {
+    margin: 0 0px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .online-stores .online-stores-box:hover {
+    transform: scale(1.1);
+  }
+  
+  .online-stores .online-stores-box-icon {
+    width: 142px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .online-stores .online-stores-box-icon .online-stores-icon {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+  
+  .online-stores .online-stores-title {
+    text-align: center;
+  }
+  
+  .online-stores .online-stores-title h3 {
+    color: var(--darkText);
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .online-stores .online-stores-title h3{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  /* ONLINE STORES section end */
+  
+  /* online store popup start */
+  
+  /* modal body scroll styles start */
+  .online-store-modal .modal-dialog-scrollable .modal-body {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+  }
+  
+  .online-store-modal .modal-dialog-scrollable .modal-body::-webkit-scrollbar {
+    width: 8px;
+  }
+  .online-store-modal .modal-dialog-scrollable .modal-body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+  }
+  .online-store-modal .modal-dialog-scrollable .modal-body::-webkit-scrollbar-track {
+    background: var(--whiteColor);
+  }
+  .online-store-modal .modal-dialog-scrollable .modal-body::-webkit-scrollbar-thumb {
+    background-color: var(--borderColor) ;
+    border-radius: 6px;
+  }
+  /* modal body scroll styles end */
+  
+  .online-store-modal .modal-dialog {
+    max-width: 650px !important;
+    /* margin: 4.75rem auto; */
+  }
+  
+  .online-store-modal .modal-content{
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+    -moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+  }
+    
+  .online-store-modal-close {
+    color: var(--lightGray) !important;
+    font-size: 30px;
+    font-weight: 100;
+    right: 0;
+    top: 0;
+    z-index: 9;
+    position: absolute;
+    margin: 18px 23px !important;
+    padding: 0 !important;
+    opacity: 9 !important;
+  }
+  .online-store-modal .titleMain{
+    /* margin-top: 11px; */
+    color: var(--darkText);
+    font-size: 20px;
+    font-weight: 500;
+    margin-left: 10px;
+  }
+  
+  /* online store popup body start */
+  .online-stores-terms{
+    padding: 0 11px;
+    font-size: 13px;
+    line-height: 24px;
+  }
+  .online-stores-terms-ul{
+    margin-left: 15px;
+  }
+  /* online store popup body end */
+  
+  .online-store-modal .modal-footer{
+    justify-content: center;
+    border: none;
+    z-index: 9;
+    -webkit-box-shadow: 0px -5px 5px -5px rgb(0 0 0 / 12%);
+    -moz-box-shadow: 0px -5px 5px -5px rgb(0 0 0 / 12%);
+    box-shadow: 0px -5px 5px -5px rgb(0 0 0 / 12%);
+  }
+  .online-store-btn{
+    text-align: center;
+  }
+  .online-store-btn button{
+    font-size: 17px;
+    font-weight: 500;
+    background: none;  
+    padding: 10px 32px;
+  }
+  
+  
+  
+  @media only screen and (min-width: 275px) and (max-width: 319px){
+    .online-stores .online-stores-box-icon {
+      width: 62px;
+      margin-bottom: 13px;
+    }
+    .online-stores .online-stores-title h3 {
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      color: var(--darkText);
+      display: -webkit-box;
+      font-size: 12px;
+      font-weight: 500;
+      overflow: hidden;
+  }
+  
+  }
+  
+  
+  @media only screen and (min-width: 320px) and (max-width: 414px){
+    
+    .online-stores .online-stores-box-icon {
+      width: 77px;
+    }
+    .online-store-modal .titleMain {
+      font-size: 16px;
+      margin-left: 2px;
+    }
+    .online-store-modal-close {
+        display: contents;
+    }
+    .online-stores-terms {
+        padding: 0 2px;
+        font-size: 12px;
+    }
+    .online-store-btn button {
+        font-size: 15px;
+    }
+  
+  
+    .tab-panel-card .nav-tabs {
+      border: none;
+      flex-wrap: nowrap;
+    }
+    .tab-panel-card .nav-tabs>.nav-item>.nav-link {
+      margin: 0 15px;
+      font-size: 15px;
+    }
+  
+   
+  }
+  
+  @media only screen and (min-width: 414px) and (max-width: 767px){
+    .online-stores .online-stores-box-icon {
+      width: 77px;
+    }
+    .online-store-modal .titleMain {
+      font-size: 16px;
+      margin-left: 2px;
+    }
+    .online-store-modal-close {
+        display: contents;
+    }
+    .online-stores-terms {
+        padding: 0 2px;
+        font-size: 12px;
+    }
+    .online-store-btn button {
+        font-size: 15px;
+    }
+  
+  
+    .tab-panel-card .nav-tabs>.nav-item>.nav-link {
+      font-size: 15px;
+    }
+    
+  }
+  
+  @media only screen and (min-width: 540px) and (max-width: 767px){
+    .online-stores .online-stores-box-icon {
+      width: 77px;
+    }
+    .online-store-modal .modal-dialog {
+      max-width: 430px !important;
+      margin: 4.75rem auto;
+    }
+    .online-store-modal .titleMain {
+        font-size: 16px;
+    }
+    .online-store-btn button {
+        font-size: 15px;
+    }
+  }
+  
+  @media only screen and (min-width: 768px) and (max-width: 991px){
+    .online-stores .online-stores-box-icon {
+      width: 90px;
+      display: inherit;
+    }
+    .online-store-modal .modal-dialog {
+      max-width: 531px !important;
+    }
+    .online-store-modal .titleMain {
+        font-size: 18px;
+    }
+     
+  }
+  
+  
+  @media only screen and (min-width: 992px) and (max-width: 1280px){
+     
+    .online-stores .online-stores-box-icon {
+      width: 100px;
+    }
+  
+  }
+  
+  
+  @media only screen and (min-width: 1280px) and (max-width: 1440px){
+    .online-stores .online-stores-box-icon {
+      width: 142px;
+    }
+  }
