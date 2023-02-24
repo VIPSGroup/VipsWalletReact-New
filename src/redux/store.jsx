@@ -17,6 +17,7 @@ const store = configureStore({
     onlineStoreSlice: onlineStoreSlice,
     primeUserSlice: primeUserSlice,
     dealsSlice: dealsSlice,
+    signUpSlice:signUpSlice
     quickModalSlice: quickModalSlice,
   },
 });

@@ -12,11 +12,14 @@
     "bootstrap": "^5.2.3",
     "collect.js": "^4.34.3",
     "country-list-with-dial-code-and-flag": "^3.0.2",
+    "formik": "^2.2.9",
     "jquery": "^3.6.3",
     "otp-input-react": "^0.3.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
+    "react-confirm-alert": "^3.0.6",
     "react-dom": "^18.2.0",
+    "react-ga": "^3.3.1",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.7.1",
     "react-image-gallery": "^1.2.11",
@@ -27,7 +30,8 @@
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
     "swiper": "^9.0.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
