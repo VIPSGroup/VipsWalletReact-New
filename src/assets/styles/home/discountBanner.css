@@ -1,0 +1,282 @@
+.discount-banner .bgimage {
+    width:100%;
+    height:353px;
+    background: url('../../../../public/images/home/discount-banner.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:cover;
+    position: relative;
+  }
+  .discount-banner-content{
+    position: absolute;
+      left: 20%;
+      top: 12%;
+      color: #FFFFFF;
+  }
+  .discount-banner .bgimage h1 {
+    font-size: 48px;
+    font-weight: 500;
+    color: #FFFFFF;
+    margin-bottom: 15px;
+  }
+  .discount-banner .bgimage h1 span {
+    color: #CA3060;
+  }
+  .discount-banner-content p{
+    font-size: 24px;
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+  .discount-banner-content a{
+    border: 1px solid #fff !important;
+    color: #FFFFFF !important;
+    padding: 9px 29px;
+  }
+
+
+
+  @media only screen and (min-width: 275px) and (max-width: 319px){
+    .discount-banner .bgimage h1 {
+      font-size: 24px;
+      font-weight: 500;
+      color: #FFFFFF;
+      margin-bottom: 15px;
+    }
+    .discount-banner-content p {
+      font-size: 16px;
+    }
+    .discount-banner .bgimage {
+      height: 220px;
+    }
+    .discount-banner-content {
+      left: 6%;
+    }
+
+  }
+  
+
+  @media only screen and (min-width: 320px) and (max-width: 414px){
+  
+  
+  .discount-banner .bgimage { 
+    height: 267px; 
+  }
+  .discount-banner-content { 
+    left: 10%;
+    top: 19%; 
+  }
+  .discount-banner .bgimage h1 {
+    font-size: 28px; 
+  }
+  .discount-banner-content p {
+    font-size: 14px; 
+  }
+  
+  .payment-app { 
+    background-position: bottom; 
+  }
+  .payment-app-banner-content { 
+    margin-bottom: 7%;
+  }
+  .payment-app-banner-content {
+    padding-top: 0%;
+  }
+  .payment-app-banner-title { 
+    font-size: 26px; 
+    margin-bottom: 20px;
+  }
+  .payment-app-banner-p { 
+    font-size: 12px; 
+  }
+  .banner-phone-image {
+    padding-left: 0;
+  }
+  
+  .footer-outer {
+    padding: 7% 7% 1% 7%;
+  }
+  .footer-box:last-child {
+    margin-bottom: 0;
+  }
+  .footer-box{
+    display: inline-block;
+    width: 100%;
+  }
+  .footer-box:first-child{
+    display: inline-block;
+    width: 100%;
+  }
+  .footer-box{
+    margin-bottom: 20px;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 20px;
+    }
+    
+    .footer-bottom .policy{
+      display: flex;
+      float: none;
+    }
+    .footer-bottom .policy > div {
+      padding: 0px 3px 0px 3px;
+      margin-top: 19px;
+    }
+    .footer-bottom .policy > div:first-child {
+      padding-left: 0px;
+    }
+  
+  }
+  
+  @media only screen and (min-width: 414px) and (max-width: 767px){
+    
+    .discount-banner .bgimage { 
+      height: 267px; 
+    }
+    .discount-banner-content { 
+      left: 10%;
+      top: 19%; 
+    }
+    .discount-banner .bgimage h1 {
+      font-size: 28px; 
+    }
+    .discount-banner-content p {
+      font-size: 14px; 
+    }
+  
+    .payment-app { 
+      background-position: bottom; 
+    }
+    .payment-app-banner-content { 
+      margin-bottom: 7%;
+    }
+    .payment-app-banner-content {
+      padding-top: 0%;
+    }
+    .payment-app-banner-title { 
+      font-size: 28px; 
+      margin-bottom: 20px;
+    }
+    .payment-app-banner-p { 
+      font-size: 12px; 
+    }
+    .banner-phone-image {
+      padding-left: 0;
+    }
+  
+    .footer-outer {
+      padding: 7% 7% 1% 7%;
+    }
+    .footer-box:last-child {
+      margin-bottom: 0;
+    }
+    .footer-box{
+      display: inline-block;
+      width: 100%;
+    }
+    .footer-box:first-child{
+      display: inline-block;
+      width: 100%;
+    }
+    .footer-box{
+      margin-bottom: 20px;
+      border-bottom: 1px solid #fff;
+      padding-bottom: 20px;
+      }
+      .footer-bottom .policy{
+        display: flex;
+        float: none;
+      }
+      .footer-bottom .policy > div {
+        padding: 0px 8px 0px 8px;
+        margin-top: 19px;
+      }
+      .footer-bottom .policy > div:first-child {
+        padding-left: 0px;
+      }
+  }
+  
+  @media only screen and (min-width: 768px) and (max-width: 991px){
+    
+  
+    .discount-banner-content { 
+      left: 14%; 
+    }
+    .discount-banner .bgimage { 
+      height: 244px; 
+      background-position: right;
+    }
+    .discount-banner .bgimage h1 {
+      font-size: 38px; 
+    }
+    .discount-banner-content p {
+      font-size: 18px; 
+    }
+  
+   .payment-app { 
+    background-position: bottom; 
+    }
+    .payment-app-banner {
+      margin-bottom: 5%;
+    }
+    .payment-app-banner-content {
+      padding-top: 0%;
+  }
+    .payment-app-banner-content { 
+      margin-bottom: 11%;
+    }
+    .payment-app-banner-title { 
+      font-size: 24px; 
+    }
+    .payment-app-banner-p{
+      font-size: 12px;
+    }
+    .banner-phone-image {
+      padding-left: 6%;
+      padding-top: 13%;
+    }
+  
+    .footer-box:first-child {
+      display: inline-block;
+      width: 34%;
+    }
+    .footer-box {
+      display: inline-block;
+      width: 33%;
+    }
+    .footer-box{
+      margin-bottom: 20px;
+      border-bottom: none;
+      padding-bottom: 20px;
+      }
+      .footer-bottom .policy{
+        display: flex;
+        float: none;
+      }
+      .footer-bottom .policy > div {
+        padding: 0px 17px 0px 12px;
+        margin-top: 19px;
+      }
+      .footer-bottom .policy > div:first-child {
+        padding-left: 0px;
+      }
+  }
+  
+  
+  @media only screen and (min-width: 992px) and (max-width: 1279px){
+    
+  
+    .payment-app-banner-title { 
+      font-size: 28px; 
+    }
+    .payment-app-banner {
+      margin-bottom: 2%;
+    }
+    .payment-app-banner-content {
+      padding-top: 2%;
+  }
+  
+  }
+  
+  
+  @media only screen and (min-width: 1280px) and (max-width: 1440px){
+     
+  }
