@@ -1,11 +1,9 @@
-import {  loanRepaymentServiceId, waterServiceId } from '../../../constants';
-import ServiceFrontCommon from '../ServiceFrontCommon';
+import React from 'react'
 
-const Loanrepayment = () => {
+const LoanRepayment = () => {
   return (
-   <ServiceFrontCommon serviceId={loanRepaymentServiceId} serviceName="loanrepayment" title="Loan Repayment" />
-  );
-};
+    <div>LoanRepayment</div>
+  )
+}
 
-
-export default Loanrepayment
+export default LoanRepayment
