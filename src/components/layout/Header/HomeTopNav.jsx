@@ -1,9 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FiUser } from "react-icons/fi";
+import "../../../assets/styles/core/homeTopNav.css";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import {  FiUser } from "react-icons/fi";
+import { useSelector } from "react-redux";
+import { FaCrown } from "react-icons/fa";
+import { confirmAlert } from "react-confirm-alert";
+import { IoWalletOutline } from "react-icons/io5";
 
-const HomeTopNav = () => {
+const HomeTopNav = ({ isPrime }) => {
+  const [balance, setBalance] = useState(0);
+  const [shoppingPoints, setShoppingPoints] = useState("");
+  const [primePoints, setPrimePoints] = useState("");
+  const { loggedInUser } = useSelector(
+    state => state.loginSlice.loggetInWithOTP
+  );
+  const clickLogout = () => {
+    confirmAlert({
+      title: "Confirm to submit",
+      message: "Are you sure you want to sign out?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            localStorage.removeItem("user");
+            window.location.reload();
+            return "Click Yes";
+          },
+        },
+        {
+          label: "No",
+          onClick: () => "Click No",
+        },
+      ],
+      overlayClassName: "overlay-custom-class-name",
+    });
+  };
   return (
     <>
       <header class="header-main sticky-top">
@@ -14,7 +46,7 @@ const HomeTopNav = () => {
               id="sidebarCollapse"
               class="btn btn-link d-block d-xl-none"
               onClick={(e) => {
-                document.getElementById("sidebar").classList.add("active");
+                // document.getElementById("sidebar").classList.add("active");
               }}
             >
               <i class="fa-solid fa-bars"></i>
@@ -94,8 +126,8 @@ const HomeTopNav = () => {
                     </span>
                   </Link>
                 </li>
-
-                {/* {loggedInUser ? (
+      
+                {loggedInUser ? (
                   <li class="nav-item">
                     <Link
                       class="nav-link nav-icons"
@@ -189,9 +221,9 @@ const HomeTopNav = () => {
                       </div>
                     </div> 
                   </li>
-                ) : null} */}
+                ) : null}
 
-                {/* {loggedInUser ? (
+                {loggedInUser ? (
                   <li class="nav-item dropdown login-dropdown">
                     <Link
                       class="nav-link nav-icons"
@@ -255,7 +287,7 @@ const HomeTopNav = () => {
                       </span>
                     </Link>
                   </li>
-                )} */}
+                )}
               </ul>
             </div>
           </div>

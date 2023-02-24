@@ -1,10 +1,8 @@
 import React from "react";
-import HomeTopNav from "../../components/layout/Header/HomeTopNav";
-
+import SignInForm from "../../components/forms/SignInForm";
 const Homepage = () => {
   return (
     <>
-      <HomeTopNav />
     </>
   );
 };
