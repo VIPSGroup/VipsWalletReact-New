@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import "../../../assets/styles/core/homeTopNav.css";
 import { Link } from "react-router-dom";
 import { FiUser } from "react-icons/fi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { vendorPanelAPi } from "../../../constant/Constants";
 
 const HomeTopNav = () => {
+  const [fixed, setFixed] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.screenY > 450) {
+        setFixed(true);
+      } else {
+        setFixed(false);
+      }
+    });
+  });
   return (
     <>
       <header class="header-main sticky-top">
@@ -32,47 +45,15 @@ const HomeTopNav = () => {
                 <div class="collapse navbar-collapse" id="navbar">
                   <ul class="navbar-nav mx-auto">
                     {/* <Link to='/' className="nav-link">ss</Link> */}
-                    <li class="nav-item active">
-                      <Link class="nav-link" to="/">
-                        Home <span class="sr-only">(current)</span>
-                      </Link>
-                    </li>
-
-                    {/* {<!-- Level one dropdown -->} */}
-                    {/* <li class="nav-item "> */}
-                    <Link to="/shopping" class="nav-link">
-                      {" "}
-                      Shopping{" "}
-                    </Link>
-
-                    {/* </li> */}
-                    {/* { <!-- End Level one -->} */}
-
-                    {/* {<!-- Level one dropdown -->} */}
-                    {/* <li class="nav-item "> */}
-                    <Link to="/services" class="nav-link ">
-                      {" "}
-                      Services{" "}
-                    </Link>
-
-                    {/* {<!-- End Level one -->} */}
-
-                    <li class="nav-item">
-                      <Link class="nav-link" to="/onlinestores">
-                        {" "}
-                        Online Stores{" "}
-                      </Link>
-                    </li>
-                    <li class="nav-item">
-                      <Link
-                        class="nav-link"
-                        // to={vendorPanelAPi}
-                        target="_blank"
-                      >
-                        {" "}
-                        Become a Supplier{" "}
-                      </Link>
-                    </li>
+                    {TopMenu.map((e, i) => {
+                      return (
+                        <li key={i} class="nav-item active">
+                          <Link target={e.target} class="nav-link" to={e.route}>
+                            {e.title} <span class="sr-only">(current)</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>
@@ -245,17 +226,17 @@ const HomeTopNav = () => {
                       </li>
                     </ul>
                   </li>
-                ) : (
-                  <li class="nav-item">
-                    <Link class="nav-link nav-icons" to="/login">
-                      <FiUser className="nav-icon" />
-                      <span class="d-xl-block d-none d-md-none d-sm-none">
-                        {" "}
-                        Sign in{" "}
-                      </span>
-                    </Link>
-                  </li>
-                )} */}
+                ) : ( */}
+                <li class="nav-item">
+                  <Link class="nav-link nav-icons" to="/login">
+                    <FiUser className="nav-icon" />
+                    <span class="d-xl-block d-none d-md-none d-sm-none">
+                      {" "}
+                      Sign in{" "}
+                    </span>
+                  </Link>
+                </li>
+                {/* )}  */}
               </ul>
             </div>
           </div>
@@ -335,8 +316,77 @@ const HomeTopNav = () => {
         </div>
         {/* {<!-- header bottom end -->} */}
       </header>
+      {/* {<!-- Sidebar start -->} */}
+      <nav id="sidebar" class="sidebar-navigation">
+        <div class="sidebar-header">
+          {/* { <!-- <div class="container"> -->} */}
+          <div class="row align-items-end justify-content-end">
+            <div class="col-2 text-left sidebar-close-outer">
+              <button
+                type="button"
+                id="sidebarCollapseX"
+                class="btn btn-link sidebar-close"
+                onClick={(e) => {
+                  document.getElementById("sidebar").classList.remove("active");
+                }}
+              >
+                <i class="fa-sharp fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <ul class="list-unstyled components links">
+          <li class="">
+            <Link to="/"> Home</Link>
+          </li>
+
+          {/* {<!-- with multiple submenu start -->} */}
+          <li>
+            <Link to="/shopping">Shopping </Link>
+          </li>
+
+          <li>
+            <Link to="/services">Services </Link>
+          </li>
+
+          <li>
+            <Link to="/onlinestores"> Online Stores</Link>
+          </li>
+          <li>
+            <Link to={vendorPanelAPi} target="_blank">
+              {" "}
+              Become a Supplier
+            </Link>
+          </li>
+        </ul>
+      </nav>
     </>
   );
 };
+
+export const TopMenu = [
+  {
+    title: "Home",
+    route: "/",
+  },
+  {
+    title: "Shopping",
+    route: "/shopping",
+  },
+  {
+    title: "Services",
+    route: "/services",
+  },
+  {
+    title: "Online Stores",
+    route: "/onlinestores",
+  },
+  {
+    title: "Become a Supplier",
+    route: vendorPanelAPi,
+    target: "_blank",
+  },
+];
 
 export default HomeTopNav;
