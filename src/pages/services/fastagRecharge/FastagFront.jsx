@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -547,3 +548,14 @@ const FastagFront = ({ props }) => {
 };
 
 export default FastagFront;
+=======
+import React from 'react'
+
+const FastagFront = () => {
+  return (
+    <div>FastagFront</div>
+  )
+}
+
+export default FastagFront
+>>>>>>> ed09810ff29c7919987aade63b7c45f08e55702a

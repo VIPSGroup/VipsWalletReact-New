@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -524,3 +525,14 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
 };
 
 export default ServiceFrontComp;
+=======
+import React from 'react'
+
+const ServiceFrontComp = () => {
+  return (
+    <div>ServiceFrontComp</div>
+  )
+}
+
+export default ServiceFrontComp
+>>>>>>> ed09810ff29c7919987aade63b7c45f08e55702a

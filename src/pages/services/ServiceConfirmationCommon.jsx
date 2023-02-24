@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -638,3 +639,14 @@ const {loggedInUser}= useSelector(state=>state.login)
 };
 
 export default ServiceConfirmationCommon;
+=======
+import React from 'react'
+
+const ServiceConfirmationCommon = () => {
+  return (
+    <div>ServiceConfirmationCommon</div>
+  )
+}
+
+export default ServiceConfirmationCommon
+>>>>>>> ed09810ff29c7919987aade63b7c45f08e55702a

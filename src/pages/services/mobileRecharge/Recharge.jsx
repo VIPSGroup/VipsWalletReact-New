@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -501,3 +502,14 @@ const Recharge = ({ props }) => {
 };
 
 export default Recharge;
+=======
+import React from 'react'
+
+const Recharge = () => {
+  return (
+    <div>Recharge</div>
+  )
+}
+
+export default Recharge
+>>>>>>> ed09810ff29c7919987aade63b7c45f08e55702a

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -259,3 +260,14 @@ const ServiceCommonSuccess = () => {
 };
 
 export default ServiceCommonSuccess;
+=======
+import React from 'react'
+
+const ServiceCommonSuccess = () => {
+  return (
+    <div>ServiceCommonSuccess</div>
+  )
+}
+
+export default ServiceCommonSuccess
+>>>>>>> ed09810ff29c7919987aade63b7c45f08e55702a

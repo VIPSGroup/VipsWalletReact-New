@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {  hospitalBillsServiceId } from '../../../constants';
 import ServiceFrontCommon from '../ServiceFrontCommon';
 
@@ -7,5 +8,14 @@ const HospitalBills = () => {
   );
 };
 
+=======
+import React from 'react'
+
+const HospitalBills = () => {
+  return (
+    <div>HospitalBills</div>
+  )
+}
+>>>>>>> ed09810ff29c7919987aade63b7c45f08e55702a
 
 export default HospitalBills

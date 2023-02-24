@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -604,3 +605,14 @@ const {loggedInUser}= useSelector(state=>state.login)
 };
 
 export default ElectricityConfirmation;
+=======
+import React from 'react'
+
+const ElectricityConfirmation = () => {
+  return (
+    <div>ElectricityConfirmation</div>
+  )
+}
+
+export default ElectricityConfirmation
+>>>>>>> ed09810ff29c7919987aade63b7c45f08e55702a

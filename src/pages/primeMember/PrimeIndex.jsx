@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import BannerTopNav from "../../components/home/BannerTopNav";
 import Footer from "../../components/home/Footer";
 import "../../assets/styles/prime/primeIndex.css";
@@ -302,3 +303,14 @@ const PrimeIndex = ({setIsBottomTopNav}) => {
 };
 
 export default PrimeIndex;
+=======
+import React from 'react'
+
+const PrimeIndex = () => {
+  return (
+    <div>PrimeIndex</div>
+  )
+}
+
+export default PrimeIndex
+>>>>>>> ed09810ff29c7919987aade63b7c45f08e55702a

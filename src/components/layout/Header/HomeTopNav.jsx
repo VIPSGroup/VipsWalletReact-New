@@ -1,12 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "../../../assets/styles/core/homeTopNav.css";
 import { Link } from "react-router-dom";
-import { FiUser } from "react-icons/fi";
+import "../../../assets/styles/core/homeTopNav.css";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import {  FiUser } from "react-icons/fi";
+import { useSelector } from "react-redux";
+import { FaCrown } from "react-icons/fa";
+import { confirmAlert } from "react-confirm-alert";
+import { IoWalletOutline } from "react-icons/io5";
 import { vendorPanelAPi } from "../../../constant/Constants";
 
-const HomeTopNav = () => {
+const HomeTopNav = ({ isPrime }) => {
   const [fixed, setFixed] = useState(false);
+   const [balance, setBalance] = useState(0);
+  const [shoppingPoints, setShoppingPoints] = useState("");
+  const [primePoints, setPrimePoints] = useState("");
+
+ const { loggedInUser } = useSelector(
+    state => state.loginSlice.loggetInWithOTP
+  );
+ 
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -17,6 +30,28 @@ const HomeTopNav = () => {
       }
     });
   });
+  
+   const clickLogout = () => {
+    confirmAlert({
+      title: "Confirm to submit",
+      message: "Are you sure you want to sign out?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            localStorage.removeItem("user");
+            window.location.reload();
+            return "Click Yes";
+          },
+        },
+        {
+          label: "No",
+          onClick: () => "Click No",
+        },
+      ],
+      overlayClassName: "overlay-custom-class-name",
+    });
+  };
   return (
     <>
       <header class="header-main sticky-top">
@@ -27,7 +62,7 @@ const HomeTopNav = () => {
               id="sidebarCollapse"
               class="btn btn-link d-block d-xl-none"
               onClick={(e) => {
-                document.getElementById("sidebar").classList.add("active");
+                // document.getElementById("sidebar").classList.add("active");
               }}
             >
               <i class="fa-solid fa-bars"></i>
@@ -75,8 +110,8 @@ const HomeTopNav = () => {
                     </span>
                   </Link>
                 </li>
-
-                {/* {loggedInUser ? (
+      
+                {loggedInUser ? (
                   <li class="nav-item">
                     <Link
                       class="nav-link nav-icons"
@@ -170,9 +205,9 @@ const HomeTopNav = () => {
                       </div>
                     </div> 
                   </li>
-                ) : null} */}
+                ) : null}
 
-                {/* {loggedInUser ? (
+                {loggedInUser ? (
                   <li class="nav-item dropdown login-dropdown">
                     <Link
                       class="nav-link nav-icons"
@@ -226,17 +261,18 @@ const HomeTopNav = () => {
                       </li>
                     </ul>
                   </li>
-                ) : ( */}
-                <li class="nav-item">
-                  <Link class="nav-link nav-icons" to="/login">
-                    <FiUser className="nav-icon" />
-                    <span class="d-xl-block d-none d-md-none d-sm-none">
-                      {" "}
-                      Sign in{" "}
-                    </span>
-                  </Link>
-                </li>
-                {/* )}  */}
+                ) : (
+                  <li class="nav-item">
+                    <Link class="nav-link nav-icons" to="/login">
+                      <FiUser className="nav-icon" />
+                      <span class="d-xl-block d-none d-md-none d-sm-none">
+                        {" "}
+                        Sign in{" "}
+                      </span>
+                    </Link>
+                  </li>
+                )}
+
               </ul>
             </div>
           </div>

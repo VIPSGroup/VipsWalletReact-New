@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CommonTopNav from "../../../components/home/CommonTopNav";
@@ -234,3 +235,14 @@ const DthFront = ({ props }) => {
 };
 
 export default DthFront;
+=======
+import React from 'react'
+
+const DthFront = () => {
+  return (
+    <div>DthFront</div>
+  )
+}
+
+export default DthFront
+>>>>>>> ed09810ff29c7919987aade63b7c45f08e55702a

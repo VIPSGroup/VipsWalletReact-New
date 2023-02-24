@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -629,3 +630,14 @@ const RechargeConfirmation = () => {
 };
 
 export default RechargeConfirmation;
+=======
+import React from 'react'
+
+const RechargeConfirmation = () => {
+  return (
+    <div>RechargeConfirmation</div>
+  )
+}
+
+export default RechargeConfirmation
+>>>>>>> ed09810ff29c7919987aade63b7c45f08e55702a
