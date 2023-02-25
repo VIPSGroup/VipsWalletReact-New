@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { changePassword } from "../../apiData/user/profile";
 
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import LoadingBar from "../common/loading";
 import { useSelector } from "react-redux";
+import { Loading } from "../../components/common";
 
 const ChangePassword = () => {
   const [oldShow, setOldShow] = useState(false);
@@ -153,7 +153,7 @@ const {loggedInUser}= useSelector(state=>state.login)
                           class="btn-primery"
                         >
                           {" "}
-                          {loading ? <LoadingBar /> : "Change Password"}
+                          {loading ? <Loading /> : "Change Password"}
                         </button>
                       </div>
                     </div>

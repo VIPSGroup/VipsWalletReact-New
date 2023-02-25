@@ -15,10 +15,16 @@ import PaymentApp from "./PaymentApp";
 import ServiceCategory from "./ServiceCategory";
 import ShopByCategory from "./ShopByCategory";
 import ShoppingCategoryProduct from "./ShoppingCategoryProduct";
-const Homepage = ({ HomeTopNav }) => {
+const Homepage = ({setIsHomeTopNav}) => {
+  useEffect(() => {
+    setIsHomeTopNav(true);
+    return () => {
+      setIsHomeTopNav(false);
+    }
+  }, [])
+  
   return (
     <>
-      <HomeTopNav />
       <HomeTopBannerSlider />
       <HomeBottomServiceBar />
       <ShopByCategory />

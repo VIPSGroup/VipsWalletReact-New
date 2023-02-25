@@ -1,0 +1,629 @@
+.color-body{
+  background-color: var(--body-bg) !important;
+}
+
+.add-money-outer{
+    border-radius: 10px;
+    background: var(--whiteColor);
+}
+.add-money-card {
+    padding: 12px 0 9px 0;
+    cursor: auto;
+  }
+   
+  .add-money-body{
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 0.5rem 1rem;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .add-money-radio-input{
+    width: 20px;
+    height: 20px;
+  }
+  .add-money-radio-label{
+    margin-left: 18px;
+  }
+  
+  .add-money-card .add-money-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--darkText);
+  }
+  input[name="addmoney"] {
+    border-color: var(--primary) !important;
+    background-color: var(--primary) !important;
+    content: "";
+  }
+  
+  .add-money-points{
+    font-weight: 600;
+  }
+  .add-money-btn{
+    text-align: center;
+  }
+  .add-money-btn button{
+    font-size: 17px;
+    font-weight: 500;
+    background: none;  
+      padding: 10px 32px;
+  }
+
+   
+/* new start */
+.add-money-body .img1{
+    /* margin: 0 28px 0px 24px; */
+    margin: 0 31px 0px 8px;
+    width: 30px;
+}
+.add-money-body .img2{
+    /* margin: 0 20px; */
+    margin: 0 20px 0 7px;
+}
+.add-money-body .img3{
+    /* margin: 0 27px 0px 27px; */
+    margin: 0 34px 0px 7px;
+}
+.select-payment-method label{
+  display: block;
+}
+.select-payment-method label > input[type="radio"] + *::before{
+    vertical-align: middle !important;
+    width: 20px !important;
+    height: 20px !important;
+}
+.select-payment-method label > input[type="radio"] {
+  display: none;
+}
+.select-payment-method label > input[type="radio"] + *::before {
+  content: "";
+  display: inline-block;
+  vertical-align: bottom;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.3rem;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 0.1rem;
+  border-color: var(--textGray);
+}
+.select-payment-method label > input[type="radio"]:checked + * {
+  color: var(--darkText);
+}
+.select-payment-method label > input[type="radio"]:checked + *::before {
+  background: radial-gradient(var(--primary) 0%, var(--primary) 40%, transparent 50%, transparent);
+  border-color: var(--primary);
+}
+
+/* basic layout */
+/* fieldset {
+  margin: 20px;
+  max-width: 400px;
+} */
+.select-payment-method label > input[type="radio"] + * {
+  display: inline-block;
+  padding: 0.5rem 0.5rem;
+}
+  /* new end */
+
+
+.add-money-amt label{
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--lightGray);
+}
+
+  .add-money-amt input {
+    outline: 0;
+    border-width: 0 0 1px;
+    border-bottom: 1px solid var(--borderColor);
+    width: 100%;
+    font-size: 18px;
+    margin-left: -23px;
+    padding-left: 20px;
+  }
+  .add-money-amt input::placeholder{
+    color: var(--darkText);
+  }
+
+  .add-money-amt input:focus {
+    border-color: var(--primary);
+  }
+  
+  .add-balance-btn {
+    text-align: center;
+    margin: 24px 0 8px;
+  }
+  .add-balance-btn button {
+    font-size: 15px;
+    font-weight: 500;
+    background: none;
+    margin: 0 7px;
+    padding: 6px 16px;
+}
+
+
+/* input group start */
+.add-money-amt .input-group {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.input-group .did-floating-input {
+  border-radius: 0 4px 4px 0;
+  border-left: 0;
+  padding-left: 0;
+}
+
+.add-money-amt .input-group-append {
+  display: flex;
+  align-items: center;
+  /*   margin-left:-1px; */
+}
+
+.add-money-amt .input-group-text {
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  height: 34px;
+  color: var(--darkText) !important;
+  padding: 0 14px 0 0px;
+  font-size: 18px;
+  text-align: center;
+  white-space: nowrap;
+  border: none !important;
+  background: none !important;
+  z-index: 1;
+}
+/* input group end */
+
+
+/* add money popup start */
+  
+.add-money-modal-close {
+    color: var(--blackColor) !important;
+    font-size: 30px;
+    font-weight: 100; 
+    top: 0;
+    z-index: 9;
+    position: absolute;
+    margin: 18px 23px;
+}
+/* .add-money-modal-close i{
+  color: var(--lightGray);
+} */
+
+.add-money-modal .modal-dialog {
+  max-width: 475px !important;
+  /* margin: 4.75rem auto; */
+}
+
+.add-money-modal .modal-content{
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+  -moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+  box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+}
+
+.add-money-modal .titleMain img{
+  width: 55px;
+}
+.add-money-modal .titleMain h2{
+  margin-top: 11px;
+  color: var(--darkText);
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+.add-money-modal-form {
+  margin: 0 auto;
+  padding: 30px 15px;
+  text-align: center;
+  /* max-width: 430px; */
+  position: relative;
+}
+
+.add-money-modal .titleMain .formText {
+  padding-bottom: 25px;
+}
+
+.no-gutters1 {
+  margin-right: -1px;
+  margin-left: 0px;
+}
+
+
+/* Add money popup form start */
+.addmoney-popup-form { 
+  padding: 0px 25px 15px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.addmoney-popup-form .limit-note { 
+  margin: 10px;
+}
+.addmoney-popup-form .limit-note a {
+  color: var(--red);
+  font-size: 11px;
+  line-height: 1.5;
+  font-weight: 400;
+  text-decoration: none;
+  outline: none;
+}
+
+.addmoney-popup-form .input-field {
+  position: relative;
+  margin: 25px 0;
+  padding-left: 0px;
+  color: var(--darkText);
+}
+.addmoney-popup-form .input-field input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-radius: 0;
+  width: 100%;
+  font-size: 15px;
+  height: 40px;
+  border-bottom: 1px solid var(--borderColor);
+  color: inherit;
+  transition: 0.2s ease;
+}
+.addmoney-popup-form .input-field input::-moz-placeholder {
+  color: transparent;
+}
+.addmoney-popup-form .input-field input:-ms-input-placeholder {
+  color: transparent;
+}
+.addmoney-popup-form .input-field input::placeholder {
+  color: transparent;
+}
+.addmoney-popup-form .input-field input:not(:-moz-placeholder-shown) {
+  border-bottom: 1px solid var(--primary);
+  box-shadow: 0 1px 0 0 var(--primary);
+}
+.addmoney-popup-form .input-field input:not(:-ms-input-placeholder) {
+  border-bottom: 1px solid var(--primary);
+  box-shadow: 0 1px 0 0 var(--primary);
+}
+.addmoney-popup-form .input-field input:focus, .addmoney-popup-form .input-field input:not(:placeholder-shown) {
+  border-bottom: 1px solid var(--primary);
+  box-shadow: 0 1px 0 0 var(--primary);
+}
+.addmoney-popup-form .input-field input:not(:-moz-placeholder-shown) + label {
+  transform: translateY(-14px) scale(0.85);
+  color: var(--primary);
+}
+.addmoney-popup-form .input-field input:not(:-ms-input-placeholder) + label {
+  transform: translateY(-14px) scale(0.85);
+  color: var(--primary);
+}
+.addmoney-popup-form .input-field input:focus + label, .addmoney-popup-form .input-field input:not(:placeholder-shown) + label {
+  transform: translateY(-14px) scale(0.85);
+  color: var(--primary);
+}
+.addmoney-popup-form .input-field label {
+  color: var(--textGray);
+  position: absolute;
+  top: 0;
+  left: 0px;
+  font-size: 15px;
+  cursor: text;
+  transform-origin: 0% 100%;
+  transform: translateY(14px);
+  transition: 0.2s ease-out;
+}
+
+/* Add money popup form end */
+
+
+/* add money popup end */
+
+
+
+/* Send Money start */
+
+.send-money-outer{
+  border-radius: 10px;
+  background: var(--whiteColor);
+}
+.send-money-card {
+  padding: 12px 0 9px 0;
+  cursor: auto;
+}
+ 
+.send-money-body{
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 0.5rem 1rem;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.send-money-btn{
+  text-align: center;
+}
+.send-money-btn button{
+  font-size: 17px;
+  font-weight: 500;
+  background: none;  
+    padding: 10px 32px;
+}
+
+.send-money-amt label{
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--lightGray);
+}
+
+.send-money-amt input {
+  outline: 0;
+  border-width: 0 0 1px;
+  border-bottom: 1px solid var(--borderColor);
+  width: 100%;
+  font-size: 18px;
+  margin-left: -41px;
+  padding-left: 38px;
+}
+.send-money-amt .input-amt {
+  outline: 0;
+  border-width: 0 0 1px;
+  border-bottom: 1px solid var(--borderColor);
+  width: 100%;
+  font-size: 18px;
+  margin-left: -25px;
+  padding-left: 24px;
+}
+.send-money-amt input::placeholder{
+  color: var(--darkText);
+}
+
+.send-money-amt input:focus {
+  border-color: var(--primary);
+}
+
+/* input group start */
+.send-money-amt .input-group {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.input-group .did-floating-input {
+  border-radius: 0 4px 4px 0;
+  border-left: 0;
+  padding-left: 0;
+}
+
+.send-money-amt .input-group-append {
+  display: flex;
+  align-items: center;
+  /*   margin-left:-1px; */
+}
+
+.send-money-amt .input-group-text {
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  height: 34px;
+  color: var(--darkText) !important;
+  padding: 0 14px 0 0px;
+  font-size: 18px;
+  text-align: center;
+  white-space: nowrap;
+  border: none !important;
+  background: none !important;
+  z-index: 1;
+}
+/* input group end */
+
+/* Send Money end */
+
+
+
+@media only screen and (min-width: 320px) and (max-width: 413px){
+  .add-money-body { 
+    padding: 0.5rem 0.5rem;
+    font-size: 14px;
+  }
+  .add-money-card .add-money-title {
+    font-size: 16px;
+  }
+  .select-payment-method label > input[type="radio"] + * {
+    display: inline-block;
+    padding: 0.5rem 0rem;
+  }
+  .select-payment-method label > input[type="radio"] + *::before {
+    width: 17px !important;
+    height: 17px !important;
+  }
+  .add-money-body .img1 {
+    margin: 0 20px 0px 3px;
+    width: 22px;
+  }
+  .add-money-body .img2 {
+    margin: 0 9px 0px 5px;
+    width: 32px;
+  }
+  .add-money-body .img3 {
+    margin: 0 18px 0px 5px;
+    width: 22px;
+  }
+  .add-money-btn button {
+    font-size: 15px; 
+    padding: 8px 30px;
+  }
+
+
+
+  .add-balance-btn {
+    text-align: center;
+    margin: 24px 0 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    justify-content: center;
+  }
+  .add-balance-btn button {
+    font-size: 12px;
+    margin: 7px 0px;
+    width: 54px;
+    padding: 5px 4px;
+    border-radius: 5px;
+  }
+
+
+  .add-money-modal .modal-dialog {
+    max-width: 310px !important;
+    /* margin: 3.75rem auto; */
+  }
+  .add-money-modal-form { 
+    padding: 26px 10px 40px; 
+  }
+  
+
+
+  .send-money-btn button {
+    font-size: 15px;
+    padding: 8px 30px;
+  }
+
+}
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+  .add-money-body { 
+    padding: 0.5rem 0.5rem;
+    font-size: 14px;
+  }
+  .add-money-card .add-money-title {
+    font-size: 16px;
+  }
+  .select-payment-method label{
+    display: block;
+  }
+  .select-payment-method label > input[type="radio"] + * {
+    display: inline-block;
+    padding: 0.5rem 0rem;
+  }
+  .select-payment-method label > input[type="radio"] + *::before {
+    width: 17px !important;
+    height: 17px !important;
+  }
+  .add-money-body .img1 {
+    margin: 0 20px 0px 3px;
+    width: 22px;
+  }
+  .add-money-body .img2 {
+    margin: 0 9px 0px 5px;
+    width: 32px;
+  }
+  .add-money-body .img3 {
+    margin: 0 18px 0px 5px;
+    width: 22px;
+  }
+  .add-money-btn button {
+    font-size: 15px; 
+    padding: 8px 30px;
+  }
+
+
+  .add-balance-btn {
+    text-align: center;
+    margin: 24px 0 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .add-balance-btn button {
+    font-size: 15px;
+    margin: 7px 0px;
+    width: 76px;
+    padding: 5px 7px;
+    border-radius: 6px;
+  }
+
+
+
+  .add-money-modal .modal-dialog {
+    max-width: 385px !important;
+    /* margin: 8.75rem auto; */
+  } 
+  .add-money-modal-form {
+    padding: 8px 20px 40px;
+    max-width: 100%;
+  } 
+  .addmoney-popup-form { 
+    padding: 5px 13px 15px; 
+  }
+
+
+
+  .send-money-btn button {
+    font-size: 15px;
+    padding: 8px 30px;
+  }
+  
+
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px){
+  
+  .add-money-body .img1 {
+    margin: 0 23px 0px 3px;
+    width: 23px;
+  }
+  .add-money-body .img2 {
+    margin: 0 12px 0 4px;
+    width: 33px;
+  }
+  .add-money-body .img3 {
+    margin: 0 24px 0px 4px;
+    width: 22px;
+  }
+  .select-payment-method label > input[type="radio"] + * {
+    display: inline-block;
+    padding: 0.5rem 0.5rem;
+  }
+  .select-payment-method label > input[type="radio"] + *::before {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .add-money-btn button {
+    font-size: 16px;
+  }
+
+
+
+
+  .add-money-modal .modal-dialog {
+    max-width: 531px !important;
+    /* margin: 9.75rem auto; */
+  }
+  .send-money-btn button {
+    font-size: 16px;
+  }
+     
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+  .add-money-modal .modal-dialog {
+    max-width: 531px !important;
+    /* margin: 14.75rem auto; */
+  }
+
+  .add-money-body .img1{
+    /* margin: 0 28px 0px 24px; */
+    margin: 0 31px 0px 5px;
+  }
+  .add-money-body .img2{
+      /* margin: 0 20px; */
+      margin: 0 17px 0 7px;
+  }
+  .add-money-body .img3{
+      /* margin: 0 27px 0px 27px; */
+      margin: 0 31px 0px 7px;
+  }
+      
+} 

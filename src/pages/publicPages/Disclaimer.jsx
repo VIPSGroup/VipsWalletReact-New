@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-const Disclaimer = () => {
+const Disclaimer = ({setIsBottomTopNav}) => {
+  useEffect(()=>{
+    setIsBottomTopNav(true)
+    return ()=>{setIsBottomTopNav(false)}
+},[])
   return (
     <div>Disclaimer</div>
   )

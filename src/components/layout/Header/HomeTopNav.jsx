@@ -22,13 +22,14 @@ const HomeTopNav = ({ isPrime }) => {
  
 
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (window.screenY > 450) {
-        setFixed(true);
-      } else {
-        setFixed(false);
-      }
-    });
+    console.warn(loggedInUser);
+    // window.addEventListener("scroll", () => {
+    //   if (window.screenY > 450) {
+    //     setFixed(true);
+    //   } else {
+    //     setFixed(false);
+    //   }
+    // });
   });
   
    const clickLogout = () => {

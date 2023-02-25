@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { getProfileDetails, editProfile } from "../../apiData/user/profile";
-import {
-  listStateAndCity,
-  getCityState,
-} from "../../apiData/authentication/signup";
 import { updateProfile } from "../../apiData/myProfile/profile";
-// import { MuiSnackBar } from "../common/snackbars";
-import LoadingBar from "../common/loading";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import SelectField from "../shopping/SelectField";
-import { getUserDetails } from "../../redux/Actions/SignupAction";
-import { getStateCity } from "../../redux/Actions/CommonActions";
+import { Loading } from "../../components/common";
+import { SelectField } from "../../components/forms";
+import { getStateCity, stateCityEmpty } from "../../redux/slices/signUpSlice";
 
 const EditProfile = () => {
   const [userDetails, setUserDetails] = useState({});
@@ -31,11 +25,10 @@ const EditProfile = () => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { loggedInUser } = useSelector((state) => state.login);
-  const { stateCityList, stateCityByPincode } = useSelector(
-    (state) => state.common
-  );
-  const { userProfile } = useSelector((state) => state.signup);
+  const { loggedInUser } = useSelector(
+    state => state.loginSlice.loggetInWithOTP);
+    const { allStateCityList } = useSelector((state) => state.signUpSlice.stateList);
+    const { stateCityByPincode } = useSelector((state) => state.signUpSlice.stateCityPincode);
   const formik = useFormik({
     initialValues: {
       AlternateMobile: "",
@@ -94,6 +87,7 @@ const EditProfile = () => {
   });
 
   useEffect(() => {
+    console.log("useEffect");
     if (formik.values.Pincode == pinCode) {
       // dispatch(getUserDetails)
 
@@ -121,8 +115,8 @@ const EditProfile = () => {
           formik.values.PerAddress = data.PerAddress;
           formik.values.AadharNo = data.AadharNo;
 
-          if (stateCityList) {
-            let selectedState = stateCityList.Data.find(
+          if (allStateCityList) {
+            let selectedState = allStateCityList.Data.find(
               (item) => item.Id === getData.stateId
             );
             let selectedCity = selectedState?.Citys.find(
@@ -147,16 +141,10 @@ const EditProfile = () => {
       console.warn(formik.values.Pincode);
       dispatch(getStateCity(formik.values.Pincode));
 
-      //     getCityState(formik.values.Pincode).then((response) => {
-      //       if (response.ResponseStatus == 1) {
-      // setGetData({...getData,stateName:response.Data[0].StateName,stateId:response.Data[0].StateId,stateError:false,cityId:response.Data[0].CityId,cityName:response.Data[0].CityName,cityError:false,pincodeId:response.Data[0].PincodeId})
-      //       } else {
-      //         setGetData({stateName:'',stateId:'',stateError:false,cityId:'',cityName:'',cityError:false})
-      //       }
-      //     });
     }
-
+    console.warn(formik.values.Pincode)
     if (formik.values.Pincode.length === 6) {
+      console.warn(formik.values.Pincode)
       if (stateCityByPincode?.ResponseStatus === 1) {
         console.warn(stateCityByPincode.Data[0]);
         setGetData({
@@ -180,6 +168,8 @@ const EditProfile = () => {
           cityError: false,
         });
       }
+    }else{
+      // dispatch(stateCityEmpty())
     }
   }, [pinCode, formik.values.Pincode]);
 
@@ -412,7 +402,7 @@ const EditProfile = () => {
                       <div class="col-lg-12">
                         <div class="save-profile-btn text-center mt-4">
                           <button type="submit" class="btn-primery">
-                            {loading ? <LoadingBar /> : "Save Profile"}
+                            {loading ? <Loading /> : "Save Profile"}
                           </button>
                         </div>
                       </div>

@@ -1,0 +1,342 @@
+/* contact us top banner start */
+.contact-banner{
+    margin-bottom: 50px;
+}
+.contact-top-banner {
+    display: flex;
+    position: relative;
+    padding: 7rem 1rem 1rem;
+    height: 25em;
+    color: var(--whiteColor);
+    background-color: rgba(0, 0, 0, 0.9);
+    text-align: center;
+    margin-top: -44px;
+}
+.contact-top-hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.2;
+}
+.contact-top-banner_content {
+    margin: auto;
+    position: relative;
+}
+.contact-top-banner-title {
+    font-size: 42px;
+    font-weight: 500;
+}
+/* contact us top banner end */
+
+
+.contact-section .section-title {
+    position: relative;
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0 0 15px;
+}
+  
+/* contact form start */
+  
+.contactform .input-field {
+    position: relative;
+    margin: 25px 0;
+    padding-left: 0px;
+    color: var(--darkText);
+}
+.contactform .input-field input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-radius: 0;
+    width: 100%;
+    font-size: 15px;
+    height: 40px;
+    border-bottom: 1px solid var(--borderColor);
+    color: inherit;
+    transition: 0.2s ease;
+}
+.contactform .input-field input::-moz-placeholder {
+    color: transparent;
+}
+.contactform .input-field input:-ms-input-placeholder {
+    color: transparent;
+}
+.contactform .input-field input::placeholder {
+    color: transparent;
+}
+.contactform .input-field input:not(:-moz-placeholder-shown) {
+    border-bottom: 1px solid var(--primary);
+    box-shadow: 0 1px 0 0 var(--primary);
+}
+.contactform .input-field input:not(:-ms-input-placeholder) {
+    border-bottom: 1px solid var(--primary);
+    box-shadow: 0 1px 0 0 var(--primary);
+}
+.contactform .input-field input:focus, .contactform .input-field input:not(:placeholder-shown) {
+    border-bottom: 1px solid var(--primary);
+    box-shadow: 0 1px 0 0 var(--primary);
+}
+.contactform .input-field input:not(:-moz-placeholder-shown) + label {
+    transform: translateY(-14px) scale(0.85);
+    color: var(--primary);
+}
+.contactform .input-field input:not(:-ms-input-placeholder) + label {
+    transform: translateY(-14px) scale(0.85);
+    color: var(--primary);
+}
+.contactform .input-field input:focus + label, .contactform .input-field input:not(:placeholder-shown) + label {
+    transform: translateY(-14px) scale(0.85);
+    color: var(--primary);
+}
+.contactform .input-field label {
+    color: var(--textGray);
+    position: absolute;
+    top: -10px;
+    left: 0px;
+    font-size: 15px;
+    cursor: text;
+    transform-origin: 0% 100%;
+    transform: translateY(14px);
+    transition: 0.2s ease-out;
+}
+.contactform .send-msg-btn button{
+    padding: 10px 30px;
+}
+  
+/* selectpicker start */
+.contactform .select-option{
+    margin-top: 31px;
+    margin-bottom: 20px;
+}
+.contactform .select-option .select-type{
+    font-size: 15px;
+    color: var(--textGray);
+    font-weight: normal; 
+    width: 100%;
+    height: 100%;
+    bottom: 0px;
+    left: 0%; 
+    border: none;
+    border-bottom: 1px solid var(--borderColor);
+    margin-bottom: 0;
+    background: none;
+    text-align: left;
+    padding-bottom: 10px;
+}
+    
+.contactform .select-toggle::after { 
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+    float: right;
+    margin-top: 13px;
+}
+.contactform .select-option a:hover{
+    background-color: var(--primary);
+    color: var(--whiteColor);
+}
+    
+.contactform .select-option .dropdown-menu{
+    height: 200px; 
+    overflow-y: scroll;
+    width: 100%;
+}
+    
+.contactform .select-option .dropdown-menu {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--darkText);
+}
+    
+.contactform .select-option .dropdown-menu::-webkit-scrollbar {
+    width: 5px;
+}
+.contactform .select-option .dropdown-menu {
+    scrollbar-width: thin;
+    scrollbar-color: var(--darkText);
+}
+.contactform .select-option .dropdown-menu::-webkit-scrollbar-track {
+    background: var(--whiteColor);
+}
+.contactform .select-option .dropdown-menu::-webkit-scrollbar-thumb {
+    background-color: var(--borderColor) ;
+    border-radius: 6px;
+}
+/* selectpicker end */
+    
+/* contact form end */
+  
+/* contact details start */
+.contact-detail-outer{
+    margin-left: auto;
+}
+.contact-detail .contact-ul{
+    list-style: none;
+}
+.contact-detail .contact-ul li {
+    margin: 10px 0 23px;
+    word-wrap: break-word;
+    display: flex;
+}
+.details-content{
+    font-size: 14px;
+}
+.contact-detail .details-content .title-p{
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+.contact-detail .contact-ul i {
+    font-size: 22px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+/* contact details end */
+
+.contact-map{
+    margin-top: 50px;
+    border-radius: 10px;
+}
+.contact-map iframe{
+    border-radius: 10px;
+    height: 270px;
+}
+.contact-map .mapframe{
+    -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 18%);
+    -moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 18%);
+    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 18%);
+}
+
+@media only screen and (min-width: 320px) and (max-width: 414px){
+    .contact-top-banner {
+        padding: 2rem 1rem 1rem;
+        height: 12em;
+        margin-top: -67px;
+    }
+    .contact-top-banner-title {
+        font-size: 24px;
+    }
+    .contact-section .section-title {
+        font-size: 20px;
+    }
+    .contactform{
+        margin-bottom: 30px;
+    }
+    .contact-detail .contact-ul li {
+        margin: 10px 0 12px;
+    }
+    .contact-detail .contact-ul i {
+        padding: 5px 9px 0px 0px;
+        font-size: 18px;
+    }
+    .contactform .send-msg-btn{
+        text-align: center;
+    }
+    .contactform .send-msg-btn button {
+        padding: 8px 17px;
+        font-size: 14px;
+    }
+    .contact-map {
+        margin-top: 20px;
+    }
+
+}
+
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+    .contact-top-banner {
+        padding: 2rem 1rem 1rem;
+        height: 12em;
+        margin-top: -61px;
+    }
+    .contact-top-banner-title {
+        font-size: 24px;
+    }
+    .contact-section .section-title {
+        font-size: 20px;
+    }
+    .contactform{
+        margin-bottom: 30px;
+    }
+    .contact-detail .contact-ul li {
+        margin: 10px 0 12px;
+    }
+    .contact-detail .contact-ul i {
+        padding: 5px 9px 0px 0px;
+        font-size: 18px;
+    }
+    .contact-detail .details-content .title-p {
+        font-size: 15px;
+    }
+    .details-content {
+        font-size: 13px;
+    }
+    .contactform .send-msg-btn{
+        text-align: center;
+    }
+    .contactform .send-msg-btn button {
+        padding: 8px 17px;
+        font-size: 14px;
+    }
+    .contact-map {
+        margin-top: 20px;
+    }
+
+}
+
+
+@media only screen and (min-width: 640px) and (max-width: 767px){
+    .contact-top-banner {
+        padding: 2rem 1rem 1rem;
+        height: 12em;
+        margin-top: -72px;
+    }
+
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+    .contact-top-banner-title {
+        font-size: 28px;
+    }
+    .contact-top-banner {
+        height: 14em;
+    }
+    .contact-section .section-title {
+        font-size: 24px;
+    }
+    .contact-detail .details-content .title-p {
+        font-size: 15px;
+    }
+    .details-content {
+        font-size: 13px;
+    }
+    .contact-detail .contact-ul i {
+        font-size: 20px;
+    }
+    .contactform {
+        margin-bottom: 30px;
+    }
+
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+
+
+}
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+    
+}

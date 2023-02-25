@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "../auth/ProtectedRoute";
-import { HomeTopNav } from "../components/layout/Header";
+import {  Navigation } from "../components/layout/Header";
 import { Login } from "../pages/authentication";
 import Homepage from "../pages/home/Homepage";
 // import { Homepage } from "../pages/home";
@@ -9,22 +9,19 @@ import { AddAmount, PaymentOptions, SendMoney } from "../pages/Money";
 import { AccountWireframe, MyOrder, Passbook } from "../pages/myAccount";
 import { PrimeConfirmation, PrimeIndex } from "../pages/primeMember";
 import { ContactUs, Disclaimer, FAQ, OnlineStores, ReferAFriend, TermsAndConditions } from "../pages/publicPages";
-import { Broadband, ClubAssociation, CreditCard, DigitalCable, DthConfirmation, DthFront, ElectricityConfirmation, ElectricityFront, FastagFront, FastagOnlineConfirmation, Gas, HousingSociety, InsurancePremium, Landline, LoanRepayment, LpgGasConfirmation, LpgGasFront, MunicipalServices, MunicipalTax, Recharge, RechargeConfirmation, ServiceCommonSuccess, ServiceConfirmationCommon, ServiceFrontCommon, ServiceIndex, ServiceSuccess, SubscriptionFees, Water } from "../pages/services";
+import { Broadband, ClubAssociation, CreditCard, DigitalCable, DthConfirmation, DthFront, ElectricityConfirmation, ElectricityFront, FastagFront, FastagOnlineConfirmation, Gas, HousingSociety, InsurancePremium, Landline, LoanRepayment, LpgGasConfirmation, LpgGasFront, MunicipalServices, MunicipalTax, Recharge, RechargeConfirmation, ServiceCommonSuccess, ServiceConfirmationCommon, ServiceFrontCommon, Services, ServiceSuccess, SubscriptionFees, Water } from "../pages/services";
 import HospitalBills from "../pages/services/hospitalBills/HospitalBills";
 import { Cart, Checkout, ProductDetails, ProductListing, ShippingAddress, ShoppingHome, Wishlist } from "../pages/shopping";
 import Footer from "../components/layout/Footer/Footer";
-import CommonTopNav from "../components/layout/Header/CommonTopNav";
-import HomeTopNav from "../components/layout/Header/HomeTopNav";
-import AllServicePage from "../pages/AllServicePage";
-import Homepage from "../pages/home/Homepage";
-import ShoppingHome from "../pages/shopping/ShoppingHome";
 
 const Router = () => {
+  const [isHomeTopNav, setIsHomeTopNav] = useState(false);
+  const [isBottomTopNav, setIsBottomTopNav] = useState(false);
   return (
     <>
-    <HomeTopNav/>
+    <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav}/>
      <Routes>
-     <Route element={<Homepage />} path="/" >
+     <Route element={<Homepage setIsHomeTopNav={setIsHomeTopNav}/>} path="/" >
 
 </Route>
 <Route path="/login" element={<Login />} />
@@ -68,7 +65,7 @@ const Router = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/services" element={<ServiceIndex />} />
+          <Route path="/services" element={<Services/>} />
           {/*.................... */}
           {/** DTH */}
           <Route
@@ -327,7 +324,7 @@ const Router = () => {
             element={
               <ProtectedRoute>
                 {" "}
-                <PrimeIndex />
+                <PrimeIndex setIsBottomTopNav={setIsBottomTopNav}/>
                 {/* <PrimeIndex setIsBottomTopNav={setIsBottomTopNav} /> */}
               </ProtectedRoute>
             }
@@ -347,7 +344,7 @@ const Router = () => {
             element={
               <ProtectedRoute>
                 {" "}
-                <ReferAFriend />{" "}
+                <ReferAFriend setIsBottomTopNav={setIsBottomTopNav} />{" "}
                 {/* <ReferAFriend setIsBottomTopNav={setIsBottomTopNav} />{" "} */}
               </ProtectedRoute>
             }
@@ -470,18 +467,15 @@ const Router = () => {
 
           <Route
             path="/faqs"
-            element={<FAQ  />}
-            // element={<FAQ setIsBottomTopNav={setIsBottomTopNav} />}
+            element={<FAQ  setIsBottomTopNav={setIsBottomTopNav} />}
           />
           <Route
             path="/disclaimer"
-            element={<Disclaimer />}
-            // element={<Disclaimer setIsBottomTopNav={setIsBottomTopNav} />}
+            element={<Disclaimer  setIsBottomTopNav={setIsBottomTopNav}/>}
           />
           <Route
             path="/contactus"
-            element={<ContactUs  />}
-            // element={<ContactUs setIsBottomTopNav={setIsBottomTopNav} />}
+            element={<ContactUs   setIsBottomTopNav={setIsBottomTopNav}/>}
           />
           <Route path="/onlinestores" element={<OnlineStores />} />
 
@@ -495,7 +489,7 @@ const Router = () => {
             }
           />
         </Routes>
-      <Routes>
+      {/* <Routes>
         <Route element={<Homepage HomeTopNav={HomeTopNav} />} path="/" />
         <Route
           element={<ShoppingHome CommonTopNav={CommonTopNav} />}
@@ -505,7 +499,7 @@ const Router = () => {
           element={<AllServicePage CommonTopNav={CommonTopNav} />}
           path="/services"
         />
-      </Routes>
+      </Routes> */}
       <Footer/>
     </>
   );

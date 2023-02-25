@@ -1,8 +1,10 @@
 import React from 'react'
+import { municipalServicesServiceId } from '../../../constants'
+import ServiceFrontCommon from '../ServiceFrontCommon'
 
 const MunicipalServices = () => {
   return (
-    <div>MunicipalServices</div>
+    <ServiceFrontCommon serviceId={municipalServicesServiceId} serviceName="municipalservices" title="Municipal Services" />
   )
 }
 

@@ -1,0 +1,500 @@
+.refer-friend-top-banner{
+    position: relative;
+    padding: 9% 2% 3%;
+    background-size: cover;
+    margin-top: -44px;
+}
+.refer-frend-banner-title{
+    font-size: 42px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--secondary);
+}
+.refer-frend-banner-text{
+    font-size: 16px;
+    color: var(--secondary);
+    margin-bottom: 21px;
+}
+.refer-frend-banner-btn a{
+    padding: 7px 25px;
+}
+/* refer friend banner end */
+
+
+.refer-friend-section-head{ 
+    padding: 0px 0 25px 0;
+}
+.refer-friend-head-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+/* Three steps to Invite and Earn start */
+
+.three-steps-outer {
+    text-decoration: none;
+    color: var(--blackColor);
+}
+.three-steps-outer:hover {
+    text-decoration: none;
+    color: var(--blackColor);
+}
+.three-steps-box-align{
+    margin-bottom: 0;
+}
+.three-steps-invite-box {
+    padding: 30px;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    /* margin: 0 10px 40px 10px; */
+    background: var(--whiteColor);
+    /* -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+    -moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%); */
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+
+    -webkit-box-shadow: 0px 0px 9px 1px rgb(104 104 104 / 10%);
+    -moz-box-shadow: 0px 0px 9px 1px rgb(104 104 104 / 10%);
+    box-shadow: 0px 0px 9px 1px rgb(104 104 104 / 10%);
+    /* border: 1px solid var(--lightBorder); */
+}
+  
+/* .three-steps-invite-box:hover {
+    transform: scale(1.1);
+} */
+  
+.three-steps-invite-box-icon {
+    margin: 0 auto 15px auto;
+    padding-top: 17px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+    width: 84px;
+    height: 84px;
+    background: rgb(223,219,255); 
+    background: -moz-linear-gradient(top,  rgba(223,219,255,1) 0%, rgba(236,234,255,1) 100%); 
+    background: -webkit-linear-gradient(top,  rgba(223,219,255,1) 0%,rgba(236,234,255,1) 100%); 
+    background: linear-gradient(to bottom,  rgba(223,219,255,1) 0%,rgba(236,234,255,1) 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dfdbff', endColorstr='#eceaff',GradientType=0 ); 
+}
+  
+.three-steps-invite-box-icon .three-steps-invite-icon {
+    width: 50px;
+    line-height: 1;
+}
+
+  
+.three-steps-invite-title h3 {
+    color: var(--darkText);
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+ 
+/* Three steps to Invite and Earn end */
+
+
+
+/* Invitation Record start */
+
+.invite-record-outer { 
+    background-color: var(--whiteColor);
+    padding: 20px 20px 22px; 
+    border-radius: 10px;
+    border: 0;
+}
+.invite-record-head{
+    border-bottom: 0.3px solid var(--lightBorder);
+    margin-bottom: 20px;
+    padding: 0 !important;
+    padding-bottom: 10px !important;
+}
+.invite-record-title{
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--darkText);
+}
+.invite-record-count{
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--darkText);
+}
+
+.invite-recordx-box{
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 291px;
+    padding-right: 20px;
+}
+.invite-recordx-box {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+}
+  
+.invite-recordx-box::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+.invite-recordx-box {
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+}
+.invite-recordx-box::-webkit-scrollbar-track {
+    background: rgb(255, 255, 255);
+}
+.invite-recordx-box::-webkit-scrollbar-thumb {
+    background-color: var(--borderColor) ;
+    border-radius: 6px;
+}
+.invite-record-list{
+    margin-top: 20px;
+    align-items: baseline;
+}
+.invite-record-list:first-child{
+    margin-top: 0;
+}
+.invite-record-label-left{
+    /* margin-bottom: 20px; */
+    display: flex;
+    align-items: center;
+}
+.invite-record-label-left label {
+    font-size: 14px;
+    margin-bottom: 0;
+    color: var(--darkText);
+    font-weight: 400;
+}
+.invite-record-label-left .invitename-frst-ltr {
+    margin-right: 16px;
+    font-size: 18px;
+    background: var(--primary);
+    padding: 8px 10px 10px 11px;
+    border-radius: 50%;
+    color: var(--whiteColor);
+    width: 42px;
+    height: 42px;
+    text-align: center;
+    display: inline-block;
+    margin-bottom: 0;
+}
+.invite-record-label-right{
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.invite-record-label-right label{
+    font-size: 13px;
+    color: var(--textGray);
+    margin-top: -11px;
+}
+
+
+/* Invitation Record end */
+
+
+@media only screen and (min-width: 320px) and (max-width: 413px){
+    .refer-friend-top-banner { 
+        padding: 24% 2%;
+        margin-top: -70px;
+    }
+    .refer-frend-banner-title {
+        font-size: 26px;
+        font-weight: 500;
+        margin-bottom: 8px; 
+    }
+    .refer-frend-banner-text {
+        font-size: 13px; 
+        margin-bottom: 20px;
+    }
+    .refer-frend-banner-btn a {
+        padding: 7px 12px;
+        font-size: 14px;
+    }
+
+
+
+    .refer-friend-section-head {
+        padding: 16px 0 25px 0;
+        width: 78%;
+        margin: auto;
+    }
+    .refer-friend-head-title {
+        font-size: 22px;
+        font-weight: 500;
+        text-align: center;
+    }
+    .three-steps-box-align{
+        margin-bottom: 20px;
+    }
+    .three-steps-invite-title h3 { 
+        font-size: 16px; 
+    }
+
+
+
+    .invite-record-outer { 
+        padding: 30px 11px 15px;
+        margin-bottom: 20px;
+    }
+    .invite-record-title {
+        font-size: 16px; 
+    }
+    .invite-record-count {
+        font-size: 16px; 
+    }
+    .invite-recordx-box{
+        height: 223px;
+    }
+    .invite-record-label-left .invitename-frst-ltr {
+        margin-right: 8px;
+        font-size: 18px;
+        padding: 7px 8px 8px 10px;
+        width: 40px;
+        height: 40px; 
+    }
+    .invite-record-label-left label {
+        font-size: 14px; 
+    }
+    .invite-record-label-right label {
+        font-size: 12px;
+        margin-top: 0px;
+    }
+
+    .invite-record-label-left {
+        /* margin-bottom: 20px; */
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        flex: 0 0 70%;
+        max-width: 70%;
+        padding: 0 15px !important;
+    }
+    .invite-record-label-right {
+        text-align: right;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-end;
+        flex: 0 0 30%;
+        max-width: 30%;
+    }
+
+}
+
+
+
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+    .refer-friend-top-banner { 
+        padding: 22% 2%;
+        margin-top: -67px;
+    }
+    .refer-frend-banner-title {
+        font-size: 28px;
+        font-weight: 500;
+        margin-bottom: 8px; 
+    }
+    .refer-frend-banner-text {
+        font-size: 13px; 
+        margin-bottom: 20px;
+    }
+    .refer-frend-banner-btn a {
+        padding: 7px 16px;
+        font-size: 14px;
+    }
+
+
+
+    .refer-friend-section-head {
+        padding: 16px 0 25px 0;
+        width: 78%;
+        margin: auto;
+    }
+    .refer-friend-head-title {
+        font-size: 22px;
+        font-weight: 500;
+        text-align: center;
+    }
+    .three-steps-box-align{
+        margin-bottom: 20px;
+    }
+    .three-steps-invite-title h3 { 
+        font-size: 16px; 
+    }
+
+
+
+    .invite-record-outer { 
+        padding: 30px 15px 22px;
+        margin-bottom: 20px;
+    }
+    .invite-record-title {
+        font-size: 16px; 
+    }
+    .invite-record-count {
+        font-size: 16px; 
+    }
+    .invite-recordx-box{
+        height: 223px;
+    }
+    .invite-record-label-left .invitename-frst-ltr {
+        margin-right: 8px;
+        font-size: 18px;
+        padding: 7px 8px 8px 10px;
+        width: 40px;
+        height: 40px; 
+    }
+    .invite-record-label-left label {
+        font-size: 14px; 
+    }
+    .invite-record-label-right label {
+        font-size: 12px; 
+    }
+
+    .invite-record-label-left {
+        /* margin-bottom: 20px; */
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        flex: 0 0 70%;
+        max-width: 70%;
+        padding: 0 15px !important;
+    }
+    .invite-record-label-right {
+        text-align: right;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-end;
+        flex: 0 0 30%;
+        max-width: 30%;
+    }
+
+}
+
+
+
+@media only screen and (min-width: 540px) and (max-width: 640px){
+    .refer-friend-top-banner {
+      padding: 18% 2%;
+      margin-top: -67px;
+    }
+}
+
+@media only screen and (min-width: 640px) and (max-width: 767px){
+    .refer-friend-top-banner {
+        padding: 22% 2%;
+        margin-top: -63px;
+    }
+
+}
+
+
+
+@media only screen and (min-width: 768px) and (max-width: 992px){
+    .refer-friend-top-banner { 
+        padding: 17% 2% 4%;
+        margin-top: -62px;
+    }
+    .refer-frend-banner-title {
+        font-size: 28px; 
+    }
+    .refer-frend-banner-text {
+        font-size: 14px; 
+        margin-bottom: 19px;
+    }
+    .refer-frend-banner-btn a {
+        padding: 6px 15px;
+    }
+
+
+
+    .refer-friend-head-title {
+        font-size: 24px; 
+    }
+    .three-steps-invite-title h3 { 
+        font-size: 14px; 
+    }
+
+
+
+    .invite-record-outer {  
+        margin-bottom: 20px;
+        padding: 30px 20px 15px;
+    }
+    .invite-record-title {
+        font-size: 18px;
+    }
+    .invite-record-count {
+        font-size: 18px;
+    }
+    .invite-recordx-box {
+        height: 262px;
+    }
+
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+    .refer-friend-top-banner { 
+        padding: 13% 2% 3%; 
+        margin-top: -68px;
+    }
+    .refer-frend-banner-title {
+        font-size: 36px; 
+        margin-bottom: 10px; 
+    }
+    .refer-frend-banner-text {
+        font-size: 16px; 
+        margin-bottom: 19px;
+    }
+    .refer-frend-banner-btn a {
+        padding: 7px 22px;
+        font-size: 15px;
+    }
+
+
+
+    .refer-friend-head-title {
+        font-size: 24px; 
+    }
+    .three-steps-invite-title h3 { 
+        font-size: 16px; 
+    }
+    
+
+
+    .invite-record-title {
+        font-size: 18px;
+    }
+    .invite-record-count {
+        font-size: 18px;
+    }
+
+}
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+
+
+    .refer-friend-top-banner {
+        padding: 11% 2% 3%;
+        margin-top: -44px;
+    }
+    .refer-frend-banner-title {
+        font-size: 48px; 
+        margin-bottom: 12px; 
+    }
+    .refer-frend-banner-text {
+        font-size: 18px; 
+        margin-bottom: 19px;
+    }
+
+}

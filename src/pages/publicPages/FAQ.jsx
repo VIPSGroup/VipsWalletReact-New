@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-const FAQ = () => {
+const FAQ = ({setIsBottomTopNav}) => {
+  useEffect(()=>{
+    setIsBottomTopNav(true)
+    return ()=>{setIsBottomTopNav(false)}
+},[])
   return (
     <div>FAQ</div>
   )

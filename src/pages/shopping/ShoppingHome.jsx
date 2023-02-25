@@ -1,9 +1,8 @@
 import React from "react";
 
-const ShoppingHome = ({ CommonTopNav }) => {
+const ShoppingHome = () => {
   return (
     <>
-      <CommonTopNav />
     </>
   );
 };

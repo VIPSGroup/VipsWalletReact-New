@@ -26,12 +26,15 @@ const SignInForm = () => {
   const [ip, setIp] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {  loading, forgotPass } = useSelector(
+  const {  loading, forgotPass,loggedInUser } = useSelector(
     state => state.loginSlice.loggetInWithOTP);
   const { isUserExist } = useSelector(
     state => state.loginSlice.checkUser);
   const { response } = useSelector(
     state => state.loginSlice.loginUser);
+    // const { loggedInUser } = useSelector(
+    //   state => state.loginSlice.loggetInWithOTP
+    // );
 
   const loginUsernameFormik = useFormik({
     initialValues: {
@@ -108,18 +111,18 @@ const SignInForm = () => {
           setIp(user.ip);
         });
     }
-    // if(loggedInUser?.Id){
-    //   navigate("/")
-    //   setFormCount(1)
-    //   setIsSnackBar(true)
-    //   setsuccessMessage("Login Successful")
-    //   setErrorMessage("")
-    // }
-    // if(response?.ResponseStatus===0){
-    //   setIsSnackBar(true)
-    //   setErrorMessage("Invalid OTP")
-    //   setsuccessMessage("")
-    // }
+    if(loggedInUser?.Id){
+      navigate("/")
+      setFormCount(1)
+      setIsSnackBar(true)
+      setsuccessMessage("Login Successful")
+      setErrorMessage("")
+    }
+    if(response?.ResponseStatus===0){
+      setIsSnackBar(true)
+      setErrorMessage("Invalid OTP")
+      setsuccessMessage("")
+    }
     if (response?.ResponseStatus === 1) {
       setIsSnackBar(true);
       setsuccessMessage("Success");

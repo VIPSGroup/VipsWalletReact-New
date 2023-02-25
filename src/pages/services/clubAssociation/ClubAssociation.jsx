@@ -1,8 +1,10 @@
 import React from 'react'
+import { clubAndAssociationServiceId } from '../../../constants'
+import ServiceFrontCommon from '../ServiceFrontCommon'
 
 const ClubAssociation = () => {
   return (
-    <div>ClubAssociation</div>
+    <ServiceFrontCommon serviceId={clubAndAssociationServiceId} serviceName="clubassociation" title="Club Association" />
   )
 }
 

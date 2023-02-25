@@ -135,7 +135,11 @@ const signUpSlice = createSlice({
       error: "",
     }
   },
-  reducers: {},
+  reducers: {
+    stateCityEmpty:(state,action)=>{
+state.stateCityPincode.stateCityByPincode={}
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(validateReference.pending, (state, action) => {
       state.validateNumber.loading = true;
@@ -150,6 +154,7 @@ const signUpSlice = createSlice({
     });
     builder.addCase(getStateCity.pending, (state, action) => {
       state.stateCityPincode.loading = true;
+      state.stateCityPincode.stateCityByPincode = {};
     });
     builder.addCase(getStateCity.fulfilled, (state, action) => {
       state.stateCityPincode.stateCityByPincode = action.payload;
@@ -194,5 +199,5 @@ const signUpSlice = createSlice({
     });
   },
 });
-
+export const {stateCityEmpty}=signUpSlice.actions
 export default signUpSlice.reducer;

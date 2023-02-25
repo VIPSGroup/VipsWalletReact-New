@@ -1,0 +1,656 @@
+
+
+.payment-confirmation-discount-info .custom-control{
+    padding-left: 1.2rem;
+}
+.payment-confirmation-discount-info .custom-control-label::before{
+    top: 0.3rem;
+    border: 2px solid var(--textGray);
+}
+.payment-confirmation-discount-info .custom-control-label::after{
+    top: 0.3rem;
+}
+  
+
+ /* payment confirmation left start */
+ .payment-confirmation-content {
+    position: relative;
+    min-width: 0;
+    word-wrap: break-word;
+  }
+  
+  .payment-confirmation-card{
+    background: var(--whiteColor);
+    border: 1px solid var(--lightBorder);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .payment-confirmation-recharge-info{
+    display: flex;
+    font-size: 16px;
+  }
+  .payment-confirmation-mobno{
+    color: var(--textGray);
+    margin-bottom: 0;
+  }
+  .payment-confirmation-mobno label{
+    color: var(--darkText);
+    font-weight: 500;
+    margin-bottom: 0;
+  }
+  .payment-confirmation-recharge-operator{
+    margin-left: auto;
+  }
+  
+  .payment-confirmation-recharge-text{
+    color: var(--textGray);
+    margin-bottom: 0;
+  }
+  .payment-confirmation-recharge-text label{
+    color: var(--darkText);
+    font-weight: 500;
+    margin-bottom: 0;
+  }
+  
+  /* radio button start */
+  .payment-confirmation-discount{
+    flex: 1 1 auto;
+    min-height: 1px; 
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--darkText);
+  }
+  .payment-confirmation-discount-info{
+    display: flex; 
+  }
+  
+  .payment-confirmation-discount .payment-confirmation-discount-img{
+    margin: 0 28px 0px 24px;
+    width: 24px;
+  }
+  
+  .payment-confirmation-debit-vips{
+    margin: 0 22px 0px 29px;
+    width: 30px;
+  }
+  .payment-confirmation-debit-payu{
+    margin: 0 21px 0px 18px;
+    width: 40px;
+  }
+  
+  .payment-confirmation-discount-amt{
+    color: var(--darkText);
+    font-weight: 600;
+    margin-bottom: 0;
+    font-size: 18px;
+    text-align: right;
+  }
+  .payment-confirmation-Prime-amt{
+    color: var(--textGray);
+    font-weight: 400;
+    margin-bottom: 0;
+    font-size: 18px; 
+    text-align: right;
+  }
+  .payment-confirmation-discount-info label{ 
+    margin-bottom: 0;
+  }
+  
+  .payment-confirmation-discount label > input[type="radio"] + *::before{
+    vertical-align: middle !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .payment-confirmation-discount label > input[type="radio"] {
+  display: none;
+  }
+  .payment-confirmation-discount label > input[type="radio"] + *::before {
+  content: "";
+  display: inline-block;
+  vertical-align: bottom;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.3rem;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 0.1rem;
+  border-color: var(--textGray);
+  }
+  .payment-confirmation-discount label > input[type="radio"]:checked + * {
+  color: var(--darkText);
+  }
+  .payment-confirmation-discount label > input[type="radio"]:checked + *::before {
+  background: radial-gradient(var(--primary) 0%, var(--primary) 40%, transparent 50%, transparent);
+  border-color: var(--primary);
+  }
+  
+  .payment-confirmation-discount label > input[type="radio"] + * {
+  display: inline-block;
+  padding: 0rem 0rem;
+  }
+  /* radio button end */
+  
+/* payment confirmation left end */
+  
+/* payment confirmation right start */
+  
+  .payment-confirmation-right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .payment-confirmation-right-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    padding: 23px 20px;
+    background: var(--whiteColor);
+    border-radius: 10px; 
+  }
+  
+  .payment-confirmation-content-title{
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--darkText);
+    margin-bottom: 16px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+  }
+  .payment-confirmation-summery{
+    color: var(--textGray);
+    font-size: 16px;
+  }
+  .payment-confirmation-summery-amt{
+    color: var(--darkText);
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .payment-confirmation-btn{
+    text-align: center;
+  }
+  .payment-confirmation-btn button{
+    font-size: 17px;
+    font-weight: 500;
+    background: none;  
+    padding: 10px 36px;
+    margin-top: 33px;
+  }
+  /* payment confirmation right end */
+
+  .payment-confirmation-btn .service-loader{
+    padding: 1px 36px;
+  }
+
+/* payment confirmation popup start */
+
+.payment-confirm-modal-close {
+    color: var(--lightGray) !important;
+    font-size: 30px;
+    font-weight: 100; 
+    top: 0;
+    z-index: 9;
+    position: absolute;
+    margin: 18px 23px;
+    opacity: 9 !important;
+}
+
+.payment-confirm-modal .modal-dialog {
+    max-width: 511px !important;
+    margin: 4.75rem auto;
+    }
+
+.payment-confirm-modal .modal-content{
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+    -moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+}
+ 
+.payment-confirm-modal-body{
+    padding: 3rem 2rem; 
+    text-align: center;
+}
+
+.payment-confirm-seccess-box{
+    /* display: inline; */
+    text-align: center;
+    padding-bottom: 6px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--borderColor);
+}
+.payment-confirm-success-inner{
+    display: block;
+    /* display: inline-block; */
+    margin: auto;
+}
+.prime-member-success-img{
+    margin-bottom: 20px;
+    width: 180px;
+}
+.payment-confirm-success-msg{
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--lightGreen);
+}
+.payment-confirm-success-text{
+    font-size: 18px;
+    font-weight: 500;
+}
+.payment-confirm-success-text span{
+    color: var(--primary);
+}
+.payment-confirm-success-summery{
+    color: var(--textGray);
+    font-size: 16px;
+}
+.payment-confirm-success-right-text{
+    color: var(--darkText); 
+    font-weight: 500;
+}
+.payment-confirm-success-help a{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--primary); 
+    text-decoration: underline; 
+}
+.payment-confirm-success-help a:hover{
+    color: var(--primary); 
+}
+.payment-confirm-success-btn{
+    text-align: center;
+}
+.payment-confirm-success-btn button{
+    font-size: 17px;
+    font-weight: 500;
+    background: none;  
+    padding: 7px 59px;
+}
+
+/* payment confirmation popup end */
+
+.left-blast-animation{
+  position: absolute;
+  /* bottom: 0; */
+  width: 300px; 
+  height: 100%;
+}
+.right-blast-animation{
+  position: absolute;
+  /* bottom: 0; */
+  width: 300px; 
+  height: 100%;
+  left: 41%;
+  transform: skewY(180deg);
+}
+
+  
+@media only screen and (min-width: 320px) and (max-width: 414px){
+    
+    .payment-confirmation-content-title {
+        font-size: 16px; 
+      }
+      .payment-confirmation-recharge-info {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 13px;
+      }
+      .payment-confirmation-recharge-operator {
+        margin-left: 0;
+      }
+      .payment-confirmation-mobno { 
+        margin-bottom: 6px;
+      }
+  
+      .payment-confirmation-discount-info {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .payment-confirmation-discount-info label {
+        margin-bottom: 10px;
+      }
+      .payment-confirmation-discount label > input[type="radio"] + *::before {
+        vertical-align: middle !important;
+        width: 17px !important;
+        height: 17px !important;
+      }
+      .payment-confirmation-discount .payment-confirmation-discount-img {
+        margin: 0 6px 0px 6px;
+        width: 18px;
+      }
+      .payment-confirmation-discount { 
+        font-size: 14px; 
+      }
+      .payment-confirmation-discount-amt {  
+        font-size: 14px;
+        /* margin-left: 0; */
+        text-align: left;
+      }
+      .payment-confirmation-Prime-amt {  
+        font-size: 14px;
+        /* margin-left: 0; */
+        text-align: left;
+      }
+      .payment-confirmation-debit-vips {
+        margin: 0 7px 0px 7px;
+        width: 23px;
+      }
+      .payment-confirmation-debit-payu {
+        margin: 0 6px 0px 6px;
+        width: 30px;
+      }
+      .payment-confirmation-right {
+        position: relative; 
+      }
+      .payment-confirmation-summery {
+        color: var(--textGray);
+        font-size: 14px;
+      }
+      .payment-confirmation-summery-amt { 
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .payment-confirmation-btn button {
+        font-size: 14px; 
+        padding: 10px 30px;
+        margin-top: 33px;
+      }
+
+
+
+    .payment-confirm-modal .modal-dialog {
+        max-width: 310px !important;
+        margin: 4.75rem auto;
+    }
+    .payment-confirm-modal-body {
+        padding: 3rem 1rem; 
+    }
+    .prime-member-success-img { 
+        width: 129px;
+    }
+    .payment-confirm-seccess-box { 
+        padding-bottom: 0px;
+        margin-bottom: 16px; 
+    }
+    .payment-confirm-success-msg {
+        font-size: 22px; 
+    }
+    .payment-confirm-success-text {
+        font-size: 16px; 
+    }
+    .payment-confirm-success-summery { 
+        font-size: 14px;
+    }
+    .payment-confirm-success-help a {
+        font-size: 14px; 
+    }
+    .payment-confirm-success-btn button {
+        font-size: 15px; 
+        padding: 8px 53px;
+    }
+
+
+    .right-blast-animation { 
+      left: 2%; 
+    }
+
+}
+
+
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+
+    
+    .payment-confirmation-content-title {
+        font-size: 16px; 
+      }
+      .payment-confirmation-recharge-info {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 13px;
+      }
+      .payment-confirmation-recharge-operator {
+        margin-left: 0;
+      }
+      .payment-confirmation-mobno { 
+        margin-bottom: 6px;
+      }
+  
+      .payment-confirmation-discount-info {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .payment-confirmation-discount-info label {
+        margin-bottom: 10px;
+      }
+      .payment-confirmation-discount label > input[type="radio"] + *::before {
+        vertical-align: middle !important;
+        width: 18px !important;
+        height: 18px !important;
+      }
+      .payment-confirmation-discount .payment-confirmation-discount-img {
+        margin: 0 6px 0px 6px;
+        width: 20px;
+      }
+      .payment-confirmation-discount { 
+        font-size: 14px; 
+      }
+      .payment-confirmation-discount-amt {  
+        font-size: 16px;
+        /* margin-left: 0; */
+        text-align: left;
+      }
+      .payment-confirmation-Prime-amt {  
+        font-size: 16px;
+        /* margin-left: 0; */
+        text-align: left;
+      }
+      .payment-confirmation-debit-vips {
+        margin: 0 6px 0px 6px;
+        width: 24px;
+      }
+      .payment-confirmation-debit-payu {
+        margin: 0 6px 0px 6px;
+        width: 34px;
+      }
+      .payment-confirmation-right {
+        position: relative; 
+      }
+      .payment-confirmation-summery {
+        color: var(--textGray);
+        font-size: 14px;
+      }
+      .payment-confirmation-summery-amt { 
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .payment-confirmation-btn button {
+        font-size: 14px; 
+        padding: 10px 30px;
+        margin-top: 33px;
+      }
+
+
+
+    .payment-confirm-modal .modal-dialog {
+        max-width: 360px !important;
+        margin: 4.75rem auto;
+    }
+    .payment-confirm-modal-body {
+        padding: 3rem 1rem; 
+    }
+    .prime-member-success-img {
+        margin-bottom: 20px;
+        width: 129px;
+    }
+    .payment-confirm-success-msg {
+        font-size: 22px; 
+    }
+    .payment-confirm-success-text {
+        font-size: 16px;
+        font-weight: 500;
+    }
+    .payment-confirm-success-summery { 
+        font-size: 14px;
+    }
+    .payment-confirm-success-help a {
+        font-size: 14px; 
+    }
+    .payment-confirm-success-btn button {
+        font-size: 15px; 
+        padding: 8px 53px;
+    }
+
+
+    .right-blast-animation { 
+      left: 2%; 
+    }
+
+}
+
+
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+
+    .payment-confirmation-content-title {
+        font-size: 14px; 
+    }
+    .payment-confirmation-recharge-info { 
+        font-size: 14px;
+    }
+    .payment-confirmation-discount label > input[type="radio"] + *::before { 
+        width: 18px !important;
+        height: 18px !important;
+    }
+    .payment-confirmation-discount .payment-confirmation-discount-img {
+        margin: 0 10px 0px 10px;
+        width: 20px;
+    }
+    .payment-confirmation-discount { 
+        font-size: 14px; 
+    }
+    .payment-confirmation-discount-amt { 
+        font-size: 16px; 
+    }
+    .payment-confirmation-Prime-amt { 
+        font-size: 16px; 
+    }
+    .payment-confirmation-debit-vips {
+        margin: 0 10px 0px 10px;
+        width: 28px;
+    }
+    .payment-confirmation-debit-payu {
+        margin: 0 10px 0px 10px;
+        width: 38px;
+    }
+    .payment-confirmation-right {
+        position: relative; 
+    }
+
+
+
+    .prime-member-success-img { 
+        width: 132px;
+    }
+    .payment-confirm-success-msg {
+        font-size: 24px; 
+    }
+    .payment-confirm-success-text {
+        font-size: 16px; 
+    }
+    .payment-confirm-success-summery { 
+        font-size: 14px;
+    }
+    .payment-confirm-success-help a {
+        font-size: 14px; 
+    }
+    .payment-confirm-success-btn button {
+        font-size: 15px; 
+        padding: 9px 55px;
+    }
+
+
+}
+
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+
+    
+  .payment-confirmation-content-title {
+    font-size: 16px; 
+  }
+  .payment-confirmation-recharge-info { 
+    font-size: 14px;
+  }
+  .payment-confirmation-discount label > input[type="radio"] + *::before { 
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .payment-confirmation-discount .payment-confirmation-discount-img {
+    margin: 0 12px 0px 12px;
+    width: 20px;
+  }
+  .payment-confirmation-discount { 
+    font-size: 14px; 
+  }
+  .payment-confirmation-discount-amt { 
+    font-size: 16px; 
+  }
+  .payment-confirmation-Prime-amt { 
+    font-size: 16px; 
+  }
+  .payment-confirmation-debit-vips {
+    margin: 0 12px 0px 12px;
+    width: 28px;
+  }
+  .payment-confirmation-debit-payu {
+    margin: 0 10px 0px 10px;
+    width: 36px;
+  }
+  .payment-confirmation-summery { 
+    font-size: 14px;
+  }
+  .payment-confirmation-summery-amt { 
+    font-size: 14px; 
+  }
+  .payment-confirmation-btn button {
+    font-size: 15px; 
+    padding: 9px 35px; 
+  }
+
+
+
+    .prime-member-success-img {
+        margin-bottom: 20px;
+        width: 143px;
+    }
+    .payment-confirm-success-msg {
+        font-size: 26px; 
+    }
+    .payment-confirm-success-text {
+        font-size: 16px; 
+    }
+    .payment-confirm-success-summery { 
+        font-size: 15px;
+    }
+    .payment-confirm-success-help a {
+        font-size: 14px; 
+    }
+    .payment-confirm-success-btn button {
+        font-size: 15px; 
+        padding: 9px 59px;
+    }
+
+}
+
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+
+}
