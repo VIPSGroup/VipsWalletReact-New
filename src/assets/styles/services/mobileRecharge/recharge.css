@@ -1,0 +1,1455 @@
+.mob-paymet-discount-info .custom-control{
+  padding-left: 1.2rem;
+}
+.mob-paymet-discount-info .custom-control-label::before{
+  top: 0.3rem;
+  border: 2px solid var(--textGray);
+}
+.mob-paymet-discount-info .custom-control-label::after{
+  top: 0.3rem;
+}
+
+/* input group start */
+.mobile-recharge-field .input-group {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.mobile-recharge-field .input-field .mobile-input{
+  margin-left: -39px;
+  padding-left: 36px;
+}
+.mobile-recharge-field .input-field .did-floating-input {
+  border-radius: 0 4px 4px 0;
+  border-left: 0;
+  padding-left: 0;
+}
+
+.mobile-recharge-field .input-field .input-group-append {
+  display: flex;
+  align-items: center;
+  /*   margin-left:-1px; */
+}
+
+.mobile-recharge-field .input-field .input-group-text {
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  /* height: 39px; */
+  height: 29px;
+  color: var(--darkText) !important;
+  padding: 0 14px 0 0px;
+  font-size: 17px;
+  text-align: center;
+  white-space: nowrap;
+  border: none !important;
+  background: none !important;
+  z-index: 1;
+}
+/* input group end */
+
+
+
+/* mobile recharge start */
+
+    /* mobile recharge left start */
+
+    .mobile-recharge-left {
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }
+    
+    .mob-left-sticky {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      padding: 20px 20px;
+      background: var(--whiteColor);
+      border-radius: 10px;
+      margin-right: 6px;
+    }
+  
+    .mobile-recharge-content {
+      position: relative;
+      min-width: 0;
+      word-wrap: break-word;
+      background-color: var(--whiteColor);
+      background-clip: border-box;
+      border-radius: 10px;
+  }
+  .mobile-recharge-content-inner{
+    padding: 20px 20px;
+    margin: auto; 
+  }
+  
+  .mobile-recharge-content-head{
+      /* border-bottom: 1px solid rgba(0,0,0,.1); */
+      margin-bottom: 10px;
+      padding-bottom: 0px;
+  }
+  .mobile-recharge-title{
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--darkText);
+   margin-bottom: 0;
+  }
+
+  .mobile-recharge-recent-head{
+    margin-bottom: 7px;
+    padding-bottom: 0px;
+  }
+  .mobile-recharge-recent-head h3{
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--darkText);
+    padding-left: 5px;
+  }
+ 
+  .select-recharge-mode{
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 0px;
+    margin-top: 9px;
+  }
+  .select-recharge-mode .right-button{
+    margin-left: 40px;
+  }
+  
+/* radio button start */
+.select-recharge-mode label > input[type="radio"] + *::before{
+    vertical-align: middle !important;
+    width: 17px !important;
+    height: 17px !important;
+    margin-top: -1px;
+}
+.select-recharge-mode label > input[type="radio"] {
+  display: none;
+}
+.select-recharge-mode label > input[type="radio"] + *::before {
+  content: "";
+  display: inline-block;
+  vertical-align: bottom;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.3rem;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 0.1rem;
+  border-color: var(--textGray);
+}
+.select-recharge-mode label > input[type="radio"]:checked + * {
+  color: var(--darkText);
+}
+.select-recharge-mode label > input[type="radio"]:checked + *::before {
+  background: radial-gradient(var(--primary) 0%, var(--primary) 40%, transparent 50%, transparent);
+  border-color: var(--primary);
+}
+
+/* label > input[type="radio"] + * {
+    display: inline-block;
+    padding: 0.5rem 0.5rem;
+  } */
+
+/* radio button end */
+
+
+/* recharge form style start */
+.mobile-recharge-field .input-field {
+    position: relative;
+    margin: 10px 0;
+    padding-left: 0px;
+    padding-top: 8px;
+    color: var(--darkText);
+  }
+  .mobile-recharge-field .input-field input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-radius: 0;
+    width: 100%;
+    font-size: 16px;
+    /* height: 40px; */
+    height: 28px;
+    border-bottom: 0.3px solid var(--lightBorder);
+    color: inherit;
+    transition: 0.2s ease;
+
+    position: relative;
+    z-index: 99;
+  }
+  .mobile-recharge-field .input-field input::-moz-placeholder {
+    color: transparent;
+  }
+  .mobile-recharge-field .input-field input:-ms-input-placeholder {
+    color: transparent;
+  }
+  .mobile-recharge-field .input-field input::placeholder {
+    color: transparent;
+  }
+  .mobile-recharge-field .input-field input:not(:-moz-placeholder-shown) {
+    border-bottom: 1px solid var(--primary);
+    box-shadow: 0 1px 0 0 var(--primary);
+  }
+  .mobile-recharge-field .input-field input:not(:-ms-input-placeholder) {
+    border-bottom: 1px solid var(--primary);
+    box-shadow: 0 1px 0 0 var(--primary);
+  }
+  .mobile-recharge-field .input-field input:focus, .mobile-recharge-field .input-field input:not(:placeholder-shown) {
+    border-bottom: 1px solid var(--primary);
+    box-shadow: 0 0px 0 0 var(--primary);
+  }
+  .mobile-recharge-field .input-field input:not(:-moz-placeholder-shown) + label {
+    transform: translateY(-14px) scale(0.85);
+    color: var(--primary);
+  }
+  .mobile-recharge-field .input-field input:not(:-ms-input-placeholder) + label {
+    transform: translateY(-14px) scale(0.85);
+    color: var(--primary);
+  }
+  .mobile-recharge-field .input-field input:focus + label, .mobile-recharge-field .input-field input:not(:placeholder-shown) + label {
+    transform: translateY(-10px) scale(0.85);
+    color: var(--primary);
+  }
+  .mobile-recharge-field .input-field label {
+    color: var(--textGray);
+    position: absolute;
+    top: -4px;
+    left: 0px;
+    font-size: 15px;
+    cursor: text;
+    transform-origin: 0% 100%;
+    transform: translateY(14px);
+    transition: 0.2s ease-out;
+    background: var(--whiteColor) !important;
+    z-index: 9;
+  }
+  /* recharge form style end */
+
+  .mobile-recharge-btn{
+    text-align: center;
+  }
+  .mobile-recharge-btn button{
+    font-size: 17px;
+    font-weight: 500;
+    background: none;  
+    padding: 9px 49px;
+    margin-top: 7px;
+  }
+ 
+  /* mobile recharge left end */
+
+
+  /* mobile recharge right start */
+
+  
+
+.mobile-recharge-table tr{
+    border-bottom: 0.3px solid var(--lightBorder);
+}
+.mobile-recharge-table tr:last-child{
+    border-bottom: none;
+}
+.mobile-recharge-table .recharge-operator-img{
+  width: 48px;
+}
+.mobile-recharge-table .recharged-mob-no{
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+.mobile-recharge-table .recharged-date{
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 4px;
+    color: var(--textGray);
+}
+.mobile-recharge-table .recharged-amount{
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+.mobile-recharge-table .recharge-faild{
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: 4px;
+    color: var(--red);
+}
+.mobile-recharge-table .recharge-success{
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: 4px;
+    color: var(--lightGreen);
+}
+.mobile-recharge-table .reapet-btn{
+    padding: 7px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    float: right;
+    background: none;
+}
+ /* mobile recharge right end */
+
+  /* mobile recharge end */
+  
+
+  /* table scroll end */
+  .recharge-table-scroll{
+    height: 329px; 
+    overflow-y: scroll;
+    
+    overflow-x: scroll;
+  }
+  
+  .recharge-table-scroll {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+  }
+  
+  .recharge-table-scroll::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  .recharge-table-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+  }
+  .recharge-table-scroll::-webkit-scrollbar-track {
+    background: none;
+  }
+  .recharge-table-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--borderColor) ;
+    border-radius: 6px;
+    
+  }
+  /* table scroll end */
+
+/* selectpicker start */
+.select-option{
+  margin-top: 20px;
+  margin-bottom: 18px;
+}
+.select-option .select-type{
+  font-size: 15px;
+    color: var(--textGray);
+    font-weight: normal;
+    /* position: absolute; */
+    width: 100%;
+    height: 100%;
+    bottom: 0px;
+    left: 0%; 
+    border: none;
+    border-bottom: 1px solid var(--borderColor);
+    margin-bottom: 0;
+    background: var(--whiteColor);
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+.select-toggle::after {
+  /* display: inline-block; */
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+  float: right;
+  margin-top: 13px;
+}
+.select-option a:hover{
+  background-color: var(--primary);
+  color: var(--whiteColor);
+}
+
+.select-option .dropdown-menu{
+  max-height: 200px;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+.select-option .dropdown-menu {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--blackColor);
+}
+
+.select-option .dropdown-menu::-webkit-scrollbar {
+  width: 5px;
+}
+.select-option .dropdown-menu {
+  scrollbar-width: thin;
+  scrollbar-color: var(--blackColor);
+}
+.select-option .dropdown-menu::-webkit-scrollbar-track {
+  background: var(--whiteColor);
+}
+.select-option .dropdown-menu::-webkit-scrollbar-thumb {
+  background-color: var(--borderColor) ;
+  border-radius: 6px;
+}
+/* selectpicker end */
+.select-option .select-typeActive {
+  color: var(--darkText) !important;
+  /* font-weight: 500 !important; */
+
+  font-size: 15px;
+  color: var(--textGray);
+  font-weight: normal;
+  width: 100%;
+  height: 100%;
+  bottom: 0px;
+  left: 0%;
+  border: none;
+  border-bottom: 1px solid var(--borderColor);
+  margin-bottom: 0;
+  background: var(--whiteColor);
+  text-align: left;
+  padding-bottom: 3px;
+}
+
+
+/* brows plans styles start */
+/* .brows-plans-top{
+  border-bottom: 1px solid var(--borderColor);
+  margin-bottom: 38px;
+  padding-bottom: 34px;
+} */
+.brows-plans-user{
+  display: flex;
+  border-bottom: 1px solid var(--borderColor);
+  margin-bottom: 27px;
+  padding-bottom: 22px;
+}
+.brows-plans-user-circle{
+  display: inline-block;
+  margin-right: 15px;
+  margin-top: 3px;
+}
+.brows-plans-user-circle img{ 
+  width: 50px;
+}
+.brows-plans-user-name .brows-plans-user-title{
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--darkText);
+  margin-bottom: 7px;
+}
+.brows-plans-user-name .brows-plans-user-title a{
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--primary);
+  float: right;
+  }
+.brows-plans-user-name .brows-plans-user-info{
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--textGray);
+  margin-bottom: 4px;
+}
+
+/* tab panel start */
+
+.brows-plans-head{
+  /* border-bottom: 1px solid rgba(0,0,0,.1); */
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.brows-plans-title{
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--darkText);
+}
+
+.search-brows-plan{
+  width: 30% !important;
+  margin-left: auto;
+}
+.search-brows-plan .search-input{
+  border: 1px solid var(--lightBorder)!important;
+  color: var(--darkText);
+  font-size: 12px;
+  padding: 18px 12px;
+}
+.search-brows-plan .search-input:focus{
+  border: 1px solid var(--lightBorder)!important;
+  box-shadow: none !important;
+  border-right: none !important;
+}
+.search-brows-plan .search-input::placeholder{ 
+  color: var(--lightGray);
+}
+.search-brows-plan .search-btn{
+  margin-left: -1px !important;
+  border: 1px solid var(--lightBorder)!important;
+  border-left: none !important;
+  background: var(--whiteColor);
+}
+.search-brows-plan .search-btn:focus{
+  box-shadow: none !important;
+  border: 1px solid var(--lightBorder)!important;
+  border-left: none !important;
+}
+
+.brows-plans-nav ul{
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+.brows-plans-nav ul li{
+  padding: 20px;
+  list-style: none;
+}
+
+.brows-plans-nav ul li button{
+  background: none;
+  border: none;
+  font-size: 18px;
+  font-weight: 400;
+  padding-bottom: 13px;
+}
+.brows-plans-nav ul li:first-child{
+  padding-left: 0;
+}
+
+
+.brows-plans-nav ul::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.brows-plans-card{
+  /* display: flex; */
+  background: var(--whiteColor);
+  border: 1px solid var(--lightBorder);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 12px;
+}
+.brows-plans-card:last-child{
+  margin-bottom: 0;
+}
+.mob-recharg-info{
+  display: flex;
+}
+.mob-recharg-info .recharge-info{
+  margin-bottom: 9px;
+  color: var(--textGray);
+  font-size: 16px;
+}
+.mob-recharg-info .recharge-info .recharge-price{
+  display: inline-block;
+  margin-bottom: 0;
+}
+.mob-recharg-info .recharge-info .recharge-price label{
+  color: var(--primary);
+  font-weight: 500;
+}
+.mob-recharg-info .recharge-info .recharge-validity{
+  display: inline-block;
+  margin-bottom: 0;
+  margin-left: 11rem;
+}
+.mob-recharg-info .recharge-info .recharge-validity label{
+  color: var(--darkText);
+  font-weight: 500;
+}
+.brows-plans-card .recharge-note{
+  display: inline-block;
+  margin-top: -3px;
+  width: 80%;
+}
+.brows-plans-card .recharge-note p{
+  font-size: 14px;
+  color: var(--darkText);
+  margin-bottom: 0;
+}
+
+.brows-plan-apply-btn{
+  margin-top: 0px;
+  /* margin-bottom: -8px; */
+}
+.brows-plan-apply-btn button{
+  font-size: 15px;
+  font-weight: 500;
+  background: none;
+  padding: 6px 36px; 
+}
+
+/* tab panel end */
+
+.brows-plans-inner{
+  height: 300px; 
+  overflow: hidden;
+  overflow-y: scroll;
+  width: 100%;
+  padding-right: 9px;
+}
+
+/* .brows-plans-inner:hover{ 
+  overflow-y: scroll; 
+} */
+
+.brows-plans-inner {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--blackColor);
+}
+
+.brows-plans-inner::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.brows-plans-inner {
+  scrollbar-width: thin;
+  scrollbar-color: var(--blackColor);
+}
+.brows-plans-inner::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255);
+}
+.brows-plans-inner::-webkit-scrollbar-thumb {
+  background-color: var(--borderColor) ;
+  border-radius: 6px;
+}
+
+/* brows plans styles end */
+
+
+ /* Mobile Payment confirmation start */
+
+ /* mobile-payment left start */
+ .mobile-payment-content {
+  position: relative;
+  min-width: 0;
+  word-wrap: break-word;
+  /* background-color: var(--whiteColor);
+  background-clip: border-box;
+  border-radius: 10px; */
+}
+
+/* .mobile-payment-content-inner{
+  padding: 30px 20px;
+  margin: auto;
+  
+} */
+
+.mobile-payment-card{
+  /* display: flex; */
+  background: var(--whiteColor);
+  border: 1px solid var(--lightBorder);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 12px;
+}
+.mob-paymet-recharge-info{
+  display: flex;
+  font-size: 16px;
+}
+.paymet-recharge-mobno{
+  font-weight: 500;
+}
+.mob-paymet-recharge-operator{
+  margin-left: auto;
+}
+
+.mob-paymet-recharge-text{
+  color: var(--textGray);
+  margin-bottom: 0;
+  margin-right: 20px;
+}
+.mob-paymet-recharge-text label{
+  color: var(--darkText);
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+
+/* radio button start */
+.mob-payment-discount{
+  flex: 1 1 auto;
+  min-height: 1px;
+  /* padding: 0.5rem 1rem; */
+  font-size: 16px;
+  font-weight: 400; 
+  color: var(--darkText);
+}
+.mob-paymet-discount-info{
+  display: flex;
+}
+
+.mob-payment-discount .mob-payment-discount-img{
+  margin: 0 28px 0px 24px;
+  width: 24px;
+}
+/* .mob-payment-discount .img2{
+  margin: 0 20px;
+}  */
+
+.mob-payment-debit-vips{
+  margin: 0 22px 0px 29px;
+  width: 30px;
+}
+.mob-payment-debit-payu{
+  margin: 0 16px 0px 25px;
+  width: 40px;
+}
+
+.mob-paymet-discount-amt{
+  color: var(--darkText);
+  font-weight: 600;
+  margin-bottom: 0;
+  font-size: 18px;
+  /* margin-left: auto; */
+  text-align: right;
+}
+.mob-paymet-Prime-amt{
+  color: var(--textGray);
+  font-weight: 400;
+  margin-bottom: 0;
+  font-size: 18px; 
+  /* margin-left: auto; */
+  text-align: right;
+}
+.mob-paymet-discount-info label{ 
+  margin-bottom: 0;
+}
+
+.mob-payment-discount label > input[type="radio"] + *::before{
+  vertical-align: middle !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+.mob-payment-discount label > input[type="radio"] {
+display: none;
+}
+.mob-payment-discount label > input[type="radio"] + *::before {
+content: "";
+display: inline-block;
+vertical-align: bottom;
+width: 1rem;
+height: 1rem;
+margin-right: 0.3rem;
+border-radius: 50%;
+border-style: solid;
+border-width: 0.1rem;
+border-color: var(--textGray);
+}
+.mob-payment-discount label > input[type="radio"]:checked + * {
+color: var(--darkText);
+}
+.mob-payment-discount label > input[type="radio"]:checked + *::before {
+background: radial-gradient(var(--primary) 0%, var(--primary) 40%, transparent 50%, transparent);
+border-color: var(--primary);
+}
+
+.mob-payment-discount label > input[type="radio"] + * {
+display: inline-block;
+padding: 0rem 0rem;
+}
+/* radio button end */
+
+
+ /* mobile-payment left end */
+
+
+/* mobile-payment right start */
+
+.mobile-payment-right {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Position the items */
+}
+
+.mobile-payment-right-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 23px 20px;
+  background: var(--whiteColor);
+  border-radius: 10px; 
+}
+
+/* .mobile-payment-content-head{
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  margin-bottom: 20px;
+  padding-bottom: 6px;
+} */
+.mobile-payment-content-title{
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--darkText);
+  margin-bottom: 16px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.mobile-payment-summery{
+  color: var(--textGray);
+  font-size: 16px;
+}
+.mobile-payment-summery-amt{
+  color: var(--darkText);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.mobile-payment-confirm-btn{
+  text-align: center;
+}
+.mobile-payment-confirm-btn button{
+  font-size: 16px;
+  font-weight: 500;
+  background: none;  
+  padding: 10px 36px;
+  margin-top: 33px;
+}
+
+/* mobile-payment right end */
+ /* Mobile Payment confirmation end */
+  
+    
+@media only screen and (min-width: 320px) and (max-width: 414px){
+  .mob-left-sticky {
+    margin-right: 0px;
+  }
+  .mobile-recharge-left {
+    position: relative;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  .mobile-recharge-title {
+    font-size: 16px; 
+  }
+  .select-recharge-mode {
+    font-size: 14px; 
+  }
+  .mobile-recharge-recent-head h3 {
+    font-size: 18px; 
+    padding-left: 0;
+  }
+
+  .mobile-recharge-right-outer{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .mobile-recharge-content { 
+    border-radius: 0px;
+  }
+  .mobile-recharge-content-inner{
+    padding: 30px 15px 15px;
+  }
+  .mobile-recharge-table-outer{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .mobile-recharge-table .recharge-operator-img{
+    width: 36px;
+  }
+
+  .mobile-recharge-right{
+    margin-top: 30px;
+  }
+  .mobile-recharge-table .recharged-mob-no {
+    font-size: 12px; 
+  }
+  .mobile-recharge-table .recharged-date {
+    font-size: 11px; 
+  }
+  .mobile-recharge-table .recharged-amount {
+    font-size: 12px; 
+  }
+  .mobile-recharge-table .recharge-faild{
+    font-size: 12px; 
+  }
+  .mobile-recharge-table .recharge-success{
+    font-size: 12px; 
+  }
+  .mobile-recharge-table .reapet-btn {
+    padding: 0px 0px;
+    font-size: 13px;
+    box-shadow: none;
+    border: none !important;
+    font-weight: 600;
+  }
+  .mobile-recharge-btn button {
+    font-size: 14px; 
+    padding: 9px 49px; 
+  }
+
+
+
+
+  .brows-plans-user {
+    margin-bottom: 27px;
+    padding-bottom: 15px;
+  }
+  .brows-plans-head {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+  }
+  .brows-plans-user-circle { 
+    margin-right: 19px;
+    margin-top: 7px;
+  }
+  .brows-plans-user-circle img {
+    width: 40px;
+  }
+  .brows-plans-user-name .brows-plans-user-title {
+    font-size: 14px;
+    margin-bottom: 0px;
+  }
+  .brows-plans-user-name .brows-plans-user-title a {
+    font-size: 14px; 
+  }
+  .brows-plans-user-name .brows-plans-user-info {
+    font-size: 13px; 
+  }
+  .brows-plans-title {
+    font-size: 15px; 
+  }
+  .search-brows-plan {
+    width: 100% !important;
+    margin-top: 10px;
+  }
+  .brows-plans-nav ul li button { 
+    font-size: 14px;
+    padding-bottom: 7px;
+  }
+  .brows-plans-nav ul li {
+    padding: 10px 20px;
+    list-style: none;
+  }
+  .mob-recharg-info .recharge-info .recharge-price {
+    display: block;
+    margin-bottom: 0;
+  }
+  .mob-recharg-info .recharge-info .recharge-validity { 
+    display: block;
+    margin-left: 0rem;
+  }
+  .mob-recharg-info .recharge-info { 
+    font-size: 14px;
+  }
+  .brows-plan-apply-btn {
+    margin-top: 3px;
+  }
+  .brows-plans-card .recharge-note {
+    width: 100%;
+  }
+  .brows-plans-card .recharge-note p {
+    font-size: 13px; 
+  }
+  .brows-plan-apply-btn button {
+    font-size: 12px;
+    padding: 3px 24px;
+    border-radius: 6px;
+  }
+
+
+
+  .mobile-payment-content-title {
+    font-size: 16px; 
+  }
+  .mob-paymet-recharge-info {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+  }
+  .mob-paymet-recharge-operator {
+    /* margin-left: auto; */
+    margin-left: 0;
+  }
+  .paymet-recharge-mobno { 
+    margin-bottom: 0px;
+    margin-right: 25px;
+  }
+
+  .mob-paymet-discount-info {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .mob-paymet-discount-info label {
+    margin-bottom: 10px;
+  }
+  .mob-paymet-discount-info .custom-control-label {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    line-height: 26px;
+  }
+  .mob-payment-discount label > input[type="radio"] + *::before {
+    vertical-align: middle !important;
+    width: 17px !important;
+    height: 17px !important;
+  }
+  .mob-payment-discount .mob-payment-discount-img {
+    margin: 0 6px 0px 4px;
+    width: 18px;
+  }
+  .mob-payment-discount { 
+    font-size: 14px; 
+  }
+  .mob-paymet-discount-amt {  
+    font-size: 14px;
+    /* margin-left: 0; */
+    text-align: left;
+  }
+  .mob-paymet-Prime-amt {  
+    font-size: 14px;
+    /* margin-left: 0; */
+    text-align: left;
+  }
+  .mob-payment-debit-vips {
+    margin: 0 6px 0px 0px;
+    width: 23px;
+  }
+  .mob-payment-debit-payu {
+    margin: 0 5px 0px 0px;
+    width: 30px;
+  }
+  .mobile-payment-right {
+    position: relative; 
+  }
+  .mobile-payment-summery {
+    color: var(--textGray);
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .mobile-payment-summery-amt { 
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .mobile-payment-confirm-btn button {
+    font-size: 14px; 
+    padding: 10px 30px;
+    margin-top: 33px;
+  }
+
+}
+  
+@media only screen and (min-width: 414px) and (max-width: 767px){
+  .mob-left-sticky {
+    margin-right: 0px;
+  }
+  .mobile-recharge-left {
+    position: relative;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  .mobile-recharge-title {
+    font-size: 16px; 
+  }
+  .select-recharge-mode {
+    font-size: 14px; 
+  }
+  .mobile-recharge-recent-head h3 {
+    font-size: 20px;
+    padding-left: 0;
+  }
+
+  .mobile-recharge-right-outer{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .mobile-recharge-content { 
+    border-radius: 0px;
+  }
+  .mobile-recharge-content-inner{
+    padding: 30px 15px 15px;
+  }
+  .mobile-recharge-table-outer{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .mobile-recharge-table .recharge-operator-img{
+    width: 40px;
+  }
+
+  .mobile-recharge-right{
+    margin-top: 30px;
+  }
+  .mobile-recharge-table .recharged-mob-no {
+    font-size: 12px; 
+  }
+  .mobile-recharge-table .recharged-date {
+    font-size: 11px; 
+  }
+  .mobile-recharge-table .recharged-amount {
+    font-size: 12px; 
+  }
+  .mobile-recharge-table .recharge-faild{
+    font-size: 12px; 
+  }
+  .mobile-recharge-table .recharge-success{
+    font-size: 12px; 
+  }
+  .mobile-recharge-table .reapet-btn {
+    padding: 0px 0px;
+    font-size: 13px;
+    box-shadow: none;
+    border: none !important;
+    font-weight: 600;
+  }
+
+
+
+   
+  .brows-plans-user {
+    margin-bottom: 27px;
+    padding-bottom: 15px;
+  }
+  .brows-plans-head {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+  }
+  .brows-plans-user-circle { 
+    margin-right: 10px; 
+    margin-top: 3px;
+  }
+  .brows-plans-user-circle img {
+    width: 42px;
+  }
+  .brows-plans-user-name .brows-plans-user-title {
+    font-size: 14px;
+    margin-bottom: 0px;
+  }
+  .brows-plans-user-name .brows-plans-user-title a {
+    font-size: 14px; 
+  }
+  .brows-plans-user-name .brows-plans-user-info {
+    font-size: 13px; 
+  }
+  .brows-plans-title {
+    font-size: 16px; 
+  }
+  .search-brows-plan {
+    width: 100% !important;
+    margin-top: 10px;
+  }
+  .brows-plans-nav ul li button { 
+    font-size: 14px;
+    padding-bottom: 7px;
+  }
+  .brows-plans-nav ul li {
+    padding: 10px 20px;
+    list-style: none;
+  }
+  .mob-recharg-info .recharge-info .recharge-price {
+    display: block;
+    margin-bottom: 0;
+  }
+  .mob-recharg-info .recharge-info .recharge-validity { 
+    display: block;
+    margin-left: 0rem;
+  }
+  .mob-recharg-info .recharge-info { 
+    font-size: 14px;
+  }
+  .brows-plan-apply-btn {
+    margin-top: 3px;
+  }
+  .brows-plans-card .recharge-note {
+    width: 100%;
+  }
+  .brows-plans-card .recharge-note p {
+    font-size: 13px; 
+  }
+  .brows-plan-apply-btn button {
+    font-size: 13px;
+    padding: 4px 25px;
+    border-radius: 6px;
+  }
+
+
+
+  .mobile-payment-content-title {
+    font-size: 16px; 
+  }
+  .mob-paymet-recharge-info {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+  }
+  .mob-paymet-recharge-operator {
+    margin-left: auto;
+  }
+  .paymet-recharge-mobno { 
+    margin-bottom: 0px;
+  }
+
+  .mob-paymet-discount-info {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .mob-paymet-discount-info label {
+    margin-bottom: 10px;
+  }
+  .mob-payment-discount label > input[type="radio"] + *::before {
+    vertical-align: middle !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .mob-payment-discount .mob-payment-discount-img {
+    margin: 0 7px 0px 4px;
+    width: 20px;
+  }
+  .mob-payment-discount { 
+    font-size: 14px; 
+  }
+  .mob-paymet-discount-amt {  
+    font-size: 16px;
+    /* margin-left: 0; */
+    text-align: left;
+  }
+  .mob-paymet-Prime-amt {  
+    font-size: 16px;
+    /* margin-left: 0; */
+    text-align: left;
+  }
+  .mob-payment-debit-vips {
+    margin: 0 6px 0px 12px;
+    width: 24px;
+  }
+  .mob-payment-debit-payu {
+    margin: 0 5px 0px 10px;
+    width: 34px;
+  }
+  .mobile-payment-right {
+    position: relative; 
+  }
+  .mobile-payment-summery {
+    color: var(--textGray);
+    font-size: 14px;
+  }
+  .mobile-payment-summery-amt { 
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .mobile-payment-confirm-btn button {
+    font-size: 14px; 
+    padding: 10px 30px;
+    margin-top: 33px;
+  }
+  
+}
+
+@media only screen and (min-width: 540px) and (max-width: 767px){
+  .mobile-recharge-right-outer {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+
+}
+
+  
+@media only screen and (min-width: 768px) and (max-width: 991px){
+  .mobile-recharge-left {
+    position: relative;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  .mobile-recharge-content-inner {
+    padding: 30px 11px; 
+  }
+  .mobile-recharge-right{
+    margin-top: 30px;
+  }
+  .mobile-recharge-recent-head h3 {
+    padding-left: 10px;
+  }
+  .mobile-payment-right{
+    position: relative;
+  }
+
+
+
+  .brows-plans-user {
+    margin-bottom: 27px;
+    padding-bottom: 15px;
+  }
+  .brows-plans-head {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+  }
+  .brows-plans-user-circle {
+    display: inline-block;
+    margin-right: 13px;
+    margin-top: 3px;
+  }
+  .brows-plans-user-circle img {
+    width: 45px;
+  }
+  .brows-plans-user-name .brows-plans-user-title {
+    font-size: 16px;
+    margin-bottom: 0px;
+  }
+  .brows-plans-user-name .brows-plans-user-info {
+    font-size: 14px;
+  }
+  .brows-plans-user-name .brows-plans-user-title a {
+    font-size: 15px;
+  }
+  .brows-plans-title {
+    font-size: 20px; 
+  }
+  .search-brows-plan {
+    width: 37% !important; 
+  }
+  .brows-plans-nav ul li button { 
+    font-size: 16px;
+    padding-bottom: 9px;
+  }
+  .mob-recharg-info .recharge-info {
+    margin-bottom: 16px; 
+    font-size: 14px;
+  }
+  .brows-plan-apply-btn button {
+    font-size: 13px;
+    padding: 5px 30px;
+    border-radius: 6px;
+  }
+  .brows-plan-apply-btn {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  .brows-plans-card .recharge-note {
+    width: 100%;
+  }
+  .brows-plans-card .recharge-note p {
+    font-size: 13px; 
+  }
+
+
+
+  .mobile-payment-content-title {
+    font-size: 14px; 
+  }
+  .mob-paymet-recharge-info { 
+    font-size: 14px;
+  }
+  .mob-payment-discount label > input[type="radio"] + *::before { 
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .mob-payment-discount .mob-payment-discount-img {
+    margin: 0 10px 0px 7px;
+    width: 20px;
+  }
+  .mob-payment-discount { 
+    font-size: 14px; 
+  }
+  .mob-paymet-discount-amt { 
+    font-size: 16px; 
+  }
+  .mob-paymet-Prime-amt { 
+    font-size: 16px; 
+  }
+    .mob-payment-debit-vips {
+      margin: 0 7px 0px 13px;
+      width: 28px;
+  }
+  .mob-payment-debit-payu {
+    margin: 0 7px 0px 12px;
+    width: 33px;
+  }
+  .mobile-payment-right {
+    position: relative; 
+  }
+  .mobile-payment-confirm-btn button {
+    font-size: 14px; 
+    padding: 10px 30px; 
+  }
+  
+}
+  
+  
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+  .mobile-recharge-content-inner {
+    padding: 30px 15px; 
+  }
+  .mobile-recharge-table .recharged-mob-no {
+    font-size: 14px; 
+  }
+  .mobile-recharge-table .recharged-date {
+    font-size: 12px; 
+  }
+  .mobile-recharge-table .recharged-amount {
+    font-size: 14px; 
+  }
+  .mobile-recharge-table .reapet-btn { 
+    font-size: 14px; 
+  }
+  .mobile-recharge-title {
+    font-size: 18px; 
+  }
+  .mobile-recharge-recent-head h3 {
+    font-size: 18px;
+    padding-left: 10px;
+  }
+  .select-recharge-mode {
+    font-size: 16px; 
+  }
+  .select-recharge-mode label > input[type="radio"] + *::before { 
+    width: 16px !important;
+    height: 16px !important; 
+  }
+
+
+
+  .brows-plan-apply-btn button {
+    font-size: 14px;
+    padding: 6px 35px;
+  }
+
+
+  .mobile-payment-content-title {
+    font-size: 16px; 
+  }
+  .mob-paymet-recharge-info { 
+    font-size: 14px;
+  }
+  .mob-payment-discount label > input[type="radio"] + *::before { 
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .mob-payment-discount .mob-payment-discount-img {
+    margin: 0 14px 0px 10px;
+    width: 20px;
+  }
+  .mob-payment-discount { 
+    font-size: 14px; 
+  }
+  .mob-paymet-discount-amt { 
+    font-size: 15px; 
+  }
+  .mob-paymet-Prime-amt { 
+    font-size: 15px; 
+  }
+  .mob-payment-debit-vips {
+    margin: 0 7px 0px 13px;
+    width: 28px;
+  }
+  .mob-payment-debit-payu {
+    margin: 0 3px 0px 11px;
+    width: 36px;
+  }
+  .mobile-payment-summery { 
+    font-size: 14px;
+  }
+  .mobile-payment-summery-amt { 
+    font-size: 14px; 
+  }
+  .mobile-payment-confirm-btn button {
+    font-size: 15px; 
+    padding: 9px 35px; 
+  }
+    
+}
+  
+  
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+      
+
+}

@@ -1,0 +1,337 @@
+.online-store{
+    margin-top: 36px;
+    margin-bottom: 30px;
+    position: relative;
+}
+.inpage-online-store-row{
+    grid-row-gap: 40px;
+    grid-column-gap: 32px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+.inpage-online-stores-div {
+    text-decoration: none;
+    /* padding: 0 23px; */
+}
+.inpage-online-stores-div .online-stores-box-button{
+    border: none;
+    background: none;
+}
+.inpage-online-stores-div .online-stores-box {
+    margin: 0 0px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+.inpage-online-stores-div .online-stores-box:hover {
+    transform: scale(1.1);
+}
+.inpage-online-stores-div .online-stores-box-icon {
+    width: 130px;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 11px;
+}
+.inpage-online-stores-div .online-stores-box-icon .online-stores-icon {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+.inpage-online-stores-div .online-stores-title {
+    text-align: center;
+}
+.inpage-online-stores-div .online-stores-title h3 {
+    color: var(--darkText);
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+}
+.inpage-online-stores-div .online-stores-title h3{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 148px;
+}
+
+
+
+
+/* online store popup start */
+
+/* modal body scroll styles start */
+.online-store-modal .modal-dialog-scrollable .modal-body {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+}
+  
+.online-store-modal .modal-dialog-scrollable .modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+.online-store-modal .modal-dialog-scrollable .modal-body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+}
+.online-store-modal .modal-dialog-scrollable .modal-body::-webkit-scrollbar-track {
+    background: var(--whiteColor);
+}
+.online-store-modal .modal-dialog-scrollable .modal-body::-webkit-scrollbar-thumb {
+    background-color: var(--borderColor) ;
+    border-radius: 6px;
+}
+/* modal body scroll styles end */
+  
+.online-store-modal .modal-dialog {
+    max-width: 650px !important;
+    /* margin: 4.75rem auto; */
+}
+  
+.online-store-modal .modal-content{
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+    -moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+}
+    
+.online-store-modal-close {
+    color: var(--lightGray) !important;
+    font-size: 30px;
+    font-weight: 100;
+    right: 0;
+    top: 0;
+    z-index: 9;
+    position: absolute;
+    margin: 18px 23px !important;
+    padding: 0 !important;
+    opacity: 9 !important;
+}
+.online-store-modal .titleMain{
+    /* margin-top: 11px; */
+    color: var(--darkText);
+    font-size: 20px;
+    font-weight: 500;
+    margin-left: 10px;
+}
+  
+/* online store popup body start */
+.online-stores-terms{
+    padding: 0 11px;
+    font-size: 13px;
+    line-height: 24px;
+}
+.online-stores-terms-ul{
+    margin-left: 15px;
+}
+/* online store popup body end */
+
+.online-store-modal .modal-footer{
+    justify-content: center;
+    border: none;
+    z-index: 9;
+    -webkit-box-shadow: 0px -5px 5px -5px rgb(0 0 0 / 12%);
+    -moz-box-shadow: 0px -5px 5px -5px rgb(0 0 0 / 12%);
+    box-shadow: 0px -5px 5px -5px rgb(0 0 0 / 12%);
+}
+.online-store-btn{
+    text-align: center;
+}
+.online-store-btn button{
+    font-size: 17px;
+    font-weight: 500;
+    background: none;  
+    padding: 10px 32px;
+}
+/* online store popup end */
+
+
+
+@media only screen and (min-width: 320px) and (max-width: 414px){
+    .online-store {
+        margin-top: 0px;
+        position: relative;
+    }
+    .inpage-online-store-row {
+        grid-row-gap: 25px;
+        grid-column-gap: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .inpage-online-stores-div .online-stores-box-icon {
+        width: 60px;
+        display: inline-flex;
+        margin-bottom: 13px;
+    }
+    .inpage-online-stores-div .online-stores-title {
+        width: 80px;
+    }
+    .inpage-online-stores-div .online-stores-title h3 { 
+        font-size: 14px;
+        font-weight: 600; 
+        width: auto;
+    }
+
+
+
+    .online-store-modal .titleMain {
+        font-size: 16px;
+        margin-left: 2px;
+    }
+    .online-store-modal-close {
+        display: contents;
+    }
+    .online-stores-terms {
+        padding: 0 2px;
+        font-size: 12px;
+    }
+    .online-store-btn button {
+        font-size: 15px;
+    }
+
+}
+
+
+@media only screen and (min-width: 414px) and (max-width: 540px){
+    .online-store {
+        margin-top: 0px;
+        position: relative;
+    }
+    .inpage-online-store-row {
+        grid-row-gap: 25px;
+        grid-column-gap: 16px;
+    }
+    .inpage-online-stores-div .online-stores-box-icon {
+        width: 90px;
+        display: inline-flex;
+        margin-bottom: 13px;
+    }
+    .inpage-online-stores-div .online-stores-title {
+        width: 100px;
+    }
+    .inpage-online-stores-div .online-stores-title h3 { 
+        font-size: 14px;
+        font-weight: 600; 
+        width: auto;
+    }
+
+
+
+    .online-store-modal .titleMain {
+        font-size: 16px;
+        margin-left: 2px;
+    }
+    .online-store-modal-close {
+        display: contents;
+    }
+    .online-stores-terms {
+        padding: 0 2px;
+        font-size: 12px;
+    }
+    .online-store-btn button {
+        font-size: 15px;
+    }
+
+}
+
+@media only screen and (min-width: 540px) and (max-width: 767px){
+    
+    .inpage-online-store-row {
+        grid-row-gap: 25px;
+        grid-column-gap: 25px;
+    }
+    .inpage-online-stores-div .online-stores-box-icon {
+        width: 90px;
+        display: inline-flex;
+        margin-bottom: 13px;
+    }
+    .inpage-online-stores-div .online-stores-title {
+        width: 100px;
+    }
+    .inpage-online-stores-div .online-stores-title h3 { 
+        font-size: 14px;
+        font-weight: 600; 
+        width: auto;
+    }
+
+
+    
+    .online-store-modal .modal-dialog {
+        max-width: 430px !important;
+        margin: 4.75rem auto;
+    }
+    .online-store-modal .titleMain {
+        font-size: 16px;
+    }
+    .online-store-btn button {
+        font-size: 15px;
+    }
+    
+
+}
+
+
+@media only screen and (min-width: 540px) and (max-width: 767px){
+    .online-store {
+        margin-top: 15px;
+        position: relative;
+    }
+
+}
+
+
+
+
+@media only screen and (min-width: 768px) and (max-width: 992px){
+    .online-store {
+        margin-top: 25px;
+        position: relative;
+    }
+    .inpage-online-store-row {
+        grid-row-gap: 25px;
+        grid-column-gap: 15px;
+    }
+    .inpage-online-stores-div .online-stores-box-icon {
+        width: 90px;
+        display: inline-flex;
+        margin-bottom: 13px;
+    }
+    .inpage-online-stores-div .online-stores-title {
+        width: auto;
+    }
+    .inpage-online-stores-div .online-stores-title h3 { 
+        font-size: 14px;
+        font-weight: 600; 
+        width: 120px;
+    }
+
+
+
+    .online-store-modal .modal-dialog {
+        max-width: 531px !important;
+    }
+    .online-store-modal .titleMain {
+        font-size: 18px;
+    }
+
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+    .inpage-online-stores-div .online-stores-box-icon {
+        width: 100px;
+    }
+
+    .inpage-online-store-row {
+        grid-column-gap: 15px;
+    }
+    .inpage-online-stores-div .online-stores-title h3 {
+        width: 141px;
+    }
+
+}
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+    
+
+}

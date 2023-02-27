@@ -1,0 +1,910 @@
+.my-account-info-outer{
+  padding-left: 0 !important;
+}
+
+.my-account-info{
+  padding: 1.3% 1%;
+  color: var(--darkText);
+  background-color: var(--whiteColor);
+  font-size: 12px;
+  font-weight: 300;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+.my-account-info-inner{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+  
+.pf-user-outer{
+  display: flex;
+  justify-content: flex-start;
+}
+.pf-user-circle{
+  width: 60px;
+  height: 60px;
+  background: var(--primary);
+  color: var(--whiteColor);
+  text-align: center;
+  border-radius: 50%;
+  align-items: center;
+  /* display: inline-block;
+  padding: 11px; */
+  font-size: 32px;
+  font-weight: 500;
+  margin-right: 20px;
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pf-user-circle label{
+  margin-bottom: 0;
+}
+.pf-user-name .pf-user-title{
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.pf-user-name .pf-user-info{
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 0px;
+}
+.pf-account-info{
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+}
+.pf-account-info .pf-account-info-text{
+  color: var(--darkText);
+  margin-bottom: 8px;
+}
+.pf-account-info .pf-account-info-amount{
+  color: var(--primary);
+  margin-bottom: 0;
+}
+.pf-account-info .pf-account-info-amount i{
+  margin-right: 6px;
+}
+
+.my-account-info-box{
+  display: inline-block;
+  width: 16%;
+}
+.my-account-info-box:first-child{
+  display: inline-block;
+  width: 35%;
+  border-right: 1px solid var(--lightBorder);
+}
+.my-account-info-box:nth-child(2){
+  display: inline-block;
+  width: 19%;
+  border-right: 1px solid var(--lightBorder);
+}
+.my-account-info-box:nth-child(3){
+  display: inline-block;
+  width: 19%;
+  border-right: 1px solid var(--lightBorder);
+}
+.my-account-info-box:nth-child(4){
+  display: inline-block;
+  width: 15%;
+  border-right: 1px solid var(--lightBorder);
+}
+.my-account-info-box:nth-child(5){
+  display: inline-block;
+  width: 12%;
+}
+  
+.border-btm-no{
+  border-bottom: none !important;
+}
+  
+/* My account information end */
+
+
+
+/* 
+.content-section {
+    min-height: 100vh;
+} */
+  
+/* .sidebar-section {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+} */
+  
+.my-account-left-outer{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+.sidebar-item {
+  /* width: 100%; */
+  /* height: 100%; */
+  position: -webkit-sticky;
+  position: sticky;
+  /* top: 0; */
+  top: calc(var(--header-offset, 90px) + 3em);
+  padding: 12px 15px;
+  background: var(--whiteColor);
+  border-radius: 10px;
+  margin-right: 6px;
+}
+  
+/* .make-me-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 12px 15px;
+  background: var(--whiteColor);
+  border-radius: 10px;
+  margin-right: 6px;
+} */
+.sidebar-item .list-group .list-group-item{
+  border: none;
+  border-bottom: 0.3px solid var(--lightBorder);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--darkText);
+  text-decoration: none;
+  text-align: left;
+}
+
+.sidebar-item .list-group-item:last-child{
+  border-bottom: none;
+}
+
+.sidebar-item .list-group .list-group-item svg{
+  margin-right: 10px;
+  font-size: 20px;
+}
+.sidebar-item .list-group .list-group-item:hover{
+  text-decoration: none;
+  background: var(--primary);
+  color: var(--whiteColor);
+}
+
+.my-account-content {
+  position: relative;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: var(--whiteColor);
+  background-clip: border-box;
+  border-radius: 10px;
+}
+
+.my-account-content-inner {
+  padding: 30px 20px;
+  margin: auto;
+  width: 80%;
+}
+.my-account-head{
+  border-bottom: 0.3px solid var(--lightBorder);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  padding-left: 0;
+}
+.my-account-title{
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--primary);
+ 
+}
+.my-account-edit{
+  color: var(--primary);
+  text-decoration: none;
+}
+.my-account-edit:hover{
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.my-account-content-inner label {
+  font-size: 14px;
+  margin-bottom: 16px;
+  color: var(--darkText);
+  text-decoration: none;
+}
+.my-account-content-inner label svg {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+
+/* dropdown for mobile start */
+
+.my-account-menu{
+  display: inline-block;
+  /* padding: 13px 40px; */
+  background: var(--primary);
+  margin-bottom: 30px;
+  width: 100%;
+}
+.my-account-menu-dropdown{
+  padding: 13px 40px;
+}
+.my-account-menu a{
+  text-decoration: none !important;
+}
+
+.my-account-menu .my-account-menu-title{
+  display: block;
+  color: var(--whiteColor);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.my-account-menu .dropdown-menu-center {
+  right: auto;
+  left: 0% !important;
+  width: 100% ;
+  -webkit-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  padding: 0 0px !important;
+  border: none !important;
+  margin-top: 20px;
+  -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 14%);
+  -moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 14%);
+  box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 14%);
+}
+
+
+.my-account-menu .dropdown-menu-center .myaccount-links{
+  border-bottom: 1px solid var(--borderColor);
+  /* margin: 0px 20px;  */
+  padding: 0.5rem 1rem;
+  text-decoration: none !important;
+}
+.my-account-menu .dropdown-menu-center .myaccount-links:hover{
+  background:var(--primary);
+  color: var(--whiteColor);
+  text-decoration: none !important;
+}
+.my-account-menu .dropdown-menu-center .myaccount-links:focus{
+  background:var(--primary);
+  color: var(--whiteColor);
+  text-decoration: none !important;
+}
+
+/* .my-account-menu .dropdown-menu-center{
+    height: 300px; 
+    overflow-y: scroll;
+  }
+  
+  .my-account-menu .dropdown-menu-center {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--darkText);
+  }
+  
+  .my-account-menu .dropdown-menu-center::-webkit-scrollbar {
+    width: 5px;
+  }
+  .my-account-menu .dropdown-menu-center {
+    scrollbar-width: thin;
+    scrollbar-color: var(--darkText);
+  }
+  .my-account-menu .dropdown-menu-center::-webkit-scrollbar-track {
+    background: var(--whiteColor);
+  }
+  .my-account-menu .dropdown-menu-center::-webkit-scrollbar-thumb {
+    background-color: #dedede ;
+    border-radius: 6px;
+    
+  }
+  .my-account-menu .vert-align{
+    vertical-align: super;
+    } */
+
+/* dropdown for mobile end */
+
+
+/* edit profile start */
+
+.edit-profile-disable{
+  background: var(--body-bg);
+  padding: 12px 8px 2px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.edit-profile-disable label{
+  font-size: 11px;
+  color: var(--lightGray);
+  margin-left: 12px;
+  margin-bottom: 0;
+}
+.edit-profile-disable input{
+  color: var(--darkText) !important;
+  font-size: 14px; 
+  background: var(--body-bg) !important;
+  border: none !important;
+}
+.edit-profile-disable input::placeholder{
+  color: var(--darkText) !important;
+}
+
+/* edit-profile-disable start */
+.edit-profile-dis-field .input-field input:focus + label, .edit-profile-dis-field .input-field input:not(:placeholder-shown) + label {
+  transform: translateY(-14px) scale(0.85);
+  color: var(--textGray) !important;
+}
+.edit-profile-dis-field .input-field input:focus, .edit-profile-dis-field .input-field input:not(:placeholder-shown) {
+  border-bottom: 1px solid var(--borderColor) !important;
+  /* border-bottom: none !important; */
+  /* box-shadow: 0 1px 0 0 var(--textGray) !important; */
+  box-shadow: none !important;
+}
+/* edit-profile-disable end */
+
+/* .edit-profile-form { 
+  padding: 15px 25px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}  */
+
+.edit-profile-form .input-field {
+  position: relative;
+  margin: 25px 0;
+  padding-left: 0px;
+  color: var(--darkText);
+}
+.edit-profile-form .input-field input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-radius: 0;
+  width: 100%;
+  font-size: 15px;
+  height: 40px;
+  border-bottom: 1px solid var(--borderColor);
+  color: inherit;
+  transition: 0.2s ease;
+}
+.edit-profile-form .input-field input::-moz-placeholder {
+  color: transparent;
+}
+.edit-profile-form .input-field input:-ms-input-placeholder {
+  color: transparent;
+}
+.edit-profile-form .input-field input::placeholder {
+  color: transparent;
+}
+.edit-profile-form .input-field input:not(:-moz-placeholder-shown) {
+  border-bottom: 1px solid var(--primary);
+  box-shadow: 0 1px 0 0 var(--primary);
+}
+.edit-profile-form .input-field input:not(:-ms-input-placeholder) {
+  border-bottom: 1px solid var(--primary);
+  box-shadow: 0 1px 0 0 var(--primary);
+}
+.edit-profile-form .input-field input:focus, .edit-profile-form .input-field input:not(:placeholder-shown) {
+  border-bottom: 1px solid var(--primary);
+  box-shadow: 0 1px 0 0 var(--primary);
+}
+.edit-profile-form .input-field input:not(:-moz-placeholder-shown) + label {
+  transform: translateY(-14px) scale(0.85);
+  color: var(--primary);
+}
+.edit-profile-form .input-field input:not(:-ms-input-placeholder) + label {
+  transform: translateY(-14px) scale(0.85);
+  color: var(--primary);
+}
+.edit-profile-form .input-field input:focus + label, .edit-profile-form .input-field input:not(:placeholder-shown) + label {
+  transform: translateY(-14px) scale(0.85);
+  color: var(--primary);
+}
+.edit-profile-form .input-field label {
+  color: var(--textGray);
+  position: absolute;
+  top: -10px;
+  left: 0px;
+  font-size: 15px;
+  cursor: text;
+  transform-origin: 0% 100%;
+  transform: translateY(14px);
+  transition: 0.2s ease-out;
+}
+.save-profile-btn button{
+  padding: 11px 40px;
+}
+/* edit profile end */
+
+
+/* selectpicker start */
+.select-option{
+  margin-top: 20px;
+  margin-bottom: 18px;
+}
+.select-option .select-type{
+  font-size: 15px;
+  color: var(--textGray);
+  font-weight: normal; 
+  width: 100%;
+  height: 100%;
+  bottom: 0px;
+  left: 0%; 
+  border: none;
+  border-bottom: 1px solid var(--borderColor);
+  margin-bottom: 0;
+  background: var(--whiteColor);
+  text-align: left;
+  padding-bottom: 4px;
+}
+  
+.select-toggle::after { 
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+  float: right;
+  margin-top: 13px;
+}
+.select-option a:hover{
+  background-color: var(--primary);
+  color: var(--whiteColor);
+}
+  
+.select-option .dropdown-menu{
+  max-height: 200px; 
+  overflow-y: scroll;
+  width: 100%;
+}
+  
+.select-option .dropdown-menu {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--darkText);
+}
+  
+.select-option .dropdown-menu::-webkit-scrollbar {
+  width: 5px;
+}
+.select-option .dropdown-menu {
+  scrollbar-width: thin;
+  scrollbar-color: var(--darkText);
+}
+.select-option .dropdown-menu::-webkit-scrollbar-track {
+  background: var(--whiteColor);
+}
+.select-option .dropdown-menu::-webkit-scrollbar-thumb {
+  background-color: var(--borderColor) ;
+  border-radius: 6px;
+}
+/* selectpicker end */
+  
+
+/* change password start */
+.my-account-change-pw {
+  padding: 30px 20px;
+  margin: auto;
+  width: 50%;
+}
+.edit-profile-form i{
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  font-size: 16px;
+  color: var(--lightGray);
+}
+/* change password end */
+
+  
+@media only screen and (min-width: 320px) and (max-width: 414px){
+  .my-account-menu-dropdown {
+    padding: 13px 20px;
+  }
+  .my-account-menu .dropdown-menu-center {
+    right: auto;
+    left: -3% !important;
+    width: 100% ; 
+  }
+
+  .my-account-menu .dropdown-menu-center .myaccount-links{  
+    padding: 0.8rem 1rem; 
+  }
+  .my-account-menu .dropdown-menu-center .myaccount-links i{  
+    margin-right: 10px;
+  }
+
+  .my-account-info-outer {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  
+  .my-account-content-inner {
+    padding: 30px 20px 10px;
+    width: 100%;
+  }
+
+  .my-account-head {
+    padding-left: 15px;
+  }
+
+  .pf-user-outer {
+    justify-content: center;
+  }
+  .my-account-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--primary);
+  }
+
+  .pf-user-circle {
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+    font-size: 19px;
+    font-weight: 500;
+    margin-right: 10px;
+    margin-top: 5px;
+  }
+  .pf-user-name .pf-user-title {
+    font-size: 14px;
+  }
+  .pf-user-name .pf-user-info {
+    font-size: 12px; 
+  }
+  .pf-account-info {
+    text-align: center;
+    font-size: 14px; 
+  }
+
+  .my-account-info-box:first-child{
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border: none;
+    border-bottom: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(2){
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border: none;
+    border-bottom: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(3){
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border: none;
+    border-bottom: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(4){
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border: none;
+    border-bottom: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(5){
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 14px;
+  }
+
+  
+  .my-account-menu-dropdown-outer{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  .my-account-right-outer{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  .content-box-div{
+      margin-bottom: 24px;
+  }
+  .content-box-div:last-child{
+    margin-bottom: 10px;
+  }
+  .my-account-content-inner label { 
+      margin-bottom: 10px;
+  }
+  .my-account-content-inner label i {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+
+
+  .edit-profile-form .input-field input {
+    font-size: 14px;
+  }
+  .edit-profile-form .input-field label {
+    font-size: 14px;
+  }
+  .edit-profile-form .input-field { 
+    margin: 20px 0; 
+  }
+  .select-option {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  .save-profile-btn button {
+    padding: 9px 36px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+
+  .my-account-change-pw {
+    width: 100%;
+  }
+
+}
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+  .my-account-menu-dropdown {
+    padding: 13px 20px;
+  }
+  .my-account-menu .dropdown-menu-center {
+    right: auto;
+    left: -7.2% !important;
+    width: 100% ; 
+    border: none !important; 
+  }
+
+  .my-account-menu .dropdown-menu-center .myaccount-links{  
+        padding: 0.8rem 1rem; 
+  }
+  .my-account-menu .dropdown-menu-center .myaccount-links i{  
+    margin-right: 10px;
+  }
+
+  .my-account-info-outer {
+    padding-left: 15px !important;
+  }
+  .pf-user-outer {
+    justify-content: center;
+  }
+  .pf-user-circle {
+    width: 50px;
+    height: 50px;
+    padding: 11px;
+    font-size: 22px;
+    font-weight: 500;
+    margin-right: 15px;
+    margin-top: 5px;
+  }
+  
+  .pf-user-name .pf-user-title {
+    font-size: 14px; 
+  }
+  .pf-user-name .pf-user-info {
+    font-size: 12px;
+  }
+  .pf-account-info { 
+    font-size: 14px; 
+  }
+  .my-account-info-box:first-child{
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    border: none;
+    border-bottom: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(2){
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(3){
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(4){
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(5){
+    display: inline-block;
+    width: 100%;
+  }
+
+  .my-account-content-inner {
+    padding: 30px 20px 10px;
+    width: 100%;
+  }
+  .content-box-div{
+      margin-bottom: 24px;
+  }
+  .content-box-div:last-child{
+    margin-bottom: 10px;
+  }
+  .my-account-title {
+    font-size: 16px;
+  }
+  .my-account-content-inner label { 
+      margin-bottom: 10px;
+  }
+  .my-account-content-inner label i {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+
+
+  .edit-profile-form .input-field input {
+    font-size: 14px;
+  }
+  .edit-profile-form .input-field label {
+    font-size: 14px;
+  }
+  .edit-profile-form .input-field { 
+    margin: 20px 0; 
+  }
+  .select-option {
+    margin-top: 25px;
+    margin-bottom: 20px;
+  }
+  .save-profile-btn button {
+    padding: 9px 36px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+
+  .my-account-change-pw {
+    padding: 30px 20px;
+    margin: auto;
+    width: 100%;
+  }
+
+}
+
+
+@media only screen and (min-width: 640px) and (max-width: 767px){
+  .my-account-menu .dropdown-menu-center {
+    right: auto;
+    left: -4.2% !important;
+    width: 100%;
+    border: none !important;
+  }
+
+  .my-account-change-pw {
+    padding: 30px 20px;
+    margin: auto;
+    width: 70%;
+  }
+
+}
+
+
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+
+  .my-account-menu .dropdown-menu-center .myaccount-links{  
+    padding: 1rem 1rem; 
+  }
+  .my-account-menu .dropdown-menu-center .myaccount-links i{  
+    margin-right: 10px;
+  }
+
+  .my-account-menu .dropdown-menu-center { 
+    left: -6% !important;
+  }
+
+  .my-account-info-outer{
+    padding-left: 15px !important;
+  }
+  .pf-user-circle {
+    width: 54px;
+    height: 54px;
+    padding: 10px;
+    font-size: 28px;
+    font-weight: 500;
+    margin-right: 15px;
+    margin-top: 5px;
+  }
+  .pf-user-name .pf-user-title {
+    font-size: 14px;
+  }
+  .pf-user-name .pf-user-info {
+    font-size: 13px;
+  }
+    
+  .my-account-info-box:first-child{
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    border: none;
+    border-bottom: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(2){
+    display: inline-block;
+    width: 28%;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    border: none;
+    border-right: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(3){
+    display: inline-block;
+    width: 28%;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    border: none;
+    border-right: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(4){
+    display: inline-block;
+    width: 22%;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    border: none;
+    border-right: 1px solid var(--lightBorder);
+  }
+  .my-account-info-box:nth-child(5){
+    display: inline-block;
+    width: 22%;
+  }
+
+  .pf-account-info{
+    font-size: 14px;
+  }
+
+  .my-account-title {
+    font-size: 16px;
+  }
+
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+  .pf-user-circle {
+    width: 50px;
+    height: 50px;
+    padding: 9px;
+    font-size: 22px;
+    margin-right: 12px;
+  }
+  .pf-user-name .pf-user-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .pf-user-name .pf-user-info {
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .pf-account-info {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+    
+}

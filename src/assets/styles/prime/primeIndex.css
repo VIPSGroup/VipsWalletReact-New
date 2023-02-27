@@ -1,0 +1,631 @@
+
+
+.prime-member-section-head{ 
+    justify-content: center;
+    text-align: center;
+    padding: 16px 0 37px 0;
+}
+.prime-member-section-head-title{
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--primary);
+}
+
+/* prime member top banner start */
+.prime-member-banner {
+    margin-top: -44px;
+    margin-bottom: 50px;
+}
+.prime-member-top-banner {
+    display: flex;
+    position: relative;
+    padding: 9rem 1rem 3rem;
+    color: var(--darkText); 
+    text-align: center;
+  }
+  .prime-member-top-hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; 
+  }
+  .vips-prime-member-logo img{
+    width: 200px;
+    margin-bottom: 20px;
+  }
+  .prime-member-top-banner_content {
+    margin: auto;
+    position: relative;
+  }
+  .prime-member-top-banner-title {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--secondary);
+  }
+  .prime-member-top-banner-subtitle{
+    font-size: 18px;
+    font-weight: 400;
+    width: 87%;
+    margin: auto;
+  }
+  .prime-member-top-banner-button{ 
+    font-size: 17px !important;
+    font-weight: 500 !important;
+    padding: 10px 34px !important;
+    margin-top: 22px;
+    border-radius: 8px !important;
+  }
+/* prime member top banner end */
+
+
+
+/* prime member promo banner start */
+/* .prime-member-promo-div{
+    margin-bottom: 2%;
+} */
+
+.prime-member-promo-div-image{ 
+    padding: 8% 6% 0% 0; 
+}
+.prime-member-promo-div-image img{
+    width: 92%; 
+}
+
+.prime-member-promo-div-content{
+    padding-top: 0%;
+}
+
+.prime-member-promo-div-title{ 
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--secondary);
+    line-height: 1.4;
+    margin-bottom: 16px;
+}
+.prime-member-benefit{
+    list-style: none;
+}
+
+.prime-member-benefit li {
+    margin: 0;
+    margin-bottom: 3em;
+    padding-left: 2em;
+    position: relative;
+  }
+  .prime-member-benefit li:after {
+    content: "";
+    height: 0.9em;
+    width: 0.9em;
+    background: var(--primary);
+    display: block;
+    position: absolute;
+    transform: rotate(45deg);
+    top: 0.7em;
+    left: 0;
+  }
+.prime-member-benefit-title{
+    color: var(--primary);
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+.prime-member-benefit-subtitle{
+    color: var(--darkText);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.prime-member-benefit-p{
+    color: var(--darkText);
+    font-size: 13px; 
+}
+.prime-member-promo-btn{
+    display: inline-block;
+}
+.prime-member-promo-btn .btn{
+    padding: 9px 35px;
+    font-size: 17px;
+    font-weight: 500;
+    margin-top: 0px;
+    border-radius: 8px !important;
+}
+
+/* prime member promo banner end */
+
+
+
+
+/* CHECK OUT YOUR PRIME MEMBERSHIP start */
+.check-prime-member{
+    background: #FCF4FC;
+    margin-top: 15px;
+    padding-bottom: 0px;
+    padding-top: 22px;
+}
+.check-prime-member-box-1{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 70%;
+    margin: auto;
+    margin-bottom: 1%;
+}
+.check-prime-member-box-2{
+    display: flex;
+    flex-wrap: wrap; 
+    flex-direction: row;
+    align-items: center;
+    width: 70%;
+    margin: auto;
+    margin-bottom: 1%;
+}
+
+.check-prime-member-box-left-img{ 
+    padding: 0; 
+}
+.check-prime-member-box-left-img img{
+    width: 80%;
+    border-radius: 10px; 
+}
+.check-prime-member-box-right-img{ 
+    padding: 0;
+    text-align: right;
+}
+.check-prime-member-box-right-img img{
+    width: 80%;
+    border-radius: 10px;
+}
+
+.check-prime-member-right-cont{
+    padding-top: 0%;
+}
+
+.check-prime-member-left-cont{
+    padding-top: 0%;
+}
+ 
+.check-prime-member-box-title{
+    color: var(--primary);
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 12px;
+} 
+.check-prime-member-box-title-p{
+    color: var(--darkText);
+    font-size: 14px; 
+} 
+/* CHECK OUT YOUR PRIME MEMBERSHIP end */
+
+
+
+@media only screen and (min-width: 320px) and (max-width: 413px){
+    .prime-member-section-head-title {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+
+    .prime-member-banner {
+        margin-top: -69px;
+    }
+    .prime-member-top-banner { 
+        padding: 6rem 1rem 2rem; 
+    }
+    .prime-member-top-banner-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--secondary);
+    }
+    .prime-member-top-banner-subtitle {
+        font-size: 16px;
+        font-weight: 500;
+        width: 70%;
+        margin: auto;
+    }
+    .prime-member-top-banner-button {
+        font-size: 15px !important;
+        font-weight: 500 !important;
+        padding: 10px 27px !important;
+        margin-top: 20px;
+    }
+    
+    
+    
+    
+    .prime-member-promo-div-image {
+        padding: 0% 0% 0% 7%;
+        margin-bottom: 23px;
+    }
+    .prime-member-promo-div-title { 
+        font-size: 18px; 
+    }
+    .prime-member-benefit li:after {
+        content: "";
+        height: 0.7em;
+        width: 0.7em; 
+        top: 0.6em; 
+    }
+    .prime-member-benefit li { 
+        margin-bottom: 3em;
+        padding-left: 2em; 
+    }
+    .prime-member-benefit-title { 
+        font-size: 16px; 
+    }
+    .prime-member-benefit-subtitle { 
+        font-size: 14px; 
+        margin-bottom: 7px;
+    }
+    .prime-member-benefit-p { 
+        font-size: 13px;
+    }
+    .prime-member-promo-btn {
+        display: block;
+        text-align: center;
+    }
+    .prime-member-promo-btn .btn {
+        padding: 9px 32px;
+        font-size: 15px; 
+    }
+
+
+
+    .check-prime-member {
+        padding-bottom: 15px;
+        padding-top: 27px;
+    }
+    .check-prime-member-box-1 { 
+        width: 80%; 
+        margin-bottom: 10%;
+    }
+    .check-prime-member-box-2 { 
+        width: 80%;
+        flex-direction: column-reverse;
+        margin-bottom: 10%;
+    }
+    .check-prime-member-box-title { 
+        font-size: 18px; 
+    }
+    .check-prime-member-box-title-p { 
+        font-size: 13px;
+        margin-bottom: 0;
+    }
+    .check-prime-member-right-cont {
+        padding-top: 5%;
+    }
+    .check-prime-member-left-cont {
+        padding-top: 5%;
+    }
+    .check-prime-member-box-right-img { 
+        text-align: center;
+    }
+    .check-prime-member-box-left-img {
+        text-align: center;
+    }
+    .check-prime-member-box-left-img img {
+        width: 66%;
+    }
+    .check-prime-member-box-right-img img {
+        width: 66%;
+    }
+
+}
+
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+    
+    .prime-member-banner {
+        margin-top: -69px;
+    }
+    .prime-member-top-banner { 
+        padding: 6rem 1rem 2rem; 
+    }
+    .prime-member-top-banner-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--secondary);
+    }
+    .prime-member-top-banner-subtitle {
+        font-size: 16px;
+        font-weight: 500;
+        width: 86%;
+        margin: auto;
+    }
+    .prime-member-top-banner-button {
+        font-size: 15px !important;
+        font-weight: 500 !important;
+        padding: 10px 27px !important;
+        margin-top: 20px;
+    }
+
+
+
+
+    .prime-member-promo-div-image {
+        padding: 0% 0% 0% 4%;
+        margin: auto;
+        margin-bottom: 23px;
+        width: 75%;
+    }
+    .prime-member-promo-div-title { 
+        font-size: 18px; 
+    }
+    .prime-member-benefit li:after {
+        content: "";
+        height: 0.7em;
+        width: 0.7em; 
+        top: 0.6em; 
+    }
+    .prime-member-benefit li { 
+        margin-bottom: 3em;
+        padding-left: 2em; 
+    }
+    .prime-member-benefit-title { 
+        font-size: 16px; 
+    }
+    .prime-member-benefit-subtitle { 
+        font-size: 14px; 
+        margin-bottom: 7px;
+    }
+    .prime-member-benefit-p { 
+        font-size: 13px;
+    }
+    .prime-member-promo-btn {
+        display: block;
+        text-align: center;
+    }
+    .prime-member-promo-btn .btn {
+        padding: 9px 32px;
+        font-size: 15px; 
+    }
+
+
+
+    .check-prime-member {
+        padding-bottom: 24px;
+        padding-top: 35px;
+    }
+    .prime-member-section-head-title {
+        font-size: 20px;
+        line-height: 28px; 
+    }
+    .check-prime-member-box-1 { 
+        width: 80%; 
+        margin-bottom: 6%;
+    }
+    .check-prime-member-box-2 { 
+        width: 80%;
+        flex-direction: column-reverse;
+        margin-bottom: 6%;
+    }
+    .check-prime-member-box-title { 
+        font-size: 18px; 
+    }
+    .check-prime-member-box-title-p { 
+        font-size: 13px;
+        margin-bottom: 0;
+    }
+    .check-prime-member-right-cont {
+        padding-top: 4%;
+    }
+    .check-prime-member-left-cont {
+        padding-top: 0%;
+    }
+    .check-prime-member-box-right-img { 
+        text-align: center;
+    }
+    .check-prime-member-box-left-img {
+        text-align: center;
+    }
+    .check-prime-member-box-right-img img {
+        width: 66%;
+    }
+    .check-prime-member-box-left-img img {
+        width: 66%;
+    }
+
+}
+
+
+@media only screen and (min-width: 540px) and (max-width: 767px){
+    .prime-member-promo-div-content {
+        padding: 0 37px 0 37px !important;
+    }
+    
+    
+    .check-prime-member-box-1 {
+        width: 100%;
+        margin-bottom: 6%;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+    .check-prime-member-box-2 {
+        width: 100%;
+        margin-bottom: 6%;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+    .check-prime-member-box-left-img {
+        text-align: left;
+    }
+    .check-prime-member-box-right-img {
+        text-align: right;
+    }
+    .check-prime-member-box-left-img img {
+        width: 92%;
+    }
+    .check-prime-member-box-right-img img {
+        width: 92%;
+    }
+
+}
+
+
+@media only screen and (min-width: 640px) and (max-width: 767px){
+    .prime-member-banner {
+        margin-top: -65px;
+    }
+    .prime-member-top-banner { 
+        padding: 9rem 1rem 2rem; 
+    }
+
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px){
+    .prime-member-section-head-title {
+        font-size: 24px; 
+    }
+
+
+    .prime-member-banner {
+        margin-top: -63px;
+        margin-bottom: 50px;
+    }
+    .prime-member-top-banner {  
+        padding: 10rem 1rem 2rem; 
+    }
+    .prime-member-top-banner-title {
+        font-size: 26px; 
+    }
+    .prime-member-top-banner-subtitle {
+        font-size: 16px; 
+        width: 76%; 
+    }
+    .prime-member-top-banner-button {
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        padding: 10px 29px !important;
+        margin-top: 20px;
+    }
+
+    
+    
+    
+    .prime-member-promo-div-image {
+        padding: 24% 0% 0% 0;
+    }
+    .prime-member-promo-div-title {
+        font-size: 20px; 
+    }
+    .prime-member-benefit li:after {
+        content: "";
+        height: 0.8em;
+        width: 0.8em; 
+        top: 0.7em;
+        left: 0;
+    }
+    .prime-member-benefit li { 
+        margin-bottom: 2em; 
+        padding-left: 2em;
+    }
+    .prime-member-benefit-title { 
+        font-size: 16px; 
+    }
+    .prime-member-benefit-subtitle { 
+        font-size: 14px; 
+        margin-bottom: 8px;
+    }
+    .prime-member-benefit-p { 
+        font-size: 13px;
+    }
+    .prime-member-promo-btn .btn { 
+        font-size: 15px; 
+    }
+
+
+
+    .check-prime-member-box-1 { 
+        width: 85%; 
+        align-items: center;
+    }
+    .check-prime-member-box-2 { 
+        width: 85%;
+        align-items: center;
+    }
+    .check-prime-member-right-cont {
+        padding-top: 0%;
+    }
+    .check-prime-member-left-cont {
+        padding-top: 0%;
+    }
+    .check-prime-member-box-title { 
+        font-size: 18px; 
+    }
+    .check-prime-member-box-title-p { 
+        font-size: 13px;
+    }
+    .check-prime-member-box-left-img img {
+        width: 75%;
+    }
+    .check-prime-member-box-right-img img {
+        width: 75%;
+    }
+
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1279px){
+    .prime-member-section-head-title {
+        font-size: 26px; 
+    }
+
+    .prime-member-banner {
+        margin-top: -69px;
+        margin-bottom: 50px;
+    }
+    .prime-member-top-banner { 
+        padding: 11rem 1rem 3rem; 
+    }
+
+    .prime-member-promo-div-title {
+        font-size: 24px; 
+    }
+    .prime-member-benefit-title { 
+        font-size: 18px; 
+        margin-bottom: 9px;
+    }
+    .prime-member-benefit li:after {
+        content: "";
+        height: 0.8em;
+        width: 0.8em; 
+        top: 0.7em;
+        left: 0;
+    }
+    .prime-member-benefit li { 
+        margin-bottom: 2em;
+        padding-left: 2em; 
+    }
+    .prime-member-benefit-subtitle { 
+        font-size: 14px; 
+        margin-bottom: 7px;
+    }
+    .prime-member-benefit-p { 
+        font-size: 13px;
+    }
+    .prime-member-promo-btn .btn { 
+        font-size: 15px; 
+    }
+
+
+
+    .check-prime-member-box-title { 
+        font-size: 20px; 
+    }
+    .check-prime-member-box-title-p { 
+        font-size: 13px;
+    }
+
+}
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+    
+
+}
