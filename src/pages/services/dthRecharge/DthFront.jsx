@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import CommonTopNav from "../../../components/home/CommonTopNav";
-// import Footer from "../../../components/home/Footer";
-
 import { getOperators } from "../../../apiData/services/dth";
-
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
-
-// import { MuiSnackBar } from "../../../components/common/snackbars";
+import RecentHistory from "../../../components/services/RecentHistory";
 
 import {
   dthServiceId,
@@ -15,11 +10,9 @@ import {
   googleAnalytics,
 } from "../../../constants";
 import ReactGA from "react-ga";
-import RecentHistory from "../../../components/service/RecentHistory";
-import Footer from "../../../components/layout/Footer/Footer";
-ReactGA.initialize(googleAnalytics);
 
-const DthFront = ({ props }) => {
+ReactGA.initialize(googleAnalytics);
+const DthFront = ({props}) => {
   const [operatorsList, setOperatorList] = useState([]);
   const [mobileNo, setMobileNo] = useState("");
   const [selectedOperator, setSelectedOperator] = useState("");
@@ -224,10 +217,12 @@ const DthFront = ({ props }) => {
       </section>
     </div>
   );
-
   return (
     <div className="color-body">
-      {rechargeSection()}
+    {rechargeSection()}
+  </div>
+  )
+}
 
       <Footer />
     </div>

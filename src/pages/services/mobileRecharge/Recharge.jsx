@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-// import CommonTopNav from "../../../components/home/CommonTopNav";
-// import Footer from "../../../components/home/Footer";
-
 import {
   getOperators,
   getRechargeCircleList,
@@ -15,25 +12,20 @@ import {
 } from "../../../apiData/services/mobileRecharge";
 
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
-
 import {
   operartorsUrl,
   mobileServiceId,
   postpaidServiceId,
 } from "../../../constants";
-// import { MuiSnackBar } from "../../../components/common/snackbars";
-
-import RecentHistory from "../../../components/service/RecentHistory";
 import { googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
+import { BillAvenueBrowsePlan, RecentHistory } from "../../../components/services";
 import BrowsePlans from "./BrowsePlans";
-import { getUserDetails } from "../../../apiData/myProfile/profile";
-import Footer from "../../../components/layout/Footer/Footer";
 
 ReactGA.initialize(googleAnalytics);
 
-const Recharge = ({ props }) => {
+const Recharge = ({props}) => {
   const [activeApiId, setActiveApiId] = useState("");
   const [rechargeType, setRechargeType] = useState("Prepaid");
   const [operatorsList, setOperatorList] = useState([]);
@@ -50,10 +42,11 @@ const Recharge = ({ props }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState("");
 
   let navigate = useNavigate();
-  // const {loggedInUser}= useSelector(state=>state.login)
+  const { loggedInUser } = useSelector(
+    state => state.loginSlice.loggetInWithOTP
+  );
   const getTodaysDate = () => {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -90,7 +83,6 @@ const Recharge = ({ props }) => {
   };
 
   useEffect(() => {
-    setLoggedInUser(getUserDetails());
     ReactGA.pageview(window.location.pathname);
     getActiveApi().then((response) => {
       const data = response.Data.find((element) => element.Status == true);
@@ -386,26 +378,7 @@ const Recharge = ({ props }) => {
                       </div>
                     ) : null}
 
-                    {/*
-                                        <div class="row">
-                                            <div class="col-lg-12 mobile-recharge-field p-0">
-                                                <div class="input-field">
-                                                    <input id="referral-mobile" type="text" placeholder="&nbsp;" autocomplete="off" />
-                                                    <label for="referral-mobile"> Operator </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-lg-12 mobile-recharge-field p-0">
-                                                <div class="input-field">
-                                                    <input id="referral-mobile" type="text" placeholder="&nbsp;" autocomplete="off" />
-                                                    <label for="referral-mobile"> Circle </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        */}
+                 
 
                     <div class="col-md-12">
                       {rechargeType == "Prepaid" ? (
@@ -459,7 +432,6 @@ const Recharge = ({ props }) => {
       </section>
     </>
   );
-
   return (
     <div className="color-body">
       {activeApiId == 10 ? (
@@ -482,7 +454,11 @@ const Recharge = ({ props }) => {
         sectionCount === 1 ? (
           rechargeSection()
         ) : (
+<<<<<<< HEAD
           <billAvenueBrowsePlans
+=======
+          <BillAvenueBrowsePlan
+>>>>>>> f5d7a4ebbea8bd4b257172a31189431671881e46
             number={mobileNo}
             imgurl={opImgUrl}
             operator={selectedOperator}
@@ -494,6 +470,12 @@ const Recharge = ({ props }) => {
           />
         )
       ) : null}
+<<<<<<< HEAD
+=======
+    </div>
+  )
+}
+>>>>>>> f5d7a4ebbea8bd4b257172a31189431671881e46
 
       <Footer />
     </div>

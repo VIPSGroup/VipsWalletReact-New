@@ -1,29 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-// import CommonTopNav from "../../../components/home/CommonTopNav";
-// import Footer from "../../../components/home/Footer";
-
-import { getRechargeHistory } from "../../../apiData/services/mobileRecharge";
 import { fetchBill } from "../../../apiData/services/electricity";
 import {
   getFastagOperators,
   getInputFieldsByOperator,
 } from "../../../apiData/services/fastag";
-
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
-
-// import { MuiSnackBar } from "../../../components/common/snackbars";
-
-import LoadingBar from "../../../components/common/Loading";
-import ErrorText from "../../../components/common/ErrorText";
-import RecentHistory from "../../../components/service/RecentHistory";
-
+import "../../../assets/styles/services/electricity/electricity.css";
+import RecentHistory from "../../../components/services/RecentHistory";
 import { operartorsUrl } from "../../../constants";
 import { fastagServiceId, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
-import Footer from "../../../components/layout/Footer/Footer";
+import { ErrorText, Loading } from "../../../components/common";
 ReactGA.initialize(googleAnalytics);
 
 const FastagFront = ({ props }) => {
@@ -45,7 +34,9 @@ const FastagFront = ({ props }) => {
   const [inputFields, setInputFields] = useState([]);
 
   let navigate = useNavigate();
-  const { loggedInUser } = useSelector((state) => state.login);
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
 
   const callInputFields = (ourCode) => {
     getInputFieldsByOperator(ourCode).then((response) => {
@@ -497,7 +488,7 @@ const FastagFront = ({ props }) => {
                             class="btn-primery"
                             id="addmoneymodal"
                           >
-                            {loading ? <LoadingBar /> : `Fetch Bill`}
+                            {loading ? <Loading /> : `Fetch Bill`}
                           </button>
                         </div>
                       )}
@@ -539,13 +530,7 @@ const FastagFront = ({ props }) => {
       </section>
     </div>
   );
-
-  return (
-    <div className="color-body">
-      {rechargeSection()}
-      <Footer />
-    </div>
-  );
+  return <div className="color-body">{rechargeSection()}</div>;
 };
 
 export default FastagFront;

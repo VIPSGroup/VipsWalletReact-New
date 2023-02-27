@@ -49,7 +49,7 @@ const ShoppingHome = () => {
       partialVisibilityGutter: 10,
     },
   };
-console.log(categories, "categories")
+  console.log(categories, "categories");
   const shoppingCategoryBar = () => (
     <>
       <div class="section shopping-catagory-nav mt-5">

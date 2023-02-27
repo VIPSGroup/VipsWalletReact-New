@@ -155,7 +155,7 @@ const SignUpForm = () => {
           const clickVerifySignupOtp = (e) => {
             e.preventDefault();
             console.log(userDetails);
-            // dispatch(signUpUser({ ...userDetails, Otp: otp }))
+            dispatch(signUpUser({ ...userDetails, Otp: otp }))
           };
   return (
     <>

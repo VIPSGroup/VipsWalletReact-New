@@ -7,9 +7,9 @@ import {
 } from "../../../apiData/services/mobileRecharge";
 
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
-
 import { operartorsUrl } from "../../../constants";
-// import LoadingBar from "../../common/loading";
+// import { Loading } from "../../common";
+
 
 const BrowsePlans = ({
   number,
@@ -21,6 +21,7 @@ const BrowsePlans = ({
   circleId,
   setSection,
 }) => {
+  //const [mPlanObj,setMPlanObj]=({})
   const [activePlans, setActivePlans] = useState([]);
   const [topupPlans, setTopupPlans] = useState([]);
   const [roamingPlans, setRoamingPlans] = useState([]);
@@ -270,7 +271,7 @@ const BrowsePlans = ({
                 {loading ? (
                   <div class="brows-plans-inner brows-plan-loader">
                     <div class="brows-plan-loader-outer">
-                      {/* <LoadingBar color="#CA3060" /> */}
+                      {/* <Loading color="#CA3060" /> */}
                     </div>
                   </div>
                 ) : error.length !== 0 ? (
@@ -330,9 +331,8 @@ const BrowsePlans = ({
       </section>
     </>
   );
-  return (
-    <div>{browsePlansSection()}</div>
-  )
-}
 
-export default BrowsePlans
+  return <div>{browsePlansSection()}</div>;
+};
+
+export default BrowsePlans;

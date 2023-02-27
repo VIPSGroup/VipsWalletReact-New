@@ -111,18 +111,18 @@ const SignInForm = () => {
           setIp(user.ip);
         });
     }
-    // if(loggedInUser?.Id){
-    //   navigate("/")
-    //   setFormCount(1)
-    //   setIsSnackBar(true)
-    //   setsuccessMessage("Login Successful")
-    //   setErrorMessage("")
-    // }
-    // if(response?.ResponseStatus===0){
-    //   setIsSnackBar(true)
-    //   setErrorMessage("Invalid OTP")
-    //   setsuccessMessage("")
-    // }
+    if (loggedInUser?.Id) {
+      navigate("/");
+      setFormCount(1);
+      setIsSnackBar(true);
+      setsuccessMessage("Login Successful");
+      setErrorMessage("");
+    }
+    if (response?.ResponseStatus === 0) {
+      setIsSnackBar(true);
+      setErrorMessage("Invalid OTP");
+      setsuccessMessage("");
+    }
     if (response?.ResponseStatus === 1) {
       setIsSnackBar(true);
       setsuccessMessage("Success");

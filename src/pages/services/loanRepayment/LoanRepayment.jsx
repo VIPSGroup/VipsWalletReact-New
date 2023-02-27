@@ -1,8 +1,10 @@
 import React from 'react'
+import { loanRepaymentServiceId } from '../../../constants'
+import ServiceFrontCommon from '../ServiceFrontCommon'
 
 const LoanRepayment = () => {
   return (
-    <div>LoanRepayment</div>
+    <ServiceFrontCommon serviceId={loanRepaymentServiceId} serviceName="loanrepayment" title="Loan Repayment" />
   )
 }
 

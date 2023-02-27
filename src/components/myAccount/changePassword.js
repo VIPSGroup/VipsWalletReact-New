@@ -5,7 +5,7 @@ import { changePassword } from "../../apiData/user/profile";
 
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { Loading } from "../../components/common";
+import { Loading } from "../common";
 
 const ChangePassword = () => {
   const [oldShow, setOldShow] = useState(false);

@@ -26,6 +26,17 @@ const HomeTopNav = ({ isPrime }) => {
     (state) => state.loginSlice.loggetInWithOTP
   );
 
+  useEffect(() => {
+    console.warn(loggedInUser);
+    // window.addEventListener("scroll", () => {
+    //   if (window.screenY > 450) {
+    //     setFixed(true);
+    //   } else {
+    //     setFixed(false);
+    //   }
+    // });
+  });
+
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
