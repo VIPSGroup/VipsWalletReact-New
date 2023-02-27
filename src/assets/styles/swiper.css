@@ -1,9 +1,0 @@
-.swiper-button-prev {
-    /* background-image: url("images/arrow-left.png"); */
-    /* 이미지가 나오지않을 때, ./img/arrow-left.png로 */
-    background-size: contain;
-    background-position: 50% 60%;
-    background-repeat: no-repeat;
-    left: 69px;
-    color: red;
-  }
