@@ -18,9 +18,10 @@ import { electricityServiceId, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 import { Loading } from "../../../components/common";
+import Footer from "../../../components/layout/Footer/Footer";
 ReactGA.initialize(googleAnalytics);
 
-const ElectricityFront = ({props}) => {
+const ElectricityFront = ({ props }) => {
   const [operatorsList, setOperatorList] = useState([]);
   const [mobileNo, setMobileNo] = useState("");
   const [selectedOperator, setSelectedOperator] = useState("");
@@ -45,13 +46,9 @@ const ElectricityFront = ({props}) => {
   const [inputFields, setInputFields] = useState([]);
 
   let navigate = useNavigate();
-<<<<<<< HEAD
-  const { loggedInUser } = useSelector((state) => state.login);
-=======
   const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP
+    (state) => state.loginSlice.loggetInWithOTP
   );
->>>>>>> f5d7a4ebbea8bd4b257172a31189431671881e46
 
   const getTodaysDate = () => {
     const today = new Date();
@@ -149,7 +146,6 @@ const ElectricityFront = ({props}) => {
 
           const jsonData = JSON.stringify(obj);
 
-<<<<<<< HEAD
           fetchBill(obj, loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
             (response) => {
               if (response.Data.ResponseMessage == "Successful") {
@@ -163,19 +159,6 @@ const ElectricityFront = ({props}) => {
               }
             }
           );
-=======
-          fetchBill(obj, loggedInUser.Mobile, loggedInUser.TRXNPassword).then((response) => {
-            if (response.Data.ResponseMessage == "Successful") {
-              setShowBill(true);
-              setBillFetchData(response.Data);
-              setBillAmount(response.Data.BillAmount);
-              setLoading(false);
-            } else {
-              setBillFetchError(response.Data.ResponseMessage);
-              setLoading(false);
-            }
-          });
->>>>>>> f5d7a4ebbea8bd4b257172a31189431671881e46
         }
       } else {
         setIsSnackBar(true);
@@ -680,17 +663,7 @@ const ElectricityFront = ({props}) => {
                             class="btn-primery"
                             id="addmoneymodal"
                           >
-<<<<<<< HEAD
-                            {loading ? <LoadingBar /> : `Fetch Bill`}
-=======
-                            {loading ? (
-                             
-                                <Loading />
-                              
-                            ) : (
-                              `Fetch Bill`
-                            )}
->>>>>>> f5d7a4ebbea8bd4b257172a31189431671881e46
+                            {loading ? <Loading /> : `Fetch Bill`}
                           </button>
                         </div>
                       )}
@@ -735,14 +708,7 @@ const ElectricityFront = ({props}) => {
 
   return (
     <div className="color-body">
-<<<<<<< HEAD
       {rechargeSection()}
-=======
-    {rechargeSection()}
-  </div>
-  )
-}
->>>>>>> f5d7a4ebbea8bd4b257172a31189431671881e46
 
       <Footer />
     </div>

@@ -33,6 +33,9 @@ const SignInForm = () => {
   const { loading, forgotPass } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
   const { isUserExist } = useSelector((state) => state.loginSlice.checkUser);
   const { response } = useSelector((state) => state.loginSlice.loginUser);
 

@@ -2,7 +2,7 @@ export { default as ServiceCommonSuccess } from "./ServiceCommonSuccess";
 export { default as ServiceConfirmationCommon } from "./ServiceConfirmationCommon";
 export { default as ServiceFrontCommon } from "./ServiceFrontCommon";
 export { default as ServiceFrontComp } from "./ServiceFrontComp";
-export { default as ServiceIndex } from "./ServiceIndex";
+export { default as Services } from "./Services";
 export { default as ServiceSuccess } from "./ServiceSuccess";
 export { default as Broadband } from "./broadband/Broadband";
 export { default as ClubAssociation } from "./clubAssociation/ClubAssociation";
