@@ -14,10 +14,13 @@ const Profile = () => {
   const [selectedState, setSelectedState] = useState("-");
   const [selectedCity, setSelectedCity] = useState("-");
   const [userDetails, setUserDetails] = useState({});
-  const { loggedInUser } = useSelector((state) => state.login);
+  const { loggedInUser } = useSelector(
+    state => state.loginSlice.loggetInWithOTP);
 
   useEffect(() => {
-    getProfileDetails(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
+
+    console.log("Profile");
+    getProfileDetails({uesrname:loggedInUser.Mobile,password: loggedInUser.TRXNPassword}).then(
       (response) => {
         setUserDetails(response.Data[0]);
         listStateAndCity().then((res) => {

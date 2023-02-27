@@ -456,7 +456,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <Cart />{" "}
+              <Cart setIsHomeTopNav={setIsHomeTopNav}/>{" "}
             </ProtectedRoute>
           }
         />
