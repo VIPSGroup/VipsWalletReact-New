@@ -12,6 +12,7 @@ import ErrorText from "../../components/common/ErrorText";
 import RecentHistory from "../../components/services/RecentHistory";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
+import { Loading } from "../../components/common";
 // import { Loading } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 
@@ -472,13 +473,13 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
                             class="btn-primery service-loading-btn"
                             id="addmoneymodal"
                           >
-                            {/* {loading ? (
+                            {loading ? (
                               
                               <Loading />
                               
                             ) : (
                               `Fetch Bill`
-                            )} */}
+                            )}
                           </button>
                         </div>
                       )}

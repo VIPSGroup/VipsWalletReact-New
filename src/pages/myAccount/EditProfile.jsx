@@ -28,7 +28,7 @@ const EditProfile = () => {
   const { loggedInUser } = useSelector(
     state => state.loginSlice.loggetInWithOTP);
     const { allStateCityList } = useSelector((state) => state.signUpSlice.stateList);
-    const { stateCityByPincode } = useSelector((state) => state.signUpSlice.stateCityPincode);
+    const { stateCityByPincode ,edited} = useSelector((state) => state.signUpSlice.stateCityPincode);
   const formik = useFormik({
     initialValues: {
       AlternateMobile: "",
@@ -90,7 +90,7 @@ const EditProfile = () => {
     console.log("useEffect");
     if (formik.values.Pincode == pinCode) {
       // dispatch(getUserDetails)
-
+console.warn(formik.values.Pincode == pinCode);
       getProfileDetails(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
         (response) => {
           const data = response.Data[0];
@@ -137,41 +137,38 @@ const EditProfile = () => {
       );
     }
 
-    if (formik.values.Pincode.length == 6) {
-      console.warn(formik.values.Pincode);
-      dispatch(getStateCity(formik.values.Pincode));
-
-    }
-    console.warn(formik.values.Pincode)
-    if (formik.values.Pincode.length === 6) {
-      console.warn(formik.values.Pincode)
-      if (stateCityByPincode?.ResponseStatus === 1) {
-        console.warn(stateCityByPincode.Data[0]);
-        setGetData({
-          ...getData,
-          stateName: stateCityByPincode.Data[0].StateName,
-          stateId: stateCityByPincode.Data[0].StateId,
-          stateError: false,
-          cityId: stateCityByPincode.Data[0].CityId,
-          cityName: stateCityByPincode.Data[0].CityName,
-          cityError: false,
-          pincodeId: stateCityByPincode.Data[0].PincodeId,
-        });
-      } else if (stateCityByPincode?.ResponseStatus === 0) {
-        setGetData({
-          ...getData,
-          stateName: "",
-          stateId: "",
-          stateError: false,
-          cityId: "",
-          cityName: "",
-          cityError: false,
-        });
-      }
-    }else{
-      // dispatch(stateCityEmpty())
-    }
+ 
   }, [pinCode, formik.values.Pincode]);
+
+const handlePincode=()=>{
+  console.log(formik.values.Pincode);
+  if (formik.values.Pincode.length === 6) {
+    dispatch(getStateCity(formik.values.Pincode));
+    if (stateCityByPincode?.ResponseStatus === 1) {
+      console.warn(stateCityByPincode.Data[0]);
+      setGetData({
+        ...getData,
+        stateName: stateCityByPincode.Data[0].StateName,
+        stateId: stateCityByPincode.Data[0].StateId,
+        stateError: false,
+        cityId: stateCityByPincode.Data[0].CityId,
+        cityName: stateCityByPincode.Data[0].CityName,
+        cityError: false,
+        pincodeId: stateCityByPincode.Data[0].PincodeId,
+      });
+    } else if (stateCityByPincode?.ResponseStatus === 0) {
+      setGetData({
+        ...getData,
+        stateName: "",
+        stateId: "",
+        stateError: false,
+        cityId: "",
+        cityName: "",
+        cityError: false,
+      });
+    }
+  }
+}
 
   const editProfileSection = () => (
     <>
@@ -336,7 +333,7 @@ const EditProfile = () => {
                           <input
                             name="Pincode"
                             // onChange={ handlePincodeChange  }
-                            onChange={formik.handleChange}
+                            onChange={formik.handleChange && handlePincode}
                             onBlur={formik.handleBlur}
                             className={
                               formik.errors.Pincode && formik.touched.Pincode

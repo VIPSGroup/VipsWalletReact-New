@@ -155,10 +155,12 @@ state.stateCityPincode.stateCityByPincode={}
     builder.addCase(getStateCity.pending, (state, action) => {
       state.stateCityPincode.loading = true;
       state.stateCityPincode.stateCityByPincode = {};
+      state.stateCityPincode.edited =false;
     });
     builder.addCase(getStateCity.fulfilled, (state, action) => {
       state.stateCityPincode.stateCityByPincode = action.payload;
       state.stateCityPincode.loading = false;
+      state.stateCityPincode.edited =true;
     });
     builder.addCase(getStateCity.rejected, (state, action) => {
       state.stateCityPincode.loading = false;
