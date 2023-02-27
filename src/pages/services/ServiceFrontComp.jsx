@@ -35,7 +35,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
   const [opImgUrl, setOpImgUrl] = useState("");
   let navigate = useNavigate();
   const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP
+    (state) => state.loginSlice.loggetInWithOTP
   );
   const callInputFields = (ourCode) => {
     getInputFieldsByOperator(ourCode).then((response) => {
@@ -90,17 +90,19 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
 
-          fetchBill(obj, loggedInUser.Mobile, loggedInUser.TRXNPassword).then((response) => {
-            if (response.Data.ResponseMessage == "Successful") {
-              setShowBill(true);
-              setBillFetchData(response.Data);
-              setBillAmount(parseFloat(response.Data.BillAmount));
-              setLoading(false);
-            } else {
-              setBillFetchError(response.Data.ResponseMessage);
-              setLoading(false);
+          fetchBill(obj, loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
+            (response) => {
+              if (response.Data.ResponseMessage == "Successful") {
+                setShowBill(true);
+                setBillFetchData(response.Data);
+                setBillAmount(parseFloat(response.Data.BillAmount));
+                setLoading(false);
+              } else {
+                setBillFetchError(response.Data.ResponseMessage);
+                setLoading(false);
+              }
             }
-          });
+          );
         }
       } else {
         setErrorMsg("Please enter valid mobile number");
@@ -521,7 +523,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
     </>
   );
 
-  return <>{rechargeSection()}</>
-}
+  return <>{rechargeSection()}</>;
+};
 
-export default ServiceFrontComp
+export default ServiceFrontComp;

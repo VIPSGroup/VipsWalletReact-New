@@ -1,28 +1,22 @@
-
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import PrimeMembership from "../../components/banners/primeMember/PrimeMembership";
-import HomeBottomServiceBar from "../../components/layout/Header/HomeBottomServiceBar";
 import HomeTopBannerSlider from "../../components/Sliders/HomeTopBannerSlider";
-import { getDealsOfTheDay } from "../../redux/slices/dealsSlice";
-import { checkPrime } from "../../redux/slices/primeUserSlice";
-import { getPromotionalProduct } from "../../redux/slices/productSlice";
+import HomeBottomServiceBar from "../../components/layout/Header/HomeBottomServiceBar";
+import ShopByCategory from "../home/ShopByCategory";
+import ServiceCategory from "../home/ServiceCategory";
+import OnlineStore from "../home/OnlineStore";
+import PrimeMembership from "./PrimeMembership";
 import DealsofTheDay from "./DealsofTheDay";
 import DiscountBanner from "./DiscountBanner";
-import InspiredByBrowsingHistory from "./InspiredByBrowsingHistory";
-import OnlineStore from "./OnlineStore";
 import PaymentApp from "./PaymentApp";
-import ServiceCategory from "./ServiceCategory";
-import ShopByCategory from "./ShopByCategory";
-import ShoppingCategoryProduct from "./ShoppingCategoryProduct";
-const Homepage = ({setIsHomeTopNav}) => {
+import InspiredByBrowsingHistory from "./InspiredByBrowsingHistory";
+import { useEffect } from "react";
+import { ShoppingCategoryProduct } from "./ShoppingCategoryProduct";
+const Homepage = ({ setIsHomeTopNav }) => {
   useEffect(() => {
     setIsHomeTopNav(true);
     return () => {
       setIsHomeTopNav(false);
-    }
-  }, [])
-  
+    };
+  });
   return (
     <>
       <HomeTopBannerSlider />

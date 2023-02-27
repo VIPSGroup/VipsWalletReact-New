@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addWish, removeWish } from "../../redux/slices/wishlistSlice";
 
 const AddWishListButton = ({
   product,
@@ -8,6 +10,7 @@ const AddWishListButton = ({
   stateChanger,
   wishlistState,
 }) => {
+  const dispatch = useDispatch();
   let navigate = useNavigate();
 
   const [isproductInWishlist, setIsProductInWishlist] = useState(false);
@@ -25,6 +28,7 @@ const AddWishListButton = ({
     wishlistToBe.push(product);
 
     let strWishlist = JSON.stringify(wishlistToBe);
+    dispatch(addWish(wishlistToBe));
     localStorage.setItem("wishlist", JSON.stringify(wishlistToBe));
     // window.location.reload()
 
@@ -37,6 +41,7 @@ const AddWishListButton = ({
     const wishlistData = JSON.parse(localStorage.getItem("wishlist"));
     wishlistData.map((w, i) => {
       if (w.Id == product.Id) {
+        dispatch(removeWish(w?.Id));
         const data = wishlistData.splice(i, 1);
 
         const newWishlist = [...wishlistData];

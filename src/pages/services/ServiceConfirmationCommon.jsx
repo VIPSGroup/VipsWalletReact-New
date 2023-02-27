@@ -42,7 +42,7 @@ const ServiceConfirmationCommon = () => {
 
   let navigate = useNavigate();
   const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP
+    (state) => state.loginSlice.loggetInWithOTP
   );
   const handleClickConfirm = (e) => {
     e.preventDefault();
@@ -527,9 +527,9 @@ const ServiceConfirmationCommon = () => {
     </div>
   );
 
-  return (
-    <div className="color-body">{confirmSection()}</div>
-  )
-}
+  return <div className="color-body">{confirmSection()}</div>;
+};
 
-export default ServiceConfirmationCommon
+// amt=props.plan ? props.plan.rs ||props.plan.amount:0;
+
+export default ServiceConfirmationCommon;

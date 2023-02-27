@@ -12,7 +12,7 @@ import {
 import ReactGA from "react-ga";
 
 ReactGA.initialize(googleAnalytics);
-const DthFront = ({props}) => {
+const DthFront = ({ props }) => {
   const [operatorsList, setOperatorList] = useState([]);
   const [mobileNo, setMobileNo] = useState("");
   const [selectedOperator, setSelectedOperator] = useState("");
@@ -217,11 +217,7 @@ const DthFront = ({props}) => {
       </section>
     </div>
   );
-  return (
-    <div className="color-body">
-    {rechargeSection()}
-  </div>
-  )
-}
+  return <div className="color-body">{rechargeSection()}</div>;
+};
 
-export default DthFront
+export default DthFront;

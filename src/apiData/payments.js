@@ -11,7 +11,7 @@ export const getTransactionId = () => {
 
 export const getPayUHash = (user, transactionId, amount) => {
   const formData = new FormData();
-  const fname = user.Name.split(" ")[0];
+  const fname = user?.Name?.split(" ")[0];
   formData.append("txnid", transactionId);
   formData.append("amount", amount);
   formData.append("productinfo", "AddMoney");

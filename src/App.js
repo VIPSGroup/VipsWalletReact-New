@@ -4,13 +4,21 @@ import { getStateCityList } from "./redux/slices/signUpSlice";
 import Router from "./router/Router";
 
 const App = () => {
- const dispatch= useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getStateCityList())
-  }, [])
-  
+    dispatch(getStateCityList());
+  }, []);
+
+  function ScrollToTopOnMount() {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
+    return null;
+  }
   return (
     <>
+      <ScrollToTopOnMount />
       <Router />
     </>
   );

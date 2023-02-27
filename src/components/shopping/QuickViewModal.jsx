@@ -42,11 +42,7 @@ const QuickViewModal = ({ productId }) => {
 
   const imgArray = [];
   let navigate = useNavigate();
-  // const { loggedInUser } = useSelector(
-  //   (state) => state.loginSlice.loggetInWithOTP
-  // );
 
-  console.log(loggedInUser, "llll");
   const checkInWishlist = () => {
     let wishlist = JSON.parse(localStorage.getItem("wishlist"));
     wishlist &&
@@ -430,13 +426,13 @@ const QuickViewModal = ({ productId }) => {
                 </div>
 
                 <div class="quick-view-wishlist">
-                  <AddWishListButton
+                  {/* <AddWishListButton
                     product={product}
                     inWishlist={existInWishlist}
                     inWishlistStateChanger={setExistInWishlist}
                     stateChanger={setWishlistChange}
                     wishlistState={wishlistChange}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>

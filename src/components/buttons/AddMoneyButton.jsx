@@ -1,19 +1,20 @@
 import React, { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { getUserDetails } from "../../apiData/myProfile/profile";
 import { getTransactionId, getPayUHash } from "../../apiData/payments";
-import { GetUserDetail } from "../common/GetUserDetail";
-import { MuiSnackBar } from "../common/snackbars";
 
 const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
-  const [loggedInUser, setLoggedInUser] = useState("");
-
+  // const [loggedInUser, setLoggedInUser] = useState("");
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
   // const {loggedInUser}=useSelector(state=>state.login)
   const formRef = useRef(null);
   // const hashInputRef=useRef(null)
-  useEffect(() => {
-    setLoggedInUser(GetUserDetail());
-  }, []);
+  // useEffect(() => {
+  //   setLoggedInUser(getUserDetails());
+  // }, []);
 
   const [hash, setHash] = useState("");
   const [transactionId, setTransactionId] = useState("");
@@ -63,7 +64,7 @@ const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
         <input
           name="firstname"
           type="hidden"
-          value={loggedInUser.Name.split(" ")[0]}
+          value={loggedInUser?.Name?.split(" ")[0]}
         />
         <input name="txnid" type="hidden" value={getTranId()} />
 

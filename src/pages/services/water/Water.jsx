@@ -1,11 +1,15 @@
-import React from 'react'
-import { waterServiceId } from '../../../constants'
-import ServiceFrontCommon from '../ServiceFrontCommon'
+import React from "react";
+import { waterServiceId } from "../../../constants";
+import ServiceFrontCommon from "../ServiceFrontCommon";
 
 const Water = () => {
   return (
-    <ServiceFrontCommon serviceId={waterServiceId} serviceName="water" title="Water" />
-  )
-}
+    <ServiceFrontCommon
+      serviceId={waterServiceId}
+      serviceName="water"
+      title="Water"
+    />
+  );
+};
 
-export default Water
+export default Water;

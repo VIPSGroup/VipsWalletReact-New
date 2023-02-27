@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { ErrorText, Loading } from "../../../components/common";
 ReactGA.initialize(googleAnalytics);
 
-const FastagFront = ({props}) => {
+const FastagFront = ({ props }) => {
   const [operatorsList, setOperatorList] = useState([]);
   const [mobileNo, setMobileNo] = useState("");
   const [selectedOperator, setSelectedOperator] = useState("");
@@ -35,7 +35,7 @@ const FastagFront = ({props}) => {
 
   let navigate = useNavigate();
   const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP
+    (state) => state.loginSlice.loggetInWithOTP
   );
 
   const callInputFields = (ourCode) => {
@@ -110,17 +110,19 @@ const FastagFront = ({props}) => {
 
           const jsonData = JSON.stringify(obj);
 
-          fetchBill(obj, loggedInUser.Mobile, loggedInUser.TRXNPassword).then((response) => {
-            if (response.Data.ResponseMessage == "Successful") {
-              setShowBill(true);
-              setBillFetchData(response.Data);
-              setBillAmount(parseFloat(response.Data.BillAmount));
-              setLoading(false);
-            } else {
-              setBillFetchError(response.Data.ResponseMessage);
-              setLoading(false);
+          fetchBill(obj, loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
+            (response) => {
+              if (response.Data.ResponseMessage == "Successful") {
+                setShowBill(true);
+                setBillFetchData(response.Data);
+                setBillAmount(parseFloat(response.Data.BillAmount));
+                setLoading(false);
+              } else {
+                setBillFetchError(response.Data.ResponseMessage);
+                setLoading(false);
+              }
             }
-          });
+          );
         }
       } else {
         setIsSnackBar(true);
@@ -486,13 +488,7 @@ const FastagFront = ({props}) => {
                             class="btn-primery"
                             id="addmoneymodal"
                           >
-                            {loading ? (
-                              
-                                <Loading />
-                              
-                            ) : (
-                              `Fetch Bill`
-                            )}
+                            {loading ? <Loading /> : `Fetch Bill`}
                           </button>
                         </div>
                       )}
@@ -534,11 +530,7 @@ const FastagFront = ({props}) => {
       </section>
     </div>
   );
-  return (
-    <div className="color-body">
-    {rechargeSection()}
-  </div>
-  )
-}
+  return <div className="color-body">{rechargeSection()}</div>;
+};
 
-export default FastagFront
+export default FastagFront;

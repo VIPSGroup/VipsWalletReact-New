@@ -8,4 +8,4 @@ const Landline = () => {
   )
 }
 
-export default Landline
+export default Landline;

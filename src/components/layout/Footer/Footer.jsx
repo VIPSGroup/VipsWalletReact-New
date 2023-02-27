@@ -12,7 +12,6 @@ import {
 } from "../../../constant/Constants";
 import "../../../assets/styles/home/footer.css";
 
-
 const Footer = () => {
   return (
     <>
@@ -36,7 +35,7 @@ const Footer = () => {
                     {Socialicons.map((e, i) => {
                       return (
                         <Link
-                        key={i}
+                          key={i}
                           to={e.link}
                           target="_blank"
                           class="footer-twitter"
@@ -53,7 +52,12 @@ const Footer = () => {
                   <div class="footer-social-icons">
                     {Downloadurl.map((e, i) => {
                       return (
-                        <Link key={i} to={e.link} target="_blank" class="footer-apple">
+                        <Link
+                          key={i}
+                          to={e.link}
+                          target="_blank"
+                          class="footer-apple"
+                        >
                           <i class={e.icon}></i>
                         </Link>
                       );

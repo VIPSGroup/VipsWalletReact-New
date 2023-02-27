@@ -1,5 +1,5 @@
-import React from 'react'
-import ServiceFrontComp from './ServiceFrontComp'
+import React from "react";
+import ServiceFrontComp from "./ServiceFrontComp";
 
 const ServiceFrontCommon = ({ title, serviceName, serviceId }) => {
   return (
@@ -10,7 +10,7 @@ const ServiceFrontCommon = ({ title, serviceName, serviceId }) => {
         serviceName={serviceName}
       />
     </div>
-  )
-}
+  );
+};
 
-export default ServiceFrontCommon
+export default ServiceFrontCommon;

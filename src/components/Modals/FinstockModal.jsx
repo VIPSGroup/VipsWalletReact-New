@@ -10,9 +10,8 @@ import { finstockGenerateOtp, finstockAdd } from "../../apiData/payments";
 import { MdArrowBack } from "react-icons/md";
 import { IoCloseOutline } from "react-icons/io5";
 
-import { MuiSnackBar } from "../common/snackbars";
 import { useSelector } from "react-redux";
-import LoadingBar from "../common/loading";
+import LoadingBar from "../common/Loading";
 
 const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
   const [show, setShow] = useState(false);
@@ -27,7 +26,9 @@ const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
   const [emailError, setEmailError] = useState("");
   const [otpError, setOtpError] = useState("");
   const [successRemark, setSuccessRemark] = useState("");
-  const { loggedInUser } = useSelector((state) => state.login);
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
   const handleShow = () => {
     setShow(true);
   };

@@ -1,6 +1,6 @@
 import { baseApiUrl } from "../../constants";
 
-export const getProfileDetails = (username, password) => {
+export const getProfileDetails = ({ username, password }) => {
   const formData = new FormData();
   formData.append("UserName", username);
   formData.append("Password", password);
@@ -15,7 +15,7 @@ export const getProfileDetails = (username, password) => {
     .catch((err) => {});
 };
 
-export const changePassword = (username, oldPass, newPass) =>{
+export const changePassword = (username, oldPass, newPass) => {
   const formData = new FormData();
   formData.append("UserName", username);
   formData.append("Password", oldPass);

@@ -38,7 +38,7 @@ const DthConfirmation = () => {
 
   let navigate = useNavigate();
   const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP
+    (state) => state.loginSlice.loggetInWithOTP
   );
   const handleClickConfirm = (e) => {
     e.preventDefault();
@@ -586,9 +586,7 @@ const DthConfirmation = () => {
       </section>
     </div>
   );
-  return (
-    <div className="color-body">{confirmSection()}</div>
-  )
-}
+  return <div className="color-body">{confirmSection()}</div>;
+};
 
-export default DthConfirmation
+export default DthConfirmation;

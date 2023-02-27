@@ -35,7 +35,6 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
       <div class="modal-dialog" role="document"></div>
     </div>
   );
-
   const productCardSection = () => (
     <div class="promo-product-card">
       <Link
@@ -65,13 +64,14 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
               <span class="promo-product-mrp">
                 {" "}
                 &#x20B9;{" "}
-                {product.SalePrice && product.SalePrice.toLocaleString()}
+                {product?.SalePrice && product?.SalePrice.toLocaleString()}
               </span>
               <span class="promo-product-list-price">
                 <s>
                   {" "}
                   &#x20B9;{" "}
-                  {product.RetailPrice && product.RetailPrice.toLocaleString()}
+                  {product?.RetailPrice &&
+                    product?.RetailPrice.toLocaleString()}
                 </s>
                 ({product.CostPrice}% Off)
               </span>

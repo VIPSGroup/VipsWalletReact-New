@@ -1,9 +1,5 @@
-import React from 'react'
+const ErrorText = ({ error }) => {
+  return <span className="text-danger"> {error} </span>;
+};
 
-const ErrorText = ({error}) => {
-  return (
-    <span className="text-danger"> {error} </span>
-  )
-}
-
-export default ErrorText
+export default ErrorText;

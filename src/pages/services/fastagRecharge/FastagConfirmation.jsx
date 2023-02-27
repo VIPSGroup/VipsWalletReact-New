@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
 import { getWalletBalance } from "../../../apiData/user/userDetails";
 import { getServiceDiscounts } from "../../../apiData/services/core";
+import { get } from "jquery";
 import { ThreeDots } from "react-loader-spinner";
 import { fastagOnlineConfirmation } from "../../../apiData/services/fastag";
-import { LPGBillPay } from "../../../apiData/services/lpgGas";
-import { getTodayDate, lpgGasServiceId } from "../../../constants";
-import { getRandomNumber } from "../../../constants";
+
+import {
+  fastagServiceId,
+  getRandomNumber,
+  getTodayDate,
+} from "../../../constants";
+
+import { MuiSnackBar } from "../../../components/common/snackbars";
 import { getDouble, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
 ReactGA.initialize(googleAnalytics);
 
-const LpgGasConfirmation = () => {
+const FastagConfirmation = () => {
   const location = useLocation();
   const props = location.state;
   var amt = props.amount;
   var inputFields = props.inputFieldsData;
-
   const [balance, setBalance] = useState("");
   const [shoppingPoints, setShoppingPoints] = useState("");
   const [primePoints, setPrimePoints] = useState("");
@@ -39,10 +43,7 @@ const LpgGasConfirmation = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   let navigate = useNavigate();
-  const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP
-  );
-
+const{loggedInUser}= useSelector(state=>state.login)
   const handleClickConfirm = (e) => {
     e.preventDefault();
 
@@ -56,7 +57,7 @@ const LpgGasConfirmation = () => {
 
     const paymentRefId = getRandomNumber();
 
-    LPGBillPay(
+    fastagOnlineConfirmation(
       loggedInUser.Mobile,
       loggedInUser.TRXNPassword,
       amt,
@@ -134,7 +135,6 @@ const LpgGasConfirmation = () => {
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-
     setLoading(false);
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
@@ -149,7 +149,7 @@ const LpgGasConfirmation = () => {
         manageInitialPaymentMethod(response.Data.Balance);
 
         getServiceDiscounts().then((res) => {
-          var result = res.Data.filter((r) => r.Id == lpgGasServiceId);
+          var result = res.Data.filter((r) => r.Id == fastagServiceId);
 
           setDiscountObj(result[0]);
           const sDiscount = (result[0].ShoppingPer / 100) * amt;
@@ -176,7 +176,7 @@ const LpgGasConfirmation = () => {
   }, []);
 
   const confirmSection = () => (
-    <div>
+    <>
       <section class="section-align mobile-payment-confirmation">
         <div class="container">
           <div class="payment-head-outer">
@@ -185,7 +185,7 @@ const LpgGasConfirmation = () => {
               <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
             </Link> */}
               <div class="go-back">
-                <Link to="/services/lpggas">
+                <Link to="/services/fastag">
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
                 </Link>
               </div>
@@ -215,17 +215,11 @@ const LpgGasConfirmation = () => {
                     </div>
                     <div class="mob-paymet-info-outer">
                       <div class="mob-paymet-recharge-info">
-                        {props.billData.CustomerParamsDetails
-                          ? props.billData.CustomerParamsDetails.map((b, i) => (
-                              <p class="mob-paymet-recharge-text">
-                                {b.Name} : <label>{b.Value} </label>{" "}
-                              </p>
-                            ))
-                          : inputFields.map((b, i) => (
-                              <p class="mob-paymet-recharge-text">
-                                {b.fieldName} : <label>{b.fieldValue} </label>{" "}
-                              </p>
-                            ))}
+                        {props.billData.CustomerParamsDetails.map((b, i) => (
+                          <p class="mob-paymet-recharge-text">
+                            {b.Name} : <label>{b.Value} </label>{" "}
+                          </p>
+                        ))}
                         <p class="ml-auto"> {props.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
@@ -352,6 +346,108 @@ const LpgGasConfirmation = () => {
                             </div>
                           </div>
                         </form>
+
+                        {/* {selectedPaymentMethod=="both"?(
+                                                <form>
+                                            <div class="payment-confirmation-discount-info mb-4">
+                                                <div class="col-lg-8 p-0">  
+                                                    <div class="custom-control custom-checkbox ">
+                                                    <input onChange={handlePaymentMethod} class="custom-control-input" id="vips-wallet" type="checkbox" name="radio-button" value="wallet" checked={selectedPaymentMethod=="wallet" || selectedPaymentMethod=="both" ?true:false} />
+                                                        <label class="custom-control-label" for="vips-wallet"> 
+                                                            <img src="/images/logos/vips-logo-small.png" class="img-fluid payment-confirmation-debit-vips" /> VIPS Wallet (₹ {balance})
+                                                        </label>
+                                                    </div> 
+                                                </div>
+                                                <div class="col-lg-4 p-0">
+                                                <p class="mob-paymet-discount-amt ml-auto"> &#x20B9; {balance} </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="payment-confirmation-discount-info">
+                                                <div class="col-lg-8 p-0"> 
+                                                    <div class="custom-control custom-checkbox ">
+                                                    <input onChange={handlePaymentMethod} class="custom-control-input" id="payu-card" type="checkbox" name="radio-button" value="payu" checked={selectedPaymentMethod=="payu" || selectedPaymentMethod=="both" ?true:false} />
+                                                     <label class="custom-control-label" for="payu-card"> 
+                                                            <img src="/images/logos/payu-logo.png" class="img-fluid payment-confirmation-debit-payu" /> Payu (card / UPI)
+                                                        </label>
+                                                    </div> 
+                                                </div>
+                                                <div class="col-lg-4 p-0">
+                                                <p class="mob-paymet-Prime-amt ml-auto"> &#x20B9; {amt-balance}</p>
+                                                </div>
+                                            </div> 
+
+                                        </form>
+                                            ):null}
+
+                                            {selectedPaymentMethod=="wallet"?(
+                                                <form>
+                                            <div class="payment-confirmation-discount-info mb-4">
+                                                <div class="col-lg-8 p-0">  
+                                                    <div class="custom-control custom-checkbox ">
+                                                    <input onChange={handlePaymentMethod}  class="custom-control-input" id="vips-wallet" type="checkbox" name="radio-button" value="wallet" checked={selectedPaymentMethod=="wallet" || selectedPaymentMethod=="both" ?true:false} />
+                                                        <label class="custom-control-label" for="vips-wallet"> 
+                                                            <img src="/images/logos/vips-logo-small.png" class="img-fluid payment-confirmation-debit-vips" /> VIPS Wallet (₹ {balance})
+                                                        </label>
+                                                    </div> 
+                                                </div>
+                                                <div class="col-lg-4 p-0">
+                                                <p class="mob-paymet-discount-amt ml-auto"> &#x20B9; {amt} </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="payment-confirmation-discount-info">
+                                                <div class="col-lg-8 p-0"> 
+                                                    <div class="custom-control custom-checkbox ">
+                                                    <input onChange={handlePaymentMethod}  class="custom-control-input" id="payu-card" type="checkbox" name="radio-button" value="payu" checked={selectedPaymentMethod=="payu" || selectedPaymentMethod=="both" ?true:false} />  
+                                                     <label class="custom-control-label" for="payu-card"> 
+                                                            <img src="/images/logos/payu-logo.png" class="img-fluid payment-confirmation-debit-payu" /> Payu (card / UPI)
+                                                        </label>
+                                                    </div> 
+                                                </div>
+                                                <div class="col-lg-4 p-0">
+                                                <p class="mob-paymet-Prime-amt ml-auto"> &#x20B9; 0.0</p>
+                                                </div>
+                                            </div> 
+
+                                        </form>
+                                            ):null}
+
+
+
+
+                                        {selectedPaymentMethod=="payu"?(
+                                                <form>
+                                            <div class="payment-confirmation-discount-info mb-4">
+                                                <div class="col-lg-8 p-0">  
+                                                    <div class="custom-control custom-checkbox ">
+                                                    <input onChange={handlePaymentMethod}  class="custom-control-input" id="vips-wallet" type="checkbox" name="radio-button" value="wallet" checked={selectedPaymentMethod=="wallet" || selectedPaymentMethod=="both" ?true:false} />
+                                                        <label class="custom-control-label" for="vips-wallet"> 
+                                                            <img src="/images/logos/vips-logo-small.png" class="img-fluid payment-confirmation-debit-vips" /> VIPS Wallet (₹ {balance})
+                                                        </label>
+                                                    </div> 
+                                                </div>
+                                                <div class="col-lg-4 p-0">
+                                                <p class="mob-paymet-discount-amt ml-auto"> &#x20B9; 0.0 </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="payment-confirmation-discount-info">
+                                                <div class="col-lg-8 p-0"> 
+                                                    <div class="custom-control custom-checkbox ">
+                                                    <input onChange={handlePaymentMethod} class="custom-control-input" id="payu-card" type="checkbox" name="radio-button" value="payu" checked={selectedPaymentMethod=="payu" || selectedPaymentMethod=="both" ?true:false} />
+                                                     <label class="custom-control-label" for="payu-card"> 
+                                                            <img src="/images/logos/payu-logo.png" class="img-fluid payment-confirmation-debit-payu" /> Payu (card / UPI)
+                                                        </label>
+                                                    </div> 
+                                                </div>
+                                                <div class="col-lg-4 p-0">
+                                                <p class="mob-paymet-Prime-amt ml-auto"> &#x20B9; {amt}</p>
+                                                </div>
+                                            </div> 
+
+                                        </form>
+                                            ):null} */}
                       </div>
                     </div>
                   </div>
@@ -374,10 +470,10 @@ const LpgGasConfirmation = () => {
                   <div class="col-md-12 p-0">
                     <div class="mobile-payment-summery">
                       <div class="row mb-3">
-                        <div class="col-7 col-xs-4">
+                        <div class="col-8 col-xs-4">
                           <span> Amount : </span>
                         </div>
-                        <div class="col-5 col-xs-4 text-right">
+                        <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
                             &#x20B9; {amt}{" "}
@@ -387,13 +483,13 @@ const LpgGasConfirmation = () => {
 
                       {selectedDiscount == "shoppingPoint" ? (
                         <div class="row mb-3">
-                          <div class="col-7 col-xs-4">
+                          <div class="col-8 col-xs-4">
                             <span>
                               {" "}
                               Shopping Points ({discountObj.ShoppingPer} %) :{" "}
                             </span>
                           </div>
-                          <div class="col-5 col-xs-4 text-right">
+                          <div class="col-4 col-xs-4 text-right">
                             <span class="mobile-payment-summery-amt">
                               {" "}
                               -&#x20B9; {shoppingDiscount}{" "}
@@ -404,13 +500,13 @@ const LpgGasConfirmation = () => {
 
                       {selectedDiscount == "primePoint" ? (
                         <div class="row mb-3">
-                          <div class="col-7 col-xs-4">
+                          <div class="col-8 col-xs-4">
                             <span>
                               {" "}
                               Prime Points ({discountObj.PrimePointPer} %) :{" "}
                             </span>
                           </div>
-                          <div class="col-5 col-xs-4 text-right">
+                          <div class="col-4 col-xs-4 text-right">
                             <span class="mobile-payment-summery-amt">
                               {" "}
                               -&#x20B9; {primeDiscount}{" "}
@@ -422,10 +518,10 @@ const LpgGasConfirmation = () => {
                       <div class="dropdown-divider"></div>
 
                       <div class="row mt-3">
-                        <div class="col-7 col-xs-4">
+                        <div class="col-8 col-xs-4">
                           <span> Total Amount : </span>
                         </div>
-                        <div class="col-5 col-xs-4 text-right">
+                        <div class="col-4 col-xs-4 text-right">
                           {selectedDiscount == "shoppingPoint" ? (
                             <span class="mobile-payment-summery-amt">
                               {" "}
@@ -468,6 +564,12 @@ const LpgGasConfirmation = () => {
                       </div>
                       {showError()}
                     </div>
+
+                    {/* <div class="col-md-12"> 
+                                <div class="mobile-payment-confirm-btn">
+                                    <LinkddMoneyButton amount={1} />
+                                </div> 
+                            </div> */}
                   </div>
                 </div>
               </div>
@@ -484,7 +586,7 @@ const LpgGasConfirmation = () => {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 
   const showError = () => (
@@ -492,9 +594,8 @@ const LpgGasConfirmation = () => {
       {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );
-  return (
-    <div className="color-body">{confirmSection()}</div>
-  )
-}
 
-export default LpgGasConfirmation
+  return <div className="color-body">{confirmSection()}</div>;
+};
+
+export default FastagConfirmation;

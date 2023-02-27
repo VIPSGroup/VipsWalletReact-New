@@ -4,6 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import "../../assets/styles/home/promotional.css";
 import "../../assets/styles/styles.css";
 import CarouselProductCard from "../Cards/CarouselProductCard";
+import LoadingBar from "../common/Loading";
 
 const ProductHorizontal = ({
   products,
@@ -33,7 +34,6 @@ const ProductHorizontal = ({
       items: 1,
     },
   };
-
   return (
     <>
       {!loading && (
@@ -61,12 +61,12 @@ const ProductHorizontal = ({
                       </>
                     ))
                   ) : (
-                    <h2></h2>
+                    <LoadingBar />
                   )}
                 </Carousel>
               </div>
             ) : (
-              <h2>Loading......</h2>
+              <LoadingBar />
             )}
           </div>
         </section>

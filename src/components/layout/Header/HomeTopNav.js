@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from "react";
+import react from "react";
 import "../../../assets/styles/core/homeTopNav.css";
+import React, { useState, useEffect } from "react";
+
 import { Link } from "react-router-dom";
-import "../../../assets/styles/core/homeTopNav.css";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import {  FiUser } from "react-icons/fi";
-import { useSelector } from "react-redux";
+
+import { FiUser } from "react-icons/fi";
+import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
+import { IoWalletOutline } from "react-icons/io5";
 import { FaCrown } from "react-icons/fa";
 import { confirmAlert } from "react-confirm-alert";
-import { IoWalletOutline } from "react-icons/io5";
-import { vendorPanelAPi } from "../../../constant/Constants";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import { getWalletBalance } from "../../../apiData/user/userDetails";
+import { vendorPanelAPi } from "../../../constants";
+import { Badge } from "antd";
+import { useSelector } from "react-redux";
 
 const HomeTopNav = ({ isPrime }) => {
-  const [fixed, setFixed] = useState(false);
-   const [balance, setBalance] = useState(0);
+  const [balance, setBalance] = useState(0);
   const [shoppingPoints, setShoppingPoints] = useState("");
   const [primePoints, setPrimePoints] = useState("");
-
- const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP
+  // const [loggedInUser, setLoggedInUser] = useState();
+  const { wishCount } = useSelector((state) => state.wishlistSlice);
+  const { cartCount } = useSelector((state) => state.cartSlice);
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
   );
- 
 
   useEffect(() => {
     console.warn(loggedInUser);
@@ -31,8 +36,8 @@ const HomeTopNav = ({ isPrime }) => {
     //   }
     // });
   });
-  
-   const clickLogout = () => {
+
+  const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
       message: "Are you sure you want to sign out?",
@@ -53,7 +58,21 @@ const HomeTopNav = ({ isPrime }) => {
       overlayClassName: "overlay-custom-class-name",
     });
   };
-  return (
+
+  useEffect(() => {
+    // setLoggedInUser(JSON.parse(localStorage.getItem("user")));
+
+    const userName = loggedInUser && loggedInUser.UserName;
+    const password = loggedInUser && loggedInUser.TRXNPassword;
+    loggedInUser &&
+      getWalletBalance({ userName, password }).then((response) => {
+        setBalance(response.Data.Balance);
+        setShoppingPoints(response.Data.Shoppingpoints);
+        setPrimePoints(response.Data.PrimePoints);
+      });
+  }, []);
+
+  const navSection = () => (
     <>
       <header class="header-main sticky-top">
         <nav class="navbar navbar-expand-md navbar-light bg-light nav-position">
@@ -63,7 +82,7 @@ const HomeTopNav = ({ isPrime }) => {
               id="sidebarCollapse"
               class="btn btn-link d-block d-xl-none"
               onClick={(e) => {
-                // document.getElementById("sidebar").classList.add("active");
+                document.getElementById("sidebar").classList.add("active");
               }}
             >
               <i class="fa-solid fa-bars"></i>
@@ -81,15 +100,47 @@ const HomeTopNav = ({ isPrime }) => {
                 <div class="collapse navbar-collapse" id="navbar">
                   <ul class="navbar-nav mx-auto">
                     {/* <Link to='/' className="nav-link">ss</Link> */}
-                    {TopMenu.map((e, i) => {
-                      return (
-                        <li key={i} class="nav-item active">
-                          <Link target={e.target} class="nav-link" to={e.route}>
-                            {e.title} <span class="sr-only">(current)</span>
-                          </Link>
-                        </li>
-                      );
-                    })}
+                    <li class="nav-item active">
+                      <Link class="nav-link" to="/">
+                        Home <span class="sr-only">(current)</span>
+                      </Link>
+                    </li>
+
+                    {/* {<!-- Level one dropdown -->} */}
+                    {/* <li class="nav-item "> */}
+                    <Link to="/shopping" class="nav-link">
+                      {" "}
+                      Shopping{" "}
+                    </Link>
+
+                    {/* </li> */}
+                    {/* { <!-- End Level one -->} */}
+
+                    {/* {<!-- Level one dropdown -->} */}
+                    {/* <li class="nav-item "> */}
+                    <Link to="/services" class="nav-link ">
+                      {" "}
+                      Services{" "}
+                    </Link>
+
+                    {/* {<!-- End Level one -->} */}
+
+                    <li class="nav-item">
+                      <Link class="nav-link" to="/onlinestores">
+                        {" "}
+                        Online Stores{" "}
+                      </Link>
+                    </li>
+                    <li class="nav-item">
+                      <Link
+                        class="nav-link"
+                        to={vendorPanelAPi}
+                        target="_blank"
+                      >
+                        {" "}
+                        Become a Supplier{" "}
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -104,14 +155,33 @@ const HomeTopNav = ({ isPrime }) => {
                     role="button"
                   >
                     {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
+                    {/* <Badge count={cartCount && cartCount.length}> */}
                     <AiOutlineShoppingCart className="nav-icon" />
+                    {/* </Badge> */}
                     <span class="d-xl-block d-none d-md-none d-sm-none">
                       {" "}
                       My Cart{" "}
                     </span>
                   </Link>
                 </li>
-      
+
+                <li class="nav-item">
+                  <Link
+                    class="nav-link nav-icons"
+                    to="/shopping/wishlist"
+                    role="button"
+                  >
+                    {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
+                    <Badge count={wishCount && wishCount?.length}>
+                      <AiOutlineHeart className="nav-icon" />
+                    </Badge>
+                    <span class="d-xl-block d-none d-md-none d-sm-none">
+                      {" "}
+                      Wishlist{" "}
+                    </span>
+                  </Link>
+                </li>
+
                 {loggedInUser ? (
                   <li class="nav-item">
                     <Link
@@ -122,14 +192,14 @@ const HomeTopNav = ({ isPrime }) => {
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                     
+                      {/* {<img src="/icons/wallet.png" class="img-fluid nav-icon" />} */}
                       <IoWalletOutline className="nav-icon" />
                       <span class="d-xl-block d-none d-md-none d-sm-none">
                         {" "}
                         My Wallet{" "}
                       </span>
                     </Link>
-                     <div
+                    <div
                       class="dropdown-menu wallet-dropdown-position dropdown-menu-lg-right shadow-dark border-0"
                       aria-labelledby="navbarwallet"
                     >
@@ -204,7 +274,7 @@ const HomeTopNav = ({ isPrime }) => {
                           </div>
                         </div>
                       </div>
-                    </div> 
+                    </div>
                   </li>
                 ) : null}
 
@@ -273,7 +343,6 @@ const HomeTopNav = ({ isPrime }) => {
                     </Link>
                   </li>
                 )}
-
               </ul>
             </div>
           </div>
@@ -287,35 +356,35 @@ const HomeTopNav = ({ isPrime }) => {
             <div class="navbar-bottom-services-outer">
               <div class="navbar-bottom-serv-box">
                 <Link to="/services/mobileRecharge">
-                  <img src="/images/services/white-recharge.svg" alt="" />
+                  <img src="/images/services/white-recharge.svg" />
                   <span class="navbar-bottom-serv-box-title">Recharge</span>
                 </Link>
               </div>
 
               <div class="navbar-bottom-serv-box">
                 <Link to="/services/dth">
-                  <img src="/images/services/white-dth.svg" alt="" />
+                  <img src="/images/services/white-dth.svg" />
                   <span class="navbar-bottom-serv-box-title">DTH</span>
                 </Link>
               </div>
 
               <div class="navbar-bottom-serv-box">
                 <Link to="/services/fastag">
-                  <img src="/images/services/white-fastag.svg" alt="" />
+                  <img src="/images/services/white-fastag.svg" />
                   <span class="navbar-bottom-serv-box-title">Fastag</span>
                 </Link>
               </div>
 
               <div class="navbar-bottom-serv-box">
                 <Link to="/services/electricity">
-                  <img src="/images/services/white-electricity.svg" alt="" />
+                  <img src="/images/services/white-electricity.svg" />
                   <span class="navbar-bottom-serv-box-title">Electricity</span>
                 </Link>
               </div>
 
               <div class="navbar-bottom-serv-box">
                 <Link to="/services/digitalCable">
-                  <img src="/images/services/white-digital-cable.svg" alt="" />
+                  <img src="/images/services/white-digital-cable.svg" />
                   <span class="navbar-bottom-serv-box-title">
                     Digital Cable
                   </span>
@@ -324,14 +393,14 @@ const HomeTopNav = ({ isPrime }) => {
 
               <div class="navbar-bottom-serv-box">
                 <Link to="/services/landline">
-                  <img src="/images/services/white-landline.svg" alt="" />
+                  <img src="/images/services/white-landline.svg" />
                   <span class="navbar-bottom-serv-box-title">LandLine</span>
                 </Link>
               </div>
 
               <div class="navbar-bottom-serv-box">
                 <Link to="/services/gas">
-                  <img src="/images/services/white-piped-gas.svg" alt="" />
+                  <img src="/images/services/white-piped-gas.svg" />
                   <span class="navbar-bottom-serv-box-title">Gas</span>
                 </Link>
               </div>
@@ -342,7 +411,6 @@ const HomeTopNav = ({ isPrime }) => {
                     <img
                       src="images/services/white-three-dot.svg"
                       class="vert-align"
-                      alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">View More</span>
                   </Link>
@@ -353,6 +421,7 @@ const HomeTopNav = ({ isPrime }) => {
         </div>
         {/* {<!-- header bottom end -->} */}
       </header>
+
       {/* {<!-- Sidebar start -->} */}
       <nav id="sidebar" class="sidebar-navigation">
         <div class="sidebar-header">
@@ -400,30 +469,8 @@ const HomeTopNav = ({ isPrime }) => {
       </nav>
     </>
   );
-};
 
-export const TopMenu = [
-  {
-    title: "Home",
-    route: "/",
-  },
-  {
-    title: "Shopping",
-    route: "/shopping",
-  },
-  {
-    title: "Services",
-    route: "/services",
-  },
-  {
-    title: "Online Stores",
-    route: "/onlinestores",
-  },
-  {
-    title: "Become a Supplier",
-    route: vendorPanelAPi,
-    target: "_blank",
-  },
-];
+  return <>{navSection()}</>;
+};
 
 export default HomeTopNav;

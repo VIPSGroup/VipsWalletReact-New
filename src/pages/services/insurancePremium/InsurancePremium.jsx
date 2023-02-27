@@ -8,4 +8,4 @@ const InsurancePremium = () => {
   )
 }
 
-export default InsurancePremium
+export default InsurancePremium;

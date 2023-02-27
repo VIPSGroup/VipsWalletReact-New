@@ -20,12 +20,15 @@ import {
 import { googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
-import { BillAvenueBrowsePlan, RecentHistory } from "../../../components/services";
+import {
+  BillAvenueBrowsePlan,
+  RecentHistory,
+} from "../../../components/services";
 import BrowsePlans from "./BrowsePlans";
 
 ReactGA.initialize(googleAnalytics);
 
-const Recharge = ({props}) => {
+const Recharge = ({ props }) => {
   const [activeApiId, setActiveApiId] = useState("");
   const [rechargeType, setRechargeType] = useState("Prepaid");
   const [operatorsList, setOperatorList] = useState([]);
@@ -45,7 +48,7 @@ const Recharge = ({props}) => {
 
   let navigate = useNavigate();
   const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP
+    (state) => state.loginSlice.loggetInWithOTP
   );
   const getTodaysDate = () => {
     const today = new Date();
@@ -378,8 +381,6 @@ const Recharge = ({props}) => {
                       </div>
                     ) : null}
 
-                 
-
                     <div class="col-md-12">
                       {rechargeType == "Prepaid" ? (
                         <div class="mobile-recharge-btn">
@@ -467,7 +468,7 @@ const Recharge = ({props}) => {
         )
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default Recharge
+export default Recharge;
