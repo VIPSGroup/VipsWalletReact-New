@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getSubCategory } from "../../apiData/shopping/category";
+// import { getSubCategory } from "../../apiData/shopping/category";
 import {
   getNewArrivalProducts,
-  getProductsByCategory,
   getProductsBySubCategory,
 } from "../../apiData/shopping/product";
 
@@ -15,14 +14,22 @@ import ProductCard from "../../components/Cards/ProductCard";
 import Footer from "../../components/layout/Footer/Footer";
 import { LatestLoading } from "../../components/common/Loading";
 import { Card, Row, Select } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getProductsByCategory,
+  getSubCategory,
+} from "../../redux/slices/productSlice";
 ReactGA.initialize(googleAnalytics);
-
 const ProductListing = () => {
+  const dispatch = useDispatch();
   const [subCategories, setSubCategories] = useState([]);
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState("");
-  // console.log(activeProducts, "activeProducts");
+  const { data } = useSelector((state) => state.productSlice.GetSubCat);
+  const { data: getproByCat } = useSelector(
+    (state) => state.productSlice.categoryByProduct
+  );
   const handleSubCategoryClick = (e) => {
     e.preventDefault();
 
@@ -45,15 +52,14 @@ const ProductListing = () => {
   let { categoryName, categoryId } = useParams();
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-
-    getSubCategory(categoryId).then((response) => {
-      setSubCategories(response.Data);
-    });
-    getProductsByCategory(categoryId).then((response) => {
-      setCategoryProducts(response.Data);
-      setActiveProducts(response.Data);
-    });
+    dispatch(getSubCategory(categoryId));
+    dispatch(getProductsByCategory(categoryId));
   }, []);
+  useEffect(() => {
+    setSubCategories(data.Data);
+    setCategoryProducts(getproByCat.Data);
+    setActiveProducts(getproByCat.Data);
+  }, [data, getproByCat]);
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -88,7 +94,6 @@ const ProductListing = () => {
     } else if (e === "new") {
       getNewArrivalProducts().then((response) => {
         setActiveProducts(response.Data);
-        console.log(response.Data);
       });
       // const sorted = newArr.sort((a, b) => b?.SalePrice - a?.SalePrice);
       // setActiveProducts(sorted);
@@ -102,13 +107,14 @@ const ProductListing = () => {
           <div class="row d-none d-sm-block">
             <div class="col-md-12">
               <div class="shopping-catagory-nav-outer">
-                <Carousel
-                  responsive={responsive}
-                  infinite={true}
-                  slidesToSlide={2}
-                  className="container"
-                >
-                  {/* { <div class="shopping-catagory-box" >
+                {subCategories && (
+                  <Carousel
+                    responsive={responsive}
+                    infinite={true}
+                    slidesToSlide={2}
+                    className="container"
+                  >
+                    {/* { <div class="shopping-catagory-box" >
                             <button onClick={handleSubCategoryClick} value="all"  type="button" >
                               <div>
                               <img  src={`/images/logos/vips-logo-small.png`} />
@@ -116,29 +122,30 @@ const ProductListing = () => {
                               </div>
                             </button>
                           </div>} */}
-                  {subCategories &&
-                    subCategories.map((c, i) => (
-                      <div class="shopping-catagory-box">
-                        <button
-                          onClick={handleSubCategoryClick}
-                          value={c.Id}
-                          type="button"
-                        >
-                          <div>
-                            <img
-                              src={
-                                ` http://shopadmin.vipswallet.com/Content/Images/subcategories/` +
-                                c.ImageUrl
-                              }
-                            />
-                            <span class="shopping-catagory-box-title">
-                              {c.Name}
-                            </span>
-                          </div>
-                        </button>
-                      </div>
-                    ))}
-                </Carousel>
+                    {subCategories &&
+                      subCategories.map((c, i) => (
+                        <div class="shopping-catagory-box">
+                          <button
+                            onClick={handleSubCategoryClick}
+                            value={c.Id}
+                            type="button"
+                          >
+                            <div>
+                              <img
+                                src={
+                                  ` http://shopadmin.vipswallet.com/Content/Images/subcategories/` +
+                                  c.ImageUrl
+                                }
+                              />
+                              <span class="shopping-catagory-box-title">
+                                {c.Name}
+                              </span>
+                            </div>
+                          </button>
+                        </div>
+                      ))}
+                  </Carousel>
+                )}
               </div>
             </div>
           </div>

@@ -1,20 +1,13 @@
 import React, { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { getUserDetails } from "../../apiData/myProfile/profile";
 import { getTransactionId, getPayUHash } from "../../apiData/payments";
 
 const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
-  // const [loggedInUser, setLoggedInUser] = useState("");
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  // const {loggedInUser}=useSelector(state=>state.login)
   const formRef = useRef(null);
-  // const hashInputRef=useRef(null)
-  // useEffect(() => {
-  //   setLoggedInUser(getUserDetails());
-  // }, []);
 
   const [hash, setHash] = useState("");
   const [transactionId, setTransactionId] = useState("");

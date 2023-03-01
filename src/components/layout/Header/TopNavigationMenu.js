@@ -15,9 +15,11 @@ import "../../assets/styles/shopping/shoppingHome.css";
 import $ from "jquery";
 import { vendorPanelAPi } from "../../constants";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const TopNavigationMenu = ({ serviceCategoryBar = true }) => {
+  const dispatch = useDispatch();
+
   const [balance, setBalance] = useState(0);
   const [shoppingPoints, setShoppingPoints] = useState("");
   const [primePoints, setPrimePoints] = useState("");
@@ -26,16 +28,17 @@ const TopNavigationMenu = ({ serviceCategoryBar = true }) => {
     localStorage.removeItem("user");
     window.location.reload();
   };
-const {loggedInUser}= useSelector(state=>state.login)
+  const { loggedInUser } = useSelector((state) => state.login);
+  const { data } = useSelector((state) => state.walletSlice.walletBalance);
+
   useEffect(() => {
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
-    loggedInUser &&
-      getWalletBalance({ userName, password }).then((response) => {
-        setBalance(response.Data.Balance);
-        setShoppingPoints(response.Data.Shoppingpoints);
-        setPrimePoints(response.Data.PrimePoints);
-      });
+    loggedInUser && dispatch(getWalletBalance({ userName, password }));
+
+    setBalance(data?.Data?.Balance);
+    setShoppingPoints(data?.Data?.Shoppingpoints);
+    setPrimePoints(data?.Data?.PrimePoints);
   }, []);
 
   const topStrip = () => (
@@ -485,8 +488,7 @@ const {loggedInUser}= useSelector(state=>state.login)
                 </li>
               ) : (
                 <li className="nav-item">
-                  <Link to="/login" class="nav-link nav-icons">
-                  </Link>
+                  <Link to="/login" class="nav-link nav-icons"></Link>
                 </li>
               )}
             </ul>

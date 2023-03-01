@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { getProfileDetails, editProfile } from "../../apiData/user/profile";
-import { updateProfile } from "../../apiData/myProfile/profile";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../../components/common";
 import { SelectField } from "../../components/forms";
 import { getStateCity, stateCityEmpty } from "../../redux/slices/signUpSlice";
+import { updateProfile } from "../../redux/slices/profileSlice";
 
 const EditProfile = () => {
   const [userDetails, setUserDetails] = useState({});
@@ -26,9 +26,14 @@ const EditProfile = () => {
 
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP);
-    const { allStateCityList } = useSelector((state) => state.signUpSlice.stateList);
-    const { stateCityByPincode } = useSelector((state) => state.signUpSlice.stateCityPincode);
+    (state) => state.loginSlice.loggetInWithOTP
+  );
+  const { allStateCityList } = useSelector(
+    (state) => state.signUpSlice.stateList
+  );
+  const { stateCityByPincode } = useSelector(
+    (state) => state.signUpSlice.stateCityPincode
+  );
   const formik = useFormik({
     initialValues: {
       AlternateMobile: "",
@@ -89,8 +94,6 @@ const EditProfile = () => {
   useEffect(() => {
     console.log("useEffect");
     if (formik.values.Pincode == pinCode) {
-      // dispatch(getUserDetails)
-
       getProfileDetails(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
         (response) => {
           const data = response.Data[0];
@@ -140,11 +143,10 @@ const EditProfile = () => {
     if (formik.values.Pincode.length == 6) {
       console.warn(formik.values.Pincode);
       dispatch(getStateCity(formik.values.Pincode));
-
     }
-    console.warn(formik.values.Pincode)
+    console.warn(formik.values.Pincode);
     if (formik.values.Pincode.length === 6) {
-      console.warn(formik.values.Pincode)
+      console.warn(formik.values.Pincode);
       if (stateCityByPincode?.ResponseStatus === 1) {
         console.warn(stateCityByPincode.Data[0]);
         setGetData({
@@ -168,7 +170,7 @@ const EditProfile = () => {
           cityError: false,
         });
       }
-    }else{
+    } else {
       // dispatch(stateCityEmpty())
     }
   }, [pinCode, formik.values.Pincode]);

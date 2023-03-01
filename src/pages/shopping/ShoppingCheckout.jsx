@@ -5,19 +5,24 @@ import Modal from "react-bootstrap/Modal";
 
 import "../../assets/styles/shopping/cart.css";
 
-import { getWalletBalance } from "../../apiData/user/userDetails";
-import { placeOrder } from "../../apiData/shopping/shopping";
+// import { getWalletBalance } from "../../apiData/user/userDetails";
+// import { placeOrder } from "../../apiData/shopping/shopping";
 import { getDouble, googleAnalytics, appType } from "../../constants";
 
 // import { ThreeDots } from "react-loader-spinner";
 
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LoadingBar from "../../components/common/Loading";
+import { getWalletBalance } from "../../redux/slices/walletSlice";
+import { placeOrder } from "../../apiData/shopping/shopping";
+// import { placeOrder } from "../../redux/slices/orderSlice";
+// import { placeOrder } from "../../redux/slices/orderSlice";
 
 ReactGA.initialize(googleAnalytics);
 
 const ShoppingCheckout = () => {
+  const dispatch = useDispatch();
   const [selectedDiscount, setSelectedDiscount] = useState("");
   const [amount, setAmount] = useState("");
   const [finalAmount, setFinalAmount] = useState();
@@ -41,6 +46,11 @@ const ShoppingCheckout = () => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+  const { data } = useSelector((state) => state.walletSlice.walletBalance);
+  const { data: orderData } = useSelector(
+    (state) => state.orderSlice.orderPlace
+  );
+
   const handleClose = () => {
     setShowModal(false);
   };
@@ -114,12 +124,13 @@ const ShoppingCheckout = () => {
     var totalAmount = 0;
     var totalShoppingPoint = 0;
     var PointType = "";
-    if (selectedDiscount == "shoppingPoint") {
+    // console.log(shoppingDiscount, "shoppingDiscount")
+    if (selectedDiscount === "shoppingPoint") {
       subTotal = amount - shoppingDiscount;
       totalAmount = amount - shoppingDiscount + shippingCharges;
       totalShoppingPoint = shoppingDiscount;
       PointType = "SHOPPING";
-    } else if (selectedDiscount == "primePoint") {
+    } else if (selectedDiscount === "primePoint") {
       subTotal = amount - primeDiscount;
       totalAmount = amount - primeDiscount + shippingCharges;
       totalShoppingPoint = primeDiscount;
@@ -148,7 +159,7 @@ const ShoppingCheckout = () => {
     };
 
     placeOrder(paymentObj).then((response) => {
-      if (response.ResponseStatus == 1) {
+      if (response.ResponseStatus === 1) {
         setLoading(false);
         setShowModal(true);
       } else {
@@ -158,62 +169,122 @@ const ShoppingCheckout = () => {
     });
   };
 
+  // useEffect(() => {
+  //   ReactGA.pageview(window.location.pathname);
+  //   const userName = loggedInUser && loggedInUser.UserName;
+  //   const password = loggedInUser && loggedInUser.TRXNPassword;
+  //   const propsProductsData = location.state;
+
+  //   setSelectedDiscount("shoppingPoint");
+
+  //   loggedInUser &&
+  //     getWalletBalance({ userName, password }).then((response) => {
+  //       setBalance(response.Data.Balance);
+  //       setShoppingPoints(response.Data.Shoppingpoints);
+  //       setPrimePoints(response.Data.PrimePoints);
+
+  //       var price = 0;
+  //       var sDiscount = 0;
+  //       var pDiscount = 0;
+  //       var shippingCost = 0;
+
+  //       propsProductsData.products.map((d, i) => {
+  //         price = price + d.qty * d.product.SalePrice;
+
+  //         sDiscount =
+  //           sDiscount + (d.product.ShoppingPoint / 100) * d.product.SalePrice;
+  //         pDiscount =
+  //           pDiscount + (d.product.PrimePoints / 100) * d.product.SalePrice;
+
+  //         if (propsProductsData.address.State.includes("Maharashtra")) {
+  //           shippingCost = shippingCost + d.charges[3].Amount;
+  //         } else {
+  //           shippingCost = shippingCost + d.charges[4].Amount;
+  //         }
+  //         setShippingCharges(shippingCost);
+  //       });
+  //       setAmount(price);
+  //       manageInitialPaymentMethod(response.Data.Balance, price);
+
+  //       if (sDiscount <= response.Data.Shoppingpoints) {
+  //         setShoppingDiscount(sDiscount.toFixed(2));
+  //         const amt = parseInt(price) - parseInt(sDiscount);
+
+  //         setFinalAmount(amt);
+  //       } else {
+  //         setShoppingDiscount(response.Data.Shoppingpoints);
+  //         setFinalAmount(price - response.Data.Shoppingpoints);
+  //       }
+
+  //       if (pDiscount <= response.Data.PrimePoints) {
+  //         setPrimeDiscount(pDiscount);
+  //         setFinalAmount(price - pDiscount);
+  //       } else {
+  //         setPrimeDiscount(response.Data.PrimePoints);
+  //         setFinalAmount(price - response.Data.PrimePoints);
+  //       }
+  //     });
+  // }, []);
+
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
     const propsProductsData = location.state;
-
     setSelectedDiscount("shoppingPoint");
+    const fetchWalletBalance = async () => {
+      await dispatch(getWalletBalance({ userName, password }));
+    };
+    fetchWalletBalance();
+  }, [dispatch]);
+  useEffect(() => {
+    if (data.Data) {
+      setBalance(data.Data.Balance);
+      setShoppingPoints(data.Data.Shoppingpoints);
+      setPrimePoints(data.Data.PrimePoints);
 
-    loggedInUser &&
-      getWalletBalance({ userName, password }).then((response) => {
-        setBalance(response.Data.Balance);
-        setShoppingPoints(response.Data.Shoppingpoints);
-        setPrimePoints(response.Data.PrimePoints);
+      var price = 0;
+      var sDiscount = 0;
+      var pDiscount = 0;
+      var shippingCost = 0;
 
-        var price = 0;
-        var sDiscount = 0;
-        var pDiscount = 0;
-        var shippingCost = 0;
+      propsProductsData.products.map((d, i) => {
+        price = price + d.qty * d.product.SalePrice;
 
-        propsProductsData.products.map((d, i) => {
-          price = price + d.qty * d.product.SalePrice;
+        sDiscount =
+          sDiscount + (d.product.ShoppingPoint / 100) * d.product.SalePrice;
+        pDiscount =
+          pDiscount + (d.product.PrimePoints / 100) * d.product.SalePrice;
 
-          sDiscount =
-            sDiscount + (d.product.ShoppingPoint / 100) * d.product.SalePrice;
-          pDiscount =
-            pDiscount + (d.product.PrimePoints / 100) * d.product.SalePrice;
-
-          if (propsProductsData.address.State.includes("Maharashtra")) {
-            shippingCost = shippingCost + d.charges[3].Amount;
-          } else {
-            shippingCost = shippingCost + d.charges[4].Amount;
-          }
-          setShippingCharges(shippingCost);
-        });
-        setAmount(price);
-        manageInitialPaymentMethod(response.Data.Balance, price);
-
-        if (sDiscount <= response.Data.Shoppingpoints) {
-          setShoppingDiscount(sDiscount.toFixed(2));
-          const amt = parseInt(price) - parseInt(sDiscount);
-
-          setFinalAmount(amt);
+        if (propsProductsData.address.State.includes("Maharashtra")) {
+          shippingCost = shippingCost + d.charges[3].Amount;
         } else {
-          setShoppingDiscount(response.Data.Shoppingpoints);
-          setFinalAmount(price - response.Data.Shoppingpoints);
+          shippingCost = shippingCost + d.charges[4].Amount;
         }
-
-        if (pDiscount <= response.Data.PrimePoints) {
-          setPrimeDiscount(pDiscount);
-          setFinalAmount(price - pDiscount);
-        } else {
-          setPrimeDiscount(response.Data.PrimePoints);
-          setFinalAmount(price - response.Data.PrimePoints);
-        }
+        setShippingCharges(shippingCost);
       });
-  }, []);
+      setAmount(price);
+      manageInitialPaymentMethod(data.Data.Balance, price);
+
+      if (sDiscount <= data.Data.Shoppingpoints) {
+        setShoppingDiscount(sDiscount.toFixed(2));
+        const amt = parseInt(price) - parseInt(sDiscount);
+
+        setFinalAmount(amt);
+      } else {
+        setShoppingDiscount(data.Data.Shoppingpoints);
+        setFinalAmount(price - data.Data.Shoppingpoints);
+      }
+
+      if (pDiscount <= data.Data.PrimePoints) {
+        setPrimeDiscount(pDiscount);
+        setFinalAmount(price - pDiscount);
+      } else {
+        setPrimeDiscount(data.Data.PrimePoints);
+        setFinalAmount(price - data.Data.PrimePoints);
+      }
+    }
+  }, [data.Data]);
 
   const checkoutSection = () => (
     <div>
@@ -347,8 +418,7 @@ const ShoppingCheckout = () => {
                     <div class="row">
                       <div class="col-md-12 shopping-payment-content-head">
                         <h3 class="shopping-payment-content-title">
-                          {" "}
-                          Debit From{" "}
+                          Debit From
                         </h3>
                       </div>
                     </div>

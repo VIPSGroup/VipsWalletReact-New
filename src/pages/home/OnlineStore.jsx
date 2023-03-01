@@ -4,6 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 
 import "../../assets/styles/home/onlineStore.css";
+import { LatestLoading } from "../../components/common/Loading";
 import { getAffiliate } from "../../redux/slices/onlineStoreSlice";
 
 const OnlineStore = () => {
@@ -49,7 +50,7 @@ const OnlineStore = () => {
               </p>
             </div>
           </div>
-          {data.Data && (
+          {data.Data && !loading ? (
             <Carousel
               responsive={responsive}
               infinite={true}
@@ -94,6 +95,8 @@ const OnlineStore = () => {
                   </div>
                 ))}
             </Carousel>
+          ) : (
+            <LatestLoading />
           )}
         </div>
       </section>

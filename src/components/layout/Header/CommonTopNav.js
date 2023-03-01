@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from "react";
 import "../../../assets/styles/core/commonTopNav.css";
 
-import { FiSearch, FiUser } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
 import { IoWalletOutline } from "react-icons/io5";
-import { RiUser3Line } from "react-icons/ri";
 
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { getWalletBalance } from "../../../apiData/user/userDetails";
+import { useDispatch, useSelector } from "react-redux";
 import { vendorPanelAPi } from "../../../constants";
 import { Badge } from "antd";
+import { getWalletBalance } from "../../../redux/slices/walletSlice";
 
 const CommonTopNav = () => {
+  const dispatch = useDispatch();
   const [balance, setBalance] = useState(0);
-  const [shoppingPoints, setShoppingPoints] = useState("");
-  const [primePoints, setPrimePoints] = useState("");
+  const [load, setLoad] = useState(false);
+  const [shoppingPoints, setShoppingPoints] = useState(0);
+  const [primePoints, setPrimePoints] = useState(0);
   const { wishCount } = useSelector((state) => state.wishlistSlice);
-  const { cartCount } = useSelector((state) => state.cartSlice);
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+  const { data } = useSelector((state) => state.walletSlice.walletBalance);
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -46,16 +47,21 @@ const CommonTopNav = () => {
     });
   };
 
+  const CheckWalletBalance = async () => {
+    setLoad(true);
+    const userName = loggedInUser && loggedInUser?.UserName;
+    const password = loggedInUser && loggedInUser?.TRXNPassword;
+    dispatch(getWalletBalance({ userName, password }));
+  };
+
   useEffect(() => {
-    const userName = loggedInUser && loggedInUser.UserName;
-    const password = loggedInUser && loggedInUser.TRXNPassword;
-    loggedInUser &&
-      getWalletBalance({ userName, password }).then((response) => {
-        setBalance(response.Data.Balance);
-        setShoppingPoints(response.Data.Shoppingpoints);
-        setPrimePoints(response.Data.PrimePoints);
-      });
-  }, []);
+    if (data.Data) {
+      setBalance(data.Data?.Balance);
+      setShoppingPoints(data.Data?.Shoppingpoints);
+      setPrimePoints(data.Data?.PrimePoints);
+      setLoad(false);
+    }
+  }, [data.Data]);
 
   const section = () => (
     <>
@@ -158,6 +164,7 @@ const CommonTopNav = () => {
                 {loggedInUser ? (
                   <li class="nav-item">
                     <Link
+                      onClick={CheckWalletBalance}
                       class="nav-link nav-icons"
                       to="#"
                       role="button"
@@ -184,7 +191,7 @@ const CommonTopNav = () => {
                           </span>
                           <span class="nav-wallet-amt">
                             {" "}
-                            &#x20B9; {balance}
+                            &#x20B9; {!load ? balance : "Loading..."}
                           </span>
                         </div>
                         <div class="dropdown-divider"></div>
@@ -196,7 +203,7 @@ const CommonTopNav = () => {
                             <div class="col col-xs-4 points-align">
                               <span class="nav-wallet-points">
                                 {" "}
-                                {primePoints}{" "}
+                                {!load ? primePoints : "Loading..."}
                               </span>
                             </div>
                           </div>
@@ -210,7 +217,7 @@ const CommonTopNav = () => {
                             <div class="col col-xs-4 points-align">
                               <span class="nav-wallet-points">
                                 {" "}
-                                {shoppingPoints}{" "}
+                                {!load ? shoppingPoints : "Loading..."}
                               </span>
                             </div>
                           </div>
@@ -228,7 +235,6 @@ const CommonTopNav = () => {
                                   style={{ textDecoration: "none" }}
                                 >
                                   {" "}
-                                  {/* <i class="fa-solid fa-wallet"></i> Add Money */}
                                   <img src="/images/wallet/add_money.svg" />{" "}
                                   <span> Add Money </span>
                                 </Link>
@@ -240,7 +246,6 @@ const CommonTopNav = () => {
                                   class="btn-cta"
                                 >
                                   {" "}
-                                  {/* <i class="fa-solid fa-wallet"></i> Send Money */}
                                   <img src="/images/wallet/send_money.svg" />{" "}
                                   <span> Send Money </span>
                                 </Link>

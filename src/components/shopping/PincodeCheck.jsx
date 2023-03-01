@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { checkPincode } from "../../apiData/shopping/shopping";
+import { useDispatch, useSelector } from "react-redux";
+import { checkPinCode } from "../../redux/slices/pincodeSlice";
 
 const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
+  const dispatch = useDispatch();
   const [pincode, setPincode] = useState("");
   const [apiResponse, setApiResponse] = useState("");
-
+  const { data } = useSelector((state) => state.pincodeSlice.pinCode);
   const handlePincode = (e) => {
     setApiResponse("");
     const value = e.target.value.replace(/\D/g, "");
@@ -16,14 +18,13 @@ const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
   const clickCheckPincode = (e) => {
     e.preventDefault();
     setApiResponse("");
-    checkPincode(productId, pincode).then((response) => {
-      if (response.ResponseStatus === 1) {
-        setApiResponse(response.Remarks);
-      } else {
-        setIsSnackBar(true);
-        setErrorMsg(response.Remarks);
-      }
-    });
+    dispatch(checkPinCode({ pincode, productId }));
+    if (data.ResponseStatus === 1) {
+      setApiResponse(data?.Remarks);
+    } else {
+      setIsSnackBar(true);
+      setErrorMsg(data?.Remarks);
+    }
   };
 
   return (

@@ -8,7 +8,7 @@ import { getDealsOfTheDay } from "../../redux/slices/dealsSlice";
 
 const DealsofTheDay = () => {
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.dealsSlice);
+  const { data, loading } = useSelector((state) => state.dealsSlice);
 
   useEffect(() => {
     dispatch(getDealsOfTheDay());
@@ -18,6 +18,7 @@ const DealsofTheDay = () => {
     <>
       <ProductHorizontal
         title="Deals"
+        loading={loading}
         subtitle="of the Day"
         products={data.Data}
         description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"

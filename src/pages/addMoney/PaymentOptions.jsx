@@ -3,11 +3,11 @@ import CommonTopNav from "../../components/home/CommonTopNav";
 import Footer from "../../components/home/Footer";
 import FinstockModal from "../../components/addMoney/FinstockModal";
 
-import {
-  checkGABBalance,
-  addMoneyFromGAB,
-  finstocTradePriceCheck,
-} from "../../apiData/payments";
+// import {
+//   checkGABBalance,
+//   addMoneyFromGAB,
+//   finstocTradePriceCheck,
+// } from "../../apiData/payments";
 
 // import { MuiSnackBar } from "../../components/common/snackbars";
 
@@ -15,40 +15,71 @@ import "../../assets/styles/addMoney/addMoney.css";
 import "../../assets/styles/styles.css";
 import { getDouble } from "../../constants";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GetUserDetail } from "../../components/common/GetUserDetail";
+import {
+  checkGABBalance,
+  finstocTradePriceCheck,
+} from "../../redux/slices/walletSlice";
+// import { finstocTradePriceCheck } from "../../apiData/payments";
 
 const PaymentOptions = () => {
+  const dispatch = useDispatch();
   const [selectedPaymentOption, setSelectedPaymentOption] = useState("GAB");
   const [GABBalance, setGABBalance] = useState(0);
   const [coinPrice, setCoinPrice] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState("");
-
+  const { data } = useSelector((state) => state.walletSlice.GABBalance);
+  const { data: finPrice } = useSelector(
+    (state) => state.walletSlice.finstockPrice
+  );
   const handleChange = (e) => {
     setSelectedPaymentOption(e.target.value);
   };
-  // const {loggedInUser}= useSelector(state=>state.login)
+  const { loggedInUser } = useSelector(
+    (state) => state?.loginSlice?.loggetInWithOTP
+  );
   useEffect(() => {
-    setLoggedInUser(GetUserDetail());
-    checkGABBalance(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
-      (response) => {
-        if (response.ResponseStatus === 1) {
-          setGABBalance(response.Data);
-        } else {
-          setGABBalance(0);
-        }
-      }
-    );
+    const FetchGABBalance = async () => {
+      await dispatch(
+        checkGABBalance(loggedInUser.Mobile, loggedInUser.TRXNPassword)
+      );
+    };
+    const FetchFinStockTradePrice = async () => {
+      await dispatch(
+        finstocTradePriceCheck(loggedInUser.Mobile, loggedInUser.TRXNPassword)
+      );
+    };
+    FetchGABBalance();
+    FetchFinStockTradePrice();
+    // checkGABBalance(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
+    //   (response) => {
+    //     if (response.ResponseStatus === 1) {
+    //       setGABBalance(response.Data);
+    //     } else {
+    //       setGABBalance(0);
+    //     }
+    //   }
+    // );
 
-    finstocTradePriceCheck(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
-      (response) => {
-        setCoinPrice(response.Data.price);
-      }
-    );
-  }, []);
+    // finstocTradePriceCheck(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
+    //   (response) => {
+    //     setCoinPrice(response?.Data?.price);
+    //   }
+    // );
+  }, [dispatch]);
+  useEffect(() => {
+    if (data.ResponseStatus === 1) {
+      setGABBalance(data.Data);
+    } else {
+      setGABBalance(0);
+    }
+  }, [data]);
+  useEffect(() => {
+    setCoinPrice(finPrice?.Data?.price);
+  }, [finPrice]);
   return (
     <div className="color-body">
       <section class="inpage-section-align inset-shadhow-top-light addmoney">

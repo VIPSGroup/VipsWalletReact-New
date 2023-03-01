@@ -89,6 +89,16 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/addMoney/options" element={<PaymentOptions />} />
+        <Route
+          path="/addMoney/:option/amount"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <AddAmount />{" "}
+            </ProtectedRoute>
+          }
+        />
 
         {/** Mobile Recharge */}
         <Route
@@ -456,7 +466,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <Cart />{" "}
+              <Cart setIsHomeTopNav={setIsHomeTopNav} />{" "}
             </ProtectedRoute>
           }
         />

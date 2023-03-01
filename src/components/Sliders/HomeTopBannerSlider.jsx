@@ -5,6 +5,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getSliderBannerImage } from "../../redux/slices/bannerSlice";
+import { LatestLoading } from "../common/Loading";
 const HomeTopBannerSlider = () => {
   const dispatch = useDispatch();
   const { SliderBanners } = useSelector((state) => state.bannerSlice);
@@ -27,7 +28,6 @@ const HomeTopBannerSlider = () => {
       items: 1,
     },
   };
-
   useEffect(() => {
     dispatch(getSliderBannerImage());
   }, []);
@@ -47,8 +47,8 @@ const HomeTopBannerSlider = () => {
             removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
             // showDots={true}
           >
-            {SliderBanners &&
-              SliderBanners?.map((banner, i) =>
+            {SliderBanners ? (
+              SliderBanners?.Data?.map((banner, i) =>
                 banner?.BannerId == 1 ? (
                   <div key={i}>
                     <img
@@ -62,7 +62,10 @@ const HomeTopBannerSlider = () => {
                     />
                   </div>
                 ) : null
-              )}
+              )
+            ) : (
+              <LatestLoading />
+            )}
           </Carousel>
         )}
       </div>

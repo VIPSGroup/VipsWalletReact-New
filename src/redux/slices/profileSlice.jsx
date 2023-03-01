@@ -1,21 +1,5 @@
 import { baseApiUrl } from "../../constants";
 
-export const getUserDetails = (username, password) => {
-  const formData = new FormData();
-
-  formData.append("UserName", username);
-  formData.append("Password", password);
-
-  return fetch(`${baseApiUrl}/UserServices/GetUserProfileDetails`, {
-    method: "POST",
-    body: formData,
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .catch((err) => {});
-};
-
 export const updateProfile = (userData) => {
   const formData = new FormData();
 
@@ -42,20 +26,3 @@ export const updateProfile = (userData) => {
     })
     .catch((err) => {});
 };
-
-export const forgotPassword = ({ userName }) => {
-  const formData = new FormData();
-
-  formData.append("UserName", userName);
-
-  return fetch(`${baseApiUrl}/UserServices/GetForgotPassword`, {
-    method: "POST",
-    body: formData,
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .catch((err) => {});
-};
-
-// All Done

@@ -173,7 +173,6 @@ const RechargeConfirmation = () => {
           props.circleId === 0 ? postpaidServiceId : mobileServiceId;
         getServiceDiscounts().then((res) => {
           var result = res.Data.filter((r) => r.Id === serviceId);
-
           setDiscountObj(result[0]);
           const sDiscount = (result[0].ShoppingPer / 100) * amt;
 

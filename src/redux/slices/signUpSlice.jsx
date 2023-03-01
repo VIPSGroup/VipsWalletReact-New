@@ -105,7 +105,6 @@ export const signUpUser = createAsyncThunk(
     }
   }
 );
-
 const signUpSlice = createSlice({
   name: "signUpSlice",
   initialState: {

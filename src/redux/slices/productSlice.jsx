@@ -38,7 +38,7 @@ export const getSingleProductData = createAsyncThunk(
 );
 export const getProductsBySubCategory = createAsyncThunk(
   "getProductsBySubCategory",
-  async ({ subCategoryId }) => {
+  async (subCategoryId) => {
     const formData = new FormData();
     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
     formData.append("SubCategoryid", subCategoryId);
@@ -85,6 +85,34 @@ export const getNewArrivalProducts = createAsyncThunk(
   }
 );
 
+export const getAllCategories = createAsyncThunk(
+  "getAllCategories",
+  async () => {
+    try {
+      const res = await axios.get(
+        `${baseApiUrl}/EcommerceServices/Getdashboardslider?tocken=XMCNBVGDTE734BCU65DW`
+      );
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+export const getSubCategory = createAsyncThunk(
+  "getSubCategory",
+  async (categoryId) => {
+    console.log("Ye bhi chl rha hai");
+    try {
+      const res = await axios.get(
+        `${baseApiUrl}/EcommerceServices/GetSubcategorieList?tocken=XMCNBVGDTE734BCU65DW&Categoryid=${categoryId}`
+      );
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "productSlice",
   initialState: {
@@ -99,7 +127,7 @@ const productSlice = createSlice({
       error: "",
     },
     subCategoryByProduct: {
-      data: [],
+      getproBySubCat: [],
       loading: false,
       error: "",
     },
@@ -109,6 +137,16 @@ const productSlice = createSlice({
       error: "",
     },
     newArrivalProduct: {
+      data: [],
+      loading: false,
+      error: "",
+    },
+    AllCat: {
+      data: "",
+      loading: false,
+      error: "",
+    },
+    GetSubCat: {
       data: [],
       loading: false,
       error: "",
@@ -145,7 +183,7 @@ const productSlice = createSlice({
       state.subCategoryByProduct.loading = true;
     });
     builder.addCase(getProductsBySubCategory.fulfilled, (state, action) => {
-      state.subCategoryByProduct.data = action.payload;
+      state.subCategoryByProduct.getproBySubCat = action.payload;
       state.subCategoryByProduct.loading = false;
     });
     builder.addCase(getProductsBySubCategory.rejected, (state, action) => {
@@ -174,6 +212,28 @@ const productSlice = createSlice({
     });
     builder.addCase(getNewArrivalProducts.rejected, (state, action) => {
       state.newArrivalProduct.error = action.error;
+    });
+    // Get All Category
+    builder.addCase(getAllCategories.pending, (state, action) => {
+      state.AllCat.loading = true;
+    });
+    builder.addCase(getAllCategories.fulfilled, (state, action) => {
+      state.AllCat.data = action.payload;
+      state.AllCat.loading = false;
+    });
+    builder.addCase(getAllCategories.rejected, (state, action) => {
+      state.AllCat.error = action.error;
+    });
+    // Get Sub Category
+    builder.addCase(getSubCategory.pending, (state, action) => {
+      state.GetSubCat.loading = true;
+    });
+    builder.addCase(getSubCategory.fulfilled, (state, action) => {
+      state.GetSubCat.data = action.payload;
+      state.GetSubCat.loading = false;
+    });
+    builder.addCase(getSubCategory.rejected, (state, action) => {
+      state.GetSubCat.error = action.error;
     });
   },
 });

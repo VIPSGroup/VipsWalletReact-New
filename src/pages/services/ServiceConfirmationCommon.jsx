@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { getWalletBalance } from "../../apiData/user/userDetails";
-import { getServiceDiscounts } from "../../apiData/services/core";
 import { ThreeDots } from "react-loader-spinner";
 import { commonServiceConfirm } from "../../apiData/services/core";
 import { getRandomNumber, getTodayDate, gasServiceId } from "../../constants";
@@ -11,6 +10,7 @@ import { naturalGasBillPay } from "../../apiData/services/core";
 import { getDouble, googleAnalytics } from "../../constants";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
+import { getServiceDiscounts } from "../../redux/slices/coreSlice";
 ReactGA.initialize(googleAnalytics);
 
 const ServiceConfirmationCommon = () => {

@@ -3,24 +3,26 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PincodeCheck from "../../components/shopping/PincodeCheck";
 import Carousel from "react-multi-carousel";
-import {
-  getProductsByCategory,
-  getSingleProductData,
-} from "../../apiData/shopping/product";
+import { getSingleProductData } from "../../apiData/shopping/product";
 import { shopadminUrl } from "../../constants";
 
 import "../../assets/styles/shopping/productDetails.css";
-import { baseApiUrl, googleAnalytics } from "../../constants";
+import { googleAnalytics } from "../../constants";
 import ReactGA from "react-ga";
 import AddToCartButton from "../../components/buttons/AddToCartButton";
 import AddWishListButton from "../../components/buttons/AddWishListButton";
-import Footer from "../../components/layout/Footer/Footer";
 import ProductHorizontal from "../../components/shopping/ProductHorizontal";
-import { getAllCategories } from "../../apiData/shopping/category";
+import { useDispatch } from "react-redux";
+import {
+  getAllCategories,
+  getProductsByCategory,
+} from "../../redux/slices/productSlice";
+// import { getAllCategories } from "../../apiData/shopping/category";
 
 ReactGA.initialize(googleAnalytics);
 
 const ProductDetails = () => {
+  const dispatch = useDispatch();
   const [product, setProduct] = useState({});
   const [products, setProducts] = useState([]);
   const [productObj, setProductObj] = useState();
@@ -212,16 +214,17 @@ const ProductDetails = () => {
 
   const getSimilarProduct = async (catNam) => {
     let catId;
-    const res = await getAllCategories();
-    const Allcategories = res.Data.Categories;
+    const res = await dispatch(getAllCategories());
+    const Allcategories =
+      res.payload.Data.Categories && res.payload.Data.Categories;
     for (let index = 0; index < Allcategories.length; index++) {
       const element = Allcategories[index];
       if (catNam === element.Name) {
         catId = element.Id;
       }
     }
-    const resSimilar = await getProductsByCategory(catId);
-    setSimilar(resSimilar.Data);
+    const resSimilar = await dispatch(getProductsByCategory(catId));
+    setSimilar(resSimilar.payload.Data && resSimilar.payload.Data);
   };
 
   useEffect(() => {
@@ -233,20 +236,8 @@ const ProductDetails = () => {
       setProduct(response.Data.ProductDetails);
       manageRecentlyViewed(response.Data.ProductDetails);
       clearRecentlyViewed();
-      //manageRecentlyViewed(response.Data)
       setProductObj(response.Data);
 
-      //    const buyNowProductDeatils={
-      //     product:response.Data.ProductDetails,
-      //     charges:response.Data.ProductTax,
-      //     selectedColor:selectedColor,
-      //     selectedSize:selectedSize,
-      //     qty:qty
-      // }
-      //    let buyNowProductsArray=[];
-      //    buyNowProductsArray.push(buyNowProductDeatils)
-      //
-      //    setProducts(buyNowProductsArray)
       if (p.Size) {
         getSizes(response.Data.ProductDetails.Size);
       }

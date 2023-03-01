@@ -3,23 +3,25 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { getWalletBalance } from "../../../apiData/user/userDetails";
-import { getServiceDiscounts } from "../../../apiData/services/core";
+// import { getServiceDiscounts } from "../../../apiData/services/core";
 import { finalRecharge } from "../../../apiData/services/mobileRecharge";
 import { finalDth } from "../../../apiData/services/dth";
 import { getDouble, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../../../components/common";
+import { getServiceDiscounts } from "../../../redux/slices/coreSlice";
 
 ReactGA.initialize(googleAnalytics);
 
 const DthConfirmation = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const props = location.state;
   const amt = props.amount;
-
+  const { primeDiscount: lol } = useSelector((state) => state.coreSlice);
   // amt=props.plan ? props.plan.rs ||props.plan.amount:0;
-
+  console.log(lol, "aaa");
   const [balance, setBalance] = useState("");
   const [shoppingPoints, setShoppingPoints] = useState("");
   const [primePoints, setPrimePoints] = useState("");
@@ -151,28 +153,34 @@ const DthConfirmation = () => {
         setPrimePoints(response.Data.PrimePoints);
 
         manageInitialPaymentMethod(response.Data.Balance);
-
-        getServiceDiscounts().then((res) => {
-          var result = res.Data.filter((r) => r.Id == "1");
-          setDiscountObj(result[0]);
-          const sDiscount = (result[0].ShoppingPer / 100) * amt;
-          if (sDiscount <= response.Data.Shoppingpoints) {
-            setShoppingDiscount(getDouble(sDiscount));
-            const amt = parseInt(amt) - parseInt(sDiscount);
-            setFinalAmount(amt);
-          } else {
-            setShoppingDiscount(getDouble(response.Data.Shoppingpoints));
-            setFinalAmount(amt - response.Data.Shoppingpoints);
-          }
-          const pDiscount = (result[0].PrimePointPer / 100) * amt;
-          if (pDiscount <= response.Data.PrimePoints) {
-            setPrimeDiscount(getDouble(pDiscount));
-            setFinalAmount(amt - pDiscount);
-          } else {
-            setPrimeDiscount(getDouble(response.Data.PrimePoints));
-            setFinalAmount(amt - response.Data.PrimePoints);
-          }
-        });
+        dispatch(getServiceDiscounts({ amt, response }))
+          .then((res) => {
+            console.log(res, "llllolol");
+          })
+          .catch((error) => {
+            console.log(error, "hhiiii");
+          });
+        // getServiceDiscounts().then((res) => {
+        //   var result = res.Data.filter((r) => r.Id == "1");
+        //   setDiscountObj(result[0]);
+        //   const sDiscount = (result[0].ShoppingPer / 100) * amt;
+        //   if (sDiscount <= response.Data.Shoppingpoints) {
+        //     setShoppingDiscount(getDouble(sDiscount));
+        //     const amt = parseInt(amt) - parseInt(sDiscount);
+        //     setFinalAmount(amt);
+        //   } else {
+        //     setShoppingDiscount(getDouble(response.Data.Shoppingpoints));
+        //     setFinalAmount(amt - response.Data.Shoppingpoints);
+        //   }
+        //   const pDiscount = (result[0].PrimePointPer / 100) * amt;
+        //   if (pDiscount <= response.Data.PrimePoints) {
+        //     setPrimeDiscount(getDouble(pDiscount));
+        //     setFinalAmount(amt - pDiscount);
+        //   } else {
+        //     setPrimeDiscount(getDouble(response.Data.PrimePoints));
+        //     setFinalAmount(amt - response.Data.PrimePoints);
+        //   }
+        // });
       });
   }, []);
 

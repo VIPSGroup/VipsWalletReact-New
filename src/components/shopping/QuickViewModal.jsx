@@ -9,18 +9,20 @@ import { useNavigate } from "react-router-dom";
 
 // import { MuiSnackBar } from "../common/snackbars";
 
-import { getSingleProductData } from "../../apiData/shopping/product";
+// import { getSingleProductData } from "../../apiData/shopping/product";
 
 import "../../assets/styles/shopping/quickViewModal.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PincodeCheck from "./PincodeCheck";
 import AddWishListButton from "../buttons/AddWishListButton";
 import AddToCartButton from "../buttons/AddToCartButton";
 import { shopadminUrl } from "../../constant/Baseurls";
 import { getReplaceSpace } from "../../constant/Constants";
+import { getSingleProductData } from "../../redux/slices/productSlice";
 // import "../../assets/styles/styles.css"
 
 const QuickViewModal = ({ productId }) => {
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
@@ -39,7 +41,7 @@ const QuickViewModal = ({ productId }) => {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [loggedInUser, setLoggedInUser] = useState();
-
+  const { data } = useSelector((state) => state.productSlice.singleProduct);
   const imgArray = [];
   let navigate = useNavigate();
 
@@ -73,52 +75,52 @@ const QuickViewModal = ({ productId }) => {
   };
 
   const getProductImages = (productData) => {
-    if (productData.ImageThumbURL1 != null && productData.ImageURL1 != null) {
+    if (productData?.ImageThumbURL1 != null && productData?.ImageURL1 != null) {
       const obj = {
-        original: productData.ImageURL1,
-        thumbnail: productData.ImageThumbURL1,
+        original: productData?.ImageURL1,
+        thumbnail: productData?.ImageThumbURL1,
       };
       imgArray.push(obj);
     }
-    if (productData.ImageThumbURL2 != null && productData.ImageURL2 != null) {
+    if (productData?.ImageThumbURL2 != null && productData?.ImageURL2 != null) {
       const obj = {
-        original: productData.ImageURL2,
-        thumbnail: productData.ImageThumbURL2,
+        original: productData?.ImageURL2,
+        thumbnail: productData?.ImageThumbURL2,
       };
       imgArray.push(obj);
     }
-    if (productData.ImageThumbURL3 != null && productData.ImageURL3 != null) {
+    if (productData?.ImageThumbURL3 != null && productData?.ImageURL3 != null) {
       const obj = {
-        original: productData.ImageURL3,
-        thumbnail: productData.ImageThumbURL3,
+        original: productData?.ImageURL3,
+        thumbnail: productData?.ImageThumbURL3,
       };
       imgArray.push(obj);
     }
-    if (productData.ImageThumbURL4 != null && productData.ImageURL4 != null) {
+    if (productData?.ImageThumbURL4 != null && productData?.ImageURL4 != null) {
       const obj = {
-        original: productData.ImageURL4,
-        thumbnail: productData.ImageThumbURL4,
+        original: productData?.ImageURL4,
+        thumbnail: productData?.ImageThumbURL4,
       };
       imgArray.push(obj);
     }
-    if (productData.ImageThumbURL5 != null && productData.ImageURL5 != null) {
+    if (productData?.ImageThumbURL5 != null && productData?.ImageURL5 != null) {
       const obj = {
-        original: productData.ImageURL5,
-        thumbnail: productData.ImageThumbURL5,
+        original: productData?.ImageURL5,
+        thumbnail: productData?.ImageThumbURL5,
       };
       imgArray.push(obj);
     }
-    if (productData.ImageThumbURL6 != null && productData.ImageURL6 != null) {
+    if (productData?.ImageThumbURL6 != null && productData?.ImageURL6 != null) {
       const obj = {
-        original: productData.ImageURL6,
-        thumbnail: productData.ImageThumbURL6,
+        original: productData?.ImageURL6,
+        thumbnail: productData?.ImageThumbURL6,
       };
       imgArray.push(obj);
     }
-    if (productData.ImageThumbURL7 != null && productData.ImageURL7 != null) {
+    if (productData?.ImageThumbURL7 != null && productData?.ImageURL7 != null) {
       const obj = {
-        original: productData.ImageURL7,
-        thumbnail: productData.ImageThumbURL7,
+        original: productData?.ImageURL7,
+        thumbnail: productData?.ImageThumbURL7,
       };
       imgArray.push(obj);
     }
@@ -146,7 +148,7 @@ const QuickViewModal = ({ productId }) => {
 
     cartProducts &&
       cartProducts.map((c, i) => {
-        if (c.product.Id == pro.ProductDetails.Id) {
+        if (c?.product?.Id == pro?.ProductDetails?.Id) {
           setExistInCart(true);
         }
       });
@@ -181,38 +183,36 @@ const QuickViewModal = ({ productId }) => {
     handleClose();
     navigate("/login");
   };
-
   useEffect(() => {
     setLoggedInUser(localStorage.getItem("user"));
-    var p = {};
-    getSingleProductData(productId).then((response) => {
-      p = response.Data.ProductDetails;
-      setProduct(response.Data.ProductDetails);
-      setProductObj(response.Data);
-      checkInCart(response.Data);
-
-      if (p?.Size) {
-        getSizes(response?.Data?.ProductDetails?.Size);
-      }
-      if (p?.Color) {
-        getColors(response.Data.ProductDetails.Color);
-      }
-      getProductImages(response?.Data?.ProductDetails);
-
-      const buyNowProductDeatils = {
-        product: response.Data?.ProductDetails,
-        charges: response.Data?.ProductTax,
-        selectedColor: selectedColor,
-        selectedSize: selectedSize,
-        qty: qty,
-      };
-      let buyNowProductsArray = [];
-      buyNowProductsArray.push(buyNowProductDeatils);
-
-      setProducts(buyNowProductsArray);
-      checkInWishlist();
-    });
+    dispatch(getSingleProductData(productId));
   }, []);
+  useEffect(() => {
+    var p = {};
+    p = data?.Data?.ProductDetails;
+    setProduct(data?.Data?.ProductDetails);
+    setProductObj(data?.Data);
+    checkInCart(data?.Data);
+    if (p?.Size) {
+      getSizes(data?.Data?.ProductDetails?.Size);
+    }
+    if (p?.Color) {
+      getColors(data.Data.ProductDetails.Color);
+    }
+    getProductImages(data?.Data?.ProductDetails);
+    const buyNowProductDeatils = {
+      product: data.Data?.ProductDetails,
+      charges: data.Data?.ProductTax,
+      selectedColor: selectedColor,
+      selectedSize: selectedSize,
+      qty: qty,
+    };
+    let buyNowProductsArray = [];
+    buyNowProductsArray.push(buyNowProductDeatils);
+
+    setProducts(buyNowProductsArray);
+    checkInWishlist();
+  }, [data]);
 
   useEffect(() => {
     checkInWishlist();
@@ -229,17 +229,6 @@ const QuickViewModal = ({ productId }) => {
         id="exampleModal"
         data-backdrop="false"
       >
-        {/* <button
-          onClick={handleClose}
-          type="button"
-          class="close quick-view-close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-
-          <span aria-hidden="true"><i class="fa-sharp fa-solid fa-xmark"></i></span>
-        </button> */}
-
         {modalContentSection()}
       </Modal>
     </>
@@ -314,7 +303,7 @@ const QuickViewModal = ({ productId }) => {
                     <div class="quick-view-product-img">
                       <img
                         class="img-thumbnail "
-                        src={shopadminUrl + image.original}
+                        src={shopadminUrl + image?.original}
                         alt="Slide Image"
                       />
                     </div>
@@ -326,22 +315,23 @@ const QuickViewModal = ({ productId }) => {
 
         <div class="col-lg-6">
           <div class="quick-view-product-info-outer">
-            <h1 class="quick-view-title">{product.Name}</h1>
+            <h1 class="quick-view-title">{product?.Name}</h1>
             <div class="quick-view-info-box">
               <div class="price">
                 <span class="mr-2">
                   {" "}
                   &#x20B9;{" "}
-                  {product.SalePrice && product.SalePrice.toLocaleString()}
+                  {product?.SalePrice && product?.SalePrice?.toLocaleString()}
                 </span>
                 <span class="mr-2 cut">
                   {" "}
                   &#x20B9;{" "}
-                  {product.RetailPrice && product.RetailPrice.toLocaleString()}
+                  {product?.RetailPrice &&
+                    product?.RetailPrice?.toLocaleString()}
                 </span>
                 <span class="quick-view-discount">
                   {" "}
-                  ({product.CostPrice}% off){" "}
+                  ({product?.CostPrice}% off){" "}
                 </span>
               </div>
               <div class="product-status">
@@ -349,13 +339,13 @@ const QuickViewModal = ({ productId }) => {
               </div>
             </div>
 
-            {product && product.Color ? (
+            {product && product?.Color ? (
               <div class="quick-view-info-box">
                 <div class="block-choose-color">
                   <h3 class="quick-view-box-title">Select Colour :</h3>
                   <div class="block-choose-color-allColors">
                     {colors &&
-                      colors.map((s, i) => (
+                      colors?.map((s, i) => (
                         <label class="radio">
                           {" "}
                           <input
@@ -373,7 +363,7 @@ const QuickViewModal = ({ productId }) => {
               </div>
             ) : null}
 
-            {product && product.Size ? (
+            {product && product?.Size ? (
               <div class="quick-view-info-box">
                 <div class="block-choose-size">
                   <h3 class="quick-view-box-title">Select Size :</h3>
@@ -463,7 +453,7 @@ const QuickViewModal = ({ productId }) => {
             <div class="quick-view-info-box">
               <div class="quick-view-store-info">
                 <p>
-                  Delivery By <span> {product.DeliveryEnd} </span>{" "}
+                  Delivery By <span> {product?.DeliveryEnd} </span>{" "}
                 </p>
                 <p class="mb-0">
                   Sold By <span> Soumik Variety Store </span>{" "}
@@ -472,7 +462,7 @@ const QuickViewModal = ({ productId }) => {
             </div>
 
             <PincodeCheck
-              productId={product.Id}
+              productId={product?.Id}
               setIsSnackBar={setIsSnackBar}
               setErrorMsg={setErrorMsg}
             />
@@ -480,10 +470,10 @@ const QuickViewModal = ({ productId }) => {
               <a
                 onClick={() => {
                   if (loggedInUser) {
-                    product.Quantity !== 0 &&
+                    product?.Quantity !== 0 &&
                       navigate(
-                        `/shopping/product/${product.Id}/${getReplaceSpace(
-                          product.Name
+                        `/shopping/product/${product?.Id}/${getReplaceSpace(
+                          product?.Name
                         )}`
                       );
                   } else {
@@ -513,7 +503,7 @@ const QuickViewModal = ({ productId }) => {
     <div>
       <button
         onClick={() => {
-          product.Quantity !== 0 && setShowModal(true);
+          product?.Quantity !== 0 && setShowModal(true);
         }}
         type="button"
         class="btn-cta"

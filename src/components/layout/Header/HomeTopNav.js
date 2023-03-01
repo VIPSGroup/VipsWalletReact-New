@@ -1,4 +1,3 @@
-import react from "react";
 import "../../../assets/styles/core/homeTopNav.css";
 import React, { useState, useEffect } from "react";
 
@@ -10,33 +9,22 @@ import { IoWalletOutline } from "react-icons/io5";
 import { FaCrown } from "react-icons/fa";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { getWalletBalance } from "../../../apiData/user/userDetails";
 import { vendorPanelAPi } from "../../../constants";
 import { Badge } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getWalletBalance } from "../../../redux/slices/walletSlice";
 
 const HomeTopNav = ({ isPrime }) => {
+  const dispatch = useDispatch();
   const [balance, setBalance] = useState(0);
-  const [shoppingPoints, setShoppingPoints] = useState("");
-  const [primePoints, setPrimePoints] = useState("");
-  // const [loggedInUser, setLoggedInUser] = useState();
-  const { wishCount } = useSelector((state) => state.wishlistSlice);
-  const { cartCount } = useSelector((state) => state.cartSlice);
+  const [load, setLoad] = useState(false);
+  const [shoppingPoints, setShoppingPoints] = useState(0);
+  const [primePoints, setPrimePoints] = useState(0);
+  const { wishCount } = useSelector((state) => state?.wishlistSlice);
   const { loggedInUser } = useSelector(
-    (state) => state.loginSlice.loggetInWithOTP
+    (state) => state?.loginSlice?.loggetInWithOTP
   );
-
-  useEffect(() => {
-    console.warn(loggedInUser);
-    // window.addEventListener("scroll", () => {
-    //   if (window.screenY > 450) {
-    //     setFixed(true);
-    //   } else {
-    //     setFixed(false);
-    //   }
-    // });
-  });
-
+  const { data } = useSelector((state) => state.walletSlice.walletBalance);
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -58,19 +46,21 @@ const HomeTopNav = ({ isPrime }) => {
       overlayClassName: "overlay-custom-class-name",
     });
   };
+  const CheckWalletBalance = async () => {
+    setLoad(true);
+    const userName = loggedInUser && loggedInUser?.UserName;
+    const password = loggedInUser && loggedInUser?.TRXNPassword;
+    await dispatch(getWalletBalance({ userName, password }));
+  };
 
   useEffect(() => {
-    // setLoggedInUser(JSON.parse(localStorage.getItem("user")));
-
-    const userName = loggedInUser && loggedInUser.UserName;
-    const password = loggedInUser && loggedInUser.TRXNPassword;
-    loggedInUser &&
-      getWalletBalance({ userName, password }).then((response) => {
-        setBalance(response.Data.Balance);
-        setShoppingPoints(response.Data.Shoppingpoints);
-        setPrimePoints(response.Data.PrimePoints);
-      });
-  }, []);
+    if (data.Data) {
+      setBalance(data.Data?.Balance);
+      setShoppingPoints(data.Data?.Shoppingpoints);
+      setPrimePoints(data.Data?.PrimePoints);
+      setLoad(false);
+    }
+  }, [data.Data]);
 
   const navSection = () => (
     <>
@@ -185,6 +175,7 @@ const HomeTopNav = ({ isPrime }) => {
                 {loggedInUser ? (
                   <li class="nav-item">
                     <Link
+                      onClick={CheckWalletBalance}
                       class="nav-link nav-icons"
                       to="#"
                       role="button"
@@ -199,6 +190,7 @@ const HomeTopNav = ({ isPrime }) => {
                         My Wallet{" "}
                       </span>
                     </Link>
+
                     <div
                       class="dropdown-menu wallet-dropdown-position dropdown-menu-lg-right shadow-dark border-0"
                       aria-labelledby="navbarwallet"
@@ -211,7 +203,7 @@ const HomeTopNav = ({ isPrime }) => {
                           </span>
                           <span class="nav-wallet-amt">
                             {" "}
-                            &#x20B9; {balance}
+                            &#x20B9; {!load ? balance : "Loading..."}
                           </span>
                         </div>
                         <div class="dropdown-divider"></div>
@@ -223,7 +215,7 @@ const HomeTopNav = ({ isPrime }) => {
                             <div class="col col-xs-4 points-align">
                               <span class="nav-wallet-points">
                                 {" "}
-                                {primePoints}{" "}
+                                {!load ? primePoints : "Loading..."}
                               </span>
                             </div>
                           </div>
@@ -237,7 +229,7 @@ const HomeTopNav = ({ isPrime }) => {
                             <div class="col col-xs-4 points-align">
                               <span class="nav-wallet-points">
                                 {" "}
-                                {shoppingPoints}{" "}
+                                {!load ? shoppingPoints : "Loading..."}
                               </span>
                             </div>
                           </div>

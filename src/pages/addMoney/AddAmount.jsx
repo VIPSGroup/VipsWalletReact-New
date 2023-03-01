@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import CommonTopNav from "../../components/home/CommonTopNav";
 import AddMoneyButton from "../../components/home/AddMoneyButton";
 import Footer from "../../components/home/Footer";
 
-import { checkGABBalance, addMoneyFromGAB } from "../../apiData/payments";
+// import { checkGABBalance, addMoneyFromGAB } from "../../apiData/payments";
 
 import "../../assets/styles/addMoney/addMoney.css";
 import "../../assets/styles/styles.css";
 import LoadingBar from "../../components/common/loading";
 import { MuiSnackBar } from "../../components/common/snackbars";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GetUserDetail } from "../../components/common/GetUserDetail";
+import {
+  addMoneyFromGAB,
+  checkGABBalance,
+} from "../../redux/slices/walletSlice";
 
 const AddAmount = () => {
+  const dispatch = useDispatch();
   const [amount, setAmount] = useState(0);
   const [GABBalance, setGABBalance] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -22,27 +26,32 @@ const AddAmount = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [loggedInUser, setLoggedInUser] = useState("");
 
+  const { data: gabBalance } = useSelector(
+    (state) => state.walletSlice.GABBalance
+  );
+  const { data: addMoney } = useSelector((state) => state.walletSlice.addMoney);
   let { option } = useParams();
   const clickAddFromGAB = (e) => {
     e.preventDefault();
     setLoading(true);
     if (amount && amount > 0) {
-      addMoneyFromGAB(
-        loggedInUser.Mobile,
-        loggedInUser.TRXNPassword,
-        amount
-      ).then((response) => {
-        if (response.ResponseStatus == 1) {
-          setLoading(false);
-          setIsSnackBar(true);
-          setSuccessMsg(response.Remarks);
-          setAmount(0);
-        } else {
-          setLoading(false);
-          setIsSnackBar(true);
-          setErrorMsg(response.Remarks);
-        }
-      });
+      dispatch(
+        addMoneyFromGAB(
+          loggedInUser?.Mobile,
+          loggedInUser?.TRXNPassword,
+          amount
+        )
+      );
+      if (addMoney?.ResponseStatus === 1) {
+        setLoading(false);
+        setIsSnackBar(true);
+        setSuccessMsg(addMoney?.Remarks);
+        setAmount(0);
+      } else {
+        setLoading(false);
+        setIsSnackBar(true);
+        setErrorMsg(addMoney?.Remarks);
+      }
     } else {
       setIsSnackBar(true);
       setErrorMsg("Please enter valid amount");
@@ -51,11 +60,8 @@ const AddAmount = () => {
 
   useEffect(() => {
     setLoggedInUser(GetUserDetail());
-    checkGABBalance(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
-      (response) => {
-        setGABBalance(response.Data);
-      }
-    );
+    dispatch(checkGABBalance(loggedInUser.Mobile, loggedInUser.TRXNPassword));
+    gabBalance.Data && setGABBalance(gabBalance?.Data);
   }, []);
 
   const onChange = (e) => {

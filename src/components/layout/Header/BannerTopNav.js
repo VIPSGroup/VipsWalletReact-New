@@ -1,20 +1,19 @@
 import "../../../assets/styles/core/BannerTopNav.css";
 import React, { useState, useEffect } from "react";
-
-import { FiSearch, FiUser } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
-
 import { IoWalletOutline } from "react-icons/io5";
-
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { getWalletBalance } from "../../../apiData/user/userDetails";
+import { useDispatch, useSelector } from "react-redux";
 import { vendorPanelAPi } from "../../../constants";
 import { Badge } from "antd";
+import { getWalletBalance } from "../../../redux/slices/walletSlice";
 
 const BannerTopNav = () => {
+  const dispatch = useDispatch();
+
   const [balance, setBalance] = useState(0);
   const [shoppingPoints, setShoppingPoints] = useState("");
   const [primePoints, setPrimePoints] = useState("");
@@ -22,7 +21,7 @@ const BannerTopNav = () => {
     (state) => state.loginSlice.loggetInWithOTP
   );
   const { wishCount } = useSelector((state) => state.wishlistSlice);
-  const { cartCount } = useSelector((state) => state.cartSlice);
+  const { data } = useSelector((state) => state.walletSlice.walletBalance);
 
   const clickLogout = () => {
     confirmAlert({
@@ -48,12 +47,10 @@ const BannerTopNav = () => {
   useEffect(() => {
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
-    loggedInUser &&
-      getWalletBalance({ userName, password }).then((response) => {
-        setBalance(response.Data.Balance);
-        setShoppingPoints(response.Data.Shoppingpoints);
-        setPrimePoints(response.Data.PrimePoints);
-      });
+    loggedInUser && dispatch(getWalletBalance({ userName, password }));
+    setBalance(data?.Data.Balance);
+    setShoppingPoints(data?.Data.Shoppingpoints);
+    setPrimePoints(data?.Data.PrimePoints);
   }, []);
 
   const section = () => (
@@ -138,7 +135,7 @@ const BannerTopNav = () => {
                   >
                     {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
                     {/* <Badge count={cartCount && cartCount?.length}> */}
-                      <AiOutlineShoppingCart className="nav-icon" />
+                    <AiOutlineShoppingCart className="nav-icon" />
                     {/* </Badge> */}
                     <span class="d-xl-block d-none d-md-none d-sm-none">
                       {" "}

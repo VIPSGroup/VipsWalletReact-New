@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import {
   checkGABBalance,
-  addMoneyFromGAB,
   finstocTradePriceCheck,
 } from "../../apiData/payments";
 
@@ -11,9 +10,7 @@ import "../../assets/styles/styles.css";
 import { getDouble } from "../../constants";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getUserDetails } from "../../apiData/myProfile/profile";
 import FinstockModal from "../../components/Modals/FinstockModal";
-import Footer from "../../components/layout/Footer/Footer";
 
 const PaymentOptions = () => {
   const [selectedPaymentOption, setSelectedPaymentOption] = useState("GAB");
@@ -22,14 +19,14 @@ const PaymentOptions = () => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState("");
-
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
   const handleChange = (e) => {
     setSelectedPaymentOption(e.target.value);
   };
   // const {loggedInUser}= useSelector(state=>state.login)
   useEffect(() => {
-    setLoggedInUser(getUserDetails());
     checkGABBalance(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
       (response) => {
         if (response.ResponseStatus === 1) {

@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { ThreeDots } from "react-loader-spinner";
 import Modal from "react-bootstrap/Modal";
-import { sendMoneyOtp, sendMoney } from "../../apiData/sendMoney/sendMoney";
 
 import { validateReference } from "../../apiData/authentication/signup";
 
@@ -17,6 +16,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LoadingBar from "../../components/common/Loading";
 import Footer from "../../components/layout/Footer/Footer";
+import { sendMoney, sendMoneyOtp } from "../../redux/slices/walletSlice";
 ReactGA.initialize(googleAnalytics);
 
 const SendMoney = () => {

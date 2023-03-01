@@ -14,8 +14,6 @@ import "../../assets/styles/home/shopByCategory.css";
 import "../../assets/styles/styles.css";
 
 const ShopByCategory = () => {
-  const navigationPrevRef = useRef(null);
-  const navigationNextRef = useRef(null);
   const [mobileScreen, setMobileScreen] = useState();
 
   useEffect(() => {

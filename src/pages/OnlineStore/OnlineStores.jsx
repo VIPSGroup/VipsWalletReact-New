@@ -1,20 +1,21 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import ReactGA from "react-ga";
-import '../../assets/styles/onlineStores.css'
-import { getAffiliate } from "../../apiData/media/home";
+import "../../assets/styles/onlineStores.css";
 import Footer from "../../components/layout/Footer/Footer";
 import { googleAnalytics } from "../../constants";
+import { useDispatch, useSelector } from "react-redux";
+import { getAffiliate } from "../../redux/slices/onlineStoreSlice";
+import { LatestLoading } from "../../components/common/Loading";
 ReactGA.initialize(googleAnalytics);
 
 const OnlineStores = () => {
-  const [affiliates, setAffiliates] = useState([]);
-
+  const dispatch = useDispatch();
+  const { data, loading } = useSelector((state) => state.onlineStoreSlice);
+  console.log(data, "aaa");
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    getAffiliate().then((response) => {
-      setAffiliates(response.Data);
-    });
+    dispatch(getAffiliate());
   }, []);
 
   const section = () => (
@@ -33,8 +34,8 @@ const OnlineStores = () => {
 
         <div class="container">
           <div class="row inpage-online-store-row">
-            {affiliates &&
-              affiliates.map((a, i) => (
+            {data ? (
+              data.Data.map((a, i) => (
                 <div class="inpage-online-stores-div">
                   <button
                     class="online-stores-box-button"
@@ -56,7 +57,10 @@ const OnlineStores = () => {
                     </div>
                   </button>
                 </div>
-              ))}
+              ))
+            ) : (
+              <LatestLoading />
+            )}
           </div>
         </div>
       </section>

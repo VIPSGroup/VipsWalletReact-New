@@ -66,11 +66,6 @@ const Cart = ({ setIsHomeTopNav }) => {
   useEffect(() => {
     setIsHomeTopNav(false);
     ReactGA.pageview(window.location.pathname);
-    const userName = loggedInUser && loggedInUser.UserName;
-    const password = loggedInUser && loggedInUser.TRXNPassword;
-
-    loggedInUser &&
-      getWalletBalance({ userName, password }).then((response) => {});
   }, []);
 
   useEffect(() => {

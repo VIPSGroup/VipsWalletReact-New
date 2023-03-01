@@ -14,3 +14,6 @@ export const getDealsOfTheDay = (username, password) => {
     })
     .catch((err) => {});
 };
+
+
+// All Done
