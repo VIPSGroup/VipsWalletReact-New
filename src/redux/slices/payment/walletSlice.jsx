@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { appType, baseApiUrl } from "../../constants";
+import { appType, baseApiUrl } from "../../../constants";
 
 export const getWalletBalance = createAsyncThunk(
   "getWalletBalance",
-  async ({ userName, password }) => {
+  async ({ username, password }, thunkAPI) => {
     const formData = new FormData();
-    formData.append("UserName", userName);
+    formData.append("UserName", username);
     formData.append("Password", password);
     try {
       const res = await axios.post(
@@ -21,7 +21,8 @@ export const getWalletBalance = createAsyncThunk(
 );
 export const checkGABBalance = createAsyncThunk(
   "checkGABBalance",
-  async ({ username, password }) => {
+  async ({ username, password }, thunkAPI) => {
+    console.log(username, password, "hjghfdgh");
     const formData = new FormData();
 
     formData.append("username", username);
@@ -173,6 +174,7 @@ const walletSlice = createSlice({
       state.GABBalance.loading = true;
     });
     builder.addCase(checkGABBalance.fulfilled, (state, action) => {
+      console.log(action.payload, "aa rha hai");
       state.GABBalance.data = action.payload;
       state.GABBalance.loading = false;
     });

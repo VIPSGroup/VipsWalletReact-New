@@ -1,28 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { changePassword } from "../../apiData/user/profile";
-
-import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../../components/common";
+import { changePassword } from "../../redux/slices/profile/profileSlice";
 
 const ChangePassword = () => {
-  const [oldShow, setOldShow] = useState(false);
-  const [newShow, setNewShow] = useState(false);
-  const [confirmShow, setConfirmShow] = useState(false);
-
+  const dispatch = useDispatch();
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
 
-  const [loading, setLoading] = useState(false);
+  const { success, loading } = useSelector(
+    (state) => state.profileSlice.changePass
+  );
 
   let navigate = useNavigate();
-const {loggedInUser}= useSelector(state=>state.login)
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
   const handleOldPassword = (e) => {
     setError("");
     setOldPassword(e.target.value);
@@ -35,30 +32,19 @@ const {loggedInUser}= useSelector(state=>state.login)
     setError("");
     setConfirmPassword(e.target.value);
   };
-
-  const handleOldShow = () => {
-    setOldShow(!oldShow);
-  };
-  const handleNewShow = () => {
-    setNewShow(!newShow);
-  };
-  const handleConfirmShow = () => {
-    setConfirmShow(!confirmShow);
-  };
-
+  useEffect(() => {
+    if (success) {
+      localStorage.removeItem("user");
+      navigate("/");
+    }
+  }, [success]);
   const clickSave = (e) => {
+    const Mobile = loggedInUser.Mobile;
+    const Password = loggedInUser.TRXNPassword;
     e.preventDefault();
-    if (oldPassword == loggedInUser.TRXNPassword) {
-      if (newPassword == confirmPassword) {
-        setLoading(true);
-        changePassword(loggedInUser.Mobile, loggedInUser.TRXNPassword, newPassword).then(
-          (response) => {
-            setSuccess(true);
-            setLoading(false);
-            localStorage.removeItem("user");
-            navigate("/");
-          }
-        );
+    if (oldPassword === loggedInUser.TRXNPassword) {
+      if (newPassword === confirmPassword) {
+        dispatch(changePassword({ Mobile, Password, newPassword }));
       } else {
         setError("New Password and Confirm Password dont match .");
       }
@@ -92,14 +78,11 @@ const {loggedInUser}= useSelector(state=>state.login)
                   <div class="row">
                     <div class="col-md-12">
                       <div class="input-field">
-                        <i onClick={handleOldShow} class="" id="">
-                          {oldShow ? <BsFillEyeFill /> : <BsFillEyeSlashFill />}
-                        </i>
                         <input
                           onChange={handleOldPassword}
                           value={oldPassword}
                           id="user-pan-number"
-                          type={oldShow ? "text" : "password"}
+                          type={"password"}
                           placeholder="&nbsp;"
                           autocomplete="off"
                         />
@@ -109,14 +92,11 @@ const {loggedInUser}= useSelector(state=>state.login)
 
                     <div class="col-md-12">
                       <div class="input-field">
-                        <i onClick={handleNewShow} class="" id="">
-                          {newShow ? <BsFillEyeFill /> : <BsFillEyeSlashFill />}
-                        </i>
                         <input
                           onChange={handleNewPassword}
                           value={newPassword}
                           id="user-new-password"
-                          type={newShow ? "text" : "password"}
+                          type={"password"}
                           placeholder="&nbsp;"
                           autocomplete="off"
                         />
@@ -126,18 +106,11 @@ const {loggedInUser}= useSelector(state=>state.login)
 
                     <div class="col-md-12">
                       <div class="input-field">
-                        <i onClick={handleConfirmShow} class="" id="">
-                          {confirmShow ? (
-                            <BsFillEyeFill />
-                          ) : (
-                            <BsFillEyeSlashFill />
-                          )}
-                        </i>
                         <input
                           onChange={handleConfirmPassword}
                           value={confirmPassword}
                           id="user-confirm-pw"
-                          type={confirmShow ? "text" : "password"}
+                          type={"password"}
                           placeholder="&nbsp;"
                           autocomplete="off"
                         />

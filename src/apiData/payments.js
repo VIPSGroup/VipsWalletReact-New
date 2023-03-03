@@ -30,6 +30,8 @@ export const getPayUHash = (user, transactionId, amount) => {
     .catch((err) => {});
 };
 
+// Done in Slice
+
 export const checkGABBalance = (username, password) => {
   const formData = new FormData();
 
@@ -156,3 +158,6 @@ export const finstocTradePriceCheck = (username, password) => {
     })
     .catch((err) => {});
 };
+
+
+// All Done

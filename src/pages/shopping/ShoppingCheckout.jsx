@@ -2,22 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
-
 import "../../assets/styles/shopping/cart.css";
-
-// import { getWalletBalance } from "../../apiData/user/userDetails";
-// import { placeOrder } from "../../apiData/shopping/shopping";
 import { getDouble, googleAnalytics, appType } from "../../constants";
-
-// import { ThreeDots } from "react-loader-spinner";
-
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingBar from "../../components/common/Loading";
-import { getWalletBalance } from "../../redux/slices/walletSlice";
+import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
 import { placeOrder } from "../../apiData/shopping/shopping";
-// import { placeOrder } from "../../redux/slices/orderSlice";
-// import { placeOrder } from "../../redux/slices/orderSlice";
 
 ReactGA.initialize(googleAnalytics);
 

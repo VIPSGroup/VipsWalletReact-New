@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseApiUrl } from "../../constants";
+import { baseApiUrl } from "../../../constants";
 
 export const placeOrder = createAsyncThunk("placeOrder", async (paymentObj) => {
   var json = JSON.stringify(paymentObj);

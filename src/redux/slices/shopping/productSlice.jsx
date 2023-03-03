@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseApiUrl, staticTocken } from "../../constant/Baseurls";
+import { baseApiUrl } from "../../../constants";
 
 export const getPromotionalProduct = createAsyncThunk(
   "getPromotionalProduct",
@@ -127,7 +127,7 @@ const productSlice = createSlice({
       error: "",
     },
     subCategoryByProduct: {
-      getproBySubCat: [],
+      activeProducts: [],
       loading: false,
       error: "",
     },
@@ -183,7 +183,7 @@ const productSlice = createSlice({
       state.subCategoryByProduct.loading = true;
     });
     builder.addCase(getProductsBySubCategory.fulfilled, (state, action) => {
-      state.subCategoryByProduct.getproBySubCat = action.payload;
+      state.subCategoryByProduct.activeProducts = action.payload;
       state.subCategoryByProduct.loading = false;
     });
     builder.addCase(getProductsBySubCategory.rejected, (state, action) => {

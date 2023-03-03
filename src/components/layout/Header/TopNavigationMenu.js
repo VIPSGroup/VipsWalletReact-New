@@ -32,9 +32,9 @@ const TopNavigationMenu = ({ serviceCategoryBar = true }) => {
   const { data } = useSelector((state) => state.walletSlice.walletBalance);
 
   useEffect(() => {
-    const userName = loggedInUser && loggedInUser.UserName;
+    const username = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
-    loggedInUser && dispatch(getWalletBalance({ userName, password }));
+    loggedInUser && dispatch(getWalletBalance({ username, password }));
 
     setBalance(data?.Data?.Balance);
     setShoppingPoints(data?.Data?.Shoppingpoints);

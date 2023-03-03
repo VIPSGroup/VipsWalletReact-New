@@ -1,33 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { getDynamicContent } from "../../apiData/home_api";
+// import { getDynamicContent } from "../../apiData/home_api";
 // import { getDynamicContent } from "../apiData/home_api";
 import { getTermsConditionsId, googleAnalytics } from "../../constants";
 import ReactGA from "react-ga";
+import { useDispatch, useSelector } from "react-redux";
+import { getDynamicContent } from "../../redux/slices/public/publicSlice";
 ReactGA.initialize(googleAnalytics);
 
 const TermsAndConditions = ({ title, type }) => {
-  const [data, setData] = useState([]);
-
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.publicSlice.termscondition);
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
 
     let value = getTermsConditionsId(type);
-    getDynamicContent().then((response) => {
-      let collection = response.Data.find((element) => element.Type === value);
-      setData(collection);
-    });
+    dispatch(getDynamicContent(value));
   }, []);
-
-  function htmlDecode(input) {
-    const parser = new DOMParser();
-
-    var doc = parser.parseFromString(input, "text/html");
-    const errorNode = doc.querySelector("parsererror");
-    if (!errorNode) {
-      console.error(errorNode);
-    }
-    return doc.documentElement.textContent;
-  }
 
   const section = () => (
     <section class="inpage-section-align comman-pages">
@@ -42,11 +30,7 @@ const TermsAndConditions = ({ title, type }) => {
       </div>
     </section>
   );
-  return (
-    <>
-    {section()}
-  </>
-  )
-}
+  return <>{section()}</>;
+};
 
-export default TermsAndConditions
+export default TermsAndConditions;

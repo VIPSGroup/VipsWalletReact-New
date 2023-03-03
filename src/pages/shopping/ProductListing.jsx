@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getProductsByCategory,
   getSubCategory,
-} from "../../redux/slices/productSlice";
+} from "../../redux/slices/shopping/productSlice";
 ReactGA.initialize(googleAnalytics);
 const ProductListing = () => {
   const dispatch = useDispatch();
@@ -95,8 +95,6 @@ const ProductListing = () => {
       getNewArrivalProducts().then((response) => {
         setActiveProducts(response.Data);
       });
-      // const sorted = newArr.sort((a, b) => b?.SalePrice - a?.SalePrice);
-      // setActiveProducts(sorted);
     }
   };
 

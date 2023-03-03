@@ -14,7 +14,7 @@ import DiscountBanner from "../home/DiscountBanner";
 import Footer from "../../components/layout/Footer/Footer";
 import { ShoppingCategoryProduct } from "../home/ShoppingCategoryProduct";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCategories } from "../../redux/slices/productSlice";
+import { getAllCategories } from "../../redux/slices/shopping/productSlice";
 import { getSliderBannerImage } from "../../redux/slices/bannerSlice";
 import { LatestLoading } from "../../components/common/Loading";
 

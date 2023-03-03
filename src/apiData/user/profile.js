@@ -1,6 +1,7 @@
 import { baseApiUrl } from "../../constants";
 
 export const getProfileDetails = ({ username, password }) => {
+  console.log(username, password, "lhggfxf")
   const formData = new FormData();
   formData.append("UserName", username);
   formData.append("Password", password);

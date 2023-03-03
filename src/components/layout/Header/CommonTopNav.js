@@ -11,20 +11,18 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { vendorPanelAPi } from "../../../constants";
 import { Badge } from "antd";
-import { getWalletBalance } from "../../../redux/slices/walletSlice";
+import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 const CommonTopNav = () => {
   const dispatch = useDispatch();
-  const [balance, setBalance] = useState(0);
-  const [load, setLoad] = useState(false);
-  const [shoppingPoints, setShoppingPoints] = useState(0);
-  const [primePoints, setPrimePoints] = useState(0);
   const { wishCount } = useSelector((state) => state.wishlistSlice);
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { data } = useSelector((state) => state.walletSlice.walletBalance);
+  const { data, loading } = useSelector(
+    (state) => state.walletSlice.walletBalance
+  );
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -34,6 +32,7 @@ const CommonTopNav = () => {
           label: "Yes",
           onClick: () => {
             localStorage.removeItem("user");
+            localStorage.removeItem("digiUser");
             window.location.reload();
             return "Click Yes";
           },
@@ -48,20 +47,10 @@ const CommonTopNav = () => {
   };
 
   const CheckWalletBalance = async () => {
-    setLoad(true);
-    const userName = loggedInUser && loggedInUser?.UserName;
+    const username = loggedInUser && loggedInUser?.UserName;
     const password = loggedInUser && loggedInUser?.TRXNPassword;
-    dispatch(getWalletBalance({ userName, password }));
+    dispatch(getWalletBalance({ username, password }));
   };
-
-  useEffect(() => {
-    if (data.Data) {
-      setBalance(data.Data?.Balance);
-      setShoppingPoints(data.Data?.Shoppingpoints);
-      setPrimePoints(data.Data?.PrimePoints);
-      setLoad(false);
-    }
-  }, [data.Data]);
 
   const section = () => (
     <>
@@ -123,6 +112,11 @@ const CommonTopNav = () => {
                         target="_blank"
                       >
                         Become a Supplier
+                      </Link>
+                    </li>
+                    <li class="nav-item">
+                      <Link class="nav-link" to="/digigold">
+                        DigiGold
                       </Link>
                     </li>
                   </ul>
@@ -191,7 +185,10 @@ const CommonTopNav = () => {
                           </span>
                           <span class="nav-wallet-amt">
                             {" "}
-                            &#x20B9; {!load ? balance : "Loading..."}
+                            &#x20B9;{" "}
+                            {!loading && data
+                              ? data?.Data?.Balance
+                              : "Loading..."}
                           </span>
                         </div>
                         <div class="dropdown-divider"></div>
@@ -203,7 +200,9 @@ const CommonTopNav = () => {
                             <div class="col col-xs-4 points-align">
                               <span class="nav-wallet-points">
                                 {" "}
-                                {!load ? primePoints : "Loading..."}
+                                {!loading && data
+                                  ? data?.Data?.PrimePoints
+                                  : "Loading..."}
                               </span>
                             </div>
                           </div>
@@ -217,7 +216,9 @@ const CommonTopNav = () => {
                             <div class="col col-xs-4 points-align">
                               <span class="nav-wallet-points">
                                 {" "}
-                                {!load ? shoppingPoints : "Loading..."}
+                                {!loading && data
+                                  ? data?.Data?.Shoppingpoints
+                                  : "Loading..."}
                               </span>
                             </div>
                           </div>

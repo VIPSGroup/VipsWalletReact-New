@@ -8,7 +8,7 @@ import "../../assets/styles/styles.css";
 import { useSelector } from "react-redux";
 import AddMoneyButton from "../../components/buttons/AddMoneyButton";
 import LoadingBar from "../../components/common/Loading";
-import Footer from "../../components/layout/Footer/Footer";
+import { SnackBar } from "../../components/common";
 
 const AddAmount = () => {
   const [amount, setAmount] = useState(0);
@@ -43,6 +43,7 @@ const AddAmount = () => {
       });
     } else {
       setIsSnackBar(true);
+      setLoading(false);
       setErrorMsg("Please enter valid amount");
     }
   };
@@ -192,16 +193,19 @@ const AddAmount = () => {
                 </div>
                 {/* <MuiSnackBar
                   open={isSnackBar}
-                  setOpen={setIsSnackBar}
+                  setOpen={setIsSnackBar}  
                   successMsg={successMsg}
                   errorMsg={errorMsg}
                 /> */}
+                {/* {console.log(errorMsg, "gfd")} */}
+                {(errorMsg || successMsg) && (
+                  <SnackBar errorMsg={errorMsg} success={successMsg} />
+                )}
               </div>
             </div>
           </div>
         </div>
       </section>
-
       {/* <Footer /> */}
     </div>
   );

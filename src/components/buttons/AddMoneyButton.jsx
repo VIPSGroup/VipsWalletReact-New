@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { getTransactionId, getPayUHash } from "../../apiData/payments";
+import { getTransactionId } from "../../constants";
+import { getPayUHash } from "../../redux/slices/payment/paymentSlice";
 
 const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
   const { loggedInUser } = useSelector(

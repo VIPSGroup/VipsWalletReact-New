@@ -16,7 +16,10 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LoadingBar from "../../components/common/Loading";
 import Footer from "../../components/layout/Footer/Footer";
-import { sendMoney, sendMoneyOtp } from "../../redux/slices/walletSlice";
+import {
+  sendMoney,
+  sendMoneyOtp,
+} from "../../redux/slices/payment/walletSlice";
 ReactGA.initialize(googleAnalytics);
 
 const SendMoney = () => {

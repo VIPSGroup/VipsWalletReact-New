@@ -3,23 +3,16 @@ import Modal from "react-bootstrap/Modal";
 
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-//import AddWishlistButton from "./AddWishlistButton";
 
 import { useNavigate } from "react-router-dom";
-
-// import { MuiSnackBar } from "../common/snackbars";
-
-// import { getSingleProductData } from "../../apiData/shopping/product";
 
 import "../../assets/styles/shopping/quickViewModal.css";
 import { useDispatch, useSelector } from "react-redux";
 import PincodeCheck from "./PincodeCheck";
-import AddWishListButton from "../buttons/AddWishListButton";
 import AddToCartButton from "../buttons/AddToCartButton";
 import { shopadminUrl } from "../../constant/Baseurls";
 import { getReplaceSpace } from "../../constant/Constants";
-import { getSingleProductData } from "../../redux/slices/productSlice";
-// import "../../assets/styles/styles.css"
+import { getSingleProductData } from "../../redux/slices/shopping/productSlice";
 
 const QuickViewModal = ({ productId }) => {
   const dispatch = useDispatch();

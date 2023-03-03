@@ -65,6 +65,8 @@ import Wishlist from "../pages/shopping/MyWishlist";
 import Cart from "../pages/shopping/Cart";
 import ShippingAddress from "../pages/shopping/ShippingAddress";
 import Checkout from "../pages/shopping/ShoppingCheckout";
+import DigiGoldHome from "../pages/digiGold/DigiGoldHome";
+import OrderSummary from "../pages/digiGold/OrderSummary";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
@@ -89,6 +91,7 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/login" element={<Login />} />
         <Route path="/addMoney/options" element={<PaymentOptions />} />
         <Route
           path="/addMoney/:option/amount"
@@ -372,6 +375,8 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/digigold" element={<DigiGoldHome />} />
+        <Route path="/digigold-order-summary" element={<OrderSummary />} />
 
         <Route
           path="/prime"

@@ -5,7 +5,7 @@ import * as yup from "yup";
 
 import { useDispatch, useSelector } from "react-redux";
 import { updateAddress } from "../../../apiData/shopping/address";
-import { getStateCity } from "../../../redux/slices/signUpSlice";
+import { getStateCity } from "../../../redux/slices/profile/signUpSlice";
 import { SelectField } from "../../forms";
 
 const UpdateShippingAddressModal = ({ addressProp }) => {

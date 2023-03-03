@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { getProfileDetails, editProfile } from "../../apiData/user/profile";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../../components/common";
 import { SelectField } from "../../components/forms";
-import { getStateCity, stateCityEmpty } from "../../redux/slices/signUpSlice";
-import { updateProfile } from "../../redux/slices/profileSlice";
+import { getStateCity } from "../../redux/slices/profile/signUpSlice";
+import {
+  getProfileDetails,
+  updateProfile,
+} from "../../redux/slices/profile/profileSlice";
 
 const EditProfile = () => {
   const [userDetails, setUserDetails] = useState({});
@@ -58,7 +60,6 @@ const EditProfile = () => {
     onSubmit: (values, { resetForm }) => {
       if (pinCode.length == 6) {
         setLoading(true);
-        console.log(getData);
         const userData = {
           username: userDetails.UserName,
           password: loggedInUser.TRXNPassword,
@@ -76,7 +77,6 @@ const EditProfile = () => {
           AlternateMobile: values.AlternateMobile,
         };
         updateProfile(userData).then((response) => {
-          console.warn(response);
           if (response.ResponseStatus == 1) {
             setIsSnackBar(true);
             setSuccessMsg(response.Remarks);
@@ -141,14 +141,11 @@ const EditProfile = () => {
     }
 
     if (formik.values.Pincode.length == 6) {
-      console.warn(formik.values.Pincode);
       dispatch(getStateCity(formik.values.Pincode));
     }
     console.warn(formik.values.Pincode);
     if (formik.values.Pincode.length === 6) {
-      console.warn(formik.values.Pincode);
       if (stateCityByPincode?.ResponseStatus === 1) {
-        console.warn(stateCityByPincode.Data[0]);
         setGetData({
           ...getData,
           stateName: stateCityByPincode.Data[0].StateName,

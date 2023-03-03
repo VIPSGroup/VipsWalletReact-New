@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import OTPInput, { ResendOTP } from "otp-input-react";
 import SelectField from './SelectField';
 import { Loading } from '../common';
-import { getStateCity, signUpUser, signUpWithOtp, validateReference } from '../../redux/slices/signUpSlice';
+import { getStateCity, signUpUser, signUpWithOtp, validateReference } from '../../redux/slices/profile/signUpSlice';
 
 const SignUpForm = () => {
     const navigate= useNavigate()
