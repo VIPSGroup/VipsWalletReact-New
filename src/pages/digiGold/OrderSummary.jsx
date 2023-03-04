@@ -12,7 +12,7 @@ const OrderSummary = () => {
   const [goldGram, setGoldGram] = useState("");
   const [silverGram, setSilverGram] = useState("");
   console.log(state, "jj");
-  const [counter, setCounter] = useState(30); // 5 minutes in seconds
+  const [counter, setCounter] = useState(300); // 5 minutes in seconds
   const [bye, setBuy] = useState(true); //default Buy , then Sell,
   const [totalAmount, setTotalAmount] = useState("");
   const [tax, setTax] = useState("");
@@ -51,9 +51,19 @@ const OrderSummary = () => {
               state.valueinAmt / res.payload.Data.result.data.rates.sBuy
             );
           }
+        } else {
+          if (state.metalType === "gold") {
+            setGoldRate(
+              state.valueinAmt / res.payload.Data.result.data.rates.gBuy
+            );
+          } else {
+            setsilverRate(
+              state.valueinAmt / res.payload.Data.result.data.rates.sBuy
+            );
+          }
         }
       };
-      setCounter(30);
+      setCounter(300);
       fetchRates();
     }
   }, [counter]);
@@ -65,6 +75,7 @@ const OrderSummary = () => {
       seconds < 10 ? "0" : ""
     }${seconds}`;
   };
+  console.log(goldRate, "goldgram");
   return (
     <>
       <div className="">
@@ -94,7 +105,6 @@ const OrderSummary = () => {
                     </div>
                   </div>
                 </div>
-
                 <div class="buy-sell-form-outer">
                   <div class="current-rate-outer">
                     <div class="current-rate">
@@ -139,7 +149,13 @@ const OrderSummary = () => {
                         <p class="digigold-insert-darktext">Quantity (gms)</p>
                         <p class="digigold-insert-amt">
                           {/* &#x20B9;{" "} */}
-                          {silverGram}
+                          {state.metalType === "gold"
+                            ? goldRate && state.valType !== "Grams"
+                              ? goldRate
+                              : state?.valueinGm
+                            : silverRate && state.valType !== "Grams"
+                            ? silverRate
+                            : state?.valueinGm}{" "}
                           Grams
                         </p>
                       </div>
