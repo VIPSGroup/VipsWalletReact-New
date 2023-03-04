@@ -2,15 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import { getWalletBalance } from "../../../apiData/user/userDetails";
-import { getServiceDiscounts } from "../../../apiData/services/core";
+// import { getWalletBalance } from "../../../apiData/user/userDetails";
+// import { getServiceDiscounts } from "../../../apiData/services/core";
 import { ThreeDots } from "react-loader-spinner";
-import { OnlinefinalElecticity } from "../../../apiData/services/electricity";
+// import { OnlinefinalElecticity } from "../../../apiData/services/electricity";
 import { getTodayDate, electricityServiceId } from "../../../constants";
 import { getRandomNumber } from "../../../constants";
 import { getDouble, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getWalletBalance } from "../../../redux/slices/walletSlice";
+import { getServiceDiscounts } from "../../../redux/slices/services/commonSlice";
+import { OnlinefinalElecticity } from "../../../redux/slices/services/electricitySlice";
 ReactGA.initialize(googleAnalytics);
 
 const ElectricityConfirmation = () => {
@@ -27,14 +30,14 @@ const ElectricityConfirmation = () => {
   const [discountObj, setDiscountObj] = useState({});
   const [shoppingDiscount, setShoppingDiscount] = useState("");
   const [primeDiscount, setPrimeDiscount] = useState("");
-  const [selectedDiscount, setSelectedDiscount] = useState("shoppingPoint");
+  const [selectedDiscount, setSelectedDiscount] = useState("SHOPPING");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("wallet");
   const [payuAmt, setPayuAmt] = useState("0");
   const [walletAmt, setWalletAmt] = useState("");
   const [finalAmount, setFinalAmount] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const [showSuccess, setShowSuccess] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -43,63 +46,56 @@ const ElectricityConfirmation = () => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+  const { data } = useSelector(state => state.walletSlice.walletBalance);
+  const { discount } = useSelector(state => state.commonSlice.serviceDiscount);
+  const { rechargeData,reLoading } = useSelector(state => state.electricitySlice.electricityBill);
+ const dispatch= useDispatch()
   const handleClickConfirm = (e) => {
     e.preventDefault();
-
+    setShowSuccess(true)
     setLoading(true);
     var dType = "";
-    if (selectedDiscount == "shoppingPoint") {
+    if (selectedDiscount == "SHOPPING") {
       dType = "SHOPPING";
-    } else if (selectedDiscount == "primePoint") {
+    } else if (selectedDiscount == "PRIME") {
       dType = "PRIME";
     }
 
     const paymentRefId = getRandomNumber();
+dispatch(OnlinefinalElecticity({username: loggedInUser.Mobile,password:loggedInUser.TRXNPassword,billAmount:amt,inputObj:inputFields,paymentRef:paymentRefId,refId: props.billData.TransactionId,operatorCode: props.operatorId,mobNo:props.number,paymentMode: props.paymentMode,pointType:selectedDiscount}))
 
-    OnlinefinalElecticity(
-      loggedInUser.Mobile,
-      loggedInUser.TRXNPassword,
-      amt,
-      inputFields,
-      paymentRefId,
-      props.billData.TransactionId,
-      props.operatorId,
-      props.number,
-      props.paymentMode,
-      dType
-    ).then((response) => {
-      setLoading(false);
+ 
 
-      if (response.ResponseStatus === 1) {
-        if (response.Data != null) {
-          var data = response.Data;
-          var time = getTodayDate();
-          navigate("/services/success", {
-            state: {
-              amount: data.BillAmount,
-              status: response.Status,
-              mobileNo: inputFields[0].fieldValue,
-              operator: props.operator,
-              circle: "",
-              date: time,
-              transactionId: data.TransactionId,
-            },
-          });
-        } else {
-          setIsSnackBar(true);
-          setErrorMsg(response.Data.ResponseMessage);
-        }
-      } else {
-        setIsSnackBar(true);
-        setErrorMsg(
-          response.Data ? response.Data.ResponseMessage : response.Remarks
-        );
-      }
-    });
+      // if (response.ResponseStatus === 1) {
+      //   if (response.Data != null) {
+      //     var data = response.Data;
+      //     var time = getTodayDate();
+      //     navigate("/services/success", {
+      //       state: {
+      //         amount: data.BillAmount,
+      //         status: response.Status,
+      //         mobileNo: inputFields[0].fieldValue,
+      //         operator: props.operator,
+      //         circle: "",
+      //         date: time,
+      //         transactionId: data.TransactionId,
+      //       },
+      //     });
+      //   } 
+      // else {
+      //     setIsSnackBar(true);
+      //     setErrorMsg(response.Data.ResponseMessage);
+      //   }
+      // } else {
+      //   setIsSnackBar(true);
+      //   setErrorMsg(
+      //     response.Data ? response.Data.ResponseMessage : response.Remarks
+      //   );
+      // }
   };
 
   const handlePaymentMethod = (e) => {
-    if (balance < amt) {
+    if (data?.Data?.Balance  < amt) {
       if (selectedPaymentMethod == "both" && e.target.value == "wallet") {
         setSelectedPaymentMethod("payu");
         setPayuAmt(amt);
@@ -109,8 +105,8 @@ const ElectricityConfirmation = () => {
         e.target.value == "wallet"
       ) {
         setSelectedPaymentMethod("both");
-        setWalletAmt(balance);
-        setPayuAmt(amt - balance);
+        setWalletAmt(data?.Data?.Balance);
+        setPayuAmt(amt - data?.Data?.Balance);
       }
     } else {
       if (e.target.value == "wallet") {
@@ -138,43 +134,48 @@ const ElectricityConfirmation = () => {
     setLoading(false);
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
-    let balanceVal = "";
-    loggedInUser &&
-      getWalletBalance({ userName, password }).then((response) => {
-        setBalance(response.Data.Balance);
-        balanceVal = response.Data.Balance;
-        setShoppingPoints(response.Data.Shoppingpoints);
-        setPrimePoints(response.Data.PrimePoints);
-
-        manageInitialPaymentMethod(response.Data.Balance);
-
-        getServiceDiscounts().then((res) => {
-          var result = res.Data.filter((r) => r.Id == electricityServiceId);
-
-          setDiscountObj(result[0]);
-          const sDiscount = (result[0].ShoppingPer / 100) * amt;
-
-          if (sDiscount <= response.Data.Shoppingpoints) {
-            setShoppingDiscount(getDouble(sDiscount));
-            const amt = parseInt(amt) - parseInt(sDiscount);
-
-            setFinalAmount(amt);
-          } else {
-            setShoppingDiscount(response.Data.Shoppingpoints);
-            setFinalAmount(amt - response.Data.Shoppingpoints);
-          }
-          const pDiscount = (result[0].PrimePointPer / 100) * amt;
-          if (pDiscount <= response.Data.PrimePoints) {
-            setPrimeDiscount(getDouble(pDiscount));
-            setFinalAmount(amt - pDiscount);
-          } else {
-            setPrimeDiscount(response.Data.PrimePoints);
-            setFinalAmount(amt - response.Data.PrimePoints);
-          }
-        });
-      });
+    if(loggedInUser ){
+      if(data?.Data?.length!==0 || !data){
+        dispatch(getWalletBalance({userName,password}))
+      }
+    }
+return ()=>{setShowSuccess(false)}
   }, []);
 
+  useEffect(() => {
+    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
+    if(data?.Data){
+      manageInitialPaymentMethod(data?.Data?.Balance);
+    }
+    if(rechargeData && showSuccess){
+      // navigate("/services/status")
+      if (rechargeData.ResponseStatus === 1) {
+        if (rechargeData.Data != null) {
+          var data = rechargeData.Data;
+          var time = getTodayDate();
+          navigate("/services/success", {
+            state: {
+              amount: data.BillAmount,
+              status: rechargeData.Status,
+              mobileNo: inputFields[0].fieldValue,
+              operator: props.operator,
+              circle: "",
+              date: time,
+              transactionId: data.TransactionId,
+            },
+          });
+        } else {
+          setIsSnackBar(true);
+          setErrorMsg(rechargeData.Data.ResponseMessage);
+        }
+      } else {
+        setIsSnackBar(true);
+        setErrorMsg(
+          rechargeData.Data ? rechargeData.Data.ResponseMessage : rechargeData.Remarks
+        );
+      }
+    }
+      }, [data.Data, selectedDiscount,rechargeData])
   const confirmSection = () => (
     <div>
       <section class="section-align mobile-payment-confirmation">
@@ -253,13 +254,13 @@ const ElectricityConfirmation = () => {
                               <input
                                 onChange={(e) => {
                                   setSelectedDiscount(e.target.value);
-                                  setFinalAmount(amt - shoppingDiscount);
+                                  // setFinalAmount(amt - shoppingDiscount);
                                 }}
                                 type="radio"
                                 name="radio-button"
-                                value="shoppingPoint"
+                                value="SHOPPING"
                                 checked={
-                                  selectedDiscount == "shoppingPoint"
+                                  selectedDiscount == "SHOPPING"
                                     ? true
                                     : false
                                 }
@@ -270,7 +271,7 @@ const ElectricityConfirmation = () => {
                                   src="/images/services/mob-payment-discount.png"
                                   class="img-fluid mob-payment-discount-img"
                                 />{" "}
-                                Shopping Points ({shoppingPoints}){" "}
+                                Shopping Points ({data?.Data?.Shoppingpoints}){" "}
                               </span>
                             </label>
                             {/*<p class="mob-paymet-discount-amt ml-auto"> &#x20B9; {shoppingDiscount} </p>*/}
@@ -285,9 +286,9 @@ const ElectricityConfirmation = () => {
                                 }}
                                 type="radio"
                                 name="radio-button"
-                                value="primePoint"
+                                value="PRIME"
                                 checked={
-                                  selectedDiscount == "primePoint"
+                                  selectedDiscount == "PRIME"
                                     ? true
                                     : false
                                 }
@@ -298,7 +299,7 @@ const ElectricityConfirmation = () => {
                                   src="/images/services/mob-payment-discount.png"
                                   class="img-fluid mob-payment-discount-img"
                                 />{" "}
-                                Prime Points ({primePoints}){" "}
+                                Prime Points ({data?.Data?.PrimePoints}){" "}
                               </span>
                             </label>
                             {/** <p class="mob-paymet-Prime-amt ml-auto"> &#x20B9; {primeDiscount}</p> */}
@@ -340,7 +341,7 @@ const ElectricityConfirmation = () => {
                                     src="/images/logos/vips-logo-small.png"
                                     class="img-fluid payment-confirmation-debit-vips"
                                   />{" "}
-                                  VIPS Wallet (₹ {balance})
+                                  VIPS Wallet (₹ {data?.Data?.Balance})
                                 </label>
                               </div>
                             </div>
@@ -385,35 +386,35 @@ const ElectricityConfirmation = () => {
                         </div>
                       </div>
 
-                      {selectedDiscount == "shoppingPoint" ? (
+                      {selectedDiscount == "SHOPPING" ? (
                         <div class="row mb-3">
                           <div class="col-8 col-xs-4">
                             <span>
                               {" "}
-                              Shopping Points ({discountObj.ShoppingPer} %) :{" "}
+                              Shopping Points ({discount?.discountData?.ShoppingPer} %) :{" "}
                             </span>
                           </div>
                           <div class="col-4 col-xs-4 text-right">
                             <span class="mobile-payment-summery-amt">
                               {" "}
-                              -&#x20B9; {shoppingDiscount}{" "}
+                              -&#x20B9; {discount?.shoppingDiscount}{" "}
                             </span>
                           </div>
                         </div>
                       ) : null}
 
-                      {selectedDiscount == "primePoint" ? (
+                      {selectedDiscount == "PRIME" ? (
                         <div class="row mb-3">
                           <div class="col-8 col-xs-4">
                             <span>
                               {" "}
-                              Prime Points ({discountObj.PrimePointPer} %) :{" "}
+                              Prime Points ({discount?.discountData?.PrimePointPer} %) :{" "}
                             </span>
                           </div>
                           <div class="col-4 col-xs-4 text-right">
                             <span class="mobile-payment-summery-amt">
                               {" "}
-                              -&#x20B9; {primeDiscount}{" "}
+                              -&#x20B9; {discount.primePointDiscount}{" "}
                             </span>
                           </div>
                         </div>
@@ -426,17 +427,10 @@ const ElectricityConfirmation = () => {
                           <span> Total Amount : </span>
                         </div>
                         <div class="col-4 col-xs-4 text-right">
-                          {selectedDiscount == "shoppingPoint" ? (
-                            <span class="mobile-payment-summery-amt">
+                        <span class="mobile-payment-summery-amt">
                               {" "}
-                              &#x20B9; {amt - shoppingDiscount}{" "}
+                              &#x20B9; {discount?.finalAmount}{" "}
                             </span>
-                          ) : (
-                            <span class="mobile-payment-summery-amt">
-                              {" "}
-                              &#x20B9; {amt - primeDiscount}{" "}
-                            </span>
-                          )}
                         </div>
                       </div>
                     </div>
@@ -444,11 +438,11 @@ const ElectricityConfirmation = () => {
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
                         <button
-                          onClick={!loading && handleClickConfirm}
+                          onClick={!reLoading && handleClickConfirm}
                           type="button"
                           class="btn-primery"
                         >
-                          {loading ? (
+                          {reLoading ? (
                             <div className="d-inline-block mx-auto p-2">
                               <ThreeDots
                                 height="20"

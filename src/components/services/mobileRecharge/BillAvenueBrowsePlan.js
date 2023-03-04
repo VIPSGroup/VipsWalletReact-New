@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { billAvenueBrowsePlans } from "../../../apiData/services/mobileRecharge";
 import { useNavigate } from "react-router-dom";
 import { operartorsUrl } from "../../../constants";
 import { Loading } from "../../common";
+import { useDispatch, useSelector } from "react-redux";
+import { billAvenueBrowsePlans } from "../../../redux/slices/services/rechargeSlice";
 
 const BillAvenueBrowsePlan = ({
   props,
@@ -15,51 +16,44 @@ const BillAvenueBrowsePlan = ({
   circleId,
   setSection,
 }) => {
-  const [planList, setPlanList] = useState([]);
   const [planTypes, setPlanTypes] = useState([]);
   const [activePlans, setActivePlans] = useState([]);
   const [selectedPlanType, setSelectedPlanType] = useState("");
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
+const dispatch= useDispatch()
   let navigate = useNavigate();
-
+  const { loading,billAvenuePlans } = useSelector(state => state.rechargeSlice.billAvenueBrowsePlans );
   const clickPlanType = (e) => {
     e.preventDefault();
     setSelectedPlanType(e.target.value);
-    const filtered = planList.filter((p) => {
+    const filtered = billAvenuePlans.filter((p) => {
       return p.planName === e.target.value;
     });
     setActivePlans(filtered);
   };
 
   useEffect(() => {
-    billAvenueBrowsePlans("Maharashtra", "AIRTEL").then((response) => {
-      setLoading(false);
-      setPlanList(
-        response.Data.rechargePlanResponse.rechargePlan.rechargePlansDetails
-      );
+    if(billAvenuePlans.length===0){
+      dispatch(billAvenueBrowsePlans({circle:"Maharashtra", operator:"AIRTEL"}))
+    }
+    if(billAvenuePlans){
+  console.log(billAvenuePlans);
       const unique = [
         ...new Set(
-          response.Data.rechargePlanResponse.rechargePlan.rechargePlansDetails.map(
+          billAvenuePlans.map(
             (p) => p.planName
-          )
-        ),
-      ];
-
+          ) )];
       setPlanTypes(unique);
 
       setSelectedPlanType(unique[0]);
       const filtered =
-        response.Data.rechargePlanResponse.rechargePlan.rechargePlansDetails.filter(
+      billAvenuePlans.filter(
           (p) => {
             return p.planName === unique[0];
           }
         );
       setActivePlans(filtered);
-    });
-  }, [props]);
+}
+  }, [props,billAvenuePlans]);
 
   const browsePlansSection = () => (
     <div>
@@ -89,18 +83,6 @@ const BillAvenueBrowsePlan = ({
               <h3 class="brows-plans-title">
                 Browse plans of {operator} - {circle}
               </h3>
-              {/* <div class="input-group search-brows-plan shadow-light d-none">
-                <input
-                  class="form-control search-input"
-                  type="search"
-                  placeholder="Search for plan, eg. 299"
-                />
-                <span class="input-group-append">
-                  <button class="btn search-btn" type="button">
-                    <i class="fa fa-search"></i>
-                  </button>
-                </span>
-              </div> */}
             </div>
 
             <div class="col-md-12">

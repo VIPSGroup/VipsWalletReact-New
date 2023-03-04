@@ -5,7 +5,7 @@ import PincodeCheck from "../../components/shopping/PincodeCheck";
 import Carousel from "react-multi-carousel";
 import {
   getProductsByCategory,
-  getSingleProductData,
+  // getSingleProductData,
 } from "../../apiData/shopping/product";
 import { shopadminUrl } from "../../constants";
 
@@ -17,6 +17,8 @@ import AddWishListButton from "../../components/buttons/AddWishListButton";
 import Footer from "../../components/layout/Footer/Footer";
 import ProductHorizontal from "../../components/shopping/ProductHorizontal";
 import { getAllCategories } from "../../apiData/shopping/category";
+import { useDispatch } from "react-redux";
+import { getSingleProductData } from "../../redux/slices/productSlice";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -41,7 +43,7 @@ const ProductDetails = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const [similar, setSimilar] = useState([]);
-
+const dispatch= useDispatch()
   let navigate = useNavigate();
   let { productId, productName } = useParams();
   var imgArray = [];
@@ -225,38 +227,27 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    console.log("KOKOKO");
+    
     ReactGA.pageview(window.location.pathname);
     var p = {};
-    getSingleProductData(productId).then((response) => {
-      p = response.Data.ProductDetails;
-      setProduct(response.Data.ProductDetails);
-      manageRecentlyViewed(response.Data.ProductDetails);
-      clearRecentlyViewed();
-      //manageRecentlyViewed(response.Data)
-      setProductObj(response.Data);
-
-      //    const buyNowProductDeatils={
-      //     product:response.Data.ProductDetails,
-      //     charges:response.Data.ProductTax,
-      //     selectedColor:selectedColor,
-      //     selectedSize:selectedSize,
-      //     qty:qty
-      // }
-      //    let buyNowProductsArray=[];
-      //    buyNowProductsArray.push(buyNowProductDeatils)
-      //
-      //    setProducts(buyNowProductsArray)
-      if (p.Size) {
-        getSizes(response.Data.ProductDetails.Size);
-      }
-      if (p.Color) {
-        getColors(response.Data.ProductDetails.Color);
-      }
-      getProductImages(response.Data.ProductDetails);
-      checkInCart(response.Data);
-      getSimilarProduct(response.Data.ProductDetails.Category);
-    });
+    console.log("______",productId);
+    dispatch(getSingleProductData())
+    // getSingleProductData(productId).then((response) => {
+    //   p = response.Data.ProductDetails;
+    //   setProduct(response.Data.ProductDetails);
+    //   manageRecentlyViewed(response.Data.ProductDetails);
+    //   clearRecentlyViewed();
+    //   setProductObj(response.Data);
+    //   if (p.Size) {
+    //     getSizes(response.Data.ProductDetails.Size);
+    //   }
+    //   if (p.Color) {
+    //     getColors(response.Data.ProductDetails.Color);
+    //   }
+    //   getProductImages(response.Data.ProductDetails);
+    //   checkInCart(response.Data);
+    //   getSimilarProduct(response.Data.ProductDetails.Category);
+    // });
 
     checkInWishlist();
     window.scrollTo({

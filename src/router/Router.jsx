@@ -76,7 +76,13 @@ const Router = () => {
         <Route
           element={<Homepage setIsHomeTopNav={setIsHomeTopNav} />}
           path="/"
+        >
+            <Route
+          path="/login"
+          element={<Login/>
+          }
         />
+        </Route>
 
         {/* <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} /> */}
 
@@ -105,7 +111,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <RechargeConfirmation />{" "}
+              <RechargeConfirmation setIsHomeTopNav={setIsHomeTopNav} />{" "}
             </ProtectedRoute>
           }
         />
@@ -349,7 +355,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <ServiceSuccess />
+              <ServiceSuccess setIsHomeTopNav={setIsHomeTopNav}/>
             </ProtectedRoute>
           }
         />

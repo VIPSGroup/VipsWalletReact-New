@@ -22,7 +22,9 @@ const ChangePassword = () => {
   const [loading, setLoading] = useState(false);
 
   let navigate = useNavigate();
-const {loggedInUser}= useSelector(state=>state.login)
+  const { loggedInUser } = useSelector(
+    state => state.loginSlice.loggetInWithOTP
+  );
   const handleOldPassword = (e) => {
     setError("");
     setOldPassword(e.target.value);

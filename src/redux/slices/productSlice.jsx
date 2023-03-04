@@ -30,6 +30,7 @@ export const getSingleProductData = createAsyncThunk(
         `${baseApiUrl}/EcommerceServices/Productdescription`,
         formData
       );
+      console.log(res.data);
       return res.data;
     } catch (error) {
       return error;

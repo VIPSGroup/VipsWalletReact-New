@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getOperators } from "../../../apiData/services/dth";
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
 import RecentHistory from "../../../components/services/RecentHistory";
 
@@ -10,16 +9,17 @@ import {
   googleAnalytics,
 } from "../../../constants";
 import ReactGA from "react-ga";
+import { useDispatch, useSelector } from "react-redux";
+import { getOperators } from "../../../redux/slices/services/commonSlice";
 
 ReactGA.initialize(googleAnalytics);
 const DthFront = ({ props }) => {
-  const [operatorsList, setOperatorList] = useState([]);
+  // const [operatorsList, setOperatorList] = useState([]);
   const [mobileNo, setMobileNo] = useState("");
   const [selectedOperator, setSelectedOperator] = useState("");
   const [selectedOperatorId, setSelectedOperatorId] = useState("");
   const [selectedCircle, setSelectedCircle] = useState("");
   const [selectedCircleId, setSelectedCircleId] = useState("");
-  const [rechargeHistory, setRechargeHistory] = useState([]);
   const [opImgUrl, setOpImgUrl] = useState("");
   const [amount, setamount] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
@@ -27,12 +27,11 @@ const DthFront = ({ props }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   let navigate = useNavigate();
-
+  const { operatorsList } = useSelector(state => state.commonSlice.operators );
+const dispatch= useDispatch()
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    getOperators().then((response) => {
-      response && setOperatorList(response.Data);
-    });
+    dispatch(getOperators(dthServiceId))
   }, [props]);
 
   const handleMobileNo = (e) => {
@@ -64,6 +63,7 @@ const DthFront = ({ props }) => {
               operatorId: selectedOperatorId,
               circleId: selectedCircleId,
               amount: amount,
+              // operator:selectedOperator.operator
             },
           });
         } else {
@@ -198,9 +198,10 @@ const DthFront = ({ props }) => {
 
             <div class="col-sm-12 col-md-12 col-lg-8 mobile-recharge-right-outer">
               <RecentHistory
-                serviceId={dthServiceId}
+                serviceId={"1"}
                 fetchServiceId={mobileServiceId}
                 setMobileNo={setMobileNo}
+                type={"dth"}
               />
             </div>
 

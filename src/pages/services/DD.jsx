@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 // import { getWalletBalance } from "../../apiData/user/userDetails";
 // import { getServiceDiscounts } from "../../apiData/services/core";
 import { ThreeDots } from "react-loader-spinner";
-// import { commonServiceConfirm } from "../../apiData/services/core";
+import { commonServiceConfirm } from "../../apiData/services/core";
 import { getRandomNumber, getTodayDate, gasServiceId } from "../../constants";
 // import { naturalGasBillPay } from "../../apiData/services/core";
 import { getDouble, googleAnalytics } from "../../constants";
@@ -13,17 +13,24 @@ import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import { getWalletBalance } from "../../redux/slices/walletSlice";
 import { getServiceDiscounts } from "../../redux/slices/services/commonSlice";
-import { commonServiceConfirm, naturalGasBillPay } from "../../redux/slices/services/servicesSlice";
+import { naturalGasBillPay } from "../../redux/slices/services/servicesSlice";
 ReactGA.initialize(googleAnalytics);
 
 const ServiceConfirmationCommon = () => {
   const location = useLocation();
   const props = location.state;
-  var amt = props?.amount;
-  var inputFields = props?.inputFieldsData;
-  var serviceId = props?.serviceId;
+  var amt = props.amount;
+  var inputFields = props.inputFieldsData;
+  var serviceId = props.serviceId;
 
   // amt=props.plan ? props.plan.rs ||props.plan.amount:0;
+
+  const [balance, setBalance] = useState("");
+  const [shoppingPoints, setShoppingPoints] = useState("");
+  const [primePoints, setPrimePoints] = useState("");
+  const [discountObj, setDiscountObj] = useState({});
+  const [shoppingDiscount, setShoppingDiscount] = useState("");
+  const [primeDiscount, setPrimeDiscount] = useState("");
   const [selectedDiscount, setSelectedDiscount] = useState("SHOPPING");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("wallet");
   const [payuAmt, setPayuAmt] = useState("0");
@@ -41,24 +48,23 @@ const dispatch=  useDispatch()
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { gasBill,gasLoading, } = useSelector(state => state.servicesSlice.gasBillPay);
-  const { commonBill,commonLoading, } = useSelector(state => state.servicesSlice.commonBillPay);
   const { data } = useSelector(state => state.walletSlice.walletBalance);
   const { discount } = useSelector(state => state.commonSlice.serviceDiscount);
-  // const { rechargeData,reLoading, } = useSelector(state => state.fastagSlice.fastagRecharge);
+  const { gasBill,reLoading, } = useSelector(state => state.servicesSlice.gasBillPay);
   const handleClickConfirm = (e) => {
-    console.log("handleClickConfirm");
     e.preventDefault();
     setShowSuccess(true)
     setLoading(true);
+    var dType = "";
+    if (selectedDiscount == "SHOPPING") {
+      dType = "SHOPPING";
+    } else if (selectedDiscount == "PRIME") {
+      dType = "PRIME";
+    }
+
     const paymentRefId = getRandomNumber();
     if (serviceId === gasServiceId) {
       dispatch(naturalGasBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,billAmount:amt,inputObj:inputFields,paymentRef:paymentRefId,refId: props.billData.TransactionId,operatorCode: props.operatorId,mobNo:props.number}))
-    }else{
-      console.log("commonServiceConfirm");
-dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,billAmount:amt,inputObj:inputFields,paymentRef:paymentRefId,refId:props.billData.TransactionId,operatorCode: props.operatorId,mobNo: props.number}))
-    }
-    // if (serviceId === gasServiceId) {
     //   naturalGasBillPay(
     //     loggedInUser.Mobile,
     //     loggedInUser.TRXNPassword,
@@ -175,6 +181,7 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
   };
 
   useEffect(() => {
+    console.warn("UseEffect");
     ReactGA.pageview(window.location.pathname);
     setLoading(false);
     const userName = loggedInUser && loggedInUser.UserName;
@@ -196,64 +203,42 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
       manageInitialPaymentMethod(data?.Data?.Balance);
     }
     if(gasBill && showSuccess){
-      if (gasBill.ResponseStatus === 1) {;
-        if (gasBill.Data != null) {
-          var data = gasBill.Data;
-          var time = getTodayDate();
-          navigate("/services/success", {
-            state: {
-              amount: amt,
-              status: gasBill.Status,
-              mobileNo: inputFields[0].fieldValue,
-              operator: props?.operator,
-              circle: "",
-              date: time,
-              transactionId: data.TransactionId,
-            },
-          });
-        } else {
-          setIsSnackBar(true);
-          setErrorMsg(gasBill.Data.ResponseMessage);
-        }
-      } else {
-        setIsSnackBar(true);
-        setErrorMsg(
-          gasBill.Data ? gasBill.Data.ResponseMessage : gasBill.Remarks
-        );
-      }
-    }
-    if(commonBill && showSuccess){
-      console.warn(commonBill);
-      if (commonBill.ResponseStatus === 1) {
-        if (commonBill.Data != null) {
-          var data = commonBill.Data;
-          console.log(data);
+      console.error(gasBill);
+     
+      if (gasBill?.ResponseStatus === 1) {
+        if (gasBill?.Data != null) {
+          var data = rechargeData?.Data;
           var time = getTodayDate();
           navigate("/services/success", {
             state: {
               amount: data.BillAmount,
-              status: commonBill.Status,
+              status: rechargeData.Status,
               mobileNo: inputFields[0].fieldValue,
-              operator: props?.operator,
+              operator: props.operator,
               circle: "",
               date: time,
               transactionId: data.TransactionId,
             },
           });
-        } else {
-          console.log(commonBill.Data.ResponseMessage);
-          setIsSnackBar(true);
-          setErrorMsg(commonBill.Data.ResponseMessage);
         }
-      } else {
-        console.log(  commonBill.Data.ResponseMessage);
-        setIsSnackBar(true);
-        setErrorMsg(
-          commonBill.Data ? commonBill.Data.ResponseMessage : commonBill.Remarks
-        );
       }
+
+      // var data = rechargeData.Data;
+      //       var time = getTodayDate();
+      //       navigate("/services/success", {
+      //         state: {
+      //           amount: data.BillAmount,
+      //           status: rechargeData.Status,
+      //           mobileNo: inputFields[0].fieldValue,
+      //           operator: props.operator,
+      //           circle: "",
+      //           date: time,
+      //           transactionId: data.TransactionId,
+      //         },
+      //       })
+      // navigate("/services/status")
     }
-      }, [data.Data, selectedDiscount,gasBill,commonBill])
+      }, [data.Data, selectedDiscount,gasBill])
 
   const confirmSection = () => (
     <div>
@@ -299,12 +284,12 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
                     </div>
                     <div class="mob-paymet-info-outer">
                       <div class="mob-paymet-recharge-info">
-                        {props?.billData.CustomerParamsDetails.map((b, i) => (
+                        {props.billData.CustomerParamsDetails.map((b, i) => (
                           <p class="mob-paymet-recharge-text">
                             {b.Name} : <label>{b.Value} </label>{" "}
                           </p>
                         ))}
-                        <p class="ml-auto"> {props?.operator}</p>
+                        <p class="ml-auto"> {props.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
                         <p class="mob-paymet-recharge-text">
@@ -511,14 +496,15 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
                         </div>
                       </div>
                     </div>
+
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
                         <button
-                          onClick={!gasLoading && handleClickConfirm}
+                          onClick={!loading && handleClickConfirm}
                           type="button"
                           class="btn-primery"
                         >
-                          {gasLoading || commonLoading ? (
+                          {loading ? (
                             <div className="d-inline-block mx-auto p-2">
                               <ThreeDots
                                 height="20"

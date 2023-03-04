@@ -413,7 +413,6 @@ const EditProfile = () => {
                           </div>
                         </div>
                       </div>
-                      {JSON.stringify(getData)}
                       <SelectField
                         pincode={formik.values.Pincode}
                         setGetData={setGetData}

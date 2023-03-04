@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  getInputFieldsByOperator,
-  fetchBill,
-} from "../../apiData/services/electricity";
-import { getOperatorsByServiceId } from "../../apiData/services/core";
 import { getServiceId, operartorsUrl, googleAnalytics } from "../../constants";
 import "../../assets/styles/services/mobileRecharge/recharge.css";
 
 import ErrorText from "../../components/common/ErrorText";
 import RecentHistory from "../../components/services/RecentHistory";
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../../components/common";
+import { getOperatorsByServiceId } from "../../redux/slices/services/servicesSlice";
+import { fetchBill, getInputFieldsByOperator } from "../../redux/slices/services/fastagSlice";
 // import { Loading } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 
 const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
-  const [operatorsList, setOperatorList] = useState([]);
+  // const [operatorsList, setOperatorList] = useState([]);
 
   const [mobileNo, setMobileNo] = useState("");
   const [selectedOperator, setSelectedOperator] = useState("");
@@ -31,28 +28,19 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
   const [showBill, setShowBill] = useState(false);
   const [billFetchData, setBillFetchData] = useState({});
   const [billFetchError, setBillFetchError] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [opImgUrl, setOpImgUrl] = useState("");
+
+ const dispatch= useDispatch()
   let navigate = useNavigate();
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+  const { operatorsList } = useSelector(state => state.servicesSlice.operators );
+  const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
+  const { billData ,loading} = useSelector(state => state.fastagSlice.getBill );
   const callInputFields = (ourCode) => {
-    getInputFieldsByOperator(ourCode).then((response) => {
-      const data = response.Data.Response;
-      const arr = [];
-      data &&
-        data.map((d, i) => {
-          let newfield = { fieldName: d.name, fieldValue: "" };
-          arr.push({
-            fieldName: d.name,
-            fieldValue: "",
-            regex: d.Regex,
-            validate: false,
-          });
-        });
-      setInputFields(arr);
-    });
+    dispatch(getInputFieldsByOperator(ourCode))
   };
 
   const handleAllFieldInput = (e, index) => {
@@ -81,7 +69,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
         } else {
-          setLoading(true);
+          // setLoading(true);
           const obj = inputFields.reduce(
             (arr, curr) => ({ ...arr, [curr.fieldName]: curr.fieldValue }),
             {}
@@ -89,20 +77,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
           obj.MobileNumber = mobileNo;
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
-
-          fetchBill(obj, loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
-            (response) => {
-              if (response.Data.ResponseMessage == "Successful") {
-                setShowBill(true);
-                setBillFetchData(response.Data);
-                setBillAmount(parseFloat(response.Data.BillAmount));
-                setLoading(false);
-              } else {
-                setBillFetchError(response.Data.ResponseMessage);
-                setLoading(false);
-              }
-            }
-          );
+dispatch(fetchBill({obj,username:loggedInUser.Mobile,password: loggedInUser.TRXNPassword}))
         }
       } else {
         setErrorMsg("Please enter valid mobile number");
@@ -113,14 +88,37 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
       setIsSnackBar(true);
     }
   };
+  useEffect(() => {
 
+    console.log("USeEffect");
+    if(billData.ResponseMessage==="Successful"){
+      setShowBill(true);
+                    setBillFetchData(billData);
+                    setBillAmount(parseFloat(billData.BillAmount));
+    }else{
+      setBillFetchError(billData.ResponseMessage);
+    }
+  }, [billData])
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    getOperatorsByServiceId(serviceId).then((response) => {
-      const data = sortOperator(response.Data);
-      response && setOperatorList(data);
-    });
+dispatch(getOperatorsByServiceId(serviceId))
   }, [props]);
+  useEffect(() => {
+    const arr = []
+    if(operatorData){
+      operatorData.map((d, i) => {
+        
+        arr.push({
+          fieldName: d.name,
+          fieldValue: "",
+          regex: d.Regex,
+          validate: false,
+        })
+      });
+    }
+    setInputFields(arr);
+  }, [operatorData])
+  
 
   const handleMobileNo = (e) => {
     const value = e.target.value.replace(/\D/g, "");
@@ -223,24 +221,6 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
                         </div>
                       </div>
                     ))}
-
-                  {/* {<div class="row">
-                                                            <div class="col-sm-6">
-                                                                <label class="accordion-content-left-text"> Consumer No :</label>
-                                                            </div>
-                                                            <div class="col-sm-6 accordion-content-text">
-                                                                <label class="accordion-content-right-text">170016171428</label>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <label class="accordion-content-left-text"> BU :</label>
-                                                            </div>
-                                                            <div class="col-sm-6 accordion-content-text">
-                                                                <label class="accordion-content-right-text">4637</label>
-                                                            </div>
-                                                        </div>} */}
 
                   <div class="row flex-position">
                     <div class="col-sm-6">
