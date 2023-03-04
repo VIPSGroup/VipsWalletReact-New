@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchBill } from "../../../apiData/services/electricity";
-import {
-  getFastagOperators,
-  getInputFieldsByOperator,
-} from "../../../apiData/services/fastag";
+// import { fetchBill } from "../../../apiData/services/electricity";
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
 import "../../../assets/styles/services/electricity/electricity.css";
 import RecentHistory from "../../../components/services/RecentHistory";
 import { operartorsUrl } from "../../../constants";
 import { fastagServiceId, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ErrorText, Loading } from "../../../components/common";
+import { fetchBill, getFastagOperators, getInputFieldsByOperator } from "../../../redux/slices/services/fastagSlice";
 ReactGA.initialize(googleAnalytics);
 
 const FastagFront = ({ props }) => {
-  const [operatorsList, setOperatorList] = useState([]);
+  // const [operatorsList, setOperatorList] = useState([]);
   const [mobileNo, setMobileNo] = useState("");
   const [selectedOperator, setSelectedOperator] = useState("");
   const [selectedOperatorId, setSelectedOperatorId] = useState("");
@@ -30,30 +27,20 @@ const FastagFront = ({ props }) => {
   const [successMsg, setSuccessMsg] = useState("");
   const [billAmount, setBillAmount] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
+  const [isClick, setIsClick] = useState(false)
 
   const [inputFields, setInputFields] = useState([]);
-
+const dispatch= useDispatch()
   let navigate = useNavigate();
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-
+  const { operatorsList } = useSelector(state => state.fastagSlice.fastgOperators );
+  const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
+  const { billData } = useSelector(state => state.fastagSlice.getBill );
   const callInputFields = (ourCode) => {
-    getInputFieldsByOperator(ourCode).then((response) => {
-      const data = response.Data.Response;
-      const arr = [];
-      data &&
-        data.map((d, i) => {
-          let newfield = { fieldName: d.name, fieldValue: "" };
-          arr.push({
-            fieldName: d.name,
-            fieldValue: "",
-            regex: d.Regex,
-            validate: false,
-          });
-        });
-      setInputFields(arr);
-    });
+    setIsClick(true)
+    dispatch(getInputFieldsByOperator(ourCode))
   };
 
   const handleAllFieldInput = (e, index) => {
@@ -96,6 +83,7 @@ const FastagFront = ({ props }) => {
       if (mobileNo && mobileNo.length === 10) {
         let validateBBPSField = inputFields.filter((o) => o.validate === false);
         if (validateBBPSField.length !== 0) {
+          console.warn(validateBBPSField);
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
         } else {
@@ -109,20 +97,7 @@ const FastagFront = ({ props }) => {
           obj.Ip = "123";
 
           const jsonData = JSON.stringify(obj);
-
-          fetchBill(obj, loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
-            (response) => {
-              if (response.Data.ResponseMessage == "Successful") {
-                setShowBill(true);
-                setBillFetchData(response.Data);
-                setBillAmount(parseFloat(response.Data.BillAmount));
-                setLoading(false);
-              } else {
-                setBillFetchError(response.Data.ResponseMessage);
-                setLoading(false);
-              }
-            }
-          );
+          dispatch(fetchBill({obj,username: loggedInUser.Mobile,password:loggedInUser.TRXNPassword}))
         }
       } else {
         setIsSnackBar(true);
@@ -134,11 +109,40 @@ const FastagFront = ({ props }) => {
     }
   };
   useEffect(() => {
+    console.log(operatorData);
     ReactGA.pageview(window.location.pathname);
-    getFastagOperators().then((response) => {
-      response && setOperatorList(sortOperator(response.Data));
+    if(operatorData.length===0){
+      dispatch(getFastagOperators())
+    }
+    if(operatorData ){
+      operatorData.map((d, i) => {
+        const arr = []
+        arr.push({
+          fieldName: d.name,
+          fieldValue: "",
+          regex: d.Regex,
+          validate: false,
+        })
+        console.log(inputFields);
+        setInputFields(arr);
     });
-  }, [props]);
+    }
+  
+  }, [props,operatorData,]);
+
+useEffect(() => {
+  
+  console.log("USeEffect");
+  if(billData.ResponseMessage==="Successful"){
+    // setInputFields([...inputFields,inputFields.validate=true])
+    setShowBill(true);
+                  setBillFetchData(billData);
+                  setBillAmount(parseFloat(billData.BillAmount));
+  }else{
+    setBillFetchError(billData.ResponseMessage);
+  }
+}, [billData])
+
 
   const handleMobileNo = (e) => {
     const value = e.target.value.replace(/\D/g, "");
@@ -160,6 +164,7 @@ const FastagFront = ({ props }) => {
 
   const onClickContinue = (e) => {
     if (billAmount && billAmount > 0) {
+      setShowBill(false);
       navigate(`/services/fastag/online/confirm`, {
         state: {
           billData: billFetchData,
@@ -385,7 +390,6 @@ const FastagFront = ({ props }) => {
                         </div>
                       </div>
                     </div>
-
                     {operatorPaymentMode === 2 ? (
                       <div>
                         <div class="row">
@@ -422,8 +426,7 @@ const FastagFront = ({ props }) => {
                         </div>
                       </div>
                     ) : null}
-
-                    {inputFields.map((input, i) => (
+                    {isClick && inputFields.map((input, i) => (
                       <div class="row">
                         <div class="col-lg-12 mobile-recharge-field p-0">
                           <div class="input-field">
@@ -437,7 +440,7 @@ const FastagFront = ({ props }) => {
                               type="text"
                               required
                               style={{ textTransform: "uppercase" }}
-                            />
+                              />
                             <label for="referral-mobile">
                               {input.fieldName}
                             </label>

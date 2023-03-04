@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  billAvenueBrowsePlans,
-  getSpecialMobileRechargePlans,
-  getMobileRechargePlans,
-} from "../../../apiData/services/mobileRecharge";
-
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
+import { Loading } from "../../../components/common";
 
 import { operartorsUrl } from "../../../constants";
-// import LoadingBar from "../../common/loading";
-
+import { getMobileRechargePlans, getSpecialMobileRechargePlans } from "../../../redux/slices/services/rechargeSlice";
 const BrowsePlans = ({
   number,
   imgurl,
@@ -28,14 +23,15 @@ const BrowsePlans = ({
   const [comboPlans, setComboPlans] = useState([]);
   const [netPlans, setNetPlans] = useState([]);
   const [spPlans, setSpPlans] = useState([]);
-
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const [selectedType, setSelectedType] = useState("Special Recharge");
 
   let navigate = useNavigate();
-
+ const dispatch= useDispatch()
+  const {loading,rechargePlans}= useSelector(state => state.rechargeSlice.mobileRechargePlans)
+  const { specialPlans,spLoading } = useSelector(state => state.rechargeSlice.specialRechargePlans
+    );
   const clickMplanType = (e) => {
     e.preventDefault();
     const clickedButton = e.target.value;
@@ -63,42 +59,37 @@ const BrowsePlans = ({
     }
   };
 
-  const clickApply = (e) => {
-    e.preventDefault();
-    navigate("/services/mobileRecharge/confirm");
-  };
-
   useEffect(() => {
     if (activeApiId == 10) {
       const op =
-        operator.substring(0, 1) +
-        operator.substring(1, operator.length).toLowerCase();
-      getSpecialMobileRechargePlans(op, number).then((response) => {
-        if (!response.Data.records.msg) {
-          setSpPlans(response.Data.records);
-          setActivePlans(response.Data.records);
-        } else {
-          setLoading(false);
-          setError("Something went wrong");
-        }
-      });
-
-      getMobileRechargePlans(circle, operator).then((response) => {
-        console.log(response.Data);
-        if (!response.Data.records.msg) {
-          setLoading(false);
-          setTopupPlans(response.Data.records.TOPUP);
-          setRoamingPlans(response.Data.records.Romaing);
-          setRateCutterPlans(response.Data.records["RATE CUTTER"]);
-          setComboPlans(response.Data.records.COMBO);
-          setNetPlans(response.Data.records["3G/4G"]);
-        } else {
-          setLoading(false);
-          setError("Something went wrong");
-        }
-      });
+      operator.substring(0, 1) +
+      operator.substring(1, operator.length).toLowerCase();
+      dispatch(getSpecialMobileRechargePlans({operatorName:op==="Jio-recharge"?"Jio":op,mobileNo:number}))
+      dispatch(getMobileRechargePlans({circleName:circle, operatorName:operator==="JIO-Recharge"?"JIO":operator}))
+    }  }, []);
+  useEffect(() => {
+    if(rechargePlans.length!==1){
+      setTopupPlans(rechargePlans.TOPUP);
+      setRoamingPlans(rechargePlans.Romaing);
+      setRateCutterPlans(rechargePlans["RATE CUTTER"]);
+      setComboPlans(rechargePlans.COMBO);
+      setNetPlans(rechargePlans["3G/4G"]);
+    }else{
+      setError("Data Not Found")
     }
-  }, []);
+    if(specialPlans===undefined){
+      setError("Data Not Found");
+    }else{
+      setError('');
+    }
+    if(!specialPlans?.msg){
+      setSpPlans(specialPlans);
+          setActivePlans(specialPlans);
+    }else{
+          setError("Something went wrong");
+        }
+  }, [dispatch,rechargePlans,specialPlans])
+  
 
   const browsePlansSection = () => (
     <>
@@ -267,10 +258,10 @@ const BrowsePlans = ({
                     </li>
                   </ul>
                 </div>
-                {loading ? (
+                {loading || spLoading ? (
                   <div class="brows-plans-inner brows-plan-loader">
                     <div class="brows-plan-loader-outer">
-                      {/* <LoadingBar color="#CA3060" /> */}
+                      <Loading color="#CA3060" />
                     </div>
                   </div>
                 ) : error.length !== 0 ? (

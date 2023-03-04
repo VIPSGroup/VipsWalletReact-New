@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { getRechargeHistory } from "../../apiData/services/mobileRecharge";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { operartorsUrl } from "../../constants";
+import { getRechargeHistory } from "../../redux/slices/services/commonSlice";
+import { getCircleAndOperatorByNumber } from "../../redux/slices/services/rechargeSlice";
 import { Loading } from "../common";
 
 const RecentHistory = ({
   setMobileNo,
-  serviceId = 1,
-  fetchServiceId,
-  fetchOperator,
+  serviceId,
+  fetchServiceId,type
 }) => {
-  const [rechargeHistory, setRechargeHistory] = useState([]);
-  const [loading, setLoading] = useState(false);
-
+const dispatch= useDispatch()
+const {loading,rechargeHistoryList}= useSelector(state => state.commonSlice.rechargeHistory)
   const getTodaysDate = () => {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -28,42 +28,17 @@ const RecentHistory = ({
     return formatedToday;
   };
 
-  const clickRepeat = (number) => {
-    setMobileNo(number);
-    if (fetchOperator) {
-      fetchOperator(number);
-    }
-  };
   const { loggedInUser } = useSelector(
     state => state.loginSlice.loggetInWithOTP);
   useEffect(() => {
     const toDate = getTodaysDate();
 
-    if (!fetchServiceId) {
-      fetchServiceId = serviceId;
-    }
-
-    setLoading(true);
-    if (loggedInUser) {
-      getRechargeHistory(
-        loggedInUser.Mobile,
-        loggedInUser.TRXNPassword,
-        toDate,
-        fetchServiceId
-      ).then((response) => {
-        setLoading(false);
-        let data = response.Data.filter((item) => {
-          return item.ServiceId === serviceId;
-        });
-
-        setRechargeHistory(data);
-      });
-    }
+if(loggedInUser){
+  dispatch(getRechargeHistory({userName:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,to:toDate,serviceId,type}))
+}
   }, []);
 
-  return (
-    // <div class="col-sm-12 col-md-12 col-lg-8 mobile-recharge-right-outer">
-    <div class="mobile-recharge-right">
+  return (<div class="mobile-recharge-right">
       <div class="mobile-recharge-content box-shadow-1">
         <div class="mobile-recharge-content-inner">
           <div class="row">
@@ -77,7 +52,7 @@ const RecentHistory = ({
               <div class="service-loader-outer">
                 {loading ? (
                   <Loading color="#CA3060" class="" />
-                ) : rechargeHistory.length < 1 ? (
+                ) : rechargeHistoryList?.length===0 ? (
                   <div class="text-center">
                     <img src="/images/No_Data.svg" />
                   </div>
@@ -94,8 +69,9 @@ const RecentHistory = ({
 
               <table class="table text-nowrap table-borderless mobile-recharge-table">
                 <tbody>
-                  {rechargeHistory &&
-                    rechargeHistory.map((r, i) => (
+                  
+                  {rechargeHistoryList &&
+                    rechargeHistoryList.map((r, i) => (
                       <tr>
                         <td class="align-middle">
                           {" "}
@@ -146,7 +122,10 @@ const RecentHistory = ({
                         {setMobileNo && (
                           <td class="align-middle">
                             <button
-                              onClick={() => clickRepeat(r.Number)}
+onClick={()=>{setMobileNo(r.Number)
+ dispatch(getCircleAndOperatorByNumber(r.Number))
+}}
+                              // onClick={() => clickRepeat(r.Number)}
                               name="number"
                               value={r.Number}
                               type="button"
@@ -166,7 +145,6 @@ const RecentHistory = ({
         </div>
       </div>
     </div>
-    // </div>
   );
 };
 

@@ -4,7 +4,6 @@ import { BannerTopNav, CommonTopNav, HomeTopNav } from "./";
 
 const Navigation = ({ isHomeTopNav, isBottomTopNav }) => {
   const path = useResolvedPath().pathname;
-  console.log(path, "llll");
 
   return (
     <>

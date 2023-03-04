@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
-import { getWalletBalance } from "../../../apiData/user/userDetails";
-// import { getServiceDiscounts } from "../../../apiData/services/core";
-import { finalRecharge } from "../../../apiData/services/mobileRecharge";
-import { finalDth } from "../../../apiData/services/dth";
 import { getDouble, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../../../components/common";
-import { getServiceDiscounts } from "../../../redux/slices/coreSlice";
+import {
+  finalRecharge,
+  getServiceDiscounts,
+} from "../../../redux/slices/services/commonSlice";
+import { getWalletBalance } from "../../../redux/slices/walletSlice";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -19,94 +18,45 @@ const DthConfirmation = () => {
   const location = useLocation();
   const props = location.state;
   const amt = props.amount;
-  const { primeDiscount: lol } = useSelector((state) => state.coreSlice);
-  // amt=props.plan ? props.plan.rs ||props.plan.amount:0;
-  console.log(lol, "aaa");
-  const [balance, setBalance] = useState("");
-  const [shoppingPoints, setShoppingPoints] = useState("");
-  const [primePoints, setPrimePoints] = useState("");
-  const [discountObj, setDiscountObj] = useState({});
-  const [shoppingDiscount, setShoppingDiscount] = useState("");
-  const [primeDiscount, setPrimeDiscount] = useState("");
-  const [selectedDiscount, setSelectedDiscount] = useState("shoppingPoint");
+  const [selectedDiscount, setSelectedDiscount] = useState("SHOPPING");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("wallet");
   const [payuAmt, setPayuAmt] = useState("0");
   const [walletAmt, setWalletAmt] = useState("");
-  const [finalAmount, setFinalAmount] = useState("");
-  const [loading, setLoading] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-
+  const [showSuccess, setShowSuccess] = useState(false);
   let navigate = useNavigate();
+
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+  const { data } = useSelector((state) => state.walletSlice.walletBalance);
+  const { discount } = useSelector(
+    (state) => state.commonSlice.serviceDiscount
+  );
+  const { rechargeData, loading } = useSelector(
+    (state) => state.commonSlice.finalRecharge
+  );
   const handleClickConfirm = (e) => {
+    setShowSuccess(true);
     e.preventDefault();
-    setLoading(true);
-    var dType = "";
-    if (selectedDiscount == "shoppingPoint") {
-      dType = "SHOPPING";
-    } else if (selectedDiscount == "primePoint") {
-      dType = "PRIME";
-    }
-    finalDth(
-      loggedInUser.Mobile,
-      loggedInUser.TRXNPassword,
-      amt,
-      props.number,
-      props.operatorId,
-      dType
-    ).then((response) => {
-      if (response.ResponseStatus == 1) {
-        const resp = response.Data;
-
-        const str = resp && resp.split(";");
-        const status = str[0].split("=")[1];
-
-        const amount = str[3].split("=")[1] || amt;
-        const mobileNumber = str[2].split("=")[1];
-        const time = str[1].split("=")[1] || "--";
-        const txId = str.length > 6 ? str[6].split("=")[1] : "--";
-
-        navigate("/services/status", {
-          state: {
-            amount: amount,
-            status: status,
-            mobileNo: props.number,
-            operator: props.operator,
-            circle: props.circle,
-            date: time,
-            transactionId: txId,
-          },
-        });
-
-        if (response.Status.includes("Failure")) {
-          navigate("/services/status", {
-            state: {
-              amount: props.amount,
-              status: "Failure",
-              mobileNo: props.number,
-              operator: props.operator,
-              circle: props.circle,
-              date: "--",
-              transactionId: "--",
-            },
-          });
-        }
-
-        setLoading(false);
-      } else {
-        setLoading(false);
-        setIsSnackBar(true);
-        setErrorMsg(response.Remarks);
-      }
-    });
+    dispatch(
+      finalRecharge({
+        rechargeType: "dth",
+        userName: loggedInUser.Mobile,
+        password: loggedInUser.TRXNPassword,
+        amount: amt,
+        number: props.number,
+        operatorId: props.operatorId,
+        pointType: selectedDiscount,
+        operator: props.operator,
+      })
+    );
   };
 
   const handlePaymentMethod = (e) => {
-    if (balance < amt) {
+    if (data?.Data?.Balance < amt) {
       if (selectedPaymentMethod == "both" && e.target.value == "wallet") {
         setSelectedPaymentMethod("payu");
         setPayuAmt(amt);
@@ -116,8 +66,8 @@ const DthConfirmation = () => {
         e.target.value == "wallet"
       ) {
         setSelectedPaymentMethod("both");
-        setWalletAmt(balance);
-        setPayuAmt(amt - balance);
+        setWalletAmt(data?.Data?.Balance);
+        setPayuAmt(amt - data?.Data?.Balance);
       }
     } else {
       if (e.target.value == "wallet") {
@@ -144,46 +94,65 @@ const DthConfirmation = () => {
     ReactGA.pageview(window.location.pathname);
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
-    let balanceVal = "";
-    loggedInUser &&
-      getWalletBalance({ userName, password }).then((response) => {
-        setBalance(response.Data.Balance);
-        balanceVal = response.Data.Balance;
-        setShoppingPoints(response.Data.Shoppingpoints);
-        setPrimePoints(response.Data.PrimePoints);
-
-        manageInitialPaymentMethod(response.Data.Balance);
-        dispatch(getServiceDiscounts({ amt, response }))
-          .then((res) => {
-            console.log(res, "llllolol");
-          })
-          .catch((error) => {
-            console.log(error, "hhiiii");
-          });
-        // getServiceDiscounts().then((res) => {
-        //   var result = res.Data.filter((r) => r.Id == "1");
-        //   setDiscountObj(result[0]);
-        //   const sDiscount = (result[0].ShoppingPer / 100) * amt;
-        //   if (sDiscount <= response.Data.Shoppingpoints) {
-        //     setShoppingDiscount(getDouble(sDiscount));
-        //     const amt = parseInt(amt) - parseInt(sDiscount);
-        //     setFinalAmount(amt);
-        //   } else {
-        //     setShoppingDiscount(getDouble(response.Data.Shoppingpoints));
-        //     setFinalAmount(amt - response.Data.Shoppingpoints);
-        //   }
-        //   const pDiscount = (result[0].PrimePointPer / 100) * amt;
-        //   if (pDiscount <= response.Data.PrimePoints) {
-        //     setPrimeDiscount(getDouble(pDiscount));
-        //     setFinalAmount(amt - pDiscount);
-        //   } else {
-        //     setPrimeDiscount(getDouble(response.Data.PrimePoints));
-        //     setFinalAmount(amt - response.Data.PrimePoints);
-        //   }
-        // });
-      });
+    if (loggedInUser) {
+      if (data?.Data?.length !== 0 || !data) {
+        dispatch(getWalletBalance({ userName, password }));
+      }
+    }
+    return () => {
+      setShowSuccess(false);
+    };
   }, []);
+  useEffect(() => {
+    if (data.Data) {
+      manageInitialPaymentMethod(data?.Data?.Balance);
+      dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount }));
+    }
+    if (rechargeData && showSuccess) {
+      if (rechargeData.ResponseStatus == 1) {
+        const resp = rechargeData.Data;
 
+        const str = resp && resp.split(";");
+        const status = str[0].split("=")[1];
+
+        const amount = str[3].split("=")[1] || amt;
+        const mobileNumber = str[2].split("=")[1];
+        const time = str[1].split("=")[1] || "--";
+        const txId = str.length > 6 ? str[6].split("=")[1] : "--";
+
+        navigate("/services/status", {
+          state: {
+            amount: amount,
+            status: status,
+            mobileNo: props.number,
+            operator: props.operator,
+            circle: props.circle,
+            date: time,
+            transactionId: txId,
+          },
+        });
+
+        if (rechargeData.Status.includes("Failure")) {
+          navigate("/services/status", {
+            state: {
+              amount: props.amount,
+              status: "Failure",
+              mobileNo: props.number,
+              operator: props.operator,
+              circle: props.circle,
+              date: "--",
+              transactionId: "--",
+            },
+          });
+        }
+        // setLoading(false);
+      } else {
+        // setLoading(false);
+        setIsSnackBar(true);
+        setErrorMsg(rechargeData.Remarks);
+      }
+    }
+  }, [data.Data, selectedDiscount, rechargeData]);
   const confirmSection = () => (
     <div>
       <section class="section-align mobile-payment-confirmation">
@@ -250,13 +219,13 @@ const DthConfirmation = () => {
                                 <input
                                   onChange={(e) => {
                                     setSelectedDiscount(e.target.value);
-                                    setFinalAmount(amt - shoppingDiscount);
+                                    // setFinalAmount(amt - shoppingDiscount);
                                   }}
                                   type="radio"
                                   name="radio-button"
-                                  value="shoppingPoint"
+                                  value="SHOPPING"
                                   checked={
-                                    selectedDiscount == "shoppingPoint"
+                                    selectedDiscount == "SHOPPING"
                                       ? true
                                       : false
                                   }
@@ -267,7 +236,7 @@ const DthConfirmation = () => {
                                     src="/images/services/mob-payment-discount.png"
                                     class="img-fluid mob-payment-discount-img"
                                   />{" "}
-                                  Shopping Points ({shoppingPoints}){" "}
+                                  Shopping Points ({data?.Data?.Shoppingpoints}){" "}
                                 </span>
                               </label>
                             </div>
@@ -281,15 +250,13 @@ const DthConfirmation = () => {
                                 <input
                                   onChange={(e) => {
                                     setSelectedDiscount(e.target.value);
-                                    setFinalAmount(amt - primeDiscount);
+                                    // setFinalAmount(amt - primeDiscount);
                                   }}
                                   type="radio"
                                   name="radio-button"
-                                  value="primePoint"
+                                  value="PRIME"
                                   checked={
-                                    selectedDiscount == "primePoint"
-                                      ? true
-                                      : false
+                                    selectedDiscount == "PRIME" ? true : false
                                   }
                                 />
                                 <span>
@@ -298,7 +265,7 @@ const DthConfirmation = () => {
                                     src="/images/services/mob-payment-discount.png"
                                     class="img-fluid mob-payment-discount-img"
                                   />{" "}
-                                  Prime Points ({primePoints}){" "}
+                                  Prime Points ({data?.Data?.PrimePoints}){" "}
                                 </span>
                               </label>
                             </div>
@@ -342,7 +309,7 @@ const DthConfirmation = () => {
                                     src="/images/logos/vips-logo-small.png"
                                     class="img-fluid payment-confirmation-debit-vips"
                                   />{" "}
-                                  VIPS Wallet (₹ {balance})
+                                  VIPS Wallet (₹ {data?.Data?.Balance})
                                 </label>
                               </div>
                             </div>
@@ -354,108 +321,6 @@ const DthConfirmation = () => {
                             </div>
                           </div>
                         </form>
-
-                        {/* {{selectedPaymentMethod=="both"?(
-                                                <form>
-                                            <div class="payment-confirmation-discount-info mb-4">
-                                                <div class="col-lg-8 p-0">  
-                                                    <div class="custom-control custom-checkbox ">
-                                                    <input onChange={handlePaymentMethod} class="custom-control-input" id="vips-wallet" type="checkbox" name="radio-button" value="wallet" checked={selectedPaymentMethod=="wallet" || selectedPaymentMethod=="both" ?true:false} />
-                                                        <label class="custom-control-label" for="vips-wallet"> 
-                                                            <img src="/images/logos/vips-logo-small.png" class="img-fluid payment-confirmation-debit-vips" /> VIPS Wallet (₹ {balance})
-                                                        </label>
-                                                    </div> 
-                                                </div>
-                                                <div class="col-lg-4 p-0">
-                                                <p class="mob-paymet-discount-amt ml-auto"> &#x20B9; {balance} </p>
-                                                </div>
-                                            </div>
-
-                                            <div class="payment-confirmation-discount-info">
-                                                <div class="col-lg-8 p-0"> 
-                                                    <div class="custom-control custom-checkbox ">
-                                                    <input onChange={handlePaymentMethod} class="custom-control-input" id="payu-card" type="checkbox" name="radio-button" value="payu" checked={selectedPaymentMethod=="payu" || selectedPaymentMethod=="both" ?true:false} />
-                                                     <label class="custom-control-label" for="payu-card"> 
-                                                            <img src="/images/logos/payu-logo.png" class="img-fluid payment-confirmation-debit-payu" /> Payu (card / UPI)
-                                                        </label>
-                                                    </div> 
-                                                </div>
-                                                <div class="col-lg-4 p-0">
-                                                <p class="mob-paymet-Prime-amt ml-auto"> &#x20B9; {amt-balance}</p>
-                                                </div>
-                                            </div> 
-
-                                        </form>
-                                            ):null}
-
-                                            {selectedPaymentMethod=="wallet"?(
-                                                <form>
-                                            <div class="payment-confirmation-discount-info mb-4">
-                                                <div class="col-lg-8 p-0">  
-                                                    <div class="custom-control custom-checkbox ">
-                                                    <input onChange={handlePaymentMethod}  class="custom-control-input" id="vips-wallet" type="checkbox" name="radio-button" value="wallet" checked={selectedPaymentMethod=="wallet" || selectedPaymentMethod=="both" ?true:false} />
-                                                        <label class="custom-control-label" for="vips-wallet"> 
-                                                            <img src="/images/logos/vips-logo-small.png" class="img-fluid payment-confirmation-debit-vips" /> VIPS Wallet (₹ {balance})
-                                                        </label>
-                                                    </div> 
-                                                </div>
-                                                <div class="col-lg-4 p-0">
-                                                <p class="mob-paymet-discount-amt ml-auto"> &#x20B9; {amt} </p>
-                                                </div>
-                                            </div>
-
-                                            <div class="payment-confirmation-discount-info">
-                                                <div class="col-lg-8 p-0"> 
-                                                    <div class="custom-control custom-checkbox ">
-                                                    <input onChange={handlePaymentMethod}  class="custom-control-input" id="payu-card" type="checkbox" name="radio-button" value="payu" checked={selectedPaymentMethod=="payu" || selectedPaymentMethod=="both" ?true:false} />  
-                                                     <label class="custom-control-label" for="payu-card"> 
-                                                            <img src="/images/logos/payu-logo.png" class="img-fluid payment-confirmation-debit-payu" /> Payu (card / UPI)
-                                                        </label>
-                                                    </div> 
-                                                </div>
-                                                <div class="col-lg-4 p-0">
-                                                <p class="mob-paymet-Prime-amt ml-auto"> &#x20B9; 0.0</p>
-                                                </div>
-                                            </div> 
-
-                                        </form>
-                                            ):null}
-
-
-
-
-                                        {selectedPaymentMethod=="payu"?(
-                                                <form>
-                                            <div class="payment-confirmation-discount-info mb-4">
-                                                <div class="col-lg-8 p-0">  
-                                                    <div class="custom-control custom-checkbox ">
-                                                    <input onChange={handlePaymentMethod}  class="custom-control-input" id="vips-wallet" type="checkbox" name="radio-button" value="wallet" checked={selectedPaymentMethod=="wallet" || selectedPaymentMethod=="both" ?true:false} />
-                                                        <label class="custom-control-label" for="vips-wallet"> 
-                                                            <img src="/images/logos/vips-logo-small.png" class="img-fluid payment-confirmation-debit-vips" /> VIPS Wallet (₹ {balance})
-                                                        </label>
-                                                    </div> 
-                                                </div>
-                                                <div class="col-lg-4 p-0">
-                                                <p class="mob-paymet-discount-amt ml-auto"> &#x20B9; 0.0 </p>
-                                                </div>
-                                            </div>
-
-                                            <div class="payment-confirmation-discount-info">
-                                                <div class="col-lg-8 p-0"> 
-                                                    <div class="custom-control custom-checkbox ">
-                                                    <input onChange={handlePaymentMethod} class="custom-control-input" id="payu-card" type="checkbox" name="radio-button" value="payu" checked={selectedPaymentMethod=="payu" || selectedPaymentMethod=="both" ?true:false} />
-                                                     <label class="custom-control-label" for="payu-card"> 
-                                                            <img src="/images/logos/payu-logo.png" class="img-fluid payment-confirmation-debit-payu" /> Payu (card / UPI)
-                                                        </label>
-                                                    </div> 
-                                                </div>
-                                                <div class="col-lg-4 p-0">
-                                                <p class="mob-paymet-Prime-amt ml-auto"> &#x20B9; {amt}</p>
-                                                </div>
-                                            </div> 
-
-                                        </form>
-                                            ):null}} */}
                       </div>
                     </div>
                   </div>
@@ -489,35 +354,37 @@ const DthConfirmation = () => {
                         </div>
                       </div>
 
-                      {selectedDiscount == "shoppingPoint" ? (
+                      {selectedDiscount === "SHOPPING" ? (
                         <div class="row mb-3">
                           <div class="col-8 col-xs-4">
                             <span>
                               {" "}
-                              Shopping Points ({discountObj.ShoppingPer} %) :{" "}
+                              Shopping Points (
+                              {discount?.discountData?.ShoppingPer} %) :{" "}
                             </span>
                           </div>
                           <div class="col-4 col-xs-4 text-right">
                             <span class="mobile-payment-summery-amt">
                               {" "}
-                              -&#x20B9; {shoppingDiscount}{" "}
+                              -&#x20B9; {discount?.shoppingDiscount}{" "}
                             </span>
                           </div>
                         </div>
                       ) : null}
 
-                      {selectedDiscount == "primePoint" ? (
+                      {selectedDiscount === "PRIME" ? (
                         <div class="row mb-3">
                           <div class="col-8 col-xs-4">
                             <span>
                               {" "}
-                              Prime Points ({discountObj.PrimePointPer} %) :{" "}
+                              Prime Points (
+                              {discount?.discountData?.PrimePointPer} %) :{" "}
                             </span>
                           </div>
                           <div class="col-4 col-xs-4 text-right">
                             <span class="mobile-payment-summery-amt">
                               {" "}
-                              -&#x20B9; {primeDiscount}{" "}
+                              -&#x20B9; {discount.primePointDiscount}{" "}
                             </span>
                           </div>
                         </div>
@@ -530,22 +397,15 @@ const DthConfirmation = () => {
                           <span> Total Amount : </span>
                         </div>
                         <div class="col-4 col-xs-4 text-right">
-                          {selectedDiscount == "shoppingPoint" ? (
-                            <span class="mobile-payment-summery-amt">
-                              {" "}
-                              &#x20B9; {amt - shoppingDiscount}{" "}
-                            </span>
-                          ) : (
-                            <span class="mobile-payment-summery-amt">
-                              {" "}
-                              &#x20B9; {amt - primeDiscount}{" "}
-                            </span>
-                          )}
+                          <span class="mobile-payment-summery-amt">
+                            {" "}
+                            &#x20B9; {discount?.finalAmount}{" "}
+                          </span>
                         </div>
                       </div>
                     </div>
 
-                    {amt > balance ? (
+                    {amt > data?.Data?.Balance ? (
                       <div className="alert alert-danger d-block mt-4">
                         Wallet Balance less than the Amount.{" "}
                         <Link

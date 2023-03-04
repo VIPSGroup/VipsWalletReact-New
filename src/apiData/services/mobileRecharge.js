@@ -24,7 +24,6 @@ export const getOperators = async (serviceId) => {
 
 export const getMobileRechargePlans = async (circleName, operatorName) => {
   const formData = new FormData();
-
   formData.append("CircleName", circleName);
   formData.append("OperatorName", operatorName);
   try {

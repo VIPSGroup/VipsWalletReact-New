@@ -33,7 +33,7 @@ const EditProfile = () => {
   const { allStateCityList } = useSelector(
     (state) => state.signUpSlice.stateList
   );
-  const { stateCityByPincode } = useSelector(
+  const { stateCityByPincode, edited } = useSelector(
     (state) => state.signUpSlice.stateCityPincode
   );
   const formik = useFormik({
@@ -93,57 +93,55 @@ const EditProfile = () => {
 
   useEffect(() => {
     console.log("useEffect");
-    if (formik.values.Pincode == pinCode) {
-      getProfileDetails(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
-        (response) => {
-          const data = response.Data[0];
-          setUserDetails(response.Data[0]);
-          setPanNo(data.PanCard);
-          setAadharNo(data.AadharNo);
-          setPinCode(data.Pincode);
-          setAddress(data.PerAddress);
-          setStateCode(data.StateId);
-          setCityCode(data.CityId);
-          setGetData({
-            ...getData,
-            stateId: data.StateId,
-            cityId: data.CityId,
-            pincodeId: data.PincodeId,
-          });
-          setAlternateNumber(data.AlternateMobile);
-          setLastUpdateAltMobile(data.LastUpdatedAltMobileEmail);
-          formik.values.Pincode = data.Pincode;
-          formik.values.AlternateMobile = data.AlternateMobile;
-          formik.values.PanCard = data.PanCard;
-          formik.values.PerAddress = data.PerAddress;
-          formik.values.AadharNo = data.AadharNo;
-
-          if (allStateCityList) {
-            let selectedState = allStateCityList.Data.find(
-              (item) => item.Id === getData.stateId
-            );
-            let selectedCity = selectedState?.Citys.find(
-              (item) => item.Id === getData.cityId
-            );
-            if (
-              getData.stateName != selectedState?.StateName &&
-              getData.cityName != selectedCity?.CityName
-            ) {
-              setGetData({
-                ...getData,
-                stateName: selectedState?.StateName,
-                cityName: selectedCity?.CityName,
-              });
-            }
-          }
-        }
-      );
+    if (!pinCode) {
+      getProfileDetails({
+        username: loggedInUser.Mobile,
+        password: loggedInUser.TRXNPassword,
+      }).then((response) => {
+        const data = response.Data[0];
+        setUserDetails(response.Data[0]);
+        setPanNo(data.PanCard);
+        setAadharNo(data.AadharNo);
+        setPinCode(data.Pincode);
+        setAddress(data.PerAddress);
+        setStateCode(data.StateId);
+        setCityCode(data.CityId);
+        setGetData({
+          ...getData,
+          stateId: data.StateId,
+          cityId: data.CityId,
+          pincodeId: data.PincodeId,
+        });
+        setAlternateNumber(data.AlternateMobile);
+        setLastUpdateAltMobile(data.LastUpdatedAltMobileEmail);
+        formik.values.Pincode = data.Pincode;
+        formik.values.AlternateMobile = data.AlternateMobile;
+        formik.values.PanCard = data.PanCard;
+        formik.values.PerAddress = data.PerAddress;
+        formik.values.AadharNo = data.AadharNo;
+      });
     }
-
-    if (formik.values.Pincode.length == 6) {
+    if (allStateCityList) {
+      let selectedState = allStateCityList.Data.find(
+        (item) => item.Id === getData.stateId
+      );
+      let selectedCity = selectedState?.Citys.find(
+        (item) => item.Id === getData.cityId
+      );
+      if (
+        getData.stateName != selectedState?.StateName &&
+        getData.cityName != selectedCity?.CityName
+      ) {
+        setGetData({
+          ...getData,
+          stateName: selectedState?.StateName,
+          cityName: selectedCity?.CityName,
+        });
+      }
+    }
+    if (formik.values.Pincode.length === 6) {
       dispatch(getStateCity(formik.values.Pincode));
     }
-    console.warn(formik.values.Pincode);
     if (formik.values.Pincode.length === 6) {
       if (stateCityByPincode?.ResponseStatus === 1) {
         setGetData({
@@ -167,10 +165,38 @@ const EditProfile = () => {
           cityError: false,
         });
       }
-    } else {
-      // dispatch(stateCityEmpty())
     }
-  }, [pinCode, formik.values.Pincode]);
+  }, [pinCode, formik.values.Pincode, getData]);
+
+  // const handlePincode=()=>{
+  //   console.log(formik.values.Pincode);
+  //   if (formik.values.Pincode.length === 6) {
+  //     dispatch(getStateCity(formik.values.Pincode));
+  //     if (stateCityByPincode?.ResponseStatus === 1) {
+  //       console.warn(stateCityByPincode.Data[0]);
+  //       setGetData({
+  //         ...getData,
+  //         stateName: stateCityByPincode.Data[0].StateName,
+  //         stateId: stateCityByPincode.Data[0].StateId,
+  //         stateError: false,
+  //         cityId: stateCityByPincode.Data[0].CityId,
+  //         cityName: stateCityByPincode.Data[0].CityName,
+  //         cityError: false,
+  //         pincodeId: stateCityByPincode.Data[0].PincodeId,
+  //       });
+  //     } else if (stateCityByPincode?.ResponseStatus === 0) {
+  //       setGetData({
+  //         ...getData,
+  //         stateName: "",
+  //         stateId: "",
+  //         stateError: false,
+  //         cityId: "",
+  //         cityName: "",
+  //         cityError: false,
+  //       });
+  //     }
+  //   }
+  // }
 
   const editProfileSection = () => (
     <>

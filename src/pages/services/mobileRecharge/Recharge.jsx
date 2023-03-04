@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import {
-  getOperators,
-  getRechargeCircleList,
-  getCircleAndOperatorByNumber,
-  getRechargeHistory,
-  billAvenueBrowsePlans,
-  billAvenueGetOperatorCircle,
-  getActiveApi,
-} from "../../../apiData/services/mobileRecharge";
-
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
 import {
   operartorsUrl,
@@ -19,26 +8,24 @@ import {
 } from "../../../constants";
 import { googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   BillAvenueBrowsePlan,
   RecentHistory,
 } from "../../../components/services";
 import BrowsePlans from "./BrowsePlans";
+import { getActiveApi, getCircleAndOperatorByNumber, getRechargeCircleList } from "../../../redux/slices/services/rechargeSlice";
+import { getOperators } from "../../../redux/slices/services/commonSlice";
 
 ReactGA.initialize(googleAnalytics);
 
 const Recharge = ({ props }) => {
-  const [activeApiId, setActiveApiId] = useState("");
   const [rechargeType, setRechargeType] = useState("Prepaid");
-  const [operatorsList, setOperatorList] = useState([]);
-  const [circleList, setCircleList] = useState([]);
   const [mobileNo, setMobileNo] = useState("");
   const [selectedOperator, setSelectedOperator] = useState("");
   const [selectedOperatorId, setSelectedOperatorId] = useState("");
   const [selectedCircle, setSelectedCircle] = useState("");
   const [selectedCircleId, setSelectedCircleId] = useState("");
-  const [rechargeHistory, setRechargeHistory] = useState([]);
   const [sectionCount, setSectionCount] = useState(1);
   const [opImgUrl, setOpImgUrl] = useState("");
   const [postpaidAmount, setPostpaidAmount] = useState("");
@@ -47,8 +34,13 @@ const Recharge = ({ props }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   let navigate = useNavigate();
-  const { loggedInUser } = useSelector(
-    (state) => state.loginSlice.loggetInWithOTP
+ const dispatch= useDispatch()
+  const { loggedInUser } = useSelector(state => state.loginSlice.loggetInWithOTP);
+  const { browseApi } = useSelector( state => state.rechargeSlice.browsePlan );
+  const { operatorsList } = useSelector(state => state.commonSlice.operators );
+  const { rechargeCircleList } = useSelector(state => state.rechargeSlice.rechargeCircle
+  );
+  const { circleAndOperator } = useSelector(state => state.rechargeSlice.circleAndOperatorByNumber
   );
   const getTodaysDate = () => {
     const today = new Date();
@@ -87,75 +79,39 @@ const Recharge = ({ props }) => {
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    getActiveApi().then((response) => {
-      const data = response.Data.find((element) => element.Status == true);
-
-      setActiveApiId(data.Id);
-    });
-
+    dispatch(getActiveApi())
+dispatch(getRechargeCircleList())
     getOperatorsApi(mobileServiceId);
-    getRechargeCircleList().then((response) => {
-      response && setCircleList(response.Data);
-    });
 
-    const toDate = getTodaysDate();
-
-    loggedInUser &&
-      getRechargeHistory(
-        loggedInUser.Mobile,
-        loggedInUser.TRXNPassword,
-        toDate
-      ).then((response) => {
-        setRechargeHistory(response.Data);
-      });
-  }, [props]);
-
-  const getOperatorsApi = (serviceId) => {
-    getOperators(serviceId).then((response) => {
-      response && setOperatorList(response.Data);
-    });
-  };
-
-  const callOperatorCircle = (number) => {
-    if (activeApiId == "10") {
-      getCircleAndOperatorByNumber(number).then((response) => {
-        setSelectedCircle(response.Data[0].Circle);
-        setSelectedOperator(response.Data[0].OperatorName.split("-")[0]);
+     if(circleAndOperator && circleAndOperator[0]){
+     setSelectedCircle(circleAndOperator[0].Circle);
+        setSelectedOperator(circleAndOperator[0].OperatorName.split("-")[0]);
         setSelectedOperatorId(
-          response.Data[0].OperatorId === 151
+          circleAndOperator[0].OperatorId === 151
             ? "JIO"
-            : response.Data[0].OperatorId
+            : circleAndOperator[0].OperatorId
         );
-        setSelectedCircleId(response.Data[0].CircleId);
+        setSelectedCircleId(circleAndOperator[0].CircleId);
 
         operatorsList.forEach((o, i) => {
-          if (o.OperatorName == response.Data[0].OperatorName) {
+          if (o.OperatorName == circleAndOperator[0].OperatorName) {
             setOpImgUrl(o.Image);
           }
         });
-      });
-    } else if (activeApiId == "9") {
-      billAvenueGetOperatorCircle(number).then((response) => {
-        setSelectedCircle(response.Data[0].Circle);
-        setSelectedOperator(response.Data[0].OperatorName.split("-")[0]);
-        setSelectedCircleId(response.Data[0].CircleId);
-        setSelectedOperatorId(
-          response.Data[0].OperatorId === 151
-            ? "JIO"
-            : response.Data[0].OperatorId
-        );
-        setOpImgUrl(response.Data[0].OperatorImagePath);
-      });
-    }
+      }
+  }, [props,circleAndOperator]);
+
+  const getOperatorsApi = (serviceId) => {
+    dispatch(getOperators(serviceId))
   };
 
   const handleMobileNo = (e) => {
     const value = e.target.value.replace(/\D/g, "");
     setMobileNo(value);
     setIsSnackBar(false);
-    if (e.target.value.length == 10) {
+    if (e.target.value.length === 10) {
       if (rechargeType === "Prepaid") {
-        callOperatorCircle(e.target.value);
+        dispatch(getCircleAndOperatorByNumber(e.target.value))
       }
     }
   };
@@ -221,7 +177,7 @@ const Recharge = ({ props }) => {
                           <input
                             onChange={(e) => {
                               setRechargeType(e.target.value);
-                              setOperatorList([]);
+                              // setOperatorList([]);
                               getOperatorsApi(mobileServiceId);
                               setSelectedOperator("");
                               setSelectedCircle("");
@@ -238,7 +194,7 @@ const Recharge = ({ props }) => {
                           <input
                             onChange={(e) => {
                               setRechargeType(e.target.value);
-                              setOperatorList([]);
+                              // setOperatorList([]);
                               setSelectedOperator("");
                               getOperatorsApi(postpaidServiceId);
                               setSelectedCircle("");
@@ -342,8 +298,8 @@ const Recharge = ({ props }) => {
                               </span>
                             </button>
                             <div class="dropdown-menu">
-                              {circleList &&
-                                circleList.map((c, i) => (
+                              {rechargeCircleList &&
+                                rechargeCircleList.map((c, i) => (
                                   <Link
                                     onClick={(e) => {
                                       e.preventDefault();
@@ -416,7 +372,7 @@ const Recharge = ({ props }) => {
               <RecentHistory
                 serviceId={mobileServiceId}
                 setMobileNo={setMobileNo}
-                fetchOperator={() => callOperatorCircle(mobileNo)}
+                type={"Mobile"}
               />
             </div>
 
@@ -435,7 +391,7 @@ const Recharge = ({ props }) => {
   );
   return (
     <div className="color-body">
-      {activeApiId == 10 ? (
+      {browseApi.Id == 10 ? (
         sectionCount === 1 ? (
           rechargeSection()
         ) : (
@@ -444,14 +400,14 @@ const Recharge = ({ props }) => {
             imgurl={opImgUrl}
             operator={selectedOperator}
             circle={selectedCircle}
-            activeApiId={activeApiId}
+            activeApiId={browseApi.Id}
             operatorId={selectedOperatorId}
             circleId={selectedCircleId}
             setSection={setSectionCount}
           />
         )
       ) : null}
-      {activeApiId == 9 ? (
+      {browseApi.Id == 9 ? (
         sectionCount === 1 ? (
           rechargeSection()
         ) : (
@@ -460,13 +416,24 @@ const Recharge = ({ props }) => {
             imgurl={opImgUrl}
             operator={selectedOperator}
             circle={selectedCircle}
-            activeApiId={activeApiId}
+            activeApiId={browseApi.Id}
             operatorId={selectedOperatorId}
             circleId={selectedCircleId}
             setSection={setSectionCount}
           />
         )
       ) : null}
+      {/* {browseApi.Id == 10 &&  <BrowsePlans
+            number={mobileNo}
+            imgurl={opImgUrl}
+            operator={selectedOperator}
+            circle={selectedCircle}
+            activeApiId={browseApi.Id}
+            operatorId={selectedOperatorId}
+            circleId={selectedCircleId}
+            setSection={setSectionCount}
+          />} */}
+      
     </div>
   );
 };
