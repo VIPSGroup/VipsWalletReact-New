@@ -6,14 +6,9 @@ import "../../assets/styles/digigold/digi-gold-signin.css";
 import { modalClose } from "../../redux/slices/digiGold/digiGoldSlice";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
-import {
-  getCityList,
-  getStateList,
-  loginDigiGold,
-  registerDigiGold,
-} from "../../redux/slices/digiGold/registerDigiSlice";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { useNavigate } from "react-router-dom";
+import { getCityList, getStateList, loginDigiGold, registerDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
 
 const DigiGoldSignup = ({ setIsDigiLogin }) => {
   const dispatch = useDispatch();

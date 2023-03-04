@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, InputNumber } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import {
   modalOpen,
 } from "../../redux/slices/digiGold/digiGoldSlice";
 import { loginDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
+import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
 import DigiGoldSignup from "./DigiGoldSignup";
 
 export const QuickService = () => {
@@ -96,15 +97,15 @@ const DigiGoldHome = () => {
   const [amount, setAmount] = useState("");
   const [isGold, setIsGold] = useState(0); //0 for Gold 1 for Silver
   const [grams, setGrams] = useState("");
+  const [err, setErr] = useState("");
+
   const [valueType, setValueType] = useState({
     valueinAmt: "",
     valueinGm: "",
     valType: "",
-    blockid: "",
-    lockPrice: "",
-    uniqueId: "",
+    username: "",
+    password: "",
     metalType: "",
-    taxes: "",
   });
   const [active, setActive] = useState(0); // 0 for Buy & 1 for Sell
   const { logData } = useSelector((state) => state.registerDigiSlice.login);
@@ -115,13 +116,10 @@ const DigiGoldHome = () => {
     (state) => state.digiGoldSlice.rates
   );
   const handleClick = () => {
-    valueType.blockid = rateData.Data.result.data.blockId;
-    valueType.lockPrice =
-      isGold === 0
-        ? rateData?.Data?.result?.data?.rates.gBuy
-        : rateData?.Data?.result?.data?.rates?.sBuy;
     valueType.uniqueId = loggedInUser.Id;
-    valueType.taxes = rateData?.Data?.result?.data?.taxes;
+    valueType.username = loggedInUser.UserName;
+    valueType.password = loggedInUser.TRXNPassword;
+    // valueType.taxes = rateData?.Data?.result?.data?.taxes;
     if (!loggedInUser) {
       navigate("/login");
     } else {
@@ -151,16 +149,31 @@ const DigiGoldHome = () => {
       valType: "Amount",
       metalType: isGold === 0 ? "gold" : "silver",
     });
-
-    setGrams(
-      e.target.value /
-        (isGold === 0
-          ? rateData.Data?.result?.data?.rates?.gBuy
-          : rateData.Data?.result?.data?.rates?.sBuy)
-    );
+    const gbuy = parseFloat(rateData.Data?.result?.data?.rates?.gBuy || 0);
+    const gGST = parseFloat(rateData.Data?.result?.data?.rates?.gBuyGst || 0);
+    const sbuy = parseFloat(rateData.Data?.result?.data?.rates?.sBuy || 0);
+    const sGST = parseFloat(rateData.Data?.result?.data?.rates?.sBuyGst || 0);
+    const gwithGST = gbuy + gGST;
+    const swithGst = sbuy + sGST;
+    setGrams(e.target.value / (isGold === 0 ? gwithGST : swithGst));
   };
   const handleGramsChange = (e) => {
     setGrams(e.target.value);
+    const gram = parseFloat(e.target.value);
+    const gGram = parseFloat(logData.Data.GoldGrams);
+    const sGram = parseFloat(logData.Data.SilverGrams);
+    // console.log(gram > (isGold === 0 ? gGram : sGram), "hjgfdf")
+    if (active === 1 && gram > (isGold === 0 ? gGram : sGram)) {
+      setErr(
+        ` You can sell up to ${
+          isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4)
+        } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+          isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4)
+        } gm `
+      );
+    } else {
+      setErr("");
+    }
     const TotalAmount =
       (active === 0 &&
         isGold === 0 &&
@@ -184,7 +197,7 @@ const DigiGoldHome = () => {
 
     setAmount(TotalAmount);
   };
- 
+
   return (
     <>
       <div className="">
@@ -222,12 +235,24 @@ const DigiGoldHome = () => {
                       <div class="my-vault-inner">
                         <div class="vault-value">
                           <p class="vault-value-text">Gold Grams</p>
-                          <p class="vault-value-count mt-3">0.0000 Grams</p>
+                          <p class="vault-value-count mt-3">
+                            {" "}
+                            {logData.Data && !loading
+                              ? logData.Data.GoldGrams?.toFixed(4)
+                              : "0.0000"}{" "}
+                            Grams
+                          </p>
                         </div>
                         <div class="vertical-separator"></div>
                         <div class="vault-value">
                           <p class="vault-value-text">Silver Grams</p>
-                          <p class="vault-value-count mt-3">0.0000 Grams</p>
+                          <p class="vault-value-count mt-3">
+                            {" "}
+                            {logData.Data && !loading
+                              ? logData.Data.SilverGrams?.toFixed(4)
+                              : "0.0000"}{" "}
+                            Grams
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -309,6 +334,7 @@ const DigiGoldHome = () => {
                               setIsGold(0);
                               setAmount("");
                               setGrams("");
+                              setErr("");
                             }}
                             class="nav-link active tab-pills-link"
                             data-toggle="pill"
@@ -329,6 +355,7 @@ const DigiGoldHome = () => {
                               setIsGold(1);
                               setAmount("");
                               setGrams("");
+                              setErr("");
                             }}
                             class="nav-link tab-pills-link"
                             data-toggle="pill"
@@ -452,6 +479,9 @@ const DigiGoldHome = () => {
                               >
                                 {active === 0 ? "Quick Buy" : "Quick Sell"}
                               </Button>
+                              <p style={{ color: "red", marginTop: 20 }}>
+                                {err}
+                              </p>
                             </div>
                           </div>
                         </div>

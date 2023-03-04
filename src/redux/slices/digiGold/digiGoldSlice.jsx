@@ -11,6 +11,31 @@ export const fetchGoldSilverRates = createAsyncThunk(
     } catch (error) {}
   }
 );
+export const BuyDigiGold = async ({
+  username,
+  password,
+  lockPrice,
+  metalType,
+  quantity,
+  blockid,
+  amount,
+  type,
+}) => {
+  const formData = new FormData();
+  formData.append("username", username);
+  formData.append("password", password);
+  formData.append("lockPrice", lockPrice);
+  formData.append("metalType", metalType);
+  formData.append("quantity", type === "Grams" ? quantity : 0.0);
+  formData.append("blockId", blockid);
+
+  formData.append("amount", type === "Amount" ? amount : 0.0);
+
+  try {
+    const res = await axios.post(`${digiBaseUrl}BuyDigiGold`, formData);
+    return res.data;
+  } catch (error) {}
+};
 
 export const startFetchData = () => (dispatch) => {
   setInterval(() => {

@@ -18,6 +18,10 @@ import signUpSlice from "./slices/profile/signUpSlice";
 import productSlice from "./slices/shopping/productSlice";
 import loginSlice from "./slices/profile/loginSlice";
 import wishlistSlice from "./slices/shopping/wishlistSlice";
+import registerDigiSlice from "./slices/digiGold/registerDigiSlice";
+import digiGoldSlice from "./slices/digiGold/digiGoldSlice";
+import userProfileSlice from "./slices/digiGold/userProfileSlice";
+import publicSlice from "./slices/public/publicSlice";
 
 const store = configureStore({
   reducer: {
@@ -39,6 +43,10 @@ const store = configureStore({
     servicesSlice: servicesSlice,
     LpgGasSlice: LpgGasSlice,
     walletSlice: walletSlice,
+    registerDigiSlice: registerDigiSlice,
+    digiGoldSlice: digiGoldSlice,
+    userProfileSlice: userProfileSlice,
+    publicSlice: publicSlice,
   },
 });
 

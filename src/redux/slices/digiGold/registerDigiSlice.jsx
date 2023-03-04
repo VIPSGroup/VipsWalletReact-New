@@ -36,7 +36,9 @@ export const loginDigiGold = createAsyncThunk(
 );
 export const getStateList = createAsyncThunk("getStateList", async () => {
   try {
-    const res = await axios.post(`${digiBaseUrl}StateList`);
+    const res = await axios.post(`${digiBaseUrl}StateList`, {
+      AuthenticateModel: { UserName: "9970039584", Password: "Vips@1525" },
+    });
     return res.data;
   } catch (error) {}
 });
@@ -44,6 +46,7 @@ export const getCityList = createAsyncThunk("getCityList", async (stateId) => {
   try {
     const res = await axios.post(`${digiBaseUrl}CityList`, {
       stateId: stateId,
+      AuthenticateModel: { UserName: "9970039584", Password: "Vips@1525" },
     });
     return res.data;
   } catch (error) {}
