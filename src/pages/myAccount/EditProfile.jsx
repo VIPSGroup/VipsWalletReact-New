@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { getProfileDetails, editProfile } from "../../apiData/user/profile";
-import { updateProfile } from "../../apiData/myProfile/profile";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../../components/common";
 import { SelectField } from "../../components/forms";
-import { getStateCity, stateCityEmpty } from "../../redux/slices/signUpSlice";
+import { getStateCity } from "../../redux/slices/profile/signUpSlice";
+import {
+  getProfileDetails,
+  updateProfile,
+} from "../../redux/slices/profile/profileSlice";
 
 const EditProfile = () => {
   const [userDetails, setUserDetails] = useState({});
@@ -26,9 +28,14 @@ const EditProfile = () => {
 
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP);
-    const { allStateCityList } = useSelector((state) => state.signUpSlice.stateList);
-    const { stateCityByPincode ,edited} = useSelector((state) => state.signUpSlice.stateCityPincode);
+    (state) => state.loginSlice.loggetInWithOTP
+  );
+  const { allStateCityList } = useSelector(
+    (state) => state.signUpSlice.stateList
+  );
+  const { stateCityByPincode, edited } = useSelector(
+    (state) => state.signUpSlice.stateCityPincode
+  );
   const formik = useFormik({
     initialValues: {
       AlternateMobile: "",
@@ -53,7 +60,6 @@ const EditProfile = () => {
     onSubmit: (values, { resetForm }) => {
       if (pinCode.length == 6) {
         setLoading(true);
-        console.log(getData);
         const userData = {
           username: userDetails.UserName,
           password: loggedInUser.TRXNPassword,
@@ -71,7 +77,6 @@ const EditProfile = () => {
           AlternateMobile: values.AlternateMobile,
         };
         updateProfile(userData).then((response) => {
-          console.warn(response);
           if (response.ResponseStatus == 1) {
             setIsSnackBar(true);
             setSuccessMsg(response.Remarks);
@@ -89,32 +94,32 @@ const EditProfile = () => {
   useEffect(() => {
     console.log("useEffect");
     if (!pinCode) {
-      getProfileDetails({username:loggedInUser.Mobile, password:loggedInUser.TRXNPassword}).then(
-        (response) => {
-          const data = response.Data[0];
-          setUserDetails(response.Data[0]);
-          setPanNo(data.PanCard);
-          setAadharNo(data.AadharNo);
-          setPinCode(data.Pincode);
-          setAddress(data.PerAddress);
-          setStateCode(data.StateId);
-          setCityCode(data.CityId);
-          setGetData({
-            ...getData,
-            stateId: data.StateId,
-            cityId: data.CityId,
-            pincodeId: data.PincodeId,
-          });
-          setAlternateNumber(data.AlternateMobile);
-          setLastUpdateAltMobile(data.LastUpdatedAltMobileEmail);
-          formik.values.Pincode = data.Pincode;
-          formik.values.AlternateMobile = data.AlternateMobile;
-          formik.values.PanCard = data.PanCard;
-          formik.values.PerAddress = data.PerAddress;
-          formik.values.AadharNo = data.AadharNo;
-        
-        }
-      );
+      getProfileDetails({
+        username: loggedInUser.Mobile,
+        password: loggedInUser.TRXNPassword,
+      }).then((response) => {
+        const data = response.Data[0];
+        setUserDetails(response.Data[0]);
+        setPanNo(data.PanCard);
+        setAadharNo(data.AadharNo);
+        setPinCode(data.Pincode);
+        setAddress(data.PerAddress);
+        setStateCode(data.StateId);
+        setCityCode(data.CityId);
+        setGetData({
+          ...getData,
+          stateId: data.StateId,
+          cityId: data.CityId,
+          pincodeId: data.PincodeId,
+        });
+        setAlternateNumber(data.AlternateMobile);
+        setLastUpdateAltMobile(data.LastUpdatedAltMobileEmail);
+        formik.values.Pincode = data.Pincode;
+        formik.values.AlternateMobile = data.AlternateMobile;
+        formik.values.PanCard = data.PanCard;
+        formik.values.PerAddress = data.PerAddress;
+        formik.values.AadharNo = data.AadharNo;
+      });
     }
     if (allStateCityList) {
       let selectedState = allStateCityList.Data.find(
@@ -126,7 +131,7 @@ const EditProfile = () => {
       if (
         getData.stateName != selectedState?.StateName &&
         getData.cityName != selectedCity?.CityName
-        ) {
+      ) {
         setGetData({
           ...getData,
           stateName: selectedState?.StateName,
@@ -161,37 +166,37 @@ const EditProfile = () => {
         });
       }
     }
-  }, [pinCode, formik.values.Pincode,getData]);
+  }, [pinCode, formik.values.Pincode, getData]);
 
-// const handlePincode=()=>{
-//   console.log(formik.values.Pincode);
-//   if (formik.values.Pincode.length === 6) {
-//     dispatch(getStateCity(formik.values.Pincode));
-//     if (stateCityByPincode?.ResponseStatus === 1) {
-//       console.warn(stateCityByPincode.Data[0]);
-//       setGetData({
-//         ...getData,
-//         stateName: stateCityByPincode.Data[0].StateName,
-//         stateId: stateCityByPincode.Data[0].StateId,
-//         stateError: false,
-//         cityId: stateCityByPincode.Data[0].CityId,
-//         cityName: stateCityByPincode.Data[0].CityName,
-//         cityError: false,
-//         pincodeId: stateCityByPincode.Data[0].PincodeId,
-//       });
-//     } else if (stateCityByPincode?.ResponseStatus === 0) {
-//       setGetData({
-//         ...getData,
-//         stateName: "",
-//         stateId: "",
-//         stateError: false,
-//         cityId: "",
-//         cityName: "",
-//         cityError: false,
-//       });
-//     }
-//   }
-// }
+  // const handlePincode=()=>{
+  //   console.log(formik.values.Pincode);
+  //   if (formik.values.Pincode.length === 6) {
+  //     dispatch(getStateCity(formik.values.Pincode));
+  //     if (stateCityByPincode?.ResponseStatus === 1) {
+  //       console.warn(stateCityByPincode.Data[0]);
+  //       setGetData({
+  //         ...getData,
+  //         stateName: stateCityByPincode.Data[0].StateName,
+  //         stateId: stateCityByPincode.Data[0].StateId,
+  //         stateError: false,
+  //         cityId: stateCityByPincode.Data[0].CityId,
+  //         cityName: stateCityByPincode.Data[0].CityName,
+  //         cityError: false,
+  //         pincodeId: stateCityByPincode.Data[0].PincodeId,
+  //       });
+  //     } else if (stateCityByPincode?.ResponseStatus === 0) {
+  //       setGetData({
+  //         ...getData,
+  //         stateName: "",
+  //         stateId: "",
+  //         stateError: false,
+  //         cityId: "",
+  //         cityName: "",
+  //         cityError: false,
+  //       });
+  //     }
+  //   }
+  // }
 
   const editProfileSection = () => (
     <>

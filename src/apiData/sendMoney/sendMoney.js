@@ -51,8 +51,6 @@ export const sendMoney = (userName, password, recieverNo, amount, otp) => {
     .catch((err) => {});
 };
 
-//{urc,fname,lname,email,phno,pin,pointType}
-
 export const redirectedToGIBL = async () => {
   try {
     const data = await fetch(`${baseApiUrl}/Insurance/RedirectToGIBLPortal`, {
@@ -97,3 +95,6 @@ export const postGIBL = async (urlData) => {
     return data.json();
   });
 };
+
+
+// All Done

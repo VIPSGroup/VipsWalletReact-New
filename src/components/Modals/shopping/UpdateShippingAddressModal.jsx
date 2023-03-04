@@ -3,12 +3,13 @@ import Modal from "react-bootstrap/Modal";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateAddress } from "../../../apiData/shopping/address";
-import { getStateCity } from "../../../redux/slices/signUpSlice";
+import { getStateCity } from "../../../redux/slices/profile/signUpSlice";
 import { SelectField } from "../../forms";
 
 const UpdateShippingAddressModal = ({ addressProp }) => {
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [pincode, setPincode] = useState("");
   const [success, setSuccess] = useState(false);
@@ -18,7 +19,6 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { stateCityList } = useSelector((state) => state.signUpSlice.stateList);
   const formik = useFormik({
     initialValues: {
       fname: "",
@@ -51,6 +51,8 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
           setSuccess(true);
           window.location.reload();
         } else {
+          setSuccess(false);
+
           setError("Something Went Wrong. Please Try again.");
         }
         setLoading(false);
@@ -86,57 +88,59 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
       formik.values.landmark = addressProp.Landmark;
       formik.values.pincode = addressProp.ZipPostal;
     }
-    if (stateCityList) {
-      console.log(stateCityList);
-      let selectedState = stateCityList.Data.find(
-        (item) => item.Id === getData.stateId
-      );
-      let selectedCity = selectedState?.Citys.find(
-        (item) => item.Id === getData.cityId
-      );
-      if (
-        getData.stateName != selectedState?.StateName &&
-        getData.cityName != selectedCity?.CityName
-      ) {
-        setGetData({
-          ...getData,
-          stateName: selectedState?.StateName,
-          cityName: selectedCity?.CityName,
-        });
-      }
-    }
+    // if (stateCityList) {
+    //   console.log(stateCityList);
+    //   let selectedState = stateCityList.Data.find(
+    //     (item) => item.Id === getData.stateId
+    //   );
+    //   let selectedCity = selectedState?.Citys.find(
+    //     (item) => item.Id === getData.cityId
+    //   );
+    //   if (
+    //     getData.stateName != selectedState?.StateName &&
+    //     getData.cityName != selectedCity?.CityName
+    //   ) {
+    //     setGetData({
+    //       ...getData,
+    //       stateName: selectedState?.StateName,
+    //       cityName: selectedCity?.CityName,
+    //     });
+    //   }
+    // }
 
     if (
       formik.values.pincode.length == 6 &&
       formik.values.pincode != addressProp.ZipPostal
     ) {
-      getStateCity(formik.values.pincode).then((response) => {
-        if (response.ResponseStatus == 1) {
-          if (
-            getData.stateName == "" ||
-            getData.stateName != response.Data[0].StateName
-          ) {
-            setGetData({
-              stateName: response.Data[0].StateName,
-              stateId: response.Data[0].StateId,
-              stateError: false,
-              cityId: response.Data[0].CityId,
-              cityName: response.Data[0].CityName,
-              cityError: false,
-              pincodeId: response.Data[0].PincodeId,
-            });
-          }
-        } else {
-          setGetData({
-            stateName: "",
-            stateId: "",
-            stateError: false,
-            cityId: "",
-            cityName: "",
-            cityError: false,
-          });
-        }
-      });
+      dispatch(getStateCity(formik?.values?.pincode));
+
+      // .then((response) => {
+      //   if (response?.ResponseStatus == 1) {
+      //     if (
+      //       getData?.stateName == "" ||
+      //       getData.stateName != response.Data[0].StateName
+      //     ) {
+      //       setGetData({
+      //         stateName: response?.Data[0].StateName,
+      //         stateId: response?.Data[0].StateId,
+      //         stateError: false,
+      //         cityId: response?.Data[0].CityId,
+      //         cityName: response.Data[0].CityName,
+      //         cityError: false,
+      //         pincodeId: response.Data[0].PincodeId,
+      //       });
+      //     }
+      //   } else {
+      //     setGetData({
+      //       stateName: "",
+      //       stateId: "",
+      //       stateError: false,
+      //       cityId: "",
+      //       cityName: "",
+      //       cityError: false,
+      //     });
+      //   }
+      // });
     }
   }, [formik.values.pincode]);
 

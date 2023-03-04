@@ -11,7 +11,7 @@ import {
   checkUserExist,
   forgotPassword,
   loginUser,
-} from "../../redux/slices/loginSlice";
+} from "../../redux/slices/profile/loginSlice";
 import { Loading } from "../common";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
@@ -511,6 +511,7 @@ const SignInForm = () => {
         setSuccess={setsuccessMessage}
         setError={setErrorMessage}
       /> */}
+      
       </>
     </>
   );

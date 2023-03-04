@@ -13,7 +13,10 @@ import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import { getWalletBalance } from "../../redux/slices/walletSlice";
 import { getServiceDiscounts } from "../../redux/slices/services/commonSlice";
-import { commonServiceConfirm, naturalGasBillPay } from "../../redux/slices/services/servicesSlice";
+import {
+  commonServiceConfirm,
+  naturalGasBillPay,
+} from "../../redux/slices/services/servicesSlice";
 ReactGA.initialize(googleAnalytics);
 
 const ServiceConfirmationCommon = () => {
@@ -37,26 +40,54 @@ const ServiceConfirmationCommon = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   let navigate = useNavigate();
-const dispatch=  useDispatch()
+  const dispatch = useDispatch();
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { gasBill,gasLoading, } = useSelector(state => state.servicesSlice.gasBillPay);
-  const { commonBill,commonLoading, } = useSelector(state => state.servicesSlice.commonBillPay);
-  const { data } = useSelector(state => state.walletSlice.walletBalance);
-  const { discount } = useSelector(state => state.commonSlice.serviceDiscount);
+  const { gasBill, gasLoading } = useSelector(
+    (state) => state.servicesSlice.gasBillPay
+  );
+  const { commonBill, commonLoading } = useSelector(
+    (state) => state.servicesSlice.commonBillPay
+  );
+  const { data } = useSelector((state) => state.walletSlice.walletBalance);
+  const { discount } = useSelector(
+    (state) => state.commonSlice.serviceDiscount
+  );
   // const { rechargeData,reLoading, } = useSelector(state => state.fastagSlice.fastagRecharge);
   const handleClickConfirm = (e) => {
     console.log("handleClickConfirm");
     e.preventDefault();
-    setShowSuccess(true)
+    setShowSuccess(true);
     setLoading(true);
     const paymentRefId = getRandomNumber();
     if (serviceId === gasServiceId) {
-      dispatch(naturalGasBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,billAmount:amt,inputObj:inputFields,paymentRef:paymentRefId,refId: props.billData.TransactionId,operatorCode: props.operatorId,mobNo:props.number}))
-    }else{
+      dispatch(
+        naturalGasBillPay({
+          username: loggedInUser.Mobile,
+          password: loggedInUser.TRXNPassword,
+          billAmount: amt,
+          inputObj: inputFields,
+          paymentRef: paymentRefId,
+          refId: props.billData.TransactionId,
+          operatorCode: props.operatorId,
+          mobNo: props.number,
+        })
+      );
+    } else {
       console.log("commonServiceConfirm");
-dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,billAmount:amt,inputObj:inputFields,paymentRef:paymentRefId,refId:props.billData.TransactionId,operatorCode: props.operatorId,mobNo: props.number}))
+      dispatch(
+        commonServiceConfirm({
+          username: loggedInUser.Mobile,
+          password: loggedInUser.TRXNPassword,
+          billAmount: amt,
+          inputObj: inputFields,
+          paymentRef: paymentRefId,
+          refId: props.billData.TransactionId,
+          operatorCode: props.operatorId,
+          mobNo: props.number,
+        })
+      );
     }
     // if (serviceId === gasServiceId) {
     //   naturalGasBillPay(
@@ -179,24 +210,24 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
     setLoading(false);
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
-    if(loggedInUser ){
-      if(data?.Data?.length!==0 || !data){
-        dispatch(getWalletBalance({userName,password}))
+    if (loggedInUser) {
+      if (data?.Data?.length !== 0 || !data) {
+        dispatch(getWalletBalance({ userName, password }));
       }
     }
-    return ()=>{setShowSuccess(false)}
-  
-
+    return () => {
+      setShowSuccess(false);
+    };
   }, []);
 
   useEffect(() => {
     console.warn("UseEffect");
-    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
-    if(data?.Data){
+    dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount }));
+    if (data?.Data) {
       manageInitialPaymentMethod(data?.Data?.Balance);
     }
-    if(gasBill && showSuccess){
-      if (gasBill.ResponseStatus === 1) {;
+    if (gasBill && showSuccess) {
+      if (gasBill.ResponseStatus === 1) {
         if (gasBill.Data != null) {
           var data = gasBill.Data;
           var time = getTodayDate();
@@ -222,7 +253,7 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
         );
       }
     }
-    if(commonBill && showSuccess){
+    if (commonBill && showSuccess) {
       console.warn(commonBill);
       if (commonBill.ResponseStatus === 1) {
         if (commonBill.Data != null) {
@@ -246,14 +277,14 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
           setErrorMsg(commonBill.Data.ResponseMessage);
         }
       } else {
-        console.log(  commonBill.Data.ResponseMessage);
+        console.log(commonBill.Data.ResponseMessage);
         setIsSnackBar(true);
         setErrorMsg(
           commonBill.Data ? commonBill.Data.ResponseMessage : commonBill.Remarks
         );
       }
     }
-      }, [data.Data, selectedDiscount,gasBill,commonBill])
+  }, [data.Data, selectedDiscount, gasBill, commonBill]);
 
   const confirmSection = () => (
     <div>
@@ -337,9 +368,7 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
                                 name="radio-button"
                                 value="SHOPPING"
                                 checked={
-                                  selectedDiscount == "SHOPPING"
-                                    ? true
-                                    : false
+                                  selectedDiscount == "SHOPPING" ? true : false
                                 }
                               />
                               <span>
@@ -365,9 +394,7 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
                                 name="radio-button"
                                 value="PRIME"
                                 checked={
-                                  selectedDiscount == "PRIME"
-                                    ? true
-                                    : false
+                                  selectedDiscount == "PRIME" ? true : false
                                 }
                               />
                               <span>
@@ -468,7 +495,8 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
                           <div class="col-8 col-xs-4">
                             <span>
                               {" "}
-                              Shopping Points ({discount?.discountData?.ShoppingPer} %) :{" "}
+                              Shopping Points (
+                              {discount?.discountData?.ShoppingPer} %) :{" "}
                             </span>
                           </div>
                           <div class="col-4 col-xs-4 text-right">
@@ -485,7 +513,8 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
                           <div class="col-8 col-xs-4">
                             <span>
                               {" "}
-                              Prime Points ({discount?.discountData?.PrimePointPer} %) :{" "}
+                              Prime Points (
+                              {discount?.discountData?.PrimePointPer} %) :{" "}
                             </span>
                           </div>
                           <div class="col-4 col-xs-4 text-right">
@@ -504,10 +533,10 @@ dispatch(commonServiceConfirm({username:loggedInUser.Mobile,password:loggedInUse
                           <span> Total Amount : </span>
                         </div>
                         <div class="col-4 col-xs-4 text-right">
-                        <span class="mobile-payment-summery-amt">
-                              {" "}
-                              &#x20B9; {discount?.finalAmount}{" "}
-                            </span>
+                          <span class="mobile-payment-summery-amt">
+                            {" "}
+                            &#x20B9; {discount?.finalAmount}{" "}
+                          </span>
                         </div>
                       </div>
                     </div>

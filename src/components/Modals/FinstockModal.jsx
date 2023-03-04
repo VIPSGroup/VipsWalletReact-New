@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import OTPInput, { ResendOTP } from "otp-input-react";
-import { ThreeDots } from "react-loader-spinner";
-
 import "../../assets/styles/styles.css";
 import "../../assets/styles/addMoney/addMoney.css";
 
-import { finstockGenerateOtp, finstockAdd } from "../../apiData/payments";
 import { MdArrowBack } from "react-icons/md";
-import { IoCloseOutline } from "react-icons/io5";
 
 import { useSelector } from "react-redux";
 import LoadingBar from "../common/Loading";
+import {
+  finstockAdd,
+  finstockGenerateOtp,
+} from "../../redux/slices/payment/paymentSlice";
 
 const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
   const [show, setShow] = useState(false);

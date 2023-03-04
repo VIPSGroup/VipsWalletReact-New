@@ -10,19 +10,19 @@ import {
 import { shopadminUrl } from "../../constants";
 
 import "../../assets/styles/shopping/productDetails.css";
-import { baseApiUrl, googleAnalytics } from "../../constants";
+import { googleAnalytics } from "../../constants";
 import ReactGA from "react-ga";
 import AddToCartButton from "../../components/buttons/AddToCartButton";
 import AddWishListButton from "../../components/buttons/AddWishListButton";
-import Footer from "../../components/layout/Footer/Footer";
 import ProductHorizontal from "../../components/shopping/ProductHorizontal";
 import { getAllCategories } from "../../apiData/shopping/category";
 import { useDispatch } from "react-redux";
-import { getSingleProductData } from "../../redux/slices/productSlice";
+import { getSingleProductData } from "../../redux/slices/shopping/productSlice";
 
 ReactGA.initialize(googleAnalytics);
 
 const ProductDetails = () => {
+  const dispatch = useDispatch();
   const [product, setProduct] = useState({});
   const [products, setProducts] = useState([]);
   const [productObj, setProductObj] = useState();
@@ -43,7 +43,7 @@ const ProductDetails = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const [similar, setSimilar] = useState([]);
-const dispatch= useDispatch()
+
   let navigate = useNavigate();
   let { productId, productName } = useParams();
   var imgArray = [];
@@ -214,24 +214,24 @@ const dispatch= useDispatch()
 
   const getSimilarProduct = async (catNam) => {
     let catId;
-    const res = await getAllCategories();
-    const Allcategories = res.Data.Categories;
+    const res = await dispatch(getAllCategories());
+    const Allcategories =
+      res.payload.Data.Categories && res.payload.Data.Categories;
     for (let index = 0; index < Allcategories.length; index++) {
       const element = Allcategories[index];
       if (catNam === element.Name) {
         catId = element.Id;
       }
     }
-    const resSimilar = await getProductsByCategory(catId);
-    setSimilar(resSimilar.Data);
+    const resSimilar = await dispatch(getProductsByCategory(catId));
+    setSimilar(resSimilar.payload.Data && resSimilar.payload.Data);
   };
 
   useEffect(() => {
-    
     ReactGA.pageview(window.location.pathname);
     var p = {};
-    console.log("______",productId);
-    dispatch(getSingleProductData())
+    console.log("______", productId);
+    dispatch(getSingleProductData());
     // getSingleProductData(productId).then((response) => {
     //   p = response.Data.ProductDetails;
     //   setProduct(response.Data.ProductDetails);
@@ -257,30 +257,17 @@ const dispatch= useDispatch()
     });
   }, [productId]);
 
-  // useEffect(() => {
-  //   getProductsByCategory(product.Category);
-
-  //   // .then((response) => {
-  //   //   setSimilar(response.Data);
-  //   // });
-  // }, []);
   useEffect(() => {
     checkInWishlist();
   }, [wishlistChange]);
 
   const onQtyIncrease = () => {
-    // if(qty <= 0){
-
     if (qty < product.Quantity) {
       setQty(qty + 1);
     } else {
       setIsSnackBar(true);
       setErrorMsg("Sorry you can't add more item");
     }
-    //  } else {
-    //   setIsSnackBar(true)
-    //   setErrorMsg("Product is alredy sold out")
-    //  }
   };
 
   const responsive = {
@@ -312,19 +299,6 @@ const dispatch= useDispatch()
             <div class="col-lg-6">
               <div class="product-details-left">
                 <div class="product-details-img-outer">
-                  {/* <div class="product-details-img">
-                      <img class="img-thumbnail" src={"http://shopadmin.vipswallet.com"+product.ImageURL1} alt="VIPS Product"/>
-                </div> */}
-
-                  {/* { <!-- <div class="product-details-img">
-                      <img class="img-thumbnail" src="images/quickview-left.svg" alt="VIPS Product"/>
-                    </div>
-                    <div class="product-details-img">
-                      <img class="img-thumbnail" src="images/quickview-left.svg" alt="VIPS Product"/>
-                    </div>
-                    <div class="product-details-img">
-                      <img class="img-thumbnail" src="images/quickview-left.svg" alt="VIPS Product"/>
-                    </div> -->} */}
                   <Carousel
                     responsive={responsive}
                     infinite={true}
@@ -455,9 +429,6 @@ const dispatch= useDispatch()
                     </div>
 
                     <div class="d-flex ml-auto">
-                      {/* <div class="product-details-share mr-2">
-                                <button href="#" class="btn-cta"> <img src="/images/shopping/share-icon.svg" class="img-fluid" alt="VIPS Share" /> </button>
-                            </div> */}
                       <div class="product-details-wishlist">
                         <AddWishListButton
                           product={product}
@@ -473,7 +444,6 @@ const dispatch= useDispatch()
 
                 <div class="product-details-info-box">
                   <div class="product-details-btn">
-                    {/* { <button class="btn btn-cta mr-3" type="button"> Add To Cart </button>} */}
                     <AddToCartButton
                       product={productObj}
                       selectedColor={selectedColor}
@@ -519,12 +489,6 @@ const dispatch= useDispatch()
                     class="product-details-description"
                     dangerouslySetInnerHTML={{ __html: product.Description }}
                   ></div>
-                  {/* {<ul class="product-details-description">
-                        <li>Smartwatches powered with wear OS by Google work with iPhone and Android phones, Compatibility: Android OS 6.0+ (EXCLUDING GO EDITION), iOS 12.0+</li>
-                        <li>Extend your battery life for multiple days with new, smart Battery modes; magnetic usb rapid Charger included; charge UP to 80 percent in under an hour</li>
-                        <li>Heart Rate & Activity Tracking using Google Fit; Built-in GPS for distance tracking; Swimproof design 3ATM; G Pay;responses from Google Assistant - itâ€s your own personal Google, always ready to help
-                        </li>
-                    </ul>} */}
                 </div>
 
                 <div class="product-details-info-box">
@@ -533,12 +497,6 @@ const dispatch= useDispatch()
                     class="product-details-description"
                     dangerouslySetInnerHTML={{ __html: product.Specification }}
                   ></div>
-                  {/* {<ul class="product-details-description">
-                        <li>Smartwatches powered with wear OS by Google work with iPhone and Android phones, Compatibility: Android OS 6.0+ (EXCLUDING GO EDITION), iOS 12.0+</li>
-                        <li>Extend your battery life for multiple days with new, smart Battery modes; magnetic usb rapid Charger included; charge UP to 80 percent in under an hour</li>
-                        <li>Heart Rate & Activity Tracking using Google Fit; Built-in GPS for distance tracking; Swimproof design 3ATM; G Pay;responses from Google Assistant - itâ€s your own personal Google, always ready to help
-                        </li>
-                    </ul>} */}
                 </div>
               </div>
             </div>

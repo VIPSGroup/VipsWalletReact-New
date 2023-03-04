@@ -3,37 +3,42 @@ import { confirmAlert } from "react-confirm-alert";
 import { RiLockPasswordLine, RiFileListLine } from "react-icons/ri";
 import { AiOutlineHeart } from "react-icons/ai";
 import { MdOutlineLogout } from "react-icons/md";
-import { FiUserPlus, FiUser } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 
 import { Link, useNavigate } from "react-router-dom";
 
-import { getWalletBalance } from "../../apiData/user/userDetails";
 import { googleAnalytics } from "../../constants";
 import "../../assets/styles/myAccount/account.css";
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
-import { checkGABBalance } from "../../apiData/payments";
+import { useDispatch, useSelector } from "react-redux";
 import { Profile } from "../../components/myAccount";
 import EditProfile from "./EditProfile";
-import ChangePassword from "../../components/myAccount/changePassword";
+import {
+  getWalletBalance,
+  checkGABBalance,
+} from "../../redux/slices/payment/walletSlice";
+import ChangePassword from "./ChangePassword";
 ReactGA.initialize(googleAnalytics);
 
 const AccountWireframe = () => {
+  const dispatch = useDispatch();
   const [selectedMenu, setSelectedMenu] = useState("myProfile");
-  const [balance, setBalance] = useState(0);
-  const [affiliateBalance, setAffiliateBalance] = useState(0);
-  const [shoppingPoints, setShoppingPoints] = useState(0);
-  const [primePoints, setPrimePoints] = useState(0);
 
   var navigate = useNavigate();
   const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP
+    (state) => state.loginSlice.loggetInWithOTP
+  );
+  const { data, loading } = useSelector(
+    (state) => state.walletSlice.walletBalance
+  );
+  const { data: gabBal, loading: gabloading } = useSelector(
+    (state) => state.walletSlice.GABBalance
   );
   const selectedMenuStyle = {
     backgroundColor: "#CA3060",
     color: "#fff",
   };
-
+  console.log(data.Data, "data");
   const handleMenuClick = (e) => {
     setSelectedMenu(e.target.value);
   };
@@ -63,20 +68,18 @@ const AccountWireframe = () => {
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    const userName = loggedInUser.Mobile;
+    const username = loggedInUser.Mobile;
     const password = loggedInUser.TRXNPassword;
-    getWalletBalance({ userName, password }).then((response) => {
-      const res = response.Data;
-      setBalance(res.Balance);
-
-      setShoppingPoints(res.Shoppingpoints);
-      setPrimePoints(res.PrimePoints);
-    });
-    checkGABBalance(loggedInUser.Mobile, loggedInUser.TRXNPassword).then((response) => {
-      setAffiliateBalance(response.Data);
-    });
+    dispatch(getWalletBalance({ username, password }));
+    dispatch(checkGABBalance({ username, password }));
+    // checkGABBalance(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
+    //   (response) => {
+    //     setAffiliateBalance(response.Data);
+    //   }
+    // );
   }, []);
-
+  console.log(gabBal, "gabBal");
+  console.log(data, "data");
   const accountSection = () => (
     <>
       <section class="inpage-section-align my-account">
@@ -95,12 +98,25 @@ const AccountWireframe = () => {
                   <div class="my-account-info-box">
                     <div class="pf-user-outer">
                       <div class="pf-user-circle">
-                        <label> {loggedInUser && loggedInUser.Name.substring(0, 1)} </label>
+                        <label>
+                          {" "}
+                          {loggedInUser &&
+                            loggedInUser.Name.substring(0, 1)}{" "}
+                        </label>
                       </div>
                       <div class="pf-user-name">
-                        <p class="pf-user-title"> {loggedInUser && loggedInUser.Name} </p>
-                        <p class="pf-user-info"> {loggedInUser && loggedInUser.Mobile} </p>
-                        <p class="pf-user-info"> {loggedInUser && loggedInUser.Emailid} </p>
+                        <p class="pf-user-title">
+                          {" "}
+                          {loggedInUser && loggedInUser.Name}{" "}
+                        </p>
+                        <p class="pf-user-info">
+                          {" "}
+                          {loggedInUser && loggedInUser.Mobile}{" "}
+                        </p>
+                        <p class="pf-user-info">
+                          {" "}
+                          {loggedInUser && loggedInUser.Emailid}{" "}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -108,7 +124,10 @@ const AccountWireframe = () => {
                   <div class="my-account-info-box">
                     <div class="pf-account-info">
                       <p class="pf-account-info-text"> Wallet Balance </p>
-                      <p class="pf-account-info-amount"> ₹ {balance} </p>
+                      <p class="pf-account-info-amount">
+                        {" "}
+                        ₹ {data ? data?.Data?.Balance : 0}{" "}
+                      </p>
                     </div>
                   </div>
 
@@ -117,7 +136,10 @@ const AccountWireframe = () => {
                       <p class="pf-account-info-text"> Affiliate Balance </p>
                       <p class="pf-account-info-amount">
                         {" "}
-                        ₹ {affiliateBalance}{" "}
+                        ₹{" "}
+                        {!gabloading
+                          ? gabBal?.Data?.affiliateBalance || 0
+                          : "Loading..."}
                       </p>
                     </div>
                   </div>
@@ -125,14 +147,20 @@ const AccountWireframe = () => {
                   <div class="my-account-info-box">
                     <div class="pf-account-info">
                       <p class="pf-account-info-text"> Shopping Points </p>
-                      <p class="pf-account-info-amount"> {shoppingPoints} </p>
+                      <p class="pf-account-info-amount">
+                        {" "}
+                        {!loading ? data.Data?.Shoppingpoints : "Loading..."}
+                      </p>
                     </div>
                   </div>
 
                   <div class="my-account-info-box border-btm-no">
                     <div class="pf-account-info">
                       <p class="pf-account-info-text"> Prime Points </p>
-                      <p class="pf-account-info-amount"> {primePoints} </p>
+                      <p class="pf-account-info-amount">
+                        {" "}
+                        {!loading ? data.Data?.PrimePoints : "Loading..."}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -367,11 +395,7 @@ const AccountWireframe = () => {
       </section>
     </>
   );
-  return (
-    <div className="color-body">
-    {accountSection()}
-  </div>
-  )
-}
+  return <div className="color-body">{accountSection()}</div>;
+};
 
-export default AccountWireframe
+export default AccountWireframe;

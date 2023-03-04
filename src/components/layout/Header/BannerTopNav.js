@@ -1,29 +1,25 @@
 import "../../../assets/styles/core/BannerTopNav.css";
 import React, { useState, useEffect } from "react";
-
-import { FiSearch, FiUser } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
-
 import { IoWalletOutline } from "react-icons/io5";
-
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { getWalletBalance } from "../../../apiData/user/userDetails";
+import { useDispatch, useSelector } from "react-redux";
 import { vendorPanelAPi } from "../../../constants";
 import { Badge } from "antd";
+import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 const BannerTopNav = () => {
-  const [balance, setBalance] = useState(0);
-  const [shoppingPoints, setShoppingPoints] = useState("");
-  const [primePoints, setPrimePoints] = useState("");
+  const dispatch = useDispatch();
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
   const { wishCount } = useSelector((state) => state.wishlistSlice);
-  const { cartCount } = useSelector((state) => state.cartSlice);
-
+  const { data, loading } = useSelector(
+    (state) => state.walletSlice.walletBalance
+  );
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -33,6 +29,8 @@ const BannerTopNav = () => {
           label: "Yes",
           onClick: () => {
             localStorage.removeItem("user");
+            localStorage.removeItem("digiUser");
+
             window.location.reload();
             return "Click Yes";
           },
@@ -45,16 +43,12 @@ const BannerTopNav = () => {
       overlayClassName: "overlay-custom-class-name",
     });
   };
-  useEffect(() => {
-    const userName = loggedInUser && loggedInUser.UserName;
-    const password = loggedInUser && loggedInUser.TRXNPassword;
-    loggedInUser &&
-      getWalletBalance({ userName, password }).then((response) => {
-        setBalance(response.Data.Balance);
-        setShoppingPoints(response.Data.Shoppingpoints);
-        setPrimePoints(response.Data.PrimePoints);
-      });
-  }, []);
+
+  const CheckWalletBalance = async () => {
+    const username = loggedInUser && loggedInUser?.UserName;
+    const password = loggedInUser && loggedInUser?.TRXNPassword;
+    dispatch(getWalletBalance({ username, password }));
+  };
 
   const section = () => (
     <>
@@ -138,7 +132,7 @@ const BannerTopNav = () => {
                   >
                     {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
                     {/* <Badge count={cartCount && cartCount?.length}> */}
-                      <AiOutlineShoppingCart className="nav-icon" />
+                    <AiOutlineShoppingCart className="nav-icon" />
                     {/* </Badge> */}
                     <span class="d-xl-block d-none d-md-none d-sm-none">
                       {" "}
@@ -166,6 +160,7 @@ const BannerTopNav = () => {
                 {loggedInUser ? (
                   <li class="nav-item">
                     <Link
+                      onClick={CheckWalletBalance}
                       class="nav-link nav-icons"
                       to="#"
                       role="button"
@@ -192,7 +187,10 @@ const BannerTopNav = () => {
                           </span>
                           <span class="nav-wallet-amt">
                             {" "}
-                            &#x20B9; {balance}
+                            &#x20B9;
+                            {!loading && data
+                              ? data?.Data?.Balance
+                              : "Loading..."}
                           </span>
                         </div>
                         <div class="dropdown-divider"></div>
@@ -204,7 +202,9 @@ const BannerTopNav = () => {
                             <div class="col col-xs-4 points-align">
                               <span class="nav-wallet-points">
                                 {" "}
-                                {primePoints}{" "}
+                                {!loading && data
+                                  ? data?.Data?.PrimePoints
+                                  : "Loading..."}
                               </span>
                             </div>
                           </div>
@@ -218,7 +218,9 @@ const BannerTopNav = () => {
                             <div class="col col-xs-4 points-align">
                               <span class="nav-wallet-points">
                                 {" "}
-                                {shoppingPoints}{" "}
+                                {!loading && data
+                                  ? data?.Data?.Shoppingpoints
+                                  : "Loading..."}
                               </span>
                             </div>
                           </div>

@@ -7,7 +7,7 @@ import ReactGA from "react-ga";
 import { Link } from "react-router-dom";
 import Footer from "../../components/layout/Footer/Footer";
 import { useDispatch, useSelector } from "react-redux";
-import { removeWish } from "../../redux/slices/wishlistSlice";
+import { removeWish } from "../../redux/slices/shopping/wishlistSlice";
 ReactGA.initialize(googleAnalytics);
 
 const MyWishlist = () => {

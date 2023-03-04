@@ -8,9 +8,10 @@ import Modal from "react-bootstrap/Modal";
 //   getCityState,
 // } from "../../apiData/authentication/signup";
 import { useDispatch, useSelector } from "react-redux";
-import { addAddress } from "../../../apiData/shopping/address";
-import { getStateCity } from "../../../redux/slices/signUpSlice";
+// import { addAddress } from "../../../apiData/shopping/address";
+import { getStateCity } from "../../../redux/slices/profile/signUpSlice";
 import { SelectField } from "../../forms";
+import { addAddress } from "../../../redux/slices/pincodeSlice";
 
 const AddShippingAddressModal = () => {
   const [showModal, setShowModal] = useState(false);
@@ -22,7 +23,9 @@ const AddShippingAddressModal = () => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { stateCityByPincode } = useSelector((state) => state.signUpSlice.stateCityPincode);
+  const { stateCityByPincode } = useSelector(
+    (state) => state.signUpSlice.stateCityPincode
+  );
   const dispatch = useDispatch();
 
   const formik = useFormik({

@@ -8,8 +8,7 @@ import "../../assets/styles/styles.css";
 import { useSelector } from "react-redux";
 import AddMoneyButton from "../../components/buttons/AddMoneyButton";
 import LoadingBar from "../../components/common/Loading";
-import { getUserDetails } from "../../apiData/myProfile/profile";
-import Footer from "../../components/layout/Footer/Footer";
+import { SnackBar } from "../../components/common";
 
 const AddAmount = () => {
   const [amount, setAmount] = useState(0);
@@ -18,8 +17,9 @@ const AddAmount = () => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState("");
-
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
   let { option } = useParams();
   const clickAddFromGAB = (e) => {
     e.preventDefault();
@@ -43,12 +43,12 @@ const AddAmount = () => {
       });
     } else {
       setIsSnackBar(true);
+      setLoading(false);
       setErrorMsg("Please enter valid amount");
     }
   };
 
   useEffect(() => {
-    setLoggedInUser(getUserDetails());
     checkGABBalance(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
       (response) => {
         setGABBalance(response.Data);
@@ -193,16 +193,19 @@ const AddAmount = () => {
                 </div>
                 {/* <MuiSnackBar
                   open={isSnackBar}
-                  setOpen={setIsSnackBar}
+                  setOpen={setIsSnackBar}  
                   successMsg={successMsg}
                   errorMsg={errorMsg}
                 /> */}
+                {/* {console.log(errorMsg, "gfd")} */}
+                {(errorMsg || successMsg) && (
+                  <SnackBar errorMsg={errorMsg} success={successMsg} />
+                )}
               </div>
             </div>
           </div>
         </div>
       </section>
-
       {/* <Footer /> */}
     </div>
   );

@@ -8,15 +8,18 @@ import "../../../assets/styles/prime/primeConfirmation.css";
 import { mobileServiceId } from "../../../constants";
 
 import { postpaidServiceId } from "../../../constants";
-import {  googleAnalytics } from "../../../constants";
+import { googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import { getWalletBalance } from "../../../redux/slices/walletSlice";
-import { finalRecharge, getServiceDiscounts } from "../../../redux/slices/services/commonSlice";
+import {
+  finalRecharge,
+  getServiceDiscounts,
+} from "../../../redux/slices/services/commonSlice";
 
 ReactGA.initialize(googleAnalytics);
 
-const RechargeConfirmation = ({setIsHomeTopNav}) => {
+const RechargeConfirmation = ({ setIsHomeTopNav }) => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
@@ -44,136 +47,154 @@ const RechargeConfirmation = ({setIsHomeTopNav}) => {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [serviceId, setServiceId] = useState("");
-  
+
   const [showSuccess, setShowSuccess] = useState(false);
   let navigate = useNavigate();
- const dispatch= useDispatch()
- const { data } = useSelector(state => state.walletSlice.walletBalance);
- const { discount } = useSelector(state => state.commonSlice.serviceDiscount);
- const { rechargeData } = useSelector(state => state.commonSlice.finalRecharge);
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.walletSlice.walletBalance);
+  const { discount } = useSelector(
+    (state) => state.commonSlice.serviceDiscount
+  );
+  const { rechargeData } = useSelector(
+    (state) => state.commonSlice.finalRecharge
+  );
   const handleClickConfirm = (e) => {
-    setShowSuccess(true)
+    setShowSuccess(true);
     e.preventDefault();
 
     setLoading(true);
-dispatch(finalRecharge({rechargeType:"Mobile", userName:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,amount: amt,number:props?.number,operatorId:props?.operatorId,circleId:props?.circleId,pointType:selectedDiscount, operator: props?.operator, circle: props?.circle,}))
-    
+    dispatch(
+      finalRecharge({
+        rechargeType: "Mobile",
+        userName: loggedInUser.Mobile,
+        password: loggedInUser.TRXNPassword,
+        amount: amt,
+        number: props?.number,
+        operatorId: props?.operatorId,
+        circleId: props?.circleId,
+        pointType: selectedDiscount,
+        operator: props?.operator,
+        circle: props?.circle,
+      })
+    );
   };
   useEffect(() => {
-    setIsHomeTopNav(false)
+    setIsHomeTopNav(false);
     ReactGA.pageview(window.location.pathname);
     setLoading(false);
 
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
-    if(loggedInUser ){
-      if(data?.Data?.length!==0 || !data){
-        dispatch(getWalletBalance({userName,password}))
+    if (loggedInUser) {
+      if (data?.Data?.length !== 0 || !data) {
+        dispatch(getWalletBalance({ userName, password }));
       }
     }
-    return ()=>{setShowSuccess(false)}
+    return () => {
+      setShowSuccess(false);
+    };
   }, []);
   useEffect(() => {
-if(data.Data){
-  manageInitialPaymentMethod(data?.Data?.Balance);
-  const serviceId =
-    props?.circleId === 0 ? postpaidServiceId : mobileServiceId;
-setServiceId(serviceId)
-    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
-}
-if(rechargeData && showSuccess){
-  console.error(rechargeData);
-  if (rechargeData.ResponseStatus == 1) {
-    const resp = rechargeData.Data;
-
-    const str = resp && resp.split(";");
-    const status = str[0].split("=")[1];
-
-    const amount = str[3].split("=")[1] || amt;
-    const mobileNumber = str[2].split("=")[1];
-    const time = str[1].split("=")[1] || "--";
-    const txId = str.length > 6 ? str[6].split("=")[1] : "--";
-
-    navigate("/services/status", {
-      state: {
-        amount: amount,
-        status: status,
-        mobileNo: props?.number,
-        operator: props?.operator,
-        circle: props?.circle,
-        date: time,
-        transactionId: txId,
-        type: "Mobile",
-      },
-    });
-
-    if (rechargeData.Status.includes("Failure")) {
-      navigate("/services/status", {
-        state: {
-          amount: props?.amount,
-          status: "Failure",
-          mobileNo: props?.number,
-          operator: props?.operator,
-          circle: props?.circle,
-          date: "--",
-          transactionId: "--",
-          type: "Mobile",
-        },
-      });
+    if (data.Data) {
+      manageInitialPaymentMethod(data?.Data?.Balance);
+      const serviceId =
+        props?.circleId === 0 ? postpaidServiceId : mobileServiceId;
+      setServiceId(serviceId);
+      dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount }));
     }
-    setLoading(false);
-  } else {
-    setIsSnackBar(true);
-    setErrorMsg(rechargeData.Remarks);
-    setLoading(false);
-  }
-  if (rechargeData.ResponseStatus == 1) {
-    const resp = rechargeData.Data;
+    if (rechargeData && showSuccess) {
+      console.error(rechargeData);
+      if (rechargeData.ResponseStatus == 1) {
+        const resp = rechargeData.Data;
 
-    const str = resp && resp.split(";");
-    const status = str[0].split("=")[1];
+        const str = resp && resp.split(";");
+        const status = str[0].split("=")[1];
 
-    const amount = str[3].split("=")[1] || amt;
-    const mobileNumber = str[2].split("=")[1];
-    const time = str[1].split("=")[1] || "--";
-    const txId = str.length > 6 ? str[6].split("=")[1] : "--";
+        const amount = str[3].split("=")[1] || amt;
+        const mobileNumber = str[2].split("=")[1];
+        const time = str[1].split("=")[1] || "--";
+        const txId = str.length > 6 ? str[6].split("=")[1] : "--";
 
-    navigate("/services/status", {
-      state: {
-        amount: amount,
-        status: status,
-        mobileNo: props?.number,
-        operator: props?.operator,
-        circle: props?.circle,
-        date: time,
-        transactionId: txId,
-        type: "Mobile",
-      },
-    });
+        navigate("/services/status", {
+          state: {
+            amount: amount,
+            status: status,
+            mobileNo: props?.number,
+            operator: props?.operator,
+            circle: props?.circle,
+            date: time,
+            transactionId: txId,
+            type: "Mobile",
+          },
+        });
 
-    if (rechargeData.Status.includes("Failure")) {
-      navigate("/services/status", {
-        state: {
-          amount: props?.amount,
-          status: "Failure",
-          mobileNo: props?.number,
-          operator: props?.operator,
-          circle: props?.circle,
-          date: "--",
-          transactionId: "--",
-          type: "Mobile",
-        },
-      });
+        if (rechargeData.Status.includes("Failure")) {
+          navigate("/services/status", {
+            state: {
+              amount: props?.amount,
+              status: "Failure",
+              mobileNo: props?.number,
+              operator: props?.operator,
+              circle: props?.circle,
+              date: "--",
+              transactionId: "--",
+              type: "Mobile",
+            },
+          });
+        }
+        setLoading(false);
+      } else {
+        setIsSnackBar(true);
+        setErrorMsg(rechargeData.Remarks);
+        setLoading(false);
+      }
+      if (rechargeData.ResponseStatus == 1) {
+        const resp = rechargeData.Data;
+
+        const str = resp && resp.split(";");
+        const status = str[0].split("=")[1];
+
+        const amount = str[3].split("=")[1] || amt;
+        const mobileNumber = str[2].split("=")[1];
+        const time = str[1].split("=")[1] || "--";
+        const txId = str.length > 6 ? str[6].split("=")[1] : "--";
+
+        navigate("/services/status", {
+          state: {
+            amount: amount,
+            status: status,
+            mobileNo: props?.number,
+            operator: props?.operator,
+            circle: props?.circle,
+            date: time,
+            transactionId: txId,
+            type: "Mobile",
+          },
+        });
+
+        if (rechargeData.Status.includes("Failure")) {
+          navigate("/services/status", {
+            state: {
+              amount: props?.amount,
+              status: "Failure",
+              mobileNo: props?.number,
+              operator: props?.operator,
+              circle: props?.circle,
+              date: "--",
+              transactionId: "--",
+              type: "Mobile",
+            },
+          });
+        }
+        setLoading(false);
+      } else {
+        setIsSnackBar(true);
+        setErrorMsg(rechargeData.Remarks);
+        setLoading(false);
+      }
     }
-    setLoading(false);
-  } else {
-    setIsSnackBar(true);
-    setErrorMsg(rechargeData.Remarks);
-    setLoading(false);
-  }
-}
-  }, [data.Data, selectedDiscount,rechargeData])
-  
+  }, [data.Data, selectedDiscount, rechargeData]);
+
   const handlePaymentMethod = (e) => {
     if (data?.Data?.Balance < amt) {
       if (selectedPaymentMethod == "both" && e.target.value == "wallet") {
@@ -314,9 +335,7 @@ if(rechargeData && showSuccess){
                                   name="radio-button"
                                   value="PRIME"
                                   checked={
-                                    selectedDiscount == "PRIME"
-                                      ? true
-                                      : false
+                                    selectedDiscount == "PRIME" ? true : false
                                   }
                                 />
                                 <span>
@@ -417,7 +436,8 @@ if(rechargeData && showSuccess){
                           <div class="col-8 col-xs-4">
                             <span>
                               {" "}
-                              Shopping Points ({discount?.discountData?.ShoppingPer} %) :{" "}
+                              Shopping Points (
+                              {discount?.discountData?.ShoppingPer} %) :{" "}
                             </span>
                           </div>
                           <div class="col-4 col-xs-4 text-right">
@@ -433,7 +453,8 @@ if(rechargeData && showSuccess){
                           <div class="col-8 col-xs-4">
                             <span>
                               {" "}
-                              Prime Points ({discount?.discountData?.PrimePointPer} %) :{" "}
+                              Prime Points (
+                              {discount?.discountData?.PrimePointPer} %) :{" "}
                             </span>
                           </div>
                           <div class="col-4 col-xs-4 text-right">
@@ -452,10 +473,10 @@ if(rechargeData && showSuccess){
                           <span> Total Amount : </span>
                         </div>
                         <div class="col-4 col-xs-4 text-right">
-                        <span class="mobile-payment-summery-amt">
-                              {" "}
-                              &#x20B9; {discount?.finalAmount}{" "}
-                            </span>
+                          <span class="mobile-payment-summery-amt">
+                            {" "}
+                            &#x20B9; {discount?.finalAmount}{" "}
+                          </span>
                         </div>
                       </div>
                     </div>

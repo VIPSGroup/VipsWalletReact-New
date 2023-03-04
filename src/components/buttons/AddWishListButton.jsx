@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addWish, removeWish } from "../../redux/slices/wishlistSlice";
+import { addWish, removeWish } from "../../redux/slices/shopping/wishlistSlice";
 
 const AddWishListButton = ({
   product,

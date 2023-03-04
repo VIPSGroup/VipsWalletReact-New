@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 // import "../../assets/styles/home/serviceByCategory.css";
+import "../../assets/styles/home/services.css";
 import "../../assets/styles/styles.css";
 
 const ServiceCategory = () => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import OTPInput, { ResendOTP } from "otp-input-react";
-import { loginWithOtp } from "../../redux/slices/loginSlice";
+import { loginWithOtp } from "../../redux/slices/profile/loginSlice";
 
 const Otp = ({ userName, password }) => {
   const [otp, setOtp] = useState("");
@@ -30,8 +30,8 @@ const Otp = ({ userName, password }) => {
       // setFormCount(1)
       setIsSnackBar(true);
       // setsuccessMessage("Login Successful")
-      navigate("/");
-      console.log("logged");
+      // navigate("/");
+      // console.log("logged");
     }
   }, [loggedInUser, toggle]);
 

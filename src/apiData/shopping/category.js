@@ -29,3 +29,5 @@ export const getSubCategory = (categoryId) => {
     })
     .catch((err) => {});
 };
+
+// All Done

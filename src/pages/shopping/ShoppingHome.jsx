@@ -3,8 +3,8 @@ import "../../assets/styles/shopping/shoppingHome.css";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-import { getSliderBannerImages } from "../../apiData/media/home";
-import { getAllCategories } from "../../apiData/shopping/category";
+// import { getSliderBannerImages } from "../../apiData/media/home";
+// import { getAllCategories } from "../../apiData/shopping/category";
 import { fashionCategoryId, electronicCategoryId } from "../../constants";
 import { Link } from "react-router-dom";
 import TopSlider from "../../components/Sliders/shopping/TopSlider";
@@ -13,18 +13,22 @@ import { NewArrivalProducts } from "./NewArrivalProducts";
 import DiscountBanner from "../home/DiscountBanner";
 import Footer from "../../components/layout/Footer/Footer";
 import { ShoppingCategoryProduct } from "../home/ShoppingCategoryProduct";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCategories } from "../../redux/slices/shopping/productSlice";
+import { getSliderBannerImage } from "../../redux/slices/bannerSlice";
+import { LatestLoading } from "../../components/common/Loading";
 
 const ShoppingHome = () => {
+  const dispatch = useDispatch();
   const [bannerImages, setBannerImages] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  const { data, loading } = useSelector((state) => state.productSlice.AllCat);
+  const { SliderBanners } = useSelector((state) => state.bannerSlice);
+
   useEffect(() => {
-    getSliderBannerImages().then((response) => {
-      setBannerImages(response.Data);
-    });
-    getAllCategories().then((response) => {
-      setCategories(response.Data.Categories);
-    });
+    dispatch(getAllCategories());
+    dispatch(getSliderBannerImage());
   }, []);
 
   const responsive = {
@@ -49,7 +53,6 @@ const ShoppingHome = () => {
       partialVisibilityGutter: 10,
     },
   };
-  console.log(categories, "categories");
   const shoppingCategoryBar = () => (
     <>
       <div class="section shopping-catagory-nav mt-5">
@@ -57,30 +60,34 @@ const ShoppingHome = () => {
           <div class="row d-none d-sm-block">
             <div class="col-md-12">
               <div class="shopping-catagory-nav-outer">
-                <Carousel
-                  responsive={responsive}
-                  infinite={true}
-                  className="container"
-                >
-                  {categories &&
-                    categories.map((c, i) =>
-                      c.Name == "Exclusive/Membership" ? null : (
-                        <div class="shopping-catagory-box">
-                          <Link to={`/shopping/${c.Name}/${c.Id}`}>
-                            <img
-                              src={
-                                `http://shopadmin.vipswallet.com/Content/Images/categories/` +
-                                c.ImageUrl
-                              }
-                            />
-                            <span class="shopping-catagory-box-title">
-                              {c.Name}
-                            </span>
-                          </Link>
-                        </div>
-                      )
-                    )}
-                </Carousel>
+                {data ? (
+                  <Carousel
+                    responsive={responsive}
+                    infinite={true}
+                    className="container"
+                  >
+                    {data &&
+                      data.Data.Categories?.map((c, i) =>
+                        c.Name == "Exclusive/Membership" ? null : (
+                          <div class="shopping-catagory-box">
+                            <Link to={`/shopping/${c.Name}/${c.Id}`}>
+                              <img
+                                src={
+                                  `http://shopadmin.vipswallet.com/Content/Images/categories/` +
+                                  c.ImageUrl
+                                }
+                              />
+                              <span class="shopping-catagory-box-title">
+                                {c.Name}
+                              </span>
+                            </Link>
+                          </div>
+                        )
+                      )}
+                  </Carousel>
+                ) : (
+                  <LatestLoading />
+                )}
               </div>
             </div>
           </div>
@@ -89,8 +96,8 @@ const ShoppingHome = () => {
           <div class="row d-block d-sm-none">
             <div class="col-md-12">
               <div class="shopping-catagory-nav-outer catagory-nav-scroller">
-                {categories &&
-                  categories.map((c, i) =>
+                {/* {data &&
+                  data.Data.Categories.map((c, i) =>
                     c.Name == "Exclusive/Membership" ? null : (
                       <div class="shopping-catagory-box">
                         <Link to={`/shopping/${c.Name}/${c.Id}`}>
@@ -106,7 +113,7 @@ const ShoppingHome = () => {
                         </Link>
                       </div>
                     )
-                  )}
+                  )} */}
               </div>
             </div>
           </div>
@@ -120,7 +127,7 @@ const ShoppingHome = () => {
     <>
       {shoppingCategoryBar()}
 
-      <TopSlider banners={bannerImages} id={5} />
+      <TopSlider banners={SliderBanners.Data} id={5} />
       <DealsofTheDay />
       {/* <TopDeals /> */}
       <ShoppingCategoryProduct

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getStateCityList } from "./redux/slices/signUpSlice";
+import { getStateCityList } from "./redux/slices/profile/signUpSlice";
 import Router from "./router/Router";
 
 const App = () => {

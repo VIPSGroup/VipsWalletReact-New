@@ -1,10 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseApiUrl } from "../../constants";
+import { baseApiUrl } from "../../../constants";
 
-let user=localStorage.getItem("user")
-? localStorage.getItem("user")
-:null
+let user = localStorage.getItem("user") ? localStorage.getItem("user") : null;
 
 export const checkUserExist = createAsyncThunk(
   "checkUserExist",
@@ -16,8 +14,8 @@ export const checkUserExist = createAsyncThunk(
         `${baseApiUrl}/UserServices/CheckUserRegistration`,
         formData
       );
-      return[ res.data,username]
-    //   return res.data.Data;
+      return [res.data, username];
+      //   return res.data.Data;
     } catch (error) {
       return error;
     }
@@ -107,7 +105,7 @@ const loginSlice = createSlice({
       error: "",
     },
     loggetInWithOTP: {
-      loggedInUser:JSON.parse(user) ,
+      loggedInUser: JSON.parse(user),
       loading: false,
       error: "",
     },

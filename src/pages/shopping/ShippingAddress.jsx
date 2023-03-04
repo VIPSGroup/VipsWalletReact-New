@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { getAddress, deleteAddress } from "../../apiData/shopping/address";
+// import { deleteAddress } from "../../apiData/shopping/address";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ReactGA from "react-ga";
 import { googleAnalytics } from "../../constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import UpdateShippingAddressModal from "../../components/Modals/shopping/UpdateShippingAddressModal";
 import AddShippingAddressModal from "../../components/Modals/shopping/AddShippingAddressModal";
+import { deleteAddress, getAddress } from "../../redux/slices/pincodeSlice";
 
 ReactGA.initialize(googleAnalytics);
 
 const ShippingAddress = () => {
+  const dispatch = useDispatch();
   const [addressList, setAddressList] = useState([]);
   const [lastShippingAddress, setLastShippingAddress] = useState({});
+  const [del, setDel] = useState();
 
   const [selectedAddress, setSelectedAddress] = useState({});
 
@@ -21,24 +24,30 @@ const ShippingAddress = () => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+  const { Mobile, TRXNPassword } = loggedInUser;
+  const { data: addressGetData } = useSelector(
+    (state) => state.pincodeSlice.AddressGet
+  );
+  const { data: deleteAddressData } = useSelector(
+    (state) => state.pincodeSlice.addressDelete
+  );
+  console.log(addressGetData.Data, "Get Data");
   let navigate = useNavigate();
 
   const location = useLocation();
   const propsProductsData = location.state;
 
-  const clickDeleteAddress = (e) => {
+  const clickDeleteAddress = async (e) => {
     e.preventDefault();
-    deleteAddress(
-      e.currentTarget.value,
-      loggedInUser?.Mobile,
-      loggedInUser?.TRXNPassword
-    ).then((response) => {
-      if (response.ResponseStatus == "1") {
-        window.location.reload();
-      }
-    });
+    const addressId = e.currentTarget.value;
+    dispatch(deleteAddress({ addressId, Mobile, TRXNPassword }));
   };
 
+  // useEffect(() => {
+  //   if (deleteAddressData.ResponseStatus === "1") {
+  //     dispatch(getAddress({ Mobile, TRXNPassword }));
+  //   }
+  // }, []);
   const handleSelectAddress = (e) => {
     const clickedAddress = addressList.find(
       (item) => item.Id == e.target.value
@@ -49,21 +58,25 @@ const ShippingAddress = () => {
 
   useEffect(() => {
     ReactGA.pageview(window?.location?.pathname);
-    getAddress(loggedInUser?.Mobile, loggedInUser?.TRXNPassword).then(
-      (response) => {
-        if (response.ResponseStatus === 1) {
-          setAddressList(response.Data);
-          setLastShippingAddress(response.LastShippingAddress[0]);
-
-          if (response.Data && response.LastShippingAddress[0]) {
-            setSelectedAddress(response.LastShippingAddress[0]);
-          } else if (response.Data && !response.LastShippingAddress[0]) {
-            setSelectedAddress(response.Data[0]);
-          }
-        }
+    dispatch(getAddress({ Mobile, TRXNPassword }));
+  }, [dispatch]);
+  useEffect(() => {
+    if (addressGetData.ResponseStatus === 1) {
+      setAddressList(addressGetData.Data);
+      setLastShippingAddress(addressGetData.LastShippingAddress[0]);
+      if (addressGetData.Data && addressGetData.LastShippingAddress[0]) {
+        setSelectedAddress(addressGetData.LastShippingAddress[0]);
+      } else if (
+        addressGetData.Data &&
+        !addressGetData.LastShippingAddress[0]
+      ) {
+        setSelectedAddress(addressGetData.Data[0]);
       }
-    );
-  }, []);
+    } else {
+      setAddressList("");
+      setLastShippingAddress("");
+    }
+  }, [addressGetData]);
 
   const onPlaceOrder = (e) => {
     if (JSON.stringify(selectedAddress) !== "{}") {

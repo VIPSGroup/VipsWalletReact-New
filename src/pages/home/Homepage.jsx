@@ -17,6 +17,7 @@ const Homepage = ({ setIsHomeTopNav }) => {
       setIsHomeTopNav(false);
     };
   });
+
   return (
     <>
       <HomeTopBannerSlider />

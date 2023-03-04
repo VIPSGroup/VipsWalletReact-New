@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { getUserDetails } from "../../apiData/myProfile/profile";
 import { getRechargeHistory } from "../../apiData/services/mobileRecharge";
 import { operartorsUrl } from "../../constants";
 import LoadingBar from "../common/Loading";
@@ -14,8 +13,9 @@ const RecentHistory = ({
 }) => {
   const [rechargeHistory, setRechargeHistory] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState("");
-
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
   const getTodaysDate = () => {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -38,7 +38,6 @@ const RecentHistory = ({
   };
   // const { loggedInUser } = useSelector((state) => state.login);
   useEffect(() => {
-    setLoggedInUser(getUserDetails());
     const toDate = getTodaysDate();
 
     if (!fetchServiceId) {

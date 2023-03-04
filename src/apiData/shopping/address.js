@@ -95,3 +95,7 @@ export const addAddress = (addressData, username, password,state,city) => {
     })
     .catch((err) => {});
 };
+
+
+
+// ALL Done

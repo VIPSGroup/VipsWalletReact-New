@@ -65,6 +65,8 @@ import Wishlist from "../pages/shopping/MyWishlist";
 import Cart from "../pages/shopping/Cart";
 import ShippingAddress from "../pages/shopping/ShippingAddress";
 import Checkout from "../pages/shopping/ShoppingCheckout";
+import DigiGoldHome from "../pages/digiGold/DigiGoldHome";
+import OrderSummary from "../pages/digiGold/OrderSummary";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
@@ -77,11 +79,7 @@ const Router = () => {
           element={<Homepage setIsHomeTopNav={setIsHomeTopNav} />}
           path="/"
         >
-            <Route
-          path="/login"
-          element={<Login/>
-          }
-        />
+          <Route path="/login" element={<Login />} />
         </Route>
 
         {/* <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} /> */}
@@ -92,6 +90,17 @@ const Router = () => {
             <ProtectedRoute>
               {" "}
               <SendMoney />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/addMoney/options" element={<PaymentOptions />} />
+        <Route
+          path="/addMoney/:option/amount"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <AddAmount />{" "}
             </ProtectedRoute>
           }
         />
@@ -355,7 +364,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <ServiceSuccess setIsHomeTopNav={setIsHomeTopNav}/>
+              <ServiceSuccess setIsHomeTopNav={setIsHomeTopNav} />
             </ProtectedRoute>
           }
         />
@@ -368,6 +377,8 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/digigold" element={<DigiGoldHome />} />
+        <Route path="/digigold-order-summary" element={<OrderSummary />} />
 
         <Route
           path="/prime"
@@ -462,7 +473,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <Cart setIsHomeTopNav={setIsHomeTopNav}/>{" "}
+              <Cart setIsHomeTopNav={setIsHomeTopNav} />{" "}
             </ProtectedRoute>
           }
         />

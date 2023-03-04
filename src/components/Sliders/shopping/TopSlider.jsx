@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { LatestLoading } from "../../common/Loading";
 
 const TopSlider = ({ banners, id = 1 }) => {
   const responsive = {
@@ -42,7 +43,7 @@ const TopSlider = ({ banners, id = 1 }) => {
           removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
           // showDots={true}
         >
-          {banners &&
+          {banners ? (
             banners.map((banner, i) =>
               banner.BannerId == id ? (
                 <>
@@ -55,7 +56,10 @@ const TopSlider = ({ banners, id = 1 }) => {
                   ></img>
                 </>
               ) : null
-            )}
+            )
+          ) : (
+            <LatestLoading />
+          )}
         </Carousel>
       </div>
     </div>

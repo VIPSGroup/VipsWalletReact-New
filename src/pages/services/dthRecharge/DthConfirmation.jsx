@@ -5,12 +5,16 @@ import { getDouble, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../../../components/common";
-import { finalRecharge, getServiceDiscounts } from "../../../redux/slices/services/commonSlice";
+import {
+  finalRecharge,
+  getServiceDiscounts,
+} from "../../../redux/slices/services/commonSlice";
 import { getWalletBalance } from "../../../redux/slices/walletSlice";
 
 ReactGA.initialize(googleAnalytics);
 
 const DthConfirmation = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const props = location.state;
   const amt = props.amount;
@@ -23,21 +27,36 @@ const DthConfirmation = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   let navigate = useNavigate();
- const dispatch= useDispatch()
+
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { data } = useSelector(state => state.walletSlice.walletBalance);
-  const { discount } = useSelector(state => state.commonSlice.serviceDiscount);
-  const { rechargeData,loading, } = useSelector(state => state.commonSlice.finalRecharge);
+  const { data } = useSelector((state) => state.walletSlice.walletBalance);
+  const { discount } = useSelector(
+    (state) => state.commonSlice.serviceDiscount
+  );
+  const { rechargeData, loading } = useSelector(
+    (state) => state.commonSlice.finalRecharge
+  );
   const handleClickConfirm = (e) => {
-    setShowSuccess(true)
+    setShowSuccess(true);
     e.preventDefault();
-    dispatch(finalRecharge({rechargeType:"dth", userName:loggedInUser.Mobile,password: loggedInUser.TRXNPassword,amount:amt,number:props.number,operatorId: props.operatorId,pointType:selectedDiscount,operator:props.operator }))
+    dispatch(
+      finalRecharge({
+        rechargeType: "dth",
+        userName: loggedInUser.Mobile,
+        password: loggedInUser.TRXNPassword,
+        amount: amt,
+        number: props.number,
+        operatorId: props.operatorId,
+        pointType: selectedDiscount,
+        operator: props.operator,
+      })
+    );
   };
 
   const handlePaymentMethod = (e) => {
-    if (data?.Data?.Balance  < amt) {
+    if (data?.Data?.Balance < amt) {
       if (selectedPaymentMethod == "both" && e.target.value == "wallet") {
         setSelectedPaymentMethod("payu");
         setPayuAmt(amt);
@@ -47,8 +66,8 @@ const DthConfirmation = () => {
         e.target.value == "wallet"
       ) {
         setSelectedPaymentMethod("both");
-        setWalletAmt(data?.Data?.Balance );
-        setPayuAmt(amt - data?.Data?.Balance );
+        setWalletAmt(data?.Data?.Balance);
+        setPayuAmt(amt - data?.Data?.Balance);
       }
     } else {
       if (e.target.value == "wallet") {
@@ -75,19 +94,21 @@ const DthConfirmation = () => {
     ReactGA.pageview(window.location.pathname);
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
-    if(loggedInUser ){
-      if(data?.Data?.length!==0 || !data){
-        dispatch(getWalletBalance({userName,password}))
+    if (loggedInUser) {
+      if (data?.Data?.length !== 0 || !data) {
+        dispatch(getWalletBalance({ userName, password }));
       }
     }
-return ()=>{setShowSuccess(false)}
+    return () => {
+      setShowSuccess(false);
+    };
   }, []);
   useEffect(() => {
-    if(data.Data){
+    if (data.Data) {
       manageInitialPaymentMethod(data?.Data?.Balance);
-        dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
+      dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount }));
     }
-    if(rechargeData  && showSuccess){
+    if (rechargeData && showSuccess) {
       if (rechargeData.ResponseStatus == 1) {
         const resp = rechargeData.Data;
 
@@ -131,7 +152,7 @@ return ()=>{setShowSuccess(false)}
         setErrorMsg(rechargeData.Remarks);
       }
     }
-      }, [data.Data, selectedDiscount,rechargeData])
+  }, [data.Data, selectedDiscount, rechargeData]);
   const confirmSection = () => (
     <div>
       <section class="section-align mobile-payment-confirmation">
@@ -235,9 +256,7 @@ return ()=>{setShowSuccess(false)}
                                   name="radio-button"
                                   value="PRIME"
                                   checked={
-                                    selectedDiscount == "PRIME"
-                                      ? true
-                                      : false
+                                    selectedDiscount == "PRIME" ? true : false
                                   }
                                 />
                                 <span>
@@ -340,7 +359,8 @@ return ()=>{setShowSuccess(false)}
                           <div class="col-8 col-xs-4">
                             <span>
                               {" "}
-                              Shopping Points ({discount?.discountData?.ShoppingPer} %) :{" "}
+                              Shopping Points (
+                              {discount?.discountData?.ShoppingPer} %) :{" "}
                             </span>
                           </div>
                           <div class="col-4 col-xs-4 text-right">
@@ -357,7 +377,8 @@ return ()=>{setShowSuccess(false)}
                           <div class="col-8 col-xs-4">
                             <span>
                               {" "}
-                              Prime Points ({discount?.discountData?.PrimePointPer} %) :{" "}
+                              Prime Points (
+                              {discount?.discountData?.PrimePointPer} %) :{" "}
                             </span>
                           </div>
                           <div class="col-4 col-xs-4 text-right">
@@ -376,10 +397,10 @@ return ()=>{setShowSuccess(false)}
                           <span> Total Amount : </span>
                         </div>
                         <div class="col-4 col-xs-4 text-right">
-                        <span class="mobile-payment-summery-amt">
-                              {" "}
-                              &#x20B9; {discount?.finalAmount}{" "}
-                            </span>
+                          <span class="mobile-payment-summery-amt">
+                            {" "}
+                            &#x20B9; {discount?.finalAmount}{" "}
+                          </span>
                         </div>
                       </div>
                     </div>
