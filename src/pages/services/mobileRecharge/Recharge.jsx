@@ -16,6 +16,7 @@ import {
 import BrowsePlans from "./BrowsePlans";
 import { getActiveApi, getCircleAndOperatorByNumber, getRechargeCircleList } from "../../../redux/slices/services/rechargeSlice";
 import { getOperators } from "../../../redux/slices/services/commonSlice";
+import { SnackBar } from "../../../components/common";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -30,7 +31,7 @@ const Recharge = ({ props }) => {
   const [opImgUrl, setOpImgUrl] = useState("");
   const [postpaidAmount, setPostpaidAmount] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState("");
 
   let navigate = useNavigate();
@@ -167,7 +168,7 @@ dispatch(getRechargeCircleList())
                       {" "}
                       Recharge Mobile Recharge{" "}
                     </h3>
-                  </div>
+                  </div>{JSON.stringify(errorMsg ,successMsg)}
                 </div>
                 <form>
                   <div class="col-md-12">
@@ -375,7 +376,7 @@ dispatch(getRechargeCircleList())
                 type={"Mobile"}
               />
             </div>
-
+{isSnackBar && <SnackBar errorMsg={errorMsg} successMsg={successMsg} />}
             {/* <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
