@@ -1,7 +1,8 @@
 import { notification } from "antd";
-const SnackBar = ({ errorMsg, success }) => {
-  const Key = errorMsg ? "error" : "success";
-  const value = errorMsg ? errorMsg : success;
+const SnackBar = ({ errorMsg, successMsg }) => {
+  const Key = errorMsg && errorMsg!=='' ? "error" : "success";
+  const value = errorMsg ? errorMsg : successMsg;
+  notification.destroy()
   return notification[Key]({
     message: value,
     duration: 2,

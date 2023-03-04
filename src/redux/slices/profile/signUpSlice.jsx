@@ -124,13 +124,13 @@ const signUpSlice = createSlice({
       error: "",
     },
      signUpOtp:{
-      response: {},
+      response: '',
       loading: false,
       error: "",
     },
      signUp:{
-      newUser: {},
-      loading: false,
+      newUser: '',
+      otploading: false,
       error: "",
     }
   },
@@ -188,14 +188,14 @@ state.stateCityPincode.stateCityByPincode={}
       state.signUpOtp.error = action.error;
     });
     builder.addCase(signUpUser.pending, (state, action) => {
-      state.signUp.loading = true;
+      state.signUp.otploading = true;
     });
     builder.addCase(signUpUser.fulfilled, (state, action) => {
       state.signUp.newUser = action.payload;
-      state.signUp.loading = false;
+      state.signUp.otploading = false;
     });
     builder.addCase(signUpUser.rejected, (state, action) => {
-      state.signUp.loading = false;
+      state.signUp.otploading = false;
       state.signUp.error = action.error;
     });
   },

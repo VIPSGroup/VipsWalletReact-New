@@ -8,7 +8,7 @@ import { operartorsUrl } from "../../../constants";
 import { fastagServiceId, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
-import { ErrorText, Loading } from "../../../components/common";
+import { ErrorText, Loading, SnackBar } from "../../../components/common";
 import { fetchBill, getFastagOperators, getInputFieldsByOperator } from "../../../redux/slices/services/fastagSlice";
 ReactGA.initialize(googleAnalytics);
 
@@ -24,7 +24,6 @@ const FastagFront = ({ props }) => {
   const [billFetchError, setBillFetchError] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
   const [billAmount, setBillAmount] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   const [isClick, setIsClick] = useState(false)
@@ -519,7 +518,7 @@ useEffect(() => {
             <div class="col-sm-12 col-md-12 col-lg-7 mobile-recharge-right-outer">
               <RecentHistory type="FastTag" serviceId={fastagServiceId} />
             </div>
-
+{isSnackBar && <SnackBar errorMsg={errorMsg}/>}
             {/* <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}

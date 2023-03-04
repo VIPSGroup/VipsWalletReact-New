@@ -31,7 +31,6 @@ const Recharge = ({ props }) => {
   const [opImgUrl, setOpImgUrl] = useState("");
   const [postpaidAmount, setPostpaidAmount] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState("");
 
   let navigate = useNavigate();
@@ -65,10 +64,12 @@ const Recharge = ({ props }) => {
         if (selectedCircle) {
           setSectionCount(2);
         } else {
+          console.warn("Select Circle");
           setIsSnackBar(true);
           setErrorMsg("Select Circle");
         }
       } else {
+        console.warn("Select Operator");
         setIsSnackBar(true);
         setErrorMsg("Select Operator");
       }
@@ -168,7 +169,7 @@ dispatch(getRechargeCircleList())
                       {" "}
                       Recharge Mobile Recharge{" "}
                     </h3>
-                  </div>{JSON.stringify(errorMsg ,successMsg)}
+                  </div>
                 </div>
                 <form>
                   <div class="col-md-12">
@@ -376,7 +377,7 @@ dispatch(getRechargeCircleList())
                 type={"Mobile"}
               />
             </div>
-{isSnackBar && <SnackBar errorMsg={errorMsg} successMsg={successMsg} />}
+{isSnackBar && <SnackBar errorMsg={errorMsg} />}
             {/* <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}

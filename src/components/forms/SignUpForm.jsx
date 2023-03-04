@@ -10,10 +10,10 @@ import { MdArrowBack } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import OTPInput, { ResendOTP } from "otp-input-react";
 import SelectField from './SelectField';
-import { Loading } from '../common';
+import { Loading, SnackBar } from '../common';
 import { getStateCity, signUpUser, signUpWithOtp, validateReference } from '../../redux/slices/profile/signUpSlice';
 
-const SignUpForm = () => {
+const SignUpForm = ({isSignIn}) => {
     const navigate= useNavigate()
     const dispatch= useDispatch()
     const { isUserExist } = useSelector(
@@ -22,8 +22,8 @@ const SignUpForm = () => {
         state => state.signUpSlice.validateNumber);
     //  const {response,loading,newUser,}=  useSelector(state=>state.signup)
      const {stateCityByPincode}=  useSelector(state=>state.signUpSlice.stateCityPincode)
-     const {response}=  useSelector(state=>state.signUpSlice.signUpOtp)
-     const {newUser}=  useSelector(state=>state.signUpSlice.signUp)
+     const {response,loading}=  useSelector(state=>state.signUpSlice.signUpOtp)
+     const {newUser,otploading}=  useSelector(state=>state.signUpSlice.signUp)
       const [getData, setGetData] = useState({})
       const [show, setShow] = useState(true)
       const [signupFormCount, setSignupFormCount] = useState(1);
@@ -59,14 +59,14 @@ const SignUpForm = () => {
               pincode:yup.string().required("Please Enter Pincode")
              }),
             onSubmit:(values,{resetForm})=>{
-              setSignupFormCount(2)
               if(getData.stateName!='' && getData.cityName!=''){
                 if(signUpFormik.values.termsCheck){
-                  setIsSnackBar(false)
-                  setErrorMsg("")
+                  // setIsSnackBar(false)
+                  // setErrorMsg("")
                   if(!refError){
                     setUserDetails({...values,cityId:getData.cityId,stateId:getData.stateId,RefId:refId,pincodeId,Ip:ip,userName:isUserExist && isUserExist[1]})
                     dispatch(signUpWithOtp({ userName:isUserExist && isUserExist[1], emailId:signUpFormik.values.emailId }))
+                    setSignupFormCount(2)
                   }
                 }else{
                   setIsSnackBar(true)
@@ -76,6 +76,7 @@ const SignUpForm = () => {
             }
           })
           useEffect(() => {
+            console.warn("USEeffect");
             if(isUserExist && isUserExist[1]){
             }else{
               navigate("/login")
@@ -98,6 +99,7 @@ const SignUpForm = () => {
                 setGetData({...getData,stateName:'',stateId:'',stateError:false,cityId:'',cityName:'',cityError:false})
               }
               if(response?.ResponseStatus==1){
+                console.error(response.Remarks);
                 setIsSnackBar(true)
                 setSuccessMsg(response.Remarks)
               }else if(response?.ResponseStatus==0){
@@ -105,15 +107,15 @@ const SignUpForm = () => {
                 setErrorMsg(response.Remarks)
               }
               if(newUser?.ResponseStatus==1 && otp.length===6){
+                navigate("/")
                 setIsSnackBar(true)
                 setSuccessMsg("user Registered Successfully")
               }else if(newUser?.ResponseStatus==0 && otp.length===6){
                 setIsSnackBar(true)
                 setErrorMsg(newUser.Remarks)
               }
-              console.log("useEffect");
             }, [
-              signUpFormik.values.refId,
+              signUpFormik.values.refId,newUser, response,
               signUpFormik.values.password,signUpFormik.values.pincode,stateCityByPincode])
           const renderButton2 = (buttonProps) => {
             return (
@@ -174,12 +176,14 @@ const SignUpForm = () => {
      >
        {
     //    response?.ResponseStatus==1 &&
-        signupFormCount==2
+        signupFormCount==2 && !loading
         ?  <>
-         <button
+         <button 
            className="close otp-close mt-3"
-           onClick={() => {
+           onClick={(e) => {
+            e.preventDefault()
              setSignupFormCount(1);
+            isSignIn(true)
              setOtp("");
            }}
          >
@@ -246,11 +250,11 @@ const SignUpForm = () => {
                                   disabled={otp.length === 6 ? false : true}
                                   onClick={clickVerifySignupOtp}
                                 >
-                                  {/* {loading ? (
+                                  {otploading ? (
                                     <Loading class="" />
                                   ) : (
                                     "Verify & Proceed"
-                                  )} */}Verify & Proceed
+                                  )}
                                 </button>
                               </div>
                             </div>
@@ -266,10 +270,10 @@ const SignUpForm = () => {
         </section>
       </>
      : <>
-     <Link to='/login'
+     <Link 
            class="close signup-close"
            data-dismiss="modal"
-           aria-label="Close"
+           aria-label="Close" onClick={()=>{isSignIn(true)}}
          >
            <MdArrowBack />
          </Link>
@@ -492,8 +496,8 @@ const SignUpForm = () => {
                              }
                            }
                          }}
-                       >SIGNUP
-                         {/* {loading ? <Loading /> : "SIGNUP"} */}
+                       >
+                         {loading ? <Loading /> : "SIGNUP"}
                        </button>
                      </div>
                    </div>
@@ -503,13 +507,18 @@ const SignUpForm = () => {
            </div>
          </div>
        </div>
-       
+       {JSON.stringify(response)}
      </section>
    </>
      }
     
      </Modal>
-     {/* {newUser?.ResponseStatus==1 && navigate("/")} */}
+     {isSnackBar && !signUpFormik.values.termsCheck && <SnackBar errorMsg={errorMsg}/>}
+     {isSnackBar && response.ResponseStatus==1  && <SnackBar successMsg={successMsg}/>}
+     {isSnackBar && response.ResponseStatus==0  && <SnackBar errorMsg={errorMsg}/>}
+     {/* {isSnackBar && response?.ResponseStatus==1 || newUser?.ResponseStatus==1 && <SnackBar successMsg={successMsg} /> && console.warn("zhal")} */}
+     {/* {isSnackBar && response?.ResponseStatus==0 || newUser?.ResponseStatus==0 && <SnackBar errorMsg={errorMsg}/>} */}
+     {newUser?.ResponseStatus==1 && navigate("/")}
      {/* <MuiSnackBar
              open={isSnackBar}
              setOpen={setIsSnackBar}

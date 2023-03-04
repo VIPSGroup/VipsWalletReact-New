@@ -9,6 +9,7 @@ export const checkUserExist = createAsyncThunk(
   async ({ username }) => {
     const formData = new FormData();
     formData.append("Username", username);
+    console.warn(username);
     try {
       const res = await axios.post(
         `${baseApiUrl}/UserServices/CheckUserRegistration`,
@@ -85,32 +86,34 @@ export const loginWithOtp = createAsyncThunk(
     }
   }
 );
-
+const initialState= {
+  checkUser: {
+    isUserExist: [],
+    loading: false,
+    error: "",
+  },
+  loginUser: {
+    loading: false,
+    response: "",
+    error: "",
+  },
+  forgotPass: {
+    loading: false,
+    forgotPassData: "",
+    error: "",
+  },
+  loggetInWithOTP: {
+    loggedInUser: JSON.parse(user),
+    loading: false,
+    error: "",
+  },
+}
 const loginSlice = createSlice({
   name: "loginSlice",
-  initialState: {
-    checkUser: {
-      isUserExist: [],
-      loading: false,
-      error: "",
-    },
-    loginUser: {
-      loading: false,
-      response: "",
-      error: "",
-    },
-    forgotPass: {
-      loading: false,
-      forgotPassData: "",
-      error: "",
-    },
-    loggetInWithOTP: {
-      loggedInUser: JSON.parse(user),
-      loading: false,
-      error: "",
-    },
+ initialState,
+  reducers: {
+    resetState:(state)=>{return initialState}
   },
-  reducers: {},
   extraReducers: (builder) => {
     // Check User Exist
     builder.addCase(checkUserExist.pending, (state, action) => {
@@ -166,5 +169,5 @@ const loginSlice = createSlice({
     });
   },
 });
-
+export const { resetState } = loginSlice.actions;
 export default loginSlice.reducer;

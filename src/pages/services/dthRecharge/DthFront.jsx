@@ -11,6 +11,7 @@ import {
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import { getOperators } from "../../../redux/slices/services/commonSlice";
+import { SnackBar } from "../../../components/common";
 
 ReactGA.initialize(googleAnalytics);
 const DthFront = ({ props }) => {
@@ -23,7 +24,6 @@ const DthFront = ({ props }) => {
   const [opImgUrl, setOpImgUrl] = useState("");
   const [amount, setamount] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
   const { operatorsList } = useSelector(state => state.commonSlice.operators );
@@ -50,7 +50,6 @@ const dispatch= useDispatch()
 
   const onNext = (e) => {
     e.preventDefault();
-
     if (mobileNo) {
       if (selectedOperator) {
         if (amount && amount > 0) {
@@ -71,10 +70,12 @@ const dispatch= useDispatch()
         }
       } else {
         setIsSnackBar(true);
+        console.warn("Select Operator");
         setErrorMsg("Select Operator");
       }
     } else {
       setIsSnackBar(true);
+      console.warn("Enter valid DTH Number");
       setErrorMsg("Enter valid DTH Number");
     }
   };
@@ -97,7 +98,7 @@ const dispatch= useDispatch()
                     </h3>
                   </div>
                 </div>
-
+{JSON.stringify(errorMsg)}
                 <form>
                   <div class="col-md-12">
                     <div class="row">
@@ -203,7 +204,7 @@ const dispatch= useDispatch()
                 type={"dth"}
               />
             </div>
-
+{isSnackBar && <SnackBar errorMsg={errorMsg}/>}
             {/* <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}

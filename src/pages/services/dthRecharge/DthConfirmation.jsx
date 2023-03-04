@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getDouble, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
-import { Loading } from "../../../components/common";
+import { Loading, SnackBar } from "../../../components/common";
 import {
   finalRecharge,
   getServiceDiscounts,
@@ -439,7 +439,7 @@ const DthConfirmation = () => {
                 </div>
               </div>
             </div>
-
+{isSnackBar && <SnackBar errorMsg={errorMsg}/>}
             {/**  <!-- Payment confirmation end -->*/}
             {/* <MuiSnackBar
               open={isSnackBar}

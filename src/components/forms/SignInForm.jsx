@@ -11,13 +11,14 @@ import {
   checkUserExist,
   forgotPassword,
   loginUser,
+  resetState,
 } from "../../redux/slices/profile/loginSlice";
 import { Loading } from "../common";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
 import "../../assets/styles/authentication/signupModal.css";
 
-const SignInForm = () => {
+const SignInForm = ({isSignIn}) => {
   const [otp, setOtp] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [formCount, setFormCount] = useState(1);
@@ -70,11 +71,11 @@ const SignInForm = () => {
     },
   });
   useEffect(() => {
+    console.warn(formCount);
     // if (
     //   isUserExist &&
     //   isUserExist[0]?.ResponseStatus === 0 &&
-    //   isUserExist[0]?.ErrorCode === "Ex402" &&
-    //   showSignUp
+    //   isUserExist[0]?.ErrorCode === "Ex402" 
     // ) {
     //   console.log("login");
     //   navigate("/signup");
@@ -96,7 +97,8 @@ const SignInForm = () => {
       setErrorMessage("");
     }
 
-    if (response?.ResponseStatus === 2) {
+    if (response?.ResponseStatus === 2 ) {
+      console.log("ddddddd");
       setFormCount(2);
       setIsSnackBar(true);
       setsuccessMessage(response.Remarks);
@@ -110,14 +112,14 @@ const SignInForm = () => {
           setIp(user.ip);
         });
     }
-    if (loggedInUser?.Id) {
+    if (loggedInUser?.Id ) {
       navigate("/");
       setFormCount(1);
       setIsSnackBar(true);
       setsuccessMessage("Login Successful");
       setErrorMessage("");
     }
-    if (response?.ResponseStatus === 0) {
+    if (response?.ResponseStatus ===0) {
       setIsSnackBar(true);
       setErrorMessage("Invalid OTP");
       setsuccessMessage("");
@@ -142,6 +144,7 @@ const SignInForm = () => {
   const handleClose = () => {
     setShow(false);
     setFormCount(1);
+    dispatch(resetState())
     loginUsernameFormik.values.username = "";
   };
   const handleModalClose = () => {
@@ -494,6 +497,7 @@ const SignInForm = () => {
                         <Otp
                           userName={loginUsernameFormik.values.username}
                           password={loginPasswordFormik.values.password}
+                          setFormCount={setFormCount}
                         />
                       </div>
                     </div>

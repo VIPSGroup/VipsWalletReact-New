@@ -50,6 +50,9 @@ const HomeTopNav = ({ isPrime }) => {
     const password = loggedInUser && loggedInUser?.TRXNPassword;
     dispatch(getWalletBalance({ username, password }));
   };
+useEffect(() => {
+console.log("USee");
+}, [loggedInUser])
 
   const navSection = () => (
     <>

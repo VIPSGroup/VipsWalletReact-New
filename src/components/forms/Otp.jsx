@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { loginWithOtp } from "../../redux/slices/profile/loginSlice";
+import { Loading } from "../common";
 
-const Otp = ({ userName, password }) => {
+const Otp = ({ userName, password,setFormCount }) => {
   const [otp, setOtp] = useState("");
   const [ip, setIp] = useState("");
   const [toggle, setToggle] = useState(false);
@@ -14,12 +15,13 @@ const Otp = ({ userName, password }) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { loggedInUser } = useSelector(
+  const { loggedInUser,loading } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
   useEffect(() => {
     if (loggedInUser === false && toggle) {
       if (!loggedInUser.Id) {
+        console.log("Invalid OTP");
         setIsSnackBar(true);
         setErrorMessage("Invalid OTP");
         setsuccessMessage("");
@@ -27,10 +29,10 @@ const Otp = ({ userName, password }) => {
     }
     if (loggedInUser?.Id) {
       setToggle(false);
-      // setFormCount(1)
+      setFormCount(1)
       setIsSnackBar(true);
       // setsuccessMessage("Login Successful")
-      // navigate("/");
+      navigate("/");
       // console.log("logged");
     }
   }, [loggedInUser, toggle]);
@@ -109,12 +111,7 @@ const Otp = ({ userName, password }) => {
                         }, 4000);
                       }}
                     >
-                      "Verify & Proceed"
-                      {/* {loading ? (
-                                       <LoadingBar class="" />
-                                     ) : (
-                                       "Verify & Proceed"
-                                     )} */}
+                     {loading ? <Loading />: "Verify & Proceed"}
                     </button>
                   </div>
                 </div>

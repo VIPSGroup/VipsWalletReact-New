@@ -16,6 +16,7 @@ import {
   finalRecharge,
   getServiceDiscounts,
 } from "../../../redux/slices/services/commonSlice";
+import { SnackBar } from "../../../components/common";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -31,18 +32,12 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
   } else {
     amt = props?.amount;
   }
-  // const [balance, setBalance] = useState("");
-  // const [shoppingPoints, setShoppingPoints] = useState("");
-  // const [primePoints, setPrimePoints] = useState("");
-  // const [discountObj, setDiscountObj] = useState({});
-  // const [shoppingDiscount, setShoppingDiscount] = useState("");
-  // const [primeDiscount, setPrimeDiscount] = useState("");
   const [selectedDiscount, setSelectedDiscount] = useState("SHOPPING");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("wallet");
   const [payuAmt, setPayuAmt] = useState("0");
   // const [walletAmt, setWalletAmt] = useState("");
   // const [finalAmount, setFinalAmount] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -55,18 +50,16 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
   const { discount } = useSelector(
     (state) => state.commonSlice.serviceDiscount
   );
-  const { rechargeData } = useSelector(
+  const { rechargeData ,loading} = useSelector(
     (state) => state.commonSlice.finalRecharge
   );
   const handleClickConfirm = (e) => {
     setShowSuccess(true);
     e.preventDefault();
-
-    setLoading(true);
     dispatch(
       finalRecharge({
         rechargeType: "Mobile",
-        userName: loggedInUser.Mobile,
+        userName: loggedInUser.UserName,
         password: loggedInUser.TRXNPassword,
         amount: amt,
         number: props?.number,
@@ -81,7 +74,6 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
   useEffect(() => {
     setIsHomeTopNav(false);
     ReactGA.pageview(window.location.pathname);
-    setLoading(false);
 
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
@@ -103,7 +95,6 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
       dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount }));
     }
     if (rechargeData && showSuccess) {
-      console.error(rechargeData);
       if (rechargeData.ResponseStatus == 1) {
         const resp = rechargeData.Data;
 
@@ -142,55 +133,9 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
             },
           });
         }
-        setLoading(false);
       } else {
         setIsSnackBar(true);
         setErrorMsg(rechargeData.Remarks);
-        setLoading(false);
-      }
-      if (rechargeData.ResponseStatus == 1) {
-        const resp = rechargeData.Data;
-
-        const str = resp && resp.split(";");
-        const status = str[0].split("=")[1];
-
-        const amount = str[3].split("=")[1] || amt;
-        const mobileNumber = str[2].split("=")[1];
-        const time = str[1].split("=")[1] || "--";
-        const txId = str.length > 6 ? str[6].split("=")[1] : "--";
-
-        navigate("/services/status", {
-          state: {
-            amount: amount,
-            status: status,
-            mobileNo: props?.number,
-            operator: props?.operator,
-            circle: props?.circle,
-            date: time,
-            transactionId: txId,
-            type: "Mobile",
-          },
-        });
-
-        if (rechargeData.Status.includes("Failure")) {
-          navigate("/services/status", {
-            state: {
-              amount: props?.amount,
-              status: "Failure",
-              mobileNo: props?.number,
-              operator: props?.operator,
-              circle: props?.circle,
-              date: "--",
-              transactionId: "--",
-              type: "Mobile",
-            },
-          });
-        }
-        setLoading(false);
-      } else {
-        setIsSnackBar(true);
-        setErrorMsg(rechargeData.Remarks);
-        setLoading(false);
       }
     }
   }, [data.Data, selectedDiscount, rechargeData]);
@@ -243,7 +188,6 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
             </div>
             <h1 class="payment-head-title">Payment Confirmation</h1>
           </div>
-
           <div class="row">
             {/** <!-- Payment confirmation start -->*/}
             <div class="col-sm-12 col-md-12 col-lg-8">
@@ -496,7 +440,7 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
                         <button
-                          onClick={!loading && handleClickConfirm}
+                          onClick={ handleClickConfirm}
                           type="button"
                           class="btn-primery"
                         >
@@ -529,16 +473,7 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
                 </div>
               </div>
             </div>
-
-            {/**  <!-- Payment confirmation end -->*/}
-            {/* <MuiSnackBar
-                open={isSnackBar}
-                setOpen={setIsSnackBar}
-                successMsg={successMsg}
-                errorMsg={errorMsg}
-                setSuccess={setSuccessMsg}
-                setError={setErrorMsg}
-              /> */}
+{isSnackBar && <SnackBar errorMsg={errorMsg} successMsg={successMsg}/>}
           </div>
         </div>
       </section>
