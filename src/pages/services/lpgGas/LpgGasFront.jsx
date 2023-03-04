@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { fetchBill } from "../../../apiData/services/electricity";
 import {
-  getLpgGasOperators,
-  getInputFieldsByOperator,
-  fetchLPGBill,
+  // getLpgGasOperators,
+  // getInputFieldsByOperator,
+  // fetchLPGBill,
 } from "../../../apiData/services/lpgGas";
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
 import {
@@ -13,17 +13,20 @@ import {
   bharatGasOpCode,
   hpGasOpCode,
 } from "../../../constants";
+import { getRechargeHistory } from "../../../apiData/services/mobileRecharge";
 import RecentHistory from "../../../components/services/RecentHistory";
 import { lpgGasServiceId, googleAnalytics } from "../../../constants";
 
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
 import { Loading } from "../../../components/common";
+import { fetchLPGBill, getInputFieldsByOperator } from "../../../redux/slices/services/LpgGasSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getOperatorsByServiceId } from "../../../redux/slices/services/servicesSlice";
 
 ReactGA.initialize(googleAnalytics);
 
-const IpgGasFront = ({props}) => {
-  const [operatorsList, setOperatorList] = useState([]);
+const LpgGasFront = ({ props }) => {
+  // const [operatorsList, setOperatorList] = useState([]);
   const [mobileNo, setMobileNo] = useState("");
   const [selectedOperator, setSelectedOperator] = useState("");
   const [selectedOperatorId, setSelectedOperatorId] = useState("");
@@ -33,20 +36,19 @@ const IpgGasFront = ({props}) => {
   const [billFetchData, setBillFetchData] = useState({});
   const [operatorPaymentMode, setOperatorPaymentMode] = useState("");
   const [billFetchError, setBillFetchError] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [billAmount, setBillAmount] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   const [inputFields, setInputFields] = useState([]);
-
+  const [isClick, setIsClick] = useState(false)
   //indane gas states
   const [selectDropDownValue, setSelectDropDownValue] = useState(
     "Distributor Code And Consumer Number"
   );
   const [consumerNumber, setConsumerNumber] = useState("");
   const [distribuationCode, setDistribuationCode] = useState();
-
   let dropDownValue = [
     "Distributor Code And Consumer Number",
     "LPG ID",
@@ -54,10 +56,13 @@ const IpgGasFront = ({props}) => {
   ];
 
   let navigate = useNavigate();
-  const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP
-  );
-
+const dispatch= useDispatch()
+const { loggedInUser } = useSelector(
+  state => state.loginSlice.loggetInWithOTP
+);
+const { operatorsList } = useSelector(state => state.servicesSlice.operators );
+const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
+const { billData,loading } = useSelector(state => state.LpgGasSlice.lpgBill );
   const getTodaysDate = () => {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -73,20 +78,22 @@ const IpgGasFront = ({props}) => {
   };
 
   const callInputFields = (ourCode) => {
-    getInputFieldsByOperator(ourCode).then((response) => {
-      const data = response.Data.Response;
-      const arr = [];
-      data &&
-        data.map((d, i) => {
-          arr.push({
-            fieldName: d.name,
-            fieldValue: "",
-            regex: d.Regex,
-            validate: false,
-          });
-        });
-      //   setInputFields(arr);
-    });
+    setIsClick(true)
+    dispatch(getInputFieldsByOperator(ourCode))
+    // getInputFieldsByOperator(ourCode).then((response) => {
+    //   const data = response.Data.Response;
+    //   const arr = [];
+    //   data &&
+    //     data.map((d, i) => {
+    //       arr.push({
+    //         fieldName: d.name,
+    //         fieldValue: "",
+    //         regex: d.Regex,
+    //         validate: false,
+    //       });
+    //     });
+    //   //   setInputFields(arr);
+    // });
   };
 
   const pushInArray = (searchKey, data) => {
@@ -244,7 +251,7 @@ const IpgGasFront = ({props}) => {
             `Please enter valid ${validateBBPSField[0].fieldName}`
           );
         } else {
-          setLoading(true);
+          // setLoading(true);
           const obj = inputFields.reduce(
             (arr, curr) => ({ ...arr, [curr.fieldName]: curr.fieldValue }),
             {}
@@ -252,18 +259,18 @@ const IpgGasFront = ({props}) => {
           obj.MobileNumber = mobileNo;
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
-
-          fetchLPGBill(obj, loggedInUser.Mobile, loggedInUser.TRXNPassword).then((response) => {
-            if (response.Data.ResponseMessage == "Successful") {
-              setShowBill(true);
-              setBillFetchData(response.Data);
-              setBillAmount(parseFloat(response.Data.BillAmount));
-              setLoading(false);
-            } else {
-              setBillFetchError(response.Data.ResponseMessage);
-              setLoading(false);
-            }
-          });
+dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword}))
+          // fetchLPGBill(obj, user.Mobile, user.TRXNPassword).then((response) => {
+          //   if (response.Data.ResponseMessage == "Successful") {
+          //     setShowBill(true);
+          //     setBillFetchData(response.Data);
+          //     setBillAmount(parseFloat(response.Data.BillAmount));
+          //     setLoading(false);
+          //   } else {
+          //     setBillFetchError(response.Data.ResponseMessage);
+          //     setLoading(false);
+          //   }
+          // });
         }
       } else {
         setErrorSnackBar("Enter Valid Mobile Number");
@@ -274,11 +281,25 @@ const IpgGasFront = ({props}) => {
   };
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    getLpgGasOperators().then((response) => {
-      response && setOperatorList(sortOperator(response.Data));
-    });
+    if(operatorData.length===0){
+      dispatch(getOperatorsByServiceId("33"))
+    }
   }, [props]);
-
+  
+  useEffect(() => {
+    console.log("USeEffect");
+  if(billData){
+    if (billData?.Data?.ResponseMessage == "Successful") {
+              setShowBill(true);
+              setBillFetchData(billData.Data);
+              setBillAmount(parseFloat(billData.Data.BillAmount));
+              // setLoading(false);
+            } else {
+              setBillFetchError(billData?.Data?.ResponseMessage);
+              // setLoading(false);
+            }
+          }
+  }, [billData])
   const handleMobileNo = (e) => {
     const value = e.target.value.replace(/\D/g, "");
     setMobileNo(value);
@@ -371,12 +392,14 @@ const IpgGasFront = ({props}) => {
               data-toggle="dropdown"
               aria-expanded="false"
             >
-              {selectDropDownValue ? selectDropDownValue : "Select Value"}
+              <span class="dropdown-text-limit">
+                {selectDropDownValue ? selectDropDownValue : "Select Value"}
+              </span>
             </button>
             <div class="dropdown-menu">
               {dropDownValue &&
                 dropDownValue.map((o, i) => (
-                  <Link
+                  <a
                     onClick={(e) => {
                       e.preventDefault();
                       setSelectDropDownValue(o);
@@ -387,7 +410,7 @@ const IpgGasFront = ({props}) => {
                     class="dropdown-item"
                   >
                     {o}
-                  </Link>
+                  </a>
                 ))}
             </div>
           </div>
@@ -661,12 +684,17 @@ const IpgGasFront = ({props}) => {
                             data-toggle="dropdown"
                             aria-expanded="false"
                           >
-                            {selectedOperator ? selectedOperator : "Operator"}
+                            <span class="dropdown-text-limit">
+                              {" "}
+                              {selectedOperator
+                                ? selectedOperator
+                                : "Operator"}{" "}
+                            </span>
                           </button>
                           <div class="dropdown-menu">
                             {operatorsList &&
                               operatorsList.map((o, i) => (
-                                <Link
+                                <a
                                   onClick={(e) => {
                                     e.preventDefault();
                                     setSelectedOperator(o.OperatorName);
@@ -680,7 +708,7 @@ const IpgGasFront = ({props}) => {
                                   class="dropdown-item"
                                 >
                                   {o.OperatorName}
-                                </Link>
+                                </a>
                               ))}
                           </div>
                         </div>
@@ -713,13 +741,7 @@ const IpgGasFront = ({props}) => {
                             class="btn-primery"
                             id="addmoneymodal"
                           >
-                            {loading ? (
-                              
-                                <Loading />
-                              
-                            ) : (
-                              `Fetch Bill`
-                            )}
+                            {loading ? <Loading /> : `Fetch Bill`}
                           </button>
                         </div>
                       )}
@@ -760,11 +782,12 @@ const IpgGasFront = ({props}) => {
       </section>
     </div>
   );
+
   return (
     <div className="color-body">
-    {rechargeSection()}
-  </div>
-  )
-}
+      {rechargeSection()}
+    </div>
+  );
+};
 
-export default IpgGasFront
+export default LpgGasFront;

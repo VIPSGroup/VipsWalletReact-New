@@ -25,6 +25,7 @@ const SelectField = ({ setGetData, getData }) => {
     //   console.warn(cities.Citys);
     //   // setCityList(cities.Citys[0]);
     // }
+   
   }, []);
   return (
     <>

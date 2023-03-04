@@ -21,22 +21,22 @@ const Profile = () => {
   );
   // console.log(loggedInUser.Mobile, loggedInUser.TRXNPassword)
   useEffect(() => {
-    getProfileDetails(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
-      (response) => {
-        console.log(response, "aaa");
-        setUserDetails(response.Data[0]);
-        listStateAndCity().then((res) => {
-          let obj = res.Data.find((o) => o.Id === response.Data[0].StateId);
+    getProfileDetails({
+      username: loggedInUser.Mobile,
+      password: loggedInUser.TRXNPassword,
+    }).then((response) => {
+      setUserDetails(response.Data[0]);
+      listStateAndCity().then((res) => {
+        let obj = res.Data.find((o) => o.Id === response.Data[0].StateId);
 
-          setSelectedState(obj.StateName);
-          obj.Citys.map((o) => {
-            if (o.Id === response.Data[0].CityId) {
-              setSelectedCity(o.CityName);
-            }
-          });
+        setSelectedState(obj.StateName);
+        obj.Citys.map((o) => {
+          if (o.Id === response.Data[0].CityId) {
+            setSelectedCity(o.CityName);
+          }
         });
-      }
-    );
+      });
+    });
   }, []);
 
   const myProfileSection = () => (
