@@ -27,7 +27,7 @@ const FastagFront = ({ props }) => {
   const [successMsg, setSuccessMsg] = useState("");
   const [billAmount, setBillAmount] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
-  const [DD, setDD] = useState(false);
+  const [isClick, setIsClick] = useState(false)
 
   const [inputFields, setInputFields] = useState([]);
 const dispatch= useDispatch()
@@ -39,7 +39,7 @@ const dispatch= useDispatch()
   const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
   const { billData } = useSelector(state => state.fastagSlice.getBill );
   const callInputFields = (ourCode) => {
-    setDD(true)
+    setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
   };
 
@@ -426,7 +426,7 @@ useEffect(() => {
                         </div>
                       </div>
                     ) : null}
-                    {DD && inputFields.map((input, i) => (
+                    {isClick && inputFields.map((input, i) => (
                       <div class="row">
                         <div class="col-lg-12 mobile-recharge-field p-0">
                           <div class="input-field">

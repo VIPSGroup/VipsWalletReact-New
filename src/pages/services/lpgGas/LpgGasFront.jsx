@@ -42,7 +42,7 @@ const LpgGasFront = ({ props }) => {
   const [billAmount, setBillAmount] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   const [inputFields, setInputFields] = useState([]);
-
+  const [isClick, setIsClick] = useState(false)
   //indane gas states
   const [selectDropDownValue, setSelectDropDownValue] = useState(
     "Distributor Code And Consumer Number"
@@ -78,6 +78,7 @@ const { billData,loading } = useSelector(state => state.LpgGasSlice.lpgBill );
   };
 
   const callInputFields = (ourCode) => {
+    setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
     // getInputFieldsByOperator(ourCode).then((response) => {
     //   const data = response.Data.Response;

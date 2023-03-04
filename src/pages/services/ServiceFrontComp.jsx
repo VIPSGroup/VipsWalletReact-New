@@ -24,12 +24,12 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [billAmount, setBillAmount] = useState(0);
   const [inputFields, setInputFields] = useState([]);
-
   const [showBill, setShowBill] = useState(false);
   const [billFetchData, setBillFetchData] = useState({});
   const [billFetchError, setBillFetchError] = useState("");
   // const [loading, setLoading] = useState(false);
   const [opImgUrl, setOpImgUrl] = useState("");
+ const [isClick, setIsClick] = useState(false)
 
  const dispatch= useDispatch()
   let navigate = useNavigate();
@@ -40,6 +40,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
   const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
   const { billData ,loading} = useSelector(state => state.fastagSlice.getBill );
   const callInputFields = (ourCode) => {
+    setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
   };
 
@@ -372,7 +373,7 @@ dispatch(getOperatorsByServiceId(serviceId))
                       </div>
                     </div>
 
-                    {inputFields.map((input, i) => (
+                    {isClick && inputFields.map((input, i) => (
                       <div class="row">
                         <div class="col-lg-12 mobile-recharge-field p-0">
                           <div class="input-field">

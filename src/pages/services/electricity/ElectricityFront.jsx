@@ -36,8 +36,8 @@ const ElectricityFront = ({ props }) => {
   const [selectSubdivision, setSelectSubdivision] = useState();
   const [subdivisionCode, setSubdivisionCode] = useState();
   const [city, setSelectCity] = useState();
+  const [isClick, setIsClick] = useState(false)
   let citys = ["Agra", "Ahmedabad", "Bhiwandi", "SMK", "Surat"];
-
   const [inputFields, setInputFields] = useState([]);
 
  const dispatch= useDispatch()
@@ -64,6 +64,7 @@ const ElectricityFront = ({ props }) => {
   };
 
   const callInputFields = (ourCode) => {
+    setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
 
       if (ourCode === jharkandOpCode) {
@@ -583,7 +584,7 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
                       ? jharkandOperatorFields()
                       : city
                       ? torrentOperatorFields()
-                      : inputFields.map((input, i) => (
+                      : isClick && inputFields.map((input, i) => (
                           <div class="row">
                             <div class="col-lg-12 mobile-recharge-field p-0">
                               <div class="input-field">

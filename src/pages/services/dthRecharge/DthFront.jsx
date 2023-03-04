@@ -25,7 +25,6 @@ const DthFront = ({ props }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-
   let navigate = useNavigate();
   const { operatorsList } = useSelector(state => state.commonSlice.operators );
 const dispatch= useDispatch()
