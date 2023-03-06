@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getDouble, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
-import { Loading, SnackBar } from "../../../components/common";
+import { Loading, MuiSnackBar, ThemeButton } from "../../../components/common";
 import {
   finalRecharge,
   getServiceDiscounts,
@@ -131,7 +131,6 @@ const DthConfirmation = () => {
             transactionId: txId,
           },
         });
-
         if (rechargeData.Status.includes("Failure")) {
           navigate("/services/status", {
             state: {
@@ -420,7 +419,7 @@ const DthConfirmation = () => {
 
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
-                        <button
+                        {/* <button
                           onClick={!loading && handleClickConfirm}
                           type="button"
                           class="btn-primery"
@@ -432,23 +431,24 @@ const DthConfirmation = () => {
                           ) : (
                             "Confirm Payment"
                           )}{" "}
-                        </button>
+                        </button> */}
+                        <ThemeButton onClick={handleClickConfirm} loading={loading} value={"Confirm Payment"}/>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-{isSnackBar && <SnackBar errorMsg={errorMsg}/>}
+{/* {isSnackBar && <SnackBar errorMsg={errorMsg}/>} */}
             {/**  <!-- Payment confirmation end -->*/}
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </section>

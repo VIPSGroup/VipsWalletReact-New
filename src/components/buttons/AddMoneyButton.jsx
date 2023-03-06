@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { getTransactionId } from "../../constants";
 import { getPayUHash } from "../../redux/slices/payment/paymentSlice";
+import { ThemeButton } from "../common";
 
 const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
   const { loggedInUser } = useSelector(
@@ -97,7 +98,8 @@ const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
     <div class="add-money-body">
       <div class="col-md-12">
         <div class="add-money-btn">
-          <button
+          <ThemeButton onClick={clickAddMoney} value={"Add Money"}/>
+          {/* <button
             onClick={clickAddMoney}
             href="#"
             class="btn-primery"
@@ -107,7 +109,7 @@ const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
           >
             {" "}
             Add Money{" "}
-          </button>
+          </button> */}
         </div>
       </div>
       {loggedInUser && <div>{payuform()}</div>}

@@ -4,6 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 
 import "../../assets/styles/home/onlineStore.css";
+import { Loading } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading";
 import { getAffiliate } from "../../redux/slices/onlineStoreSlice";
 
@@ -96,7 +97,8 @@ const OnlineStore = () => {
                 ))}
             </Carousel>
           ) : (
-            <LatestLoading />
+            // <LatestLoading />
+            <Loading/>
           )}
         </div>
       </section>

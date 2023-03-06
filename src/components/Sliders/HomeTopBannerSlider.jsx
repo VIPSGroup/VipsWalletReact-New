@@ -5,7 +5,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getSliderBannerImage } from "../../redux/slices/bannerSlice";
-import { LatestLoading } from "../common/Loading";
+import { Loading } from "../common";
 const HomeTopBannerSlider = () => {
   const dispatch = useDispatch();
   const { SliderBanners } = useSelector((state) => state.bannerSlice);
@@ -64,7 +64,8 @@ const HomeTopBannerSlider = () => {
                 ) : null
               )
             ) : (
-              <LatestLoading />
+              // <LatestLoading />
+              <Loading/>
             )}
           </Carousel>
         )}

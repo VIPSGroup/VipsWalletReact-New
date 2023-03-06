@@ -7,8 +7,8 @@ import "../../assets/styles/addMoney/addMoney.css";
 import "../../assets/styles/styles.css";
 import { useSelector } from "react-redux";
 import AddMoneyButton from "../../components/buttons/AddMoneyButton";
-import LoadingBar from "../../components/common/Loading";
-import { SnackBar } from "../../components/common";
+// import LoadingBar from "../../components/common/Loading";
+import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
 
 const AddAmount = () => {
   const [amount, setAmount] = useState(0);
@@ -176,7 +176,7 @@ const AddAmount = () => {
                     <div class="add-money-body">
                       <div class="col-md-12">
                         <div class="add-money-btn">
-                          <button
+                          {/* <button
                             onClick={!loading && clickAddFromGAB}
                             href="#"
                             class="btn-primery"
@@ -184,29 +184,25 @@ const AddAmount = () => {
                             data-toggle="modal"
                             data-target="#addmoneyform"
                           >
-                            {loading ? <LoadingBar /> : "Add Money"}
-                          </button>
+                            {loading ? <Loading /> : "Add Money"}
+                          </button> */}
+                          <ThemeButton onClick={clickAddFromGAB} value={"Add Money"} loading={loading}/>
                         </div>
                       </div>
                     </div>
                   )}
                 </div>
-                {/* <MuiSnackBar
+                <MuiSnackBar
                   open={isSnackBar}
                   setOpen={setIsSnackBar}  
                   successMsg={successMsg}
                   errorMsg={errorMsg}
-                /> */}
-                {/* {console.log(errorMsg, "gfd")} */}
-                {(errorMsg || successMsg) && (
-                  <SnackBar errorMsg={errorMsg} success={successMsg} />
-                )}
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
-      {/* <Footer /> */}
     </div>
   );
 };

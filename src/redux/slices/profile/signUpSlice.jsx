@@ -4,7 +4,7 @@ import { baseApiUrl } from "../../../constants";
 
 export const getStateCity = createAsyncThunk(
   "getStateCity",
-  async (pincode) => {
+  async (pincode,{getState}) => {
     const formData = new FormData();
     formData.append("pincode", pincode);
     try {
@@ -42,6 +42,7 @@ export const validateReference = createAsyncThunk(
         `${baseApiUrl}/UserServices/GetIsValidateReference`,
         formData
       );
+      
       return res.data
     } catch (error) {
       return error;
@@ -50,7 +51,8 @@ export const validateReference = createAsyncThunk(
 );
 export const signUpWithOtp = createAsyncThunk(
   "signUpWithOtp",
-  async ({userName,emailId}) => {
+  async ({userName,emailId},{getState}) => {
+ 
     const formData = new FormData();
   formData.append("MobileNo", userName);
   formData.append("CountryCode", "244");
@@ -62,6 +64,7 @@ export const signUpWithOtp = createAsyncThunk(
         `${baseApiUrl}/UserServices/GetSendOTPforAddUser`,
         formData
       );
+     
       return res.data
     } catch (error) {
       return error;
@@ -70,7 +73,8 @@ export const signUpWithOtp = createAsyncThunk(
 );
 export const signUpUser = createAsyncThunk(
   "signUpUser",
-  async ({fName,lName,emailId,userName,password,RefId,Otp,stateId,cityId,pincodeId,Ip}) => {
+  async ({fName,lName,emailId,userName,password,RefId,Otp,stateId,cityId,pincodeId,Ip},{getState}) => {
+    const {loginSlice :{loggetInWithOTP:{loggedInUser}  } }=getState();
     const formData = new FormData();
     formData.append("FName", fName);
     formData.append("LName", lName);
@@ -96,8 +100,8 @@ export const signUpUser = createAsyncThunk(
         formData
       );
       if(res.data.ResponseStatus==1){
+        console.warn(res.data.Data);
         localStorage.setItem("user",JSON.stringify(res.data.Data))
-       
        }
       return res.data
     } catch (error) {

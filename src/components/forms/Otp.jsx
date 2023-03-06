@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { loginWithOtp } from "../../redux/slices/profile/loginSlice";
-import { Loading } from "../common";
+import { Loading, MuiSnackBar, ThemeButton } from "../common";
 
 const Otp = ({ userName, password,setFormCount }) => {
   const [otp, setOtp] = useState("");
@@ -19,7 +19,7 @@ const Otp = ({ userName, password,setFormCount }) => {
     (state) => state.loginSlice.loggetInWithOTP
   );
   useEffect(() => {
-    if (loggedInUser === false && toggle) {
+    if (loggedInUser === false && toggle && !loading) {
       if (!loggedInUser.Id) {
         console.log("Invalid OTP");
         setIsSnackBar(true);
@@ -30,10 +30,10 @@ const Otp = ({ userName, password,setFormCount }) => {
     if (loggedInUser?.Id) {
       setToggle(false);
       setFormCount(1)
+      setErrorMessage("");
       setIsSnackBar(true);
-      // setsuccessMessage("Login Successful")
+      setsuccessMessage("Login Successful")
       navigate("/");
-      // console.log("logged");
     }
   }, [loggedInUser, toggle]);
 
@@ -97,7 +97,15 @@ const Otp = ({ userName, password,setFormCount }) => {
                 />
                 <div class="col-lg-12">
                   <div class="otp-btnCol btnTopSpace">
-                    <button
+                    <ThemeButton disabled={otp.length == 6 ? false : true} onClick={(e) => {
+                      e.preventDefault()
+                        dispatch(loginWithOtp({ userName, password, ip, otp }));
+                        setToggle(true);
+                        setTimeout(() => {
+                          setToggle(false);
+                        }, 4000);
+                      }} loading={loading} value={"Verify & Proceed"}/>
+                    {/* <button
                       type="button"
                       class="btn otp-btn btn-primery modal-loading-btn"
                       id="addmoneymodal"
@@ -112,7 +120,7 @@ const Otp = ({ userName, password,setFormCount }) => {
                       }}
                     >
                      {loading ? <Loading />: "Verify & Proceed"}
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>
@@ -120,14 +128,14 @@ const Otp = ({ userName, password,setFormCount }) => {
           </div>
         </div>
       </form>
-      {/* <MuiSnackBar
+      <MuiSnackBar
              open={isSnackBar}
              setOpen={setIsSnackBar}
              successMsg={showSuccessMessage}
              errorMsg={showErrorMessage}
              setSuccess={setsuccessMessage}
              setError={setErrorMessage}
-           /> */}
+           />
     </>
   );
 };

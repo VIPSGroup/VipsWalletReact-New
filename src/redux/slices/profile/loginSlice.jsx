@@ -9,7 +9,6 @@ export const checkUserExist = createAsyncThunk(
   async ({ username }) => {
     const formData = new FormData();
     formData.append("Username", username);
-    console.warn(username);
     try {
       const res = await axios.post(
         `${baseApiUrl}/UserServices/CheckUserRegistration`,
@@ -72,7 +71,6 @@ export const loginWithOtp = createAsyncThunk(
         `${baseApiUrl}/UserServices/PostVerifyLogin`,
         formData
       );
-      console.log(res.data);
       let response;
       if (res.data.ResponseStatus === 0) {
         response = false;
@@ -93,12 +91,12 @@ const initialState= {
     error: "",
   },
   loginUser: {
-    loading: false,
+    logLoading: false,
     response: "",
     error: "",
   },
   forgotPass: {
-    loading: false,
+    forgotLoading: false,
     forgotPassData: "",
     error: "",
   },
@@ -112,7 +110,12 @@ const loginSlice = createSlice({
   name: "loginSlice",
  initialState,
   reducers: {
-    resetState:(state)=>{return initialState}
+    resetState:(state)=>{return initialState},
+    getLoggedInUser:(state)=>{console.log(JSON.stringify(state.loggetInWithOTP.loggedInUser))
+      // ...state,
+      state.loggetInWithOTP.loggedInUser=localStorage.getItem("user")
+      console.warn(localStorage.getItem("user"));
+    }
   },
   extraReducers: (builder) => {
     // Check User Exist
@@ -131,28 +134,28 @@ const loginSlice = createSlice({
 
     // Login User
     builder.addCase(loginUser.pending, (state, action) => {
-      state.loginUser.loading = true;
+      state.loginUser.logLoading = true;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.loginUser.response = action.payload;
-      state.loginUser.loading = false;
+      state.loginUser.logLoading = false;
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loginUser.error = action.error;
-      state.loginUser.loading = false;
+      state.loginUser.logLoading = false;
     });
 
     // Forgot Password
     builder.addCase(forgotPassword.pending, (state, action) => {
-      state.forgotPass.loading = true;
+      state.forgotPass.forgotLoading = true;
     });
     builder.addCase(forgotPassword.fulfilled, (state, action) => {
       state.forgotPass.forgotPassData = action.payload;
-      state.forgotPass.loading = false;
+      state.forgotPass.forgotLoading = false;
     });
     builder.addCase(forgotPassword.rejected, (state, action) => {
       state.forgotPass.error = action.error;
-      state.forgotPass.loading = false;
+      state.forgotPass.forgotLoading = false;
     });
 
     // Login With OTP
@@ -169,5 +172,5 @@ const loginSlice = createSlice({
     });
   },
 });
-export const { resetState } = loginSlice.actions;
+export const { resetState,getLoggedInUser } = loginSlice.actions;
 export default loginSlice.reducer;

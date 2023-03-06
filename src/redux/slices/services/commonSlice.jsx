@@ -32,7 +32,7 @@ export const getOperators = createAsyncThunk(
           let result = res.data.Data.filter((r) => r.Id === 1)[0];
           if(discountType==="SHOPPING"){
            const shoppDisocunt = (result.ShoppingPer / 100) * amt;
-          if(shoppDisocunt<=Data.Shoppingpoints){
+          if(shoppDisocunt<=Data?.Shoppingpoints){
             shoppingDiscount =getDouble(shoppDisocunt)
             finalAmount=amt-shoppDisocunt 
   }else{
@@ -41,15 +41,15 @@ export const getOperators = createAsyncThunk(
   }}   
   if(discountType==="PRIME"){
     let primeDiscount=(result.PrimePointPer / 100) * amt
-  if(primeDiscount <=Data.PrimePoints){
+  if(primeDiscount <=Data?.PrimePoints){
     primePointDiscount=getDouble(primeDiscount)
     finalAmount=amt-primeDiscount
-  }else if(Data.PrimePoints===0){
-    primePointDiscount=Data.PrimePoints
+  }else if(Data?.PrimePoints===0){
+    primePointDiscount=Data?.PrimePoints
     finalAmount=amt
   }else{
-    primePointDiscount=Data.PrimePoints
-    finalAmount=amt-Data.PrimePoints
+    primePointDiscount=Data?.PrimePoints
+    finalAmount=amt-Data?.PrimePoints
   }}
         return {shoppingDiscount,primePointDiscount,finalAmount,discountData:result}
       } catch (error) {
@@ -81,7 +81,6 @@ export const getOperators = createAsyncThunk(
       try {
         const res = await axios.post(
           `${baseApiUrl}/Recharge/GetAllRecharge`,formData);
-          console.warn(res.data);
           // if(res.data.ResponseStatus===1){
           //   const resp = res.data.Data;
           //   const str = resp && resp.split(";");

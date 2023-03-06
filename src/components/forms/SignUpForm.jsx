@@ -10,10 +10,11 @@ import { MdArrowBack } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import OTPInput, { ResendOTP } from "otp-input-react";
 import SelectField from './SelectField';
-import { Loading, SnackBar } from '../common';
+import { Loading, MuiSnackBar, ThemeButton } from '../common';
 import { getStateCity, signUpUser, signUpWithOtp, validateReference } from '../../redux/slices/profile/signUpSlice';
+import { resetState } from '../../redux/slices/profile/loginSlice';
 
-const SignUpForm = ({isSignIn}) => {
+const SignUpForm = ({setIsSignIn}) => {
     const navigate= useNavigate()
     const dispatch= useDispatch()
     const { isUserExist } = useSelector(
@@ -61,7 +62,7 @@ const SignUpForm = ({isSignIn}) => {
             onSubmit:(values,{resetForm})=>{
               if(getData.stateName!='' && getData.cityName!=''){
                 if(signUpFormik.values.termsCheck){
-                  // setIsSnackBar(false)
+                  setIsSnackBar(false)
                   // setErrorMsg("")
                   if(!refError){
                     setUserDetails({...values,cityId:getData.cityId,stateId:getData.stateId,RefId:refId,pincodeId,Ip:ip,userName:isUserExist && isUserExist[1]})
@@ -69,6 +70,7 @@ const SignUpForm = ({isSignIn}) => {
                     setSignupFormCount(2)
                   }
                 }else{
+                  setSuccessMsg("")
                   setIsSnackBar(true)
                   setErrorMsg('You must accept the terms and conditions')
                 }
@@ -76,7 +78,6 @@ const SignUpForm = ({isSignIn}) => {
             }
           })
           useEffect(() => {
-            console.warn("USEeffect");
             if(isUserExist && isUserExist[1]){
             }else{
               navigate("/login")
@@ -99,18 +100,25 @@ const SignUpForm = ({isSignIn}) => {
                 setGetData({...getData,stateName:'',stateId:'',stateError:false,cityId:'',cityName:'',cityError:false})
               }
               if(response?.ResponseStatus==1){
-                console.error(response.Remarks);
+                setErrorMsg("")
                 setIsSnackBar(true)
                 setSuccessMsg(response.Remarks)
+                setTimeout(() => {
+                  setIsSnackBar(false)
+                }, 2000);
               }else if(response?.ResponseStatus==0){
+                setSuccessMsg("")
                 setIsSnackBar(true)
                 setErrorMsg(response.Remarks)
               }
               if(newUser?.ResponseStatus==1 && otp.length===6){
                 navigate("/")
+                setErrorMsg("")
                 setIsSnackBar(true)
                 setSuccessMsg("user Registered Successfully")
+                window.location.reload()
               }else if(newUser?.ResponseStatus==0 && otp.length===6){
+                setSuccessMsg("")
                 setIsSnackBar(true)
                 setErrorMsg(newUser.Remarks)
               }
@@ -175,7 +183,7 @@ const SignUpForm = ({isSignIn}) => {
        onExit={() => setShow(false)}
      >
        {
-    //    response?.ResponseStatus==1 &&
+       response?.ResponseStatus==1 &&
         signupFormCount==2 && !loading
         ?  <>
          <button 
@@ -183,7 +191,7 @@ const SignUpForm = ({isSignIn}) => {
            onClick={(e) => {
             e.preventDefault()
              setSignupFormCount(1);
-            isSignIn(true)
+            // isSignIn(true)
              setOtp("");
            }}
          >
@@ -270,13 +278,17 @@ const SignUpForm = ({isSignIn}) => {
         </section>
       </>
      : <>
-     <Link 
+     <button 
            class="close signup-close"
            data-dismiss="modal"
-           aria-label="Close" onClick={()=>{isSignIn(true)}}
+           aria-label="Close" onClick={()=>{setIsSignIn(true)
+          dispatch(resetState())
+          }
+           
+          }
          >
            <MdArrowBack />
-         </Link>
+         </button>
      <section class="loginPage mbTopSpace">
        <div class="row no-gutters1">
          <div class="col-lg-4 signupBgCol order-lg-last d-none d-lg-block">
@@ -387,7 +399,7 @@ const SignUpForm = ({isSignIn}) => {
                      </div>
                    </div>
  
-                   <div class="col-lg-6 optional-field">{JSON.stringify()}
+                   <div class="col-lg-6 optional-field">
                      <div class="input-field">
                        <input name="refId"
                          value={signUpFormik.values.refId}
@@ -485,7 +497,16 @@ const SignUpForm = ({isSignIn}) => {
  
                    <div class="col-lg-12">
                      <div class="signup-btnCol btnTopSpace">
-                       <button
+                      <ThemeButton loading={loading} onClick={()=>{
+                           if(!getData.stateName ){
+                             if(!getData.cityName){
+                               setGetData({...getData,stateError:true,cityError:true})
+                             }else{
+                               setGetData({...getData,stateError:true,cityError:false})
+                             }
+                           }
+                         }} value={"SIGNUP"}/>
+                       {/* <button
                          type="submit"
                          class="btn signup-btn" onClick={()=>{
                            if(!getData.stateName ){
@@ -498,7 +519,7 @@ const SignUpForm = ({isSignIn}) => {
                          }}
                        >
                          {loading ? <Loading /> : "SIGNUP"}
-                       </button>
+                       </button> */}
                      </div>
                    </div>
                  </div>
@@ -507,26 +528,25 @@ const SignUpForm = ({isSignIn}) => {
            </div>
          </div>
        </div>
-       {JSON.stringify(response)}
      </section>
    </>
      }
     
      </Modal>
-     {isSnackBar && !signUpFormik.values.termsCheck && <SnackBar errorMsg={errorMsg}/>}
-     {isSnackBar && response.ResponseStatus==1  && <SnackBar successMsg={successMsg}/>}
-     {isSnackBar && response.ResponseStatus==0  && <SnackBar errorMsg={errorMsg}/>}
+     {/* {isSnackBar && !signUpFormik.values.termsCheck && <SnackBar errorMsg={errorMsg}/>}
+     {isSnackBar && response.ResponseStatus==1 || newUser.ResponseStatus==1  && <SnackBar successMsg={successMsg}/>}
+     {isSnackBar && response.ResponseStatus==0 || newUser.ResponseStatus==0  && <SnackBar errorMsg={errorMsg}/>} */}
      {/* {isSnackBar && response?.ResponseStatus==1 || newUser?.ResponseStatus==1 && <SnackBar successMsg={successMsg} /> && console.warn("zhal")} */}
      {/* {isSnackBar && response?.ResponseStatus==0 || newUser?.ResponseStatus==0 && <SnackBar errorMsg={errorMsg}/>} */}
      {newUser?.ResponseStatus==1 && navigate("/")}
-     {/* <MuiSnackBar
+     <MuiSnackBar
              open={isSnackBar}
              setOpen={setIsSnackBar}
              errorMsg={errorMsg}
              setError={setErrorMsg}
              successMsg={successMsg}
               setSuccess={setSuccessMsg}
-           /> */}
+           />
      </>
   )
 }

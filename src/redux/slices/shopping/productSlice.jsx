@@ -30,7 +30,6 @@ export const getSingleProductData = createAsyncThunk(
         `${baseApiUrl}/EcommerceServices/Productdescription`,
         formData
       );
-      console.log(res.data);
       return res.data;
     } catch (error) {
       return error;
@@ -102,7 +101,6 @@ export const getAllCategories = createAsyncThunk(
 export const getSubCategory = createAsyncThunk(
   "getSubCategory",
   async (categoryId) => {
-    console.log("Ye bhi chl rha hai");
     try {
       const res = await axios.get(
         `${baseApiUrl}/EcommerceServices/GetSubcategorieList?tocken=XMCNBVGDTE734BCU65DW&Categoryid=${categoryId}`

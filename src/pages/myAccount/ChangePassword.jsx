@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Loading } from "../../components/common";
+import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
 import { changePassword } from "../../redux/slices/profile/profileSlice";
 
 const ChangePassword = () => {
@@ -9,9 +9,10 @@ const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [error, setError] = useState("");
-
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const { success, loading } = useSelector(
     (state) => state.profileSlice.changePass
   );
@@ -34,22 +35,50 @@ const ChangePassword = () => {
   };
   useEffect(() => {
     if (success) {
-      localStorage.removeItem("user");
+      if(success.ResponseStatus===1){
+        setErrorMsg("")
+        setIsSnackBar(true)
+        setSuccessMsg(success.Remarks)
+ localStorage.removeItem("user");
       navigate("/");
+      }else{
+        setSuccessMsg("")
+        setIsSnackBar(true)
+        setErrorMsg(success.Remarks)
+      }
     }
   }, [success]);
   const clickSave = (e) => {
     const Mobile = loggedInUser.Mobile;
     const Password = loggedInUser.TRXNPassword;
     e.preventDefault();
-    if (oldPassword === loggedInUser.TRXNPassword) {
+    
+  
+    if (oldPassword === loggedInUser.TRXNPassword && newPassword!=='' && confirmPassword!=='') {
+    
       if (newPassword === confirmPassword) {
         dispatch(changePassword({ Mobile, Password, newPassword }));
-      } else {
-        setError("New Password and Confirm Password dont match .");
-      }
+      } 
+    }else if(oldPassword===''){
+      setSuccessMsg("")
+      setIsSnackBar(true)
+      setErrorMsg("Enter Old Password")
+    }else if(newPassword===''){
+      setSuccessMsg("")
+      setIsSnackBar(true)
+      setErrorMsg("Enter New Password")
+    }else if(confirmPassword===''){
+      setSuccessMsg("")
+      setIsSnackBar(true)
+      setErrorMsg("Enter Confirm Password")
+    }else if(newPassword!== confirmPassword){
+      setSuccessMsg("")
+      setIsSnackBar(true)
+      setErrorMsg("New Password and Confirm Password don't match .");
     } else {
-      setError("Enter correct Old password.");
+      setSuccessMsg("")
+      setIsSnackBar(true)
+      setErrorMsg("Enter All Correct Fields.")
     }
   };
 
@@ -120,14 +149,15 @@ const ChangePassword = () => {
 
                     <div class="col-lg-12">
                       <div class="save-profile-btn text-center mt-4">
-                        <button
+                        {/* <button
                           onClick={!loading && clickSave}
                           type="button"
                           class="btn-primery"
                         >
                           {" "}
                           {loading ? <Loading /> : "Change Password"}
-                        </button>
+                        </button> */}
+                        <ThemeButton onClick={clickSave} value={"Change Password"} loading={loading}/>
                       </div>
                     </div>
                   </div>
@@ -139,6 +169,14 @@ const ChangePassword = () => {
           </div>
         </div>
       </div>
+      <MuiSnackBar
+             open={isSnackBar}
+             setOpen={setIsSnackBar}
+             successMsg={successMsg}
+             errorMsg={errorMsg}
+             setSuccess={setSuccessMsg}
+             setError={setErrorMsg}
+           />
     </>
   );
 

@@ -18,6 +18,9 @@ import signUpSlice from "./slices/profile/signUpSlice";
 import productSlice from "./slices/shopping/productSlice";
 import loginSlice from "./slices/profile/loginSlice";
 import wishlistSlice from "./slices/shopping/wishlistSlice";
+import publicSlice from "./slices/public/publicSlice";
+import orderSlice from "./slices/shopping/orderSlice";
+import profileSlice from "./slices/profile/profileSlice";
 
 const store = configureStore({
   reducer: {
@@ -29,6 +32,7 @@ const store = configureStore({
     primeUserSlice: primeUserSlice,
     dealsSlice: dealsSlice,
     signUpSlice: signUpSlice,
+    publicSlice: publicSlice,
     quickModalSlice: quickModalSlice,
     wishlistSlice: wishlistSlice,
     cartSlice: cartSlice,
@@ -39,6 +43,8 @@ const store = configureStore({
     servicesSlice: servicesSlice,
     LpgGasSlice: LpgGasSlice,
     walletSlice: walletSlice,
+    orderSlice:orderSlice,
+    profileSlice:profileSlice
   },
 });
 

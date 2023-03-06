@@ -1,4 +1,3 @@
-export {default as AboutUs} from './AboutUs';
 export {default as ContactUs} from './ContactUs';
 export {default as Disclaimer} from './Disclaimer';
 export {default as FAQ} from './FAQ';

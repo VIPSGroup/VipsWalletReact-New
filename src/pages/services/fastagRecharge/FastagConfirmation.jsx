@@ -12,11 +12,10 @@ import {
   getRandomNumber,
   getTodayDate,
 } from "../../../constants";
-
-import { MuiSnackBar } from "../../../components/common/snackbars";
 import { getDouble, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
+import { MuiSnackBar, ThemeButton } from "../../../components/common";
 ReactGA.initialize(googleAnalytics);
 
 const FastagConfirmation = () => {
@@ -539,7 +538,7 @@ const{loggedInUser}= useSelector(state=>state.login)
 
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
-                        <button
+                        {/* <button
                           onClick={!loading && handleClickConfirm}
                           type="button"
                           class="btn-primery"
@@ -560,7 +559,8 @@ const{loggedInUser}= useSelector(state=>state.login)
                           ) : (
                             "Confirm Payment"
                           )}{" "}
-                        </button>
+                        </button> */}
+                        <ThemeButton loading={loading} onClick={handleClickConfirm} value={"Confirm Payment"}/>
                       </div>
                       {showError()}
                     </div>
@@ -575,14 +575,14 @@ const{loggedInUser}= useSelector(state=>state.login)
               </div>
             </div>
 
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </section>

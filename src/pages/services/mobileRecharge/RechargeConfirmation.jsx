@@ -16,7 +16,7 @@ import {
   finalRecharge,
   getServiceDiscounts,
 } from "../../../redux/slices/services/commonSlice";
-import { SnackBar } from "../../../components/common";
+import { MuiSnackBar, ThemeButton } from "../../../components/common";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -439,7 +439,7 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
 
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
-                        <button
+                        {/* <button
                           onClick={ handleClickConfirm}
                           type="button"
                           class="btn-primery"
@@ -460,20 +460,22 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
                           ) : (
                             "Confirm Payment"
                           )}{" "}
-                        </button>
+                        </button> */}
+                        <ThemeButton loading={loading} onClick={handleClickConfirm} value={"Confirm Payment"}/>
                       </div>
                     </div>
-
-                    {/* <div class="col-md-12"> 
-                                  <div class="mobile-payment-confirm-btn">
-                                      <LinkddMoneyButton amount={1} />
-                                  </div> 
-                              </div> */}
                   </div>
                 </div>
               </div>
             </div>
-{isSnackBar && <SnackBar errorMsg={errorMsg} successMsg={successMsg}/>}
+<MuiSnackBar
+              open={isSnackBar}
+              setOpen={setIsSnackBar}
+              successMsg={successMsg}
+              errorMsg={errorMsg}
+              setSuccess={setSuccessMsg}
+              setError={setErrorMsg}
+            />
           </div>
         </div>
       </section>

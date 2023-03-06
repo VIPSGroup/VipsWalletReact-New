@@ -13,6 +13,7 @@ import { vendorPanelAPi } from "../../../constants";
 import { Badge } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
+import { getLoggedInUser } from "../../../redux/slices/profile/loginSlice";
 
 const HomeTopNav = ({ isPrime }) => {
   const dispatch = useDispatch();
@@ -51,7 +52,10 @@ const HomeTopNav = ({ isPrime }) => {
     dispatch(getWalletBalance({ username, password }));
   };
 useEffect(() => {
-console.log("USee");
+  console.log("USeeffect");
+  // if(loggedInUser===null){
+    
+  // }
 }, [loggedInUser])
 
   const navSection = () => (

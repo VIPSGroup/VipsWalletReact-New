@@ -18,7 +18,7 @@ import RecentHistory from "../../../components/services/RecentHistory";
 import { lpgGasServiceId, googleAnalytics } from "../../../constants";
 
 import ReactGA from "react-ga";
-import { Loading } from "../../../components/common";
+import { Loading, MuiSnackBar, ThemeButton } from "../../../components/common";
 import { fetchLPGBill, getInputFieldsByOperator } from "../../../redux/slices/services/LpgGasSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getOperatorsByServiceId } from "../../../redux/slices/services/servicesSlice";
@@ -38,9 +38,9 @@ const LpgGasFront = ({ props }) => {
   const [billFetchError, setBillFetchError] = useState("");
   // const [loading, setLoading] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [billAmount, setBillAmount] = useState(0);
-  const [errorMsg, setErrorMsg] = useState("");
   const [inputFields, setInputFields] = useState([]);
   const [isClick, setIsClick] = useState(false)
   //indane gas states
@@ -287,7 +287,6 @@ dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TR
   }, [props]);
   
   useEffect(() => {
-    console.log("USeEffect");
   if(billData){
     if (billData?.Data?.ResponseMessage == "Successful") {
               setShowBill(true);
@@ -729,33 +728,35 @@ dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TR
 
                     {operatorPaymentMode === 2 && amountField()}
 
-                    {showBill && fetchBillSection()}
+                    {showBill && mobileNo && fetchBillSection()}
 
-                    {showBillFetchError()}
+                    {mobileNo && showBillFetchError()}
 
                     <div class="col-md-12">
                       {!showBill && operatorPaymentMode !== 2 && (
                         <div class="mobile-recharge-btn">
-                          <button
+                          {/* <button
                             onClick={!loading && clickFetchBill}
                             class="btn-primery"
                             id="addmoneymodal"
                           >
                             {loading ? <Loading /> : `Fetch Bill`}
-                          </button>
+                          </button> */}
+                          <ThemeButton loading={loading} onClick={clickFetchBill} value={"Fetch Bill"}/>
                         </div>
                       )}
                       {operatorPaymentMode === 2 ||
                         (showBill && (
                           <div class="mobile-recharge-btn">
-                            <button
+                            <ThemeButton onClick={onClickContinue} value={"Continue"}/>
+                            {/* <button
                               onClick={onClickContinue}
                               class="btn-primery"
                               id="addmoneymodal"
                             >
                               {" "}
                               Continue{" "}
-                            </button>
+                            </button> */}
                           </div>
                         ))}
                     </div>
@@ -769,14 +770,14 @@ dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TR
               <RecentHistory serviceId={lpgGasServiceId} />
             </div>
 
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </section>

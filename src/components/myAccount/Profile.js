@@ -19,7 +19,6 @@ const Profile = () => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  // console.log(loggedInUser.Mobile, loggedInUser.TRXNPassword)
   useEffect(() => {
     getProfileDetails({
       username: loggedInUser.Mobile,

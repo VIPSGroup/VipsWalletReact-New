@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import UpdateShippingAddressModal from "../../components/Modals/shopping/UpdateShippingAddressModal";
 import AddShippingAddressModal from "../../components/Modals/shopping/AddShippingAddressModal";
 import { deleteAddress, getAddress } from "../../redux/slices/pincodeSlice";
+import { MuiSnackBar, ThemeButton } from "../../components/common";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -381,14 +382,15 @@ const ShippingAddress = () => {
 
                     <div class="col-md-12">
                       <div class="shopping-cart-payment-confirm-btn">
-                        <button
+                        {/* <button
                           onClick={onPlaceOrder}
                           class="btn-primery"
                           disabled={selectedAddress ? false : true}
                         >
                           {" "}
                           Place Order{" "}
-                        </button>
+                        </button> */}
+                        <ThemeButton onClick={onPlaceOrder} disabled={selectedAddress ? false : true} value={"Place Order"}/>
                       </div>
                     </div>
                   </div>
@@ -415,14 +417,14 @@ const ShippingAddress = () => {
                         </div> */}
               </div>
             </div>
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
 
             {/* { <!-- shopping-cart end -->} */}
           </div>

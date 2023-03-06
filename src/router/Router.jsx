@@ -395,11 +395,10 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <PrimeConfirmation />{" "}
+              <PrimeConfirmation setIsHomeTopNav={setIsHomeTopNav}/>{" "}
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/refer"
           element={

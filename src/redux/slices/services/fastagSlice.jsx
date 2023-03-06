@@ -21,11 +21,9 @@ export const getInputFieldsByOperator = createAsyncThunk(
     async (ourCode) => {
         const formData = new FormData();
         formData.append("billerId", ourCode);
-        console.log(ourCode);
       try {
         const res = await axios.post(
             `${baseApiUrl}/Recharge/GetRegexValidationForLPG`,formData );
-            console.warn(res.data.Data.Response);
         return res.data.Data.Response
       } catch (error) {
         return error;
@@ -37,7 +35,6 @@ export const fetchBill = createAsyncThunk(
     "fetchBill",
  async ({obj, username, password}) => {
   let data = new URLSearchParams();
-console.warn();
   for (let [key, value] of Object.entries(obj)) {
     data.append(`${key}`, `${value}`);
   }
@@ -113,7 +110,7 @@ export const fastagOnlineConfirmation = createAsyncThunk(
         error: "",
       },
     getBill: {
-        loading: false,
+      billLoading: false,
         billData: {},
         error: "",
       },
@@ -148,14 +145,14 @@ export const fastagOnlineConfirmation = createAsyncThunk(
         state.inputFieldOperator.error = action.error;
       });
      builder.addCase(fetchBill.pending, (state, action) => {
-        state.getBill.loading = true;
+        state.getBill.billLoading = true;
       });
       builder.addCase(fetchBill.fulfilled, (state, action) => {
         state.getBill.billData =action.payload;
-        state.getBill.loading = false;
+        state.getBill.billLoading = false;
       });
       builder.addCase(fetchBill.rejected, (state, action) => {
-        state.getBill.loading = false;
+        state.getBill.billLoading = false;
         state.getBill.error = action.error;
       });
      builder.addCase(fastagOnlineConfirmation.pending, (state, action) => {

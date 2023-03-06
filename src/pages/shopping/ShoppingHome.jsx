@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllCategories } from "../../redux/slices/shopping/productSlice";
 import { getSliderBannerImage } from "../../redux/slices/bannerSlice";
 import { LatestLoading } from "../../components/common/Loading";
+import { Loading } from "../../components/common";
 
 const ShoppingHome = () => {
   const dispatch = useDispatch();
@@ -86,7 +87,8 @@ const ShoppingHome = () => {
                       )}
                   </Carousel>
                 ) : (
-                  <LatestLoading />
+                  // <LatestLoading />
+                  <Loading/>
                 )}
               </div>
             </div>

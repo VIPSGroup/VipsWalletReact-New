@@ -64,7 +64,6 @@ const dispatch= useDispatch()
               setIsSnackBar(false)
               setErrorMsg("")
               if(!refError){
-                console.log("called");
                 setUserDetails({...values,cityId:getData.cityId,stateId:getData.stateId,RefId:refId,pincodeId,Ip:ip,userName:isUserExist && isUserExist[1]})
                 dispatch(signUpWithOtp({ userName:isUserExist && isUserExist[1], emailId:signUpFormik.values.emailId }))
               }

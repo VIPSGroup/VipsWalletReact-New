@@ -3,10 +3,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PincodeCheck from "../../components/shopping/PincodeCheck";
 import Carousel from "react-multi-carousel";
-import {
-  getProductsByCategory,
-  // getSingleProductData,
-} from "../../apiData/shopping/product";
+import { getSingleProductData } from "../../apiData/shopping/product";
 import { shopadminUrl } from "../../constants";
 
 import "../../assets/styles/shopping/productDetails.css";
@@ -15,9 +12,12 @@ import ReactGA from "react-ga";
 import AddToCartButton from "../../components/buttons/AddToCartButton";
 import AddWishListButton from "../../components/buttons/AddWishListButton";
 import ProductHorizontal from "../../components/shopping/ProductHorizontal";
-import { getAllCategories } from "../../apiData/shopping/category";
 import { useDispatch } from "react-redux";
-import { getSingleProductData } from "../../redux/slices/shopping/productSlice";
+import {
+  getAllCategories,
+  getProductsByCategory,
+} from "../../redux/slices/shopping/productSlice";
+// import { getAllCategories } from "../../apiData/shopping/category";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -230,24 +230,23 @@ const ProductDetails = () => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
     var p = {};
-    console.log("______", productId);
-    dispatch(getSingleProductData());
-    // getSingleProductData(productId).then((response) => {
-    //   p = response.Data.ProductDetails;
-    //   setProduct(response.Data.ProductDetails);
-    //   manageRecentlyViewed(response.Data.ProductDetails);
-    //   clearRecentlyViewed();
-    //   setProductObj(response.Data);
-    //   if (p.Size) {
-    //     getSizes(response.Data.ProductDetails.Size);
-    //   }
-    //   if (p.Color) {
-    //     getColors(response.Data.ProductDetails.Color);
-    //   }
-    //   getProductImages(response.Data.ProductDetails);
-    //   checkInCart(response.Data);
-    //   getSimilarProduct(response.Data.ProductDetails.Category);
-    // });
+    getSingleProductData(productId).then((response) => {
+      p = response.Data.ProductDetails;
+      setProduct(response.Data.ProductDetails);
+      manageRecentlyViewed(response.Data.ProductDetails);
+      clearRecentlyViewed();
+      setProductObj(response.Data);
+
+      if (p.Size) {
+        getSizes(response.Data.ProductDetails.Size);
+      }
+      if (p.Color) {
+        getColors(response.Data.ProductDetails.Color);
+      }
+      getProductImages(response.Data.ProductDetails);
+      checkInCart(response.Data);
+      getSimilarProduct(response.Data.ProductDetails.Category);
+    });
 
     checkInWishlist();
     window.scrollTo({
@@ -523,10 +522,7 @@ const ProductDetails = () => {
 
   return (
     <>
-      {/* <CommonTopNav /> */}
-
       <>{ProductDetailsSection()}</>
-      {/* <Footer /> */}
     </>
   );
 };

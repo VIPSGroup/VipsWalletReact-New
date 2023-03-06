@@ -17,6 +17,7 @@ import {
   commonServiceConfirm,
   naturalGasBillPay,
 } from "../../redux/slices/services/servicesSlice";
+import { MuiSnackBar, ThemeButton } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 
 const ServiceConfirmationCommon = () => {
@@ -56,7 +57,6 @@ const ServiceConfirmationCommon = () => {
   );
   // const { rechargeData,reLoading, } = useSelector(state => state.fastagSlice.fastagRecharge);
   const handleClickConfirm = (e) => {
-    console.log("handleClickConfirm");
     e.preventDefault();
     setShowSuccess(true);
     setLoading(true);
@@ -75,7 +75,6 @@ const ServiceConfirmationCommon = () => {
         })
       );
     } else {
-      console.log("commonServiceConfirm");
       dispatch(
         commonServiceConfirm({
           username: loggedInUser.Mobile,
@@ -221,7 +220,6 @@ const ServiceConfirmationCommon = () => {
   }, []);
 
   useEffect(() => {
-    console.warn("UseEffect");
     dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount }));
     if (data?.Data) {
       manageInitialPaymentMethod(data?.Data?.Balance);
@@ -244,21 +242,17 @@ const ServiceConfirmationCommon = () => {
           });
         } else {
           setIsSnackBar(true);
-          setErrorMsg(gasBill.Data.ResponseMessage);
+          setErrorMsg(gasBill?.Data?.ResponseMessage);
         }
       } else {
         setIsSnackBar(true);
-        setErrorMsg(
-          gasBill.Data ? gasBill.Data.ResponseMessage : gasBill.Remarks
-        );
+        setErrorMsg(gasBill?.Data?.ResponseMessage);
       }
     }
     if (commonBill && showSuccess) {
-      console.warn(commonBill);
       if (commonBill.ResponseStatus === 1) {
         if (commonBill.Data != null) {
           var data = commonBill.Data;
-          console.log(data);
           var time = getTodayDate();
           navigate("/services/success", {
             state: {
@@ -272,16 +266,12 @@ const ServiceConfirmationCommon = () => {
             },
           });
         } else {
-          console.log(commonBill.Data.ResponseMessage);
           setIsSnackBar(true);
-          setErrorMsg(commonBill.Data.ResponseMessage);
+          setErrorMsg(commonBill?.Data?.ResponseMessage);
         }
       } else {
-        console.log(commonBill.Data.ResponseMessage);
         setIsSnackBar(true);
-        setErrorMsg(
-          commonBill.Data ? commonBill.Data.ResponseMessage : commonBill.Remarks
-        );
+        setErrorMsg(commonBill?.Data?.ResponseMessage);
       }
     }
   }, [data.Data, selectedDiscount, gasBill, commonBill]);
@@ -292,9 +282,6 @@ const ServiceConfirmationCommon = () => {
         <div class="container">
           <div class="payment-head-outer">
             <div class="payment-head">
-              {/* <Link class="" to="#">
-              <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
-            </Link> */}
               <div class="go-back">
                 <Link
                   onClick={() => {
@@ -307,12 +294,6 @@ const ServiceConfirmationCommon = () => {
             </div>
             <h1 class="payment-head-title">Payment Confirmation</h1>
           </div>
-
-          {/* <div class="container">
-            <div class="section-head">
-              <h1 class="section-head-title">Payment Confirmation</h1>
-            </div>
-          </div> */}
 
           <div class="row">
             {/** <!-- Payment confirmation start -->*/}
@@ -542,7 +523,8 @@ const ServiceConfirmationCommon = () => {
                     </div>
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
-                        <button
+                        <ThemeButton loading={gasLoading || commonLoading} value={"Confirm Payment"} onClick={handleClickConfirm}/>
+                        {/* <button
                           onClick={!gasLoading && handleClickConfirm}
                           type="button"
                           class="btn-primery"
@@ -563,7 +545,7 @@ const ServiceConfirmationCommon = () => {
                           ) : (
                             "Confirm Payment"
                           )}{" "}
-                        </button>
+                        </button> */}
                       </div>
                       {showError()}
                     </div>
@@ -572,14 +554,14 @@ const ServiceConfirmationCommon = () => {
               </div>
             </div>
 
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </section>

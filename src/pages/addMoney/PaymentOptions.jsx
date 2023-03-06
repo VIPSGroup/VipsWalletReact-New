@@ -21,6 +21,7 @@ import {
   checkGABBalance,
   finstocTradePriceCheck,
 } from "../../redux/slices/walletSlice";
+import { MuiSnackBar } from "../../components/common";
 // import { finstocTradePriceCheck } from "../../apiData/payments";
 
 const PaymentOptions = () => {
@@ -182,14 +183,14 @@ const PaymentOptions = () => {
                 </div>
               </div>
 
-              {/* <MuiSnackBar
+              <MuiSnackBar
                 open={isSnackBar}
                 setOpen={setIsSnackBar}
                 successMsg={successMsg}
                 errorMsg={errorMsg}
                 setSuccess={setSuccessMsg}
                 setError={setErrorMsg}
-              /> */}
+              />
             </div>
           </div>
         </div>

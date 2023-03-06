@@ -2,18 +2,21 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useFormik } from "formik";
 import * as yup from "yup";
-
 import { useDispatch, useSelector } from "react-redux";
 import { updateAddress } from "../../../apiData/shopping/address";
 import { getStateCity } from "../../../redux/slices/profile/signUpSlice";
 import { SelectField } from "../../forms";
+import { MuiSnackBar, ThemeButton } from "../../common";
 
 const UpdateShippingAddressModal = ({ addressProp }) => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [pincode, setPincode] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
+  // const [success, setSuccess] = useState(false);
+  // const [error, setError] = useState("");
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [getData, setGetData] = useState({});
   const { loggedInUser } = useSelector(
@@ -40,6 +43,7 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
     }),
 
     onSubmit: (values, { resetForm }) => {
+      setLoading(true)
       updateAddress(
         { ...values, addressId: addressProp.Id },
         loggedInUser.Mobile,
@@ -47,15 +51,18 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
         getData.stateName,
         getData.cityName
       ).then((response) => {
+        setLoading(false);
         if (response.ResponseStatus == 1) {
-          setSuccess(true);
+          console.log(response.Remarks);
+          setErrorMsg("")
+          setIsSnackBar(true)
+          setSuccessMsg(response.Remarks)
           window.location.reload();
         } else {
-          setSuccess(false);
-
-          setError("Something Went Wrong. Please Try again.");
+          setSuccessMsg("")
+          setIsSnackBar(true)
+          setErrorMsg(response.Remarks)
         }
-        setLoading(false);
       });
     },
   });
@@ -164,7 +171,7 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
         </button>
       </div>
 
-      {showError()}
+      {/* {showError()} */}
 
       <div class="modal-body">
         <section class="">
@@ -361,13 +368,21 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
                       </label>
                     </div>
                   </div>
-
+                  <MuiSnackBar
+                    open={isSnackBar}
+                    setOpen={setIsSnackBar}
+                    successMsg={successMsg}
+                    errorMsg={errorMsg}
+                    setSuccess={setSuccessMsg}
+                    setErrorMsg={setErrorMsg}
+                  />
                   <div class="modal-footer">
                     <div class="shopping-address-btn">
-                      <button type="submit" class="btn-primery ">
+                    <ThemeButton value={"Save Address"} loading={loading}/>
+                      {/* <button type="submit" class="btn-primery ">
                         {" "}
                         Save Address{" "}
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </form>
@@ -396,9 +411,9 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
     </>
   );
 
-  const showError = () => (
-    <>{error && <div className="alert alert-danger">{error}</div>}</>
-  );
+  // const showError = () => (
+  //   <>{error && <div className="alert alert-danger">{error}</div>}</>
+  // );
 
   return (
     <>

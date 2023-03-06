@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { LatestLoading } from "../../common/Loading";
+import { Loading } from "../../common";
 
 const TopSlider = ({ banners, id = 1 }) => {
   const responsive = {
@@ -58,7 +59,8 @@ const TopSlider = ({ banners, id = 1 }) => {
               ) : null
             )
           ) : (
-            <LatestLoading />
+            // <LatestLoading />
+            <Loading/>
           )}
         </Carousel>
       </div>

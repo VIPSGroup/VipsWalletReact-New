@@ -8,7 +8,7 @@ import {
 
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
 import { operartorsUrl } from "../../../constants";
-// import { Loading } from "../../common";
+import { Loading } from "../../common";
 
 
 const BrowsePlans = ({
@@ -85,8 +85,7 @@ const BrowsePlans = ({
       });
 
       getMobileRechargePlans(circle, operator).then((response) => {
-        console.log(response.Data);
-        if (!response.Data.records.msg) {
+        if (!response?.Data?.records?.msg) {
           setLoading(false);
           setTopupPlans(response.Data.records.TOPUP);
           setRoamingPlans(response.Data.records.Romaing);
@@ -140,7 +139,7 @@ const BrowsePlans = ({
                   placeholder="Search for plan, eg. 299"
                 />
                 <span class="input-group-append">
-                  <button class="btn search-btn" type="button">
+                   class="btn search-btn" type="button">
                     <i class="fa fa-search"></i>
                   </button>
                 </span>
@@ -271,7 +270,7 @@ const BrowsePlans = ({
                 {loading ? (
                   <div class="brows-plans-inner brows-plan-loader">
                     <div class="brows-plan-loader-outer">
-                      {/* <Loading color="#CA3060" /> */}
+                      <Loading color="#CA3060" />
                     </div>
                   </div>
                 ) : error.length !== 0 ? (

@@ -30,6 +30,7 @@ const orderSlice = createSlice({
       state.orderPlace.loading = true;
     });
     builder.addCase(placeOrder.fulfilled, (state, action) => {
+      console.error(action.payload);
       state.orderPlace.data = action.payload;
       state.orderPlace.loading = false;
     });

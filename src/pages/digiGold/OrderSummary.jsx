@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ThemeButton } from "../../components/common";
 import { fetchGoldSilverRates } from "../../redux/slices/digiGold/digiGoldSlice";
 
 const OrderSummary = () => {
@@ -11,7 +12,6 @@ const OrderSummary = () => {
   const [silverRate, setsilverRate] = useState("");
   const [goldGram, setGoldGram] = useState("");
   const [silverGram, setSilverGram] = useState("");
-  console.log(state, "jj");
   const [counter, setCounter] = useState(300); // 5 minutes in seconds
   const [bye, setBuy] = useState(true); //default Buy , then Sell,
   const [totalAmount, setTotalAmount] = useState("");
@@ -32,7 +32,6 @@ const OrderSummary = () => {
     if (counter === 0) {
       const fetchRates = async () => {
         const res = await dispatch(fetchGoldSilverRates());
-        console.log(res, "res hai");
         setGoldRate(
           state.metalType === "gold" &&
             res.payload?.Data?.result?.data?.rates?.gBuy * state.valueinGm
@@ -75,7 +74,6 @@ const OrderSummary = () => {
       seconds < 10 ? "0" : ""
     }${seconds}`;
   };
-  console.log(goldRate, "goldgram");
   return (
     <>
       <div className="">
@@ -289,7 +287,8 @@ const OrderSummary = () => {
                     </div>
 
                     <div class="digigold-order-proceed">
-                      <button class="btn btn-primery"> Proceed to Pay</button>
+                      {/* <button class="btn btn-primery"> Proceed to Pay</button> */}
+                      <ThemeButton value={"Proceed to Pay"}/>
                     </div>
                   </div>
                 </div>

@@ -10,7 +10,6 @@ const wishlistSlice = createSlice({
       state.wishCount = action.payload;
     },
     removeWish: (state, action) => {
-      console.log(action.payload, "aaa");
       state.wishCount = state.wishCount.filter((e) => e.Id !== action.payload);
     },
   },

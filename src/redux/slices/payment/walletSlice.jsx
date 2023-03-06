@@ -22,7 +22,6 @@ export const getWalletBalance = createAsyncThunk(
 export const checkGABBalance = createAsyncThunk(
   "checkGABBalance",
   async ({ username, password }, thunkAPI) => {
-    console.log(username, password, "hjghfdgh");
     const formData = new FormData();
 
     formData.append("username", username);
@@ -107,6 +106,21 @@ export const sendMoney = (userName, password, recieverNo, amount, otp) => {
     })
     .catch((err) => {});
 };
+export const becomePrime = (username, password) => {
+  const formData = new FormData();
+  formData.append("UserName", username);
+  formData.append("Password", password);
+  formData.append("PayType", "App_Wallet");
+
+  return fetch(`${baseApiUrl}/CardServices/PurchaseShoppingcard`, {
+    method: "POST",
+    body: formData,
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .catch((err) => {});
+};
 export const finstocTradePriceCheck = createAsyncThunk(
   "finstocTradePriceCheck",
   async (username, password) => {
@@ -133,6 +147,7 @@ export const finstocTradePriceCheck = createAsyncThunk(
   }
 );
 
+
 const walletSlice = createSlice({
   name: "walletSlice",
   initialState: {
@@ -156,6 +171,11 @@ const walletSlice = createSlice({
       loading: false,
       error: "",
     },
+    primeMember: {
+      primeData: [],
+      loading: false,
+      error: "",
+    },
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -174,7 +194,6 @@ const walletSlice = createSlice({
       state.GABBalance.loading = true;
     });
     builder.addCase(checkGABBalance.fulfilled, (state, action) => {
-      console.log(action.payload, "aa rha hai");
       state.GABBalance.data = action.payload;
       state.GABBalance.loading = false;
     });
@@ -202,6 +221,16 @@ const walletSlice = createSlice({
     });
     builder.addCase(finstocTradePriceCheck.rejected, (state, action) => {
       state.finstockPrice.error = action.error;
+    });
+    builder.addCase(becomePrime.pending, (state, action) => {
+      state.primeMember.loading = true;
+    });
+    builder.addCase(becomePrime.fulfilled, (state, action) => {
+      state.primeMember.primeData = action.payload;
+      state.primeMember.loading = false;
+    });
+    builder.addCase(becomePrime.rejected, (state, action) => {
+      state.primeMember.error = action.error;
     });
   },
 });

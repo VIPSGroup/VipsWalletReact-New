@@ -13,32 +13,28 @@ import {
   loginUser,
   resetState,
 } from "../../redux/slices/profile/loginSlice";
-import { Loading } from "../common";
+import { Loading, MuiSnackBar, ThemeButton } from "../common";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
 import "../../assets/styles/authentication/signupModal.css";
 
-const SignInForm = ({isSignIn}) => {
+const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
   const [otp, setOtp] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [formCount, setFormCount] = useState(1);
   const [show, setShow] = useState(true);
-  const [showSuccessMessage, setsuccessMessage] = useState("");
-  const [showErrorMessage, setErrorMessage] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [showSignUp, setShowSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [forgotPasswordUserName, setForgotPasswordUsername] = useState("");
   const [ip, setIp] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, forgotPass } = useSelector(
-    (state) => state.loginSlice.loggetInWithOTP
-  );
-  const { loggedInUser } = useSelector(
-    (state) => state.loginSlice.loggetInWithOTP
-  );
-  const { isUserExist } = useSelector((state) => state.loginSlice.checkUser);
-  const { response } = useSelector((state) => state.loginSlice.loginUser);
+  const { forgotLoading, forgotPassData } = useSelector(state=>state.loginSlice.forgotPass);
+  const { loggedInUser } = useSelector(state => state.loginSlice.loggetInWithOTP);
+  const { isUserExist ,loading} = useSelector((state) => state.loginSlice.checkUser);
+  const { response , logLoading } = useSelector((state) => state.loginSlice.loginUser);
 
   const loginUsernameFormik = useFormik({
     initialValues: {
@@ -71,38 +67,37 @@ const SignInForm = ({isSignIn}) => {
     },
   });
   useEffect(() => {
-    console.warn(formCount);
-    // if (
-    //   isUserExist &&
-    //   isUserExist[0]?.ResponseStatus === 0 &&
-    //   isUserExist[0]?.ErrorCode === "Ex402" 
-    // ) {
-    //   console.log("login");
-    //   navigate("/signup");
-    // }
-
-    if (forgotPass?.ResponseStatus === 0 && forgotPasswordUserName) {
-      setIsSnackBar(true);
-      setErrorMessage(forgotPass.Remarks);
-      setsuccessMessage("");
-    } else if (response?.ErrorCode === "Ex401") {
-      setIsSnackBar(true);
-      setErrorMessage(response?.Remarks);
-      setsuccessMessage("");
+    setIsSignIn(true)
+    if (
+      isUserExist &&
+      isUserExist[0]?.ResponseStatus === 0 &&
+      isUserExist[0]?.ErrorCode === "Ex402" && !isSignIn
+    ) {
+      setIsSignIn(false)
     }
-    if (forgotPass?.ResponseStatus === 1 && forgotPasswordUserName) {
-      setFormCount(1);
+
+    if (forgotPassData?.ResponseStatus === 0 && forgotPasswordUserName) {
+      setSuccessMsg("");
       setIsSnackBar(true);
-      setsuccessMessage(forgotPass.Remarks);
-      setErrorMessage("");
+      setErrorMsg(forgotPassData.Remarks);
+    } else if (response?.ErrorCode === "Ex401") {
+      setSuccessMsg("");
+      setIsSnackBar(true);
+      setErrorMsg(response?.Remarks);
+    }
+    if (forgotPassData?.ResponseStatus === 1 && forgotPasswordUserName) {
+      setFormCount(1);
+      setErrorMsg("");
+      setIsSnackBar(true);
+      setSuccessMsg(forgotPassData.Remarks);
+      setForgotPasswordUsername("")
     }
 
     if (response?.ResponseStatus === 2 ) {
-      console.log("ddddddd");
       setFormCount(2);
+      setErrorMsg("");
       setIsSnackBar(true);
-      setsuccessMessage(response.Remarks);
-      setErrorMessage("");
+      setSuccessMsg(response.Remarks);
     }
 
     if (!ip) {
@@ -115,27 +110,26 @@ const SignInForm = ({isSignIn}) => {
     if (loggedInUser?.Id ) {
       navigate("/");
       setFormCount(1);
+      setErrorMsg("");
       setIsSnackBar(true);
-      setsuccessMessage("Login Successful");
-      setErrorMessage("");
+      setSuccessMsg("Login Successful");
     }
     if (response?.ResponseStatus ===0) {
+      setSuccessMsg("");
       setIsSnackBar(true);
-      setErrorMessage("Invalid OTP");
-      setsuccessMessage("");
+      setErrorMsg(response.Remarks);
     }
     if (response?.ResponseStatus === 1) {
+      setSuccessMsg("")
       setIsSnackBar(true);
-      setsuccessMessage("Success");
-      // setsuccessMessage("")
+      setSuccessMsg(response.Remarks);
     }
     return () => {
-      // loginUsernameFormik.values.username=''
       setTimeout(() => {
         setShowSignUp(false);
       }, 1000);
     };
-  }, [response, isUserExist, forgotPass, loginUsernameFormik.values.username]);
+  }, [response, isUserExist, forgotPassData, loginUsernameFormik.values.username]);
 
   const onForgotPassword = (e) => {
     e.preventDefault();
@@ -210,7 +204,6 @@ const SignInForm = ({isSignIn}) => {
               <MdArrowBack />
             </button>
           )}
-
           {formCount === 3 ? (
             <>
               <button
@@ -271,13 +264,14 @@ const SignInForm = ({isSignIn}) => {
 
                             <div className="col-lg-12">
                               <div className="login-btnCol btnTopSpace">
-                                <button
-                                  onClick={!loading && onForgotPasswordSubmit}
+                                <ThemeButton onClick={onForgotPasswordSubmit} loading={forgotLoading} value={"SUBMIT"}/>
+                                {/* <button
+                                  onClick={!forgotLoading && onForgotPasswordSubmit}
                                   class="btn-primery"
                                   id="addmoneymodal"
                                 >
                                   {loading ? <Loading /> : "SUBMIT"}
-                                </button>
+                                </button> */}
                               </div>
                             </div>
                             <div className="col-lg-12 mt-4"></div>
@@ -428,18 +422,21 @@ const SignInForm = ({isSignIn}) => {
 
                             <div className="col-lg-12">
                               <div className="login-btnCol btnTopSpace">
-                                <button
+                                <ThemeButton value={"SIGN IN"} onClick={() => {
+                                    !loginPasswordFormik.values.password &&
+                                      setShowSignUp(true);
+                                  }} loading={logLoading ?logLoading:loading}/>
+                                {/* <button
                                   type="submit"
-                                  // onClick={!loading && clickLogin}
-                                  class="btn-primery modal-loading-btn"
+          class="btn-primery modal-loading-btn"
                                   id="addmoneymodal"
                                   onClick={() => {
                                     !loginPasswordFormik.values.password &&
                                       setShowSignUp(true);
                                   }}
                                 >
-                                  {loading ? <Loading /> : "SIGN IN"}
-                                </button>
+                                  {logLoading ? <Loading /> : "SIGN IN"}
+                                </button> */}
                               </div>
                             </div>
                             <div className="col-lg-12 mt-4"></div>
@@ -507,14 +504,14 @@ const SignInForm = ({isSignIn}) => {
             </>
           )}
         </Modal>
-        {/* <MuiSnackBar
+        <MuiSnackBar
         open={isSnackBar}
         setOpen={setIsSnackBar}
-        successMsg={showSuccessMessage}
-        errorMsg={showErrorMessage}
-        setSuccess={setsuccessMessage}
-        setError={setErrorMessage}
-      /> */}
+        successMsg={successMsg}
+        setSuccess={setSuccessMsg}
+        errorMsg={errorMsg}
+        setError={setErrorMsg}
+      />
       
       </>
     </>
