@@ -20,7 +20,7 @@ import { fastagOnlineConfirmation } from "../../../redux/slices/services/fastagS
 import { MuiSnackBar, ThemeButton } from "../../../components/common";
 ReactGA.initialize(googleAnalytics);
 
-const FastagOnlineConfirmation = () => {
+const FastagOnlineConfirmation = ({setIsCommonTopNav}) => {
   const location = useLocation();
   const props = location.state;
   var amt = props?.amount;
@@ -130,6 +130,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
   };
 
   useEffect(() => {
+    setIsCommonTopNav(false)
     ReactGA.pageview(window.location.pathname);
     // setLoading(false);
     const userName = loggedInUser && loggedInUser.UserName;
@@ -140,7 +141,8 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
           dispatch(getWalletBalance({userName,password}))
         }
       }
-      return ()=>{setShowSuccess(false)}
+      return ()=>{setShowSuccess(false)
+        setIsCommonTopNav(true)}
   }, []);
   useEffect(() => {
     dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))

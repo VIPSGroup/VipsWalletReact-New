@@ -20,7 +20,7 @@ import {
 import { MuiSnackBar, ThemeButton } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 
-const ServiceConfirmationCommon = () => {
+const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
   const location = useLocation();
   const props = location.state;
   var amt = props?.amount;
@@ -205,6 +205,7 @@ const ServiceConfirmationCommon = () => {
   };
 
   useEffect(() => {
+    setIsCommonTopNav(false)
     ReactGA.pageview(window.location.pathname);
     setLoading(false);
     const userName = loggedInUser && loggedInUser.UserName;
@@ -216,6 +217,7 @@ const ServiceConfirmationCommon = () => {
     }
     return () => {
       setShowSuccess(false);
+      setIsCommonTopNav(true)
     };
   }, []);
 

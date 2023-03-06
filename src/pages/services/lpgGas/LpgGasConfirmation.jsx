@@ -18,7 +18,7 @@ import { getServiceDiscounts } from "../../../redux/slices/services/commonSlice"
 import { MuiSnackBar, ThemeButton } from "../../../components/common";
 ReactGA.initialize(googleAnalytics);
 
-const LpgGasConfirmation = () => {
+const LpgGasConfirmation = ({setIsCommonTopNav}) => {
   const location = useLocation();
   const props = location.state;
   var amt = props.amount;
@@ -135,6 +135,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
   };
 
   useEffect(() => {
+    setIsCommonTopNav(false)
     ReactGA.pageview(window.location.pathname);
 
     setLoading(false);
@@ -145,7 +146,8 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
         dispatch(getWalletBalance({userName,password}))
       }
     }
-    return ()=>{setShowSuccess(false)}
+    return ()=>{setShowSuccess(false)
+      setIsCommonTopNav(true)}
   }, []);
   useEffect(() => {
     dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))

@@ -13,7 +13,7 @@ import { getWalletBalance } from "../../../redux/slices/walletSlice";
 
 ReactGA.initialize(googleAnalytics);
 
-const DthConfirmation = () => {
+const DthConfirmation = ({setIsCommonTopNav}) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const props = location.state;
@@ -91,6 +91,7 @@ const DthConfirmation = () => {
   };
 
   useEffect(() => {
+    setIsCommonTopNav(false)
     ReactGA.pageview(window.location.pathname);
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
@@ -101,6 +102,7 @@ const DthConfirmation = () => {
     }
     return () => {
       setShowSuccess(false);
+      setIsCommonTopNav(true)
     };
   }, []);
   useEffect(() => {

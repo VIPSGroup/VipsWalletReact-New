@@ -20,7 +20,7 @@ import { MuiSnackBar, ThemeButton } from "../../../components/common";
 
 ReactGA.initialize(googleAnalytics);
 
-const RechargeConfirmation = ({ setIsHomeTopNav }) => {
+const RechargeConfirmation = ({ setIsCommonTopNav }) => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
@@ -72,7 +72,7 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
     );
   };
   useEffect(() => {
-    setIsHomeTopNav(false);
+    setIsCommonTopNav(false);
     ReactGA.pageview(window.location.pathname);
 
     const userName = loggedInUser && loggedInUser.UserName;
@@ -84,6 +84,7 @@ const RechargeConfirmation = ({ setIsHomeTopNav }) => {
     }
     return () => {
       setShowSuccess(false);
+      setIsCommonTopNav(true)
     };
   }, []);
   useEffect(() => {

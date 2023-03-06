@@ -2,7 +2,7 @@ import React from "react";
 import { useResolvedPath } from "react-router-dom";
 import { BannerTopNav, CommonTopNav, HomeTopNav } from "./";
 
-const Navigation = ({ isHomeTopNav, isBottomTopNav }) => {
+const Navigation = ({ isHomeTopNav, isBottomTopNav ,isCommonTopNav}) => {
   const path = useResolvedPath().pathname;
 
   return (
@@ -11,7 +11,7 @@ const Navigation = ({ isHomeTopNav, isBottomTopNav }) => {
         !isBottomTopNav &&
         path !== "/shopping/cart" &&
         path !== "/shopping/address" &&
-        path !== "/shopping/checkout" && <CommonTopNav />}
+        path !== "/shopping/checkout" && isCommonTopNav && <CommonTopNav />}
       {isHomeTopNav && <HomeTopNav />}
       {isBottomTopNav && <BannerTopNav />}
     </>

@@ -17,7 +17,7 @@ import { OnlinefinalElecticity } from "../../../redux/slices/services/electricit
 import { MuiSnackBar, ThemeButton } from "../../../components/common";
 ReactGA.initialize(googleAnalytics);
 
-const ElectricityConfirmation = () => {
+const ElectricityConfirmation = ({setIsCommonTopNav}) => {
   const location = useLocation();
   const props = location.state;
   var amt = props.amount;
@@ -131,6 +131,7 @@ dispatch(OnlinefinalElecticity({username: loggedInUser.Mobile,password:loggedInU
   };
 
   useEffect(() => {
+    setIsCommonTopNav(false)
     ReactGA.pageview(window.location.pathname);
     setLoading(false);
     const userName = loggedInUser && loggedInUser.UserName;
@@ -140,7 +141,8 @@ dispatch(OnlinefinalElecticity({username: loggedInUser.Mobile,password:loggedInU
         dispatch(getWalletBalance({userName,password}))
       }
     }
-return ()=>{setShowSuccess(false)}
+return ()=>{setShowSuccess(false)
+  setIsCommonTopNav(true)}
   }, []);
 
   useEffect(() => {

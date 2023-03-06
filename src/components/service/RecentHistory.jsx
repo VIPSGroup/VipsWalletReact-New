@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { getRechargeHistory } from "../../apiData/services/mobileRecharge";
 import { operartorsUrl } from "../../constants";
 import { Loading } from "../common";
+import "../../../assets/styles/services/mobileRecharge/recharge.css";
 // import LoadingBar from "../common/Loading";
 
 const RecentHistory = ({
@@ -70,7 +71,7 @@ const RecentHistory = ({
         <div class="mobile-recharge-content-inner">
           <div class="row">
             <div class="col-md-12 mobile-recharge-recent-head">
-              <h3 class=""> Recent </h3>{JSON.stringify(loading)}
+              <h3 class=""> Recent </h3>
             </div>
           </div>
 

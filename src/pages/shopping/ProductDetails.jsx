@@ -17,6 +17,7 @@ import {
   getAllCategories,
   getProductsByCategory,
 } from "../../redux/slices/shopping/productSlice";
+import { MuiSnackBar } from "../../components/common";
 // import { getAllCategories } from "../../apiData/shopping/category";
 
 ReactGA.initialize(googleAnalytics);
@@ -500,14 +501,14 @@ const ProductDetails = () => {
               </div>
             </div>
             {/* {  <!-- product details end -->} */}
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
           <ProductHorizontal
             title="Similar Product"
