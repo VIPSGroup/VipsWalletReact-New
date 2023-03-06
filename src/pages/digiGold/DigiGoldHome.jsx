@@ -125,10 +125,10 @@ const DigiGoldHome = () => {
     if (!loggedInUser) {
       navigate("/login");
     } else {
-      if (rateData.ResponseStatus !== 0 && !loading) {
+      if (rateData.ResponseStatus !== 0 && !loading && !err) {
         navigate("/digigold-order-summary", { state: valueType });
       } else {
-        alert("Something Went Wrong");
+        alert(`${err ? err : "Something Went Wrong"}`);
       }
     }
   };
@@ -182,7 +182,7 @@ const DigiGoldHome = () => {
         setErr("");
       }
     }
-
+console.log(err, "err")
     const TotalAmount =
       (active === 0 &&
         isGold === 0 &&
@@ -456,7 +456,7 @@ const DigiGoldHome = () => {
                                   ]}
                                 >
                                   <Input
-                                    min={0}
+                                    min={1}
                                     value={amount}
                                     max={180000}
                                     addonBefore="Rs."

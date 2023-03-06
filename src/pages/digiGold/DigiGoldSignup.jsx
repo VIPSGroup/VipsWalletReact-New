@@ -179,7 +179,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
 
                         {
                           min: 3,
-                          message: "First Name Min 3 Letters",
+                          message: "Full Name Min 3 Letters",
                         },
                       ]}
                     >

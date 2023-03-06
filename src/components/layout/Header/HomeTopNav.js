@@ -453,6 +453,9 @@ const HomeTopNav = ({ isPrime }) => {
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           <li>
+            <Link to="/digigold">DigiGold</Link>
+          </li>
+          <li>
             <Link to={vendorPanelAPi} target="_blank">
               {" "}
               Become a Supplier

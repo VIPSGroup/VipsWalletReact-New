@@ -1,4 +1,4 @@
-import { Card, Table } from "antd";
+import { Card, Modal, Table } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,8 @@ const MyOrdersPage = () => {
   const dispatch = useDispatch();
   const [dataSource, setDataSource] = useState([]);
   const [tab, setTab] = useState("Buy");
+  const [modal, setModal] = useState(false);
+  const [modalData, setModalData] = useState("");
   const { rateData, loading } = useSelector(
     (state) => state.digiGoldSlice.rates
   );
@@ -57,21 +59,26 @@ const MyOrdersPage = () => {
       title: "Invoice",
       dataIndex: "invoice",
       key: "invoice",
-      render: (_, record) => (
-        <button
-          className="pdf-down-btn"
-          type="button"
-          data-toggle="modal"
-          data-target="#digigoldorderdetails"
-        >
-          <img src="/images/digigold-images/pdf-icon.svg" alt="Download PDF" />
-        </button>
-      ),
+      // render: (_, record) => (
+      //   <button
+      //     className="pdf-down-btn"
+      //     type="button"
+      //     data-toggle="modal"
+      //     data-target="#digigoldorderdetails"
+      //   >
+      //     <img
+      //       onClick={() => setModal(true)}
+      //       src="/images/digigold-images/pdf-icon.svg"
+      //       alt="Download PDF"
+      //     />
+      //   </button>
+      // ),
     },
   ];
-
+  // console.log(modalData, "data");
   const data = dataSource
     ?.filter((a) => a.TransactionType === tab)
+    .reverse()
     .map((item, index) => ({
       key: index,
       date: (
@@ -95,15 +102,17 @@ const MyOrdersPage = () => {
       ),
       narration: (
         <>
-          <h2 style={{ fontSize: 14 }} className="text-gray-500">{`${
-            item.TransactionType === "Buy"
-              ? `${item.MetalType?.toUpperCase()} Bought ${item.Quantity.toFixed(
-                  4
-                )} gm`
-              : `${item.MetalType.toUpperCase()} Sold ${item.Quantity.toFixed(
-                  4
-                )} gm`
-          }`}</h2>
+          <h2 style={{ fontSize: 14 }} className="text-gray-500">
+            {`${
+              item.TransactionType === "Buy"
+                ? `${item.MetalType?.toUpperCase()} Bought ${item.Quantity.toFixed(
+                    4
+                  )} gm`
+                : `${item.MetalType.toUpperCase()} Sold ${item.Quantity.toFixed(
+                    4
+                  )} gm`
+            }`}
+          </h2>
         </>
       ),
       amount: (
@@ -115,7 +124,15 @@ const MyOrdersPage = () => {
       ),
       invoice: (
         <>
-          <h2 className="text-gray-500">{item.unit}</h2>
+          <img
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              setModal(true);
+              setModalData(item);
+            }}
+            src="/images/digigold-images/pdf-icon.svg"
+            alt="Download PDF"
+          />
         </>
       ),
 
@@ -128,7 +145,6 @@ const MyOrdersPage = () => {
       // ),
     }));
 
-  console.log(dataSource, "jkhghf");
   return (
     <>
       <section class="section-align buy-sell-form">
@@ -466,6 +482,129 @@ const MyOrdersPage = () => {
           </div>
         </div>
       </section>
+      <Modal
+        footer={[<button></button>]}
+        onCancel={() => setModal(false)}
+        centered
+        maskClosable={false}
+        open={modal}
+      >
+        <section class="mbTopSpace">
+          {/* <!-- <div class="row no-gutters1"> --> */}
+          <div class="digigoldorderdetails-outer">
+            <div class="">
+              <p class="digigoldorderdetails-title">Order Details</p>
+              <div class="digigoldorderdetails-summery">
+                <div class="row mb-3">
+                  <div class="col-xl-6 col-sm-6">
+                    <span> Transaction ID: </span>
+                  </div>
+                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                    <span class="digigoldorderdetails-amt">
+                      {" "}
+                      {modalData?.TransactionId}{" "}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-xl-6 col-sm-6">
+                    <span> Date: </span>
+                  </div>
+                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                    <span class="digigoldorderdetails-amt">
+                      <Moment format="DD-MM-YYYY">{modalData?.AddDate}</Moment>{" "}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-xl-6 col-sm-6">
+                    <span> Narration : </span>
+                  </div>
+                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                    <span class="digigoldorderdetails-amt">
+                      {`${
+                        modalData?.TransactionType === "Buy"
+                          ? `${modalData?.MetalType?.toUpperCase()} Bought ${modalData?.Quantity?.toFixed(
+                              4
+                            )} gm`
+                          : `${modalData?.MetalType?.toUpperCase()} Sold ${modalData?.Quantity?.toFixed(
+                              4
+                            )} gm`
+                      }`}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-xl-6 col-sm-6">
+                    <span> Rate per 1 gm (&#x20B9;): </span>
+                  </div>
+                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                    <span class="digigoldorderdetails-amt">
+                      {" "}
+                      {modalData?.Rate}{" "}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-xl-6 col-sm-6">
+                    <span> Amount (&#x20B9;): </span>
+                  </div>
+                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                    <span class="digigoldorderdetails-amt">
+                      {modalData?.PreTaxAmount}{" "}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-xl-6 col-sm-6">
+                    <span> Tax (&#x20B9;): </span>
+                  </div>
+                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                    <span class="digigoldorderdetails-amt">
+                      {" "}
+                      {modalData?.TaxAmount}{" "}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-xl-6 col-sm-6">
+                    <span> Total Amount (&#x20B9;): </span>
+                  </div>
+                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                    <span class="digigoldorderdetails-amt">
+                      {" "}
+                      {modalData?.TotalAmount}{" "}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-xl-6 col-sm-6">
+                    <span> Invoice (&#x20B9;): </span>
+                  </div>
+                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                    <span
+                      style={{ cursor: "pointer" }}
+                      class="digigoldorderdetails-down"
+                    >
+                      {" "}
+                      Download{" "}
+                      <img src="/images/digigold-images/download-icon.svg" />{" "}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <!-- </div> --> */}
+        </section>
+      </Modal>
     </>
   );
 };

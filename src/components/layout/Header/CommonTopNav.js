@@ -66,18 +66,18 @@ const CommonTopNav = () => {
         </Link>
       ),
     },
-    {
-      key: "3",
-      label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-    },
-    {
-      key: "4",
-      label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-    },
-    {
-      key: "5",
-      label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-    },
+    // {
+    //   key: "3",
+    //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+    // },
+    // {
+    //   key: "4",
+    //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+    // },
+    // {
+    //   key: "5",
+    //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+    // },
     {
       key: "6",
       label: (
@@ -489,23 +489,23 @@ const CommonTopNav = () => {
                 class="navbar-bottom-services-outer"
               >
                 <div class="navbar-bottom-serv-box">
-                  <a href="#">
+                  <Link to={"/digigold"}>
                     <img
                       src="/images/digigold-images/buy-white-icon.svg"
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">Buy Gold</span>
-                  </a>
+                  </Link>
                 </div>
 
                 <div class="navbar-bottom-serv-box">
-                  <a href="#">
+                  <Link to={"/digigold"}>
                     <img
                       src="images/digigold-images/sell-white-icon.svg"
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">Sell Gold</span>
-                  </a>
+                  </Link>
                 </div>
 
                 <div class="navbar-bottom-serv-box">
@@ -582,6 +582,9 @@ const CommonTopNav = () => {
 
           <li>
             <Link to="/onlinestores"> Online Stores</Link>
+          </li>
+          <li>
+            <Link to="/digigold"> DigiGold</Link>
           </li>
           <li>
             <Link to={vendorPanelAPi} target="_blank">

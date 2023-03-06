@@ -1,13 +1,4 @@
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  message,
-  Modal,
-  notification,
-  Row,
-} from "antd";
+import { Button, Col, Form, Input, Modal, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -30,6 +21,7 @@ const OrderSummary = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [totalAmount, setTotalAmount] = useState("");
   const [step, setStep] = useState(0);
   const [editAddress, setEditAddress] = useState(false);
@@ -59,13 +51,14 @@ const OrderSummary = () => {
   const { data, loading: walletLoad } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
+  // Complete Login is this UseEffecgt
   useEffect(() => {
     if (counter === 0 || counter === 300) {
       const fetchRates = async () => {
         const res = await dispatch(fetchGoldSilverRates());
         console.log(res, "res");
-        if (state.type === "buy") {
-          if (state.metalType === "gold") {
+        if (state?.type === "buy") {
+          if (state?.metalType === "gold") {
             setLockPrice(res.payload.Data.result.data.rates.gBuy);
             if (state.valType === "Grams") {
               setCurrentRate(
@@ -206,64 +199,18 @@ const OrderSummary = () => {
       setCounter(300);
       fetchRates();
     }
-  }, [counter]);
-  useEffect(() => {
     const timer =
       counter > 0 &&
-      state.type === "buy" &&
+      state?.type === "buy" &&
       setInterval(() => {
         setCounter(counter - 1);
       }, 1000);
 
     return () => clearInterval(timer);
   }, [counter]);
-  useEffect(() => {
-    // if (counter === 0) {
-    //   notification.success({
-    //     message: "Price is Update",
-    //     placement: "bottomRight",
-    //     duration: 4,
-    //     type: "info",
-    //     // icon : false
-    //     closeIcon: false,
-    //     icon: false,
-    //   });
-    //   const fetchRates = async () => {
-    //     const res = await dispatch(fetchGoldSilverRates());
-    //     setGoldRate(
-    //       state.metalType === "gold" &&
-    //         res.payload?.Data?.result?.data?.rates?.gBuy * state.valueinGm
-    //     );
-    //     setsilverRate(
-    //       state.metalType === "silver" &&
-    //         res.payload?.Data?.result?.data?.rates?.sBuy * state.valueinGm
-    //     );
-    //     if (state.valType === "Grams") {
-    //       if (state.metalType === "gold") {
-    //         setGoldGram(
-    //           state.valueinAmt / res.payload.Data.result.data.rates.gBuy
-    //         );
-    //       } else {
-    //         setSilverGram(
-    //           state.valueinAmt / res.payload.Data.result.data.rates.sBuy
-    //         );
-    //       }
-    //     } else {
-    //       if (state.metalType === "gold") {
-    //         setGoldRate(
-    //           state.valueinAmt / res.payload.Data.result.data.rates.gBuy
-    //         );
-    //       } else {
-    //         setsilverRate(
-    //           state.valueinAmt / res.payload.Data.result.data.rates.sBuy
-    //         );
-    //       }
-    //     }
-    //   };
-    //   setCounter(30);
-    //   fetchRates();
-    // }
-  }, [counter]);
+  // Counter Logic
+  // useEffect(() => {}, [counter]);
+  // Login & GetWalletBalance Logic
   useEffect(() => {
     const username = state?.username;
     const password = state?.password;
@@ -274,11 +221,13 @@ const OrderSummary = () => {
     setModal(false);
     navigate("/digigold");
   };
+  // Get User Bank Details logic
   useEffect(() => {
     const username = state.username;
     const password = state.password;
     dispatch(GetUserBankList({ username, password }));
   }, [state]);
+  // If Wallet Balance is Lower Than Total Amount Logic
   useEffect(() => {
     const Balance = !walletLoad && data?.Data?.Balance;
     const Total = totalAmount ? totalAmount : state.valueinAmt;
@@ -296,13 +245,13 @@ const OrderSummary = () => {
       seconds < 10 ? "0" : ""
     }${seconds}`;
   };
-
+  // Gold & Silver Buy Logic
   const handleSubmit = async () => {
     const username = state.username;
     const password = state.password;
     const lockPrice = lockprice;
     const metalType = state.metalType;
-    const quantity = currentGram;
+    const quantity = currentGram?.toFixed(4);
     const blockid = blockId;
     const amount = totalAmount ? totalAmount : state.valueinAmt;
     const type = state.valType;
@@ -328,6 +277,7 @@ const OrderSummary = () => {
       }
     }
   };
+  // Gold & Silver Sell Logic
   const handleSellSubmit = async () => {
     const username = state.username;
     const password = state.password;
@@ -366,6 +316,7 @@ const OrderSummary = () => {
     }
   };
   const renderTime2 = () => React.Fragment;
+  // OTP Resend Logic
   const renderButton2 = (buttonProps) => {
     return (
       <div className="resendotp col-12 mx-auto pt-3">
@@ -393,7 +344,8 @@ const OrderSummary = () => {
       </div>
     );
   };
-  const handleAddressAddAndUpdate = async () => {
+  // Bank Details Add Logic
+  const handleAddbankDetails = async () => {
     const username = state.username;
     const password = state.password;
     const accountNumber = formValue.accountNumber;
@@ -412,7 +364,7 @@ const OrderSummary = () => {
       if (res.ResponseStatus === 1) {
         setEditAddress(false);
         dispatch(GetUserBankList({ username, password }));
-        window.location.reload();
+        // window.location.reload();
       }
     } else {
       const res = await UserbankAccountCreate({
@@ -428,13 +380,18 @@ const OrderSummary = () => {
       }
     }
   };
-  const updateAddress = () => {
+  // Bank Details Update Logic
+  const updateBankDetails = () => {
     formValue.accountName = list.Data.result[0].accountName;
     formValue.accountNumber = list.Data.result[0].accountNumber;
     formValue.ifscCode = list.Data.result[0].ifscCode;
     setEditAddress(true);
   };
-
+  useEffect(() => {
+    if (location.pathname === "/restricted-page") {
+      navigate("/");
+    }
+  }, [location, navigate]);
   return (
     <>
       <div className="">
@@ -482,7 +439,7 @@ const OrderSummary = () => {
                         <span class="current-rate-amt">
                           &#x20B9;{" "}
                           {!loading && rateData
-                            ? state.type === "buy"
+                            ? state?.type === "buy"
                               ? rateData?.Data?.result?.data?.rates?.gBuy
                               : rateData?.Data?.result?.data?.rates?.gSell
                             : "Loading..."}
@@ -501,7 +458,7 @@ const OrderSummary = () => {
                           {" "}
                           &#x20B9;{" "}
                           {!loading && rateData
-                            ? state.type === "buy"
+                            ? state?.type === "buy"
                               ? rateData?.Data?.result?.data?.rates?.sBuy
                               : rateData?.Data?.result?.data?.rates?.sSell
                             : "Loading..."}{" "}
@@ -511,7 +468,7 @@ const OrderSummary = () => {
                     </div>
                     <div class="digigold-order-summery">
                       <div class="row digigold-insert-value">
-                        {state.type === "buy" && (
+                        {state?.type === "buy" && (
                           <div class="col-lg-12 mt-5 mb-5">
                             <p class="digigold-insert-title">
                               This prices will be valid for :{" "}
@@ -521,7 +478,7 @@ const OrderSummary = () => {
                         )}
                         <div
                           class={`${
-                            state.type === "buy" ? "col-lg-3" : "col-lg-4"
+                            state?.type === "buy" ? "col-lg-3" : "col-lg-4"
                           } `}
                         >
                           <p class="digigold-insert-darktext">Quantity (gms)</p>
@@ -531,7 +488,7 @@ const OrderSummary = () => {
                         </div>
                         <div
                           class={`${
-                            state.type === "buy" ? "col-lg-3" : "col-lg-4"
+                            state?.type === "buy" ? "col-lg-3" : "col-lg-4"
                           } `}
                         >
                           <p class="digigold-insert-darktext">Amount</p>
@@ -547,7 +504,7 @@ const OrderSummary = () => {
                             {currentRate && currentRate.toFixed(2)}
                           </p>
                         </div>
-                        {state.type === "buy" && (
+                        {state?.type === "buy" && (
                           <div
                             class={`${
                               state.type === "buy" ? "col-lg-3" : "col-lg-4"
@@ -561,7 +518,7 @@ const OrderSummary = () => {
                         )}
                         <div
                           class={`${
-                            state.type === "buy" ? "col-lg-3" : "col-lg-4"
+                            state?.type === "buy" ? "col-lg-3" : "col-lg-4"
                           } `}
                         >
                           <p class="digigold-insert-darktext">
@@ -592,7 +549,7 @@ const OrderSummary = () => {
                           </p>
                         </div>
                       </div>
-                      {state.type === "buy" && (
+                      {state?.type === "buy" && (
                         <div class="digigold-payment-method">
                           <p class="digigold-payment-title"> Payment method </p>
 
@@ -725,7 +682,7 @@ const OrderSummary = () => {
                         </div>
                       )}
                       {/* Digi Gold Bank Details */}
-                      {state.type === "sell" && (
+                      {state?.type === "sell" && (
                         <div class="digigold-bank-details">
                           <p class="digigold-payment-title">
                             {" "}
@@ -756,7 +713,7 @@ const OrderSummary = () => {
                                 //     </div>
                                 //   </div> */}
                                 <Form
-                                  onFinish={handleAddressAddAndUpdate}
+                                  onFinish={handleAddbankDetails}
                                   fields={[
                                     {
                                       name: "accountNumber",
@@ -774,7 +731,10 @@ const OrderSummary = () => {
                                 >
                                   <Row
                                     gutter={20}
-                                    style={{ marginTop: 10, marginBottom: 20 }}
+                                    style={{
+                                      marginTop: 10,
+                                      marginBottom: 20,
+                                    }}
                                   >
                                     <Col span={7}>
                                       <Form.Item
@@ -931,7 +891,7 @@ const OrderSummary = () => {
                                       </div>
                                       <div class="col-3 col-md-3 px-0 px-md-3 text-right">
                                         <button
-                                          onClick={updateAddress}
+                                          onClick={updateBankDetails}
                                           class="edit-bank-details"
                                         >
                                           {" "}
@@ -993,18 +953,18 @@ const OrderSummary = () => {
                         <button
                           style={{ marginTop: 10 }}
                           onClick={
-                            state.type === "buy"
+                            state?.type === "buy"
                               ? () => handleSubmit()
                               : () => handleSellSubmit()
                           }
                           class="btn btn-primery"
                         >
                           {" "}
-                          {state.type === "buy"
+                          {state?.type === "buy"
                             ? "Proceed to Pay"
                             : "Proceed to Sell"}
                         </button>
-                        {state.type === "buy" && walletShow && (
+                        {state?.type === "buy" && walletShow && (
                           <div>
                             <h2
                               style={{
@@ -1028,6 +988,7 @@ const OrderSummary = () => {
           </div>
         </section>
       </div>
+
       <Modal
         footer={[<button></button>]}
         onCancel={handleClose}
@@ -1057,7 +1018,7 @@ const OrderSummary = () => {
               Go to my Orders
             </button>
           </div>
-          {state.type === "buy" && (
+          {state?.type === "buy" && (
             <p class="success-note mb-5 mt-4">
               Note: Gold/ Silver once purchased can be sold after 48 hours
             </p>

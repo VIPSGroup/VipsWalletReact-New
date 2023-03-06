@@ -120,6 +120,7 @@ export const UpdateBankAccountDetails = async ({
   formData.append("accountName", accountName);
   formData.append("ifscCode", ifscCode);
   formData.append("user_bank_id", user_bank_id);
+  formData.append("status", "active");
 
   try {
     const res = await axios.post(
