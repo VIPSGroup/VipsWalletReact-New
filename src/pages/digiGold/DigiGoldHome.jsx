@@ -1,5 +1,5 @@
 import { Button, Form, Input, InputNumber } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/digigold/gold-home.css";
@@ -106,6 +106,7 @@ const DigiGoldHome = () => {
     username: "",
     password: "",
     metalType: "",
+    type: "",
   });
   const [active, setActive] = useState(0); // 0 for Buy & 1 for Sell
   const { logData } = useSelector((state) => state.registerDigiSlice.login);
@@ -116,14 +117,19 @@ const DigiGoldHome = () => {
     (state) => state.digiGoldSlice.rates
   );
   const handleClick = () => {
-    valueType.uniqueId = loggedInUser.Id;
-    valueType.username = loggedInUser.UserName;
-    valueType.password = loggedInUser.TRXNPassword;
+    valueType.uniqueId = loggedInUser?.Id;
+    valueType.username = loggedInUser?.UserName;
+    valueType.password = loggedInUser?.TRXNPassword;
+    valueType.type = active === 0 ? "buy" : "sell";
     // valueType.taxes = rateData?.Data?.result?.data?.taxes;
     if (!loggedInUser) {
       navigate("/login");
     } else {
-      navigate("/digigold-order-summary", { state: valueType });
+      if (rateData.ResponseStatus !== 0 && !loading) {
+        navigate("/digigold-order-summary", { state: valueType });
+      } else {
+        alert("Something Went Wrong");
+      }
     }
   };
   useEffect(() => {
@@ -160,20 +166,23 @@ const DigiGoldHome = () => {
   const handleGramsChange = (e) => {
     setGrams(e.target.value);
     const gram = parseFloat(e.target.value);
-    const gGram = parseFloat(logData.Data.GoldGrams);
-    const sGram = parseFloat(logData.Data.SilverGrams);
+    const gGram = parseFloat(logData?.Data?.GoldGrams);
+    const sGram = parseFloat(logData?.Data?.SilverGrams);
     // console.log(gram > (isGold === 0 ? gGram : sGram), "hjgfdf")
-    if (active === 1 && gram > (isGold === 0 ? gGram : sGram)) {
-      setErr(
-        ` You can sell up to ${
-          isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4)
-        } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
-          isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4)
-        } gm `
-      );
-    } else {
-      setErr("");
+    if (logData.Data) {
+      if (active === 1 && gram > (isGold === 0 ? gGram : sGram)) {
+        setErr(
+          ` You can sell up to ${
+            isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4)
+          } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+            isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4)
+          } gm `
+        );
+      } else {
+        setErr("");
+      }
     }
+
     const TotalAmount =
       (active === 0 &&
         isGold === 0 &&
@@ -194,7 +203,7 @@ const DigiGoldHome = () => {
       valType: "Grams",
       metalType: isGold === 0 ? "gold" : "silver",
     });
-
+    console.log(TotalAmount, "TotalAmount");
     setAmount(TotalAmount);
   };
 
@@ -600,4 +609,4 @@ export const howItWorkArr = [
   },
 ];
 
-export default DigiGoldHome;
+export default memo(DigiGoldHome);

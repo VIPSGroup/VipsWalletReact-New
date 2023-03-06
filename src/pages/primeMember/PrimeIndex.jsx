@@ -5,7 +5,6 @@ import { googleAnalytics } from "../../constants";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../../components/layout/Footer/Footer";
-
 ReactGA.initialize(googleAnalytics);
 
 const PrimeIndex = ({ setIsBottomTopNav }) => {
@@ -18,7 +17,6 @@ const PrimeIndex = ({ setIsBottomTopNav }) => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
   }, []);
-
   const primeSection = () => (
     <>
       {/* <!-- prime member top banner start --> */}
@@ -293,7 +291,6 @@ const PrimeIndex = ({ setIsBottomTopNav }) => {
       {/** <!-- CHECK OUT YOUR PRIME MEMBERSHIP end --> */}
     </>
   );
-
   return (
     <>
       {primeSection()}

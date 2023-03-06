@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 import "../../../assets/styles/core/commonTopNav.css";
-
+import "../../../assets/styles/digigold/digi-gold-profile.css";
+import "../../../assets/styles/digigold/gold-home.css";
 import { FiUser } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
 import { IoWalletOutline } from "react-icons/io5";
 
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useResolvedPath } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { vendorPanelAPi } from "../../../constants";
-import { Badge } from "antd";
+import { Avatar, Badge, Button, Dropdown } from "antd";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 const CommonTopNav = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { wishCount } = useSelector((state) => state.wishlistSlice);
+  const { pathname } = useResolvedPath();
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
@@ -33,6 +36,7 @@ const CommonTopNav = () => {
           onClick: () => {
             localStorage.removeItem("user");
             localStorage.removeItem("digiUser");
+            navigate("/");
             window.location.reload();
             return "Click Yes";
           },
@@ -45,7 +49,44 @@ const CommonTopNav = () => {
       overlayClassName: "overlay-custom-class-name",
     });
   };
-
+  const items = [
+    {
+      key: "1",
+      label: (
+        <Link to={"/digigold-profile"} style={{ fontSize: 17 }}>
+          My Profile
+        </Link>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
+          My Orders
+        </Link>
+      ),
+    },
+    {
+      key: "3",
+      label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+    },
+    {
+      key: "4",
+      label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+    },
+    {
+      key: "5",
+      label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+    },
+    {
+      key: "6",
+      label: (
+        <Link onClick={clickLogout} style={{ fontSize: 17 }}>
+          Logout
+        </Link>
+      ),
+    },
+  ];
   const CheckWalletBalance = async () => {
     const username = loggedInUser && loggedInUser?.UserName;
     const password = loggedInUser && loggedInUser?.TRXNPassword;
@@ -126,34 +167,44 @@ const CommonTopNav = () => {
 
             <div class="collapse navbar-collapse d-flex flex-row align-self-start justify-content-end">
               <ul class="navbar-nav nabar-right-icon ml-auto flex-row align-self-start">
-                <li class="nav-item">
-                  <Link class="nav-link nav-icons" to="/shopping/cart">
-                    {/* <Badge count={cartCount && cartCount?.length}> */}
-                    <AiOutlineShoppingCart className="nav-icon" />
-                    {/* </Badge> */}
-                    {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
-                    <span class="d-xl-block d-none d-md-none d-sm-none ">
-                      {" "}
-                      My Cart{" "}
-                    </span>
-                  </Link>
-                </li>
-                <li class="nav-item">
-                  <Link
-                    class="nav-link nav-icons"
-                    to="/shopping/wishlist"
-                    role="button"
-                  >
-                    {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
-                    <Badge count={wishCount && wishCount?.length}>
-                      <AiOutlineHeart className="nav-icon" />
-                    </Badge>
-                    <span class="d-xl-block d-none d-md-none d-sm-none">
-                      {" "}
-                      Wishlist{" "}
-                    </span>
-                  </Link>
-                </li>
+                {pathname !== "/digigold" &&
+                  pathname !== "/digigold-order-summary" &&
+                  pathname !== "/digigold-profile" &&
+                  pathname !== "/digigold-orders" && (
+                    <li class="nav-item">
+                      <Link class="nav-link nav-icons" to="/shopping/cart">
+                        {/* <Badge count={cartCount && cartCount?.length}> */}
+                        <AiOutlineShoppingCart className="nav-icon" />
+                        {/* </Badge> */}
+                        {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
+                        <span class="d-xl-block d-none d-md-none d-sm-none ">
+                          {" "}
+                          My Cart{" "}
+                        </span>
+                      </Link>
+                    </li>
+                  )}
+                {pathname !== "/digigold" &&
+                  pathname !== "/digigold-order-summary" &&
+                  pathname !== "/digigold-profile" &&
+                  pathname !== "/digigold-orders" && (
+                    <li class="nav-item">
+                      <Link
+                        class="nav-link nav-icons"
+                        to="/shopping/wishlist"
+                        role="button"
+                      >
+                        {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
+                        <Badge count={wishCount && wishCount?.length}>
+                          <AiOutlineHeart className="nav-icon" />
+                        </Badge>
+                        <span class="d-xl-block d-none d-md-none d-sm-none">
+                          {" "}
+                          Wishlist{" "}
+                        </span>
+                      </Link>
+                    </li>
+                  )}
 
                 {loggedInUser ? (
                   <li class="nav-item">
@@ -258,64 +309,86 @@ const CommonTopNav = () => {
                     </div>
                   </li>
                 ) : null}
-
                 {loggedInUser ? (
-                  <li class="nav-item dropdown login-dropdown">
-                    <Link
-                      class="nav-link nav-icons"
-                      to="#"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      {/* <img src="/icons/profile.png" class="img-fluid nav-icon" /> */}
-                      <FiUser className="nav-icon" />
-                      <span class="d-xl-block d-none d-md-none d-sm-none">
-                        {" "}
-                        {loggedInUser?.Name?.substring(0, 7)}...{" "}
-                      </span>
-                    </Link>
-                    <ul class="dropdown-menu dropdown-position profile-dropdown">
-                      <li>
-                        <Link
-                          class="dropdown-item login-usar-name border-top-0"
-                          to="#"
-                        >
+                  pathname !== "/digigold" &&
+                  pathname !== "/digigold-order-summary" &&
+                  pathname !== "/digigold-profile" &&
+                  pathname !== "/digigold-orders" ? (
+                    <li class="nav-item dropdown login-dropdown">
+                      <Link
+                        class="nav-link nav-icons"
+                        to="#"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        {/* <img src="/icons/profile.png" class="img-fluid nav-icon" /> */}
+                        <FiUser className="nav-icon" />
+                        <span class="d-xl-block d-none d-md-none d-sm-none">
                           {" "}
-                          {loggedInUser && loggedInUser.Name}
-                        </Link>
-                      </li>
-                      <li>
-                        <Link class="dropdown-item" to="/myaccount">
-                          My Profile
-                        </Link>
-                      </li>
-                      <li>
-                        <Link class="dropdown-item" to="/shopping/wishlist">
-                          My Wishlist
-                        </Link>
-                      </li>
+                          {loggedInUser?.Name?.substring(0, 7)}...{" "}
+                        </span>
+                      </Link>
+                      <ul class="dropdown-menu dropdown-position profile-dropdown">
+                        <li>
+                          <Link
+                            class="dropdown-item login-usar-name border-top-0"
+                            to="#"
+                          >
+                            {" "}
+                            {loggedInUser && loggedInUser.Name}
+                          </Link>
+                        </li>
+                        <li>
+                          <Link class="dropdown-item" to="/myaccount">
+                            My Profile
+                          </Link>
+                        </li>
+                        <li>
+                          <Link class="dropdown-item" to="/shopping/wishlist">
+                            My Wishlist
+                          </Link>
+                        </li>
 
-                      <li>
-                        <Link class="dropdown-item" to="/passbook">
-                          Passbook
-                        </Link>
-                      </li>
-                      {/* <li>
+                        <li>
+                          <Link class="dropdown-item" to="/passbook">
+                            Passbook
+                          </Link>
+                        </li>
+                        {/* <li>
                       <a class="dropdown-item" href="/myaccount">
                         Change Password
                       </a>
                     </li> */}
-                      <li>
-                        <button
-                          onClick={clickLogout}
-                          class="dropdown-item border-bottom-0"
-                        >
-                          Sign Out
-                        </button>
-                      </li>
-                    </ul>
-                  </li>
+                        <li>
+                          <button
+                            onClick={clickLogout}
+                            class="dropdown-item border-bottom-0"
+                          >
+                            Sign Out
+                          </button>
+                        </li>
+                      </ul>
+                    </li>
+                  ) : (
+                    <Dropdown
+                      menu={{
+                        items,
+                      }}
+                      placement="bottomRight"
+                      arrow
+                    >
+                      <Avatar
+                        style={{
+                          backgroundColor: "#393186",
+                          fontWeight: "boldF",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {loggedInUser.Name.slice(0, 2)}
+                      </Avatar>
+                    </Dropdown>
+                  )
                 ) : (
                   <li className="nav-item">
                     <Link class="nav-link nav-icons" to="/login">
@@ -331,82 +404,146 @@ const CommonTopNav = () => {
             </div>
           </div>
         </nav>
-
         {/* {<!-- header bottom start -->} */}
         <div class="section inpage-navbar-bottom-services">
-          <div class="container-fluid">
-            <div class="navbar-bottom-services-outer">
-              <div class="navbar-bottom-serv-box">
-                <Link to="/services/mobileRecharge">
-                  <img src="/images/services/white-recharge.svg" />
+          {pathname !== "/digigold" &&
+          pathname !== "/digigold-order-summary" &&
+          pathname !== "/digigold-profile" &&
+          pathname !== "/digigold-orders" ? (
+            <div class="container-fluid">
+              <div class="navbar-bottom-services-outer">
+                <div class="navbar-bottom-serv-box">
+                  <Link to="/services/mobileRecharge">
+                    <img src="/images/services/white-recharge.svg" />
 
-                  <span class="navbar-bottom-serv-box-title">Recharge</span>
-                </Link>
-              </div>
-
-              <div class="navbar-bottom-serv-box">
-                <Link to="/services/dth">
-                  <img src="/images/services/white-dth.svg" />
-                  <span class="navbar-bottom-serv-box-title">DTH</span>
-                </Link>
-              </div>
-
-              <div class="navbar-bottom-serv-box">
-                <Link to="/services/fastag">
-                  <img src="/images/services/white-fastag.svg" />
-                  <span class="navbar-bottom-serv-box-title">Fastag</span>
-                </Link>
-              </div>
-
-              <div class="navbar-bottom-serv-box">
-                <Link to="/services/electricity">
-                  <img src="/images/services/white-electricity.svg" />
-
-                  <span class="navbar-bottom-serv-box-title">Electricity</span>
-                </Link>
-              </div>
-
-              <div class="navbar-bottom-serv-box">
-                <Link to="/services/digitalCable">
-                  <img src="/images/services/white-digital-cable.svg" />
-                  <span class="navbar-bottom-serv-box-title">
-                    Digital Cable
-                  </span>
-                </Link>
-              </div>
-
-              <div class="navbar-bottom-serv-box">
-                <Link to="/services/landline">
-                  <img src="/images/services/white-landline.svg" />
-                  <span class="navbar-bottom-serv-box-title">LandLine</span>
-                </Link>
-              </div>
-
-              <div class="navbar-bottom-serv-box">
-                <Link to="/services/gas">
-                  <img src="/images/services/white-piped-gas.svg" />
-                  <span class="navbar-bottom-serv-box-title">Gas</span>
-                </Link>
-              </div>
-
-              <div class="navbar-bottom-serv-box">
-                <div class="">
-                  <Link to="/services">
-                    <img
-                      src="/images/services/white-three-dot.svg"
-                      class="vert-align"
-                    />
-                    <span class="navbar-bottom-serv-box-title">View More</span>
+                    <span class="navbar-bottom-serv-box-title">Recharge</span>
                   </Link>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <Link to="/services/dth">
+                    <img src="/images/services/white-dth.svg" />
+                    <span class="navbar-bottom-serv-box-title">DTH</span>
+                  </Link>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <Link to="/services/fastag">
+                    <img src="/images/services/white-fastag.svg" />
+                    <span class="navbar-bottom-serv-box-title">Fastag</span>
+                  </Link>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <Link to="/services/electricity">
+                    <img src="/images/services/white-electricity.svg" />
+
+                    <span class="navbar-bottom-serv-box-title">
+                      Electricity
+                    </span>
+                  </Link>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <Link to="/services/digitalCable">
+                    <img src="/images/services/white-digital-cable.svg" />
+                    <span class="navbar-bottom-serv-box-title">
+                      Digital Cable
+                    </span>
+                  </Link>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <Link to="/services/landline">
+                    <img src="/images/services/white-landline.svg" />
+                    <span class="navbar-bottom-serv-box-title">LandLine</span>
+                  </Link>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <Link to="/services/gas">
+                    <img src="/images/services/white-piped-gas.svg" />
+                    <span class="navbar-bottom-serv-box-title">Gas</span>
+                  </Link>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <div class="">
+                    <Link to="/services">
+                      <img
+                        src="/images/services/white-three-dot.svg"
+                        class="vert-align"
+                      />
+                      <span class="navbar-bottom-serv-box-title">
+                        View More
+                      </span>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div class="container-fluid ">
+              <div
+                style={{ display: "flex", justifyContent: "space-evenly" }}
+                class="navbar-bottom-services-outer"
+              >
+                <div class="navbar-bottom-serv-box">
+                  <a href="#">
+                    <img
+                      src="/images/digigold-images/buy-white-icon.svg"
+                      alt=""
+                    />
+                    <span class="navbar-bottom-serv-box-title">Buy Gold</span>
+                  </a>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <a href="#">
+                    <img
+                      src="images/digigold-images/sell-white-icon.svg"
+                      alt=""
+                    />
+                    <span class="navbar-bottom-serv-box-title">Sell Gold</span>
+                  </a>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <a href="#">
+                    <img
+                      src="images/digigold-images/sip-white-icon.svg"
+                      alt=""
+                    />
+                    <span class="navbar-bottom-serv-box-title">SIP</span>
+                  </a>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <a href="electricity-bill-1.html">
+                    <img
+                      src="images/digigold-images/delivery-white-icon.svg"
+                      alt=""
+                    />
+                    <span class="navbar-bottom-serv-box-title">Delivery</span>
+                  </a>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <a href="#">
+                    <img
+                      src="images/digigold-images/buy-white-icon.svg"
+                      alt=""
+                    />
+                    <span class="navbar-bottom-serv-box-title">Gift</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
           {/* {<!-- container-->} */}
         </div>
         {/* {<!-- header bottom end -->} */}
       </header>
-
       {/* {<!-- Sidebar start -->} */}
       <nav id="sidebar" class="sidebar-navigation">
         <div class="sidebar-header">

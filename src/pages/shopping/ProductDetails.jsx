@@ -231,7 +231,7 @@ const ProductDetails = () => {
     ReactGA.pageview(window.location.pathname);
     var p = {};
     console.log("______", productId);
-    dispatch(getSingleProductData());
+    dispatch(getSingleProductData({productId}));
     // getSingleProductData(productId).then((response) => {
     //   p = response.Data.ProductDetails;
     //   setProduct(response.Data.ProductDetails);

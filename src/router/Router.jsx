@@ -67,6 +67,9 @@ import ShippingAddress from "../pages/shopping/ShippingAddress";
 import Checkout from "../pages/shopping/ShoppingCheckout";
 import DigiGoldHome from "../pages/digiGold/DigiGoldHome";
 import OrderSummary from "../pages/digiGold/OrderSummary";
+import DigiProfile from "../pages/digiGold/DigiProfile";
+import MyOrders from "../pages/digiGold/MyOrdersPage";
+import MyOrdersPage from "../pages/digiGold/MyOrdersPage";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
@@ -379,6 +382,8 @@ const Router = () => {
         />
         <Route path="/digigold" element={<DigiGoldHome />} />
         <Route path="/digigold-order-summary" element={<OrderSummary />} />
+        <Route path="/digigold-profile" element={<DigiProfile />} />
+        <Route path="/digigold-orders" element={<MyOrdersPage />} />
 
         <Route
           path="/prime"

@@ -1,6 +1,6 @@
 import { Button, Checkbox, Form, Input, Select } from "antd";
 import Modal from "antd/es/modal/Modal";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-signin.css";
 import { modalClose } from "../../redux/slices/digiGold/digiGoldSlice";
@@ -478,4 +478,4 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
   );
 };
 
-export default DigiGoldSignup;
+export default memo(DigiGoldSignup);
