@@ -116,7 +116,6 @@ const coreSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getServiceDiscounts.fulfilled, (state, action) => {
-      console.log(action.payload);
       //   const discountObj = action.payload.Data.find((r) => r.Id === "1");
       //   const sDiscount = (discountObj.ShoppingPer / 100) * action.payload[0];
       //   const pDiscount = (discountObj.PrimePointPer / 100) * action.payload[0];

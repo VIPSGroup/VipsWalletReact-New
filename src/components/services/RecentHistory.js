@@ -56,18 +56,7 @@ if(loggedInUser){
                   <div class="text-center">
                     <img src="/images/No_Data.svg" />
                   </div>
-                ) : null}
-              </div>
-
-              {/* {loading ? (
-                  <LoadingBar color="#CA3060" />
-                ) : rechargeHistory.length < 1 ? (
-                  <div class="text-center">
-                    <img src="/images/No_Data.svg" />
-                  </div>
-                ) : null} */}
-
-              <table class="table text-nowrap table-borderless mobile-recharge-table">
+                ) :!loading && <table class="table text-nowrap table-borderless mobile-recharge-table">
                 <tbody>
                   
                   {rechargeHistoryList &&
@@ -139,7 +128,18 @@ onClick={()=>{setMobileNo(r.Number)
                       </tr>
                     ))}
                 </tbody>
-              </table>
+              </table>}
+              </div>
+
+              {/* {loading ? (
+                  <LoadingBar color="#CA3060" />
+                ) : rechargeHistory.length < 1 ? (
+                  <div class="text-center">
+                    <img src="/images/No_Data.svg" />
+                  </div>
+                ) : null} */}
+
+              
             </div>
           </div>
         </div>

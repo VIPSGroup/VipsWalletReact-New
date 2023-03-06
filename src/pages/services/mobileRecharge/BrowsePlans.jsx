@@ -86,7 +86,7 @@ const BrowsePlans = ({
       setSpPlans(specialPlans);
           setActivePlans(specialPlans);
     }else{
-          setError("Something went wrong");
+          setError("Plan Not Available");
         }
   }, [dispatch,rechargePlans,specialPlans])
   

@@ -38,7 +38,6 @@ const AccountWireframe = () => {
     backgroundColor: "#CA3060",
     color: "#fff",
   };
-  console.log(data.Data, "data");
   const handleMenuClick = (e) => {
     setSelectedMenu(e.target.value);
   };
@@ -78,8 +77,6 @@ const AccountWireframe = () => {
     //   }
     // );
   }, []);
-  console.log(gabBal, "gabBal");
-  console.log(data, "data");
   const accountSection = () => (
     <>
       <section class="inpage-section-align my-account">

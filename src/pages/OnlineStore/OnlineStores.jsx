@@ -2,17 +2,16 @@ import React from "react";
 import { useState, useEffect } from "react";
 import ReactGA from "react-ga";
 import "../../assets/styles/onlineStores.css";
-import Footer from "../../components/layout/Footer/Footer";
 import { googleAnalytics } from "../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import { getAffiliate } from "../../redux/slices/onlineStoreSlice";
-import { LatestLoading } from "../../components/common/Loading";
+// import { LatestLoading } from "../../components/common/Loading";
+import { Loading, ThemeButton } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 
 const OnlineStores = () => {
   const dispatch = useDispatch();
   const { data, loading } = useSelector((state) => state.onlineStoreSlice);
-  console.log(data, "aaa");
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
     dispatch(getAffiliate());
@@ -59,7 +58,8 @@ const OnlineStores = () => {
                 </div>
               ))
             ) : (
-              <LatestLoading />
+              // <LatestLoading />
+              <Loading/>
             )}
           </div>
         </div>
@@ -212,10 +212,11 @@ const OnlineStores = () => {
 
             <div class="modal-footer">
               <div class="online-store-btn">
-                <button href="#" class="btn-primery">
+                {/* <button href="#" class="btn-primery">
                   {" "}
                   Continue{" "}
-                </button>
+                </button> */}
+                <ThemeButton value={"Continue"} />
               </div>
             </div>
           </div>

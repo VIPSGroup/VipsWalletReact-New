@@ -7,7 +7,9 @@ export const GetUserProfileDetails = createAsyncThunk(
   async () => {
     try {
       const res = await axios.post(`${digiBaseUrl}GetUserProfileDetails`);
+
       return res.data;
+
     } catch (error) {}
   }
 );

@@ -14,9 +14,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getWalletBalance } from "../../../redux/slices/walletSlice";
 import { getServiceDiscounts } from "../../../redux/slices/services/commonSlice";
 import { OnlinefinalElecticity } from "../../../redux/slices/services/electricitySlice";
+import { MuiSnackBar, ThemeButton } from "../../../components/common";
 ReactGA.initialize(googleAnalytics);
 
-const ElectricityConfirmation = () => {
+const ElectricityConfirmation = ({setIsCommonTopNav}) => {
   const location = useLocation();
   const props = location.state;
   var amt = props.amount;
@@ -130,6 +131,7 @@ dispatch(OnlinefinalElecticity({username: loggedInUser.Mobile,password:loggedInU
   };
 
   useEffect(() => {
+    setIsCommonTopNav(false)
     ReactGA.pageview(window.location.pathname);
     setLoading(false);
     const userName = loggedInUser && loggedInUser.UserName;
@@ -139,7 +141,8 @@ dispatch(OnlinefinalElecticity({username: loggedInUser.Mobile,password:loggedInU
         dispatch(getWalletBalance({userName,password}))
       }
     }
-return ()=>{setShowSuccess(false)}
+return ()=>{setShowSuccess(false)
+  setIsCommonTopNav(true)}
   }, []);
 
   useEffect(() => {
@@ -170,9 +173,7 @@ return ()=>{setShowSuccess(false)}
         }
       } else {
         setIsSnackBar(true);
-        setErrorMsg(
-          rechargeData.Data ? rechargeData.Data.ResponseMessage : rechargeData.Remarks
-        );
+        setErrorMsg(rechargeData.Data.ResponseMessage);
       }
     }
       }, [data.Data, selectedDiscount,rechargeData])
@@ -222,7 +223,7 @@ return ()=>{setShowSuccess(false)}
                                 {b.Name} : <label>{b.Value} </label>{" "}
                               </p>
                             ))
-                          : inputFields.map((b, i) => (
+                          :  inputFields.map((b, i) => (
                               <p class="mob-paymet-recharge-text">
                                 {b.fieldName} : <label>{b.fieldValue} </label>{" "}
                               </p>
@@ -437,7 +438,7 @@ return ()=>{setShowSuccess(false)}
 
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
-                        <button
+                        {/* <button
                           onClick={!reLoading && handleClickConfirm}
                           type="button"
                           class="btn-primery"
@@ -458,7 +459,8 @@ return ()=>{setShowSuccess(false)}
                           ) : (
                             "Confirm Payment"
                           )}{" "}
-                        </button>
+                        </button> */}
+                        <ThemeButton loading={reLoading} value={'Confirm Payment'} onClick={handleClickConfirm}/>
                       </div>
                       {showError()}
                     </div>
@@ -473,14 +475,14 @@ return ()=>{setShowSuccess(false)}
               </div>
             </div>
 
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </section>

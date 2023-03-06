@@ -9,6 +9,7 @@ import "../../assets/styles/styles.css";
 import { needHelpUrl, googleAnalytics } from "../../constants";
 import ReactGA from "react-ga";
 import { useSelector } from "react-redux";
+import { ThemeButton } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 
 const ServiceSuccess = () => {
@@ -18,7 +19,6 @@ const ServiceSuccess = () => {
 // const { rechargeData } = useSelector(state => state.commonSlice.finalRecharge);
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    console.log(props);
   }, []);
   return (
     <div className="color-body">
@@ -247,10 +247,11 @@ const ServiceSuccess = () => {
                   </div>
 
                   <div class="recharge-success-btn">
-                    <button onClick={() => navigate("/")} class="btn-primery">
+                    <ThemeButton onClick={() => {navigate("/")}} value={"Done"}/>
+                    {/* <button onClick={() => navigate("/")} class="btn-primery">
                       {" "}
                       Done{" "}
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>

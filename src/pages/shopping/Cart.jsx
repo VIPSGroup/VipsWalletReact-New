@@ -9,6 +9,7 @@ import { getWalletBalance } from "../../apiData/user/userDetails";
 import ReactGA from "react-ga";
 import { googleAnalytics } from "../../constants";
 import { useSelector } from "react-redux";
+import { MuiSnackBar, ThemeButton } from "../../components/common";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -296,7 +297,7 @@ const Cart = ({ setIsHomeTopNav }) => {
 
                       <div class="col-md-12">
                         <div class="shopping-cart-payment-confirm-btn">
-                          <button
+                          {/* <button
                             onClick={(e) => {
                               e.preventDefault();
                               if (totalAmount > 0) {
@@ -317,7 +318,22 @@ const Cart = ({ setIsHomeTopNav }) => {
                           >
                             {" "}
                             Place Order{" "}
-                          </button>
+                          </button> */}
+                          <ThemeButton onClick={(e) => {
+                              e.preventDefault();
+                              if (totalAmount > 0) {
+                                if (loggedInUser) {
+                                  navigate("/shopping/address", {
+                                    state: {
+                                      products: cartProducts,
+                                      totalAmount: totalAmount,
+                                    },
+                                  });
+                                } else {
+                                  navigate("/login");
+                                }
+                              }
+                            }} disabled={cartProducts.length < 1 ? true : false} value={"Place Order"}/>
                         </div>
                       </div>
                     </div>
@@ -349,14 +365,14 @@ const Cart = ({ setIsHomeTopNav }) => {
             </div>
           )}
 
-          {/* <MuiSnackBar
+          <MuiSnackBar
             open={isSnackBar}
             setOpen={setIsSnackBar}
             successMsg={successMsg}
             errorMsg={errorMsg}
             setSuccess={setSuccessMsg}
             setError={setErrorMsg}
-          /> */}
+          />
         </div>
       </div>
     </section>

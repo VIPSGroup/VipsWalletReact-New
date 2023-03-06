@@ -18,7 +18,6 @@ const Profile = () => {
 const {loggedInUser}=  useSelector(state=>state.login)
 
   useEffect(() => {
-    console.log(loggedInUser);
     getProfileDetails({username:loggedInUser.Mobile, password:loggedInUser.TRXNPassword}).then((response) => {
       setUserDetails(response.Data[0]);
       listStateAndCity().then((res) => {

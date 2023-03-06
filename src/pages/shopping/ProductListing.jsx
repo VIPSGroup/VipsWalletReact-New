@@ -19,6 +19,7 @@ import {
   getProductsByCategory,
   getSubCategory,
 } from "../../redux/slices/shopping/productSlice";
+import { Loading } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 const ProductListing = () => {
   const dispatch = useDispatch();
@@ -250,7 +251,8 @@ const ProductListing = () => {
       {activeProducts?.length !== 0 && activeProducts !== undefined ? (
         productsDisplay()
       ) : (
-        <LatestLoading />
+        // <LatestLoading />
+        <Loading/>
       )}
       {/* <Footer /> */}
     </div>

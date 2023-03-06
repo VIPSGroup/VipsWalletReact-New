@@ -40,7 +40,6 @@ export const getSingleProductData = (productId) => {
     body: formData,
   })
     .then((data) => {
-      console.warn(data.json());
       return data.json();
     })
     .catch((err) => {});

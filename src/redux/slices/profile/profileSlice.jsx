@@ -40,6 +40,7 @@ export const changePassword = createAsyncThunk(
         `${baseApiUrl}/UserServices/GetChangePassword`,
         formData
       );
+      console.warn(res.data);
       return res.data;
     } catch (error) {}
   }
@@ -66,7 +67,7 @@ export const changePassword = createAsyncThunk(
 //   //   })
 //   //   .catch((err) => {});
 // };
-export const getProfileDetails = (username, password) => {
+export const getProfileDetails = ({username, password}) => {
   const formData = new FormData();
   formData.append("UserName", username);
   formData.append("Password", password);
@@ -94,7 +95,7 @@ const profileSlice = createSlice({
       state.changePass.loading = true;
     });
     builder.addCase(changePassword.fulfilled, (state, action) => {
-      state.changePass.success = true;
+      state.changePass.success = action.payload;
       state.changePass.loading = false;
     });
   },

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getStateCity } from "../../../redux/slices/profile/signUpSlice";
 import { SelectField } from "../../forms";
 import { addAddress } from "../../../redux/slices/pincodeSlice";
+import { MuiSnackBar, ThemeButton } from "../../common";
 
 const AddShippingAddressModal = () => {
   const [showModal, setShowModal] = useState(false);
@@ -50,6 +51,7 @@ const AddShippingAddressModal = () => {
 
     onSubmit: (values, { resetForm }) => {
       if (!getData.stateError && !getData.cityError) {
+        setLoading(true)
         addAddress(
           values,
           loggedInUser.Mobile,
@@ -57,12 +59,14 @@ const AddShippingAddressModal = () => {
           getData.stateName,
           getData.cityName
         ).then((response) => {
-          console.log(response);
           if (response.ResponseStatus == 1) {
+            setErrorMsg("")
             setIsSnackBar(true);
             setSuccessMsg(response.Remarks);
             window.location.reload();
           } else {
+            setSuccessMsg("")
+            setIsSnackBar(true);
             setErrorMsg(response.Remarks);
           }
           setLoading(false);
@@ -97,7 +101,6 @@ const AddShippingAddressModal = () => {
     }
     if (formik.values.pincode.length == 6) {
       if (stateCityByPincode?.ResponseStatus === 1) {
-        console.warn(stateCityByPincode.Data[0]);
         setGetData({
           ...getData,
           stateName: stateCityByPincode.Data[0].StateName,
@@ -339,18 +342,35 @@ const AddShippingAddressModal = () => {
                       </label>
                     </div>
                   </div>
-                  {/* <MuiSnackBar
+                  <MuiSnackBar
                     open={isSnackBar}
                     setOpen={setIsSnackBar}
                     successMsg={successMsg}
                     errorMsg={errorMsg}
                     setSuccess={setSuccessMsg}
                     setErrorMsg={setErrorMsg}
-                  /> */}
+                  />
 
                   <div class="modal-footer">
                     <div class="shopping-address-btn">
-                      <button
+                      <ThemeButton onClick={() => {
+                          if (!getData.stateName) {
+                            if (!getData.cityName) {
+                              setGetData({
+                                ...getData,
+                                stateError: true,
+                                cityError: true,
+                              });
+                            } else {
+                              setGetData({
+                                ...getData,
+                                stateError: true,
+                                cityError: false,
+                              });
+                            }
+                          }
+                        }} value={"Save Address"} loading={loading}/>
+                      {/* <button
                         type="submit"
                         class="btn-primery"
                         onClick={() => {
@@ -373,7 +393,7 @@ const AddShippingAddressModal = () => {
                       >
                         {" "}
                         Save Address{" "}
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </form>

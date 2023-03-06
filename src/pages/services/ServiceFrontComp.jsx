@@ -7,15 +7,12 @@ import ErrorText from "../../components/common/ErrorText";
 import RecentHistory from "../../components/services/RecentHistory";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
-import { Loading } from "../../components/common";
+import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
 import { getOperatorsByServiceId } from "../../redux/slices/services/servicesSlice";
 import { fetchBill, getInputFieldsByOperator } from "../../redux/slices/services/fastagSlice";
-// import { Loading } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 
 const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
-  // const [operatorsList, setOperatorList] = useState([]);
-
   const [mobileNo, setMobileNo] = useState("");
   const [selectedOperator, setSelectedOperator] = useState("");
   const [selectedOperatorId, setSelectedOperatorId] = useState("");
@@ -27,7 +24,6 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
   const [showBill, setShowBill] = useState(false);
   const [billFetchData, setBillFetchData] = useState({});
   const [billFetchError, setBillFetchError] = useState("");
-  // const [loading, setLoading] = useState(false);
   const [opImgUrl, setOpImgUrl] = useState("");
  const [isClick, setIsClick] = useState(false)
 
@@ -38,9 +34,9 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
   );
   const { operatorsList } = useSelector(state => state.servicesSlice.operators );
   const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
-  const { billData ,loading} = useSelector(state => state.fastagSlice.getBill );
+  const { billData ,billLoading} = useSelector(state => state.fastagSlice.getBill );
   const callInputFields = (ourCode) => {
-    setIsClick(true)
+    // setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
   };
 
@@ -55,7 +51,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
     } else {
       inputFields[index].validate = true;
     }
-
+    setIsClick(true)
     setInputFields(data);
   };
 
@@ -90,8 +86,6 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password: loggedInUser.TRXN
     }
   };
   useEffect(() => {
-
-    console.log("USeEffect");
     if(billData.ResponseMessage==="Successful"){
       setShowBill(true);
                     setBillFetchData(billData);
@@ -101,8 +95,10 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password: loggedInUser.TRXN
     }
   }, [billData])
   useEffect(() => {
+
     ReactGA.pageview(window.location.pathname);
 dispatch(getOperatorsByServiceId(serviceId))
+return ()=>{setIsClick(false)}
   }, [props]);
   useEffect(() => {
     const arr = []
@@ -117,6 +113,7 @@ dispatch(getOperatorsByServiceId(serviceId))
         })
       });
     }
+    setIsClick(true)
     setInputFields(arr);
   }, [operatorData])
   
@@ -325,17 +322,18 @@ dispatch(getOperatorsByServiceId(serviceId))
                     <h3 class="mobile-recharge-title"> Pay {title} Bill </h3>
                   </div>
                 </div>
-
                 <form>
                   <div class="col-md-12">
                     <div class="row">
                       <div class="col-lg-12 p-0">
                         <div class="dropdown select-option ">
+               
                           <button
                             className={
                               "dropdown-toggle select-toggle select-type" +
                               (selectedOperator ? "Active" : "")
-                            }
+                            } 
+                            // onClick={()=>{setIsClick(true)}}
                             value={selectedOperator}
                             type="button"
                             data-toggle="dropdown"
@@ -373,7 +371,7 @@ dispatch(getOperatorsByServiceId(serviceId))
                       </div>
                     </div>
 
-                    {isClick && inputFields.map((input, i) => (
+                    {selectedOperator && inputFields.map((input, i) => (
                       <div class="row">
                         <div class="col-lg-12 mobile-recharge-field p-0">
                           <div class="input-field">
@@ -444,39 +442,41 @@ dispatch(getOperatorsByServiceId(serviceId))
                                         </div>
                                         */}
 
-                    {showBill && fetchBillSection()}
+                    {showBill && mobileNo && fetchBillSection()}
 
-                    {showBillFetchError()}
+                    {mobileNo && showBillFetchError()}
 
                     <div class="col-md-12">
                       {!showBill && (
                         <div class="mobile-recharge-btn">
-                          <button
-                            onClick={!loading && clickFetchBill}
+                          {/* <button
+                            onClick={clickFetchBill}
                             class="btn-primery service-loading-btn"
                             id="addmoneymodal"
                           >
-                            {loading ? (
+                            {billLoading ? (
                               
                               <Loading />
                               
                             ) : (
                               `Fetch Bill`
                             )}
-                          </button>
+                          </button> */}
+                          <ThemeButton onClick={clickFetchBill} value={"Fetch Bill"} loading={billLoading}/>
                         </div>
                       )}
 
                       {showBill && (
                         <div class="mobile-recharge-btn">
-                          <button
+                          <ThemeButton value={"Continue"} onClick={onClick}/>
+                          {/* <button
                             onClick={onClick}
                             class="btn-primery"
                             id="addmoneymodal"
                           >
                             {" "}
                             Continue{" "}
-                          </button>
+                          </button> */}
                         </div>
                       )}
                     </div>
@@ -490,14 +490,14 @@ dispatch(getOperatorsByServiceId(serviceId))
               <RecentHistory serviceId={serviceId} />
             </div>
 
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </section>

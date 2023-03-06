@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { fetchBill } from "../../../apiData/services/electricity";
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
 import "../../../assets/styles/services/electricity/electricity.css";
 import RecentHistory from "../../../components/services/RecentHistory";
-import { operartorsUrl } from "../../../constants";
 import { fastagServiceId, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
-import { ErrorText, Loading } from "../../../components/common";
+import { ErrorText, Loading, MuiSnackBar, ThemeButton } from "../../../components/common";
 import { fetchBill, getFastagOperators, getInputFieldsByOperator } from "../../../redux/slices/services/fastagSlice";
 ReactGA.initialize(googleAnalytics);
 
@@ -24,7 +22,6 @@ const FastagFront = ({ props }) => {
   const [billFetchError, setBillFetchError] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
   const [billAmount, setBillAmount] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   const [isClick, setIsClick] = useState(false)
@@ -39,7 +36,7 @@ const dispatch= useDispatch()
   const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
   const { billData } = useSelector(state => state.fastagSlice.getBill );
   const callInputFields = (ourCode) => {
-    setIsClick(true)
+    // setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
   };
 
@@ -61,6 +58,7 @@ const dispatch= useDispatch()
     }
 
     setInputFields(data);
+    return ()=>{setIsClick(false)}
   };
 
   const handleOperatorSelection = (e, o) => {
@@ -83,7 +81,6 @@ const dispatch= useDispatch()
       if (mobileNo && mobileNo.length === 10) {
         let validateBBPSField = inputFields.filter((o) => o.validate === false);
         if (validateBBPSField.length !== 0) {
-          console.warn(validateBBPSField);
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
         } else {
@@ -95,8 +92,6 @@ const dispatch= useDispatch()
           obj.MobileNumber = mobileNo;
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
-
-          const jsonData = JSON.stringify(obj);
           dispatch(fetchBill({obj,username: loggedInUser.Mobile,password:loggedInUser.TRXNPassword}))
         }
       } else {
@@ -109,7 +104,6 @@ const dispatch= useDispatch()
     }
   };
   useEffect(() => {
-    console.log(operatorData);
     ReactGA.pageview(window.location.pathname);
     if(operatorData.length===0){
       dispatch(getFastagOperators())
@@ -123,7 +117,6 @@ const dispatch= useDispatch()
           regex: d.Regex,
           validate: false,
         })
-        console.log(inputFields);
         setInputFields(arr);
     });
     }
@@ -131,8 +124,6 @@ const dispatch= useDispatch()
   }, [props,operatorData,]);
 
 useEffect(() => {
-  
-  console.log("USeEffect");
   if(billData.ResponseMessage==="Successful"){
     // setInputFields([...inputFields,inputFields.validate=true])
     setShowBill(true);
@@ -364,6 +355,7 @@ useEffect(() => {
                             type="button"
                             data-toggle="dropdown"
                             aria-expanded="false"
+                            onClick={()=>{setIsClick(true)}}
                           >
                             {selectedOperator ? selectedOperator : "Operator"}
                           </button>
@@ -426,7 +418,7 @@ useEffect(() => {
                         </div>
                       </div>
                     ) : null}
-                    {isClick && inputFields.map((input, i) => (
+                    {selectedOperator && inputFields.map((input, i) => (
                       <div class="row">
                         <div class="col-lg-12 mobile-recharge-field p-0">
                           <div class="input-field">
@@ -479,34 +471,36 @@ useEffect(() => {
                       </div>
                     </div>
 
-                    {showBill && fetchBillSection()}
+                    {showBill && mobileNo && fetchBillSection()}
 
-                    {showBillFetchError()}
+                    {mobileNo && showBillFetchError()}
 
                     <div class="col-md-12">
                       {!showBill && (
                         <div class="mobile-recharge-btn">
-                          <button
+                          <ThemeButton loading={loading} onClick={clickFetchBill} value={"Fetch Bill"}/>
+                          {/* <button
                             onClick={!loading && clickFetchBill}
                             class="btn-primery"
                             id="addmoneymodal"
                           >
                             {loading ? <Loading /> : `Fetch Bill`}
-                          </button>
+                          </button> */}
                         </div>
                       )}
 
                       {showBill && (
                         <div class="mobile-recharge-btn">
                           {/* <button onClick={(e)=>{navigate("/services/fastag/online/confirm",{state:{billData:billFetchData,number:mobileNo,operator:selectedOperator,operatorId:selectedOperatorId}})}} class="btn-primery" id="addmoneymodal" disabled={mobileNo?false:true}> Next </button> */}
-                          <button
+                          {/* <button
                             onClick={onClickContinue}
                             class="btn-primery"
                             id="addmoneymodal"
                           >
                             {" "}
                             Continue{" "}
-                          </button>
+                          </button> */}
+                          <ThemeButton value={"Continue"} onClick={onClickContinue}/>
                         </div>
                       )}
                     </div>
@@ -519,15 +513,15 @@ useEffect(() => {
             <div class="col-sm-12 col-md-12 col-lg-7 mobile-recharge-right-outer">
               <RecentHistory type="FastTag" serviceId={fastagServiceId} />
             </div>
-
-            {/* <MuiSnackBar
+{/* {isSnackBar && <SnackBar errorMsg={errorMsg}/>} */}
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
-              successMsg={successMsg}
+              // successMsg={successMsg}
+              // setSuccess={setSuccessMsg}
               errorMsg={errorMsg}
-              setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </section>

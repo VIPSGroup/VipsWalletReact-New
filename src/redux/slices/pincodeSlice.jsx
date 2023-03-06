@@ -43,9 +43,6 @@ export const deleteAddress = createAsyncThunk(
     formData.append("UserName", Mobile);
     formData.append("password", TRXNPassword);
     formData.append("addressid", addressId);
-    console.log(Mobile, "username");
-    console.log(TRXNPassword, "password");
-    console.log(addressId, "addressId");
     const data = {
       Addressid: addressId,
       UserName: Mobile,
@@ -67,7 +64,6 @@ export const deleteAddress = createAsyncThunk(
 export const updateAddress = createAsyncThunk(
   "updateAddress",
   async ({ addressData, username, password, state, city }, thunkAPI) => {
-    console.log(addressData, "aa rha hai");
     const data = {
       Fname: addressData.fname,
       Lname: addressData.lname,

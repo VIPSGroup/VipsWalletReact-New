@@ -11,6 +11,7 @@ import {
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import { getOperators } from "../../../redux/slices/services/commonSlice";
+import { MuiSnackBar, ThemeButton } from "../../../components/common";
 
 ReactGA.initialize(googleAnalytics);
 const DthFront = ({ props }) => {
@@ -23,7 +24,6 @@ const DthFront = ({ props }) => {
   const [opImgUrl, setOpImgUrl] = useState("");
   const [amount, setamount] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
   const { operatorsList } = useSelector(state => state.commonSlice.operators );
@@ -50,7 +50,6 @@ const dispatch= useDispatch()
 
   const onNext = (e) => {
     e.preventDefault();
-
     if (mobileNo) {
       if (selectedOperator) {
         if (amount && amount > 0) {
@@ -97,7 +96,6 @@ const dispatch= useDispatch()
                     </h3>
                   </div>
                 </div>
-
                 <form>
                   <div class="col-md-12">
                     <div class="row">
@@ -179,14 +177,15 @@ const dispatch= useDispatch()
 
                     <div class="col-md-12">
                       <div class="mobile-recharge-btn">
-                        <button
+                        {/* <button
                           onClick={onNext}
                           class="btn-primery"
                           id="addmoneymodal"
                         >
                           {" "}
                           Continue{" "}
-                        </button>
+                        </button> */}
+                        <ThemeButton onClick={onNext} value={"Continue"}/>
                       </div>
                     </div>
                   </div>
@@ -203,15 +202,15 @@ const dispatch= useDispatch()
                 type={"dth"}
               />
             </div>
-
-            {/* <MuiSnackBar
+{/* {isSnackBar && <SnackBar errorMsg={errorMsg}/>} */}
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
-              successMsg={successMsg}
+              // successMsg={successMsg}
               errorMsg={errorMsg}
               setError={setErrorMsg}
-              setSuccess={setSuccessMsg}
-            /> */}
+              // setSuccess={setSuccessMsg}
+            />
           </div>
         </div>
       </section>

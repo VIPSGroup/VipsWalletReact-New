@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/onlineStores.css";
+import { Loading, ThemeButton } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading";
 // import { getAffiliate } from "../../apiData/media/home";
 import Footer from "../../components/layout/Footer/Footer";
@@ -67,7 +68,8 @@ const OnlineStores = () => {
                 </div>
               ))
             ) : (
-              <LatestLoading />
+              // <LatestLoading />
+              <Loading/>
             )}
           </div>
         </div>
@@ -220,10 +222,11 @@ const OnlineStores = () => {
 
             <div class="modal-footer">
               <div class="online-store-btn">
-                <button href="#" class="btn-primery">
+                {/* <button href="#" class="btn-primery">
                   {" "}
                   Continue{" "}
-                </button>
+                </button> */}
+                <ThemeButton value={"Continue"}/>
               </div>
             </div>
           </div>
