@@ -231,6 +231,7 @@ const ProductDetails = () => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
     var p = {};
+
     getSingleProductData(productId).then((response) => {
       p = response.Data.ProductDetails;
       setProduct(response.Data.ProductDetails);
@@ -248,6 +249,7 @@ const ProductDetails = () => {
       checkInCart(response.Data);
       getSimilarProduct(response.Data.ProductDetails.Category);
     });
+
 
     checkInWishlist();
     window.scrollTo({

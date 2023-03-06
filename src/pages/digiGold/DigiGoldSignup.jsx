@@ -1,19 +1,14 @@
 import { Button, Checkbox, Form, Input, Select } from "antd";
 import Modal from "antd/es/modal/Modal";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-signin.css";
 import { modalClose } from "../../redux/slices/digiGold/digiGoldSlice";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
-import {
-  getCityList,
-  getStateList,
-  loginDigiGold,
-  registerDigiGold,
-} from "../../redux/slices/digiGold/registerDigiSlice";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { useNavigate } from "react-router-dom";
+import { getCityList, getStateList, loginDigiGold, registerDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
 
 const DigiGoldSignup = ({ setIsDigiLogin }) => {
   const dispatch = useDispatch();
@@ -184,7 +179,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
 
                         {
                           min: 3,
-                          message: "First Name Min 3 Letters",
+                          message: "Full Name Min 3 Letters",
                         },
                       ]}
                     >
@@ -483,4 +478,4 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
   );
 };
 
-export default DigiGoldSignup;
+export default memo(DigiGoldSignup);

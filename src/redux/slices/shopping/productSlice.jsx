@@ -21,7 +21,7 @@ export const getPromotionalProduct = createAsyncThunk(
 );
 export const getSingleProductData = createAsyncThunk(
   "getSingleProductData",
-  async (productId) => {
+  async ({productId}, thunkAPI) => {
     const formData = new FormData();
     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
     formData.append("Productid", productId);

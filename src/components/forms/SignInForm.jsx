@@ -475,7 +475,7 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
                               src="/images/VipsLogoMain.png"
                               alt="VIPS Logo"
                             />
-                            <h2>OTP Verification</h2>
+                            <h2>OTP 55ication</h2>
                             <div class="otp-send-to">
                               <p>
                                 Enter the OTP sent to

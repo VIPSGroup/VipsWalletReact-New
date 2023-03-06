@@ -1,71 +1,248 @@
+import { Button, Col, Form, Input, Modal, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { ThemeButton } from "../../components/common";
-import { fetchGoldSilverRates } from "../../redux/slices/digiGold/digiGoldSlice";
+
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LatestLoading } from "../../components/common/Loading";
+import {
+  BuyDigiGold,
+  fetchGoldSilverRates,
+  GetUserBankList,
+  SellDigiGold,
+  UpdateBankAccountDetails,
+  UserbankAccountCreate,
+} from "../../redux/slices/digiGold/digiGoldSlice";
+import { loginDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
+import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
+import "../../assets/styles/digigold/sell-order-summery.css";
+import OTPInput, { ResendOTP } from "otp-input-react";
+import { FaHashtag, FaUser } from "react-icons/fa";
+
 
 const OrderSummary = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [goldRate, setGoldRate] = useState("");
-  const [silverRate, setsilverRate] = useState("");
-  const [goldGram, setGoldGram] = useState("");
-  const [silverGram, setSilverGram] = useState("");
-  const [counter, setCounter] = useState(300); // 5 minutes in seconds
-  const [bye, setBuy] = useState(true); //default Buy , then Sell,
+
+  const location = useLocation();
+
   const [totalAmount, setTotalAmount] = useState("");
+  const [step, setStep] = useState(0);
+  const [editAddress, setEditAddress] = useState(false);
+  const [lockprice, setLockPrice] = useState();
+  const [load, setLoad] = useState(false);
+  const [response, setResponse] = useState();
   const [tax, setTax] = useState("");
+  const [modal, setModal] = useState(false);
+  const [currentRate, setCurrentRate] = useState("");
+  const [currentGram, setCurrentGram] = useState("");
+  const [blockId, setBlockId] = useState("");
+  const [counter, setCounter] = useState(300); // 5 minutes in seconds
+  const [walletShow, setWalletShow] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [formValue, setFormValue] = useState({
+    accountNumber: "",
+    accountName: "",
+    ifscCode: "",
+  });
   const { rateData, loading } = useSelector(
     (state) => state.digiGoldSlice.rates
   );
+  const { list, loading: listLoad } = useSelector(
+    (state) => state.digiGoldSlice.bankList
+  );
+  const { logData } = useSelector((state) => state.registerDigiSlice.login);
+  const { data, loading: walletLoad } = useSelector(
+    (state) => state.walletSlice.walletBalance
+  );
+  // Complete Login is this UseEffecgt
   useEffect(() => {
-    const timer =
-      counter > 0 &&
-      setInterval(() => {
-        setCounter(counter - 1);
-      }, 1000);
-
-    return () => clearInterval(timer);
-  }, [counter]);
-  useEffect(() => {
-    if (counter === 0) {
+    if (counter === 0 || counter === 300) {
       const fetchRates = async () => {
         const res = await dispatch(fetchGoldSilverRates());
-        setGoldRate(
-          state.metalType === "gold" &&
-            res.payload?.Data?.result?.data?.rates?.gBuy * state.valueinGm
-        );
-        setsilverRate(
-          state.metalType === "silver" &&
-            res.payload?.Data?.result?.data?.rates?.sBuy * state.valueinGm
-        );
-        if (state.valType === "Grams") {
-          if (state.metalType === "gold") {
-            setGoldGram(
-              state.valueinAmt / res.payload.Data.result.data.rates.gBuy
-            );
+
+        console.log(res, "res");
+        if (state?.type === "buy") {
+          if (state?.metalType === "gold") {
+            setLockPrice(res.payload.Data.result.data.rates.gBuy);
+            if (state.valType === "Grams") {
+              setCurrentRate(
+                parseFloat(
+                  state.valueinGm * res.payload.Data.result.data.rates.gBuy
+                )
+              );
+              setCurrentGram(parseFloat(state.valueinGm));
+              setBlockId(res.payload.Data.result.data.blockId);
+              setTax(
+                parseFloat(
+                  ((state.valueinGm * res.payload.Data.result.data.rates.gBuy) /
+                    100) *
+                    3
+                )
+              );
+              setTotalAmount(
+                parseFloat(
+                  ((state.valueinGm * res.payload.Data.result.data.rates.gBuy) /
+                    100) *
+                    3 +
+                    state.valueinGm * res.payload.Data.result.data.rates.gBuy
+                )
+              );
+            } else {
+              const gBuy = parseFloat(res.payload.Data.result.data.rates.gBuy);
+              const gBuyGst = parseFloat(
+                res.payload.Data.result.data.rates.gBuyGst
+              );
+              setCurrentGram(parseFloat(state.valueinAmt / (gBuy + gBuyGst)));
+              setBlockId(res.payload.Data.result.data.blockId);
+              const ggram = parseFloat(state.valueinAmt / (gBuy + gBuyGst));
+              const Gprice = parseFloat(
+                res.payload.Data.result.data.rates.gBuy
+              );
+              const ActualPrice = ggram * Gprice;
+              setCurrentRate(parseFloat(ActualPrice));
+              const taxesprice = parseFloat(state.valueinAmt) - ActualPrice;
+              setTax(parseFloat(taxesprice));
+            }
+
           } else {
-            setSilverGram(
-              state.valueinAmt / res.payload.Data.result.data.rates.sBuy
-            );
+            setLockPrice(res.payload.Data.result.data.rates.sBuy);
+            if (state.valType === "Grams") {
+              setCurrentRate(
+                parseFloat(
+                  state.valueinGm * res.payload.Data.result.data.rates.sBuy
+                )
+              );
+              setCurrentGram(parseFloat(state.valueinGm));
+              setBlockId(res.payload.Data.result.data.blockId);
+              setTax(
+                parseFloat(
+                  ((state.valueinGm * res.payload.Data.result.data.rates.sBuy) /
+                    100) *
+                    3
+                )
+              );
+              setTotalAmount(
+                parseFloat(
+                  ((state.valueinGm * res.payload.Data.result.data.rates.sBuy) /
+                    100) *
+                    3 +
+                    state.valueinGm * res.payload.Data.result.data.rates.sBuy
+                )
+              );
+            } else {
+              const sBuy = parseFloat(res.payload.Data.result.data.rates.sBuy);
+              const sBuyGst = parseFloat(
+                res.payload.Data.result.data.rates.sBuyGst
+              );
+              setCurrentGram(parseFloat(state.valueinAmt / (sBuy + sBuyGst)));
+
+              setBlockId(res.payload.Data.result.data.blockId);
+              const Sgram = parseFloat(state.valueinAmt / (sBuy + sBuyGst));
+              const Cprice = parseFloat(
+                res.payload.Data.result.data.rates.sBuy
+              );
+              const ActualPrice = Sgram * Cprice;
+
+              setCurrentRate(parseFloat(ActualPrice));
+              const taxesprice = parseFloat(state.valueinAmt) - ActualPrice;
+              setTax(parseFloat(taxesprice));
+            }
           }
         } else {
           if (state.metalType === "gold") {
-            setGoldRate(
-              state.valueinAmt / res.payload.Data.result.data.rates.gBuy
-            );
+            setLockPrice(res?.payload?.Data?.result?.data?.rates?.gSell);
+            if (state.valType === "Grams") {
+              setCurrentRate(
+                parseFloat(
+                  state.valueinGm *
+                    res?.payload?.Data?.result?.data?.rates?.gSell
+                )
+              );
+              setCurrentGram(parseFloat(state.valueinGm));
+              setBlockId(res?.payload?.Data?.result?.data?.blockId);
+              // setTax(
+              //   parseFloat(
+              //     ((state.valueinGm * res.payload.Data.result.data.rates.gBuy) /
+              //       100) *
+              //       3
+              //   )
+              // );
+              setTotalAmount(
+                parseFloat(
+                  state?.valueinGm *
+                    res?.payload?.Data?.result?.data?.rates?.gSell
+                )
+              );
+            }
           } else {
-            setsilverRate(
-              state.valueinAmt / res.payload.Data.result.data.rates.sBuy
-            );
+            setLockPrice(res.payload?.Data?.result?.data?.rates?.sSell);
+            if (state.valType === "Grams") {
+              setCurrentRate(
+                parseFloat(
+                  state.valueinGm *
+                    res.payload?.Data?.result?.data?.rates?.sSell
+                )
+              );
+              setCurrentGram(parseFloat(state.valueinGm));
+              setBlockId(res.payload?.Data?.result?.data?.blockId);
+              // setTax(
+              //   parseFloat(
+              //     ((state.valueinGm * res.payload.Data.result.data.rates.sBuy) /
+              //       100) *
+              //       3
+              //   )
+              // );
+              setTotalAmount(
+                parseFloat(
+                  state.valueinGm * res.payload.Data?.result?.data?.rates?.sSell
+                )
+              );
+            }
           }
         }
       };
       setCounter(300);
       fetchRates();
     }
+    const timer =
+      counter > 0 &&
+      state?.type === "buy" &&
+      setInterval(() => {
+        setCounter(counter - 1);
+      }, 1000);
+
+    return () => clearInterval(timer);
   }, [counter]);
+  // Counter Logic
+  // useEffect(() => {}, [counter]);
+  // Login & GetWalletBalance Logic
+  useEffect(() => {
+    const username = state?.username;
+    const password = state?.password;
+    dispatch(loginDigiGold({ username, password }));
+    dispatch(getWalletBalance({ username, password }));
+  }, [load]);
+  const handleClose = () => {
+    setModal(false);
+    navigate("/digigold");
+  };
+  // Get User Bank Details logic
+  useEffect(() => {
+    const username = state.username;
+    const password = state.password;
+    dispatch(GetUserBankList({ username, password }));
+  }, [state]);
+  // If Wallet Balance is Lower Than Total Amount Logic
+  useEffect(() => {
+    const Balance = !walletLoad && data?.Data?.Balance;
+    const Total = totalAmount ? totalAmount : state.valueinAmt;
+    if (parseFloat(Balance) < parseFloat(Total)) {
+      setWalletShow(true);
+    } else {
+      setWalletShow(false);
+    }
+  }, [data]);
   //   Counter Time Format
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -74,6 +251,155 @@ const OrderSummary = () => {
       seconds < 10 ? "0" : ""
     }${seconds}`;
   };
+
+  // Gold & Silver Buy Logic
+  const handleSubmit = async () => {
+    const username = state.username;
+    const password = state.password;
+    const lockPrice = lockprice;
+    const metalType = state.metalType;
+    const quantity = currentGram?.toFixed(4);
+    const blockid = blockId;
+    const amount = totalAmount ? totalAmount : state.valueinAmt;
+    const type = state.valType;
+    if (!walletShow) {
+      setLoad(true);
+      const res = await BuyDigiGold({
+        username,
+        password,
+        lockPrice,
+        metalType,
+        quantity,
+        blockid,
+        amount,
+        type,
+      });
+      if (res.ResponseStatus === 1) {
+        dispatch(loginDigiGold);
+        setResponse(res.Data.message);
+        setLoad(false);
+        setModal(true);
+      } else if (res.ResponseStatus === 0) {
+        setLoad(false);
+      }
+    }
+  };
+  // Gold & Silver Sell Logic
+  const handleSellSubmit = async () => {
+    const username = state.username;
+    const password = state.password;
+    const lockPrice = lockprice;
+    const metalType = state.metalType;
+    const quantity = currentGram;
+    const blockid = blockId;
+    const userBankId = list.Data && list.Data.result[0].userBankId;
+    const accountName = list.Data && list.Data.result[0].accountName;
+    const accountNumber = list.Data && list.Data.result[0].accountNumber;
+    const ifscCode = list.Data && list.Data.result[0].ifscCode;
+    const OTP = otp;
+
+    const res = await SellDigiGold({
+      username,
+      password,
+      lockPrice,
+      metalType,
+      quantity,
+      blockid,
+      userBankId,
+      accountName,
+      accountNumber,
+      ifscCode,
+      OTP,
+    });
+    if (res.ResponseStatus === 2) {
+      setStep(1);
+    }
+    if (res.ResponseStatus === 1) {
+      setStep(0);
+      setResponse(
+        `Successfully Sold ${quantity} grams of ${metalType} @ ${lockPrice}`
+      );
+      setModal(true);
+    }
+  };
+  const renderTime2 = () => React.Fragment;
+  // OTP Resend Logic
+  const renderButton2 = (buttonProps) => {
+    return (
+      <div className="resendotp col-12 mx-auto pt-3">
+        <p {...buttonProps} className="col-12 d-block">
+          {buttonProps.remainingTime !== 0 ? (
+            <p>
+              {" "}
+              Please wait for{" "}
+              <span style={{ color: "#CA3060" }}>
+                {" "}
+                {`${buttonProps.remainingTime} sec`}
+              </span>
+            </p>
+          ) : (
+            <p>
+              Not received OTP?{" "}
+              <a>
+                <span style={{ color: "#CA3060" }} onClick={handleSellSubmit}>
+                  Resend OTP
+                </span>
+              </a>
+            </p>
+          )}
+        </p>
+      </div>
+    );
+  };
+  // Bank Details Add Logic
+  const handleAddbankDetails = async () => {
+    const username = state.username;
+    const password = state.password;
+    const accountNumber = formValue.accountNumber;
+    const accountName = formValue.accountName;
+    const ifscCode = formValue.ifscCode;
+    const user_bank_id = list.Data.result[0].userBankId;
+    if (editAddress) {
+      const res = await UpdateBankAccountDetails({
+        username,
+        password,
+        accountNumber,
+        accountName,
+        ifscCode,
+        user_bank_id,
+      });
+      if (res.ResponseStatus === 1) {
+        setEditAddress(false);
+        dispatch(GetUserBankList({ username, password }));
+        // window.location.reload();
+      }
+    } else {
+      const res = await UserbankAccountCreate({
+        username,
+        password,
+        accountNumber,
+        accountName,
+        ifscCode,
+      });
+      if (res.ResponseStatus === 1) {
+        dispatch(GetUserBankList({ username, password }));
+        window.location.reload();
+      }
+    }
+  };
+  // Bank Details Update Logic
+  const updateBankDetails = () => {
+    formValue.accountName = list.Data.result[0].accountName;
+    formValue.accountNumber = list.Data.result[0].accountNumber;
+    formValue.ifscCode = list.Data.result[0].ifscCode;
+    setEditAddress(true);
+  };
+  useEffect(() => {
+    if (location.pathname === "/restricted-page") {
+      navigate("/");
+    }
+  }, [location, navigate]);
+
   return (
     <>
       <div className="">
@@ -93,104 +419,149 @@ const OrderSummary = () => {
                     <div class="my-vault-inner">
                       <div class="vault-value">
                         <p class="vault-value-text">Gold Grams</p>
-                        <p class="vault-value-count mt-3">0.0000 Grams</p>
+                        <p class="vault-value-count mt-3">
+                          {logData?.Data && !loading
+                            ? logData?.Data?.GoldGrams?.toFixed(4)
+                            : "0.0000"}{" "}
+                          Grams
+                        </p>
                       </div>
                       <div class="vertical-separator"></div>
                       <div class="vault-value">
                         <p class="vault-value-text">Silver Grams</p>
-                        <p class="vault-value-count mt-3">0.0000 Grams</p>
+                        <p class="vault-value-count mt-3">
+                          {logData?.Data && !loading
+                            ? logData?.Data?.SilverGrams?.toFixed(4)
+                            : "0.0000"}{" "}
+                          Grams
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="buy-sell-form-outer">
-                  <div class="current-rate-outer">
-                    <div class="current-rate">
-                      <span class="current-rate-title mb-3">GOLD</span>
-                      <span class="current-rate-amt">
-                        &#x20B9;{" "}
-                        {!loading && rateData
-                          ? bye
-                            ? rateData.Data?.result?.data?.rates?.gBuy
-                            : rateData.Data.result?.data?.rates?.gSell
-                          : "Loading..."}
-                        / gm
-                      </span>
-                    </div>
-                    <div class="digi-icon">
-                      <img src="/images/digigold-images/digi-icon.svg" alt="" />
-                    </div>
-                    <div class="current-rate">
-                      <span class="current-rate-title mb-3">SILVER</span>
-                      <span class="current-rate-amt">
-                        {" "}
-                        &#x20B9;{" "}
-                        {!loading && rateData
-                          ? bye
-                            ? rateData.Data.result.data.rates.sBuy
-                            : rateData.Data.result.data.rates.sSell
-                          : "Loading..."}{" "}
-                        / gm
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="digigold-order-summery">
-                    <div class="row digigold-insert-value">
-                      <div class="col-lg-12 mt-5 mb-5">
-                        <p class="digigold-insert-title">
-                          This prices will be valid for :{" "}
-                          <span>{formatTime(counter)}</span>{" "}
-                        </p>
-                      </div>
-                      <div class="col-lg-3">
-                        <p class="digigold-insert-darktext">Quantity (gms)</p>
-                        <p class="digigold-insert-amt">
-                          {/* &#x20B9;{" "} */}
-                          {state.metalType === "gold"
-                            ? goldRate && state.valType !== "Grams"
-                              ? goldRate
-                              : state?.valueinGm
-                            : silverRate && state.valType !== "Grams"
-                            ? silverRate
-                            : state?.valueinGm}{" "}
-                          Grams
-                        </p>
-                      </div>
-                      <div class="col-lg-3">
-                        <p class="digigold-insert-darktext">Amount</p>
-                        <p class="digigold-insert-amt">
+                {!load ? (
+                  <div class="buy-sell-form-outer">
+                    <div class="current-rate-outer">
+                      <div class="current-rate">
+                        <span class="current-rate-title mb-3">GOLD</span>
+                        <span class="current-rate-amt">
                           &#x20B9;{" "}
-                          {state.metalType === "gold"
+                          {!loading && rateData
+                            ? state?.type === "buy"
+                              ? rateData?.Data?.result?.data?.rates?.gBuy
+                              : rateData?.Data?.result?.data?.rates?.gSell
+                            : "Loading..."}
+                          / gm
+                        </span>
+                      </div>
+                      <div class="digi-icon">
+                        <img
+                          src="/images/digigold-images/digi-icon.svg"
+                          alt=""
+                        />
+                      </div>
+                      <div class="current-rate">
+                        <span class="current-rate-title mb-3">SILVER</span>
+                        <span class="current-rate-amt">
+                          {" "}
+                          &#x20B9;{" "}
+                          {!loading && rateData
+                            ? state?.type === "buy"
+                              ? rateData?.Data?.result?.data?.rates?.sBuy
+                              : rateData?.Data?.result?.data?.rates?.sSell
+                            : "Loading..."}{" "}
+                          / gm
+                        </span>
+                      </div>
+                    </div>
+                    <div class="digigold-order-summery">
+                      <div class="row digigold-insert-value">
+                        {state?.type === "buy" && (
+                          <div class="col-lg-12 mt-5 mb-5">
+                            <p class="digigold-insert-title">
+                              This prices will be valid for :{" "}
+                              <span>{formatTime(counter)}</span>{" "}
+                            </p>
+                          </div>
+                        )}
+                        <div
+                          class={`${
+                            state?.type === "buy" ? "col-lg-3" : "col-lg-4"
+                          } `}
+                        >
+                          <p class="digigold-insert-darktext">Quantity (gms)</p>
+                          <p class="digigold-insert-amt">
+                            {currentGram && currentGram?.toFixed(4)} Grams
+                          </p>
+                        </div>
+                        <div
+                          class={`${
+                            state?.type === "buy" ? "col-lg-3" : "col-lg-4"
+                          } `}
+                        >
+                          <p class="digigold-insert-darktext">Amount</p>
+                          <p class="digigold-insert-amt">
+                            &#x20B9;{" "}
+                            {/* {state.metalType === "gold"
                             ? goldRate && state.valType !== "Amount"
                               ? goldRate
                               : state?.valueinAmt
                             : silverRate && state.valType !== "Amount"
                             ? silverRate
-                            : state?.valueinAmt}
-                        </p>
+                            : state?.valueinAmt} */}
+                            {currentRate && currentRate.toFixed(2)}
+                          </p>
+                        </div>
+                        {state?.type === "buy" && (
+                          <div
+                            class={`${
+                              state.type === "buy" ? "col-lg-3" : "col-lg-4"
+                            } `}
+                          >
+                            <p class="digigold-insert-darktext">Tax</p>
+                            <p class="digigold-insert-amt">
+                              &#x20B9; {tax && tax.toFixed(2)}
+                            </p>
+                          </div>
+                        )}
+                        <div
+                          class={`${
+                            state?.type === "buy" ? "col-lg-3" : "col-lg-4"
+                          } `}
+                        >
+                          <p class="digigold-insert-darktext">
+                            Total{" "}
+                            {state?.type === "buy" ? "Payable" : "Receivable"}
+                          </p>
+                          <p class="digigold-insert-amt">
+                            &#x20B9;{" "}
+                            {totalAmount
+                              ? totalAmount.toFixed(2)
+                              : state?.valueinAmt}
+                          </p>
+                        </div>
                       </div>
-                      <div class="col-lg-3">
-                        <p class="digigold-insert-darktext">Tax</p>
-                        <p class="digigold-insert-amt">&#x20B9; 0.03</p>
-                      </div>
-                      <div class="col-lg-3">
-                        <p class="digigold-insert-darktext">Total Payable</p>
-                        <p class="digigold-insert-amt">&#x20B9; 1.00</p>
-                      </div>
-                    </div>
 
-                    <div class="row digigold-payble-value">
-                      <div class="col-lg-12">
-                        <p class="digigold-payble-darktest">Amount Payable</p>
-                        <p class="digigold-payble-amt"> &#x20B9; 1.00</p>
+                      <div class="row digigold-payble-value">
+                        <div class="col-lg-12">
+                          <p class="digigold-payble-darktest">
+                            Amount{" "}
+                            {state?.type === "buy" ? "Payable" : "Receivable"}
+                          </p>
+                          <p class="digigold-payble-amt">
+                            {" "}
+                            &#x20B9;{" "}
+                            {totalAmount
+                              ? totalAmount.toFixed(2)
+                              : state?.valueinAmt}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                      {state?.type === "buy" && (
+                        <div class="digigold-payment-method">
+                          <p class="digigold-payment-title"> Payment method </p>
 
-                    <div class="digigold-payment-method">
-                      <p class="digigold-payment-title"> Payment method </p>
-
-                      <div class="digigold-payment-discount  box-shadow-1">
+                          {/* <div class="digigold-payment-discount  box-shadow-1">
                         <p class="digigold-paymethod-title">Debit From </p>
                         <div class="digigold-paymet-discount-info mb-4">
                           <div class="col-lg-8 p-0">
@@ -220,41 +591,73 @@ const OrderSummary = () => {
                             </p>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
 
-                      {/* <!-- <div class="digigold-paymet-info-outer"> --> */}
-                      <div class="digigold-payment-discount box-shadow-1">
-                        <p class="digigold-paymethod-title">Debit From </p>
-                        <div class="digigold-paymet-discount-info mb-4">
-                          <div class="col-lg-8 p-0">
-                            <div class="custom-control custom-checkbox checkStyle">
-                              <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="vips-wallet"
-                              />
-                              <label
-                                class="custom-control-label"
-                                for="vips-wallet"
-                              >
-                                <img
-                                  alt=""
-                                  src="/images/digigold-images/vips-logo-small.png"
-                                  class="img-fluid digigold-payment-debit-vips"
-                                />{" "}
-                                VIPS Wallet (₹ 5,72,93,773.35)
-                              </label>
+                          {/* <!-- <div class="digigold-paymet-info-outer"> --> */}
+                          <div class="digigold-payment-discount box-shadow-1">
+                            <p class="digigold-paymethod-title">Debit From </p>
+                            <div class="digigold-paymet-discount-info mb-4">
+                              <div class="col-lg-8 p-0">
+                                <div class="custom-control custom-checkbox checkStyle">
+                                  <input
+                                    type="checkbox"
+                                    checked
+                                    class="custom-control-input"
+                                    id="vips-wallet"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="vips-wallet"
+                                  >
+                                    <img
+                                      alt=""
+                                      src="/images/digigold-images/vips-logo-small.png"
+                                      class="img-fluid digigold-payment-debit-vips"
+                                    />{" "}
+                                    VIPS Wallet ( &#x20B9;{" "}
+                                    {data.Data && !walletLoad
+                                      ? data.Data.Balance
+                                      : "Loading..."}
+                                    )
+                                  </label>
+                                  {/* {data.Data &&
+                                  !walletLoad &&
+                                  data.Data.Balance < totalAmount && (
+                                   
+                                  )} */}
+
+                                  {walletShow && (
+                                    <Link
+                                      to={"/addMoney/options"}
+                                      style={{
+                                        backgroundColor: "blue ",
+                                        color: "white",
+                                        marginLeft: 20,
+                                        fontSize: 15,
+                                        padding: 3,
+                                        borderRadius: 5,
+                                        outline: "none",
+                                        textDecoration: "none",
+                                        cursor: "pointer",
+                                      }}
+                                    >
+                                      Add Money
+                                    </Link>
+                                  )}
+                                </div>
+                              </div>
+                              <div class="col-lg-4 p-0">
+                                <p class="digigold-paymet-discount-amt">
+                                  {" "}
+                                  &#x20B9;{" "}
+                                  {totalAmount
+                                    ? totalAmount.toFixed(2)
+                                    : state?.valueinAmt}{" "}
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                          <div class="col-lg-4 p-0">
-                            <p class="digigold-paymet-discount-amt">
-                              {" "}
-                              &#x20B9; 99.00{" "}
-                            </p>
-                          </div>
-                        </div>
 
-                        <div class="digigold-paymet-discount-info">
+                            {/* <div class="digigold-paymet-discount-info">
                           <div class="col-lg-8 p-0">
                             <div class="custom-control custom-checkbox checkStyle">
                               <input
@@ -281,22 +684,447 @@ const OrderSummary = () => {
                               &#x20B9; 0.00{" "}
                             </p>
                           </div>
+                        </div> */}
+                          </div>
+                          {/* <!-- </div>  --> */}
                         </div>
-                      </div>
-                      {/* <!-- </div>  --> */}
-                    </div>
+                      )}
+                      {/* Digi Gold Bank Details */}
+                      {state?.type === "sell" && (
+                        <div class="digigold-bank-details">
+                          <p class="digigold-payment-title">
+                            {" "}
+                            Bank Account Details{" "}
+                          </p>
+                          {!listLoad ? (
+                            <div class="container">
+                              {!list.Data?.result || editAddress ? (
+                                // // <div class="row">
+                                //   {/* <div class="col-lg-6 col-md-6">
+                                //     <div class="floating-input-wrapper">
+                                //       <select
+                                //         class="floating-select-wraper"
+                                //         onclick="this.setAttribute('value', this.value);"
+                                //         onchange="this.setAttribute('value', this.value);"
+                                //         value=""
+                                //       >
+                                //         <option value=""></option>
+                                //         <option value="1">1</option>
+                                //         <option value="2">2</option>
+                                //         <option value="3">3</option>
+                                //         <option value="4">4</option>
+                                //         <option value="5">5</option>
+                                //       </select>
+                                //       <label class="floating-label-name">
+                                //         Bank Name *{" "}
+                                //       </label>
+                                //     </div>
+                                //   </div> */}
+                                <Form
+                                  onFinish={handleAddbankDetails}
+                                  fields={[
+                                    {
+                                      name: "accountNumber",
+                                      value: formValue.accountNumber,
+                                    },
+                                    {
+                                      name: "accountName",
+                                      value: formValue.accountName,
+                                    },
+                                    {
+                                      name: "ifscCode",
+                                      value: formValue.ifscCode,
+                                    },
+                                  ]}
+                                >
+                                  <Row
+                                    gutter={20}
+                                    style={{
+                                      marginTop: 10,
+                                      marginBottom: 20,
+                                    }}
+                                  >
+                                    <Col span={7}>
+                                      <Form.Item
+                                        name={"accountNumber"}
+                                        hasFeedback
+                                        rules={[
+                                          {
+                                            validator: (_, value) => {
+                                              const accRegex = /^[0-9]{9,18}$/;
+                                              if (
+                                                !value ||
+                                                value.match(accRegex)
+                                              ) {
+                                                return Promise.resolve();
+                                              }
+                                              return Promise.reject(
+                                                "Invalid Account Number"
+                                              );
+                                            },
+                                          },
+                                        ]}
+                                      >
+                                        <Input
+                                          size="large"
+                                          addonBefore={<FaHashtag />}
+                                          placeholder="Enter Account Number"
+                                          value={formValue.accountNumber}
+                                          onChange={(e) =>
+                                            setFormValue({
+                                              ...formValue,
+                                              accountNumber: e.target.value,
+                                            })
+                                          }
+                                        />
+                                      </Form.Item>
+                                    </Col>
+                                    <Col span={7}>
+                                      <Form.Item
+                                        name={"accountName"}
+                                        hasFeedback
+                                        rules={[
+                                          {
+                                            required: true,
+                                            message: "Holder Name is Required",
+                                          },
+                                        ]}
+                                      >
+                                        <Input
+                                          size="large"
+                                          addonBefore={<FaUser />}
+                                          placeholder="Account Holder Name"
+                                          value={formValue.accountName}
+                                          onChange={(e) =>
+                                            setFormValue({
+                                              ...formValue,
+                                              accountName: e.target.value,
+                                            })
+                                          }
+                                        />
+                                      </Form.Item>
+                                    </Col>
+                                    <Col span={7}>
+                                      <Form.Item
+                                        name={"ifscCode"}
+                                        hasFeedback
+                                        rules={[
+                                          {
+                                            validator: (_, value) => {
+                                              const ifscRegex =
+                                                /^[A-Z]{4}[0][A-Z0-9]{6}$/;
+                                              if (
+                                                !value ||
+                                                value.match(ifscRegex)
+                                              ) {
+                                                return Promise.resolve();
+                                              }
+                                              return Promise.reject(
+                                                "Invalid IFSC code"
+                                              );
+                                            },
+                                          },
+                                        ]}
+                                      >
+                                        <Input
+                                          size="large"
+                                          addonBefore={<FaHashtag />}
+                                          placeholder="Enter IFSC Code"
+                                          value={formValue.ifscCode}
+                                          onChange={(e) =>
+                                            setFormValue({
+                                              ...formValue,
+                                              ifscCode: e.target.value,
+                                            })
+                                          }
+                                        />
+                                      </Form.Item>
+                                    </Col>
+                                    <Col span={3}>
+                                      <Button htmlType="submit" size="large">
+                                        Submit
+                                      </Button>
+                                    </Col>
 
-                    <div class="digigold-order-proceed">
-                      {/* <button class="btn btn-primery"> Proceed to Pay</button> */}
-                      <ThemeButton value={"Proceed to Pay"}/>
+                                    {/* <div class="col-lg-6 col-md-6">
+                                  <div class="floating-input-wrapper">
+                                    <input
+                                      class="floating-input-box"
+                                      type="text"
+                                      placeholder=" "
+                                    />
+                                    <label class="floating-label-name">
+                                      Bank Account Number *
+                                    </label>
+                                  </div>
+                                </div> */}
+
+                                    {/* <div class="col-lg-6 col-md-6">
+                                  <div class="floating-input-wrapper">
+                                    <input
+                                      class="floating-input-box"
+                                      type="text"
+                                      placeholder=" "
+                                    />
+                                    <label class="floating-label-name">
+                                      Account Holder Name *
+                                    </label>
+                                  </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6">
+                                  <div class="floating-input-wrapper">
+                                    <input
+                                      class="floating-input-box"
+                                      type="text"
+                                      placeholder=" "
+                                    />
+                                    <label class="floating-label-name">
+                                      IFSC Code *
+                                    </label>
+                                  </div>
+                                </div> */}
+                                  </Row>
+                                </Form>
+                              ) : (
+                                // </div>
+                                <div class="row justify-content-center">
+                                  <div class="col-lg-7 user-bank-details shadow-light">
+                                    <div class="row">
+                                      <div class="col-9 col-md-9">
+                                        <span class="text-gray">
+                                          Bank Name :{" "}
+                                        </span>
+                                        <span>UNION BANK OF INDIA</span>
+                                      </div>
+                                      <div class="col-3 col-md-3 px-0 px-md-3 text-right">
+                                        <button
+                                          onClick={updateBankDetails}
+                                          class="edit-bank-details"
+                                        >
+                                          {" "}
+                                          <img src="/images/digigold-images/edit-icon.svg" />{" "}
+                                          Edit{" "}
+                                        </button>
+                                      </div>
+                                    </div>
+
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <span class="text-gray">
+                                          Bank Account Number :{" "}
+                                        </span>
+                                        <span>
+                                          {list.Data?.result
+                                            ? list.Data?.result[0]
+                                                ?.accountNumber
+                                            : "Loading..."}
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <span class="text-gray">
+                                          IFSC Code :{" "}
+                                        </span>
+                                        <span>
+                                          {list.Data?.result
+                                            ? list.Data?.result[0]?.ifscCode
+                                            : "Loading..."}
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <span class="text-gray">
+                                          Account Holder Name :{" "}
+                                        </span>
+                                        <span>
+                                          {list.Data?.result
+                                            ? list.Data?.result[0]?.accountName
+                                            : "Loading..."}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <LatestLoading />
+                          )}
+                        </div>
+                      )}
+                      <div class="digigold-order-proceed">
+                        <button
+                          style={{ marginTop: 10 }}
+                          onClick={
+                            state?.type === "buy"
+                              ? () => handleSubmit()
+                              : () => handleSellSubmit()
+                          }
+                          class="btn btn-primery"
+                        >
+                          {" "}
+                          {state?.type === "buy"
+                            ? "Proceed to Pay"
+                            : "Proceed to Sell"}
+                        </button>
+                        {state?.type === "buy" && walletShow && (
+                          <div>
+                            <h2
+                              style={{
+                                fontSize: 12,
+                                color: "red",
+                                marginTop: 20,
+                              }}
+                            >
+                              {"Wallet Balance is Low, Please Add Money"}
+                            </h2>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <LatestLoading />
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+
+      <Modal
+        footer={[<button></button>]}
+        onCancel={handleClose}
+        centered
+        maskClosable={false}
+        open={modal}
+      >
+        {/* <div class="buy-sell-form-outer"> */}
+        <div class="digigold-order-success text-center">
+          <img
+            src="/images/digigold-images/check-green.svg"
+            class="img img-fluid check-green-img"
+          />
+          <p
+            style={{ fontWeight: "700", fontSize: 20 }}
+            class="digigold-success-title mt-3 "
+          >
+            CONGRATULATIONS!
+          </p>
+          <p class="success-note">{response}</p>
+          <div class="digigold-success-btn">
+            {/* <button class="btn btn-gray">View Details</button> */}
+            <button
+              onClick={() => navigate("/digigold-orders")}
+              class="btn btn-primery"
+            >
+              Go to my Orders
+            </button>
+          </div>
+          {state?.type === "buy" && (
+            <p class="success-note mb-5 mt-4">
+              Note: Gold/ Silver once purchased can be sold after 48 hours
+            </p>
+          )}
+        </div>
+        {/* </div> */}
+      </Modal>
+      <Modal
+        footer={[<button></button>]}
+        maskClosable={false}
+        centered
+        onCancel={() => navigate("/digigold")}
+        open={step === 1 && true}
+      >
+        {step === 1 && (
+          <div class="align-self-center">
+            <div class="otpForm-outer">
+              <div class="">
+                <div class="">
+                  <div style={{ justifyContent: "center" }} class="">
+                    <div style={{ justifyContent: "center" }}>
+                      <h2>OTP Verification</h2>
+                    </div>
+                    <div class="otp-send-to">
+                      <p>
+                        Enter the OTP sent to
+                        <label for="">
+                          {/* &nbsp; +91 {formValue.mobileNumber} */}
+                        </label>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="formStyle">
+                {/* <Otp
+                  userName={formValue.mobileNumber}
+                  password={loggedInUser.TRXNPassword}
+                /> */}
+                <div
+                  id="otp"
+                  className="row row-flex justify-content-center mt-1"
+                >
+                  <div className="">
+                    <OTPInput
+                      value={otp}
+                      className="text-dark"
+                      onChange={(e) => setOtp(e)}
+                      autoFocus
+                      OTPLength={6}
+                      otpType="number"
+                      disabled={false}
+                    />
+                    <ResendOTP
+                      renderButton={renderButton2}
+                      renderTime={renderTime2}
+                    />
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="otp-btnCol btnTopSpace">
+                      <Button
+                        htmlType="submit"
+                        loading={loading}
+                        type="primary"
+                        size="large"
+                        // class="btn otp-btn btn-primery modal-loading-btn"
+                        // id="addmoneymodal"
+                        // disabled={formValue.otp.length == 6 ? false : true}
+                        onClick={
+                          handleSellSubmit
+                          // () => {
+                          //   // !loading &&
+                          //   dispatch(loginWithOtp({ userName, password, ip, otp }));
+                          //   setToggle(true);
+                          //   setTimeout(() => {
+                          //     setToggle(false);
+                          //   }, 4000);
+                          // }
+                        }
+                      >
+                        Verify & Proceed
+                        {/* {loading ? (
+                                       <LoadingBar class="" />
+                                     ) : (
+                                       "Verify & Proceed"
+                                     )} */}
+                      </Button>
+
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-      </div>
+        )}
+      </Modal>
     </>
   );
 };
