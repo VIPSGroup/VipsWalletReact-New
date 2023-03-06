@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { loginWithOtp } from "../../redux/slices/profile/loginSlice";
+import { Loading, MuiSnackBar, ThemeButton } from "../common";
 
-const Otp = ({ userName, password }) => {
+const Otp = ({ userName, password,setFormCount }) => {
   const [otp, setOtp] = useState("");
   const [ip, setIp] = useState("");
   const [toggle, setToggle] = useState(false);
@@ -14,12 +15,13 @@ const Otp = ({ userName, password }) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { loggedInUser } = useSelector(
+  const { loggedInUser,loading } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
   useEffect(() => {
-    if (loggedInUser === false && toggle) {
+    if (loggedInUser === false && toggle && !loading) {
       if (!loggedInUser.Id) {
+        console.log("Invalid OTP");
         setIsSnackBar(true);
         setErrorMessage("Invalid OTP");
         setsuccessMessage("");
@@ -27,11 +29,11 @@ const Otp = ({ userName, password }) => {
     }
     if (loggedInUser?.Id) {
       setToggle(false);
-      // setFormCount(1)
+      setFormCount(1)
+      setErrorMessage("");
       setIsSnackBar(true);
-      // setsuccessMessage("Login Successful")
-      // navigate("/");
-      // console.log("logged");
+      setsuccessMessage("Login Successful")
+      navigate("/");
     }
   }, [loggedInUser, toggle]);
 
@@ -95,7 +97,15 @@ const Otp = ({ userName, password }) => {
                 />
                 <div class="col-lg-12">
                   <div class="otp-btnCol btnTopSpace">
-                    <button
+                    <ThemeButton disabled={otp.length == 6 ? false : true} onClick={(e) => {
+                      e.preventDefault()
+                        dispatch(loginWithOtp({ userName, password, ip, otp }));
+                        setToggle(true);
+                        setTimeout(() => {
+                          setToggle(false);
+                        }, 4000);
+                      }} loading={loading} value={"Verify & Proceed"}/>
+                    {/* <button
                       type="button"
                       class="btn otp-btn btn-primery modal-loading-btn"
                       id="addmoneymodal"
@@ -109,13 +119,8 @@ const Otp = ({ userName, password }) => {
                         }, 4000);
                       }}
                     >
-                      "Verify & Proceed"
-                      {/* {loading ? (
-                                       <LoadingBar class="" />
-                                     ) : (
-                                       "Verify & Proceed"
-                                     )} */}
-                    </button>
+                     {loading ? <Loading />: "Verify & Proceed"}
+                    </button> */}
                   </div>
                 </div>
               </div>
@@ -123,14 +128,14 @@ const Otp = ({ userName, password }) => {
           </div>
         </div>
       </form>
-      {/* <MuiSnackBar
+      <MuiSnackBar
              open={isSnackBar}
              setOpen={setIsSnackBar}
              successMsg={showSuccessMessage}
              errorMsg={showErrorMessage}
              setSuccess={setsuccessMessage}
              setError={setErrorMessage}
-           /> */}
+           />
     </>
   );
 };

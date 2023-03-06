@@ -3,7 +3,9 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getRechargeHistory } from "../../apiData/services/mobileRecharge";
 import { operartorsUrl } from "../../constants";
-import LoadingBar from "../common/Loading";
+import { Loading } from "../common";
+import "../../../assets/styles/services/mobileRecharge/recharge.css";
+// import LoadingBar from "../common/Loading";
 
 const RecentHistory = ({
   setMobileNo,
@@ -77,7 +79,7 @@ const RecentHistory = ({
             <div class="col-md-12 recharge-table-scroll mobile-recharge-table-outer services-page-loader">
               <div class="service-loader-outer">
                 {loading ? (
-                  <LoadingBar color="#CA3060" class="" />
+                  <Loading/>
                 ) : rechargeHistory.length < 1 ? (
                   <div class="text-center">
                     <img src="/images/No_Data.svg" />
@@ -95,7 +97,7 @@ const RecentHistory = ({
 
               <table class="table text-nowrap table-borderless mobile-recharge-table">
                 <tbody>
-                  {rechargeHistory &&
+                  {!loading && rechargeHistory &&
                     rechargeHistory.map((r, i) => (
                       <tr>
                         <td class="align-middle">

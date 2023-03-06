@@ -17,7 +17,7 @@ const DealsofTheDay = () => {
   return (
     <>
       <ProductHorizontal
-        title="Deals"
+        title="Deals "
         loading={loading}
         subtitle="of the Day"
         products={data.Data}

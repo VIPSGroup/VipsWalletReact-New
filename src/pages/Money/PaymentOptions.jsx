@@ -11,6 +11,7 @@ import { getDouble } from "../../constants";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import FinstockModal from "../../components/Modals/FinstockModal";
+import { MuiSnackBar } from "../../components/common";
 
 const PaymentOptions = () => {
   const [selectedPaymentOption, setSelectedPaymentOption] = useState("GAB");
@@ -145,14 +146,14 @@ const PaymentOptions = () => {
                 </div>
               </div>
 
-              {/* <MuiSnackBar
+              <MuiSnackBar
                 open={isSnackBar}
                 setOpen={setIsSnackBar}
                 successMsg={successMsg}
                 errorMsg={errorMsg}
                 setSuccess={setSuccessMsg}
                 setError={setErrorMsg}
-              /> */}
+              />
             </div>
           </div>
         </div>

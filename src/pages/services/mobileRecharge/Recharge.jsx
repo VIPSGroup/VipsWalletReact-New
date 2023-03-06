@@ -16,6 +16,7 @@ import {
 import BrowsePlans from "./BrowsePlans";
 import { getActiveApi, getCircleAndOperatorByNumber, getRechargeCircleList } from "../../../redux/slices/services/rechargeSlice";
 import { getOperators } from "../../../redux/slices/services/commonSlice";
+import { MuiSnackBar, ThemeButton } from "../../../components/common";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -30,7 +31,6 @@ const Recharge = ({ props }) => {
   const [opImgUrl, setOpImgUrl] = useState("");
   const [postpaidAmount, setPostpaidAmount] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
   let navigate = useNavigate();
@@ -340,25 +340,27 @@ dispatch(getRechargeCircleList())
                     <div class="col-md-12">
                       {rechargeType == "Prepaid" ? (
                         <div class="mobile-recharge-btn">
-                          <button
+                          <ThemeButton onClick={clickNext} value={"Continue"}/>
+                          {/* <button
                             onClick={clickNext}
                             class="btn-primery"
                             id="addmoneymodal"
                           >
                             {" "}
                             Continue{" "}
-                          </button>
+                          </button> */}
                         </div>
                       ) : (
                         <div class="mobile-recharge-btn">
-                          <button
+                          <ThemeButton onClick={onPostPaid} value={"Continue"}/>
+                          {/* <button
                             onClick={onPostPaid}
                             class="btn-primery"
                             id="addmoneymodal"
                           >
                             {" "}
                             Continue{" "}
-                          </button>
+                          </button> */}
                         </div>
                       )}
                     </div>
@@ -375,15 +377,15 @@ dispatch(getRechargeCircleList())
                 type={"Mobile"}
               />
             </div>
-
-            {/* <MuiSnackBar
+{/* {isSnackBar && <SnackBar errorMsg={errorMsg} />} */}
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
-              successMsg={successMsg}
+              // successMsg={successMsg}
+              // setSuccess={setSuccessMsg}
               errorMsg={errorMsg}
-              setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </section>

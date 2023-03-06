@@ -54,7 +54,6 @@ export const naturalGasBillPay = createAsyncThunk(
       try {
         const res = await axios.post(
           `${baseApiUrl}/Recharge/GetUtilityNaturalGasBillPayment`,formData );
-console.log(res.data);
         return res.data
       } catch (error) {
         return error;
@@ -98,7 +97,6 @@ export const commonServiceConfirm = createAsyncThunk(
       try {
         const res = await axios.post(
           `${baseApiUrl}/Recharge/UtilityOnlineBillPaymentsForAllFBBPSOperators`,formData );
-console.error("_________",res.data);
         return res.data
       } catch (error) {
         return error;
@@ -122,7 +120,7 @@ console.error("_________",res.data);
       },
     commonBillPay: {
         commonLoading: false,
-        commonBill: [],
+        commonBill: '',
         error: "",
       }
     },

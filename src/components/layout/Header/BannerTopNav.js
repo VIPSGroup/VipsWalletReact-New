@@ -73,7 +73,6 @@ const BannerTopNav = () => {
                 class="img-fluid vips-logo"
               />
             </Link>
-
             <nav class="left-navbar sub-menu d-none d-xl-block">
               <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbar">

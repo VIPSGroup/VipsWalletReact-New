@@ -74,9 +74,10 @@ import MyOrdersPage from "../pages/digiGold/MyOrdersPage";
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
   const [isBottomTopNav, setIsBottomTopNav] = useState(false);
+  const [isCommonTopNav, setIsCommonTopNav] = useState(true);
   return (
     <>
-      <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} />
+      <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} isCommonTopNav={isCommonTopNav}/>
       <Routes>
         <Route
           element={<Homepage setIsHomeTopNav={setIsHomeTopNav} />}
@@ -123,7 +124,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <RechargeConfirmation setIsHomeTopNav={setIsHomeTopNav} />{" "}
+              <RechargeConfirmation setIsCommonTopNav={setIsCommonTopNav} />{" "}
             </ProtectedRoute>
           }
         />
@@ -144,7 +145,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <DthConfirmation />{" "}
+              <DthConfirmation setIsCommonTopNav={setIsCommonTopNav} />{" "}
             </ProtectedRoute>
           }
         />
@@ -166,7 +167,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <ElectricityConfirmation />{" "}
+              <ElectricityConfirmation setIsCommonTopNav={setIsCommonTopNav} />{" "}
             </ProtectedRoute>
           }
         />
@@ -187,7 +188,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <FastagOnlineConfirmation />{" "}
+              <FastagOnlineConfirmation setIsCommonTopNav={setIsCommonTopNav}/>{" "}
             </ProtectedRoute>
           }
         />
@@ -208,7 +209,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <LpgGasConfirmation />{" "}
+              <LpgGasConfirmation setIsCommonTopNav={setIsCommonTopNav}/>{" "}
             </ProtectedRoute>
           }
         />
@@ -357,7 +358,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <ServiceConfirmationCommon />{" "}
+              <ServiceConfirmationCommon setIsCommonTopNav={setIsCommonTopNav}/>{" "}
             </ProtectedRoute>
           }
         />
@@ -400,11 +401,10 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <PrimeConfirmation />{" "}
+              <PrimeConfirmation setIsHomeTopNav={setIsHomeTopNav}/>{" "}
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/refer"
           element={

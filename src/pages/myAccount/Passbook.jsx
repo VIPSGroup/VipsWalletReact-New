@@ -78,28 +78,23 @@ const Passbook = () => {
       }
     );
     shoppingReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then((response) => {
-      console.log("shopping", response.Data);
       setShoppingHistory(response.Data);
     });
     cashbackReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then((response) => {
-      console.log("cashback", response.CashbackHistory);
       setCashbackHistory(response.CashbackHistory);
     });
     allCashbackReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then(
       (response) => {
-        console.log("allCashback", response.Data);
         setAllCashbackHistory(response.Data);
       }
     );
     shoppingPointReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then(
       (response) => {
-        console.log("shoppingPoint", response.Data);
         setShoppingPointHistory(response.Data);
       }
     );
     primePointReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then(
       (response) => {
-        console.log("primePoint", response.Data);
         setPrimePointHistory(response.Data);
       }
     );
@@ -314,7 +309,6 @@ const Passbook = () => {
   const passbookSection = () => (
     <section class="trasanction-history">
       <div class="container">
-        {console.log(activeHistory)}
         <div class="container">
           <div class="inpage-section-head">
             <h1 class="section-head-title">Passbook</h1>

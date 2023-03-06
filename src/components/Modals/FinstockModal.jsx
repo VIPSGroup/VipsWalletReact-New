@@ -12,6 +12,7 @@ import {
   finstockAdd,
   finstockGenerateOtp,
 } from "../../redux/slices/payment/paymentSlice";
+import { ThemeButton } from "../common";
 
 const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
   const [show, setShow] = useState(false);
@@ -304,13 +305,14 @@ const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
                   {formCount == 1 ? (
                     <div class="add-money-btn mt-4">
                       {/* {<button onClick={clickGetOtp} href="#" class="btn-primery "> Get OTP </button>} */}
-                      <button
+                      {/* <button
                         type="button"
                         class="btn btn-primery "
                         onClick={!loading && clickGetOtp}
                       >
                         {loading ? <LoadingBar /> : "Get OTP"}
-                      </button>
+                      </button> */}
+                      <ThemeButton value={"Get OTP"} loading={loading} onClick={clickGetOtp}/>
                     </div>
                   ) : null}
                 </div>
@@ -325,7 +327,7 @@ const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
   return (
     <>
       <div class="add-money-btn">
-        <a
+        {/* <a
           onClick={handleShow}
           type="button"
           class="btn-primery"
@@ -333,7 +335,8 @@ const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
         >
           {" "}
           Add Money{" "}
-        </a>
+        </a> */}
+        <ThemeButton onClick={handleShow} value={"Add Money"}/>
       </div>
 
       <Modal

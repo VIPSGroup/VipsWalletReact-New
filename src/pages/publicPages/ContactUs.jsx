@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import "../../assets/styles/contactUs.css"
 import { Link } from "react-router-dom";
+import { ThemeButton } from '../../components/common';
 
 const ContactUs = ({setIsBottomTopNav}) => {
   useEffect(()=>{
@@ -65,23 +66,13 @@ const ContactUs = ({setIsBottomTopNav}) => {
                 <button class="dropdown-toggle select-toggle select-type" type="button" data-toggle="dropdown" aria-expanded="false">
                     City
                 </button>
-                {/* <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Maharashtra</a>
-                    <a class="dropdown-item" href="#">Karmataka</a>
-                    <a class="dropdown-item" href="#">Gujrat</a>
-                    <a class="dropdown-item" href="#">Maharashtra</a>
-                    <a class="dropdown-item" href="#">Karmataka</a>
-                    <a class="dropdown-item" href="#">Gujrat</a>
-                    <a class="dropdown-item" href="#">Maharashtra</a>
-                    <a class="dropdown-item" href="#">Karmataka</a>
-                    <a class="dropdown-item" href="#">Gujrat</a>
-                </div> */}
                 </div>
             </div>
 
             <div class="col-lg-12">  
                 <div class="send-msg-btn mt-4">
-                    <button class="btn-primery"> Send Message </button>
+                    {/* <button class="btn-primery"> Send Message </button> */}
+                    <ThemeButton value={"Send Message"}/>
                 </div> 
             </div>
 

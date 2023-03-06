@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { Loading } from "../../components/common";
+import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
 import { SelectField } from "../../components/forms";
 import { getStateCity } from "../../redux/slices/profile/signUpSlice";
 import {
@@ -92,7 +92,6 @@ const EditProfile = () => {
   });
 
   useEffect(() => {
-    console.log("useEffect");
     if (!pinCode) {
       getProfileDetails({
         username: loggedInUser.Mobile,
@@ -426,9 +425,10 @@ const EditProfile = () => {
 
                       <div class="col-lg-12">
                         <div class="save-profile-btn text-center mt-4">
-                          <button type="submit" class="btn-primery">
+                          {/* <button type="submit" class="btn-primery">
                             {loading ? <Loading /> : "Save Profile"}
-                          </button>
+                          </button> */}
+                          <ThemeButton loading={loading} value={"Save Profile"}/>
                         </div>
                       </div>
                     </div>
@@ -436,14 +436,14 @@ const EditProfile = () => {
                 </div>
               </div>
             </div>
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               // errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               // setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </div>

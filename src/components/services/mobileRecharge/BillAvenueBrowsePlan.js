@@ -36,7 +36,6 @@ const dispatch= useDispatch()
       dispatch(billAvenueBrowsePlans({circle:"Maharashtra", operator:"AIRTEL"}))
     }
     if(billAvenuePlans){
-  console.log(billAvenuePlans);
       const unique = [
         ...new Set(
           billAvenuePlans.map(

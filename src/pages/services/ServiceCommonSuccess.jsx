@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { ThemeButton } from "../../components/common";
 import { needHelpUrl } from "../../constants";
 
 const ServiceCommonSuccess = () => {
@@ -235,10 +236,11 @@ const ServiceCommonSuccess = () => {
                     </div>
 
                     <div class="recharge-success-btn">
-                      <button onClick={() => navigate("/")} class="btn-primery">
+                      {/* <button onClick={() => navigate("/")} class="btn-primery">
                         {" "}
                         Done{" "}
-                      </button>
+                      </button> */}
+                      <ThemeButton value={"Done"} onClick={() =>{ navigate("/")}}/>
                     </div>
                   </div>
                 </div>

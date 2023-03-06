@@ -15,9 +15,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { LPGBillPay } from "../../../redux/slices/services/LpgGasSlice";
 import { getWalletBalance } from "../../../redux/slices/walletSlice";
 import { getServiceDiscounts } from "../../../redux/slices/services/commonSlice";
+import { MuiSnackBar, ThemeButton } from "../../../components/common";
 ReactGA.initialize(googleAnalytics);
 
-const LpgGasConfirmation = () => {
+const LpgGasConfirmation = ({setIsCommonTopNav}) => {
   const location = useLocation();
   const props = location.state;
   var amt = props.amount;
@@ -134,6 +135,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
   };
 
   useEffect(() => {
+    setIsCommonTopNav(false)
     ReactGA.pageview(window.location.pathname);
 
     setLoading(false);
@@ -144,7 +146,8 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
         dispatch(getWalletBalance({userName,password}))
       }
     }
-    return ()=>{setShowSuccess(false)}
+    return ()=>{setShowSuccess(false)
+      setIsCommonTopNav(true)}
   }, []);
   useEffect(() => {
     dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
@@ -170,13 +173,12 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
           });
         } else {
           setIsSnackBar(true);
-          setErrorMsg(rechargeData.Data.ResponseMessage);
+          setErrorMsg(rechargeData?.Data?.ResponseMessage);
         }
       } else {
-        console.log(rechargeData.Data.ResponseMessage);
         setIsSnackBar(true);
         setErrorMsg(
-          rechargeData.Data ? rechargeData.Data.ResponseMessage : rechargeData.Remarks
+          rechargeData?.Data ? rechargeData?.Data?.ResponseMessage : rechargeData?.Remarks
         );
       }
     }
@@ -442,7 +444,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
 
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
-                        <button
+                        {/* <button
                           onClick={!reLoading && handleClickConfirm}
                           type="button"
                           class="btn-primery"
@@ -463,7 +465,8 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                           ) : (
                             "Confirm Payment"
                           )}{" "}
-                        </button>
+                        </button> */}
+                        <ThemeButton onClick={handleClickConfirm} loading={reLoading} value={"Confirm Payment"}/>
                       </div>
                       {showError()}
                     </div>
@@ -472,14 +475,14 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
               </div>
             </div>
 
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </section>

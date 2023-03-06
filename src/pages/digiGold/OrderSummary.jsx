@@ -1,6 +1,7 @@
 import { Button, Col, Form, Input, Modal, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LatestLoading } from "../../components/common/Loading";
 import {
@@ -17,11 +18,14 @@ import "../../assets/styles/digigold/sell-order-summery.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { FaHashtag, FaUser } from "react-icons/fa";
 
+
 const OrderSummary = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const location = useLocation();
+
   const [totalAmount, setTotalAmount] = useState("");
   const [step, setStep] = useState(0);
   const [editAddress, setEditAddress] = useState(false);
@@ -56,6 +60,7 @@ const OrderSummary = () => {
     if (counter === 0 || counter === 300) {
       const fetchRates = async () => {
         const res = await dispatch(fetchGoldSilverRates());
+
         console.log(res, "res");
         if (state?.type === "buy") {
           if (state?.metalType === "gold") {
@@ -99,6 +104,7 @@ const OrderSummary = () => {
               const taxesprice = parseFloat(state.valueinAmt) - ActualPrice;
               setTax(parseFloat(taxesprice));
             }
+
           } else {
             setLockPrice(res.payload.Data.result.data.rates.sBuy);
             if (state.valType === "Grams") {
@@ -245,6 +251,7 @@ const OrderSummary = () => {
       seconds < 10 ? "0" : ""
     }${seconds}`;
   };
+
   // Gold & Silver Buy Logic
   const handleSubmit = async () => {
     const username = state.username;
@@ -392,6 +399,7 @@ const OrderSummary = () => {
       navigate("/");
     }
   }, [location, navigate]);
+
   return (
     <>
       <div className="">
@@ -989,6 +997,7 @@ const OrderSummary = () => {
         </section>
       </div>
 
+
       <Modal
         footer={[<button></button>]}
         onCancel={handleClose}
@@ -1107,6 +1116,7 @@ const OrderSummary = () => {
                                        "Verify & Proceed"
                                      )} */}
                       </Button>
+
                     </div>
                   </div>
                 </div>

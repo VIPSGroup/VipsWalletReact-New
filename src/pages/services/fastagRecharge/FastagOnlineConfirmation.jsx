@@ -17,19 +17,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getWalletBalance } from "../../../redux/slices/walletSlice";
 import { getServiceDiscounts } from "../../../redux/slices/services/commonSlice";
 import { fastagOnlineConfirmation } from "../../../redux/slices/services/fastagSlice";
+import { MuiSnackBar, ThemeButton } from "../../../components/common";
 ReactGA.initialize(googleAnalytics);
 
-const FastagOnlineConfirmation = () => {
+const FastagOnlineConfirmation = ({setIsCommonTopNav}) => {
   const location = useLocation();
   const props = location.state;
   var amt = props?.amount;
   var inputFields = props?.inputFieldsData;
   const [balance, setBalance] = useState("");
-  const [shoppingPoints, setShoppingPoints] = useState("");
-  const [primePoints, setPrimePoints] = useState("");
-  const [discountObj, setDiscountObj] = useState({});
-  const [shoppingDiscount, setShoppingDiscount] = useState("");
-  const [primeDiscount, setPrimeDiscount] = useState("");
   const [selectedDiscount, setSelectedDiscount] = useState("SHOPPING");
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("wallet");
   const [payuAmt, setPayuAmt] = useState("0");
@@ -49,7 +45,7 @@ const FastagOnlineConfirmation = () => {
   );
   const { data } = useSelector(state => state.walletSlice.walletBalance);
   const { discount } = useSelector(state => state.commonSlice.serviceDiscount);
-  const { rechargeData,reLoading, } = useSelector(state => state.fastagSlice.fastagRecharge);
+  const { fastagRecharge,reLoading, } = useSelector(state => state.fastagSlice.fastagRecharge);
   const handleClickConfirm = (e) => {
     e.preventDefault();
     setShowSuccess(true)
@@ -134,7 +130,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
   };
 
   useEffect(() => {
-    console.log("UseEccef");
+    setIsCommonTopNav(false)
     ReactGA.pageview(window.location.pathname);
     // setLoading(false);
     const userName = loggedInUser && loggedInUser.UserName;
@@ -145,22 +141,23 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
           dispatch(getWalletBalance({userName,password}))
         }
       }
-      return ()=>{setShowSuccess(false)}
+      return ()=>{setShowSuccess(false)
+        setIsCommonTopNav(true)}
   }, []);
   useEffect(() => {
     dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
     if(data?.Data){
       manageInitialPaymentMethod(data?.Data?.Balance);
     }
-    if(rechargeData && showSuccess){
-      if (rechargeData.ResponseStatus === 1) {
-        if (rechargeData.Data != null) {
-          var data = rechargeData.Data;
+    if(fastagRecharge && showSuccess){
+      if (fastagRecharge.ResponseStatus === 1) {
+        if (fastagRecharge.Data != null) {
+          var data = fastagRecharge.Data;
           var time = getTodayDate();
           navigate("/services/success", {
             state: {
               amount: data.BillAmount,
-              status: rechargeData.Status,
+              status: fastagRecharge.Status,
               mobileNo: inputFields[0].fieldValue,
               operator: props?.operator,
               circle: "",
@@ -169,17 +166,18 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
             },
           });
         } else {
+          setSuccessMsg("")
           setIsSnackBar(true);
-          setErrorMsg(rechargeData.Data.ResponseMessage);
+          setErrorMsg(fastagRecharge.Data.ResponseMessage);
         }
       } else {
+        setSuccessMsg("")
         setIsSnackBar(true);
-        setErrorMsg(
-          rechargeData.Data ? rechargeData.Data.ResponseMessage : rechargeData.Remarks
+        setErrorMsg(fastagRecharge.Data.ResponseMessage
         );
       }
     }
-      }, [data.Data, selectedDiscount,rechargeData])
+      }, [data.Data, selectedDiscount,fastagRecharge])
   const confirmSection = () => (
     <>
       <section class="section-align mobile-payment-confirmation">
@@ -434,7 +432,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
 
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
-                        <button
+                        {/* <button
                           onClick={!reLoading && handleClickConfirm}
                           type="button"
                           class="btn-primery"
@@ -455,7 +453,8 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                           ) : (
                             "Confirm Payment"
                           )}{" "}
-                        </button>
+                        </button> */}
+                        <ThemeButton onClick={handleClickConfirm} loading={reLoading} value={"Confirm Payment"}/>
                       </div>
                       {showError()}
                     </div>
@@ -464,14 +463,14 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
               </div>
             </div>
 
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </section>

@@ -15,15 +15,15 @@ import { googleAnalytics } from "../../constants";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LoadingBar from "../../components/common/Loading";
-import Footer from "../../components/layout/Footer/Footer";
 import {
   sendMoney,
   sendMoneyOtp,
 } from "../../redux/slices/payment/walletSlice";
+import { MuiSnackBar, ThemeButton } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 
 const SendMoney = () => {
-  const [recieverNo, setRecieverNo] = useState("");
+  const [recieverNo, setRecieverNo] = useState(9970039584);
   const [show, setShow] = useState(false);
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState("");
@@ -358,7 +358,8 @@ const SendMoney = () => {
                   <div class="send-money-body">
                     <div class="col-md-12">
                       <div class="send-money-btn">
-                        <button
+                        <ThemeButton onClick={clickSendOtp} value={"Continue"} loading={loading}/>
+                        {/* <button
                           type="button"
                           onClick={!loading && clickSendOtp}
                           href="#"
@@ -366,7 +367,7 @@ const SendMoney = () => {
                         >
                           {" "}
                           {loading ? <LoadingBar /> : "Continue"}{" "}
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </div>
@@ -374,12 +375,12 @@ const SendMoney = () => {
               </div>
             </div>
           </div>
-          {/* <MuiSnackBar
+          <MuiSnackBar
             open={isSnackBar}
             setOpen={setIsSnackBar}
             successMsg={successMessage}
             errorMsg={errorMsg}
-          /> */}
+          />
         </div>
       </section>
     </>

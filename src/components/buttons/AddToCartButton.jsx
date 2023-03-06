@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ThemeButton } from "../common";
 
 const AddToCartButton = ({
   product,
@@ -50,10 +51,11 @@ const AddToCartButton = ({
   };
 
   return (
-    <button onClick={handleAddClick} class="btn btn-cta mr-3" type="button">
-      {" "}
-      {alreadyInCart ? "Go To Cart" : "Add To Cart"}{" "}
-    </button>
+    <ThemeButton value={alreadyInCart ? "Go To Cart" : "Add To Cart"} onClick={handleAddClick} class="btn btn-cta mr-3"/>
+    // <button onClick={handleAddClick} class="btn btn-cta mr-3" type="button">
+    //   {" "}
+    //   {alreadyInCart ? "Go To Cart" : "Add To Cart"}{" "}
+    // </button>
   );
 };
 

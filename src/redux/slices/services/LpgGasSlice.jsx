@@ -14,7 +14,6 @@ export const fetchLPGBill = createAsyncThunk(
       try {
         const res = await axios.post(
           `${baseApiUrl}/Recharge/GetLPGGasBillFetchFBBPS`,formData );
-          console.error(res.data);
         return res.data
       } catch (error) {
         return error;
@@ -24,14 +23,11 @@ export const fetchLPGBill = createAsyncThunk(
   export const getInputFieldsByOperator = createAsyncThunk(
     "getInputFieldsByOperator",
     async (ourCode) => {
-      console.log(ourCode);
         const formData = new FormData();
         formData.append("billerId", ourCode);
-        console.log(ourCode);
       try {
         const res = await axios.post(
             `${baseApiUrl}/Recharge/GetRegexValidationForLPG`,formData );
-            console.warn(res.data.Data.Response);
         return res.data.Data.Response
       } catch (error) {
         return error;
@@ -74,7 +70,6 @@ export const fetchLPGBill = createAsyncThunk(
       try {
         const res = await axios.post(
           `${baseApiUrl}/Recharge/GetLPGBillPaymentsFBBPS`,formData );
-            console.warn(res.data);
         return res.data
       } catch (error) {
         return error;

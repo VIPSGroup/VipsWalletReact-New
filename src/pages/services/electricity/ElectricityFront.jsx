@@ -11,7 +11,7 @@ import RecentHistory from "../../../components/services/RecentHistory";
 import { electricityServiceId, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
-import { Loading } from "../../../components/common";
+import { Loading, MuiSnackBar, ThemeButton } from "../../../components/common";
 import { fetchBill, getInputFieldsByOperator } from "../../../redux/slices/services/fastagSlice";
 import { getElectricityOperators, getSubdivisionData } from "../../../redux/slices/services/electricitySlice";
 ReactGA.initialize(googleAnalytics);
@@ -46,7 +46,7 @@ const ElectricityFront = ({ props }) => {
     (state) => state.loginSlice.loggetInWithOTP
   );
   const { operatorsList } = useSelector(state => state.electricitySlice.electricityOperators );
-  const { billData } = useSelector(state => state.fastagSlice.getBill );
+  const { billData ,billLoading} = useSelector(state => state.fastagSlice.getBill );
   const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
   const { subDivisionData } = useSelector(state => state.electricitySlice.getSubdivisionData );
   const getTodaysDate = () => {
@@ -64,7 +64,7 @@ const ElectricityFront = ({ props }) => {
   };
 
   const callInputFields = (ourCode) => {
-    setIsClick(true)
+    // setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
 
       if (ourCode === jharkandOpCode) {
@@ -87,7 +87,7 @@ const ElectricityFront = ({ props }) => {
     } else {
       inputFields[index].validate = true;
     }
-
+setIsClick(true)
     setInputFields(data);
   };
 
@@ -143,6 +143,7 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
   };
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
+    console.warn(operatorData);
     if(operatorData.length===0){
       dispatch(getElectricityOperators())
     }
@@ -158,7 +159,10 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
         })
       });
     }
+    setIsClick(true)
     setInputFields(arr);
+
+    // return ()=>{setIsClick(false)}
   }, [props,operatorData]);
   useEffect(() => {
     if(billData.ResponseMessage==="Successful"){
@@ -171,7 +175,6 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
   }, [billData])
   useEffect(() => {
     if(subDivisionData){
-      console.log(subDivisionData);
       setSubdivision(sortSubdivision(subDivisionData));
       setSelectSubdivision( subDivisionData[36]?.Name);
       setSubdivisionCode( subDivisionData[36]?.SubDivisionCode);
@@ -542,6 +545,7 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
                               "dropdown-toggle select-toggle select-type" +
                               (selectedOperator ? "Active" : "")
                             }
+                            // onClick={()=>{setIsClick(true)}}
                             value={selectedOperator}
                             type="button"
                             data-toggle="dropdown"
@@ -584,7 +588,7 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
                       ? jharkandOperatorFields()
                       : city
                       ? torrentOperatorFields()
-                      : isClick && inputFields.map((input, i) => (
+                      : selectedOperator && inputFields.map((input, i) => (
                           <div class="row">
                             <div class="col-lg-12 mobile-recharge-field p-0">
                               <div class="input-field">
@@ -641,32 +645,34 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
                       </div>
                     </div>
 
-                    {showBill && fetchBillSection()}
+                    {showBill && mobileNo && fetchBillSection()}
 
-                    {showBillFetchError()}
+                    {mobileNo && showBillFetchError()}
 
                     <div class="col-md-12">
                       {!showBill && operatorPaymentMode !== 2 && (
                         <div class="mobile-recharge-btn">
-                          <button
+                          {/* <button
                             onClick={!loading && clickFetchBill}
                             class="btn-primery"
                             id="addmoneymodal"
                           >
-                            {loading ? <Loading /> : `Fetch Bill`}
-                          </button>
+                            {billLoading ? <Loading /> : `Fetch Bill`}
+                          </button> */}
+                          <ThemeButton onClick={clickFetchBill} loading={billLoading} value={"Fetch Bill"}/>
                         </div>
                       )}
                       {operatorPaymentMode === 2 || showBill ? (
                         <div class="mobile-recharge-btn">
-                          <button
+                          {/* <button
                             onClick={onClickContinue}
                             class="btn-primery"
                             id="addmoneymodal"
                           >
                             {" "}
                             Continue{" "}
-                          </button>
+                          </button> */}
+                          <ThemeButton onClick={onClickContinue} value={"Continue"}/>
                         </div>
                       ) : (
                         <div></div>
@@ -682,14 +688,14 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
               <RecentHistory serviceId={electricityServiceId} />
             </div>
 
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </section>

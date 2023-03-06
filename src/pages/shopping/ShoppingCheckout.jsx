@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LoadingBar from "../../components/common/Loading";
 import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
 import { placeOrder } from "../../apiData/shopping/shopping";
+import { MuiSnackBar, ThemeButton } from "../../components/common";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -17,7 +18,9 @@ const ShoppingCheckout = () => {
   const [selectedDiscount, setSelectedDiscount] = useState("");
   const [amount, setAmount] = useState("");
   const [finalAmount, setFinalAmount] = useState();
-
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [balance, setBalance] = useState("");
   const [shoppingPoints, setShoppingPoints] = useState("");
   const [primePoints, setPrimePoints] = useState("");
@@ -39,8 +42,7 @@ const ShoppingCheckout = () => {
   );
   const { data } = useSelector((state) => state.walletSlice.walletBalance);
   const { data: orderData } = useSelector(
-    (state) => state.orderSlice.orderPlace
-  );
+    (state) => state.orderSlice.orderPlace );
 
   const handleClose = () => {
     setShowModal(false);
@@ -74,6 +76,7 @@ const ShoppingCheckout = () => {
   };
 
   const manageInitialPaymentMethod = (balance, amount) => {
+    console.warn(balance);
     if (balance >= amount) {
       setSelectedPaymentMethod("wallet");
     } else if (balance < amount) {
@@ -115,7 +118,6 @@ const ShoppingCheckout = () => {
     var totalAmount = 0;
     var totalShoppingPoint = 0;
     var PointType = "";
-    // console.log(shoppingDiscount, "shoppingDiscount")
     if (selectedDiscount === "shoppingPoint") {
       subTotal = amount - shoppingDiscount;
       totalAmount = amount - shoppingDiscount + shippingCharges;
@@ -219,14 +221,19 @@ const ShoppingCheckout = () => {
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    const userName = loggedInUser && loggedInUser.UserName;
+    const username = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
     const propsProductsData = location.state;
     setSelectedDiscount("shoppingPoint");
-    const fetchWalletBalance = async () => {
-      await dispatch(getWalletBalance({ userName, password }));
-    };
-    fetchWalletBalance();
+    // const fetchWalletBalance = async () => {
+    //   await dispatch(getWalletBalance({ userName, password }));
+    // };
+    // fetchWalletBalance();
+    if(loggedInUser){
+      if(data?.Data?.length!==0 || !data){
+        dispatch(getWalletBalance({username,password}))
+      }
+    }
   }, [dispatch]);
   useEffect(() => {
     if (data.Data) {
@@ -274,7 +281,11 @@ const ShoppingCheckout = () => {
         setPrimeDiscount(data.Data.PrimePoints);
         setFinalAmount(price - data.Data.PrimePoints);
       }
-    }
+    }else if(data.ResponseStatus==0){
+        setSuccessMsg("")
+       setIsSnackBar(true)
+       setErrorMsg( data.Remarks)
+       }
   }, [data.Data]);
 
   const checkoutSection = () => (
@@ -675,6 +686,7 @@ const ShoppingCheckout = () => {
                             <span class="shopping-payment-summery-amt">
                               {" "}
                               -&#x20B9;{" "}
+                              {/* {JSON.stringify(shoppingDiscount)} */}
                               {parseFloat(
                                 shoppingDiscount
                               ).toLocaleString()}{" "}
@@ -766,7 +778,7 @@ const ShoppingCheckout = () => {
 
                     <div class="col-md-12">
                       <div class="shopping-payment-confirm-btn">
-                        <button
+                        {/* <button
                           onClick={!loading && clickConfirmPayment}
                           class="btn-primery"
                           id="ordersuccessmmodal"
@@ -775,7 +787,8 @@ const ShoppingCheckout = () => {
                           // disabled={amount>balance?true:false}
                         >
                           {loading ? <LoadingBar /> : "Confirm Payment"}
-                        </button>
+                        </button> */}
+                        <ThemeButton onClick={clickConfirmPayment} loading={loading} value={"Confirm Payment"}/>
                       </div>
                     </div>
                   </div>
@@ -894,6 +907,14 @@ const ShoppingCheckout = () => {
     <div>
       {checkoutSection()}
       {SuccessModal()}
+      <MuiSnackBar
+              open={isSnackBar}
+              setOpen={setIsSnackBar}
+              successMsg={successMsg}
+              errorMsg={errorMsg}
+              setSuccess={setSuccessMsg}
+              setError={setErrorMsg}
+            />
     </div>
   );
 };
