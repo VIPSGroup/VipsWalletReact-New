@@ -209,7 +209,6 @@ const OrderSummary = () => {
     return () => clearInterval(timer);
   }, [counter]);
   // Counter Logic
-  // useEffect(() => {}, [counter]);
   // Login & GetWalletBalance Logic
   useEffect(() => {
     const username = state?.username;
