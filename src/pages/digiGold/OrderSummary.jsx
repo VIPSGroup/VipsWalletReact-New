@@ -18,7 +18,6 @@ import "../../assets/styles/digigold/sell-order-summery.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { FaHashtag, FaUser } from "react-icons/fa";
 
-
 const OrderSummary = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
@@ -61,31 +60,32 @@ const OrderSummary = () => {
       const fetchRates = async () => {
         const res = await dispatch(fetchGoldSilverRates());
 
-        console.log(res, "res");
         if (state?.type === "buy") {
           if (state?.metalType === "gold") {
             setLockPrice(res.payload.Data.result.data.rates.gBuy);
-            if (state.valType === "Grams") {
+            if (state?.valType === "Grams") {
               setCurrentRate(
                 parseFloat(
-                  state.valueinGm * res.payload.Data.result.data.rates.gBuy
+                  state?.valueinGm * res.payload.Data.result.data.rates.gBuy
                 )
               );
-              setCurrentGram(parseFloat(state.valueinGm));
+              setCurrentGram(parseFloat(state?.valueinGm));
               setBlockId(res.payload.Data.result.data.blockId);
               setTax(
                 parseFloat(
-                  ((state.valueinGm * res.payload.Data.result.data.rates.gBuy) /
+                  ((state?.valueinGm *
+                    res.payload.Data.result.data.rates.gBuy) /
                     100) *
                     3
                 )
               );
               setTotalAmount(
                 parseFloat(
-                  ((state.valueinGm * res.payload.Data.result.data.rates.gBuy) /
+                  ((state?.valueinGm *
+                    res.payload.Data.result.data.rates.gBuy) /
                     100) *
                     3 +
-                    state.valueinGm * res.payload.Data.result.data.rates.gBuy
+                    state?.valueinGm * res.payload.Data.result.data.rates.gBuy
                 )
               );
             } else {
@@ -93,9 +93,9 @@ const OrderSummary = () => {
               const gBuyGst = parseFloat(
                 res.payload.Data.result.data.rates.gBuyGst
               );
-              setCurrentGram(parseFloat(state.valueinAmt / (gBuy + gBuyGst)));
+              setCurrentGram(parseFloat(state?.valueinAmt / (gBuy + gBuyGst)));
               setBlockId(res.payload.Data.result.data.blockId);
-              const ggram = parseFloat(state.valueinAmt / (gBuy + gBuyGst));
+              const ggram = parseFloat(state?.valueinAmt / (gBuy + gBuyGst));
               const Gprice = parseFloat(
                 res.payload.Data.result.data.rates.gBuy
               );
@@ -104,27 +104,28 @@ const OrderSummary = () => {
               const taxesprice = parseFloat(state.valueinAmt) - ActualPrice;
               setTax(parseFloat(taxesprice));
             }
-
           } else {
             setLockPrice(res.payload.Data.result.data.rates.sBuy);
-            if (state.valType === "Grams") {
+            if (state?.valType === "Grams") {
               setCurrentRate(
                 parseFloat(
-                  state.valueinGm * res.payload.Data.result.data.rates.sBuy
+                  state?.valueinGm * res.payload.Data.result.data.rates.sBuy
                 )
               );
               setCurrentGram(parseFloat(state.valueinGm));
               setBlockId(res.payload.Data.result.data.blockId);
               setTax(
                 parseFloat(
-                  ((state.valueinGm * res.payload.Data.result.data.rates.sBuy) /
+                  ((state?.valueinGm *
+                    res.payload.Data.result.data.rates.sBuy) /
                     100) *
                     3
                 )
               );
               setTotalAmount(
                 parseFloat(
-                  ((state.valueinGm * res.payload.Data.result.data.rates.sBuy) /
+                  ((state?.valueinGm *
+                    res.payload.Data.result.data.rates.sBuy) /
                     100) *
                     3 +
                     state.valueinGm * res.payload.Data.result.data.rates.sBuy
@@ -135,31 +136,31 @@ const OrderSummary = () => {
               const sBuyGst = parseFloat(
                 res.payload.Data.result.data.rates.sBuyGst
               );
-              setCurrentGram(parseFloat(state.valueinAmt / (sBuy + sBuyGst)));
+              setCurrentGram(parseFloat(state?.valueinAmt / (sBuy + sBuyGst)));
 
               setBlockId(res.payload.Data.result.data.blockId);
-              const Sgram = parseFloat(state.valueinAmt / (sBuy + sBuyGst));
+              const Sgram = parseFloat(state?.valueinAmt / (sBuy + sBuyGst));
               const Cprice = parseFloat(
                 res.payload.Data.result.data.rates.sBuy
               );
               const ActualPrice = Sgram * Cprice;
 
               setCurrentRate(parseFloat(ActualPrice));
-              const taxesprice = parseFloat(state.valueinAmt) - ActualPrice;
+              const taxesprice = parseFloat(state?.valueinAmt) - ActualPrice;
               setTax(parseFloat(taxesprice));
             }
           }
         } else {
-          if (state.metalType === "gold") {
+          if (state?.metalType === "gold") {
             setLockPrice(res?.payload?.Data?.result?.data?.rates?.gSell);
             if (state.valType === "Grams") {
               setCurrentRate(
                 parseFloat(
-                  state.valueinGm *
+                  state?.valueinGm *
                     res?.payload?.Data?.result?.data?.rates?.gSell
                 )
               );
-              setCurrentGram(parseFloat(state.valueinGm));
+              setCurrentGram(parseFloat(state?.valueinGm));
               setBlockId(res?.payload?.Data?.result?.data?.blockId);
               // setTax(
               //   parseFloat(
@@ -228,14 +229,14 @@ const OrderSummary = () => {
   };
   // Get User Bank Details logic
   useEffect(() => {
-    const username = state.username;
-    const password = state.password;
+    const username = state?.username;
+    const password = state?.password;
     dispatch(GetUserBankList({ username, password }));
   }, [state]);
   // If Wallet Balance is Lower Than Total Amount Logic
   useEffect(() => {
     const Balance = !walletLoad && data?.Data?.Balance;
-    const Total = totalAmount ? totalAmount : state.valueinAmt;
+    const Total = totalAmount ? totalAmount : state?.valueinAmt;
     if (parseFloat(Balance) < parseFloat(Total)) {
       setWalletShow(true);
     } else {
@@ -393,11 +394,6 @@ const OrderSummary = () => {
     formValue.ifscCode = list.Data.result[0].ifscCode;
     setEditAddress(true);
   };
-  useEffect(() => {
-    if (location.pathname === "/restricted-page") {
-      navigate("/");
-    }
-  }, [location, navigate]);
 
   return (
     <>
@@ -996,7 +992,6 @@ const OrderSummary = () => {
         </section>
       </div>
 
-
       <Modal
         footer={[<button></button>]}
         onCancel={handleClose}
@@ -1115,7 +1110,6 @@ const OrderSummary = () => {
                                        "Verify & Proceed"
                                      )} */}
                       </Button>
-
                     </div>
                   </div>
                 </div>

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { getStateCityList } from "./redux/slices/profile/signUpSlice";
 import Router from "./router/Router";
 
@@ -8,17 +9,16 @@ const App = () => {
   useEffect(() => {
     dispatch(getStateCityList());
   }, []);
+  const location = useLocation();
 
-  function ScrollToTopOnMount() {
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
-
-    return null;
-  }
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [location.pathname]);
   return (
     <>
-      <ScrollToTopOnMount />
       <Router />
     </>
   );

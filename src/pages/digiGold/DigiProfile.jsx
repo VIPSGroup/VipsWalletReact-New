@@ -55,11 +55,11 @@ const DigiProfile = () => {
     formValue.emailId = logData?.Data?.UserEmail;
     formValue.userCityId = logData?.Data?.CityId;
     formValue.userStateId = logData?.Data?.StateId;
-    formValue.userPincode = logData?.Data?.userPincode;
-    formValue.dateOfBirth = logData?.Data?.dateOfBirth;
-    formValue.nomineeName = logData?.Data?.nomineeName;
-    formValue.nomineeDateOfBirth = logData?.Data?.nomineeDateOfBirth;
-    formValue.nomineeRelation = logData?.Data?.nomineeRelation;
+    formValue.userPincode = logData?.Data?.Pincode;
+    formValue.dateOfBirth = logData?.Data?.DateOfBirth;
+    formValue.nomineeName = logData?.Data?.Nominee;
+    formValue.nomineeDateOfBirth = logData?.Data?.NomineeDateOfBirth;
+    formValue.nomineeRelation = logData?.Data?.NomineeRelation;
     formValue.gender = logData?.Data?.gender;
   }, [logData]);
   const handleSubmit = () => {

@@ -39,7 +39,7 @@ const InspiredByBrowsingHistory = () => {
 
   return (
     <>
-    {products.length!==0 && <ProductHorizontal
+    {products?.length!==0 && <ProductHorizontal
         title="Inspired "
         subtitle="By Browsing History"
         products={products}

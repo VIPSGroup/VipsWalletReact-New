@@ -73,8 +73,8 @@ export const SellDigiGold = async ({
   formData.append("quantity", quantity);
   formData.append("blockId", blockid);
   formData.append("userBankId", userBankId);
-  formData.append("accountName", accountName);
-  formData.append("ifscCode", ifscCode);
+  // formData.append("accountName", accountName);
+  // formData.append("ifscCode", ifscCode);
   formData.append("otp", OTP);
 
   try {

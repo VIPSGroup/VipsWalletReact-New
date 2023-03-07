@@ -206,109 +206,113 @@ const CommonTopNav = () => {
                     </li>
                   )}
 
-                {loggedInUser ? (
-                  <li class="nav-item">
-                    <Link
-                      onClick={CheckWalletBalance}
-                      class="nav-link nav-icons"
-                      to="#"
-                      role="button"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      {/* {<img src="/icons/wallet.png" class="img-fluid nav-icon" />} */}
-                      <IoWalletOutline className="nav-icon" />
-                      <span class="d-xl-block d-none d-md-none d-sm-none">
-                        {" "}
-                        My Wallet{" "}
-                      </span>
-                    </Link>
-                    <div
-                      class="dropdown-menu wallet-dropdown-position dropdown-menu-lg-right shadow-dark border-0"
-                      aria-labelledby="navbarwallet"
-                    >
-                      <div class="nav-wallet-card">
-                        <div class="nav-wallet-body">
-                          <span class="nav-wallet-title">
-                            {" "}
-                            <IoWalletOutline /> Balance
-                          </span>
-                          <span class="nav-wallet-amt">
-                            {" "}
-                            &#x20B9;{" "}
-                            {!loading && data
-                              ? data?.Data?.Balance
-                              : "Loading..."}
-                          </span>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="nav-wallet-body nav-wallet-card-p">
-                          <div class="row">
-                            <div class="col col-xs-4 ">
-                              <span>Prime Points : </span>
-                            </div>
-                            <div class="col col-xs-4 points-align">
-                              <span class="nav-wallet-points">
-                                {" "}
-                                {!loading && data
-                                  ? data?.Data?.PrimePoints
-                                  : "Loading..."}
-                              </span>
-                            </div>
+                {loggedInUser &&
+                  pathname !== "/digigold" &&
+                  pathname !== "/digigold-order-summary" &&
+                  pathname !== "/digigold-profile" &&
+                  pathname !== "/digigold-orders" && (
+                    <li class="nav-item">
+                      <Link
+                        onClick={CheckWalletBalance}
+                        class="nav-link nav-icons"
+                        to="#"
+                        role="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        {/* {<img src="/icons/wallet.png" class="img-fluid nav-icon" />} */}
+                        <IoWalletOutline className="nav-icon" />
+                        <span class="d-xl-block d-none d-md-none d-sm-none">
+                          {" "}
+                          My Wallet{" "}
+                        </span>
+                      </Link>
+                      <div
+                        class="dropdown-menu wallet-dropdown-position dropdown-menu-lg-right shadow-dark border-0"
+                        aria-labelledby="navbarwallet"
+                      >
+                        <div class="nav-wallet-card">
+                          <div class="nav-wallet-body">
+                            <span class="nav-wallet-title">
+                              {" "}
+                              <IoWalletOutline /> Balance
+                            </span>
+                            <span class="nav-wallet-amt">
+                              {" "}
+                              &#x20B9;{" "}
+                              {!loading && data
+                                ? data?.Data?.Balance
+                                : "Loading..."}
+                            </span>
                           </div>
-                        </div>
-
-                        <div class="nav-wallet-body nav-wallet-card-p">
-                          <div class="row">
-                            <div class="col col-xs-4">
-                              <span> Shopping Points: </span>
-                            </div>
-                            <div class="col col-xs-4 points-align">
-                              <span class="nav-wallet-points">
-                                {" "}
-                                {!loading && data
-                                  ? data?.Data?.Shoppingpoints
-                                  : "Loading..."}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="dropdown-divider"></div>
-
-                        <div class="nav-wallet-body">
-                          <div class="col-md-12">
+                          <div class="dropdown-divider"></div>
+                          <div class="nav-wallet-body nav-wallet-card-p">
                             <div class="row">
-                              <div class="nav-wallet-btn">
-                                <Link
-                                  type="button"
-                                  to="/addMoney/options"
-                                  class="btn-cta"
-                                  style={{ textDecoration: "none" }}
-                                >
-                                  {" "}
-                                  <img src="/images/wallet/add_money.svg" />{" "}
-                                  <span> Add Money </span>
-                                </Link>
+                              <div class="col col-xs-4 ">
+                                <span>Prime Points : </span>
                               </div>
-                              <div class="nav-wallet-btn ml-auto">
-                                <Link
-                                  type="button"
-                                  to="/sendMoney"
-                                  class="btn-cta"
-                                >
+                              <div class="col col-xs-4 points-align">
+                                <span class="nav-wallet-points">
                                   {" "}
-                                  <img src="/images/wallet/send_money.svg" />{" "}
-                                  <span> Send Money </span>
-                                </Link>
+                                  {!loading && data
+                                    ? data?.Data?.PrimePoints
+                                    : "Loading..."}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="nav-wallet-body nav-wallet-card-p">
+                            <div class="row">
+                              <div class="col col-xs-4">
+                                <span> Shopping Points: </span>
+                              </div>
+                              <div class="col col-xs-4 points-align">
+                                <span class="nav-wallet-points">
+                                  {" "}
+                                  {!loading && data
+                                    ? data?.Data?.Shoppingpoints
+                                    : "Loading..."}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="dropdown-divider"></div>
+
+                          <div class="nav-wallet-body">
+                            <div class="col-md-12">
+                              <div class="row">
+                                <div class="nav-wallet-btn">
+                                  <Link
+                                    type="button"
+                                    to="/addMoney/options"
+                                    class="btn-cta"
+                                    style={{ textDecoration: "none" }}
+                                  >
+                                    {" "}
+                                    <img src="/images/wallet/add_money.svg" />{" "}
+                                    <span> Add Money </span>
+                                  </Link>
+                                </div>
+                                <div class="nav-wallet-btn ml-auto">
+                                  <Link
+                                    type="button"
+                                    to="/sendMoney"
+                                    class="btn-cta"
+                                  >
+                                    {" "}
+                                    <img src="/images/wallet/send_money.svg" />{" "}
+                                    <span> Send Money </span>
+                                  </Link>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
-                ) : null}
+                    </li>
+                  )}
                 {loggedInUser ? (
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
