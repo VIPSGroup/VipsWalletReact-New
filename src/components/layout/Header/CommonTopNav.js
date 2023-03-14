@@ -11,11 +11,13 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { Link, useNavigate, useResolvedPath } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
 import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 import DigiGoldSignup from "../../../pages/digiGold/DigiGoldSignup";
 import { Avatar, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
 import { getWalletBalance } from "../../../redux/slices/walletSlice";
+
 
 const CommonTopNav = ({ isShow = true, setActive }) => {
   const navigate = useNavigate();
@@ -29,6 +31,8 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
+  const { wishCount } = useSelector((state) => state.wishlistSlice);
+
   const { pathname } = useResolvedPath();
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
@@ -40,7 +44,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
   const { data, loading } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
-  // console.log(data, "data aa rha ahi");
+
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -79,6 +83,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
       label: (
         <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
           {!logLoading && logData.Data && "My Orders"}
+
         </Link>
       ),
     },
@@ -99,6 +104,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
           style={{ fontSize: 17 }}
         >
           Terms & Conditions
+
         </Link>
       ),
     },
@@ -680,6 +686,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
     <>
       {section()}
       <DigiGoldSignup setIsDigiLogin={setIsDigiLogin} />
+
       <MuiSnackBar
         open={isSnackBar}
         setOpen={setIsSnackBar}
@@ -688,6 +695,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
         setSuccess={setSuccessMsg}
         setError={setErrorMsg}
       />
+
     </>
   );
 };

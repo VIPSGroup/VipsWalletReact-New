@@ -105,11 +105,16 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
         logData.ResponseStatus !== 0
       ) {
         navigate("/digigold-order-summary", { state: valueType });
+
       } else if (rateData.ResponseStatus === 0) {
+        localStorage.setItem("valueType", JSON.stringify(valueType));
+      } else {
+
         // alert(`${err ? err : "Something Went Wrong"}`);
         setErrorMsg(rateData.Remarks);
         setSuccessMsg("");
         setIsSnackBar(true);
+
       } else if (logData.ResponseStatus === 0) {
         dispatch(modalOpen());
         // setErrorMsg(logData.Remarks);
@@ -276,7 +281,9 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
   console.log(grams, "grams");
   return (
     <>
-      <CommonTopNav setActive={setActive} />
+
+      <CommonTopNav />
+
       <div className="">
         {/* <!-- body section start Now --> */}
         <Spin spinning={loading || logLoading || digiLogLoading}>
