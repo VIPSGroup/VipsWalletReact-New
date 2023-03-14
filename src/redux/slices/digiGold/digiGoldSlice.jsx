@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { digiBaseUrl } from "../../../constants";
+import { appType, digiBaseUrl } from "../../../constants";
 
 export const fetchGoldSilverRates = createAsyncThunk(
   "fetchGoldSilverRates",
   async () => {
+    console.log("ye Main Func hai")
     try {
       const res = await axios.post(`${digiBaseUrl}GetGoldSilverRates`);
       return res.data;
@@ -14,11 +15,11 @@ export const fetchGoldSilverRates = createAsyncThunk(
 export const GetUserBankList = createAsyncThunk(
   "GetUserBankList",
   async ({ username, password }, thunkAPI) => {
+    const formData = new FormData();
+    formData.append("UserName", username);
+    formData.append("Password", password);
     try {
-      const res = await axios.post(`${digiBaseUrl}GetUserBankList`, {
-        UserName: username,
-        Password: password,
-      });
+      const res = await axios.post(`${digiBaseUrl}GetUserBankList`, formData);
       return res.data;
     } catch (error) {
       return error;
@@ -42,6 +43,7 @@ export const BuyDigiGold = async ({
   formData.append("metalType", metalType);
   formData.append("quantity", quantity);
   formData.append("blockId", blockid);
+  formData.append("AppType", appType);
   formData.append(
     "modeOfTransaction",
     type === "Grams" ? "quantity" : "amount"
@@ -73,6 +75,8 @@ export const SellDigiGold = async ({
   formData.append("quantity", quantity);
   formData.append("blockId", blockid);
   formData.append("userBankId", userBankId);
+  formData.append("AppType", appType);
+
   // formData.append("accountName", accountName);
   // formData.append("ifscCode", ifscCode);
   formData.append("otp", OTP);

@@ -43,6 +43,7 @@ const App = () => {
   }
   return (
     <>
+
       <ScrollToTop />
       <Router />
     </>

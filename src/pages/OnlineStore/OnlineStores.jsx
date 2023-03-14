@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAffiliate } from "../../redux/slices/onlineStoreSlice";
 // import { LatestLoading } from "../../components/common/Loading";
 import { Loading, ThemeButton } from "../../components/common";
+import { LatestLoading } from "../../components/common/Loading";
 ReactGA.initialize(googleAnalytics);
 
 const OnlineStores = () => {
@@ -58,8 +59,8 @@ const OnlineStores = () => {
                 </div>
               ))
             ) : (
-              // <LatestLoading />
-              <Loading/>
+              <LatestLoading />
+              // <Loading/>
             )}
           </div>
         </div>

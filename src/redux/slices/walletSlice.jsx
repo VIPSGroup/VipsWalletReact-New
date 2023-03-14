@@ -4,9 +4,10 @@ import { appType, baseApiUrl } from "../../constants";
 
 export const getWalletBalance = createAsyncThunk(
   "getWalletBalance",
-  async ({ userName, password }) => {
+  async ({ UserName, password }) => {
+    console.log(UserName, "njhhg");
     const formData = new FormData();
-    formData.append("UserName", userName);
+    formData.append("UserName", UserName);
     formData.append("Password", password);
     try {
       const res = await axios.post(

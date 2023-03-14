@@ -1,9 +1,10 @@
-import { Button, Form, Input, Select } from "antd";
-import TextArea from "antd/es/input/TextArea";
+import { Button, DatePicker, Form, Input, Select } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-profile.css";
+import { MuiSnackBar } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading";
+import { CommonTopNav } from "../../components/layout/Header";
 import {
   getCityList,
   getStateList,
@@ -11,8 +12,11 @@ import {
 } from "../../redux/slices/digiGold/registerDigiSlice";
 import { UpdateUser } from "../../redux/slices/digiGold/userProfileSlice";
 
-const DigiProfile = () => {
+const DigiProfile = ({ setIsCommonTopNav }) => {
   const dispatch = useDispatch();
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
@@ -41,40 +45,62 @@ const DigiProfile = () => {
     gender: "",
   });
   useEffect(() => {
+    setIsCommonTopNav(false);
     const username = loggedInUser.UserName;
     const password = loggedInUser.TRXNPassword;
     dispatch(loginDigiGold({ username, password }));
+    return () => {
+      setIsCommonTopNav(true)
+    };
+  }, [dispatch]);
+  useEffect(() => {
     dispatch(getStateList());
     if (formValue.userStateId) {
       dispatch(getCityList(formValue.userStateId));
     }
-  }, [dispatch]);
+  }, [formValue.userStateId]);
+  const handleKeyPress = (event) => {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode !== 8 && !/^[a-zA-Z ]+$/.test(String.fromCharCode(charCode))) {
+      event.preventDefault();
+    }
+  };
   useEffect(() => {
     formValue.Name = logData?.Data?.Name;
     formValue.mobileNumber = logData?.Data?.MobileNumber;
-    formValue.emailId = logData?.Data?.UserEmail;
-    formValue.userCityId = logData?.Data?.CityId;
-    formValue.userStateId = logData?.Data?.StateId;
-    formValue.userPincode = logData?.Data?.Pincode;
-    formValue.dateOfBirth = logData?.Data?.DateOfBirth;
-    formValue.nomineeName = logData?.Data?.Nominee;
-    formValue.nomineeDateOfBirth = logData?.Data?.NomineeDateOfBirth;
-    formValue.nomineeRelation = logData?.Data?.NomineeRelation;
-    formValue.gender = logData?.Data?.gender;
+
+    formValue.emailId = logData?.Data?.UserEmail || "";
+    formValue.userCityId = logData?.Data?.CityId || "";
+    formValue.userStateId = logData?.Data?.StateId || "";
+    // formValue.userPincode = logData?.Data?.Pincode || "";
+    formValue.dateOfBirth = logData?.Data?.DateOfBirth || "";
+    formValue.nomineeName = logData?.Data?.Nominee || "";
+    formValue.nomineeDateOfBirth = logData?.Data?.NomineeDateOfBirth || "";
+    formValue.nomineeRelation = logData?.Data?.NomineeRelation || "";
+    // formValue.gender = logData?.Data?.gender || "";
+
   }, [logData]);
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const username = loggedInUser.UserName;
     const password = loggedInUser.TRXNPassword;
-    dispatch(UpdateUser({ formValue, username, password }));
-    // if (condition) {
-
-    // }
+    const res = await dispatch(UpdateUser({ formValue, username, password }));
+    if (res.payload.ResponseStatus === 1 && res.payload.ErrorCode === 200) {
+      setSuccessMsg(res.payload.Remarks);
+      setErrorMsg("");
+      setIsSnackBar(true);
+    } else {
+      setSuccessMsg("");
+      setErrorMsg(res.payload.Remarks);
+      setIsSnackBar(true);
+    }
   };
 
-  console.log(data, "data");
+  const [date, setDate] = useState();
+  console.log(formValue, "aa rhi hai");
   return (
     <>
-      <section class="section-align buy-sell-form">
+      <CommonTopNav />
+      <section class="digi-gold-section-wrapper buy-sell-form">
         <div class="container">
           <div class="digital-gold-section-head">
             <h1 class="section-head-title">MY PROFILE</h1>
@@ -109,10 +135,7 @@ const DigiProfile = () => {
                           name: "userCityId",
                           value: formValue.userCityId,
                         },
-                        {
-                          name: "userPincode",
-                          value: formValue.userPincode,
-                        },
+
                         {
                           name: "dateOfBirth",
                           value: formValue.dateOfBirth,
@@ -129,6 +152,10 @@ const DigiProfile = () => {
                           name: "nomineeRelation",
                           value: formValue.nomineeRelation,
                         },
+                        // {
+                        //   name: "gender",
+                        //   value: formValue.gender,
+                        // },
                       ]}
                     >
                       <div class="container">
@@ -160,10 +187,15 @@ const DigiProfile = () => {
                                   type: "email",
                                   message: "Please Enter Valid Email",
                                 },
+                                {
+                                  required: true,
+                                  message: "Email is Required",
+                                },
                               ]}
                               name={"emailId"}
                             >
                               <Input
+                                required
                                 value={formValue.emailId}
                                 onChange={(e) =>
                                   setFormValue({
@@ -186,6 +218,8 @@ const DigiProfile = () => {
                               name={"dateOfBirth"}
                             >
                               <Input
+                                max="2999-12-31"
+                                addonBefore="DOB"
                                 type="date"
                                 value={formValue.dateOfBirth}
                                 onChange={(e) =>
@@ -211,6 +245,7 @@ const DigiProfile = () => {
                               ]}
                             >
                               <Select
+                                value={logData.StateName}
                                 showSearch
                                 optionFilterProp="children"
                                 filterOption={(input, option) =>
@@ -250,6 +285,7 @@ const DigiProfile = () => {
                               ]}
                             >
                               <Select
+                                value={logData.CityName}
                                 onChange={(e) =>
                                   setFormValue({
                                     ...formValue,
@@ -277,18 +313,10 @@ const DigiProfile = () => {
                               </Select>
                             </Form.Item>
                           </div>
-                          <div class="col-lg-6 col-md-6">
-                            <Form.Item
-                              hasFeedback
-                              name="userPincode"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Pincode is Required",
-                                },
-                              ]}
-                            >
+                          {/* <div class="col-lg-6 col-md-6">
+                            <Form.Item hasFeedback name="userPincode">
                               <Input
+                                maxLength={6}
                                 value={formValue.userPincode}
                                 onChange={(e) =>
                                   setFormValue({
@@ -300,8 +328,8 @@ const DigiProfile = () => {
                                 placeholder="Pincode"
                               />
                             </Form.Item>
-                          </div>
-                          <div class="col-lg-6 col-md-6">
+                          </div> */}
+                          {/* <div class="col-lg-6 col-md-6">
                             <Form.Item hasFeedback name="gender">
                               <Select
                                 size="large"
@@ -315,15 +343,27 @@ const DigiProfile = () => {
                                 }
                               >
                                 <Select.Option value="Male">Male</Select.Option>
-                                <Select.Option value="FeMale">
-                                  FeMale
+                                <Select.Option value="Female">
+                                  Female
                                 </Select.Option>
                               </Select>
                             </Form.Item>
-                          </div>
+                          </div> */}
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item hasFeedback name="nomineeName">
+                            <Form.Item
+                              hasFeedback
+                              name="nomineeName"
+                              rules={[
+                                {
+                                  required:
+                                    formValue.nomineeRelation ||
+                                    formValue.nomineeDateOfBirth,
+                                  message: "This Field is Required ",
+                                },
+                              ]}
+                            >
                               <Input
+                                onKeyPress={handleKeyPress}
                                 value={formValue.nomineeName}
                                 onChange={(e) =>
                                   setFormValue({
@@ -343,10 +383,18 @@ const DigiProfile = () => {
                                 {
                                   type: "date",
                                 },
+                                {
+                                  required:
+                                    formValue.nomineeName ||
+                                    formValue.nomineeRelation,
+                                  message: "This Field is Required ",
+                                },
                               ]}
                               name="nomineeDateOfBirth"
                             >
                               <Input
+                                max="2999-12-31"
+                                addonBefore="Nominee DOB"
                                 type="date"
                                 value={formValue.nomineeDateOfBirth}
                                 onChange={(e) =>
@@ -361,8 +409,20 @@ const DigiProfile = () => {
                             </Form.Item>
                           </div>
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item hasFeedback name="nomineeRelation">
+                            <Form.Item
+                              hasFeedback
+                              name="nomineeRelation"
+                              rules={[
+                                {
+                                  required:
+                                    formValue.nomineeName ||
+                                    formValue.nomineeDateOfBirth,
+                                  message: "This Field is Required ",
+                                },
+                              ]}
+                            >
                               <Input
+                                onKeyPress={handleKeyPress}
                                 value={formValue.nomineeRelation}
                                 onChange={(e) =>
                                   setFormValue({
@@ -389,8 +449,8 @@ const DigiProfile = () => {
                           loading={updateLoading}
                           htmlType="submit"
                           size="large"
-                          style={{ backgroundColor: "#393186", color: "white" }}
-                          class=""
+                          style={{ backgroundColor: "#CA3060", color: "white" }}
+                          class="btn-primary"
                         >
                           {" "}
                           Update{" "}
@@ -406,6 +466,14 @@ const DigiProfile = () => {
           </div>
         </div>
       </section>
+      <MuiSnackBar
+        open={isSnackBar}
+        setOpen={setIsSnackBar}
+        successMsg={successMsg}
+        errorMsg={errorMsg}
+        setSuccess={setSuccessMsg}
+        setError={setErrorMsg}
+      />
     </>
   );
 };

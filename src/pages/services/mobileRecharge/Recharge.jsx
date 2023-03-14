@@ -80,7 +80,7 @@ const Recharge = ({ props }) => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
     dispatch(getActiveApi())
-dispatch(getRechargeCircleList())
+    dispatch(getRechargeCircleList())
     getOperatorsApi(mobileServiceId);
 
      if(circleAndOperator && circleAndOperator[0]){
@@ -234,14 +234,13 @@ dispatch(getRechargeCircleList())
                         </div>
                       </div>
                     </div>
-
                     <div class="row">
                       <div class="col-lg-12 p-0">
                         <div class="dropdown select-option ">
                           <button
                             className={
                               "dropdown-toggle select-toggle select-type" +
-                              (selectedOperator ? "Active" : "")
+                              (selectedOperator && mobileNo.length===10 ? "Active" : "")
                             }
                             value={selectedOperator}
                             type="button"
@@ -250,7 +249,7 @@ dispatch(getRechargeCircleList())
                           >
                             <span class="dropdown-text-limit">
                               {" "}
-                              {selectedOperator
+                              {selectedOperator && mobileNo.length===10
                                 ? selectedOperator
                                 : "Operator"}{" "}
                             </span>
@@ -284,7 +283,7 @@ dispatch(getRechargeCircleList())
                             <button
                               className={
                                 "dropdown-toggle select-toggle select-type" +
-                                (selectedCircle ? "Active" : "")
+                                (selectedCircle && mobileNo.length===10 ? "Active" : "")
                               }
                               type="button"
                               data-toggle="dropdown"
@@ -292,7 +291,7 @@ dispatch(getRechargeCircleList())
                             >
                               <span class="dropdown-text-limit">
                                 {" "}
-                                {selectedCircle
+                                {selectedCircle && mobileNo.length===10
                                   ? selectedCircle
                                   : "Circle"}{" "}
                               </span>

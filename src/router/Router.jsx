@@ -65,11 +65,8 @@ import Wishlist from "../pages/shopping/MyWishlist";
 import Cart from "../pages/shopping/Cart";
 import ShippingAddress from "../pages/shopping/ShippingAddress";
 import Checkout from "../pages/shopping/ShoppingCheckout";
-import DigiGoldHome from "../pages/digiGold/DigiGoldHome";
-import OrderSummary from "../pages/digiGold/OrderSummary";
-import DigiProfile from "../pages/digiGold/DigiProfile";
-import MyOrders from "../pages/digiGold/MyOrdersPage";
-import MyOrdersPage from "../pages/digiGold/MyOrdersPage";
+import { DigiGoldHome, DigiProfile, MyOrdersPage, OrderSummary } from "../pages/digiGold";
+import AllTermsAndCondition from "../pages/publicPages/TermsAndConditions";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
@@ -381,11 +378,25 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/digigold" element={<DigiGoldHome />} />
-        <Route path="/digigold-order-summary" element={<OrderSummary />} />
-        <Route path="/digigold-profile" element={<DigiProfile />} />
-        <Route path="/digigold-orders" element={<MyOrdersPage />} />
-
+        <Route path="/digigold" element={<DigiGoldHome setIsCommonTopNav={setIsCommonTopNav} />} />
+        <Route path="/digigold-order-summary" element={<OrderSummary setIsCommonTopNav={setIsCommonTopNav} />} />
+        <Route path="/digigold-profile" element={<DigiProfile setIsCommonTopNav={setIsCommonTopNav} />} />
+        <Route path="/digigold-orders" element={<MyOrdersPage setIsCommonTopNav={setIsCommonTopNav} />} />
+        <Route
+            path="/digi-faq"
+            element={
+              <AllTermsAndCondition title="DigiGold FAQs" type="DigiGold FAQs" />
+            }
+          />
+          <Route
+            path="/digi-termscondtion"
+            element={
+              <AllTermsAndCondition
+                title="Digi Terms & Conditions"
+                type="DigiGold Terms And Conditions"
+              />
+            }
+          />
         <Route
           path="/prime"
           element={

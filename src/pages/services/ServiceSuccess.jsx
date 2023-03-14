@@ -15,10 +15,16 @@ ReactGA.initialize(googleAnalytics);
 const ServiceSuccess = () => {
   let navigate = useNavigate();
   const location = useLocation();
+//  const history = useHistory()
   const props = location.state;
+ console.log(props);
 // const { rechargeData } = useSelector(state => state.commonSlice.finalRecharge);
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
+    // return null
+//     if(props==null){
+// console.warn("null ahe");
+//     }
   }, []);
   return (
     <div className="color-body">
@@ -44,8 +50,8 @@ const ServiceSuccess = () => {
                 <div class="recharge-success-body">
                   {/** <!-- success animation start --> */}
                   <div class="col-md-12">
-                    {props.status.includes("Success") ||
-                    props.status.includes("Reversal") ? (
+                    {props?.status.includes("Success") ||
+                    props?.status.includes("Reversal") ? (
                       <div class="recharge-seccess-box">
                         <div class="recharge-success-inner success-animation">
                           <svg
@@ -73,10 +79,10 @@ const ServiceSuccess = () => {
 
                           <p class="recharge-success-amt">
                             {" "}
-                            &#x20B9; {props.amount}
+                            &#x20B9; {props?.amount}
                           </p>
                           <br />
-                          <p class="recharge-success-msg"> {props.status} </p>
+                          <p class="recharge-success-msg"> {props?.status} </p>
                         </div>
                       </div>
                     ) : null}
@@ -84,8 +90,8 @@ const ServiceSuccess = () => {
                     {/** <!-- success animation end --> */}
 
                     {/** <!-- warning animation start --> */}
-                    {props.status.includes("Recharge under process") ||
-                    props.status.includes("Pending") ? (
+                    {props?.status.includes("Recharge under process") ||
+                    props?.status.includes("Pending") ? (
                       <div class="recharge-seccess-box">
                         <div class="recharge-success-inner warning-animation">
                           <div class="svg-box">
@@ -122,9 +128,9 @@ const ServiceSuccess = () => {
                           </div>
                           <p class="recharge-success-amt">
                             {" "}
-                            ₹ {props.amount}
+                            ₹ {props?.amount}
                           </p>
-                          <p class="recharge-success-msg"> {props.status} </p>
+                          <p class="recharge-success-msg"> {props?.status} </p>
                         </div>
                       </div>
                     ) : null}
@@ -134,8 +140,8 @@ const ServiceSuccess = () => {
                     {/** <!-- warning animation end -->*/}
                     {/** <!-- faild animation start --> */}
 
-                    {props.status.includes("Failure") ||
-                    props.status.includes("Failed") ? (
+                    {props?.status.includes("Failure") ||
+                    props?.status.includes("Failed") ? (
                       <div class="recharge-seccess-box">
                         <div class="recharge-success-inner faild-animation">
                           <div class="svg-box">
@@ -168,9 +174,9 @@ const ServiceSuccess = () => {
                           </div>
                           <p class="recharge-success-amt">
                             {" "}
-                            &#x20B9; {props.amount}
+                            &#x20B9; {props?.amount}
                           </p>
-                          <p class="recharge-success-msg"> {props.status} </p>
+                          <p class="recharge-success-msg"> {props?.status} </p>
                         </div>
                       </div>
                     ) : null}
@@ -194,15 +200,15 @@ const ServiceSuccess = () => {
                       <div class="col-12 col-xs-12">
                         <span>
                           {" "}
-                          {props.type === "Mobile"
+                          {props?.type === "Mobile"
                             ? "Mobile Number"
                             : "Number"}{" "}
                           :{" "}
                         </span>
                         <span class="recharge-success-right-text">
                           {" "}
-                          {props.type === "Mobile" ? "+91" : ""}{" "}
-                          {props.mobileNo}{" "}
+                          {props?.type === "Mobile" ? "+91" : ""}{" "}
+                          {props?.mobileNo}{" "}
                         </span>
                       </div>
                     </div>
@@ -212,8 +218,8 @@ const ServiceSuccess = () => {
                         <span> Operator : </span>
                         <span class="recharge-success-right-text">
                           {" "}
-                          {props.operator}{" "}
-                          {props.circle ? `| ${props.circle}` : ""}{" "}
+                          {props?.operator}{" "}
+                          {props?.circle ? `| ${props?.circle}` : ""}{" "}
                         </span>
                       </div>
                     </div>
@@ -223,7 +229,7 @@ const ServiceSuccess = () => {
                         <span> Paid On : </span>
                         <span class="recharge-success-right-text">
                           {" "}
-                          {props.date}{" "}
+                          {props?.date}{" "}
                         </span>
                       </div>
                     </div>
@@ -233,7 +239,7 @@ const ServiceSuccess = () => {
                         <span> Transaction Id : </span>
                         <span class="recharge-success-right-text">
                           {" "}
-                          {props.transactionId}{" "}
+                          {props?.transactionId}{" "}
                         </span>
                       </div>
                     </div>

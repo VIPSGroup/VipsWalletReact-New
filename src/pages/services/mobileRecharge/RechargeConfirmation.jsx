@@ -47,12 +47,8 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.walletSlice.walletBalance);
-  const { discount } = useSelector(
-    (state) => state.commonSlice.serviceDiscount
-  );
-  const { rechargeData ,loading} = useSelector(
-    (state) => state.commonSlice.finalRecharge
-  );
+  const { discount } = useSelector((state) => state.commonSlice.serviceDiscount);
+  const { rechargeData ,loading} = useSelector((state) => state.commonSlice.finalRecharge);
   const handleClickConfirm = (e) => {
     setShowSuccess(true);
     e.preventDefault();
@@ -74,14 +70,13 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
   useEffect(() => {
     setIsCommonTopNav(false);
     ReactGA.pageview(window.location.pathname);
-
     const userName = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
     if (loggedInUser) {
       if (data?.Data?.length !== 0 || !data) {
         dispatch(getWalletBalance({ userName, password }));
       }
-    }
+    };
     return () => {
       setShowSuccess(false);
       setIsCommonTopNav(true)
@@ -182,7 +177,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
           <div class="payment-head-outer">
             <div class="payment-head">
               <div class="go-back">
-                <Link to="/services/mobileRecharge">
+                <Link to="/services/mobileRecharge" onClick={()=>{location.state=null}}>
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
                 </Link>
               </div>
