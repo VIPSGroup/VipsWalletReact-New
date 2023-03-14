@@ -2,7 +2,10 @@ import { Button, Col, Form, Input, Modal, Row, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Link, useLocation, useNavigate } from "react-router-dom";
+
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { LatestLoading } from "../../components/common/Loading";
+
 import {
   BuyDigiGold,
   fetchGoldSilverRates,
@@ -21,7 +24,10 @@ import { CommonTopNav } from "../../components/layout/Header";
 import { LatestLoading } from "../../components/common/Loading";
 import { MuiSnackBar } from "../../components/common";
 
+
 const OrderSummary = ({ setIsCommonTopNav }) => {
+
+
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -172,7 +178,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                     res?.payload?.Data?.result?.data?.rates?.gSell
                 )
               );
-              // console.log(state.valueinGm)
+
               setCurrentGram(parseFloat(state?.valueinGm));
               setBlockId(res?.payload?.Data?.result?.data?.blockId);
               // setTax(
@@ -295,6 +301,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
         amount,
         type,
       });
+
       if (res.ResponseStatus === 1) {
         if (res.Data.statusCode === 200) {
           dispatch(loginDigiGold);
@@ -302,6 +309,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
           setLoad(false);
           setModal(true);
         }
+
       } else if (res.ResponseStatus === 0) {
         setLoad(false);
         for (const key in res.Data.errors) {
@@ -447,7 +455,11 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
     setEditAddress(true);
   };
 
-  return (
+  window.onpopstate = function (event) {
+    localStorage.removeItem("valueType");
+  };
+  return localStorage.getItem("valueType") ? (
+
     <>
       <CommonTopNav />
       <div className="">
@@ -1252,6 +1264,8 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
         setError={setErrorMsg}
       />
     </>
+  ) : (
+    <Navigate to={"/digigold"} />
   );
 };
 

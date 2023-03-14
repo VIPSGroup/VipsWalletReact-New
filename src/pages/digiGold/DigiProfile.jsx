@@ -68,6 +68,7 @@ const DigiProfile = ({ setIsCommonTopNav }) => {
   useEffect(() => {
     formValue.Name = logData?.Data?.Name;
     formValue.mobileNumber = logData?.Data?.MobileNumber;
+
     formValue.emailId = logData?.Data?.UserEmail || "";
     formValue.userCityId = logData?.Data?.CityId || "";
     formValue.userStateId = logData?.Data?.StateId || "";
@@ -77,6 +78,7 @@ const DigiProfile = ({ setIsCommonTopNav }) => {
     formValue.nomineeDateOfBirth = logData?.Data?.NomineeDateOfBirth || "";
     formValue.nomineeRelation = logData?.Data?.NomineeRelation || "";
     // formValue.gender = logData?.Data?.gender || "";
+
   }, [logData]);
   const handleSubmit = async () => {
     const username = loggedInUser.UserName;

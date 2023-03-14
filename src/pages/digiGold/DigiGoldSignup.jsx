@@ -7,14 +7,19 @@ import { modalClose } from "../../redux/slices/digiGold/digiGoldSlice";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
+
 import { Link, useNavigate } from "react-router-dom";
+
+
 import {
   getCityList,
   getStateList,
   loginDigiGold,
   registerDigiGold,
 } from "../../redux/slices/digiGold/registerDigiSlice";
+
 import { handleKeyPressForName, handleMobileKeyPress } from "../../constant/Constants";
+
 import { MuiSnackBar } from "../../components/common";
 
 const DigiGoldSignup = ({ setIsDigiLogin }) => {
@@ -74,6 +79,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
       if (step === 0) {
         setStep(step + 1);
       }
+
     } else if (res.payload.ResponseStatus === 1) {
       if (
         res.payload.Data.statusCode === 200 ||
@@ -104,6 +110,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
       console.log("ye hai ");
       setErrorMsg(res.payload.Remarks);
       setSuccessMsg("");
+
       setIsSnackBar(true);
     }
   };
