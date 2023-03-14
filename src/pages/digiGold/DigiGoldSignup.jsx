@@ -8,11 +8,20 @@ import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { useNavigate } from "react-router-dom";
-import { getCityList, getStateList, loginDigiGold, registerDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
+import {
+  getCityList,
+  getStateList,
+  loginDigiGold,
+  registerDigiGold,
+} from "../../redux/slices/digiGold/registerDigiSlice";
+import { MuiSnackBar } from "../../components/common";
 
 const DigiGoldSignup = ({ setIsDigiLogin }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [step, setStep] = useState(0);
   // const [stateList, setStateList] = useState([]);
   const { modalBool } = useSelector((state) => state.digiGoldSlice.modal);
@@ -37,6 +46,11 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
   const handleClose = () => {
     setStep(0);
     dispatch(modalClose());
+    setFormValue({
+      mobileNumber: "",
+      Name: "",
+      otp: "",
+    });
   };
   const handleSubmit = async () => {
     const emailId = loggedInUser.Emailid;
@@ -49,6 +63,21 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
       if (step === 0) {
         setStep(step + 1);
       }
+    } else if (
+      res.payload.ResponseStatus === 1 &&
+      res.payload.Data.ResponseStatus === 0
+    ) {
+      formValue.otp = "";
+      setSuccessMsg("");
+      setErrorMsg(res.payload.Remarks);
+      setIsSnackBar(true);
+    } else if (
+      res.payload.ResponseStatus === 1 &&
+      res.payload.Data.ResponseStatus === 1
+    ) {
+      setSuccessMsg("Signup SuccessFully");
+      setErrorMsg("");
+      setIsSnackBar(true);
     }
   };
   const renderTime2 = () => React.Fragment;
@@ -101,9 +130,21 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
   // Digi Register Modal
   useEffect(() => {
     if (data.ResponseStatus === 1) {
-      localStorage.setItem("digiUser", JSON.stringify(data.Data.result.data));
-      window.location.reload();
-      dispatch(modalClose());
+      if (data.Data.ResponseStatus === 1) {
+        localStorage.setItem(
+          "digiUser",
+          JSON.stringify(data?.Data?.result?.data)
+        );
+        // window.location.reload();
+        dispatch(modalClose());
+        setSuccessMsg("Login SuccessFully");
+        setErrorMsg("");
+        setIsSnackBar(true);
+      } else {
+        setErrorMsg(data.Remarks);
+        setSuccessMsg("");
+        setIsSnackBar(true);
+      }
     }
     if (JSON.parse(localStorage.getItem("digiUser"))) {
       setIsDigiLogin(JSON.parse(localStorage.getItem("digiUser")));
@@ -474,6 +515,15 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
         )}
         {/* <!-- otp popup end --> */}
       </Modal>
+      <MuiSnackBar
+        open={isSnackBar}
+        setOpen={setIsSnackBar}
+        successMsg={successMsg}
+        errorMsg={errorMsg}
+        setSuccess={setSuccessMsg}
+        setError={setErrorMsg}
+      />
+      ;
     </>
   );
 };

@@ -13,12 +13,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { vendorPanelAPi } from "../../../constants";
 import { Avatar, Badge, Button, Dropdown } from "antd";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
+import { loginDigiGold } from "../../../redux/slices/digiGold/registerDigiSlice";
+import DigiGoldSignup from "../../../pages/digiGold/DigiGoldSignup";
+import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 
 const CommonTopNav = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isDigiLogin, setIsDigiLogin] = useState("");
+
   const { wishCount } = useSelector((state) => state.wishlistSlice);
   const { pathname } = useResolvedPath();
+  const { logData, loading: logLoading } = useSelector(
+    (state) => state.registerDigiSlice.login
+  );
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
@@ -26,6 +34,8 @@ const CommonTopNav = () => {
   const { data, loading } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
+  console.log(logData, "logData");
+
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -54,7 +64,7 @@ const CommonTopNav = () => {
       key: "1",
       label: (
         <Link to={"/digigold-profile"} style={{ fontSize: 17 }}>
-          My Profile
+          {!logLoading && logData.Data && "My Profile"}
         </Link>
       ),
     },
@@ -62,7 +72,7 @@ const CommonTopNav = () => {
       key: "2",
       label: (
         <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
-          My Orders
+          {!logLoading && logData.Data && "My Orders"}
         </Link>
       ),
     },
@@ -81,8 +91,13 @@ const CommonTopNav = () => {
     {
       key: "6",
       label: (
-        <Link onClick={clickLogout} style={{ fontSize: 17 }}>
-          Logout
+        <Link
+          onClick={() => {
+            !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
+          }}
+          style={{ fontSize: 17 }}
+        >
+          {!logLoading && logData.Data ? "Logout" : "Register"}
         </Link>
       ),
     },
@@ -604,7 +619,12 @@ const CommonTopNav = () => {
     </>
   );
 
-  return <>{section()}</>;
+  return (
+    <>
+      {section()}
+      <DigiGoldSignup setIsDigiLogin={setIsDigiLogin} />
+    </>
+  );
 };
 
 export default CommonTopNav;

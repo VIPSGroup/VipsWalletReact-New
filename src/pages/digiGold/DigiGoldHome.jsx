@@ -3,6 +3,8 @@ import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/digigold/gold-home.css";
+import { MuiSnackBar } from "../../components/common";
+import { CommonTopNav } from "../../components/layout/Header";
 import {
   fetchGoldSilverRates,
   modalOpen,
@@ -94,6 +96,9 @@ const DigiGoldHome = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isDigiLogin, setIsDigiLogin] = useState("");
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [amount, setAmount] = useState("");
   const [isGold, setIsGold] = useState(0); //0 for Gold 1 for Silver
   const [grams, setGrams] = useState("");
@@ -127,8 +132,12 @@ const DigiGoldHome = () => {
     } else {
       if (rateData.ResponseStatus !== 0 && !loading && !err) {
         navigate("/digigold-order-summary", { state: valueType });
+        localStorage.setItem("valueType", JSON.stringify(valueType));
       } else {
-        alert(`${err ? err : "Something Went Wrong"}`);
+        // alert(`${err ? err : "Something Went Wrong"}`);
+        setErrorMsg(rateData.Remarks);
+        setSuccessMsg("");
+        setIsSnackBar(true);
       }
     }
   };
@@ -182,7 +191,7 @@ const DigiGoldHome = () => {
         setErr("");
       }
     }
-console.log(err, "err")
+    console.log(err, "err");
     const TotalAmount =
       (active === 0 &&
         isGold === 0 &&
@@ -209,6 +218,7 @@ console.log(err, "err")
 
   return (
     <>
+      <CommonTopNav />
       <div className="">
         {/* <!-- body section start --> */}
 
@@ -555,6 +565,14 @@ console.log(err, "err")
         {HowItWorks()}
         <DigiGoldSignup setIsDigiLogin={setIsDigiLogin} />
       </div>
+      <MuiSnackBar
+        open={isSnackBar}
+        setOpen={setIsSnackBar}
+        successMsg={successMsg}
+        errorMsg={errorMsg}
+        setSuccess={setSuccessMsg}
+        setError={setErrorMsg}
+      />
     </>
   );
 };

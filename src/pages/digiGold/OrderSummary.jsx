@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, Modal, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { LatestLoading } from "../../components/common/Loading";
 import {
   BuyDigiGold,
@@ -274,7 +274,8 @@ const OrderSummary = () => {
         amount,
         type,
       });
-      if (res.ResponseStatus === 1) {
+
+      if (res.ResponseStatus === 1 && res.Data.statusCode === 200) {
         dispatch(loginDigiGold);
         setResponse(res.Data.message);
         setLoad(false);
@@ -394,8 +395,10 @@ const OrderSummary = () => {
     formValue.ifscCode = list.Data.result[0].ifscCode;
     setEditAddress(true);
   };
-
-  return (
+  window.onpopstate = function (event) {
+    localStorage.removeItem("valueType");
+  };
+  return localStorage.getItem("valueType") ? (
     <>
       <div className="">
         <section class="section-align buy-sell-form">
@@ -1119,6 +1122,8 @@ const OrderSummary = () => {
         )}
       </Modal>
     </>
+  ) : (
+    <Navigate to={"/digigold"} />
   );
 };
 
