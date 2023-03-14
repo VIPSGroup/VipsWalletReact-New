@@ -602,7 +602,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    href="#"
+                    to="#"
                     onClick={() => {
                       setIsSnackBar(true);
                       setErrorMsg("Service will be coming soon..");
