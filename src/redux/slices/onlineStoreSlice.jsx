@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseApiUrl, staticTocken } from "../../constant/Baseurls";
+import { baseApiUrl, staticTocken } from "../../constants";
 
 export const getAffiliate = createAsyncThunk("getAffiliate", async () => {
   const formData = new FormData();

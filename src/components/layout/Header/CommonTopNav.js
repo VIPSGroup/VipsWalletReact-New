@@ -1,24 +1,38 @@
 import React, { useState, useEffect } from "react";
 import "../../../assets/styles/core/commonTopNav.css";
-import "../../../assets/styles/digigold/digi-gold-profile.css";
-import "../../../assets/styles/digigold/gold-home.css";
-import { FiUser } from "react-icons/fi";
-import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
+
+import { FiSearch, FiUser } from "react-icons/fi";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { IoWalletOutline } from "react-icons/io5";
+import { RiUser3Line } from "react-icons/ri";
+import { vendorPanelAPi } from "../../../constants";
 
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { Link, useNavigate, useResolvedPath } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { vendorPanelAPi } from "../../../constants";
-import { Avatar, Badge, Button, Dropdown } from "antd";
-import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
+import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
+import DigiGoldSignup from "../../../pages/digiGold/DigiGoldSignup";
+import { Avatar, Dropdown } from "antd";
+import { MuiSnackBar } from "../../common";
+import { getWalletBalance } from "../../../redux/slices/walletSlice";
 
-const CommonTopNav = () => {
+const CommonTopNav = ({ isShow = true, setActive }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { wishCount } = useSelector((state) => state.wishlistSlice);
+  const [isDigiLogin, setIsDigiLogin] = useState("");
+  const [balance, setBalance] = useState(0);
+  const [shoppingPoints, setShoppingPoints] = useState("");
+  const [primePoints, setPrimePoints] = useState("");
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const loggedInMember = JSON.parse(localStorage.getItem("user"));
   const { pathname } = useResolvedPath();
+  const { logData, loading: logLoading } = useSelector(
+    (state) => state.registerDigiSlice.login
+  );
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
@@ -26,6 +40,7 @@ const CommonTopNav = () => {
   const { data, loading } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
+  // console.log(data, "data aa rha ahi");
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -49,12 +64,13 @@ const CommonTopNav = () => {
       overlayClassName: "overlay-custom-class-name",
     });
   };
+
   const items = [
     {
       key: "1",
       label: (
         <Link to={"/digigold-profile"} style={{ fontSize: 17 }}>
-          My Profile
+          {!logLoading && logData.Data && "My Profile"}
         </Link>
       ),
     },
@@ -62,7 +78,27 @@ const CommonTopNav = () => {
       key: "2",
       label: (
         <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
-          My Orders
+          {!logLoading && logData.Data && "My Orders"}
+        </Link>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+          FAQ's
+        </Link>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <Link
+          target={"_blank"}
+          to={"/digi-termscondtion"}
+          style={{ fontSize: 17 }}
+        >
+          Terms & Conditions
         </Link>
       ),
     },
@@ -79,19 +115,37 @@ const CommonTopNav = () => {
     //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
     // },
     {
-      key: "6",
+      key: "5",
       label: (
-        <Link onClick={clickLogout} style={{ fontSize: 17 }}>
-          Logout
+        <Link
+          onClick={() => {
+            !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
+          }}
+          style={{ fontSize: 17 }}
+        >
+          {!logLoading && logData.Data ? "Logout" : "Register"}
         </Link>
       ),
     },
   ];
   const CheckWalletBalance = async () => {
-    const username = loggedInUser && loggedInUser?.UserName;
+    const userName = loggedInUser && loggedInUser?.UserName;
     const password = loggedInUser && loggedInUser?.TRXNPassword;
-    dispatch(getWalletBalance({ username, password }));
+    dispatch(getWalletBalance({ userName, password }));
   };
+
+  // useEffect(() => {
+  //   let user = JSON.parse(localStorage.getItem("user"));
+
+  //   const userName = user && user.UserName;
+  //   const password = user && user.TRXNPassword;
+  //   user &&
+  //     getWalletBalance({ userName, password }).then((response) => {
+  //       setBalance(response?.Data?.Balance);
+  //       setShoppingPoints(response?.Data?.Shoppingpoints);
+  //       setPrimePoints(response?.Data?.PrimePoints);
+  //     });
+  // }, []);
 
   const section = () => (
     <>
@@ -102,12 +156,10 @@ const CommonTopNav = () => {
               type="button"
               id="sidebarCollapse"
               class="btn btn-link d-block d-xl-none"
-              onClick={(e) => {
-                document.getElementById("sidebar").classList.add("active");
-              }}
             >
               <i class="fa-solid fa-bars"></i>
             </button>
+
             <Link class="navbar-brand " to="/">
               <img
                 src="/images/VipsLogoMain.png"
@@ -184,7 +236,7 @@ const CommonTopNav = () => {
                       </Link>
                     </li>
                   )}
-                {pathname !== "/digigold" &&
+                {/* {pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
                   pathname !== "/digigold-orders" && (
@@ -194,7 +246,7 @@ const CommonTopNav = () => {
                         to="/shopping/wishlist"
                         role="button"
                       >
-                        {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
+                        
                         <Badge count={wishCount && wishCount?.length}>
                           <AiOutlineHeart className="nav-icon" />
                         </Badge>
@@ -204,111 +256,115 @@ const CommonTopNav = () => {
                         </span>
                       </Link>
                     </li>
-                  )}
+                  )} */}
 
-                {loggedInUser ? (
-                  <li class="nav-item">
-                    <Link
-                      onClick={CheckWalletBalance}
-                      class="nav-link nav-icons"
-                      to="#"
-                      role="button"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      {/* {<img src="/icons/wallet.png" class="img-fluid nav-icon" />} */}
-                      <IoWalletOutline className="nav-icon" />
-                      <span class="d-xl-block d-none d-md-none d-sm-none">
-                        {" "}
-                        My Wallet{" "}
-                      </span>
-                    </Link>
-                    <div
-                      class="dropdown-menu wallet-dropdown-position dropdown-menu-lg-right shadow-dark border-0"
-                      aria-labelledby="navbarwallet"
-                    >
-                      <div class="nav-wallet-card">
-                        <div class="nav-wallet-body">
-                          <span class="nav-wallet-title">
-                            {" "}
-                            <IoWalletOutline /> Balance
-                          </span>
-                          <span class="nav-wallet-amt">
-                            {" "}
-                            &#x20B9;{" "}
-                            {!loading && data
-                              ? data?.Data?.Balance
-                              : "Loading..."}
-                          </span>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="nav-wallet-body nav-wallet-card-p">
-                          <div class="row">
-                            <div class="col col-xs-4 ">
-                              <span>Prime Points : </span>
-                            </div>
-                            <div class="col col-xs-4 points-align">
-                              <span class="nav-wallet-points">
-                                {" "}
-                                {!loading && data
-                                  ? data?.Data?.PrimePoints
-                                  : "Loading..."}
-                              </span>
-                            </div>
+                {loggedInUser &&
+                  pathname !== "/digigold" &&
+                  pathname !== "/digigold-order-summary" &&
+                  pathname !== "/digigold-profile" &&
+                  pathname !== "/digigold-orders" && (
+                    <li class="nav-item">
+                      <Link
+                        onClick={CheckWalletBalance}
+                        class="nav-link nav-icons"
+                        to="#"
+                        role="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        {/* {<img src="/icons/wallet.png" class="img-fluid nav-icon" />} */}
+                        <IoWalletOutline className="nav-icon" />
+                        <span class="d-xl-block d-none d-md-none d-sm-none">
+                          {" "}
+                          My Wallet{" "}
+                        </span>
+                      </Link>
+                      <div
+                        class="dropdown-menu wallet-dropdown-position dropdown-menu-lg-right shadow-dark border-0"
+                        aria-labelledby="navbarwallet"
+                      >
+                        <div class="nav-wallet-card">
+                          <div class="nav-wallet-body">
+                            <span class="nav-wallet-title">
+                              {" "}
+                              <IoWalletOutline /> Balance
+                            </span>
+                            <span class="nav-wallet-amt">
+                              {" "}
+                              &#x20B9;{" "}
+                              {!loading && data
+                                ? data?.Data?.Balance
+                                : "Loading..."}
+                            </span>
                           </div>
-                        </div>
-
-                        <div class="nav-wallet-body nav-wallet-card-p">
-                          <div class="row">
-                            <div class="col col-xs-4">
-                              <span> Shopping Points: </span>
-                            </div>
-                            <div class="col col-xs-4 points-align">
-                              <span class="nav-wallet-points">
-                                {" "}
-                                {!loading && data
-                                  ? data?.Data?.Shoppingpoints
-                                  : "Loading..."}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="dropdown-divider"></div>
-
-                        <div class="nav-wallet-body">
-                          <div class="col-md-12">
+                          <div class="dropdown-divider"></div>
+                          <div class="nav-wallet-body nav-wallet-card-p">
                             <div class="row">
-                              <div class="nav-wallet-btn">
-                                <Link
-                                  type="button"
-                                  to="/addMoney/options"
-                                  class="btn-cta"
-                                  style={{ textDecoration: "none" }}
-                                >
-                                  {" "}
-                                  <img src="/images/wallet/add_money.svg" />{" "}
-                                  <span> Add Money </span>
-                                </Link>
+                              <div class="col col-xs-4 ">
+                                <span>Prime Points : </span>
                               </div>
-                              <div class="nav-wallet-btn ml-auto">
-                                <Link
-                                  type="button"
-                                  to="/sendMoney"
-                                  class="btn-cta"
-                                >
+                              <div class="col col-xs-4 points-align">
+                                <span class="nav-wallet-points">
                                   {" "}
-                                  <img src="/images/wallet/send_money.svg" />{" "}
-                                  <span> Send Money </span>
-                                </Link>
+                                  {!loading && data
+                                    ? data?.Data?.PrimePoints
+                                    : "Loading..."}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="nav-wallet-body nav-wallet-card-p">
+                            <div class="row">
+                              <div class="col col-xs-4">
+                                <span> Shopping Points: </span>
+                              </div>
+                              <div class="col col-xs-4 points-align">
+                                <span class="nav-wallet-points">
+                                  {" "}
+                                  {!loading && data
+                                    ? data?.Data?.Shoppingpoints
+                                    : "Loading..."}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="dropdown-divider"></div>
+
+                          <div class="nav-wallet-body">
+                            <div class="col-md-12">
+                              <div class="row">
+                                <div class="nav-wallet-btn">
+                                  <Link
+                                    type="button"
+                                    to="/addMoney/options"
+                                    class="btn-cta"
+                                    style={{ textDecoration: "none" }}
+                                  >
+                                    {" "}
+                                    <img src="/images/wallet/add_money.svg" />{" "}
+                                    <span> Add Money </span>
+                                  </Link>
+                                </div>
+                                <div class="nav-wallet-btn ml-auto">
+                                  <Link
+                                    type="button"
+                                    to="/sendMoney"
+                                    class="btn-cta"
+                                  >
+                                    {" "}
+                                    <img src="/images/wallet/send_money.svg" />{" "}
+                                    <span> Send Money </span>
+                                  </Link>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
-                ) : null}
+                    </li>
+                  )}
                 {loggedInUser ? (
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
@@ -379,11 +435,12 @@ const CommonTopNav = () => {
                       arrow
                     >
                       <Avatar
-                        style={{
-                          backgroundColor: "#393186",
-                          fontWeight: "boldF",
-                          cursor: "pointer",
-                        }}
+                        className="digigold-user-icon"
+                        // style={{
+                        //   backgroundColor: "#393186",
+                        //   fontWeight: "boldF",
+                        //   cursor: "pointer",
+                        // }}
                       >
                         {loggedInUser.Name.slice(0, 2)}
                       </Avatar>
@@ -404,6 +461,9 @@ const CommonTopNav = () => {
             </div>
           </div>
         </nav>
+
+        {/* {<!-- search form for desktop end --> */}
+
         {/* {<!-- header bottom start -->} */}
         <div class="section inpage-navbar-bottom-services">
           {pathname !== "/digigold" &&
@@ -489,7 +549,7 @@ const CommonTopNav = () => {
                 class="navbar-bottom-services-outer"
               >
                 <div class="navbar-bottom-serv-box">
-                  <Link to={"/digigold"}>
+                  <Link onClick={() => setActive(0)} to="/digigold">
                     <img
                       src="/images/digigold-images/buy-white-icon.svg"
                       alt=""
@@ -499,7 +559,7 @@ const CommonTopNav = () => {
                 </div>
 
                 <div class="navbar-bottom-serv-box">
-                  <Link to={"/digigold"}>
+                  <Link onClick={() => setActive(1)} to="/digigold">
                     <img
                       src="images/digigold-images/sell-white-icon.svg"
                       alt=""
@@ -509,33 +569,51 @@ const CommonTopNav = () => {
                 </div>
 
                 <div class="navbar-bottom-serv-box">
-                  <a href="#">
+                  <Link
+                    href="#"
+                    onClick={() => {
+                      setIsSnackBar(true);
+                      setErrorMsg("Service will be coming soon..");
+                    }}
+                  >
                     <img
                       src="images/digigold-images/sip-white-icon.svg"
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">SIP</span>
-                  </a>
+                  </Link>
                 </div>
 
                 <div class="navbar-bottom-serv-box">
-                  <a href="electricity-bill-1.html">
+                  <Link
+                    href="electricity-bill-1.html"
+                    onClick={() => {
+                      setIsSnackBar(true);
+                      setErrorMsg("Service will be coming soon..");
+                    }}
+                  >
                     <img
                       src="images/digigold-images/delivery-white-icon.svg"
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">Delivery</span>
-                  </a>
+                  </Link>
                 </div>
 
                 <div class="navbar-bottom-serv-box">
-                  <a href="#">
+                  <Link
+                    href="#"
+                    onClick={() => {
+                      setIsSnackBar(true);
+                      setErrorMsg("Service will be coming soon..");
+                    }}
+                  >
                     <img
                       src="images/digigold-images/buy-white-icon.svg"
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">Gift</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -544,6 +622,7 @@ const CommonTopNav = () => {
         </div>
         {/* {<!-- header bottom end -->} */}
       </header>
+
       {/* {<!-- Sidebar start -->} */}
       <nav id="sidebar" class="sidebar-navigation">
         <div class="sidebar-header">
@@ -594,13 +673,23 @@ const CommonTopNav = () => {
           </li>
         </ul>
       </nav>
-      {/* {<!-- Sidebar end -->} */}
-
-      {/* {<!-- <navbar End> -->} */}
     </>
   );
 
-  return <>{section()}</>;
+  return (
+    <>
+      {section()}
+      <DigiGoldSignup setIsDigiLogin={setIsDigiLogin} />
+      <MuiSnackBar
+        open={isSnackBar}
+        setOpen={setIsSnackBar}
+        successMsg={successMsg}
+        errorMsg={errorMsg}
+        setSuccess={setSuccessMsg}
+        setError={setErrorMsg}
+      />
+    </>
+  );
 };
 
 export default CommonTopNav;

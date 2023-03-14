@@ -18,7 +18,7 @@ const App = () => {
   }
   return (
     <>
-      <ScrollToTopOnMount />
+      {/* <ScrollToTopOnMount /> */}
       <Router />
     </>
   );

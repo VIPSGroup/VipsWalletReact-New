@@ -66,6 +66,23 @@ export const validateReference = async (refId) => {
     return await data.json();
   } catch (err) {}
 };
+export const getReceiverDetail = async ({username,password,currentUsername}) => {
+  const formData = new FormData();
+  formData.append("username", username);
+  formData.append("password", password);
+  formData.append("CurrentUserName", currentUsername);
+
+  try {
+    const data = await fetch(
+      `${baseApiUrl}/MemberServices/GetUserChildByUserName`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    return await data.json();
+  } catch (err) {}
+};
 
 export const getCityState = async (pincode) => {
   const formData = new FormData();

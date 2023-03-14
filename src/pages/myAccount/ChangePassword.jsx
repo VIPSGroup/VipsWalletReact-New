@@ -40,6 +40,7 @@ const ChangePassword = () => {
         setIsSnackBar(true)
         setSuccessMsg(success.Remarks)
  localStorage.removeItem("user");
+ window.location.reload()
       navigate("/");
       }else{
         setSuccessMsg("")
@@ -56,10 +57,16 @@ const ChangePassword = () => {
   
     if (oldPassword === loggedInUser.TRXNPassword && newPassword!=='' && confirmPassword!=='') {
     
-      if (newPassword === confirmPassword) {
+      if (newPassword === confirmPassword && loggedInUser.TRXNPassword!==newPassword && loggedInUser.TRXNPassword!==confirmPassword) {
+        console.log("_____________");
         dispatch(changePassword({ Mobile, Password, newPassword }));
-      } 
+      }else{
+        setSuccessMsg("")
+        setIsSnackBar(true)
+        setErrorMsg("New password and confirm password should not be same as old password")
+      }
     }else if(oldPassword===''){
+      
       setSuccessMsg("")
       setIsSnackBar(true)
       setErrorMsg("Enter Old Password")
@@ -74,6 +81,7 @@ const ChangePassword = () => {
     }else if(newPassword!== confirmPassword){
       setSuccessMsg("")
       setIsSnackBar(true)
+      
       setErrorMsg("New Password and Confirm Password don't match .");
     } else {
       setSuccessMsg("")

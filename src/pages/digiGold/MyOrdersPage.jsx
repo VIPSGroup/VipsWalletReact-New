@@ -1,17 +1,26 @@
-import { Card, Modal, Table } from "antd";
+import { Button, Card, Modal, Table } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digigold-myorder.css";
+import { MuiSnackBar } from "../../components/common";
+import { CommonTopNav } from "../../components/layout/Header";
 import { fetchGoldSilverRates } from "../../redux/slices/digiGold/digiGoldSlice";
-import { MyOrders } from "../../redux/slices/digiGold/userProfileSlice";
+import {
+  downloadPdf,
+  getSellStatus,
+  MyOrders,
+} from "../../redux/slices/digiGold/userProfileSlice";
 
-const MyOrdersPage = () => {
+const MyOrdersPage = ({ setIsCommonTopNav }) => {
   const dispatch = useDispatch();
   const [dataSource, setDataSource] = useState([]);
   const [tab, setTab] = useState("Buy");
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState("");
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const { rateData, loading } = useSelector(
     (state) => state.digiGoldSlice.rates
   );
@@ -21,16 +30,82 @@ const MyOrdersPage = () => {
   const { ordersList, loading: orderLoad } = useSelector(
     (state) => state.userProfileSlice.myOrders
   );
+  const { data: sellStatus } = useSelector(
+    (state) => state.userProfileSlice.sellStatus
+  );
+  const { pdfData } = useSelector((state) => state.userProfileSlice.invoice);
   console.log(ordersList, "ordersList");
+
   useEffect(() => {
+    setIsCommonTopNav(false);
     const username = loggedInUser.UserName;
     const password = loggedInUser.TRXNPassword;
     dispatch(MyOrders({ username, password }));
     dispatch(fetchGoldSilverRates());
+    return () => {
+      setIsCommonTopNav(true)
+    };
   }, [dispatch]);
   useEffect(() => {
     setDataSource(ordersList?.Data);
   }, [ordersList]);
+  useEffect(() => {
+    if (sellStatus.ResponseStatus === 1 && sellStatus.Data.statusCode === 200) {
+      // setErrorMsg("");
+      // setIsSnackBar(true);
+      // setSuccessMsg(sellStatus.Data.message);
+      setModalData({
+        ...modalData,
+        TransactionStatus: sellStatus.Data.result.data.status,
+      });
+    } else if (
+      sellStatus.ResponseStatus === 1 &&
+      sellStatus.Data.statusCode !== 200
+    ) {
+      setErrorMsg(sellStatus.Data.message);
+      setIsSnackBar(true);
+      setSuccessMsg("");
+    } else if (sellStatus.ResponseStatus === 0) {
+      setSuccessMsg("");
+      setIsSnackBar(true);
+      setErrorMsg(sellStatus.Remarks);
+    }
+  }, [sellStatus]);
+  useEffect(() => {
+    if (pdfData.ResponseStatus === 1) {
+      setErrorMsg("");
+      setIsSnackBar(true);
+      setSuccessMsg(pdfData.Remarks);
+      const linkSource = `data:application/pdf;base64,${pdfData.Data.InvoiceString}`;
+      const downloadLink = document.createElement("a");
+      downloadLink.href = linkSource;
+      downloadLink.download = pdfData.Data.invoiceNumber;
+      downloadLink.click();
+    } else if (pdfData.ResponseStatus === 0) {
+      console.log("errorrrrrrrr");
+      setSuccessMsg("");
+      setIsSnackBar(true);
+      setErrorMsg(pdfData.Remarks);
+    }
+  }, [pdfData]);
+  const convertBase64ToPDF = (base64String) => {
+    const binaryData = atob(base64String);
+
+    // Step 2: Create a new blob object with the binary data
+    const blob = new Blob([binaryData], { type: "application/pdf" });
+
+    // Step 3: Create a URL for the blob object
+    const url = URL.createObjectURL(blob);
+
+    // Step 4: Create a link to download the PDF
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "filename.pdf";
+    link.click();
+
+    // Optional: Clean up the URL object
+    URL.revokeObjectURL(url);
+  };
 
   const columns = [
     {
@@ -56,7 +131,7 @@ const MyOrdersPage = () => {
       align: "right",
     },
     {
-      title: "Invoice",
+      title: "Action",
       dataIndex: "invoice",
       key: "invoice",
       // render: (_, record) => (
@@ -78,7 +153,6 @@ const MyOrdersPage = () => {
   // console.log(modalData, "data");
   const data = dataSource
     ?.filter((a) => a.TransactionType === tab)
-    .reverse()
     .map((item, index) => ({
       key: index,
       date: (
@@ -124,30 +198,41 @@ const MyOrdersPage = () => {
       ),
       invoice: (
         <>
-          <img
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              setModal(true);
-              setModalData(item);
-            }}
-            src="/images/digigold-images/pdf-icon.svg"
-            alt="Download PDF"
-          />
+          {item.TransactionType === "Buy" ? (
+            <img
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setModal(true);
+                setModalData(item);
+              }}
+              src="/images/digigold-images/pdf-icon.svg"
+              alt="Download PDF"
+            />
+          ) : (
+            <Button
+              onClick={() => {
+                dispatch(
+                  getSellStatus({
+                    transactionId: item.TransactionId,
+                    Username: loggedInUser.UserName,
+                    Password: loggedInUser.TRXNPassword,
+                  })
+                );
+                setModal(true);
+                setModalData(item);
+              }}
+            >
+              {item.TransactionType === "Buy" ? "Invoice" : "Status"}
+            </Button>
+          )}
         </>
       ),
-
-      // action: (
-      //   <ActionButton
-      //     view={() => ViewOpenClose(item)}
-      //     editFormOpen={() => formOpen(item)}
-      //     delete={() => TableItemDelete({ title: "Product" })}
-      //   />
-      // ),
     }));
 
   return (
     <>
-      <section class="section-align buy-sell-form">
+      <CommonTopNav />
+      <section class="digi-gold-section-wrapper buy-sell-form">
         <div class="container">
           <div class="digital-gold-section-head">
             <h1 class="section-head-title">My Order</h1>
@@ -219,260 +304,27 @@ const MyOrdersPage = () => {
                               Sell{" "}
                             </button>{" "}
                           </li>
-                          <li>
+                          {/* <li>
                             {" "}
                             <button class=""> Delivery </button>{" "}
                           </li>
                           <li>
                             {" "}
                             <button class=""> Gift </button>{" "}
-                          </li>
+                          </li> */}
                         </ul>
                       </div>
 
                       <div class="digigold-order-content">
-                        <div class="row">
-                          {/* <div class="col-md-12 digigold-order-table">
-                            <table class="table text-nowrap table-hover table-responsive-xl ">
-                              <thead>
-                                <tr>
-                                  <th scope="col">Date</th>
-                                  <th scope="col">Time od Purchase</th>
-                                  <th scope="col">Transaction ID</th>
-                                  <th scope="col">Narration</th>
-                                  <th scope="col" class="text-right">
-                                    Amount(₹)
-                                  </th>
-                                  <th scope="col">Invoice</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>20/02/2023</td>
-                                  <td>3:06 PM</td>
-                                  <td>AG822316769721813158571655</td>
-                                  <td>Gold Bought 0.0001 gm</td>
-                                  <td class="text-right">11,784.35</td>
-                                  <td class="text-center">
-                                    <button
-                                      class="pdf-down-btn"
-                                      type="button"
-                                      role="button"
-                                      data-toggle="modal"
-                                      data-target="#digigoldorderdetails"
-                                    >
-                                      {" "}
-                                      <img src="/images/digigold-images/pdf-icon.svg" />{" "}
-                                    </button>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-
-                            <div
-                              class="modal fade digigoldorderdetails-modal"
-                              id="digigoldorderdetails"
-                              tabindex="-1"
-                              role="dialog"
-                              aria-labelledby="digigoldorderdetails"
-                              aria-hidden="true"
-                            >
-                              <div
-                                class="modal-dialog modal-dialog-centered"
-                                role="document"
-                              >
-                                <div class="modal-content">
-                                  <button
-                                    type="button"
-                                    class="close modal-close"
-                                    data-dismiss="modal"
-                                    aria-label="Close"
-                                  >
-                                    <span aria-hidden="true">
-                                      <i class="fa-sharp fa-solid fa-xmark"></i>
-                                    </span>
-                                  </button>
-
-                                  <section class="mbTopSpace">
-                                    <div class="digigoldorderdetails-outer">
-                                      <div class="">
-                                        <p class="digigoldorderdetails-title">
-                                          Order Details
-                                        </p>
-                                        <div class="digigoldorderdetails-summery">
-                                          <div class="row mb-3">
-                                            <div class="col-xl-6 col-sm-6">
-                                              <span> Transaction ID: </span>
-                                            </div>
-                                            <div class="col-xl-6 col-sm-6 text-sm-right">
-                                              <span class="digigoldorderdetails-amt">
-                                                {" "}
-                                                AG51211288525985695{" "}
-                                              </span>
-                                            </div>
-                                          </div>
-
-                                          <div class="row mb-3">
-                                            <div class="col-xl-6 col-sm-6">
-                                              <span> Date: </span>
-                                            </div>
-                                            <div class="col-xl-6 col-sm-6 text-sm-right">
-                                              <span class="digigoldorderdetails-amt">
-                                                {" "}
-                                                24 Feb 2023{" "}
-                                              </span>
-                                            </div>
-                                          </div>
-
-                                          <div class="row mb-3">
-                                            <div class="col-xl-6 col-sm-6">
-                                              <span> Narration : </span>
-                                            </div>
-                                            <div class="col-xl-6 col-sm-6 text-sm-right">
-                                              <span class="digigoldorderdetails-amt">
-                                                {" "}
-                                                Gold Bought 0.0001 gm{" "}
-                                              </span>
-                                            </div>
-                                          </div>
-
-                                          <div class="row mb-3">
-                                            <div class="col-xl-6 col-sm-6">
-                                              <span>
-                                                {" "}
-                                                Rate per 1 gm (&#x20B9;):{" "}
-                                              </span>
-                                            </div>
-                                            <div class="col-xl-6 col-sm-6 text-sm-right">
-                                              <span class="digigoldorderdetails-amt">
-                                                {" "}
-                                                5768.53{" "}
-                                              </span>
-                                            </div>
-                                          </div>
-
-                                          <div class="row mb-3">
-                                            <div class="col-xl-6 col-sm-6">
-                                              <span> Amount (&#x20B9;): </span>
-                                            </div>
-                                            <div class="col-xl-6 col-sm-6 text-sm-right">
-                                              <span class="digigoldorderdetails-amt">
-                                                {" "}
-                                                0.97{" "}
-                                              </span>
-                                            </div>
-                                          </div>
-
-                                          <div class="row mb-3">
-                                            <div class="col-xl-6 col-sm-6">
-                                              <span> Tax (&#x20B9;): </span>
-                                            </div>
-                                            <div class="col-xl-6 col-sm-6 text-sm-right">
-                                              <span class="digigoldorderdetails-amt">
-                                                {" "}
-                                                3.00{" "}
-                                              </span>
-                                            </div>
-                                          </div>
-
-                                          <div class="row mb-3">
-                                            <div class="col-xl-6 col-sm-6">
-                                              <span>
-                                                {" "}
-                                                Total Amount (&#x20B9;):{" "}
-                                              </span>
-                                            </div>
-                                            <div class="col-xl-6 col-sm-6 text-sm-right">
-                                              <span class="digigoldorderdetails-amt">
-                                                {" "}
-                                                1.00{" "}
-                                              </span>
-                                            </div>
-                                          </div>
-
-                                          <div class="row mb-3">
-                                            <div class="col-xl-6 col-sm-6">
-                                              <span> Invoice (&#x20B9;): </span>
-                                            </div>
-                                            <div class="col-xl-6 col-sm-6 text-sm-right">
-                                              <span class="digigoldorderdetails-down">
-                                                {" "}
-                                                Download{" "}
-                                                <img src="digigold-images/download-icon.svg" />{" "}
-                                              </span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </section>
-                                </div>
-                              </div>
-                            </div>
-
-                            <table class="table text-nowrap table-hover table-responsive-xl ">
-                              <thead>
-                                <tr>
-                                  <th scope="col">Date</th>
-                                  <th scope="col">Transaction ID</th>
-                                  <th scope="col">Narration</th>
-                                  <th scope="col" class="text-right">
-                                    Amount(₹)
-                                  </th>
-                                  <th scope="col">Invoice</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>20/02/2023</td>
-                                  <td>AG822316769721813158571655</td>
-                                  <td>Gold Bought 0.0001 gm</td>
-                                  <td class="text-right">11,784.35</td>
-                                  <td class="text-center">
-                                    {" "}
-                                    <button class="sell-status-btn">
-                                      {" "}
-                                      Status{" "}
-                                    </button>{" "}
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>20/02/2023</td>
-                                  <td>AG822316769721813158571655</td>
-                                  <td>Gold Bought 0.0001 gm</td>
-                                  <td class="text-right">11,784.35</td>
-                                  <td class="text-center">
-                                    {" "}
-                                    <button class="sell-status-btn">
-                                      {" "}
-                                      Status{" "}
-                                    </button>{" "}
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>20/02/2023</td>
-                                  <td>AG822316769721813158571655</td>
-                                  <td>Gold Bought 0.0001 gm</td>
-                                  <td class="text-right">11,784.35</td>
-                                  <td class="text-center">
-                                    {" "}
-                                    <button class="sell-status-btn">
-                                      {" "}
-                                      Status{" "}
-                                    </button>{" "}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div> */}
-                        </div>
-                        <Card>
+                        <div class="row"></div>
+                        {/* <Card> */}
                           <Table
+                            scroll={{ x: true }}
                             loading={orderLoad}
                             columns={columns}
                             dataSource={data}
                           />
-                        </Card>
+                        {/* </Card> */}
                       </div>
                     </div>
                   </div>
@@ -483,7 +335,7 @@ const MyOrdersPage = () => {
         </div>
       </section>
       <Modal
-        footer={[<button></button>]}
+        footer={[]}
         onCancel={() => setModal(false)}
         centered
         maskClosable={false}
@@ -588,15 +440,30 @@ const MyOrdersPage = () => {
                   <div class="col-xl-6 col-sm-6">
                     <span> Invoice (&#x20B9;): </span>
                   </div>
-                  <div class="col-xl-6 col-sm-6 text-sm-right">
-                    <span
-                      style={{ cursor: "pointer" }}
-                      class="digigoldorderdetails-down"
-                    >
-                      {" "}
-                      Download{" "}
-                      <img src="/images/digigold-images/download-icon.svg" />{" "}
-                    </span>
+                  <div
+                    class="col-xl-6 col-sm-6 text-sm-right"
+                    onClick={() => {
+                      dispatch(downloadPdf(modalData.TransactionId));
+                    }}
+                  >
+                    {modalData.TransactionStatus === null ? (
+                      <span
+                        style={{ cursor: "pointer" }}
+                        class="digigoldorderdetails-down"
+                      >
+                        {" "}
+                        Download{" "}
+                        <img src="/images/digigold-images/download-icon.svg" />{" "}
+                      </span>
+                    ) : (
+                      <span
+                        style={{ cursor: "pointer" }}
+                        class="digigoldorderdetails-down"
+                      >
+                        {modalData?.TransactionStatus?.charAt(0).toUpperCase() +
+                          modalData?.TransactionStatus?.slice(1)}{" "}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -605,6 +472,14 @@ const MyOrdersPage = () => {
           {/* <!-- </div> --> */}
         </section>
       </Modal>
+      <MuiSnackBar
+        open={isSnackBar}
+        setOpen={setIsSnackBar}
+        successMsg={successMsg}
+        errorMsg={errorMsg}
+        setSuccess={setSuccessMsg}
+        setError={setErrorMsg}
+      />
     </>
   );
 };

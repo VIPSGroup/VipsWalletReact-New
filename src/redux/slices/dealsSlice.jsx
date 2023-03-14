@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { baseApiUrl } from "../../constant/Baseurls";
+import { baseApiUrl } from "../../constants";
 
 export const getDealsOfTheDay = createAsyncThunk(
   "getDealsOfTheDay",

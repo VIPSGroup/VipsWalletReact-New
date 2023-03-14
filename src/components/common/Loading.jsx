@@ -32,8 +32,7 @@ export const LatestLoading = () => {
           justifyContent: "center",
           height: "60vh",
         }}
-      >
-        <Spin size="large" />
+      ><Spin size="large" />
       </div>
     </>
   );

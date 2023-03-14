@@ -147,7 +147,6 @@ export const finstocTradePriceCheck = createAsyncThunk(
   }
 );
 
-
 const walletSlice = createSlice({
   name: "walletSlice",
   initialState: {

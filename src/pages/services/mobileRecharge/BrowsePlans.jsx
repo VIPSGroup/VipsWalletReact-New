@@ -23,7 +23,6 @@ const BrowsePlans = ({
   const [comboPlans, setComboPlans] = useState([]);
   const [netPlans, setNetPlans] = useState([]);
   const [spPlans, setSpPlans] = useState([]);
-  // const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedType, setSelectedType] = useState("Special Recharge");
 
@@ -58,7 +57,7 @@ const BrowsePlans = ({
       }
     }
   };
-
+// const navState={}
   useEffect(() => {
     if (activeApiId == 10) {
       const op =
@@ -105,7 +104,7 @@ const BrowsePlans = ({
                   <p class="brows-plans-user-title">
                     {" "}
                     +91 {number}{" "}
-                    <a onClick={() => setSection(1)} className="">
+                    <a onClick={() => setSection(1)} className="" style={{ cursor: "pointer" }}>
                       {" "}
                       Edit{" "}
                     </a>{" "}

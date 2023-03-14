@@ -23,10 +23,9 @@ import publicSlice from "./slices/public/publicSlice";
 import orderSlice from "./slices/shopping/orderSlice";
 import profileSlice from "./slices/profile/profileSlice";
 
-import registerDigiSlice from "./slices/digiGold/registerDigiSlice";
 import digiGoldSlice from "./slices/digiGold/digiGoldSlice";
 import userProfileSlice from "./slices/digiGold/userProfileSlice";
-import publicSlice from "./slices/public/publicSlice";
+import registerDigiSlice from "./slices/digiGold/registerDigiSlice";
 
 
 const store = configureStore({
@@ -51,7 +50,7 @@ const store = configureStore({
     LpgGasSlice: LpgGasSlice,
     walletSlice: walletSlice,
     orderSlice:orderSlice,
-    profileSlice:profileSlice
+    profileSlice:profileSlice,
     registerDigiSlice: registerDigiSlice,
     digiGoldSlice: digiGoldSlice,
     userProfileSlice: userProfileSlice,

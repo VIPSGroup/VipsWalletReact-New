@@ -4,7 +4,7 @@ import OTPInput, { ResendOTP } from "otp-input-react";
 import { ThreeDots } from "react-loader-spinner";
 import Modal from "react-bootstrap/Modal";
 
-import { validateReference } from "../../apiData/authentication/signup";
+import { getReceiverDetail, validateReference } from "../../apiData/authentication/signup";
 
 import "../../assets/styles/addMoney/addMoney.css";
 import "../../assets/styles/styles.css";
@@ -94,13 +94,13 @@ const SendMoney = () => {
     const value = e.target.value.replace(/\D/g, "");
     setError("");
     if (e.target.value.length === 10) {
-      validateReference(value).then((response) => {
+      getReceiverDetail({password:loggedInUser.TRXNPassword, username:loggedInUser.UserName,currentUsername:value}).then(response=>{
         if (response.ResponseStatus == 1) {
-          setReferName(response.Remarks);
-        } else if (response.ResponseStatus == 0) {
-          setError(response.Remarks);
-        }
-      });
+              setReferName(response.Data[0].FName+" "+response.Data[0].LName);
+            } else if (response.ResponseStatus == 0) {
+              setError(response.Remarks);
+            }
+      })
     } else if (e.target.value.length != 10 && e.target.value.length > 0) {
       setReferName("");
       setError("It should be 10 digit valid Mobile No.");

@@ -7,19 +7,31 @@ import { modalClose } from "../../redux/slices/digiGold/digiGoldSlice";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
-import { useNavigate } from "react-router-dom";
-import { getCityList, getStateList, loginDigiGold, registerDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  getCityList,
+  getStateList,
+  loginDigiGold,
+  registerDigiGold,
+} from "../../redux/slices/digiGold/registerDigiSlice";
+import { handleKeyPressForName, handleMobileKeyPress } from "../../constant/Constants";
+import { MuiSnackBar } from "../../components/common";
 
 const DigiGoldSignup = ({ setIsDigiLogin }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [step, setStep] = useState(0);
   // const [stateList, setStateList] = useState([]);
   const { modalBool } = useSelector((state) => state.digiGoldSlice.modal);
   const { loading, data } = useSelector(
     (state) => state.registerDigiSlice.register
   );
-  const { logData } = useSelector((state) => state.registerDigiSlice.login);
+  const { logData, loading: digiLogLoad } = useSelector(
+    (state) => state.registerDigiSlice.login
+  );
   const { stateList } = useSelector(
     (state) => state.registerDigiSlice.stateData
   );
@@ -27,6 +39,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+
   const [formValue, setFormValue] = useState({
     mobileNumber: "",
     Name: "",
@@ -37,7 +50,19 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
   const handleClose = () => {
     setStep(0);
     dispatch(modalClose());
+    setFormValue({
+      mobileNumber: "",
+      Name: "",
+      otp: "",
+    });
   };
+  // const handleKeyPress = (event) => {
+  //   const charCode = event.which ? event.which : event.keyCode;
+  //   if (charCode !== 8 && !/^[a-zA-Z ]+$/.test(String.fromCharCode(charCode))) {
+  //     event.preventDefault();
+  //   }
+  // };
+
   const handleSubmit = async () => {
     const emailId = loggedInUser.Emailid;
     const password = loggedInUser.TRXNPassword;
@@ -49,6 +74,37 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
       if (step === 0) {
         setStep(step + 1);
       }
+    } else if (res.payload.ResponseStatus === 1) {
+      if (
+        res.payload.Data.statusCode === 200 ||
+        res.payload.Data.statusCode === 201
+      ) {
+        setSuccessMsg(res.payload.Data.message);
+        setErrorMsg("");
+        setIsSnackBar(true);
+        handleClose();
+      } else {
+        for (const key in res.payload.Data.errors) {
+          for (const iterator of res.payload.Data.errors[key]) {
+            setErrorMsg(iterator.message);
+            setSuccessMsg("");
+            setIsSnackBar(true);
+          }
+        }
+      }
+    } else if (
+      res.payload.ResponseStatus === 0 &&
+      (res.payload.Data?.statusCode !== 200 ||
+        res.payload.Data?.statusCode !== 201)
+    ) {
+      setErrorMsg(res.payload.Remarks || "Something Went Wrong");
+      setSuccessMsg("");
+      setIsSnackBar(true);
+    } else if (res.payload.ResponseStatus === 0 && !res.payload.Data) {
+      console.log("ye hai ");
+      setErrorMsg(res.payload.Remarks);
+      setSuccessMsg("");
+      setIsSnackBar(true);
     }
   };
   const renderTime2 = () => React.Fragment;
@@ -90,7 +146,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
       localStorage.setItem("digiUser", JSON.stringify(logData?.Data));
       setIsDigiLogin(logData?.Data);
     }
-  }, []);
+  }, [step]);
 
   useEffect(() => {
     dispatch(getStateList());
@@ -101,26 +157,40 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
   // Digi Register Modal
   useEffect(() => {
     if (data.ResponseStatus === 1) {
-      localStorage.setItem("digiUser", JSON.stringify(data.Data.result.data));
-      window.location.reload();
-      dispatch(modalClose());
+      if (data.Data.ResponseStatus === 1) {
+        localStorage.setItem(
+          "digiUser",
+          JSON.stringify(data?.Data?.result?.data)
+        );
+        // window.location.reload();
+        dispatch(modalClose());
+        setSuccessMsg("Login SuccessFully");
+        setErrorMsg("");
+        setIsSnackBar(true);
+      } else {
+        setErrorMsg(data.Remarks);
+        setSuccessMsg("");
+        setIsSnackBar(true);
+      }
     }
     if (JSON.parse(localStorage.getItem("digiUser"))) {
       setIsDigiLogin(JSON.parse(localStorage.getItem("digiUser")));
     }
+    setErrorMsg("");
+    setIsSnackBar(false);
   }, [data]);
 
   return (
     <>
       <Modal
-        footer={[<button></button>]}
+        footer={[]}
         onCancel={handleClose}
         centered
         maskClosable={false}
         open={modalBool}
       >
         {step === 0 && (
-          <div className="">
+          <div className="digi-gold-loginForm">
             <div class="row">
               <div class="col-lg-12">
                 <div class="titleMain formText text-center">
@@ -157,6 +227,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                       ]}
                     >
                       <Input
+                        onKeyPress={handleMobileKeyPress}
                         onChange={(e) =>
                           setFormValue({
                             ...formValue,
@@ -181,9 +252,14 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                           min: 3,
                           message: "Full Name Min 3 Letters",
                         },
+                        {
+                          pattern: "[A-Za-zs]+",
+                          message: "Name is not valid",
+                        },
                       ]}
                     >
                       <Input
+                        onKeyPress={handleKeyPressForName}
                         onChange={(e) =>
                           setFormValue({
                             ...formValue,
@@ -265,86 +341,6 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                     </Form.Item>
                   </div>
 
-                  {/* <div class="col-lg-12">
-                <div class="prepend-input-wrapper input-group">
-                  <span class="input-group-prepend">
-                    <div class="input-group-text">+91</div>
-                  </span>
-
-                  <input
-                    class="prepend-floating-input"
-                    type="text"
-                    placeholder=" "
-                  />
-                  <label class="prepend-floating-label">
-                    Enter Mobile Number
-                  </label>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="input-wrapper">
-                  <div class="input">
-                    <input
-                      id="first-name"
-                      name="Amount"
-                      type="text"
-                      placeholder="&nbsp"
-                    />
-                    <label for="first-name">First Name</label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-12">
-                <div class="input-wrapper">
-                  <div class="input">
-                    <input
-                      id="last-name"
-                      name="Amount"
-                      type="text"
-                      placeholder="&nbsp"
-                    />
-                    <label for="last-name">Last Name</label>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-12">
-                <div class="select-input-wrapper">
-                  <select
-                    class="did-floating-select"
-                    onclick="this.setAttribute('value', this.value);"
-                    onchange="this.setAttribute('value', this.value);"
-                    value=""
-                  >
-                    <option value=""> </option>
-                    <option value="1">Maharashtra</option>
-                    <option value="2">Gujrat</option>
-                    <option value="3">Karnataka</option>
-                    <option value="4">Andhra Pradesh</option>
-                  </select>
-                  <label class="select-floating-label">Select State</label>
-                </div>
-              </div>
-
-              <div class="col-lg-12">
-                <div class="select-input-wrapper">
-                  <select
-                    class="did-floating-select"
-                    onclick="this.setAttribute('value', this.value);"
-                    onchange="this.setAttribute('value', this.value);"
-                    value=""
-                  >
-                    <option value=""> </option>
-                    <option value="1">Kolhapur</option>
-                    <option value="2">Pune</option>
-                    <option value="3">Sangli</option>
-                    <option value="4">Akola</option>
-                  </select>
-                  <label class="select-floating-label">Select City</label>
-                </div>
-              </div> */}
-
                   <div class="col-lg-12">
                     {/* <div class="custom-control custom-checkbox check-term-Style"> */}
                     <Form.Item
@@ -362,8 +358,11 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                       ]}
                       // {...tailFormItemLayout}
                     >
-                      <Checkbox>
-                        I Agree to the <a href="">Terms & Conditions</a>
+                      <Checkbox className="check-term-Style">
+                        I Agree to the{" "}
+                        <Link to="/digi-termscondtion" target="_blank">
+                          Terms & Conditions
+                        </Link>
                       </Checkbox>
                     </Form.Item>
                     {/* </div> */}
@@ -393,21 +392,18 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
         {/* <!-- otp popup start --> */}
         {step === 1 && (
           <div class="align-self-center">
-            <div class="otpForm-outer">
-              <div class="">
-                <div class="">
-                  <div style={{ justifyContent: "center" }} class="">
-                    <div style={{ justifyContent: "center" }}>
-                      <h2>OTP Verification</h2>
-                    </div>
-                    <div class="otp-send-to">
-                      <p>
-                        Enter the OTP sent to
-                        <label for="">
-                          &nbsp; +91 {formValue.mobileNumber}
-                        </label>
-                      </p>
-                    </div>
+            {/* <div class="otpForm-outer"> */}
+            <div class="digigoldotpForm-outer">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div className="digigoldotp-titleMain formText text-center">
+                    <h2>OTP Verification</h2>
+                  </div>
+                  <div class="otp-send-to">
+                    <p>
+                      Enter the OTP sent to
+                      <label for="">&nbsp; +91 {formValue.mobileNumber}</label>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -470,10 +466,19 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                 </div>
               </div>
             </div>
+            {/* </div> */}
           </div>
         )}
         {/* <!-- otp popup end --> */}
       </Modal>
+      <MuiSnackBar
+        open={isSnackBar}
+        setOpen={setIsSnackBar}
+        successMsg={successMsg}
+        errorMsg={errorMsg}
+        setSuccess={setSuccessMsg}
+        setError={setErrorMsg}
+      />
     </>
   );
 };
