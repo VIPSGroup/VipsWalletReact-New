@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import walletSlice from "./slices/walletSlice";
 import bannerSlice from "./slices/bannerSlice";
 import cartSlice from "./slices/shopping/cartSlice";
 import coreSlice from "./slices/coreSlice";
@@ -26,6 +25,7 @@ import profileSlice from "./slices/profile/profileSlice";
 import digiGoldSlice from "./slices/digiGold/digiGoldSlice";
 import userProfileSlice from "./slices/digiGold/userProfileSlice";
 import registerDigiSlice from "./slices/digiGold/registerDigiSlice";
+import walletSlice from "./slices/payment/walletSlice";
 
 
 const store = configureStore({

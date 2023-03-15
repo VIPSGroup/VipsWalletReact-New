@@ -16,8 +16,7 @@ import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 import DigiGoldSignup from "../../../pages/digiGold/DigiGoldSignup";
 import { Avatar, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
-import { getWalletBalance } from "../../../redux/slices/walletSlice";
-
+import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 const CommonTopNav = ({ isShow = true, setActive }) => {
   const navigate = useNavigate();
@@ -41,9 +40,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { data, loading } = useSelector(
-    (state) => state.walletSlice.walletBalance
-  );
+  const { data ,loading} = useSelector((state) => state.walletSlice.walletBalance);
 
   const clickLogout = () => {
     confirmAlert({
@@ -135,9 +132,9 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
     },
   ];
   const CheckWalletBalance = async () => {
-    const userName = loggedInUser && loggedInUser?.UserName;
+    const username = loggedInUser && loggedInUser?.UserName;
     const password = loggedInUser && loggedInUser?.TRXNPassword;
-    dispatch(getWalletBalance({ userName, password }));
+    dispatch(getWalletBalance({ username, password }));
   };
 
   // useEffect(() => {
@@ -375,7 +372,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" ? (
+                  pathname !== "/digigold-orders" && pathname !== "/digigold/gift"  ? (
                     <li class="nav-item dropdown login-dropdown">
                       <Link
                         class="nav-link nav-icons"
@@ -475,7 +472,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
           {pathname !== "/digigold" &&
           pathname !== "/digigold-order-summary" &&
           pathname !== "/digigold-profile" &&
-          pathname !== "/digigold-orders" ? (
+          pathname !== "/digigold-orders" && pathname !== "/digigold/gift" ? (
             <div class="container-fluid">
               <div class="navbar-bottom-services-outer">
                 <div class="navbar-bottom-serv-box">
@@ -608,11 +605,11 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    to="#"
-                    onClick={() => {
-                      setIsSnackBar(true);
-                      setErrorMsg("Service will be coming soon..");
-                    }}
+                    to="/digigold/gift"
+                    // onClick={() => {
+                    //   setIsSnackBar(true);
+                    //   setErrorMsg("Service will be coming soon..");
+                    // }}
                   >
                     <img
                       src="images/digigold-images/buy-white-icon.svg"

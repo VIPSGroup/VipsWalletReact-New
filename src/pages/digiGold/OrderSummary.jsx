@@ -21,7 +21,6 @@ import OTPInput, { ResendOTP } from "otp-input-react";
 import { FaHashtag, FaUser } from "react-icons/fa";
 import { handleKeyPressForName, handleMobileKeyPress } from "../../constant/Constants";
 import { CommonTopNav } from "../../components/layout/Header";
-import { LatestLoading } from "../../components/common/Loading";
 import { MuiSnackBar } from "../../components/common";
 
 

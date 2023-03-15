@@ -10,26 +10,31 @@ export const ShoppingCategoryProduct = ({
   subtitle = "",
   description = "",
 }) => {
+  const [products, setProducts] = useState([])
   const dispatch = useDispatch();
   const { data, loading } = useSelector(
     (state) => state.productSlice.categoryByProduct
   );
 
   useEffect(() => {
-    dispatch(getProductsByCategory(11));
+    dispatch(getProductsByCategory(categoryId));
+    console.log(data);
   }, []);
 
+  useEffect(() => {
+    console.log("UseEffect");
+setProducts(data.Data)
+  }, [data])
+  
   return (
     <>
-      {
         <ProductHorizontal
-          title={"VIPS "}
-          subtitle={"Promotional"}
-          products={data.Data}
+          title={title}
+          subtitle={subtitle}
+          products={products}
           loading={loading}
-          description={"Discover all the VIPS merchandise here!"}
+          description={description}
         />
-      }
     </>
   );
 };

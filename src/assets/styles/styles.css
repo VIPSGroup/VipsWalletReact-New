@@ -615,7 +615,9 @@ body{
 }
 
 */
-
+.react-multi-carousel-list {
+  position: static!important;
+}
 /* no data loader start */
 .services-page-loader .service-loader-outer{
   width: 90px;

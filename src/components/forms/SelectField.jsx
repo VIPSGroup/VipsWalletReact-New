@@ -6,7 +6,7 @@ const SelectField = ({ setGetData, getData }) => {
   const [cityList, setCityList] = useState([]);
   const { allStateCityList } = useSelector((state) => state.signUpSlice.stateList);
   const sortState = (states) => {
-    let sortedStates =states.slice().sort((a, b) => (a.StateName > b.StateName ? 1 : -1));
+    let sortedStates =states?.slice().sort((a, b) => (a.StateName > b.StateName ? 1 : -1));
     return sortedStates;
   };
   const sortCity = (city) => {

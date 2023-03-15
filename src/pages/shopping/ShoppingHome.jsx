@@ -56,7 +56,7 @@ const ShoppingHome = () => {
   };
   const shoppingCategoryBar = () => (
     <>
-      <div class="section shopping-catagory-nav mt-5">
+      <div class="section shopping-catagory-nav">
         <div class="container-fluid">
           <div class="row d-none d-sm-block">
             <div class="col-md-12">

@@ -20,7 +20,7 @@ const FastagFront = ({ props }) => {
   const [billFetchData, setBillFetchData] = useState({});
   const [operatorPaymentMode, setOperatorPaymentMode] = useState("");
   const [billFetchError, setBillFetchError] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [billAmount, setBillAmount] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
@@ -34,7 +34,7 @@ const dispatch= useDispatch()
   );
   const { operatorsList } = useSelector(state => state.fastagSlice.fastgOperators );
   const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
-  const { billData } = useSelector(state => state.fastagSlice.getBill );
+  const { billData ,billLoading} = useSelector(state => state.fastagSlice.getBill );
   const callInputFields = (ourCode) => {
     // setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
@@ -84,7 +84,7 @@ const dispatch= useDispatch()
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
         } else {
-          setLoading(true);
+          // setLoading(true);
           const obj = inputFields.reduce(
             (arr, curr) => ({ ...arr, [curr.fieldName]: curr.fieldValue }),
             {}
@@ -471,14 +471,14 @@ useEffect(() => {
                       </div>
                     </div>
 
-                    {showBill && mobileNo && fetchBillSection()}
+                    {showBill && mobileNo.length===10 && fetchBillSection()}
 
                     {mobileNo && showBillFetchError()}
 
                     <div class="col-md-12">
                       {!showBill && (
                         <div class="mobile-recharge-btn">
-                          <ThemeButton loading={loading} onClick={clickFetchBill} value={"Fetch Bill"}/>
+                          <ThemeButton loading={billLoading} onClick={clickFetchBill} value={"Fetch Bill"}/>
                           {/* <button
                             onClick={!loading && clickFetchBill}
                             class="btn-primery"

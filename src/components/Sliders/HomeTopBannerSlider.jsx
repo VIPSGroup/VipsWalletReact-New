@@ -34,6 +34,7 @@ const HomeTopBannerSlider = () => {
   }, []);
   return (
     <>
+    {console.log(SliderBanners)}
       <div className="top-banner-outer">
         {SliderBanners && (
           <Carousel
@@ -61,13 +62,12 @@ const HomeTopBannerSlider = () => {
                       className="img-fluid"
                       alt=""
                     />
+                    {console.warn(banner.BackgroundImage)}
                   </div>
                 ) : null
               )
             ) : (
               <LatestLoading />
-              // "Loading............."
-              // <Loading/>
             )}
           </Carousel>
         )}

@@ -142,10 +142,10 @@ const QuickViewModal = ({ productId }) => {
 
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
-
     cartProducts &&
-      cartProducts.map((c, i) => {
-        if (c?.product?.Id == pro?.ProductDetails?.Id) {
+    cartProducts.map((c, i) => {
+      if (c?.product?.Id == pro?.ProductDetails?.Id) {
+        console.log("ala");
           setExistInCart(true);
         }
       });
@@ -214,11 +214,12 @@ const QuickViewModal = ({ productId }) => {
   // }, [data]);
   useEffect(() => {
     // setLoggedInUser(localStorage.getItem("user"));
-    dispatch(getSingleProductData(productId));
+    dispatch(getSingleProductData({productId}));
   }, []);
   useEffect(() => {
     var p = {};
     p = data?.Data?.ProductDetails;
+    // console.warn(data);
     setProduct(data?.Data?.ProductDetails);
     setProductObj(data?.Data);
     checkInCart(data?.Data);
@@ -340,7 +341,6 @@ const QuickViewModal = ({ productId }) => {
             </>
           </div>
         </div>
-
         <div class="col-lg-6">
           <div class="quick-view-product-info-outer">
             <h1 class="quick-view-title">{product?.Name}</h1>

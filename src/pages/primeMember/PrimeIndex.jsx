@@ -4,7 +4,6 @@ import ReactGA from "react-ga";
 import { googleAnalytics } from "../../constants";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Footer from "../../components/layout/Footer/Footer";
 ReactGA.initialize(googleAnalytics);
 
 const PrimeIndex = ({ setIsBottomTopNav }) => {
@@ -294,7 +293,6 @@ const PrimeIndex = ({ setIsBottomTopNav }) => {
   return (
     <>
       {primeSection()}
-      <Footer />
     </>
   );
 };

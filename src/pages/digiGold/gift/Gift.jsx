@@ -1,7 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { CommonTopNav } from '../../../components/layout/Header';
+import "../../../assets/styles/digigold/digigold-gift.css"
 
-const Gift = () => {
+const Gift = ({ setIsCommonTopNav }) => {
+    useEffect(() => {
+        setIsCommonTopNav(false);
+    
+      return () => {
+        setIsCommonTopNav(true)
+      }
+    }, [])
+    
   return (
+    <>
+     <CommonTopNav />
+   
     <section class="section-align buy-sell-form">
     <div class="container">
 
@@ -49,7 +62,7 @@ const Gift = () => {
                             <span class="current-rate-amt"> &#x20B9; 2,552.60 / gm</span>
                         </div>
                         <div class="digi-icon d-none d-md-block">
-                            <img src="digigold-images/digi-icon.svg" />
+                            <img src="images/digigold-images/digi-icon.svg" />
                         </div>
                         <div class="vertical-separator d-md-none d-sm-block"></div>
                         <div class="current-rate">
@@ -99,7 +112,7 @@ const Gift = () => {
                                           </div>
                                         </div>
                                         <div class="exchange-arrow-outer text-center">
-                                            <span class="exchange-arrow"> <img src="digigold-images/two-arrows.svg" /> </span>
+                                            <span class="exchange-arrow"> <img src="images/digigold-images/two-arrows.svg" /> </span>
                                         </div>
                                         <div class="input-wrapper">
                                             <div class="input">
@@ -126,7 +139,7 @@ const Gift = () => {
                                         </div>
                                       </div>
                                       <div class="exchange-arrow-outer text-center">
-                                          <span class="exchange-arrow"> <img src="digigold-images/two-arrows.svg" /> </span>
+                                          <span class="exchange-arrow"> <img src="images/digigold-images/two-arrows.svg" /> </span>
                                       </div>
                                       <div class="input-wrapper">
                                           <div class="input">
@@ -153,6 +166,7 @@ const Gift = () => {
     </div>
 
 </section>
+</>
   )
 }
 

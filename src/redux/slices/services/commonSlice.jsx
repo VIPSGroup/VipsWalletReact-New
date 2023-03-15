@@ -10,7 +10,8 @@ export const getOperators = createAsyncThunk(
       try {
         const res = await axios.post(
           `${baseApiUrl}/operatorServices/GetOperatorName`,formData );
-        return res.data.Data
+        return res.data.Data.sort((a, b) =>
+        a.OperatorName > b.OperatorName ? 1 : -1)
       } catch (error) {
         return error;
       }

@@ -11,12 +11,9 @@ import { postpaidServiceId } from "../../../constants";
 import { googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
-import { getWalletBalance } from "../../../redux/slices/walletSlice";
-import {
-  finalRecharge,
-  getServiceDiscounts,
-} from "../../../redux/slices/services/commonSlice";
+import {finalRecharge, getServiceDiscounts} from "../../../redux/slices/services/commonSlice";
 import { MuiSnackBar, ThemeButton } from "../../../components/common";
+import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -70,11 +67,11 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
   useEffect(() => {
     setIsCommonTopNav(false);
     ReactGA.pageview(window.location.pathname);
-    const userName = loggedInUser && loggedInUser.UserName;
+    const username = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
     if (loggedInUser) {
       if (data?.Data?.length !== 0 || !data) {
-        dispatch(getWalletBalance({ userName, password }));
+        dispatch(getWalletBalance({ username, password }));
       }
     };
     return () => {

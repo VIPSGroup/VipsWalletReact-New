@@ -145,6 +145,7 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
     ReactGA.pageview(window.location.pathname);
     console.warn(operatorData);
     if(operatorData.length===0){
+      console.log(operatorData);
       dispatch(getElectricityOperators())
     }
     const arr = []
@@ -508,7 +509,7 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
             maxLength={7}
             minLength={1}
             required
-            // readOnly={operatorPaymentMode !== 2}
+            readOnly={operatorPaymentMode !== 2}
           />
           <label for="referral-mobile"> Amount </label>
         </div>

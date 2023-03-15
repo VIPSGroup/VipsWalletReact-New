@@ -65,7 +65,7 @@ import Wishlist from "../pages/shopping/MyWishlist";
 import Cart from "../pages/shopping/Cart";
 import ShippingAddress from "../pages/shopping/ShippingAddress";
 import Checkout from "../pages/shopping/ShoppingCheckout";
-import { DigiGoldHome, DigiProfile, MyOrdersPage, OrderSummary } from "../pages/digiGold";
+import { DigiGoldHome, DigiProfile, Gift, MyOrdersPage, OrderSummary } from "../pages/digiGold";
 import AllTermsAndCondition from "../pages/publicPages/TermsAndConditions";
 
 const Router = () => {
@@ -382,6 +382,7 @@ const Router = () => {
         <Route path="/digigold-order-summary" element={<OrderSummary setIsCommonTopNav={setIsCommonTopNav} />} />
         <Route path="/digigold-profile" element={<DigiProfile setIsCommonTopNav={setIsCommonTopNav} />} />
         <Route path="/digigold-orders" element={<MyOrdersPage setIsCommonTopNav={setIsCommonTopNav} />} />
+        <Route path="/digigold/gift" element={<Gift setIsCommonTopNav={setIsCommonTopNav} />} />
         <Route
             path="/digi-faq"
             element={

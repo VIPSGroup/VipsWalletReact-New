@@ -45,6 +45,12 @@ const EditProfile = () => {
       PerAddress: "",
     },
     validationSchema: yup.object({
+      AlternateMobile: yup
+        .string()
+        .optional()
+        // .min(10)
+        // .max(10),
+        ,
       PanCard: yup
         .string()
         .required("Please Enter Your Pan Number")
@@ -121,7 +127,7 @@ const EditProfile = () => {
       });
     }
     if (allStateCityList) {
-      let selectedState = allStateCityList.Data.find(
+      let selectedState = allStateCityList?.Data?.find(
         (item) => item.Id === getData.stateId
       );
       let selectedCity = selectedState?.Citys.find(
@@ -166,36 +172,6 @@ const EditProfile = () => {
       }
     }
   }, [pinCode, formik.values.Pincode, getData]);
-
-  // const handlePincode=()=>{
-  //   console.log(formik.values.Pincode);
-  //   if (formik.values.Pincode.length === 6) {
-  //     dispatch(getStateCity(formik.values.Pincode));
-  //     if (stateCityByPincode?.ResponseStatus === 1) {
-  //       console.warn(stateCityByPincode.Data[0]);
-  //       setGetData({
-  //         ...getData,
-  //         stateName: stateCityByPincode.Data[0].StateName,
-  //         stateId: stateCityByPincode.Data[0].StateId,
-  //         stateError: false,
-  //         cityId: stateCityByPincode.Data[0].CityId,
-  //         cityName: stateCityByPincode.Data[0].CityName,
-  //         cityError: false,
-  //         pincodeId: stateCityByPincode.Data[0].PincodeId,
-  //       });
-  //     } else if (stateCityByPincode?.ResponseStatus === 0) {
-  //       setGetData({
-  //         ...getData,
-  //         stateName: "",
-  //         stateId: "",
-  //         stateError: false,
-  //         cityId: "",
-  //         cityName: "",
-  //         cityError: false,
-  //       });
-  //     }
-  //   }
-  // }
 
   const editProfileSection = () => (
     <>
@@ -263,9 +239,9 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="AlternateMobile"
+                            className={ formik.errors.AlternateMobile || formik.touched.AlternateMobile ? "is-invalid": "" }
                             onChange={
                               formik.handleChange
-                              // handlerAlternateNumber
                             }
                             id="user-alternate-number"
                             placeholder="&nbsp;"
@@ -277,12 +253,12 @@ const EditProfile = () => {
                             autocomplete="off"
                             maxLength={10}
                             minLength={10}
-                            // required
                             readOnly={lastUpdateAltMobile && true}
                           />
                           <label for="user-alternate-number">
                             Alternate Number
                           </label>
+                          <div className="invalid-feedback text-danger">{formik.errors.AlternateMobile}</div>
                         </div>
                       </div>
                     </div>
@@ -422,7 +398,6 @@ const EditProfile = () => {
                         setGetData={setGetData}
                         getData={getData}
                       />
-
                       <div class="col-lg-12">
                         <div class="save-profile-btn text-center mt-4">
                           {/* <button type="submit" class="btn-primery">

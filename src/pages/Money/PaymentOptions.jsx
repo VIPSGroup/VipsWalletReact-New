@@ -79,7 +79,7 @@ const PaymentOptions = () => {
                             src="/images/logos/affiliate_icon.svg"
                             class="img-fluid img1"
                           />{" "}
-                          Affiliate (&#x20B9; {GABBalance})
+                          GAB (&#x20B9; {GABBalance})
                         </span>
                       </label>
                       <label>

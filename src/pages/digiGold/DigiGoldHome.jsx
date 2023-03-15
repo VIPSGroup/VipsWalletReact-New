@@ -10,7 +10,6 @@ import {
   modalOpen,
 } from "../../redux/slices/digiGold/digiGoldSlice";
 import { loginDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
-import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
 import DigiGoldSignup from "./DigiGoldSignup";
 
 export const HowItWorks = () => {
@@ -115,12 +114,13 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
         setSuccessMsg("");
         setIsSnackBar(true);
 
-      } else if (logData.ResponseStatus === 0) {
-        dispatch(modalOpen());
-        // setErrorMsg(logData.Remarks);
-        // setSuccessMsg("");
-        // setIsSnackBar(true);
-      }
+      } 
+      //  if (logData.ResponseStatus === 0) {
+      //   dispatch(modalOpen());
+      //   // setErrorMsg(logData.Remarks);
+      //   // setSuccessMsg("");
+      //   // setIsSnackBar(true);
+      // }
       if (logData.ResponseStatus === 3) {
         setErrorMsg(logData.Remarks);
         setSuccessMsg("");

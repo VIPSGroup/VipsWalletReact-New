@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import CommonTopNav from "../../components/home/CommonTopNav";
-import Footer from "../../components/home/Footer";
 import FinstockModal from "../../components/addMoney/FinstockModal";
 
 // import {
@@ -195,7 +193,6 @@ const PaymentOptions = () => {
           </div>
         </div>
       </section>
-      <Footer />
     </div>
   );
 };

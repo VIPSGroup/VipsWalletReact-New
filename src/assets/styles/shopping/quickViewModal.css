@@ -323,6 +323,7 @@
 
 .quick-view-btn{
     display: flex;
+    gap: 5px;
 }
 .quick-view-btn button{
     /* width: 214px; */

@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import "../../assets/styles/shopping/cart.css";
-import { getWalletBalance } from "../../apiData/user/userDetails";
 
 // import { MuiSnackBar } from "../../components/common/snackbars";
 import ReactGA from "react-ga";
