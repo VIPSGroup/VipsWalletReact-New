@@ -2,22 +2,38 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseApiUrl } from "../../../constants";
 
-export const getStateCity = createAsyncThunk(
-  "getStateCity",
-  async (pincode,{getState}) => {
-    const formData = new FormData();
-    formData.append("pincode", pincode);
-    try {
-      const res = await axios.post(
-        `${baseApiUrl}/UserServices/GetCityAndStateByPincode`,
-        formData
-      );
-      return res.data
-    } catch (error) {
-      return error;
-    }
-  }
-);
+export const getStateCity = (pincode) => {
+  const formData = new FormData();
+  formData.append("pincode", pincode);
+  formData.append("PayType", "App_Wallet");
+
+  return fetch(`${baseApiUrl}/UserServices/GetCityAndStateByPincode`, {
+    method: "POST",
+    body: formData,
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .catch((err) => {});
+};
+
+
+// export const getStateCity = createAsyncThunk(
+//   "getStateCity",
+//   async (pincode,{getState}) => {
+//     const formData = new FormData();
+//     formData.append("pincode", pincode);
+//     try {
+//       const res = await axios.post(
+//         `${baseApiUrl}/UserServices/GetCityAndStateByPincode`,
+//         formData
+//       );
+//       return res.data
+//     } catch (error) {
+//       return error;
+//     }
+//   }
+// );
 export const getStateCityList = createAsyncThunk(
   "getStateCityList",
   async () => {
@@ -154,20 +170,6 @@ state.stateCityPincode.stateCityByPincode={}
     builder.addCase(validateReference.rejected, (state, action) => {
       state.validateNumber.loading = false;
       state.validateNumber.error = action.error;
-    });
-    builder.addCase(getStateCity.pending, (state, action) => {
-      state.stateCityPincode.loading = true;
-      state.stateCityPincode.stateCityByPincode = {};
-      state.stateCityPincode.edited =false;
-    });
-    builder.addCase(getStateCity.fulfilled, (state, action) => {
-      state.stateCityPincode.stateCityByPincode = action.payload;
-      state.stateCityPincode.loading = false;
-      state.stateCityPincode.edited =true;
-    });
-    builder.addCase(getStateCity.rejected, (state, action) => {
-      state.stateCityPincode.loading = false;
-      state.stateCityPincode.error = action.error;
     });
     builder.addCase(getStateCityList.pending, (state, action) => {
       state.stateList.loading = true;

@@ -33,9 +33,6 @@ const EditProfile = () => {
   const { allStateCityList } = useSelector(
     (state) => state.signUpSlice.stateList
   );
-  const { stateCityByPincode, edited } = useSelector(
-    (state) => state.signUpSlice.stateCityPincode
-  );
   const formik = useFormik({
     initialValues: {
       AlternateMobile: "",
@@ -145,31 +142,31 @@ const EditProfile = () => {
       }
     }
     if (formik.values.Pincode.length === 6) {
-      dispatch(getStateCity(formik.values.Pincode));
-    }
-    if (formik.values.Pincode.length === 6) {
-      if (stateCityByPincode?.ResponseStatus === 1) {
-        setGetData({
-          ...getData,
-          stateName: stateCityByPincode.Data[0].StateName,
-          stateId: stateCityByPincode.Data[0].StateId,
-          stateError: false,
-          cityId: stateCityByPincode.Data[0].CityId,
-          cityName: stateCityByPincode.Data[0].CityName,
-          cityError: false,
-          pincodeId: stateCityByPincode.Data[0].PincodeId,
-        });
-      } else if (stateCityByPincode?.ResponseStatus === 0) {
-        setGetData({
-          ...getData,
-          stateName: "",
-          stateId: "",
-          stateError: false,
-          cityId: "",
-          cityName: "",
-          cityError: false,
-        });
-      }
+      // dispatch(getStateCity(formik.values.Pincode));
+      getStateCity(formik.values.Pincode).then(response=>{
+        if (response?.ResponseStatus === 1) {
+          setGetData({
+            ...getData,
+            stateName: response.Data[0].StateName,
+            stateId: response.Data[0].StateId,
+            stateError: false,
+            cityId: response.Data[0].CityId,
+            cityName: response.Data[0].CityName,
+            cityError: false,
+            pincodeId: response.Data[0].PincodeId,
+          });
+        } else if (response?.ResponseStatus === 0) {
+          setGetData({
+            ...getData,
+            stateName: "",
+            stateId: "",
+            stateError: false,
+            cityId: "",
+            cityName: "",
+            cityError: false,
+          });
+        }
+      })
     }
   }, [pinCode, formik.values.Pincode, getData]);
 

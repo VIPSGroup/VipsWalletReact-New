@@ -2,13 +2,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-// import Select from 'react-select'
-// import {
-//   listStateAndCity,
-//   getCityState,
-// } from "../../apiData/authentication/signup";
 import { useDispatch, useSelector } from "react-redux";
-// import { addAddress } from "../../../apiData/shopping/address";
 import { getStateCity } from "../../../redux/slices/profile/signUpSlice";
 import { SelectField } from "../../forms";
 import { addAddress } from "../../../redux/slices/pincodeSlice";
@@ -23,9 +17,6 @@ const AddShippingAddressModal = () => {
   const [getData, setGetData] = useState({});
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
-  );
-  const { stateCityByPincode } = useSelector(
-    (state) => state.signUpSlice.stateCityPincode
   );
   const dispatch = useDispatch();
 
@@ -81,13 +72,31 @@ const AddShippingAddressModal = () => {
 
   useEffect(() => {
     if (formik.values.pincode.length == 6) {
-      dispatch(getStateCity(formik.values.pincode));
-
-      // getCityState(formik.values.pincode).then((response) => {
-      //                     if (response.ResponseStatus == 1) {
-      //                       setGetData({...getData,stateName:response.Data[0].StateName,stateId:response.Data[0].StateId,stateError:false,cityId:response.Data[0].CityId,cityName:response.Data[0].CityName,cityError:false,pincodeId:response.Data[0].PincodeId})
-      //                     }
-      //                   });
+      getStateCity(formik.values.pincode).then(response=>{
+        console.log(response);
+        if (response?.ResponseStatus === 1) {
+          setGetData({
+            ...getData,
+            stateName: response.Data[0].StateName,
+            stateId: response.Data[0].StateId,
+            stateError: false,
+            cityId: response.Data[0].CityId,
+            cityName: response.Data[0].CityName,
+            cityError: false,
+            pincodeId: response.Data[0].PincodeId,
+          });
+        } else if (response?.ResponseStatus === 0) {
+          setGetData({
+            ...getData,
+            stateName: "",
+            stateId: "",
+            stateError: false,
+            cityId: "",
+            cityName: "",
+            cityError: false,
+          });
+        }
+      })
     } else {
       setGetData({
         ...getData,
@@ -98,30 +107,6 @@ const AddShippingAddressModal = () => {
         cityName: "",
         cityError: false,
       });
-    }
-    if (formik.values.pincode.length == 6) {
-      if (stateCityByPincode?.ResponseStatus === 1) {
-        setGetData({
-          ...getData,
-          stateName: stateCityByPincode.Data[0].StateName,
-          stateId: stateCityByPincode.Data[0].StateId,
-          stateError: false,
-          cityId: stateCityByPincode.Data[0].CityId,
-          cityName: stateCityByPincode.Data[0].CityName,
-          cityError: false,
-          pincodeId: stateCityByPincode.Data[0].PincodeId,
-        });
-      } else if (stateCityByPincode?.ResponseStatus === 0) {
-        setGetData({
-          ...getData,
-          stateName: "",
-          stateId: "",
-          stateError: false,
-          cityId: "",
-          cityName: "",
-          cityError: false,
-        });
-      }
     }
   }, [formik.values.pincode]);
 
