@@ -65,8 +65,16 @@ import Wishlist from "../pages/shopping/MyWishlist";
 import Cart from "../pages/shopping/Cart";
 import ShippingAddress from "../pages/shopping/ShippingAddress";
 import Checkout from "../pages/shopping/ShoppingCheckout";
-import { DigiGoldHome, DigiProfile, MyOrdersPage, OrderSummary } from "../pages/digiGold";
+import {
+  DigiGoldHome,
+  DigiProfile,
+  MyOrdersPage,
+  OrderSummary,
+} from "../pages/digiGold";
 import AllTermsAndCondition from "../pages/publicPages/TermsAndConditions";
+import DeliveryHome from "../pages/digiGold/Delivery/DeliveryHome";
+import DigiProductDetails from "../pages/digiGold/Delivery/DigiProductDetails";
+import DigiKYC from "../pages/digiGold/DigiKYC";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
@@ -74,7 +82,11 @@ const Router = () => {
   const [isCommonTopNav, setIsCommonTopNav] = useState(true);
   return (
     <>
-      <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} isCommonTopNav={isCommonTopNav}/>
+      <Navigation
+        isHomeTopNav={isHomeTopNav}
+        isBottomTopNav={isBottomTopNav}
+        isCommonTopNav={isCommonTopNav}
+      />
       <Routes>
         <Route
           element={<Homepage setIsHomeTopNav={setIsHomeTopNav} />}
@@ -121,7 +133,9 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <RechargeConfirmation setIsCommonTopNav={setIsCommonTopNav} />{" "}
+              <RechargeConfirmation
+                setIsCommonTopNav={setIsCommonTopNav}
+              />{" "}
             </ProtectedRoute>
           }
         />
@@ -164,7 +178,9 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <ElectricityConfirmation setIsCommonTopNav={setIsCommonTopNav} />{" "}
+              <ElectricityConfirmation
+                setIsCommonTopNav={setIsCommonTopNav}
+              />{" "}
             </ProtectedRoute>
           }
         />
@@ -185,7 +201,9 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <FastagOnlineConfirmation setIsCommonTopNav={setIsCommonTopNav}/>{" "}
+              <FastagOnlineConfirmation
+                setIsCommonTopNav={setIsCommonTopNav}
+              />{" "}
             </ProtectedRoute>
           }
         />
@@ -206,7 +224,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <LpgGasConfirmation setIsCommonTopNav={setIsCommonTopNav}/>{" "}
+              <LpgGasConfirmation setIsCommonTopNav={setIsCommonTopNav} />{" "}
             </ProtectedRoute>
           }
         />
@@ -355,7 +373,9 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <ServiceConfirmationCommon setIsCommonTopNav={setIsCommonTopNav}/>{" "}
+              <ServiceConfirmationCommon
+                setIsCommonTopNav={setIsCommonTopNav}
+              />{" "}
             </ProtectedRoute>
           }
         />
@@ -378,25 +398,49 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/digigold" element={<DigiGoldHome setIsCommonTopNav={setIsCommonTopNav} />} />
-        <Route path="/digigold-order-summary" element={<OrderSummary setIsCommonTopNav={setIsCommonTopNav} />} />
-        <Route path="/digigold-profile" element={<DigiProfile setIsCommonTopNav={setIsCommonTopNav} />} />
-        <Route path="/digigold-orders" element={<MyOrdersPage setIsCommonTopNav={setIsCommonTopNav} />} />
         <Route
-            path="/digi-faq"
-            element={
-              <AllTermsAndCondition title="DigiGold FAQs" type="DigiGold FAQs" />
-            }
-          />
-          <Route
-            path="/digi-termscondtion"
-            element={
-              <AllTermsAndCondition
-                title="Digi Terms & Conditions"
-                type="DigiGold Terms And Conditions"
-              />
-            }
-          />
+          path="/digigold"
+          element={<DigiGoldHome setIsCommonTopNav={setIsCommonTopNav} />}
+        />
+        <Route
+          path="/digigold-order-summary"
+          element={<OrderSummary setIsCommonTopNav={setIsCommonTopNav} />}
+        />
+        <Route
+          path="/digigold-profile"
+          element={<DigiProfile setIsCommonTopNav={setIsCommonTopNav} />}
+        />
+        <Route
+          path="/digigold-orders"
+          element={<MyOrdersPage setIsCommonTopNav={setIsCommonTopNav} />}
+        />
+        <Route
+          path="/digigold-delivery"
+          element={<DeliveryHome setIsCommonTopNav={setIsCommonTopNav} />}
+        />
+        <Route
+          path="/digigold-delivery/:title"
+          element={<DigiProductDetails setIsCommonTopNav={setIsCommonTopNav} />}
+        />
+        <Route
+          path="/digi-faq"
+          element={
+            <AllTermsAndCondition title="DigiGold FAQs" type="DigiGold FAQs" />
+          }
+        />
+        <Route
+          path="/digi-kyc"
+          element={<DigiKYC setIsCommonTopNav={setIsCommonTopNav} />}
+        />
+        <Route
+          path="/digi-termscondtion"
+          element={
+            <AllTermsAndCondition
+              title="Digi Terms & Conditions"
+              type="DigiGold Terms And Conditions"
+            />
+          }
+        />
         <Route
           path="/prime"
           element={
@@ -412,7 +456,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <PrimeConfirmation setIsHomeTopNav={setIsHomeTopNav}/>{" "}
+              <PrimeConfirmation setIsHomeTopNav={setIsHomeTopNav} />{" "}
             </ProtectedRoute>
           }
         />

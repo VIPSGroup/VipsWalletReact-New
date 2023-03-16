@@ -91,6 +91,14 @@ export const getTermsConditionsId = (type) => {
 };
 
 export const googleAnalytics = "UA-220725992-1";
+export function digitPrecision({sGramResult, type}) {
+  console.log(sGramResult, type, "theek hahi")
+  if (type === "amount") {
+    // return  round upto 2 decimal
+  } else if (type === "quantity") {
+    // return simply truncate digit after 4 decimal
+  }
+}
 
 export const getServiceId = (serviceName) => {
   if (serviceName && serviceName.includes("broadband")) {

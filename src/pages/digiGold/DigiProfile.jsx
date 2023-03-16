@@ -50,7 +50,7 @@ const DigiProfile = ({ setIsCommonTopNav }) => {
     const password = loggedInUser.TRXNPassword;
     dispatch(loginDigiGold({ username, password }));
     return () => {
-      setIsCommonTopNav(true)
+      setIsCommonTopNav(true);
     };
   }, [dispatch]);
   useEffect(() => {
@@ -78,7 +78,6 @@ const DigiProfile = ({ setIsCommonTopNav }) => {
     formValue.nomineeDateOfBirth = logData?.Data?.NomineeDateOfBirth || "";
     formValue.nomineeRelation = logData?.Data?.NomineeRelation || "";
     // formValue.gender = logData?.Data?.gender || "";
-
   }, [logData]);
   const handleSubmit = async () => {
     const username = loggedInUser.UserName;

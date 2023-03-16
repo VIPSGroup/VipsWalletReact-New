@@ -2,7 +2,6 @@ import { Button, Col, Form, Input, Modal, Row, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { LatestLoading } from "../../components/common/Loading";
 
@@ -19,15 +18,15 @@ import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
 import "../../assets/styles/digigold/sell-order-summery.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { FaHashtag, FaUser } from "react-icons/fa";
-import { handleKeyPressForName, handleMobileKeyPress } from "../../constant/Constants";
+import {
+  handleKeyPressForName,
+  handleMobileKeyPress,
+} from "../../constant/Constants";
 import { CommonTopNav } from "../../components/layout/Header";
-import { LatestLoading } from "../../components/common/Loading";
 import { MuiSnackBar } from "../../components/common";
-
+import MyVault from "./MyVault";
 
 const OrderSummary = ({ setIsCommonTopNav }) => {
-
-
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -69,155 +68,152 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   const { data, loading: walletLoad } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
-  // console.log(list, "list");
+  function getFixedDecimalNumber(input, precision) {
+    if (input.toString().split(".").pop().length > precision) {
+      return parseFloat(
+        input
+          .toString()
+          .substring(0, input.toString().indexOf(".") + precision + 1)
+      );
+    } else {
+      return input;
+    }
+  }
+  // Amount Round
+  function digitPrecision(data, type) {
+    if (type === "amount") {
+      const amt = parseFloat(data);
+      return amt.toFixed(2);
+    } else if (type === "quantity") {
+      console.log(data, "data");
+      return getFixedDecimalNumber(data, 4);
+    } else {
+      return data;
+    }
+  }
   // Complete Login is this UseEffect
   useEffect(() => {
     if (counter === 0 || counter === 300) {
       const fetchRates = async () => {
         const res = await dispatch(fetchGoldSilverRates());
-        console.log("Ye call hua hai");
+        const taxRate =
+          parseFloat(res.payload.Data.result.data.taxes[0].taxPerc) +
+          parseFloat(res.payload.Data.result.data.taxes[1].taxPerc);
 
         if (state?.type === "buy") {
           if (state?.metalType === "gold") {
             setLockPrice(res.payload.Data.result.data.rates.gBuy);
-            if (state?.valType === "Grams") {
-              setCurrentRate(
-                parseFloat(
-                  state?.valueinGm * res.payload.Data.result.data.rates.gBuy
-                )
-              );
+            setBlockId(res.payload.Data.result.data.blockId);
+            if (state?.valType === "quantity") {
+              const quantity = digitPrecision(state?.valueinGm, "quantity");
+              const excTaxAmount =
+                quantity * res.payload.Data.result.data.rates.gBuy;
+              const exclTaxRate = digitPrecision(excTaxAmount, "amount");
+              const TaxTotal = (exclTaxRate * taxRate) / 100;
+              const totalTax = digitPrecision(TaxTotal, "amount");
 
-              setCurrentGram(parseFloat(state?.valueinGm));
-              setBlockId(res.payload.Data.result.data.blockId);
-              setTax(
-                parseFloat(
-                  ((state?.valueinGm *
-                    res.payload.Data.result.data.rates.gBuy) /
-                    100) *
-                    3
-                )
-              );
-              setTotalAmount(
-                parseFloat(
-                  ((state?.valueinGm *
-                    res.payload.Data.result.data.rates.gBuy) /
-                    100) *
-                    3 +
-                    state?.valueinGm * res.payload.Data.result.data.rates.gBuy
-                )
-              );
+              const TotalAmount =
+                parseFloat(exclTaxRate) + parseFloat(totalTax);
+              const inclTaxAmount = digitPrecision(TotalAmount, "amount");
+              setCurrentGram(quantity);
+              setTax(totalTax);
+              setCurrentRate(exclTaxRate);
+              setTotalAmount(inclTaxAmount);
             } else {
-              const gBuy = parseFloat(res.payload.Data.result.data.rates.gBuy);
-              const gBuyGst = parseFloat(
-                res.payload.Data.result.data.rates.gBuyGst
+              const amount = state?.valueinAmt;
+              const inclTaxAmount = digitPrecision(amount, "amount");
+              const TaxTotal = (inclTaxAmount * taxRate) / (100 + taxRate);
+              const totalTax = digitPrecision(TaxTotal, "amount");
+              const exclTaxAmount = digitPrecision(
+                inclTaxAmount - totalTax,
+                "amount"
               );
-              setCurrentGram(parseFloat(state?.valueinAmt / (gBuy + gBuyGst)));
-              setBlockId(res.payload.Data.result.data.blockId);
-              const ggram = parseFloat(state?.valueinAmt / (gBuy + gBuyGst));
-              const Gprice = parseFloat(
-                res.payload.Data.result.data.rates.gBuy
-              );
-              const ActualPrice = ggram * Gprice;
-              setCurrentRate(parseFloat(ActualPrice));
-              const taxesprice = parseFloat(state.valueinAmt) - ActualPrice;
-              setTax(parseFloat(taxesprice));
+              const TaxInc =
+                (parseFloat(res.payload.Data.result.data.rates.gBuy) *
+                  taxRate) /
+                  parseFloat(100) +
+                parseFloat(res.payload.Data.result.data.rates.gBuy);
+
+              const inclTaxRate = digitPrecision(TaxInc, "amount");
+              const qty = inclTaxAmount / inclTaxRate;
+              const quantity = digitPrecision(qty, "quantity");
+              setCurrentGram(quantity);
+              setTotalAmount(inclTaxAmount);
+              setCurrentRate(exclTaxAmount);
+              setTax(totalTax);
             }
           } else {
+            setBlockId(res.payload.Data.result.data.blockId);
             setLockPrice(res.payload.Data.result.data.rates.sBuy);
-            if (state?.valType === "Grams") {
-              setCurrentRate(
-                parseFloat(
-                  state?.valueinGm * res.payload.Data.result.data.rates.sBuy
-                )
-              );
-              setCurrentGram(parseFloat(state.valueinGm));
-              setBlockId(res.payload.Data.result.data.blockId);
-              setTax(
-                parseFloat(
-                  ((state?.valueinGm *
-                    res.payload.Data.result.data.rates.sBuy) /
-                    100) *
-                    3
-                )
-              );
-              setTotalAmount(
-                parseFloat(
-                  ((state?.valueinGm *
-                    res.payload.Data.result.data.rates.sBuy) /
-                    100) *
-                    3 +
-                    state.valueinGm * res.payload.Data.result.data.rates.sBuy
-                )
-              );
+            if (state?.valType === "quantity") {
+              const quantity = digitPrecision(state?.valueinGm, "quantity");
+              const excTaxAmount =
+                quantity * res.payload.Data.result.data.rates.sBuy;
+              const exclTaxRate = digitPrecision(excTaxAmount, "amount");
+              console.log(exclTaxRate, "exclTaxRate");
+              const TaxTotal = (exclTaxRate * taxRate) / 100;
+              const totalTax = digitPrecision(TaxTotal, "amount");
+
+              const TotalAmount =
+                parseFloat(exclTaxRate) + parseFloat(totalTax);
+              const inclTaxAmount = digitPrecision(TotalAmount, "amount");
+
+              setCurrentGram(quantity);
+              setTax(totalTax);
+              setCurrentRate(exclTaxRate);
+              setTotalAmount(inclTaxAmount);
             } else {
-              const sBuy = parseFloat(res.payload.Data.result.data.rates.sBuy);
-              const sBuyGst = parseFloat(
-                res.payload.Data.result.data.rates.sBuyGst
+              const amount = state?.valueinAmt;
+              const inclTaxAmount = digitPrecision(amount, "amount");
+              const TaxTotal = (inclTaxAmount * taxRate) / (100 + taxRate);
+              const totalTax = digitPrecision(TaxTotal, "amount");
+              const exclTaxAmount = digitPrecision(
+                inclTaxAmount - totalTax,
+                "amount"
               );
-              setCurrentGram(parseFloat(state?.valueinAmt / (sBuy + sBuyGst)));
+              const TaxInc =
+                (parseFloat(res.payload.Data.result.data.rates.sBuy) *
+                  taxRate) /
+                  parseFloat(100) +
+                parseFloat(res.payload.Data.result.data.rates.sBuy);
 
-              setBlockId(res.payload.Data.result.data.blockId);
-              const Sgram = parseFloat(state?.valueinAmt / (sBuy + sBuyGst));
-              const Cprice = parseFloat(
-                res.payload.Data.result.data.rates.sBuy
-              );
-              const ActualPrice = Sgram * Cprice;
-
-              setCurrentRate(parseFloat(ActualPrice));
-              const taxesprice = parseFloat(state?.valueinAmt) - ActualPrice;
-              setTax(parseFloat(taxesprice));
+              const inclTaxRate = digitPrecision(TaxInc, "amount");
+              const qty = inclTaxAmount / inclTaxRate;
+              const quantity = digitPrecision(qty, "quantity");
+              setCurrentGram(quantity);
+              setTotalAmount(inclTaxAmount);
+              setCurrentRate(exclTaxAmount);
+              setTax(totalTax);
             }
           }
         } else {
           if (state?.metalType === "gold") {
+            setBlockId(res.payload.Data.result.data.blockId);
             setLockPrice(res?.payload?.Data?.result?.data?.rates?.gSell);
-            if (state.valType === "Grams") {
-              setCurrentRate(
-                parseFloat(
-                  state?.valueinGm *
-                    res?.payload?.Data?.result?.data?.rates?.gSell
-                )
+            if (state.valType === "quantity") {
+              const quantity = digitPrecision(state?.valueinGm, "quantity");
+              const totalAmount = digitPrecision(
+                quantity * res?.payload?.Data?.result?.data?.rates?.gSell,
+                "amount"
               );
-
-              setCurrentGram(parseFloat(state?.valueinGm));
-              setBlockId(res?.payload?.Data?.result?.data?.blockId);
-              // setTax(
-              //   parseFloat(
-              //     ((state.valueinGm * res.payload.Data.result.data.rates.gBuy) /
-              //       100) *
-              //       3
-              //   )
-              // );
-              setTotalAmount(
-                parseFloat(
-                  state?.valueinGm *
-                    res?.payload?.Data?.result?.data?.rates?.gSell
-                )
-              );
+              setBlockId(res.payload.Data.result.data.blockId);
+              setCurrentRate(totalAmount);
+              setCurrentGram(quantity);
+              setTotalAmount(totalAmount);
             }
           } else {
-            setLockPrice(res.payload?.Data?.result?.data?.rates?.sSell);
-            if (state.valType === "Grams") {
-              setCurrentRate(
-                parseFloat(
-                  state.valueinGm *
-                    res.payload?.Data?.result?.data?.rates?.sSell
-                )
+            setBlockId(res.payload.Data.result.data.blockId);
+            setLockPrice(res?.payload?.Data?.result?.data?.rates?.sSell);
+            if (state.valType === "quantity") {
+              const quantity = digitPrecision(state?.valueinGm, "quantity");
+              const totalAmount = digitPrecision(
+                quantity * res?.payload?.Data?.result?.data?.rates?.sSell,
+                "amount"
               );
-              setCurrentGram(parseFloat(state.valueinGm));
-              setBlockId(res.payload?.Data?.result?.data?.blockId);
-              // setTax(
-              //   parseFloat(
-              //     ((state.valueinGm * res.payload.Data.result.data.rates.sBuy) /
-              //       100) *
-              //       3
-              //   )
-              // );
-              setTotalAmount(
-                parseFloat(
-                  state.valueinGm * res.payload.Data?.result?.data?.rates?.sSell
-                )
-              );
+              setBlockId(res.payload.Data.result.data.blockId);
+              setCurrentRate(totalAmount);
+              setCurrentGram(quantity);
+              setTotalAmount(totalAmount);
             }
           }
         }
@@ -244,7 +240,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
     dispatch(loginDigiGold({ username, password }));
     dispatch(getWalletBalance({ username, password }));
     return () => {
-      setIsCommonTopNav(true)
+      setIsCommonTopNav(true);
     };
   }, [load]);
   const handleClose = () => {
@@ -309,7 +305,6 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
           setLoad(false);
           setModal(true);
         }
-
       } else if (res.ResponseStatus === 0) {
         setLoad(false);
         for (const key in res.Data.errors) {
@@ -459,7 +454,6 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
     localStorage.removeItem("valueType");
   };
   return localStorage.getItem("valueType") ? (
-
     <>
       <CommonTopNav />
       <div className="">
@@ -473,7 +467,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
             >
               <div class="row">
                 <div class="col-lg-12">
-                  <div class="my-vault-wrapper">
+                  {/* <div class="my-vault-wrapper">
                     <div class="col-lg-7 mx-auto">
                       <div class="my-vault-badge-wrapper">
                         <span class="my-vault-badge">My Vault</span>
@@ -500,7 +494,8 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
+                  <MyVault />
                   {/* {!load ? ( */}
                   <Spin spinning={load || list.ResponseStatus === 0}>
                     <div class="buy-sell-form-outer">
@@ -566,7 +561,31 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? "col-lg-3 col-sm-6"
+                                ? "col-lg-2 col-sm-6"
+                                : "col-lg-4 col-sm-4"
+                            } `}
+                          >
+                            <p class="digigold-insert-darktext">Rate</p>
+                            <p class="digigold-insert-amt">
+                              &#x20B9;{" "}
+                              {/* {state.metalType === "gold"
+                            ? goldRate && state.valType !== "Amount"
+                              ? goldRate
+                              : state?.valueinAmt
+                            : silverRate && state.valType !== "Amount"
+                            ? silverRate
+                            : state?.valueinAmt} */}
+                              {!loading && rateData
+                                ? state?.type === "buy"
+                                  ? rateData?.Data?.result?.data?.rates?.sBuy
+                                  : rateData?.Data?.result?.data?.rates?.sSell
+                                : "Loading..."}
+                            </p>
+                          </div>
+                          <div
+                            class={`${
+                              state?.type === "buy"
+                                ? "col-lg-2 col-sm-6"
                                 : "col-lg-4 col-sm-4"
                             } `}
                           >
@@ -587,7 +606,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                             <div
                               class={`${
                                 state?.type === "buy"
-                                  ? "col-lg-3 col-sm-6"
+                                  ? "col-lg-2 col-sm-6"
                                   : "col-lg-4 col-sm-4"
                               } `}
                             >

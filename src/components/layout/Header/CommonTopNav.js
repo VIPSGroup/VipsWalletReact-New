@@ -18,7 +18,6 @@ import { Avatar, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
 import { getWalletBalance } from "../../../redux/slices/walletSlice";
 
-
 const CommonTopNav = ({ isShow = true, setActive }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -83,12 +82,19 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
       label: (
         <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
           {!logLoading && logData.Data && "My Orders"}
-
         </Link>
       ),
     },
     {
       key: "3",
+      label: (
+        <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
+          {!logLoading && logData.Data && "My KYC"}
+        </Link>
+      ),
+    },
+    {
+      key: "4",
       label: (
         <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
           FAQ's
@@ -96,7 +102,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
       ),
     },
     {
-      key: "4",
+      key: "5",
       label: (
         <Link
           target={"_blank"}
@@ -104,7 +110,6 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
           style={{ fontSize: 17 }}
         >
           Terms & Conditions
-
         </Link>
       ),
     },
@@ -121,7 +126,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
     //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
     // },
     {
-      key: "5",
+      key: "6",
       label: (
         <Link
           onClick={() => {
@@ -375,7 +380,8 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" ? (
+                  pathname !== "/digigold-orders" &&
+                  pathname !== "/digigold-delivery" ? (
                     <li class="nav-item dropdown login-dropdown">
                       <Link
                         class="nav-link nav-icons"
@@ -475,7 +481,8 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
           {pathname !== "/digigold" &&
           pathname !== "/digigold-order-summary" &&
           pathname !== "/digigold-profile" &&
-          pathname !== "/digigold-orders" ? (
+          pathname !== "/digigold-orders" &&
+          pathname !== "/digigold-delivery" ? (
             <div class="container-fluid">
               <div class="navbar-bottom-services-outer">
                 <div class="navbar-bottom-serv-box">
@@ -592,11 +599,11 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    href="electricity-bill-1.html"
-                    onClick={() => {
-                      setIsSnackBar(true);
-                      setErrorMsg("Service will be coming soon..");
-                    }}
+                    to="/digigold-delivery"
+                    // onClick={() => {
+                    //   setIsSnackBar(true);
+                    //   setErrorMsg("Service will be coming soon..");
+                    // }}
                   >
                     <img
                       src="images/digigold-images/delivery-white-icon.svg"
@@ -695,7 +702,6 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
         setSuccess={setSuccessMsg}
         setError={setErrorMsg}
       />
-
     </>
   );
 };
