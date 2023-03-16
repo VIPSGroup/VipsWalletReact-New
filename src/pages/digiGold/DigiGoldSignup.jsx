@@ -7,24 +7,18 @@ import { modalClose } from "../../redux/slices/digiGold/digiGoldSlice";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
-
 import { Link, useNavigate } from "react-router-dom";
-
-
 import {
   getCityList,
   getStateList,
   loginDigiGold,
   registerDigiGold,
 } from "../../redux/slices/digiGold/registerDigiSlice";
-
 import { handleKeyPressForName, handleMobileKeyPress } from "../../constant/Constants";
-
 import { MuiSnackBar } from "../../components/common";
 
 const DigiGoldSignup = ({ setIsDigiLogin }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -285,7 +279,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                       name="userStateId"
                       rules={[{ required: true, message: "State is required" }]}
                     >
-                      <Select
+                      <Select 
                         showSearch
                         optionFilterProp="children"
                         filterOption={(input, option) =>
