@@ -189,7 +189,6 @@ const EditProfile = () => {
                 <div class="formStyle">
                   <form
                     class="edit-profile-form"
-                    // onSubmit={!loading && clickSave}
                     onSubmit={!loading ? formik.handleSubmit : undefined}
                   >
                     <div class="row">
@@ -270,7 +269,6 @@ const EditProfile = () => {
                             name="PanCard"
                             onChange={
                               formik.handleChange
-                              // handlePanChange
                             }
                             onBlur={formik.handleBlur}
                             className={
@@ -309,7 +307,6 @@ const EditProfile = () => {
                             }
                             onChange={
                               formik.handleChange
-                              // handleAadharChange
                             }
                             onBlur={formik.handleBlur}
                             className={
@@ -335,7 +332,6 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="Pincode"
-                            // onChange={ handlePincodeChange  }
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             className={
@@ -352,7 +348,6 @@ const EditProfile = () => {
                                 : ""
                             }
                             autocomplete="off"
-                            // required
                             maxLength={6}
                             minLength={6}
                           />
@@ -367,15 +362,11 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="PerAddress"
-                            // onChange={handleAddressChange}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             className={
                               formik.errors.PerAddress &&
-                              formik.touched.PerAddress
-                                ? " is-invalid"
-                                : ""
-                            }
+                              formik.touched.PerAddress ? " is-invalid" : ""}
                             id="user-address"
                             type="text"
                             placeholder="&nbsp;"
@@ -385,7 +376,6 @@ const EditProfile = () => {
                                 : ""
                             }
                             autocomplete="off"
-                            // required
                           />
                           <label for="user-address">Address *</label>
                           <div className="invalid-feedback text-danger">

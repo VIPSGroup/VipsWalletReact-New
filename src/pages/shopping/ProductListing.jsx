@@ -28,9 +28,9 @@ const ProductListing = () => {
   const [activeProducts, setActiveProducts] = useState([]);
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState("");
   const { data } = useSelector((state) => state.productSlice.GetSubCat);
-  const { data: getproByCat } = useSelector(
-    (state) => state.productSlice.categoryByProduct
-  );
+  // const { data: getproByCat } = useSelector(
+  //   (state) => state.productSlice.categoryByProduct
+  // );
   const handleSubCategoryClick = (e) => {
     e.preventDefault();
 
@@ -54,13 +54,15 @@ const ProductListing = () => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
     dispatch(getSubCategory(categoryId));
-    dispatch(getProductsByCategory(categoryId));
+    getProductsByCategory(categoryId).then(response=>{
+      // setLoading(false)
+      setCategoryProducts(response.Data);
+      setActiveProducts(response.Data);
+    })
   }, []);
   useEffect(() => {
     setSubCategories(data.Data);
-    setCategoryProducts(getproByCat.Data);
-    setActiveProducts(getproByCat.Data);
-  }, [data, getproByCat]);
+  }, [data]);
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -206,38 +208,6 @@ const ProductListing = () => {
             {activeProducts &&
               activeProducts?.map((product, i) => (
                 <ProductCard product={product} />
-                //    {<div class="col-sm-6 col-md-6 col-lg-3 mb-4">
-                //    <a href="#" class="promo-product">
-                //      <div class="promo-product-card">
-                //        <span class="promo-offer"> Free Delivery </span>
-                //        <div class="promo-product-image">
-                //             <img src={`http://shopadmin.vipswallet.com/${product.ImageThumbURL1}`} class="img-fluid shopping-catagory-img" alt="..." />
-                //        </div>
-                //        <div class="promo-product-details">
-                //            <h3>{product.Name}</h3>
-                //            <div class="promo-product-price-detail">
-                //              <div class="promo-product-price">
-                //                <span class="promo-product-mrp"> &#x20B9; 670.00</span>
-                //                <span class="promo-product-list-price"><s> &#x20B9; 1,200.00</s>(35%)</span>
-                //              </div>
-                //              <div class="promo-product-delivery">
-                //                <p>Delivery by Oct 11, 2022</p>
-                //              </div>
-                //            </div>
-                //        </div>
-
-                //        <div class="promo-product-action">
-                //          <div class="promo-quick-view">
-                //            <button class="btn-cta">Quick View</button>
-                //          </div>
-                //          <div class="promo-wishlist ml-auto">
-                //            <button href="#" class="btn-cta"><i class="fa-regular fa-heart"></i></button>
-                //          </div>
-                //        </div>
-
-                //      </div>
-                //    </a>
-                //  </div>}
               ))}
           </div>
         </div>
@@ -254,7 +224,6 @@ const ProductListing = () => {
         // <LatestLoading />
         <Loading/>
       )}
-      {/* <Footer /> */}
     </div>
   );
 };

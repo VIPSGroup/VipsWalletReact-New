@@ -221,17 +221,6 @@ const walletSlice = createSlice({
     builder.addCase(finstocTradePriceCheck.rejected, (state, action) => {
       state.finstockPrice.error = action.error;
     });
-    // builder.addCase(becomePrime.reje)
-    // builder.addCase(becomePrime.pending, (state, action) => {
-      // state.primeMember.loading = true;
-    // });
-    // builder.addCase(becomePrime.fulfilled, (state, action) => {
-    //   // state.primeMember.primeData = action.payload;
-    //   // state.primeMember.loading = false;
-    // });
-    // builder.addCase(becomePrime.rejected, (state, action) => {
-    //   // state.primeMember.error = action.error;
-    // });
   },
 });
 

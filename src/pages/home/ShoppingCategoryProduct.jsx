@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { getProductsByCategory } from "../../apiData/shopping/product";
 import ProductHorizontal from "../../components/shopping/ProductHorizontal";
 import { getProductsByCategory } from "../../redux/slices/shopping/productSlice";
 
@@ -11,20 +9,15 @@ export const ShoppingCategoryProduct = ({
   description = "",
 }) => {
   const [products, setProducts] = useState([])
-  const dispatch = useDispatch();
-  const { data, loading } = useSelector(
-    (state) => state.productSlice.categoryByProduct
-  );
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    dispatch(getProductsByCategory(categoryId));
-    console.log(data);
+    setLoading(true)
+    getProductsByCategory(categoryId).then(response=>{
+      setLoading(false)
+      setProducts(response.Data)
+    })
   }, []);
-
-  useEffect(() => {
-    console.log("UseEffect");
-setProducts(data.Data)
-  }, [data])
   
   return (
     <>

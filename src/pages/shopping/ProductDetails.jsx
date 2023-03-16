@@ -224,8 +224,10 @@ const ProductDetails = () => {
         catId = element.Id;
       }
     }
-    const resSimilar = await dispatch(getProductsByCategory(catId));
-    setSimilar(resSimilar.payload.Data && resSimilar.payload.Data);
+    getProductsByCategory(catId).then(response=>{
+      // setLoading(false)
+      setSimilar(response.Data)
+    })
   };
 
   useEffect(() => {

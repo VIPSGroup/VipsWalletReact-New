@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../../assets/styles/core/commonTopNav.css";
 
 import { FiSearch, FiUser } from "react-icons/fi";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { IoWalletOutline } from "react-icons/io5";
 import { RiUser3Line } from "react-icons/ri";
 import { vendorPanelAPi } from "../../../constants";
@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 import DigiGoldSignup from "../../../pages/digiGold/DigiGoldSignup";
-import { Avatar, Dropdown } from "antd";
+import { Avatar, Badge, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
@@ -226,6 +226,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
                   pathname !== "/digigold-orders" && (
+                    <>
                     <li class="nav-item">
                       <Link class="nav-link nav-icons" to="/shopping/cart">
                         {/* <Badge count={cartCount && cartCount?.length}> */}
@@ -238,6 +239,23 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                         </span>
                       </Link>
                     </li>
+                    <li class="nav-item">
+                  <Link
+                    class="nav-link nav-icons"
+                    to="/shopping/wishlist"
+                    role="button"
+                  >
+                    {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
+                    <Badge count={wishCount && wishCount?.length}>
+                      <AiOutlineHeart className="nav-icon" />
+                    </Badge>
+                    <span class="d-xl-block d-none d-md-none d-sm-none">
+                      {" "}
+                      Wishlist{" "}
+                    </span>
+                  </Link>
+                </li>
+                </>
                   )}
                 {/* {pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
