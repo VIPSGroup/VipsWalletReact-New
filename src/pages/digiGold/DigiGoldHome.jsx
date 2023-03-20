@@ -116,7 +116,7 @@ const DigiGoldHome = ({active,setActive }) => {
         setIsSnackBar(true);
 
       } 
-      //  if (logData.ResponseStatus === 0) {
+       if (logData.ResponseStatus === 0) {
       }
       // else if (logData.ResponseStatus === 0) {
       //   dispatch(modalOpen());
@@ -181,11 +181,6 @@ const DigiGoldHome = ({active,setActive }) => {
     const sGramResult = parseFloat(roundedNum.toFixed(4));
     setGrams(sGramResult);
   };
-  // const handleKeyDown = (e) => {
-  //   if (e.key === "e" || e.key === ".") {
-  //     e.preventDefault();
-  //   }
-  // };
   const handleKeyDown = (event) => {
     const maxLength = 8;
     const key = event.key;
@@ -278,7 +273,6 @@ const DigiGoldHome = ({active,setActive }) => {
   };
   return (
     <>
-
       <div className="">
         {/* <!-- body section start Now --> */}
         <Spin spinning={loading || logLoading || digiLogLoading}>
@@ -639,7 +633,7 @@ const DigiGoldHome = ({active,setActive }) => {
       />
     </>
   );
-};
+            }
 
 export const quickServiceArr = [
   {
@@ -693,5 +687,4 @@ export const howItWorkArr = [
     desc: "Buy Gold/Silver at the best market prices",
   },
 ];
-
 export default memo(DigiGoldHome);

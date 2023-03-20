@@ -379,6 +379,7 @@
       color: var(--darkText);
       border-color: var(--borderColor);
     }
+
     /* .sidebar-navigation ul li ul li a:before {
       content: "";
       width: 10px;

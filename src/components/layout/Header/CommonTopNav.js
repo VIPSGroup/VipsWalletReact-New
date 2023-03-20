@@ -16,10 +16,9 @@ import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 import DigiGoldSignup from "../../../pages/digiGold/DigiGoldSignup";
 import { Avatar, Badge, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
-
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
-const CommonTopNav = ({ isShow = true, setActive }) => {
+const CommonTopNav = ({ isShow = true, setActive,title }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -213,7 +212,7 @@ useEffect(() => {
   const section = () => (
     <>
       <header class="header-main sticky-top">
-        <nav class="navbar navbar-expand-md navbar-light bg-light inpage-header-nav-position">
+        <nav class="navbar navbar-expand-md navbar-light bg-light inpage-header-nav-position ">
           <div class="container-fluid flex-nowrap">
             <button
               type="button"
@@ -285,11 +284,8 @@ useEffect(() => {
                 {pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary/:" &&
                   pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" && pathname!=="/digigold/gift" && (
+                  pathname !== "/digigold-orders" && pathname!=="/digigold/gift" &&  pathname !== `/digigold-delivery/${title}` && (
                     <>
-
-                  pathname !== "/digigold-orders" &&
-                  pathname !== `/digigold-delivery/${title}` && (
                     <li class="nav-item">
                       <Link class="nav-link nav-icons" to="/shopping/cart">
                         {/* <Badge count={cartCount && cartCount?.length}> */}
@@ -345,10 +341,7 @@ useEffect(() => {
                 {loggedInUser &&
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
-                  pathname !== "/digigold-profile" &&
-
-                  pathname !== "/digigold-orders" && pathname!=="/digigold/gift" && (
-
+                  pathname !== "/digigold-profile" && pathname!=="/digigold/gift" && 
                   pathname !== "/digigold-orders" &&
                   pathname !== `/digigold-delivery/${title}` && (
 
@@ -456,8 +449,7 @@ useEffect(() => {
                 {loggedInUser ? (
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
-                  pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" && pathname !== "/digigold/gift"  ? (
+                  pathname !== "/digigold-profile" && pathname !== "/digigold/gift" &&
                   pathname !== "/digigold-orders" &&
                   pathname !== "/digigold-delivery" &&
                   pathname !== `/digigold-delivery/${title}` ? (
@@ -560,8 +552,7 @@ useEffect(() => {
           {pathname !== "/digigold" &&
           pathname !== "/digigold-order-summary" &&
           pathname !== "/digigold-profile" &&
-          pathname !== "/digigold-orders" && pathname !== "/digigold/gift" ? (
-          pathname !== "/digigold-orders" &&
+          pathname !== "/digigold-orders" && pathname !== "/digigold/gift"  &&
           pathname !== "/digigold-delivery" &&
           pathname !== `/digigold-delivery/${title}` ? (
             <div class="container-fluid">

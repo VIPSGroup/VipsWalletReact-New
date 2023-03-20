@@ -134,6 +134,7 @@ const PaymentOptions = () => {
                           Payu (card / UPI){" "}
                         </span>
                       </label>
+                      
                       <label>
                         <input
                           onChange={handleChange}

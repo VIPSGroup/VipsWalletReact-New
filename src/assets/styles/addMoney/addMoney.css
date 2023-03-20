@@ -419,7 +419,27 @@
 /* input group end */
 
 /* Send Money end */
-
+.convenience-outer{
+  display: flex;
+  justify-content: space-between;
+  /* background: var(--body-bg); */
+  background: #f6f5fb;
+  padding: 7px 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+.convenience-outer p{
+  margin-bottom: 0;
+  font-size: 14px;
+}
+.convenience-info{
+  border: none;
+  background: none;
+}
+.convenience-outer svg{
+  font-size: 18px;
+}
 
 
 @media only screen and (min-width: 320px) and (max-width: 413px){

@@ -78,9 +78,6 @@ const Router = () => {
   const [isBottomTopNav, setIsBottomTopNav] = useState(false);
   const [isCommonTopNav, setIsCommonTopNav] = useState(true);
   const [active, setActive] = useState(0); 
-  return (
-    <>
-      <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} isCommonTopNav={isCommonTopNav} setActive={setActive} title={title}/>
   const [title, setTitle] = useState("");
   return (
     <>
@@ -88,7 +85,7 @@ const Router = () => {
         isHomeTopNav={isHomeTopNav}
         isBottomTopNav={isBottomTopNav}
         isCommonTopNav={isCommonTopNav}
-        
+        setActive={setActive} title={title}
       />      <Routes>
         <Route
           element={<Homepage setIsHomeTopNav={setIsHomeTopNav} />}
