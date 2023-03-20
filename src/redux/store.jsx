@@ -26,7 +26,7 @@ import profileSlice from "./slices/profile/profileSlice";
 import digiGoldSlice from "./slices/digiGold/digiGoldSlice";
 import userProfileSlice from "./slices/digiGold/userProfileSlice";
 import registerDigiSlice from "./slices/digiGold/registerDigiSlice";
-
+import DeliverySlice from "./slices/digiGold/DeliverySlice";
 
 const store = configureStore({
   reducer: {
@@ -49,13 +49,13 @@ const store = configureStore({
     servicesSlice: servicesSlice,
     LpgGasSlice: LpgGasSlice,
     walletSlice: walletSlice,
-    orderSlice:orderSlice,
-    profileSlice:profileSlice,
+    orderSlice: orderSlice,
+    profileSlice: profileSlice,
     registerDigiSlice: registerDigiSlice,
     digiGoldSlice: digiGoldSlice,
     userProfileSlice: userProfileSlice,
     publicSlice: publicSlice,
-
+    DeliverySlice: DeliverySlice,
   },
 });
 

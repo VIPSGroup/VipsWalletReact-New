@@ -1,13 +1,37 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../../../assets/styles/digigold/digigold-delivery-product-details.css";
+import { addDigiCart } from "../../../redux/slices/digiGold/DeliverySlice";
 import MyVault from "../MyVault";
 
-const DigiProductDetails = () => {
-  const [qty, setQty] = useState(0);
+const DigiProductDetails = ({ setTitle }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [qty, setQty] = useState(1);
   const location = useLocation();
   const data = location.state;
-  console.log(data, "data");
+  const { title } = useParams();
+  console.log(title);
+  useEffect(() => {
+    setTitle(title);
+  }, []);
+
+  const handleClick = () => {
+    dispatch(addDigiCart({ data, qty }));
+    // let prevCart = JSON.parse(localStorage.getItem("digi-cart"));
+    // let cartToBe = [];
+    // if (prevCart) {
+    //   cartToBe = [...prevCart];
+    //   if (cartToBe.find((a) => a.Id !== data.Id)) {
+    //     cartToBe.push(data);
+    //   }
+    // } else {
+    //   cartToBe.push(data);
+    // }
+    // localStorage.setItem("digi-cart", JSON.stringify(cartToBe));
+  };
+
   return (
     <>
       <section class="section-align buy-sell-form">
@@ -74,7 +98,7 @@ const DigiProductDetails = () => {
                         <div class="digigold-product-details-choose-quantity">
                           <div
                             onClick={() => {
-                              qty > 0 && setQty(qty - 1);
+                              qty > 1 && setQty(qty - 1);
                             }}
                             class="value-button decrease-sign"
                             id="decrease"
@@ -203,7 +227,11 @@ const DigiProductDetails = () => {
 
                   <div class="digigold-product-details-info-box">
                     <div class="digigold-product-details-btn">
-                      <button class="btn btn-primery" type="button">
+                      <button
+                        onClick={() => handleClick(data)}
+                        class="btn btn-primery"
+                        type="button"
+                      >
                         {" "}
                         Request Delivery{" "}
                       </button>

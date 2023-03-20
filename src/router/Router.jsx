@@ -75,17 +75,20 @@ import AllTermsAndCondition from "../pages/publicPages/TermsAndConditions";
 import DeliveryHome from "../pages/digiGold/Delivery/DeliveryHome";
 import DigiProductDetails from "../pages/digiGold/Delivery/DigiProductDetails";
 import DigiKYC from "../pages/digiGold/DigiKYC";
+import DigiDeliveryCart from "../pages/digiGold/Delivery/DigiDeliveryCart";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
   const [isBottomTopNav, setIsBottomTopNav] = useState(false);
   const [isCommonTopNav, setIsCommonTopNav] = useState(true);
+  const [title, setTitle] = useState("");
   return (
     <>
       <Navigation
         isHomeTopNav={isHomeTopNav}
         isBottomTopNav={isBottomTopNav}
         isCommonTopNav={isCommonTopNav}
+        title={title}
       />
       <Routes>
         <Route
@@ -420,7 +423,21 @@ const Router = () => {
         />
         <Route
           path="/digigold-delivery/:title"
-          element={<DigiProductDetails setIsCommonTopNav={setIsCommonTopNav} />}
+          element={
+            <DigiProductDetails
+              setIsCommonTopNav={setIsCommonTopNav}
+              setTitle={setTitle}
+            />
+          }
+        />
+        <Route
+          path="/digigold-cart/"
+          element={
+            <DigiDeliveryCart
+              setIsCommonTopNav={setIsCommonTopNav}
+              // setTitle={setTitle}
+            />
+          }
         />
         <Route
           path="/digi-faq"

@@ -18,7 +18,7 @@ import { Avatar, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
 import { getWalletBalance } from "../../../redux/slices/walletSlice";
 
-const CommonTopNav = ({ isShow = true, setActive }) => {
+const CommonTopNav = ({ isShow = true, setActive, title }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDigiLogin, setIsDigiLogin] = useState("");
@@ -28,6 +28,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  console.error(title);
 
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
   const { wishCount } = useSelector((state) => state.wishlistSlice);
@@ -233,7 +234,8 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                 {pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" && (
+                  pathname !== "/digigold-orders" &&
+                  pathname !== `/digigold-delivery/${title}` && (
                     <li class="nav-item">
                       <Link class="nav-link nav-icons" to="/shopping/cart">
                         {/* <Badge count={cartCount && cartCount?.length}> */}
@@ -273,7 +275,8 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" && (
+                  pathname !== "/digigold-orders" &&
+                  pathname !== `/digigold-delivery/${title}` && (
                     <li class="nav-item">
                       <Link
                         onClick={CheckWalletBalance}
@@ -381,7 +384,8 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
                   pathname !== "/digigold-orders" &&
-                  pathname !== "/digigold-delivery" ? (
+                  pathname !== "/digigold-delivery" &&
+                  pathname !== `/digigold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
                       <Link
                         class="nav-link nav-icons"
@@ -482,7 +486,8 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
           pathname !== "/digigold-order-summary" &&
           pathname !== "/digigold-profile" &&
           pathname !== "/digigold-orders" &&
-          pathname !== "/digigold-delivery" ? (
+          pathname !== "/digigold-delivery" &&
+          pathname !== `/digigold-delivery/${title}` ? (
             <div class="container-fluid">
               <div class="navbar-bottom-services-outer">
                 <div class="navbar-bottom-serv-box">
