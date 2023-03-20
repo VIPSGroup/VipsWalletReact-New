@@ -76,7 +76,6 @@ const ShoppingCheckout = () => {
   };
 
   const manageInitialPaymentMethod = (balance, amount) => {
-    console.warn(balance);
     if (balance >= amount) {
       setSelectedPaymentMethod("wallet");
     } else if (balance < amount) {

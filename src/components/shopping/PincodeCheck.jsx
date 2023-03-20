@@ -22,8 +22,6 @@ const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
   
   };
 useEffect(() => {
-  console.log("Useeffect");
-  console.log(data);
   if (data.ResponseStatus === 1) {
     setApiResponse(data?.Remarks);
   } else if(data.ResponseStatus===0){

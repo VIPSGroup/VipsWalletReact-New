@@ -20,11 +20,11 @@ import "../../assets/styles/digigold/sell-order-summery.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { FaHashtag, FaUser } from "react-icons/fa";
 import { handleKeyPressForName, handleMobileKeyPress } from "../../constant/Constants";
-import { CommonTopNav } from "../../components/layout/Header";
 import { MuiSnackBar } from "../../components/common";
+import { color } from "@mui/system";
 
 
-const OrderSummary = ({ setIsCommonTopNav }) => {
+const OrderSummary = () => {
 
 
   const { state } = useLocation();
@@ -61,20 +61,16 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   const { list, loading: listLoad } = useSelector(
     (state) => state.digiGoldSlice.bankList
   );
-  // console.log(list, "listLoad");
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
   const { data, loading: walletLoad } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
-  // console.log(list, "list");
-  // Complete Login is this UseEffect
   useEffect(() => {
     if (counter === 0 || counter === 300) {
       const fetchRates = async () => {
         const res = await dispatch(fetchGoldSilverRates());
-        console.log("Ye call hua hai");
 
         if (state?.type === "buy") {
           if (state?.metalType === "gold") {
@@ -237,14 +233,10 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   // Counter Logic
   // Login & GetWalletBalance Logic
   useEffect(() => {
-    setIsCommonTopNav(false);
     const username = state?.username;
     const password = state?.password;
     dispatch(loginDigiGold({ username, password }));
     dispatch(getWalletBalance({ username, password }));
-    return () => {
-      setIsCommonTopNav(true)
-    };
   }, [load]);
   const handleClose = () => {
     setModal(false);
@@ -274,8 +266,6 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
       seconds < 10 ? "0" : ""
     }${seconds}`;
   };
-  // console.log(listLoad, "8766557375");
-  // Gold & Silver Buy Logic
   const handleSubmit = async () => {
     const username = state.username;
     const password = state.password;
@@ -432,7 +422,6 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
         setIsSnackBar(true);
       }
     } else {
-      // console.log("chl rha hai");
       const res = await UserbankAccountCreate({
         username,
         password,
@@ -460,7 +449,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   return localStorage.getItem("valueType") ? (
 
     <>
-      <CommonTopNav />
+      {/* <CommonTopNav /> */}
       <div className="">
         <section class="digi-gold-section-wrapper buy-sell-form">
           <div class="container">
@@ -501,7 +490,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                     </div>
                   </div>
                   {/* {!load ? ( */}
-                  <Spin spinning={load || list.ResponseStatus === 0}>
+                  <Spin spinning={load || list.ResponseStatus === 0} style={{ color: '#ca3060' }} >
                     <div class="buy-sell-form-outer">
                       <div class="current-rate-outer">
                         <div class="current-rate">

@@ -107,7 +107,6 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
       setSuccessMsg("");
       setIsSnackBar(true);
     } else if (res.payload.ResponseStatus === 0 && !res.payload.Data) {
-      console.log("ye hai ");
       setErrorMsg(res.payload.Remarks);
       setSuccessMsg("");
 

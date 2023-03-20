@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSliderBannerImage } from "../../redux/slices/bannerSlice";
 import { Loading } from "../common";
 import { LatestLoading } from "../common/Loading";
+import { Spin } from "antd";
 const HomeTopBannerSlider = () => {
   const dispatch = useDispatch();
   const { SliderBanners } = useSelector((state) => state.bannerSlice);
@@ -34,7 +35,6 @@ const HomeTopBannerSlider = () => {
   }, []);
   return (
     <>
-    {console.log(SliderBanners)}
       <div className="top-banner-outer">
         {SliderBanners && (
           <Carousel
@@ -62,7 +62,6 @@ const HomeTopBannerSlider = () => {
                       className="img-fluid"
                       alt=""
                     />
-                    {console.warn(banner.BackgroundImage)}
                   </div>
                 ) : null
               )

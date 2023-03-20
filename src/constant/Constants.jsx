@@ -1,7 +1,7 @@
 const themeColor = "#393186";
 // export const baseApiUrl = "https://api.vipswallet.com/api";
-export const digiBaseUrl = "http://testnew.vipswallet.com/api/DigiGold/";
-export const baseApiUrl = "http://testnew.vipswallet.com/api";
+export const digiBaseUrl = "http://devtest.vipswallet.com/api/DigiGold/";
+export const baseApiUrl = "http://devtest.vipswallet.com/api";
 
 export const shopadminUrl = "http://shopadmin.vipswallet.com";
 export const vendorPanelAPi = "http://vendor.vipswallet.com/Login/Vendor";
@@ -71,7 +71,6 @@ export const fashionCategoryId = 43;
 export const needHelpUrl = "https://wa.me/9922098098";
 
 export const getTermsConditionsId = (type) => {
-  console.log(type, "type aa rha hai");
   if (type && type.includes("privacypolicy")) {
     return privacypolicy;
   } else if (type && type.includes("signupTerms")) {

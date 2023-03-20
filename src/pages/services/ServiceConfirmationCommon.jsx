@@ -266,9 +266,9 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
           setIsSnackBar(true);
           setErrorMsg(commonBill?.Data?.ResponseMessage);
         }
-      } else {
+      } else if(commonBill.ResponseCode===0){
         setIsSnackBar(true);
-        setErrorMsg(commonBill?.Data?.ResponseMessage);
+        setErrorMsg(commonBill?.Remarks);
       }
     }
   }, [data.Data, selectedDiscount, gasBill, commonBill]);

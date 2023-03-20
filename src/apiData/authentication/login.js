@@ -1,7 +1,6 @@
 import { baseApiUrl, appType } from "../../constants";
 
 export const login = ({ userName, password, ip }) => {
-  console.warn("login", ip);
   const formData = new FormData();
   formData.append("Username", userName);
   formData.append("Password", password);

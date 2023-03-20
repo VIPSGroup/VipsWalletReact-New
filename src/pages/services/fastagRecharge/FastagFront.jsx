@@ -473,7 +473,7 @@ useEffect(() => {
 
                     {showBill && mobileNo.length===10 && fetchBillSection()}
 
-                    {mobileNo && showBillFetchError()}
+                    {mobileNo.length===10 && showBillFetchError()}
 
                     <div class="col-md-12">
                       {!showBill && (

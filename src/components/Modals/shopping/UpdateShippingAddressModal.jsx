@@ -53,7 +53,6 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
       ).then((response) => {
         setLoading(false);
         if (response.ResponseStatus == 1) {
-          console.log(response.Remarks);
           setErrorMsg("")
           setIsSnackBar(true)
           setSuccessMsg(response.Remarks)

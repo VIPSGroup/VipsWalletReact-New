@@ -173,7 +173,7 @@ return ()=>{setShowSuccess(false)
         }
       } else {
         setIsSnackBar(true);
-        setErrorMsg(rechargeData.Data.ResponseMessage);
+        setErrorMsg(rechargeData.Remarks);
       }
     }
       }, [data.Data, selectedDiscount,rechargeData])

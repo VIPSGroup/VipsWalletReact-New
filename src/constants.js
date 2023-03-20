@@ -1,9 +1,9 @@
 import { SHA512 } from "crypto-js";
 
 const themeColor = "#393186";
-export const baseApiUrl = "https://api.vipswallet.com/api";
-// export const baseApiUrl = "http://testnew.vipswallet.com/api";
-export const digiBaseUrl = "http://testnew.vipswallet.com/api/DigiGold/";
+// export const baseApiUrl = "https://api.vipswallet.com/api";
+export const baseApiUrl = "http://api.vipswallet.com/api";
+export const digiBaseUrl = "http://devtest.vipswallet.com/api/DigiGold/";
 // export const baseApiUrl = "http://webplat.vipswallet.com/api/";
 export const shopadminUrl = "http://shopadmin.vipswallet.com";
 export const vendorPanelAPi = "http://vendor.vipswallet.com/Login/Vendor";

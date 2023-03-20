@@ -3,17 +3,11 @@ import { CommonTopNav } from '../../../components/layout/Header';
 import "../../../assets/styles/digigold/digigold-gift.css"
 
 const Gift = ({ setIsCommonTopNav }) => {
-    useEffect(() => {
-        setIsCommonTopNav(false);
-    
-      return () => {
-        setIsCommonTopNav(true)
-      }
-    }, [])
+ 
     
   return (
     <>
-     <CommonTopNav />
+     {/* <CommonTopNav /> */}
    
     <section class="section-align buy-sell-form">
     <div class="container">

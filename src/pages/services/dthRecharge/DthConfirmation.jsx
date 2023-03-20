@@ -105,7 +105,6 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
     };
   }, []);
   useEffect(() => {
-    console.log(data);
     if (data.Data) {
       manageInitialPaymentMethod(data?.Data?.Balance);
       dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount }));

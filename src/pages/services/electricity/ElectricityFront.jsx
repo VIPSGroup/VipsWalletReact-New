@@ -143,7 +143,6 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
   };
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    console.warn(operatorData);
     if(operatorData.length===0){
       console.log(operatorData);
       dispatch(getElectricityOperators())
@@ -648,7 +647,7 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
 
                     {showBill && mobileNo && fetchBillSection()}
 
-                    {mobileNo && showBillFetchError()}
+                    {mobileNo.length===10 && showBillFetchError()}
 
                     <div class="col-md-12">
                       {!showBill && operatorPaymentMode !== 2 && (

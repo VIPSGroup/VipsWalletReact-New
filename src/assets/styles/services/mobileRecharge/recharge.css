@@ -418,13 +418,13 @@
 .brows-plans-user{
   display: flex;
   border-bottom: 1px solid var(--borderColor);
-  margin-bottom: 27px;
-  padding-bottom: 22px;
+  margin-bottom: 38px;
+  padding-bottom: 34px;
 }
 .brows-plans-user-circle{
   display: inline-block;
-  margin-right: 15px;
-  margin-top: 3px;
+  margin-right: 25px;
+  margin-top: 5px;
 }
 .brows-plans-user-circle img{ 
   width: 50px;
@@ -433,7 +433,7 @@
   font-size: 18px;
   font-weight: 500;
   color: var(--darkText);
-  margin-bottom: 7px;
+  margin-bottom: 11px;
 }
 .brows-plans-user-name .brows-plans-user-title a{
   font-size: 16px;
@@ -452,8 +452,8 @@
 
 .brows-plans-head{
   /* border-bottom: 1px solid rgba(0,0,0,.1); */
-  margin-bottom: 8px;
-  padding-bottom: 5px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -512,11 +512,6 @@
 }
 .brows-plans-nav ul li:first-child{
   padding-left: 0;
-}
-
-
-.brows-plans-nav ul::-webkit-scrollbar {
-  -webkit-appearance: none;
 }
 
 .brows-plans-card{
@@ -584,7 +579,6 @@
   overflow: hidden;
   overflow-y: scroll;
   width: 100%;
-  padding-right: 9px;
 }
 
 /* .brows-plans-inner:hover{ 
@@ -882,14 +876,6 @@ padding: 0rem 0rem;
 
 
 
-  .brows-plans-user {
-    margin-bottom: 27px;
-    padding-bottom: 15px;
-  }
-  .brows-plans-head {
-    margin-bottom: 5px;
-    padding-bottom: 5px;
-  }
   .brows-plans-user-circle { 
     margin-right: 19px;
     margin-top: 7px;
@@ -898,8 +884,7 @@ padding: 0rem 0rem;
     width: 40px;
   }
   .brows-plans-user-name .brows-plans-user-title {
-    font-size: 14px;
-    margin-bottom: 0px;
+    font-size: 14px; 
   }
   .brows-plans-user-name .brows-plans-user-title a {
     font-size: 14px; 
@@ -915,8 +900,7 @@ padding: 0rem 0rem;
     margin-top: 10px;
   }
   .brows-plans-nav ul li button { 
-    font-size: 14px;
-    padding-bottom: 7px;
+    font-size: 15px; 
   }
   .brows-plans-nav ul li {
     padding: 10px 20px;
@@ -959,12 +943,10 @@ padding: 0rem 0rem;
     font-size: 13px;
   }
   .mob-paymet-recharge-operator {
-    /* margin-left: auto; */
-    margin-left: 0;
+    margin-left: auto;
   }
   .paymet-recharge-mobno { 
     margin-bottom: 0px;
-    margin-right: 25px;
   }
 
   .mob-paymet-discount-info {
@@ -1015,7 +997,6 @@ padding: 0rem 0rem;
   .mobile-payment-summery {
     color: var(--textGray);
     font-size: 14px;
-    white-space: nowrap;
   }
   .mobile-payment-summery-amt { 
     font-size: 14px;
@@ -1095,25 +1076,16 @@ padding: 0rem 0rem;
 
 
 
-   
-  .brows-plans-user {
-    margin-bottom: 27px;
-    padding-bottom: 15px;
-  }
-  .brows-plans-head {
-    margin-bottom: 5px;
-    padding-bottom: 5px;
-  }
+    
   .brows-plans-user-circle { 
-    margin-right: 10px; 
-    margin-top: 3px;
+    margin-right: 17px; 
+    margin-top: 7px;
   }
   .brows-plans-user-circle img {
-    width: 42px;
+    width: 39px;
   }
   .brows-plans-user-name .brows-plans-user-title {
-    font-size: 14px;
-    margin-bottom: 0px;
+    font-size: 14px; 
   }
   .brows-plans-user-name .brows-plans-user-title a {
     font-size: 14px; 
@@ -1129,8 +1101,7 @@ padding: 0rem 0rem;
     margin-top: 10px;
   }
   .brows-plans-nav ul li button { 
-    font-size: 14px;
-    padding-bottom: 7px;
+    font-size: 15px; 
   }
   .brows-plans-nav ul li {
     padding: 10px 20px;
@@ -1265,25 +1236,11 @@ padding: 0rem 0rem;
 
 
 
-  .brows-plans-user {
-    margin-bottom: 27px;
-    padding-bottom: 15px;
-  }
-  .brows-plans-head {
-    margin-bottom: 5px;
-    padding-bottom: 5px;
-  }
-  .brows-plans-user-circle {
-    display: inline-block;
-    margin-right: 13px;
-    margin-top: 3px;
-  }
   .brows-plans-user-circle img {
     width: 45px;
   }
   .brows-plans-user-name .brows-plans-user-title {
     font-size: 16px;
-    margin-bottom: 0px;
   }
   .brows-plans-user-name .brows-plans-user-info {
     font-size: 14px;
@@ -1298,8 +1255,7 @@ padding: 0rem 0rem;
     width: 37% !important; 
   }
   .brows-plans-nav ul li button { 
-    font-size: 16px;
-    padding-bottom: 9px;
+    font-size: 16px; 
   }
   .mob-recharg-info .recharge-info {
     margin-bottom: 16px; 
@@ -1439,7 +1395,7 @@ padding: 0rem 0rem;
     font-size: 14px;
   }
   .mobile-payment-summery-amt { 
-    font-size: 14px; 
+    font-size: 15px; 
   }
   .mobile-payment-confirm-btn button {
     font-size: 15px; 

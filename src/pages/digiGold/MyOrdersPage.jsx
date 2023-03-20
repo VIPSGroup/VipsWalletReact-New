@@ -4,7 +4,6 @@ import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digigold-myorder.css";
 import { MuiSnackBar } from "../../components/common";
-import { CommonTopNav } from "../../components/layout/Header";
 import { fetchGoldSilverRates } from "../../redux/slices/digiGold/digiGoldSlice";
 import {
   downloadPdf,
@@ -12,7 +11,7 @@ import {
   MyOrders,
 } from "../../redux/slices/digiGold/userProfileSlice";
 
-const MyOrdersPage = ({ setIsCommonTopNav }) => {
+const MyOrdersPage = () => {
   const dispatch = useDispatch();
   const [dataSource, setDataSource] = useState([]);
   const [tab, setTab] = useState("Buy");
@@ -34,26 +33,18 @@ const MyOrdersPage = ({ setIsCommonTopNav }) => {
     (state) => state.userProfileSlice.sellStatus
   );
   const { pdfData } = useSelector((state) => state.userProfileSlice.invoice);
-  console.log(ordersList, "ordersList");
 
   useEffect(() => {
-    setIsCommonTopNav(false);
     const username = loggedInUser.UserName;
     const password = loggedInUser.TRXNPassword;
     dispatch(MyOrders({ username, password }));
     dispatch(fetchGoldSilverRates());
-    return () => {
-      setIsCommonTopNav(true)
-    };
   }, [dispatch]);
   useEffect(() => {
     setDataSource(ordersList?.Data);
   }, [ordersList]);
   useEffect(() => {
     if (sellStatus.ResponseStatus === 1 && sellStatus.Data.statusCode === 200) {
-      // setErrorMsg("");
-      // setIsSnackBar(true);
-      // setSuccessMsg(sellStatus.Data.message);
       setModalData({
         ...modalData,
         TransactionStatus: sellStatus.Data.result.data.status,
@@ -82,7 +73,6 @@ const MyOrdersPage = ({ setIsCommonTopNav }) => {
       downloadLink.download = pdfData.Data.invoiceNumber;
       downloadLink.click();
     } else if (pdfData.ResponseStatus === 0) {
-      console.log("errorrrrrrrr");
       setSuccessMsg("");
       setIsSnackBar(true);
       setErrorMsg(pdfData.Remarks);
@@ -134,23 +124,8 @@ const MyOrdersPage = ({ setIsCommonTopNav }) => {
       title: "Action",
       dataIndex: "invoice",
       key: "invoice",
-      // render: (_, record) => (
-      //   <button
-      //     className="pdf-down-btn"
-      //     type="button"
-      //     data-toggle="modal"
-      //     data-target="#digigoldorderdetails"
-      //   >
-      //     <img
-      //       onClick={() => setModal(true)}
-      //       src="/images/digigold-images/pdf-icon.svg"
-      //       alt="Download PDF"
-      //     />
-      //   </button>
-      // ),
     },
   ];
-  // console.log(modalData, "data");
   const data = dataSource
     ?.filter((a) => a.TransactionType === tab)
     .map((item, index) => ({
@@ -231,7 +206,7 @@ const MyOrdersPage = ({ setIsCommonTopNav }) => {
 
   return (
     <>
-      <CommonTopNav />
+      {/* <CommonTopNav /> */}
       <section class="digi-gold-section-wrapper buy-sell-form">
         <div class="container">
           <div class="digital-gold-section-head">

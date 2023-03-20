@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { checkGABBalance, addMoneyFromGAB } from "../../apiData/payments";
-
 import "../../assets/styles/addMoney/addMoney.css";
 import "../../assets/styles/styles.css";
 import { useSelector } from "react-redux";
 import AddMoneyButton from "../../components/buttons/AddMoneyButton";
-// import LoadingBar from "../../components/common/Loading";
 import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
 
 const AddAmount = () => {

@@ -114,7 +114,6 @@ const loginSlice = createSlice({
     getLoggedInUser:(state)=>{console.log(JSON.stringify(state.loggetInWithOTP.loggedInUser))
       // ...state,
       state.loggetInWithOTP.loggedInUser=localStorage.getItem("user")
-      console.warn(localStorage.getItem("user"));
     }
   },
   extraReducers: (builder) => {

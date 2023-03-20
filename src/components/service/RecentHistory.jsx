@@ -5,7 +5,6 @@ import { getRechargeHistory } from "../../apiData/services/mobileRecharge";
 import { operartorsUrl } from "../../constants";
 import { Loading } from "../common";
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
-// import LoadingBar from "../common/Loading";
 
 const RecentHistory = ({
   setMobileNo,
@@ -84,18 +83,7 @@ const RecentHistory = ({
                   <div class="text-center">
                     <img src="/images/No_Data.svg" />
                   </div>
-                ) : null}
-              </div>
-
-              {/* {loading ? (
-                  <LoadingBar color="#CA3060" />
-                ) : rechargeHistory.length < 1 ? (
-                  <div class="text-center">
-                    <img src="/images/No_Data.svg" />
-                  </div>
-                ) : null} */}
-
-              <table class="table text-nowrap table-borderless mobile-recharge-table">
+                ) :  <table class="table text-nowrap table-borderless mobile-recharge-table">
                 <tbody>
                   {!loading && rechargeHistory &&
                     rechargeHistory.map((r, i) => (
@@ -163,7 +151,18 @@ const RecentHistory = ({
                       </tr>
                     ))}
                 </tbody>
-              </table>
+              </table>}
+              </div>
+
+              {/* {loading ? (
+                  <LoadingBar color="#CA3060" />
+                ) : rechargeHistory.length < 1 ? (
+                  <div class="text-center">
+                    <img src="/images/No_Data.svg" />
+                  </div>
+                ) : null} */}
+
+             
             </div>
           </div>
         </div>

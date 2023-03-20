@@ -189,7 +189,7 @@ const BannerTopNav = () => {
                             &#x20B9;
                             {!loading && data
                               ? data?.Data?.Balance
-                              : "Loading..."}
+                              : "..."}
                           </span>
                         </div>
                         <div class="dropdown-divider"></div>
@@ -203,7 +203,7 @@ const BannerTopNav = () => {
                                 {" "}
                                 {!loading && data
                                   ? data?.Data?.PrimePoints
-                                  : "Loading..."}
+                                  : "..."}
                               </span>
                             </div>
                           </div>
@@ -219,7 +219,7 @@ const BannerTopNav = () => {
                                 {" "}
                                 {!loading && data
                                   ? data?.Data?.Shoppingpoints
-                                  : "Loading..."}
+                                  : "..."}
                               </span>
                             </div>
                           </div>

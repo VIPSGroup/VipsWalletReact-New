@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/digigold/gold-home.css";
 import { MuiSnackBar } from "../../components/common";
-import { CommonTopNav } from "../../components/layout/Header";
 import {
   fetchGoldSilverRates,
   modalOpen,
@@ -56,7 +55,7 @@ export const HowItWorks = () => {
     </>
   );
 };
-const DigiGoldHome = ({ setIsCommonTopNav }) => {
+const DigiGoldHome = ({active,setActive }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isDigiLogin, setIsDigiLogin] = useState("");
@@ -77,7 +76,7 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
     metalType: "",
     type: "",
   });
-  const [active, setActive] = useState(0); // 0 for Buy & 1 for Sell
+  // const [active, setActive] = useState(0); // 0 for Buy & 1 for Sell
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
@@ -129,15 +128,11 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
     }
   };
   useEffect(() => {
-    setIsCommonTopNav(false);
     if (loggedInUser) {
       const username = loggedInUser.UserName;
       const password = loggedInUser.TRXNPassword;
       dispatch(loginDigiGold({ username, password }));
     }
-    return () => {
-      setIsCommonTopNav(true)
-    };
   }, [dispatch]);
 
   useEffect(() => {
@@ -149,9 +144,6 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
 
     return () => clearInterval(intervalId); // Clear the interval on unmount
   }, [dispatch]);
-  // useEffect(() => {
-  //   dispatch(fetchGoldSilverRates());
-  // }, []);
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
     setValueType({
@@ -222,7 +214,6 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
     const gram = parseFloat(e.target.value);
     const gGram = parseFloat(logData?.Data?.GoldGrams);
     const sGram = parseFloat(logData?.Data?.SilverGrams);
-    // console.log(gram > (isGold === 0 ? gGram : sGram), "hjgfdf")
     if (logData.Data) {
       if (active === 1 && gram > (isGold === 0 ? gGram : sGram)) {
         const roundedNum = Math.round(gGram * 10000) / 10000;
@@ -262,11 +253,9 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
       valType: "Grams",
       metalType: isGold === 0 ? "gold" : "silver",
     });
-    console.log(TotalAmount, "TotalAmount");
     const totalRound = Math.round(TotalAmount * 10000) / 10000;
     const strTotal = totalRound.toFixed(4);
     const totalResult = parseFloat(strTotal);
-    // console.log(totalResult, "total Result")
     setAmount(totalResult);
   };
   const formatter = (value) => {
@@ -277,13 +266,8 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
     value = value.replace(/\$\s?|(,*)/g, "");
     return isNaN(value) ? "" : parseFloat(value).toFixed(4);
   };
-
-  console.log(grams, "grams");
   return (
     <>
-
-      <CommonTopNav />
-
       <div className="">
         {/* <!-- body section start Now --> */}
         <Spin spinning={loading || logLoading || digiLogLoading}>
@@ -300,7 +284,7 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
                   {loggedInUser && !logData?.Data && (
                     <div class="col-lg-7 mx-auto digigold-logintext">
                       <p class="digigold-logintext-title mt-2">
-                        You are not Register on DigiGold
+                        You are not Register on VIPS Gold
                       </p>
                       <button
                         onClick={() => dispatch(modalOpen())}
@@ -489,6 +473,7 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
                                       // ]}
                                     >
                                       <Input
+                                       onWheel={(e) => e.target.blur()}
                                         formatter={formatter}
                                         // onKeyDown={handleKeyDown}
                                         className="mb-0"
@@ -539,6 +524,7 @@ const DigiGoldHome = ({ setIsCommonTopNav }) => {
                                       }
                                     >
                                       <Input
+                                       onWheel={(e) => e.target.blur()}
                                         onKeyDown={handleKeyDown}
                                         min={1}
                                         required

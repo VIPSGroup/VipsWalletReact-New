@@ -21,7 +21,6 @@ const Otp = ({ userName, password,setFormCount }) => {
   useEffect(() => {
     if (loggedInUser === false && toggle && !loading) {
       if (!loggedInUser.Id) {
-        console.log("Invalid OTP");
         setIsSnackBar(true);
         setErrorMessage("Invalid OTP");
         setsuccessMessage("");

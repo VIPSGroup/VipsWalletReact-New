@@ -11,18 +11,6 @@ const AddToCartButton = ({
 }) => {
   let navigate = useNavigate();
 
-  // const checkInCart = () => {
-  //   let cartProducts = JSON.parse(localStorage.getItem("cart"));
-
-  //   cartProducts &&
-  //     cartProducts.map((c, i) => {
-  //       if (c.product.Id == product.ProductDetails.Id) {
-  //         return true;
-  //       }
-  //     });
-  //   return false;
-  // };
-
   const handleAddClick = (e) => {
     e.preventDefault();
 
@@ -51,11 +39,11 @@ const AddToCartButton = ({
   };
 
   return (
-    <ThemeButton value={alreadyInCart ? "Go To Cart" : "Add To Cart"} onClick={handleAddClick} class="btn btn-cta mr-3"/>
-    // <button onClick={handleAddClick} class="btn btn-cta mr-3" type="button">
-    //   {" "}
-    //   {alreadyInCart ? "Go To Cart" : "Add To Cart"}{" "}
-    // </button>
+    // <ThemeButton value={alreadyInCart ? "Go To Cart" : "Add To Cart"} onClick={handleAddClick} class="btn btn-cta mr-3"/>
+    <button onClick={handleAddClick} class="btn btn-cta mr-3" type="button">
+      {" "}
+      {alreadyInCart ? "Go To Cart" : "Add To Cart"}{" "}
+    </button>
   );
 };
 

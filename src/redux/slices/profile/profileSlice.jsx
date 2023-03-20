@@ -40,7 +40,6 @@ export const changePassword = createAsyncThunk(
         `${baseApiUrl}/UserServices/GetChangePassword`,
         formData
       );
-      console.warn(res.data);
       return res.data;
     } catch (error) {}
   }

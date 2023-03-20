@@ -40,14 +40,12 @@ export const MyOrders = createAsyncThunk(
 export const getSellStatus = createAsyncThunk(
   "GetWithdrawInfo",
   async ({ transactionId, Username, Password }, thunkAPI) => {
-    console.log(transactionId, Username, Password);
     const formData = new FormData();
     formData.append("transactionId", transactionId);
     formData.append("Username", Username);
     formData.append("Password", Password);
     try {
       const res = await axios.post(`${digiBaseUrl}GetWithdrawInfo`, formData);
-      console.warn(res.data);
       return res.data;
     } catch (error) {
       return error;
@@ -57,13 +55,10 @@ export const getSellStatus = createAsyncThunk(
 export const downloadPdf = createAsyncThunk(
   "downloadPdf",
   async (transactionId, thunkAPI) => {
-    console.log(transactionId);
     const formData = new FormData();
     formData.append("transactionid", transactionId);
     try {
       const res = await axios.post(`${digiBaseUrl}GetInvoice`, formData);
-
-      console.warn(res.data);
       return res.data;
     } catch (error) {
       return error;

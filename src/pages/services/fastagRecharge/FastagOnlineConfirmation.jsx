@@ -31,7 +31,6 @@ const FastagOnlineConfirmation = ({setIsCommonTopNav}) => {
   const [payuAmt, setPayuAmt] = useState("0");
   const [walletAmt, setWalletAmt] = useState("");
   const [finalAmount, setFinalAmount] = useState("");
-  // const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
@@ -53,45 +52,6 @@ const FastagOnlineConfirmation = ({setIsCommonTopNav}) => {
 
     const paymentRefId = getRandomNumber();
 dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,billAmount:amt,inputObj:inputFields,paymentRef:paymentRefId,refId:props?.billData.TransactionId,operatorCode:props?.operatorId,mobNo:props?.number,pointType:selectedDiscount}))
-    // fastagOnlineConfirmation(
-    //   loggedInUser.Mobile,
-    //   loggedInUser.TRXNPassword,
-    //   amt,
-    //   inputFields,
-    //   paymentRefId,
-    //   props.billData.TransactionId,
-    //   props.operatorId,
-    //   props.number,
-    //   dType
-    // ).then((response) => {
-    //   setLoading(false);
-
-    //   if (response.ResponseStatus === 1) {
-    //     if (response.Data != null) {
-    //       var data = response.Data;
-    //       var time = getTodayDate();
-    //       navigate("/services/success", {
-    //         state: {
-    //           amount: data.BillAmount,
-    //           status: response.Status,
-    //           mobileNo: inputFields[0].fieldValue,
-    //           operator: props.operator,
-    //           circle: "",
-    //           date: time,
-    //           transactionId: data.TransactionId,
-    //         },
-    //       });
-    //     } else {
-    //       setIsSnackBar(true);
-    //       setErrorMsg(response.Data.ResponseMessage);
-    //     }
-    //   } else {
-    //     setIsSnackBar(true);
-    //     setErrorMsg(
-    //       response.Data ? response.Data.ResponseMessage : response.Remarks
-    //     );
-    //   }
-    // });
   };
 
   const handlePaymentMethod = (e) => {
@@ -150,7 +110,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
       manageInitialPaymentMethod(data?.Data?.Balance);
     }
     if(fastagRecharge && showSuccess){
-      if (fastagRecharge.ResponseStatus === 1) {
+      if (fastagRecharge?.ResponseStatus === 1) {
         if (fastagRecharge.Data != null) {
           var data = fastagRecharge.Data;
           var time = getTodayDate();
@@ -168,12 +128,12 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
         } else {
           setSuccessMsg("")
           setIsSnackBar(true);
-          setErrorMsg(fastagRecharge.Data.ResponseMessage);
+          setErrorMsg(fastagRecharge?.Data?.ResponseMessage);
         }
-      } else {
+      } else if(fastagRecharge?.ResponseCode === 0){
         setSuccessMsg("")
         setIsSnackBar(true);
-        setErrorMsg(fastagRecharge.Data.ResponseMessage
+        setErrorMsg(fastagRecharge?.Remarks
         );
       }
     }

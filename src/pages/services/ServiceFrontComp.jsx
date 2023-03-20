@@ -444,7 +444,7 @@ return ()=>{setIsClick(false)}
 
                     {showBill && mobileNo && fetchBillSection()}
 
-                    {mobileNo && showBillFetchError()}
+                    {mobileNo.length===10 && showBillFetchError()}
 
                     <div class="col-md-12">
                       {!showBill && (

@@ -72,9 +72,10 @@ const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
   const [isBottomTopNav, setIsBottomTopNav] = useState(false);
   const [isCommonTopNav, setIsCommonTopNav] = useState(true);
+  const [active, setActive] = useState(0); 
   return (
     <>
-      <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} isCommonTopNav={isCommonTopNav}/>
+      <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} isCommonTopNav={isCommonTopNav} setActive={setActive}/>
       <Routes>
         <Route
           element={<Homepage setIsHomeTopNav={setIsHomeTopNav} />}
@@ -82,8 +83,6 @@ const Router = () => {
         >
           <Route path="/login" element={<Login />} />
         </Route>
-
-        {/* <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} /> */}
 
         <Route
           path="/sendMoney"
@@ -378,11 +377,11 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/digigold" element={<DigiGoldHome setIsCommonTopNav={setIsCommonTopNav} />} />
-        <Route path="/digigold-order-summary" element={<OrderSummary setIsCommonTopNav={setIsCommonTopNav} />} />
-        <Route path="/digigold-profile" element={<DigiProfile setIsCommonTopNav={setIsCommonTopNav} />} />
-        <Route path="/digigold-orders" element={<MyOrdersPage setIsCommonTopNav={setIsCommonTopNav} />} />
-        <Route path="/digigold/gift" element={<Gift setIsCommonTopNav={setIsCommonTopNav} />} />
+        <Route path="/digigold" element={<DigiGoldHome active={active} setActive={setActive}/>} />
+        <Route path="/digigold-order-summary" element={<OrderSummary />} />
+        <Route path="/digigold-profile" element={<DigiProfile />} />
+        <Route path="/digigold-orders" element={<MyOrdersPage />} />
+        <Route path="/digigold/gift" element={<Gift />} />
         <Route
             path="/digi-faq"
             element={

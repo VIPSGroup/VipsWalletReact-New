@@ -28,14 +28,14 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-
-  const loggedInMember = JSON.parse(localStorage.getItem("user"));
   const { wishCount } = useSelector((state) => state.wishlistSlice);
 
   const { pathname } = useResolvedPath();
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
+useEffect(() => {
+}, [])
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
@@ -66,7 +66,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
     });
   };
 
-  const items = [
+  const items = logData.Data ? [
     {
       key: "1",
       label: (
@@ -80,10 +80,57 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
       label: (
         <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
           {!logLoading && logData.Data && "My Orders"}
+        </Link>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+          FAQ's
+        </Link>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <Link
+          target={"_blank"}
+          to={"/digi-termscondtion"}
+          style={{ fontSize: 17 }}
+        >
+          Terms & Conditions
 
         </Link>
       ),
     },
+    // {
+    //   key: "3",
+    //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+    // },
+    // {
+    //   key: "4",
+    //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+    // },
+    // {
+    //   key: "5",
+    //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+    // },
+    {
+      key: "5",
+      label: (
+        <Link
+          onClick={() => {
+            !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
+          }}
+          style={{ fontSize: 17 }}
+        >
+          {!logLoading && logData.Data ? "Logout" : "Register"}
+        </Link>
+      ),
+    },
+  ]
+  :[
     {
       key: "3",
       label: (
@@ -212,7 +259,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                     </li>
                     <li class="nav-item">
                       <Link class="nav-link" to="/digigold">
-                        DigiGold
+                        VIPS Gold
                       </Link>
                     </li>
                   </ul>
@@ -223,9 +270,9 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
             <div class="collapse navbar-collapse d-flex flex-row align-self-start justify-content-end">
               <ul class="navbar-nav nabar-right-icon ml-auto flex-row align-self-start">
                 {pathname !== "/digigold" &&
-                  pathname !== "/digigold-order-summary" &&
+                  pathname !== "/digigold-order-summary/:" &&
                   pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" && (
+                  pathname !== "/digigold-orders" && pathname!=="/digigold/gift" && (
                     <>
                     <li class="nav-item">
                       <Link class="nav-link nav-icons" to="/shopping/cart">
@@ -233,7 +280,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                         <AiOutlineShoppingCart className="nav-icon" />
                         {/* </Badge> */}
                         {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
-                        <span class="d-xl-block d-none d-md-none d-sm-none ">
+                        <span class="d-xl-block d-none d-md-none d-sm-none">
                           {" "}
                           My Cart{" "}
                         </span>
@@ -283,7 +330,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" && (
+                  pathname !== "/digigold-orders" && pathname!=="/digigold/gift" && (
                     <li class="nav-item">
                       <Link
                         onClick={CheckWalletBalance}
@@ -316,7 +363,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                               &#x20B9;{" "}
                               {!loading && data
                                 ? data?.Data?.Balance
-                                : "Loading..."}
+                                : "..."}
                             </span>
                           </div>
                           <div class="dropdown-divider"></div>
@@ -330,7 +377,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                                   {" "}
                                   {!loading && data
                                     ? data?.Data?.PrimePoints
-                                    : "Loading..."}
+                                    : "..."}
                                 </span>
                               </div>
                             </div>
@@ -346,13 +393,12 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                                   {" "}
                                   {!loading && data
                                     ? data?.Data?.Shoppingpoints
-                                    : "Loading..."}
+                                    : "..."}
                                 </span>
                               </div>
                             </div>
                           </div>
                           <div class="dropdown-divider"></div>
-
                           <div class="nav-wallet-body">
                             <div class="col-md-12">
                               <div class="row">
@@ -588,7 +634,6 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
                     <span class="navbar-bottom-serv-box-title">Sell Gold</span>
                   </Link>
                 </div>
-
                 <div class="navbar-bottom-serv-box">
                   <Link
                     href="#"
@@ -684,7 +729,7 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           <li>
-            <Link to="/digigold"> DigiGold</Link>
+            <Link to="/digigold"> VIPS Gold</Link>
           </li>
           <li>
             <Link to={vendorPanelAPi} target="_blank">

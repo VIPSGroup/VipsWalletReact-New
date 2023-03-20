@@ -73,7 +73,6 @@ const AddShippingAddressModal = () => {
   useEffect(() => {
     if (formik.values.pincode.length == 6) {
       getStateCity(formik.values.pincode).then(response=>{
-        console.log(response);
         if (response?.ResponseStatus === 1) {
           setGetData({
             ...getData,

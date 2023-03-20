@@ -116,7 +116,6 @@ export const signUpUser = createAsyncThunk(
         formData
       );
       if(res.data.ResponseStatus==1){
-        console.warn(res.data.Data);
         localStorage.setItem("user",JSON.stringify(res.data.Data))
        }
       return res.data

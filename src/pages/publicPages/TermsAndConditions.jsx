@@ -9,13 +9,9 @@ const AllTermsAndCondition = ({ title, type }) => {
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-console.log(type, "type")
     let value = getTermsConditionsId(type);
-    console.log(value, "value")
     getDynamicContent().then((response) => {
-      console.log(response, "res hai")
       let collection = response.Data?.find((element) => element.Type === value);
-      console.log(collection, "collection")
       setData(collection);
     });
   }, []);
@@ -25,12 +21,8 @@ console.log(type, "type")
 
     var doc = parser.parseFromString(input, "text/html");
     const errorNode = doc.querySelector("parsererror");
-    if (!errorNode) {
-      console.error(errorNode);
-    }
     return doc.documentElement.textContent;
   }
-console.log(data, "aa rha hai")
   const section = () => (
     <section class="inpage-section-align my-account">
       <div class="container">

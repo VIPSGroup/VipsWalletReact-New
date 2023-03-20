@@ -8,23 +8,15 @@ import "../../assets/styles/services/serviceSuccess.css";
 import "../../assets/styles/styles.css";
 import { needHelpUrl, googleAnalytics } from "../../constants";
 import ReactGA from "react-ga";
-import { useSelector } from "react-redux";
 import { ThemeButton } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 
 const ServiceSuccess = () => {
   let navigate = useNavigate();
   const location = useLocation();
-//  const history = useHistory()
   const props = location.state;
- console.log(props);
-// const { rechargeData } = useSelector(state => state.commonSlice.finalRecharge);
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    // return null
-//     if(props==null){
-// console.warn("null ahe");
-//     }
   }, []);
   return (
     <div className="color-body">
