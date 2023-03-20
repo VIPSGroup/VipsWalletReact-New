@@ -58,7 +58,6 @@ const ChangePassword = () => {
     if (oldPassword === loggedInUser.TRXNPassword && newPassword!=='' && confirmPassword!=='') {
     
       if (newPassword === confirmPassword && loggedInUser.TRXNPassword!==newPassword && loggedInUser.TRXNPassword!==confirmPassword) {
-        console.log("_____________");
         dispatch(changePassword({ Mobile, Password, newPassword }));
       }else{
         setSuccessMsg("")

@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
-// import { getWalletBalance } from "../../apiData/user/userDetails";
-// import { getServiceDiscounts } from "../../apiData/services/core";
 import { ThreeDots } from "react-loader-spinner";
-// import { commonServiceConfirm } from "../../apiData/services/core";
 import { getRandomNumber, getTodayDate, gasServiceId } from "../../constants";
-// import { naturalGasBillPay } from "../../apiData/services/core";
 import { getDouble, googleAnalytics } from "../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
-import { getWalletBalance } from "../../redux/slices/walletSlice";
 import { getServiceDiscounts } from "../../redux/slices/services/commonSlice";
 import {
   commonServiceConfirm,
   naturalGasBillPay,
 } from "../../redux/slices/services/servicesSlice";
 import { MuiSnackBar, ThemeButton } from "../../components/common";
+import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
 ReactGA.initialize(googleAnalytics);
 
 const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
@@ -208,11 +203,11 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
     setIsCommonTopNav(false)
     ReactGA.pageview(window.location.pathname);
     setLoading(false);
-    const userName = loggedInUser && loggedInUser.UserName;
+    const username = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
     if (loggedInUser) {
       if (data?.Data?.length !== 0 || !data) {
-        dispatch(getWalletBalance({ userName, password }));
+        dispatch(getWalletBalance({ username, password }));
       }
     }
     return () => {
@@ -271,9 +266,9 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
           setIsSnackBar(true);
           setErrorMsg(commonBill?.Data?.ResponseMessage);
         }
-      } else {
+      } else if(commonBill.ResponseCode===0){
         setIsSnackBar(true);
-        setErrorMsg(commonBill?.Data?.ResponseMessage);
+        setErrorMsg(commonBill?.Remarks);
       }
     }
   }, [data.Data, selectedDiscount, gasBill, commonBill]);

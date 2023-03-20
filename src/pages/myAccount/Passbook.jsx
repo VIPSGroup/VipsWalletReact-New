@@ -68,33 +68,41 @@ const Passbook = () => {
     ReactGA.pageview(window.location.pathname);
     const toDate = getTodaysDate();
     setSelectedTab("wallet");
+    setLoading(true)
     walletReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then((response) => {
+      setLoading(false)
       setWalletHistory(response.Data);
       setActiveHistory(response.Data);
     });
     rechargeBillsReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then(
       (response) => {
+        setLoading(false)
         setRechargeHistory(response.Data);
       }
     );
     shoppingReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then((response) => {
+      setLoading(false)
       setShoppingHistory(response.Data);
     });
     cashbackReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then((response) => {
+      setLoading(false)
       setCashbackHistory(response.CashbackHistory);
     });
     allCashbackReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then(
       (response) => {
+        setLoading(false)
         setAllCashbackHistory(response.Data);
       }
     );
     shoppingPointReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then(
       (response) => {
+        setLoading(false)
         setShoppingPointHistory(response.Data);
       }
     );
     primePointReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then(
       (response) => {
+        setLoading(false)
         setPrimePointHistory(response.Data);
       }
     );
@@ -453,8 +461,27 @@ const Passbook = () => {
               </div>
 
               <div class="trasanction-history-inner">
+             
+{loading ?  <div class="service-loader-outer m-auto"><Loading color="#CA3060" class="" /></div>
+: activeHistory && activeHistory .length < 1 || activeHistory==null
+?<div class="text-center">
+<img src="/images/No_Data.svg" />
+</div>
+: activeHistory.map((a, i) =>
+selectedTab === "wallet" ||
+selectedTab === "shoppingPoint" ||
+selectedTab === "primePoint"
+  ? walletHistoryCard(a)
+  : selectedTab === "recharge"
+  ? rechargeHistoryCard(a)
+  : selectedTab === "shopping"
+  ? shoppingHistoryCard(a)
+  : selectedTab === "cashback"
+  ? cashbackHistoryCard(a)
+  : null
+)}
 
-                <div class="service-loader-outer">
+                {/* <div class="service-loader-outer">
                   {loading ? (
                     <Loading color="#CA3060" class="" />
                   ) : activeHistory && activeHistory .length < 1 ? (
@@ -463,9 +490,8 @@ const Passbook = () => {
                     </div>
                   ) : null}
                 </div>
-                
-
-                {activeHistory &&
+                 */}
+                {/* {activeHistory &&
                   activeHistory.map((a, i) =>
                     selectedTab === "wallet" ||
                     selectedTab === "shoppingPoint" ||
@@ -478,7 +504,7 @@ const Passbook = () => {
                       : selectedTab === "cashback"
                       ? cashbackHistoryCard(a)
                       : null
-                  )}
+                  )} */}
               </div>
             </div>
           </div>

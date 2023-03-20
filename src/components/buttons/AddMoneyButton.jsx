@@ -11,6 +11,7 @@ const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
   const formRef = useRef(null);
 
   const [hash, setHash] = useState("");
+  const [loading, setLoading] = useState(false);
   const [transactionId, setTransactionId] = useState("");
   var hashstring = "";
   const clickAddMoney = (e) => {
@@ -20,11 +21,13 @@ const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
       if (amount <= 5000) {
         const trxnId = getTransactionId();
         setTransactionId(trxnId);
+        setLoading(true)
         getPayUHash(loggedInUser, trxnId, amount).then(async (res) => {
+          setLoading(false)
           formRef.current.txnid.value = trxnId;
-          formRef.current.hash.value = res.results.payment_hash;
-          setHash(res.results.payment_hash);
-          hashstring = res.results.payment_hash;
+          formRef.current.hash.value = res.results?.payment_hash;
+          setHash(res.results?.payment_hash);
+          hashstring = res.results?.payment_hash;
           const resp = await formRef.current.submit();
         });
       } else {
@@ -98,7 +101,7 @@ const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
     <div class="add-money-body">
       <div class="col-md-12">
         <div class="add-money-btn">
-          <ThemeButton onClick={clickAddMoney} value={"Add Money"}/>
+          <ThemeButton onClick={clickAddMoney} value={"Add Money"} loading={loading}/>
           {/* <button
             onClick={clickAddMoney}
             href="#"

@@ -18,6 +18,7 @@ import {
   getProductsByCategory,
 } from "../../redux/slices/shopping/productSlice";
 import { MuiSnackBar } from "../../components/common";
+import { Spin } from "antd";
 // import { getAllCategories } from "../../apiData/shopping/category";
 
 ReactGA.initialize(googleAnalytics);
@@ -30,7 +31,7 @@ const ProductDetails = () => {
   const [productImages, setProductImages] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
-
+  const [loading, setLoading] = useState([]);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [qty, setQty] = useState(1);
@@ -167,7 +168,6 @@ const ProductDetails = () => {
     localStorage.setItem("recent", JSON.stringify(unique2));
   };
   const checkInCart = (pro) => {
-    console.log("kkkkkkkkkkk");
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
     const getCart = cartProducts.find(
       (a) => a.product.Id === pro.ProductDetails.Id
@@ -177,14 +177,6 @@ const ProductDetails = () => {
     } else {
       setExistInCart(false);
     }
-    // cartProducts &&
-    //   cartProducts.map((c, i) => {
-    //     if (c.product.Id === pro.ProductDetails.Id) {
-    //       console.log(`${c.product.Id} +++ ${pro.ProductDetails.Id}`);
-    //       setExistInCart(true);
-    //     }
-    //     // setExistInCart(false);
-    //   });
   };
 
   const clickBuyNow = (e) => {
@@ -224,15 +216,18 @@ const ProductDetails = () => {
         catId = element.Id;
       }
     }
-    const resSimilar = await dispatch(getProductsByCategory(catId));
-    setSimilar(resSimilar.payload.Data && resSimilar.payload.Data);
+    getProductsByCategory(catId).then(response=>{
+      // setLoading(false)
+      setSimilar(response.Data)
+    })
   };
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
     var p = {};
-
+setLoading(true)
     getSingleProductData(productId).then((response) => {
+      setLoading(false)
       p = response.Data.ProductDetails;
       setProduct(response.Data.ProductDetails);
       manageRecentlyViewed(response.Data.ProductDetails);
@@ -293,7 +288,8 @@ const ProductDetails = () => {
   };
 
   const ProductDetailsSection = () => (
-    <>
+    
+    <Spin spinning={loading} >
       <section class="section-align">
         <div class="container">
           <div class="row">
@@ -520,7 +516,7 @@ const ProductDetails = () => {
           />
         </div>
       </section>
-    </>
+    </Spin>
   );
 
   return (

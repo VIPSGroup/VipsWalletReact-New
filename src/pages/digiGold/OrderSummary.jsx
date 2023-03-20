@@ -18,6 +18,7 @@ import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
 import "../../assets/styles/digigold/sell-order-summery.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { FaHashtag, FaUser } from "react-icons/fa";
+
 import {
   handleKeyPressForName,
   handleMobileKeyPress,
@@ -61,13 +62,13 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   const { list, loading: listLoad } = useSelector(
     (state) => state.digiGoldSlice.bankList
   );
-  // console.log(list, "listLoad");
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
   const { data, loading: walletLoad } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
+
   function getFixedDecimalNumber(input, precision) {
     if (input.toString().split(".").pop().length > precision) {
       return parseFloat(
@@ -96,6 +97,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
     if (counter === 0 || counter === 300) {
       const fetchRates = async () => {
         const res = await dispatch(fetchGoldSilverRates());
+
         const taxRate =
           parseFloat(res.payload.Data.result.data.taxes[0].taxPerc) +
           parseFloat(res.payload.Data.result.data.taxes[1].taxPerc);
@@ -234,14 +236,11 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   // Counter Logic
   // Login & GetWalletBalance Logic
   useEffect(() => {
-    setIsCommonTopNav(false);
     const username = state?.username;
     const password = state?.password;
     dispatch(loginDigiGold({ username, password }));
     dispatch(getWalletBalance({ username, password }));
-    return () => {
-      setIsCommonTopNav(true);
-    };
+
   }, [load]);
   const handleClose = () => {
     setModal(false);
@@ -271,8 +270,6 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
       seconds < 10 ? "0" : ""
     }${seconds}`;
   };
-  // console.log(listLoad, "8766557375");
-  // Gold & Silver Buy Logic
   const handleSubmit = async () => {
     const username = state.username;
     const password = state.password;
@@ -428,7 +425,6 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
         setIsSnackBar(true);
       }
     } else {
-      // console.log("chl rha hai");
       const res = await UserbankAccountCreate({
         username,
         password,
@@ -455,7 +451,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   };
   return localStorage.getItem("valueType") ? (
     <>
-      <CommonTopNav />
+      {/* <CommonTopNav /> */}
       <div className="">
         <section class="digi-gold-section-wrapper buy-sell-form">
           <div class="container">
@@ -497,7 +493,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                   </div> */}
                   <MyVault />
                   {/* {!load ? ( */}
-                  <Spin spinning={load || list.ResponseStatus === 0}>
+                  <Spin spinning={load || list.ResponseStatus === 0} style={{ color: '#ca3060' }} >
                     <div class="buy-sell-form-outer">
                       <div class="current-rate-outer">
                         <div class="current-rate">

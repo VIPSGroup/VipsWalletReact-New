@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../../assets/styles/core/commonTopNav.css";
 
 import { FiSearch, FiUser } from "react-icons/fi";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { IoWalletOutline } from "react-icons/io5";
 import { RiUser3Line } from "react-icons/ri";
 import { vendorPanelAPi } from "../../../constants";
@@ -14,11 +14,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 import DigiGoldSignup from "../../../pages/digiGold/DigiGoldSignup";
-import { Avatar, Dropdown } from "antd";
+import { Avatar, Badge, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
-import { getWalletBalance } from "../../../redux/slices/walletSlice";
 
-const CommonTopNav = ({ isShow = true, setActive, title }) => {
+import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
+
+const CommonTopNav = ({ isShow = true, setActive }) => {
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDigiLogin, setIsDigiLogin] = useState("");
@@ -28,22 +30,23 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  console.error(title);
+
 
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
+
   const { wishCount } = useSelector((state) => state.wishlistSlice);
 
   const { pathname } = useResolvedPath();
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
+useEffect(() => {
+}, [])
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { data, loading } = useSelector(
-    (state) => state.walletSlice.walletBalance
-  );
+  const { data ,loading} = useSelector((state) => state.walletSlice.walletBalance);
 
   const clickLogout = () => {
     confirmAlert({
@@ -69,7 +72,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
     });
   };
 
-  const items = [
+  const items = logData.Data ? [
     {
       key: "1",
       label: (
@@ -86,6 +89,54 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
         </Link>
       ),
     },
+    {
+      key: "3",
+      label: (
+        <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+          FAQ's
+        </Link>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <Link
+          target={"_blank"}
+          to={"/digi-termscondtion"}
+          style={{ fontSize: 17 }}
+        >
+          Terms & Conditions
+
+        </Link>
+      ),
+    },
+    // {
+    //   key: "3",
+    //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+    // },
+    // {
+    //   key: "4",
+    //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+    // },
+    // {
+    //   key: "5",
+    //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+    // },
+    {
+      key: "5",
+      label: (
+        <Link
+          onClick={() => {
+            !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
+          }}
+          style={{ fontSize: 17 }}
+        >
+          {!logLoading && logData.Data ? "Logout" : "Register"}
+        </Link>
+      ),
+    },
+  ]
+  :[
     {
       key: "3",
       label: (
@@ -141,9 +192,9 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
     },
   ];
   const CheckWalletBalance = async () => {
-    const userName = loggedInUser && loggedInUser?.UserName;
+    const username = loggedInUser && loggedInUser?.UserName;
     const password = loggedInUser && loggedInUser?.TRXNPassword;
-    dispatch(getWalletBalance({ userName, password }));
+    dispatch(getWalletBalance({ username, password }));
   };
 
   // useEffect(() => {
@@ -221,7 +272,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                     </li>
                     <li class="nav-item">
                       <Link class="nav-link" to="/digigold">
-                        DigiGold
+                        VIPS Gold
                       </Link>
                     </li>
                   </ul>
@@ -232,8 +283,11 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
             <div class="collapse navbar-collapse d-flex flex-row align-self-start justify-content-end">
               <ul class="navbar-nav nabar-right-icon ml-auto flex-row align-self-start">
                 {pathname !== "/digigold" &&
-                  pathname !== "/digigold-order-summary" &&
+                  pathname !== "/digigold-order-summary/:" &&
                   pathname !== "/digigold-profile" &&
+                  pathname !== "/digigold-orders" && pathname!=="/digigold/gift" && (
+                    <>
+
                   pathname !== "/digigold-orders" &&
                   pathname !== `/digigold-delivery/${title}` && (
                     <li class="nav-item">
@@ -242,12 +296,29 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                         <AiOutlineShoppingCart className="nav-icon" />
                         {/* </Badge> */}
                         {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
-                        <span class="d-xl-block d-none d-md-none d-sm-none ">
+                        <span class="d-xl-block d-none d-md-none d-sm-none">
                           {" "}
                           My Cart{" "}
                         </span>
                       </Link>
                     </li>
+                    <li class="nav-item">
+                  <Link
+                    class="nav-link nav-icons"
+                    to="/shopping/wishlist"
+                    role="button"
+                  >
+                    {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
+                    <Badge count={wishCount && wishCount?.length}>
+                      <AiOutlineHeart className="nav-icon" />
+                    </Badge>
+                    <span class="d-xl-block d-none d-md-none d-sm-none">
+                      {" "}
+                      Wishlist{" "}
+                    </span>
+                  </Link>
+                </li>
+                </>
                   )}
                 {/* {pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
@@ -275,8 +346,12 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
+
+                  pathname !== "/digigold-orders" && pathname!=="/digigold/gift" && (
+
                   pathname !== "/digigold-orders" &&
                   pathname !== `/digigold-delivery/${title}` && (
+
                     <li class="nav-item">
                       <Link
                         onClick={CheckWalletBalance}
@@ -309,7 +384,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                               &#x20B9;{" "}
                               {!loading && data
                                 ? data?.Data?.Balance
-                                : "Loading..."}
+                                : "..."}
                             </span>
                           </div>
                           <div class="dropdown-divider"></div>
@@ -323,7 +398,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                                   {" "}
                                   {!loading && data
                                     ? data?.Data?.PrimePoints
-                                    : "Loading..."}
+                                    : "..."}
                                 </span>
                               </div>
                             </div>
@@ -339,13 +414,12 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                                   {" "}
                                   {!loading && data
                                     ? data?.Data?.Shoppingpoints
-                                    : "Loading..."}
+                                    : "..."}
                                 </span>
                               </div>
                             </div>
                           </div>
                           <div class="dropdown-divider"></div>
-
                           <div class="nav-wallet-body">
                             <div class="col-md-12">
                               <div class="row">
@@ -383,6 +457,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
+                  pathname !== "/digigold-orders" && pathname !== "/digigold/gift"  ? (
                   pathname !== "/digigold-orders" &&
                   pathname !== "/digigold-delivery" &&
                   pathname !== `/digigold-delivery/${title}` ? (
@@ -485,6 +560,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
           {pathname !== "/digigold" &&
           pathname !== "/digigold-order-summary" &&
           pathname !== "/digigold-profile" &&
+          pathname !== "/digigold-orders" && pathname !== "/digigold/gift" ? (
           pathname !== "/digigold-orders" &&
           pathname !== "/digigold-delivery" &&
           pathname !== `/digigold-delivery/${title}` ? (
@@ -585,7 +661,6 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                     <span class="navbar-bottom-serv-box-title">Sell Gold</span>
                   </Link>
                 </div>
-
                 <div class="navbar-bottom-serv-box">
                   <Link
                     href="#"
@@ -620,11 +695,11 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    href="#"
-                    onClick={() => {
-                      setIsSnackBar(true);
-                      setErrorMsg("Service will be coming soon..");
-                    }}
+                    to="/digigold/gift"
+                    // onClick={() => {
+                    //   setIsSnackBar(true);
+                    //   setErrorMsg("Service will be coming soon..");
+                    // }}
                   >
                     <img
                       src="images/digigold-images/buy-white-icon.svg"
@@ -681,7 +756,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           <li>
-            <Link to="/digigold"> DigiGold</Link>
+            <Link to="/digigold"> VIPS Gold</Link>
           </li>
           <li>
             <Link to={vendorPanelAPi} target="_blank">

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-profile.css";
 import { MuiSnackBar } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading";
-import { CommonTopNav } from "../../components/layout/Header";
 import {
   getCityList,
   getStateList,
@@ -12,11 +11,12 @@ import {
 } from "../../redux/slices/digiGold/registerDigiSlice";
 import { UpdateUser } from "../../redux/slices/digiGold/userProfileSlice";
 
-const DigiProfile = ({ setIsCommonTopNav }) => {
+const DigiProfile = () => {
   const dispatch = useDispatch();
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [is18, setIs18] = useState(false);
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
@@ -45,13 +45,10 @@ const DigiProfile = ({ setIsCommonTopNav }) => {
     gender: "",
   });
   useEffect(() => {
-    setIsCommonTopNav(false);
     const username = loggedInUser.UserName;
     const password = loggedInUser.TRXNPassword;
     dispatch(loginDigiGold({ username, password }));
-    return () => {
-      setIsCommonTopNav(true);
-    };
+
   }, [dispatch]);
   useEffect(() => {
     dispatch(getStateList());
@@ -80,25 +77,30 @@ const DigiProfile = ({ setIsCommonTopNav }) => {
     // formValue.gender = logData?.Data?.gender || "";
   }, [logData]);
   const handleSubmit = async () => {
-    const username = loggedInUser.UserName;
-    const password = loggedInUser.TRXNPassword;
-    const res = await dispatch(UpdateUser({ formValue, username, password }));
-    if (res.payload.ResponseStatus === 1 && res.payload.ErrorCode === 200) {
-      setSuccessMsg(res.payload.Remarks);
-      setErrorMsg("");
-      setIsSnackBar(true);
-    } else {
-      setSuccessMsg("");
-      setErrorMsg(res.payload.Remarks);
-      setIsSnackBar(true);
+    if(is18){
+      const username = loggedInUser.UserName;
+      const password = loggedInUser.TRXNPassword;
+      const res = await dispatch(UpdateUser({ formValue, username, password }));
+      if (res.payload.ResponseStatus === 1 && res.payload.ErrorCode === 200) {
+        setSuccessMsg(res.payload.Remarks);
+        setErrorMsg("");
+        setIsSnackBar(true);
+      } else {
+        setSuccessMsg("");
+        setErrorMsg(res.payload.Remarks);
+        setIsSnackBar(true);
+      }
+    }else{
+      setIsSnackBar(true)
+      setErrorMsg("Invalid Age")
     }
+   
   };
 
   const [date, setDate] = useState();
-  console.log(formValue, "aa rhi hai");
   return (
     <>
-      <CommonTopNav />
+      {/* <CommonTopNav /> */}
       <section class="digi-gold-section-wrapper buy-sell-form">
         <div class="container">
           <div class="digital-gold-section-head">
@@ -312,42 +314,6 @@ const DigiProfile = ({ setIsCommonTopNav }) => {
                               </Select>
                             </Form.Item>
                           </div>
-                          {/* <div class="col-lg-6 col-md-6">
-                            <Form.Item hasFeedback name="userPincode">
-                              <Input
-                                maxLength={6}
-                                value={formValue.userPincode}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formValue,
-                                    userPincode: e.target.value,
-                                  })
-                                }
-                                size="large"
-                                placeholder="Pincode"
-                              />
-                            </Form.Item>
-                          </div> */}
-                          {/* <div class="col-lg-6 col-md-6">
-                            <Form.Item hasFeedback name="gender">
-                              <Select
-                                size="large"
-                                placeholder="Select Gender"
-                                value={formValue.gender}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formValue,
-                                    gender: e,
-                                  })
-                                }
-                              >
-                                <Select.Option value="Male">Male</Select.Option>
-                                <Select.Option value="Female">
-                                  Female
-                                </Select.Option>
-                              </Select>
-                            </Form.Item>
-                          </div> */}
                           <div class="col-lg-6 col-md-6">
                             <Form.Item
                               hasFeedback
@@ -396,11 +362,20 @@ const DigiProfile = ({ setIsCommonTopNav }) => {
                                 addonBefore="Nominee DOB"
                                 type="date"
                                 value={formValue.nomineeDateOfBirth}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formValue,
-                                    nomineeDateOfBirth: e.target.value,
-                                  })
+                                onChange={(e) =>{
+                                  const currentYear = new Date().getFullYear();
+                                  const year = e.target.value.split("-")[0];
+                                  const age = currentYear - year;
+                                  if (age < 18){
+                                    setIs18(false)
+                                  }else{
+                                    setIs18(true)
+                                  }
+                                    setFormValue({
+                                      ...formValue,
+                                      nomineeDateOfBirth: e.target.value,
+                                    })
+                                }
                                 }
                                 size="large"
                                 placeholder="Nominee DOB"

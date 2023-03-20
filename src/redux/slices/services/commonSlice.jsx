@@ -10,7 +10,8 @@ export const getOperators = createAsyncThunk(
       try {
         const res = await axios.post(
           `${baseApiUrl}/operatorServices/GetOperatorName`,formData );
-        return res.data.Data
+        return res.data.Data.sort((a, b) =>
+        a.OperatorName > b.OperatorName ? 1 : -1)
       } catch (error) {
         return error;
       }
@@ -81,30 +82,7 @@ export const getOperators = createAsyncThunk(
       try {
         const res = await axios.post(
           `${baseApiUrl}/Recharge/GetAllRecharge`,formData);
-          // if(res.data.ResponseStatus===1){
-          //   const resp = res.data.Data;
-          //   const str = resp && resp.split(";");
-          //   const status = str[0].split("=")[1];
-          //   const amt = str[3].split("=")[1] || amount;
-          //   const mobileNumber = str[2].split("=")[1];
-          //   const date = str[1].split("=")[1] || "--";
-          //   const transactionId = str.length > 6 ? str[6].split("=")[1] : "--";
-          //   return ({amt,status,date,transactionId,type:"Mobile",mobileNo:mobileNumber,operator,circle})
-          // }
-          // const resp = res.data.Data;
-          // const str = resp && resp.split(";");
-          // const status = str[0].split("=")[1];
-          // const amt = str[3].split("=")[1] || amount;
-          // const mobileNumber = str[2].split("=")[1];
-          // const date = str[1].split("=")[1] || "--";
-          // const transactionId = str.length > 6 ? str[6].split("=")[1] : "--";
-          // if(res.data.ResponseStatus===1){
-
-          //   return ({amt,status,date,transactionId,type:"Mobile",mobileNo:mobileNumber,operator,circle})
-          // }
-  //        if(response.Status.includes("Failure")){
-  // return ({amt,status,mobileNo:mobileNumber,operator,circle,date,transactionId,type:"Mobile"})
-  //        }
+          console.log(res.data);
         return res.data
       } catch (error) {
         return error;

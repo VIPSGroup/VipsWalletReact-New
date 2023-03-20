@@ -10,7 +10,9 @@ export const getFastagOperators = createAsyncThunk(
       try {
         const res = await axios.post(
             `${baseApiUrl}/OperatorServices/GetCommonElectricityOperatorByServiceId`,formData );
-        return res.data.Data
+        return res.data.Data.sort((a, b) =>
+        a.OperatorName > b.OperatorName ? 1 : -1
+      )
       } catch (error) {
         return error;
       }

@@ -9,8 +9,7 @@ import {
   finalRecharge,
   getServiceDiscounts,
 } from "../../../redux/slices/services/commonSlice";
-import { getWalletBalance } from "../../../redux/slices/walletSlice";
-
+import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 ReactGA.initialize(googleAnalytics);
 
 const DthConfirmation = ({setIsCommonTopNav}) => {
@@ -93,11 +92,11 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
   useEffect(() => {
     setIsCommonTopNav(false)
     ReactGA.pageview(window.location.pathname);
-    const userName = loggedInUser && loggedInUser.UserName;
+    const username = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
     if (loggedInUser) {
       if (data?.Data?.length !== 0 || !data) {
-        dispatch(getWalletBalance({ userName, password }));
+        dispatch(getWalletBalance({ username, password }));
       }
     }
     return () => {

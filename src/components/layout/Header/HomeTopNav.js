@@ -13,7 +13,6 @@ import { vendorPanelAPi } from "../../../constants";
 import { Badge } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
-import { getLoggedInUser } from "../../../redux/slices/profile/loginSlice";
 
 const HomeTopNav = ({ isPrime }) => {
   const dispatch = useDispatch();
@@ -52,10 +51,6 @@ const HomeTopNav = ({ isPrime }) => {
     dispatch(getWalletBalance({ username, password }));
   };
 useEffect(() => {
-  console.log("USeeffect");
-  // if(loggedInUser===null){
-    
-  // }
 }, [loggedInUser])
 
   const navSection = () => (
@@ -129,7 +124,7 @@ useEffect(() => {
                     </li>
                     <li class="nav-item">
                       <Link class="nav-link" to="/digigold">
-                        DigiGold
+                        VIPS Gold
                       </Link>
                     </li>
                   </ul>
@@ -207,7 +202,7 @@ useEffect(() => {
                             &#x20B9;{" "}
                             {!loading && data
                               ? data?.Data?.Balance
-                              : "Loading..."}
+                              : "..."}
                           </span>
                         </div>
                         <div class="dropdown-divider"></div>
@@ -221,7 +216,7 @@ useEffect(() => {
                                 {" "}
                                 {!loading && data
                                   ? data?.Data?.PrimePoints
-                                  : "Loading..."}
+                                  : "..."}
                               </span>
                             </div>
                           </div>
@@ -237,7 +232,7 @@ useEffect(() => {
                                 {" "}
                                 {!loading && data
                                   ? data?.Data?.Shoppingpoints
-                                  : "Loading..."}
+                                  : "..."}
                               </span>
                             </div>
                           </div>

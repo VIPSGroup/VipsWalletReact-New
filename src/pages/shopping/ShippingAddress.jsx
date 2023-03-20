@@ -32,7 +32,6 @@ const ShippingAddress = () => {
   const { data: deleteAddressData } = useSelector(
     (state) => state.pincodeSlice.addressDelete
   );
-  console.log(addressGetData.Data, "Get Data");
   let navigate = useNavigate();
 
   const location = useLocation();

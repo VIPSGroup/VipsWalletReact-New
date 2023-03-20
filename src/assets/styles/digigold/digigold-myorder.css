@@ -50,7 +50,21 @@
     border-radius: 4px;
 }
 
-
+.digigold-order-content .ant-btn-default:not(:disabled):hover {
+    background: var(--primary);
+    color: var(--whiteColor);
+    border-color: var(--primary);
+}
+.digigold-order-content .ant-btn-default{
+    background: var(--primary);
+    color: var(--whiteColor);
+    border-color: var(--primary);
+    padding: 0px 7px;
+    height: 25px;
+}
+.digigold-order-content .ant-table-wrapper table{
+    white-space: nowrap;
+}
 
 /* order summery popup start */
 .digigoldorderdetails-modal .modal-dialog {

@@ -53,24 +53,41 @@ export const getProductsBySubCategory = createAsyncThunk(
     }
   }
 );
-export const getProductsByCategory = createAsyncThunk(
-  "getProductsByCategory",
-  async (categoryId) => {
-    const formData = new FormData();
-    formData.append("tocken", "XMCNBVGDTE734BCU65DW");
-    formData.append("Categoryid", categoryId);
 
-    try {
-      const res = await axios.post(
-        `${baseApiUrl}/EcommerceServices/ProductViaCategory`,
-        formData
-      );
-      return res.data;
-    } catch (error) {
-      return error;
-    }
-  }
-);
+export const getProductsByCategory = (categoryId) => {
+  const formData = new FormData();
+  formData.append("tocken", "XMCNBVGDTE734BCU65DW");
+  formData.append("Categoryid", categoryId);
+
+  return fetch(`${baseApiUrl}/EcommerceServices/ProductViaCategory`, {
+    method: "POST",
+    body: formData,
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .catch((err) => {});
+};
+
+// export const getProductsByCategory = createAsyncThunk(
+//   "getProductsByCategory",
+//   async (categoryId) => {
+//     const formData = new FormData();
+//     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
+//     formData.append("Categoryid", categoryId);
+
+//     try {
+//       const res = await axios.post(
+//         `${baseApiUrl}/EcommerceServices/ProductViaCategory`,
+//         formData
+//       );
+//       return res.data;
+//     } catch (error) {
+//       return error;
+//     }
+//   }
+// );
+
 export const getNewArrivalProducts = createAsyncThunk(
   "getNewArrivalProducts",
   async () => {
@@ -190,16 +207,16 @@ const productSlice = createSlice({
     });
 
     // Get Product By Category
-    builder.addCase(getProductsByCategory.pending, (state, action) => {
-      state.categoryByProduct.loading = true;
-    });
-    builder.addCase(getProductsByCategory.fulfilled, (state, action) => {
-      state.categoryByProduct.data = action.payload;
-      state.categoryByProduct.loading = false;
-    });
-    builder.addCase(getProductsByCategory.rejected, (state, action) => {
-      state.categoryByProduct.error = action.error;
-    });
+    // builder.addCase(getProductsByCategory.pending, (state, action) => {
+    //   state.categoryByProduct.loading = true;
+    // });
+    // builder.addCase(getProductsByCategory.fulfilled, (state, action) => {
+    //   state.categoryByProduct.data = action.payload;
+    //   state.categoryByProduct.loading = false;
+    // });
+    // builder.addCase(getProductsByCategory.rejected, (state, action) => {
+    //   state.categoryByProduct.error = action.error;
+    // });
 
     // Get new Arrival Product
     builder.addCase(getNewArrivalProducts.pending, (state, action) => {

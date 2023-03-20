@@ -15,7 +15,6 @@ import { MuiSnackBar, ThemeButton } from "../../../components/common";
 
 ReactGA.initialize(googleAnalytics);
 const DthFront = ({ props }) => {
-  // const [operatorsList, setOperatorList] = useState([]);
   const [mobileNo, setMobileNo] = useState("");
   const [selectedOperator, setSelectedOperator] = useState("");
   const [selectedOperatorId, setSelectedOperatorId] = useState("");
@@ -218,5 +217,4 @@ const dispatch= useDispatch()
   );
   return <div className="color-body">{rechargeSection()}</div>;
 };
-
 export default DthFront;

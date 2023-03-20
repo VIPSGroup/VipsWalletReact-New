@@ -19,13 +19,16 @@ const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
     e.preventDefault();
     setApiResponse("");
     dispatch(checkPinCode({ pincode, productId }));
-    if (data.ResponseStatus === 1) {
-      setApiResponse(data?.Remarks);
-    } else {
-      setIsSnackBar(true);
-      setErrorMsg(data?.Remarks);
-    }
+  
   };
+useEffect(() => {
+  if (data.ResponseStatus === 1) {
+    setApiResponse(data?.Remarks);
+  } else if(data.ResponseStatus===0){
+    setIsSnackBar(true);
+    setErrorMsg(data?.Remarks);
+  }
+}, [data])
 
   return (
     <div class="quick-view-info-box">

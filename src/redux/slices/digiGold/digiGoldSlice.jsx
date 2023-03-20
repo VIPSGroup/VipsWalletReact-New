@@ -5,7 +5,6 @@ import { appType, digiBaseUrl } from "../../../constants";
 export const fetchGoldSilverRates = createAsyncThunk(
   "fetchGoldSilverRates",
   async () => {
-    console.log("ye Main Func hai")
     try {
       const res = await axios.post(`${digiBaseUrl}GetGoldSilverRates`);
       return res.data;

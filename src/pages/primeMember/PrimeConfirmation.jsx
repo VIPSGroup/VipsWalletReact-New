@@ -10,8 +10,7 @@ import Modal from "react-bootstrap/Modal";
 import ReactGA from "react-ga";
 import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
 import { useDispatch, useSelector } from "react-redux";
-import { getWalletBalance } from "../../redux/slices/walletSlice";
-import { becomePrime } from "../../redux/slices/payment/walletSlice";
+import {  becomePrime, getWalletBalance } from "../../redux/slices/payment/walletSlice";
 ReactGA.initialize(googleAnalytics);
 
 const PrimeConfirmation = ({setIsHomeTopNav}) => {
@@ -98,10 +97,10 @@ const PrimeConfirmation = ({setIsHomeTopNav}) => {
     setIsHomeTopNav(false)
     ReactGA.pageview(window.location.pathname);
     setLoading(false);
-    const userName = loggedInUser && loggedInUser.UserName;
+    const username = loggedInUser && loggedInUser.UserName;
     const password = loggedInUser && loggedInUser.TRXNPassword;
     if (loggedInUser) {
-        dispatch(getWalletBalance({ userName, password }));
+        dispatch(getWalletBalance({ username, password }));
     }
   }, []);
 useEffect(() => {

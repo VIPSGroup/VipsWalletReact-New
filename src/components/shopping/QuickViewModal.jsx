@@ -14,6 +14,7 @@ import { shopadminUrl } from "../../constant/Baseurls";
 import { getReplaceSpace } from "../../constant/Constants";
 import { getSingleProductData } from "../../redux/slices/shopping/productSlice";
 import { MuiSnackBar, ThemeButton } from "../common";
+import { Spin } from "antd";
 
 const QuickViewModal = ({ productId }) => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const QuickViewModal = ({ productId }) => {
   // const [loggedInUser, setLoggedInUser] = useState();
 
   const { loggedInUser } = useSelector(state => state.loginSlice.loggetInWithOTP);
-  const { data } = useSelector((state) => state.productSlice.singleProduct);
+  const { data ,loading} = useSelector((state) => state.productSlice.singleProduct);
 
   const imgArray = [];
   let navigate = useNavigate();
@@ -142,10 +143,9 @@ const QuickViewModal = ({ productId }) => {
 
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
-
     cartProducts &&
-      cartProducts.map((c, i) => {
-        if (c?.product?.Id == pro?.ProductDetails?.Id) {
+    cartProducts.map((c, i) => {
+      if (c?.product?.Id == pro?.ProductDetails?.Id) {
           setExistInCart(true);
         }
       });
@@ -180,46 +180,13 @@ const QuickViewModal = ({ productId }) => {
     handleClose();
     navigate("/login");
   };
-  // useEffect(() => {
-  //   // setLoggedInUser(localStorage.getItem("user"));
-  //   dispatch(getSingleProductData(productId));
-  // }, []);
-  // useEffect(() => {
-  //   let p = {};
-  //   if(data?.Data?.ProductDetails?.Id!==product?.Id){
-  //     p = data?.Data?.ProductDetails;
-  //     setProduct(data?.Data?.ProductDetails);
-  //     setProductObj(data?.Data);
-  //     checkInCart(data?.Data);
-  //     if (p?.Size) {
-  //       getSizes(data?.Data?.ProductDetails?.Size);
-  //     }
-  //     if (p?.Color) {
-  //       getColors(data.Data.ProductDetails.Color);
-  //     }
-  //     getProductImages(data?.Data?.ProductDetails);
-  //     const buyNowProductDeatils = {
-  //       product: data.Data?.ProductDetails,
-  //       charges: data.Data?.ProductTax,
-  //       selectedColor: selectedColor,
-  //       selectedSize: selectedSize,
-  //       qty: qty,
-  //     };
-  //     let buyNowProductsArray = [];
-  //     buyNowProductsArray.push(buyNowProductDeatils);
-  // console.warn(buyNowProductsArray);
-  //     setProducts(buyNowProductsArray);
-  //     checkInWishlist();
-  //   }
-  // }, [data]);
   useEffect(() => {
-    // setLoggedInUser(localStorage.getItem("user"));
-    dispatch(getSingleProductData(productId));
+    dispatch(getSingleProductData({productId}));
   }, []);
   useEffect(() => {
     var p = {};
     p = data?.Data?.ProductDetails;
-    setProduct(data?.Data?.ProductDetails);
+setProduct(data?.Data?.ProductDetails);
     setProductObj(data?.Data);
     checkInCart(data?.Data);
     if (p?.Size) {
@@ -292,7 +259,7 @@ const QuickViewModal = ({ productId }) => {
   };
 
   const modalContentSection = () => (
-    <>
+    <Spin spinning={loading}>
       <button
         onClick={() => handleClose()}
         type="button"
@@ -307,7 +274,6 @@ const QuickViewModal = ({ productId }) => {
       </button>
 
       {/* {<!-- quick view content start -->} */}
-
       <div class="row">
         <div class="col-lg-6">
           <div class="quick-view-product">
@@ -340,7 +306,6 @@ const QuickViewModal = ({ productId }) => {
             </>
           </div>
         </div>
-
         <div class="col-lg-6">
           <div class="quick-view-product-info-outer">
             <h1 class="quick-view-title">{product?.Name}</h1>
@@ -525,7 +490,7 @@ const QuickViewModal = ({ productId }) => {
         setSuccess={setSuccessMsg}
         setError={setErrorMsg}
       />
-    </>
+    </Spin>
   );
 
   return (

@@ -6,7 +6,7 @@ const SelectField = ({ setGetData, getData }) => {
   const [cityList, setCityList] = useState([]);
   const { allStateCityList } = useSelector((state) => state.signUpSlice.stateList);
   const sortState = (states) => {
-    let sortedStates =states.slice().sort((a, b) => (a.StateName > b.StateName ? 1 : -1));
+    let sortedStates =states?.slice().sort((a, b) => (a.StateName > b.StateName ? 1 : -1));
     return sortedStates;
   };
   const sortCity = (city) => {
@@ -14,18 +14,7 @@ const SelectField = ({ setGetData, getData }) => {
     return sortedCity;
   };
   useEffect(() => {
-    // console.warn(allStateCityList.Data[0].Citys);
     setStateList(sortState(allStateCityList?.Data));
-    // setCityList(allStateCityList.Data[0].Citys);
-    // if (getData.stateName) {
-    //   let cities = allStateCityList.Data.find(
-    //     (item) => item.StateName === getData.stateName
-    //   );
-    //   console.log(cities.Citys);
-    //   console.warn(cities.Citys);
-    //   // setCityList(cities.Citys[0]);
-    // }
-   
   }, []);
   return (
     <>

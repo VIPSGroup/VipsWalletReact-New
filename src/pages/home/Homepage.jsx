@@ -24,7 +24,7 @@ const Homepage = ({ setIsHomeTopNav }) => {
       <HomeBottomServiceBar />
       <ShopByCategory />
       <ServiceCategory />
-      <ShoppingCategoryProduct />
+      <ShoppingCategoryProduct title="VIPS" subtitle=" Promotional"  description="Discover all the VIPS merchandise here!" categoryId={11}/>
       <OnlineStore />
       <PrimeMembership />
       <DealsofTheDay />

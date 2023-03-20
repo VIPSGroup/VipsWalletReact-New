@@ -106,21 +106,6 @@ export const sendMoney = (userName, password, recieverNo, amount, otp) => {
     })
     .catch((err) => {});
 };
-export const becomePrime = (username, password) => {
-  const formData = new FormData();
-  formData.append("UserName", username);
-  formData.append("Password", password);
-  formData.append("PayType", "App_Wallet");
-
-  return fetch(`${baseApiUrl}/CardServices/PurchaseShoppingcard`, {
-    method: "POST",
-    body: formData,
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .catch((err) => {});
-};
 export const finstocTradePriceCheck = createAsyncThunk(
   "finstocTradePriceCheck",
   async (username, password) => {
@@ -146,6 +131,21 @@ export const finstocTradePriceCheck = createAsyncThunk(
     }
   }
 );
+export const becomePrime = (username, password) => {
+  const formData = new FormData();
+  formData.append("UserName", username);
+  formData.append("Password", password);
+  formData.append("PayType", "App_Wallet");
+
+  return fetch(`${baseApiUrl}/CardServices/PurchaseShoppingcard`, {
+    method: "POST",
+    body: formData,
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .catch((err) => {});
+};
 
 const walletSlice = createSlice({
   name: "walletSlice",
@@ -220,16 +220,6 @@ const walletSlice = createSlice({
     });
     builder.addCase(finstocTradePriceCheck.rejected, (state, action) => {
       state.finstockPrice.error = action.error;
-    });
-    builder.addCase(becomePrime.pending, (state, action) => {
-      state.primeMember.loading = true;
-    });
-    builder.addCase(becomePrime.fulfilled, (state, action) => {
-      state.primeMember.primeData = action.payload;
-      state.primeMember.loading = false;
-    });
-    builder.addCase(becomePrime.rejected, (state, action) => {
-      state.primeMember.error = action.error;
     });
   },
 });

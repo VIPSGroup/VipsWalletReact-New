@@ -16,7 +16,6 @@ export const getAddress = (username, password) => {
 };
 
 export const updateAddress = (addressData, username, password,state,city) => {
-  console.log(addressData);
   const data = {
     Fname: addressData.fname,
     Lname: addressData.lname,

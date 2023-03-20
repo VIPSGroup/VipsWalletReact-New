@@ -19,6 +19,7 @@ export const getPayUHash = (user, transactionId, amount) => {
   formData.append("email", user.Emailid);
   formData.append("user_credentials", "e9ZmdY:" + user.UserName);
   formData.append("transactionType", "ADD_MONEY");
+  formData.append("currentAppVersion", "currentVersion");
   formData.append("AppType", appType);
   return fetch(`${baseApiUrl}/payuhash`, {
     method: "POST",

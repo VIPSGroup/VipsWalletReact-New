@@ -601,7 +601,8 @@ body {
 /* New fixed right button end */
 
 .services-page-loader .service-loader-outer {
-  width: 90px;
+  /* width: 90px; */
+
   display: flex;
   align-content: center;
   justify-content: center;
