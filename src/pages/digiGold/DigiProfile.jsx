@@ -48,6 +48,7 @@ const DigiProfile = () => {
     const username = loggedInUser.UserName;
     const password = loggedInUser.TRXNPassword;
     dispatch(loginDigiGold({ username, password }));
+
   }, [dispatch]);
   useEffect(() => {
     dispatch(getStateList());
@@ -74,7 +75,6 @@ const DigiProfile = () => {
     formValue.nomineeDateOfBirth = logData?.Data?.NomineeDateOfBirth || "";
     formValue.nomineeRelation = logData?.Data?.NomineeRelation || "";
     // formValue.gender = logData?.Data?.gender || "";
-
   }, [logData]);
   const handleSubmit = async () => {
     if(is18){

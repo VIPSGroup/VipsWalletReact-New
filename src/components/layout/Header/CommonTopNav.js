@@ -16,9 +16,11 @@ import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 import DigiGoldSignup from "../../../pages/digiGold/DigiGoldSignup";
 import { Avatar, Badge, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
+
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 const CommonTopNav = ({ isShow = true, setActive }) => {
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDigiLogin, setIsDigiLogin] = useState("");
@@ -28,6 +30,10 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+
+  const loggedInMember = JSON.parse(localStorage.getItem("user"));
+
   const { wishCount } = useSelector((state) => state.wishlistSlice);
 
   const { pathname } = useResolvedPath();
@@ -134,13 +140,21 @@ useEffect(() => {
     {
       key: "3",
       label: (
+        <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
+          {!logLoading && logData.Data && "My KYC"}
+        </Link>
+      ),
+    },
+    {
+      key: "4",
+      label: (
         <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
           FAQ's
         </Link>
       ),
     },
     {
-      key: "4",
+      key: "5",
       label: (
         <Link
           target={"_blank"}
@@ -148,7 +162,6 @@ useEffect(() => {
           style={{ fontSize: 17 }}
         >
           Terms & Conditions
-
         </Link>
       ),
     },
@@ -165,7 +178,7 @@ useEffect(() => {
     //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
     // },
     {
-      key: "5",
+      key: "6",
       label: (
         <Link
           onClick={() => {
@@ -274,6 +287,9 @@ useEffect(() => {
                   pathname !== "/digigold-profile" &&
                   pathname !== "/digigold-orders" && pathname!=="/digigold/gift" && (
                     <>
+
+                  pathname !== "/digigold-orders" &&
+                  pathname !== `/digigold-delivery/${title}` && (
                     <li class="nav-item">
                       <Link class="nav-link nav-icons" to="/shopping/cart">
                         {/* <Badge count={cartCount && cartCount?.length}> */}
@@ -330,7 +346,12 @@ useEffect(() => {
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
+
                   pathname !== "/digigold-orders" && pathname!=="/digigold/gift" && (
+
+                  pathname !== "/digigold-orders" &&
+                  pathname !== `/digigold-delivery/${title}` && (
+
                     <li class="nav-item">
                       <Link
                         onClick={CheckWalletBalance}
@@ -437,6 +458,9 @@ useEffect(() => {
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
                   pathname !== "/digigold-orders" && pathname !== "/digigold/gift"  ? (
+                  pathname !== "/digigold-orders" &&
+                  pathname !== "/digigold-delivery" &&
+                  pathname !== `/digigold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
                       <Link
                         class="nav-link nav-icons"
@@ -537,6 +561,9 @@ useEffect(() => {
           pathname !== "/digigold-order-summary" &&
           pathname !== "/digigold-profile" &&
           pathname !== "/digigold-orders" && pathname !== "/digigold/gift" ? (
+          pathname !== "/digigold-orders" &&
+          pathname !== "/digigold-delivery" &&
+          pathname !== `/digigold-delivery/${title}` ? (
             <div class="container-fluid">
               <div class="navbar-bottom-services-outer">
                 <div class="navbar-bottom-serv-box">
@@ -652,11 +679,11 @@ useEffect(() => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    href="electricity-bill-1.html"
-                    onClick={() => {
-                      setIsSnackBar(true);
-                      setErrorMsg("Service will be coming soon..");
-                    }}
+                    to="/digigold-delivery"
+                    // onClick={() => {
+                    //   setIsSnackBar(true);
+                    //   setErrorMsg("Service will be coming soon..");
+                    // }}
                   >
                     <img
                       src="images/digigold-images/delivery-white-icon.svg"
@@ -755,7 +782,6 @@ useEffect(() => {
         setSuccess={setSuccessMsg}
         setError={setErrorMsg}
       />
-
     </>
   );
 };

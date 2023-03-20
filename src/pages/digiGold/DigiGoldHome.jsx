@@ -4,15 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/digigold/gold-home.css";
 import { MuiSnackBar } from "../../components/common";
+
+import { CommonTopNav } from "../../components/layout/Header";
+import { digitPrecision } from "../../constants";
 import {
   fetchGoldSilverRates,
   modalOpen,
 } from "../../redux/slices/digiGold/digiGoldSlice";
 import { loginDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
 import DigiGoldSignup from "./DigiGoldSignup";
+import MyVault from "./MyVault";
 
 export const HowItWorks = () => {
-  
   return (
     <>
       {/* <!-- -- How it work section start -- --> */}
@@ -102,12 +105,11 @@ const DigiGoldHome = ({active,setActive }) => {
         !err &&
         logData.ResponseStatus !== 0
       ) {
-        navigate("/digigold-order-summary", { state: valueType });
-
-      } else if (rateData.ResponseStatus === 0) {
         localStorage.setItem("valueType", JSON.stringify(valueType));
-      } else {
 
+        navigate("/digigold-order-summary", { state: valueType });
+      } else if (rateData.ResponseStatus === 0) {
+      } else {
         // alert(`${err ? err : "Something Went Wrong"}`);
         setErrorMsg(rateData.Remarks);
         setSuccessMsg("");
@@ -115,6 +117,8 @@ const DigiGoldHome = ({active,setActive }) => {
 
       } 
       //  if (logData.ResponseStatus === 0) {
+      }
+      // else if (logData.ResponseStatus === 0) {
       //   dispatch(modalOpen());
       //   // setErrorMsg(logData.Remarks);
       //   // setSuccessMsg("");
@@ -133,6 +137,8 @@ const DigiGoldHome = ({active,setActive }) => {
       const password = loggedInUser.TRXNPassword;
       dispatch(loginDigiGold({ username, password }));
     }
+
+   
   }, [dispatch]);
 
   useEffect(() => {
@@ -154,7 +160,7 @@ const DigiGoldHome = ({active,setActive }) => {
         (isGold === 0
           ? rateData.Data?.result?.data?.rates?.gBuy
           : rateData.Data?.result?.data?.rates?.sBuy),
-      valType: "Amount",
+      valType: "amount",
       metalType: isGold === 0 ? "gold" : "silver",
     });
     const gbuy = parseFloat(rateData.Data?.result?.data?.rates?.gBuy || 0);
@@ -165,10 +171,15 @@ const DigiGoldHome = ({active,setActive }) => {
     const swithGst = sbuy + sGST;
     const finalGrams = e.target.value / (isGold === 0 ? gwithGST : swithGst);
 
-    const roundedNum = Math.round(finalGrams * 10000) / 10000;
-    const str = roundedNum.toFixed(4);
-    const ResultGrams = parseFloat(str);
-    setGrams(ResultGrams);
+    // const roundedNum = Math.round(finalGrams * 10000) / 10000;
+    // const str = roundedNum.toFixed(4);
+    // const ResultGrams = parseFloat(str);
+    // console.log(ResultGrams, "ffg")
+    const result = finalGrams;
+    const roundedNum =
+      result % 1 !== 0 ? Math.trunc(result * 10000) / 10000 : result;
+    const sGramResult = parseFloat(roundedNum.toFixed(4));
+    setGrams(sGramResult);
   };
   // const handleKeyDown = (e) => {
   //   if (e.key === "e" || e.key === ".") {
@@ -222,7 +233,6 @@ const DigiGoldHome = ({active,setActive }) => {
         const sGramRounded = Math.round(sGram * 10000) / 10000;
         const sGramStr = sGramRounded.toFixed(4);
         const sGramResult = parseFloat(sGramStr);
-
         setErr(
           ` You can sell up to ${isGold === 0 ? gGramResult : sGramResult} gm ${
             isGold === 0 ? "Gold" : "Silver"
@@ -250,7 +260,7 @@ const DigiGoldHome = ({active,setActive }) => {
       ...valueType,
       valueinGm: e.target.value,
       valueinAmt: TotalAmount,
-      valType: "Grams",
+      valType: "quantity",
       metalType: isGold === 0 ? "gold" : "silver",
     });
     const totalRound = Math.round(TotalAmount * 10000) / 10000;
@@ -268,6 +278,7 @@ const DigiGoldHome = ({active,setActive }) => {
   };
   return (
     <>
+
       <div className="">
         {/* <!-- body section start Now --> */}
         <Spin spinning={loading || logLoading || digiLogLoading}>
@@ -281,7 +292,7 @@ const DigiGoldHome = ({active,setActive }) => {
 
               <div class="row">
                 <div class="col-lg-12">
-                  {loggedInUser && !logData?.Data && (
+                  {/* {loggedInUser && !logData?.Data && (
                     <div class="col-lg-7 mx-auto digigold-logintext">
                       <p class="digigold-logintext-title mt-2">
                         You are not Register on VIPS Gold
@@ -325,7 +336,8 @@ const DigiGoldHome = ({active,setActive }) => {
                         </div>
                       </div>
                     </div>
-                  )}
+                  )} */}
+                  <MyVault />
 
                   <div class="buy-sell-form-outer">
                     <div class="current-rate-outer">
@@ -592,6 +604,7 @@ const DigiGoldHome = ({active,setActive }) => {
                           onClick={() => {
                             setActive(e.buy);
                             window.scroll({ top: 0, behavior: "smooth" });
+                            navigate(e.route);
                           }}
                           class="digigold-service-icon"
                         >
@@ -643,10 +656,11 @@ export const quickServiceArr = [
   //   img: "sip-icon.svg",
   //   title: "SIP",
   // },
-  // {
-  //   img: "delivery-icon.svg",
-  //   title: "DELIVERY",
-  // },
+  {
+    img: "delivery-icon.svg",
+    title: "DELIVERY",
+    route: "/digigold-delivery",
+  },
   // {
   //   img: "my-orders-icon.svg",
   //   title: "MY ORDER",

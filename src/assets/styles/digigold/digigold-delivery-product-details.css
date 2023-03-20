@@ -1,0 +1,327 @@
+
+
+.digigold-product-details-wrapper{
+    background: var(--whiteColor);
+    padding: 25px;
+    border: 1px solid var(--borderColor);
+    border-radius: 10px;
+}
+
+.digigold-product-details-left{
+    position: -webkit-sticky;
+    position: sticky;
+    /* top: 0; */
+    top: calc(var(--header-offset, 90px) + 3em);
+    background: var(--whiteColor);
+    border-radius: 10px;
+    margin-right: 6px;
+}
+
+.digigold-product-details-img-outer{
+    border: 1px solid var(--borderColor);
+    border-radius: 10px;
+}
+.digigold-product-details-img{
+    display: inline-block;
+    width: 100%;
+}
+.digigold-product-details-img .img-thumbnail{
+    background: none;
+    padding: 0%;
+    border: 0;
+    border-radius: 10px; 
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+
+.digigold-product-details-info-box{
+    border-bottom: 1px solid var(--borderColor);
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+}
+
+.digigold-product-details-info-box:last-child{
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+.digigold-product-details-title{
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 0rem;
+    line-height: 1.5;
+}
+
+.digigold-product-title-info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.digigold-product-number{
+    font-size: 14px;
+    color: var(--textGray);
+    margin-bottom: 5px;
+}
+.digigold-product-details-price{
+    font-size: 24px;
+    font-weight: 500;
+}
+.digigold-product-details-status{
+    font-size: 14px;
+    color: var(--textGray);
+    vertical-align: super;
+}
+.digigold-product-details-box-title{
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+.digigold-product-details-box-title span{
+    font-weight: 500;
+}
+
+
+
+/* choose quantity start */
+
+.digigold-product-details-choose-quantity{
+    /* display: flex; */
+    display: inline-flex;
+}
+.digigold-product-details-choose-quantity .value-button {
+    display: inline-block;
+    border: 1px solid #ddd;
+    margin: 0px;
+    width: 40px;
+    /* height: 20px; */
+    text-align: center;
+    vertical-align: middle;
+    padding: 7px 0;
+    /* background: #eee; */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .digigold-product-details-choose-quantity .value-button:hover {
+    cursor: pointer;
+  }
+  
+  .digigold-product-details-choose-quantity .decrease-sign {
+    margin-right: 0px;
+    border-radius: 4px 0 0 4px;
+    color: var(--primary);
+  }
+  
+  .digigold-product-details-choose-quantity .increase-sign {
+    margin-left: -3px;
+    border-radius: 0 4px 4px 0;
+    color: var(--primary);
+  }
+  
+  .digigold-product-details-choose-quantity .quantity-number {
+    text-align: center;
+    border: none;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 0px;
+    padding-top: 3px;
+    width: 55px;
+    /* height: 42px; */
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--darkText);
+  }
+  .digigold-product-details-choose-quantity .quantity-number:focus {
+    outline: 0;
+  }
+  
+  .digigold-product-details-choose-quantity input[type=number]::-webkit-inner-spin-button,
+  .digigold-product-details-choose-quantity input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+
+/* choose quantity end */
+
+.digigold-product-details-btn{
+    text-align: center;
+}
+.digigold-product-details-btn button{
+    padding: 10px 26px;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 8px;
+}
+.digigold-product-details-store-info{ 
+    font-size: 16px;
+}
+.digigold-product-details-store-info span{ 
+    color: var(--primary);
+}
+.digigold-product-details-box{
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+
+.digigold-product-details-inner{
+    font-size: 16px;
+    color: var(--textGray);
+    padding: 0.5rem 0rem;
+}
+
+.digigold-product-details-right{
+    font-weight: 500;
+    color: var(--darkText);
+}
+
+
+
+@media only screen and (min-width: 320px) and (max-width: 413px){
+    .digigold-product-details-wrapper {
+        padding: 12px;
+    }
+    .digigold-product-details-info-outer{
+        padding-top: 20px;
+    }
+    .digigold-product-title-info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .digigold-product-details-title {
+        font-size: 16px;
+    }
+    .digigold-product-details-price {
+        font-size: 16px;
+    }
+    .digigold-product-details-status {
+        vertical-align: inherit;
+    }
+    .digigold-product-details-choose-quantity {
+        margin-top: 12px;
+    }
+    .digigold-product-details-store-info {
+        font-size: 14px;
+    }
+    .digigold-product-details-inner {
+        font-size: 14px;
+    }
+    .digigold-product-details-btn button {
+        font-size: 14px;
+    }
+    .digigold-product-details-info-box:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+}
+
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+    .digigold-product-details-wrapper {
+        padding: 12px;
+    }
+    .digigold-product-details-info-outer{
+        padding-top: 20px;
+    }
+    .digigold-product-title-info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .digigold-product-details-title {
+        font-size: 16px;
+    }
+    .digigold-product-details-price {
+        font-size: 16px;
+    }
+    .digigold-product-details-status {
+        vertical-align: inherit;
+    }
+    .digigold-product-details-choose-quantity {
+        margin-top: 12px;
+    }
+    .digigold-product-details-store-info {
+        font-size: 14px;
+    }
+    .digigold-product-details-inner {
+        font-size: 14px;
+    }
+    .digigold-product-details-btn button {
+        font-size: 14px;
+    }
+    .digigold-product-details-info-box:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+
+}
+
+@media only screen and (min-width: 540px) and (max-width: 768px){
+    
+
+}
+
+@media only screen and (min-width: 640px) and (max-width: 768px){
+    
+
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 992px){
+    .digigold-product-details-outer{
+        flex-wrap: nowrap !important;
+    }
+    .digigold-product-title-info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .digigold-product-details-price {
+        font-size: 20px;
+    }
+    .digigold-product-details-status {
+        vertical-align: inherit;
+    }
+    .digigold-product-details-store-info {
+        font-size: 14px;
+    }
+    .digigold-product-details-inner {
+        font-size: 14px;
+    }
+    .digigold-product-details-choose-quantity {
+        margin-top: 12px;
+    }
+    .digigold-product-details-info-box:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+    .digigold-product-details-price {
+        font-size: 20px;
+        font-weight: 500;
+    }
+    .digigold-product-details-status {
+        vertical-align: inherit;
+    }
+
+}
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+    
+
+}
