@@ -65,7 +65,13 @@ import Wishlist from "../pages/shopping/MyWishlist";
 import Cart from "../pages/shopping/Cart";
 import ShippingAddress from "../pages/shopping/ShippingAddress";
 import Checkout from "../pages/shopping/ShoppingCheckout";
-import { DigiGoldHome, DigiProfile, Gift, MyOrdersPage, OrderSummary } from "../pages/digiGold";
+import {
+  DigiGoldHome,
+  DigiProfile,
+  Gift,
+  MyOrdersPage,
+  OrderSummary,
+} from "../pages/digiGold";
 
 import AllTermsAndCondition from "../pages/publicPages/TermsAndConditions";
 import DeliveryHome from "../pages/digiGold/Delivery/DeliveryHome";
@@ -77,19 +83,18 @@ const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
   const [isBottomTopNav, setIsBottomTopNav] = useState(false);
   const [isCommonTopNav, setIsCommonTopNav] = useState(true);
-  const [active, setActive] = useState(0); 
-  return (
-    <>
-      <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} isCommonTopNav={isCommonTopNav} setActive={setActive} title={title}/>
+  const [active, setActive] = useState(0);
   const [title, setTitle] = useState("");
+
   return (
     <>
+      {/* <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} isCommonTopNav={isCommonTopNav} setActive={setActive} title={title}/> */}
       <Navigation
         isHomeTopNav={isHomeTopNav}
         isBottomTopNav={isBottomTopNav}
         isCommonTopNav={isCommonTopNav}
-        
-      />      <Routes>
+      />{" "}
+      <Routes>
         <Route
           element={<Homepage setIsHomeTopNav={setIsHomeTopNav} />}
           path="/"
@@ -398,13 +403,16 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/digigold" element={<DigiGoldHome active={active} setActive={setActive}/>} />
+        <Route
+          path="/digigold"
+          element={<DigiGoldHome active={active} setActive={setActive} />}
+        />
         <Route path="/digigold-order-summary" element={<OrderSummary />} />
         <Route path="/digigold-profile" element={<DigiProfile />} />
         <Route path="/digigold-orders" element={<MyOrdersPage />} />
         <Route path="/digigold/gift" element={<Gift />} />
 
-                <Route
+        <Route
           path="/digigold-delivery"
           element={<DeliveryHome setIsCommonTopNav={setIsCommonTopNav} />}
         />

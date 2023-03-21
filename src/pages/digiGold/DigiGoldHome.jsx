@@ -130,7 +130,7 @@ const DigiGoldHome = ({active,setActive }) => {
         setIsSnackBar(true);
       }
     }
-  };
+  
   useEffect(() => {
     if (loggedInUser) {
       const username = loggedInUser.UserName;
@@ -485,6 +485,7 @@ const DigiGoldHome = ({active,setActive }) => {
                                       // ]}
                                     >
                                       <Input
+                                       id="grams"
                                        onWheel={(e) => e.target.blur()}
                                         formatter={formatter}
                                         // onKeyDown={handleKeyDown}
@@ -493,17 +494,18 @@ const DigiGoldHome = ({active,setActive }) => {
                                         // min={0.0002}
                                         precision={4}
                                         required
-                                        addonBefore="Grams"
+                                        // addonBefore="Grams"
                                         value={grams}
                                         type="number"
                                         name="grams"
                                         onChange={handleGramsChange}
-                                        placeholder="Enter Grams"
+                                        placeholder="&nbsp"
                                         size="large"
                                         // step={0.0001}
                                         step={"any"}
                                         // style={{ padding: 15 }}
                                       />
+                                      <label for="grams">Enter Grams</label>
                                     </Form.Item>
                                   </div>
                                 </div>
@@ -543,17 +545,19 @@ const DigiGoldHome = ({active,setActive }) => {
                                         value={amount}
                                         maxLength={8}
                                         max={180000}
-                                        addonBefore="Rs."
+                                        // addonBefore="Rs."
                                         type="number"
                                         name="amount"
                                         onChange={handleAmountChange}
                                         disabled={active === 0 ? false : true}
-                                        placeholder="Enter Amount"
+                                        placeholder="&nbsp"
                                         size="large"
                                         step={"any"}
                                         className="mb-0"
+                                        id="amount"
                                         // style={{ padding: 15 }}
                                       />
+                                      <label for="amount">Enter Amount</label>
                                     </Form.Item>
                                   </div>
                                 </div>

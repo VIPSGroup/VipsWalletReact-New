@@ -19,8 +19,7 @@ import { MuiSnackBar } from "../../common";
 
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
-const CommonTopNav = ({ isShow = true, setActive }) => {
-
+const CommonTopNav = ({ isShow = true, setActive, title }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDigiLogin, setIsDigiLogin] = useState("");
@@ -31,7 +30,6 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
 
   const { wishCount } = useSelector((state) => state.wishlistSlice);
@@ -40,13 +38,14 @@ const CommonTopNav = ({ isShow = true, setActive }) => {
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
-useEffect(() => {
-}, [])
+  useEffect(() => {}, []);
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { data ,loading} = useSelector((state) => state.walletSlice.walletBalance);
+  const { data, loading } = useSelector(
+    (state) => state.walletSlice.walletBalance
+  );
 
   const clickLogout = () => {
     confirmAlert({
@@ -72,125 +71,129 @@ useEffect(() => {
     });
   };
 
-  const items = logData.Data ? [
-    {
-      key: "1",
-      label: (
-        <Link to={"/digigold-profile"} style={{ fontSize: 17 }}>
-          {!logLoading && logData.Data && "My Profile"}
-        </Link>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
-          {!logLoading && logData.Data && "My Orders"}
-        </Link>
-      ),
-    },
-    {
-      key: "3",
-      label: (
-        <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-          FAQ's
-        </Link>
-      ),
-    },
-    {
-      key: "4",
-      label: (
-        <Link
-          target={"_blank"}
-          to={"/digi-termscondtion"}
-          style={{ fontSize: 17 }}
-        >
-          Terms & Conditions
-
-        </Link>
-      ),
-    },
-    // {
-    //   key: "3",
-    //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-    // },
-    // {
-    //   key: "4",
-    //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-    // },
-    // {
-    //   key: "5",
-    //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-    // },
-    {
-      key: "5",
-      label: (
-        <Link
-          onClick={() => {
-            !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
-          }}
-          style={{ fontSize: 17 }}
-        >
-          {!logLoading && logData.Data ? "Logout" : "Register"}
-        </Link>
-      ),
-    },
-  ]
-  :[
-    {
-      key: "3",
-      label: (
-        <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
-          {!logLoading && logData.Data && "My KYC"}
-        </Link>
-      ),
-    },
-    {
-      key: "4",
-      label: (
-        <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-          FAQ's
-        </Link>
-      ),
-    },
-    {
-      key: "5",
-      label: (
-        <Link
-          target={"_blank"}
-          to={"/digi-termscondtion"}
-          style={{ fontSize: 17 }}
-        >
-          Terms & Conditions
-        </Link>
-      ),
-    },
-    // {
-    //   key: "3",
-    //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-    // },
-    // {
-    //   key: "4",
-    //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-    // },
-    // {
-    //   key: "5",
-    //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-    // },
-    {
-      key: "6",
-      label: (
-        <Link
-          onClick={() => {
-            !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
-          }}
-          style={{ fontSize: 17 }}
-        >
-          {!logLoading && logData.Data ? "Logout" : "Register"}
-        </Link>
-      ),
-    },
-  ];
+  const items = logData.Data
+    ? [
+        {
+          key: "1",
+          label: (
+            <Link to={"/digigold-profile"} style={{ fontSize: 17 }}>
+              {!logLoading && logData.Data && "My Profile"}
+            </Link>
+          ),
+        },
+        {
+          key: "2",
+          label: (
+            <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
+              {!logLoading && logData.Data && "My Orders"}
+            </Link>
+          ),
+        },
+        {
+          key: "3",
+          label: (
+            <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+              FAQ's
+            </Link>
+          ),
+        },
+        {
+          key: "4",
+          label: (
+            <Link
+              target={"_blank"}
+              to={"/digi-termscondtion"}
+              style={{ fontSize: 17 }}
+            >
+              Terms & Conditions
+            </Link>
+          ),
+        },
+        // {
+        //   key: "3",
+        //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+        // },
+        // {
+        //   key: "4",
+        //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+        // },
+        // {
+        //   key: "5",
+        //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+        // },
+        {
+          key: "5",
+          label: (
+            <Link
+              onClick={() => {
+                !logLoading && logData.Data
+                  ? clickLogout()
+                  : dispatch(modalOpen());
+              }}
+              style={{ fontSize: 17 }}
+            >
+              {!logLoading && logData.Data ? "Logout" : "Register"}
+            </Link>
+          ),
+        },
+      ]
+    : [
+        {
+          key: "3",
+          label: (
+            <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
+              {!logLoading && logData.Data && "My KYC"}
+            </Link>
+          ),
+        },
+        {
+          key: "4",
+          label: (
+            <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+              FAQ's
+            </Link>
+          ),
+        },
+        {
+          key: "5",
+          label: (
+            <Link
+              target={"_blank"}
+              to={"/digi-termscondtion"}
+              style={{ fontSize: 17 }}
+            >
+              Terms & Conditions
+            </Link>
+          ),
+        },
+        // {
+        //   key: "3",
+        //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+        // },
+        // {
+        //   key: "4",
+        //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+        // },
+        // {
+        //   key: "5",
+        //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+        // },
+        {
+          key: "6",
+          label: (
+            <Link
+              onClick={() => {
+                !logLoading && logData.Data
+                  ? clickLogout()
+                  : dispatch(modalOpen());
+              }}
+              style={{ fontSize: 17 }}
+            >
+              {!logLoading && logData.Data ? "Logout" : "Register"}
+            </Link>
+          ),
+        },
+      ];
   const CheckWalletBalance = async () => {
     const username = loggedInUser && loggedInUser?.UserName;
     const password = loggedInUser && loggedInUser?.TRXNPassword;
@@ -285,40 +288,40 @@ useEffect(() => {
                 {pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary/:" &&
                   pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" && pathname!=="/digigold/gift" && (
-                    <>
-
+                  pathname !== "/digigold-orders" &&
+                  pathname !== "/digigold/gift" &&
                   pathname !== "/digigold-orders" &&
                   pathname !== `/digigold-delivery/${title}` && (
-                    <li class="nav-item">
-                      <Link class="nav-link nav-icons" to="/shopping/cart">
-                        {/* <Badge count={cartCount && cartCount?.length}> */}
-                        <AiOutlineShoppingCart className="nav-icon" />
-                        {/* </Badge> */}
-                        {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
-                        <span class="d-xl-block d-none d-md-none d-sm-none">
-                          {" "}
-                          My Cart{" "}
-                        </span>
-                      </Link>
-                    </li>
-                    <li class="nav-item">
-                  <Link
-                    class="nav-link nav-icons"
-                    to="/shopping/wishlist"
-                    role="button"
-                  >
-                    {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
-                    <Badge count={wishCount && wishCount?.length}>
-                      <AiOutlineHeart className="nav-icon" />
-                    </Badge>
-                    <span class="d-xl-block d-none d-md-none d-sm-none">
-                      {" "}
-                      Wishlist{" "}
-                    </span>
-                  </Link>
-                </li>
-                </>
+                    <>
+                      <li class="nav-item">
+                        <Link class="nav-link nav-icons" to="/shopping/cart">
+                          {/* <Badge count={cartCount && cartCount?.length}> */}
+                          <AiOutlineShoppingCart className="nav-icon" />
+                          {/* </Badge> */}
+                          {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
+                          <span class="d-xl-block d-none d-md-none d-sm-none">
+                            {" "}
+                            My Cart{" "}
+                          </span>
+                        </Link>
+                      </li>
+                      <li class="nav-item">
+                        <Link
+                          class="nav-link nav-icons"
+                          to="/shopping/wishlist"
+                          role="button"
+                        >
+                          {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
+                          <Badge count={wishCount && wishCount?.length}>
+                            <AiOutlineHeart className="nav-icon" />
+                          </Badge>
+                          <span class="d-xl-block d-none d-md-none d-sm-none">
+                            {" "}
+                            Wishlist{" "}
+                          </span>
+                        </Link>
+                      </li>
+                    </>
                   )}
                 {/* {pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
@@ -346,12 +349,9 @@ useEffect(() => {
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
-
-                  pathname !== "/digigold-orders" && pathname!=="/digigold/gift" && (
-
                   pathname !== "/digigold-orders" &&
+                  pathname !== "/digigold/gift" &&
                   pathname !== `/digigold-delivery/${title}` && (
-
                     <li class="nav-item">
                       <Link
                         onClick={CheckWalletBalance}
@@ -382,9 +382,7 @@ useEffect(() => {
                             <span class="nav-wallet-amt">
                               {" "}
                               &#x20B9;{" "}
-                              {!loading && data
-                                ? data?.Data?.Balance
-                                : "..."}
+                              {!loading && data ? data?.Data?.Balance : "..."}
                             </span>
                           </div>
                           <div class="dropdown-divider"></div>
@@ -457,8 +455,8 @@ useEffect(() => {
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" && pathname !== "/digigold/gift"  ? (
                   pathname !== "/digigold-orders" &&
+                  pathname !== "/digigold/gift" &&
                   pathname !== "/digigold-delivery" &&
                   pathname !== `/digigold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
@@ -560,8 +558,8 @@ useEffect(() => {
           {pathname !== "/digigold" &&
           pathname !== "/digigold-order-summary" &&
           pathname !== "/digigold-profile" &&
-          pathname !== "/digigold-orders" && pathname !== "/digigold/gift" ? (
           pathname !== "/digigold-orders" &&
+          pathname !== "/digigold/gift" &&
           pathname !== "/digigold-delivery" &&
           pathname !== `/digigold-delivery/${title}` ? (
             <div class="container-fluid">

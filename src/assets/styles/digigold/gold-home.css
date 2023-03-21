@@ -216,10 +216,10 @@
   /* box-shadow: 0 0 0 1px #63b3ed; */
 }
 .buy-sell-tab-inner .input input:focus::-webkit-input-placeholder {
-  opacity: 0.5;
+  opacity: 0;
 }
 .buy-sell-tab-inner .input input:focus::-moz-placeholder {
-  opacity: 0.5;
+  opacity: 0;
 }
 .buy-sell-tab-inner .input input:focus ~ label,
 .buy-sell-tab-inner .input input:not(:placeholder-shown) ~ label {
@@ -429,7 +429,8 @@
 }
 
 .digigold-work-div-box .digigold-work-title { 
-  margin-bottom: 15px; 
+  margin-bottom: 15px;
+  height: 11vh;
 }
 
 .digigold-work-div-box .digigold-work-title h3 {
@@ -792,6 +793,9 @@
       padding: 0;
       margin-bottom: 0;
   }
+  .digigold-work-div-box .digigold-work-title {
+    height: auto;
+  }
   .digigold-work-div-box .digigold-work-title h3 {
       font-size: 16px;
   }
@@ -984,6 +988,9 @@
       padding: 0;
       margin-bottom: 0;
   }
+  .digigold-work-div-box .digigold-work-title {
+    height: auto;
+  }
   .digigold-work-div-box .digigold-work-title h3 {
       font-size: 16px;
   }
@@ -1098,6 +1105,9 @@
       flex-wrap: wrap;
       justify-content: flex-start;
   }
+  .digigold-work-div-box .digigold-work-title {
+    height: auto;
+  }
 
 
   .check-green-img {
@@ -1115,6 +1125,11 @@
 
 
 @media only screen and (min-width: 992px) and (max-width: 1280px){
-
+  .digigold-work-div-box .digigold-work-title {
+    height: auto;
+  }
+  .digigold-work-div-box .digigold-work-title h3 {
+    font-size: 16px;
+  }
 
 }

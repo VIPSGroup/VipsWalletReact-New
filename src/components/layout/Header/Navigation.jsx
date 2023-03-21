@@ -12,7 +12,7 @@ const Navigation = ({ isHomeTopNav, isBottomTopNav ,isCommonTopNav,title}) => {
         !isBottomTopNav &&
         path !== "/shopping/cart" &&
         path !== "/shopping/address" &&
-        path !== "/shopping/checkout" && isCommonTopNav && <CommonTopNav setActive={setActive}/>}
+        // path !== "/shopping/checkout" && isCommonTopNav && <CommonTopNav setActive={setActive}/>}
         path !== "/shopping/checkout" && isCommonTopNav && <CommonTopNav title={title} />}
       {isHomeTopNav && <HomeTopNav />}
       {isBottomTopNav && <BannerTopNav />}

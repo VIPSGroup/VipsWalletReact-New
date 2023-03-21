@@ -551,7 +551,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                               Quantity (gms)
                             </p>
                             <p class="digigold-insert-amt">
-                              {currentGram && currentGram?.toFixed(4)} Grams
+                              {currentGram && currentGram} Grams
                             </p>
                           </div>
                           <div
@@ -595,7 +595,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                             : silverRate && state.valType !== "Amount"
                             ? silverRate
                             : state?.valueinAmt} */}
-                              {currentRate && currentRate.toFixed(2)}
+                              {currentRate && currentRate}
                             </p>
                           </div>
                           {state?.type === "buy" && (
@@ -608,7 +608,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                             >
                               <p class="digigold-insert-darktext">Tax</p>
                               <p class="digigold-insert-amt">
-                                &#x20B9; {tax && tax.toFixed(2)}
+                                &#x20B9; {tax && tax}
                               </p>
                             </div>
                           )}
@@ -624,7 +624,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                             <p class="digigold-insert-amt">
                               &#x20B9;{" "}
                               {totalAmount
-                                ? totalAmount.toFixed(2)
+                                ? totalAmount
                                 : state?.valueinAmt}
                             </p>
                           </div>
@@ -640,7 +640,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                               {" "}
                               &#x20B9;{" "}
                               {totalAmount
-                                ? totalAmount.toFixed(2)
+                                ? totalAmount
                                 : state?.valueinAmt}
                             </p>
                           </div>
@@ -745,7 +745,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                     {" "}
                                     &#x20B9;{" "}
                                     {totalAmount
-                                      ? totalAmount.toFixed(2)
+                                      ? totalAmount
                                       : state?.valueinAmt}{" "}
                                   </p>
                                 </div>
@@ -1201,7 +1201,9 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                     <p>
                       Enter the OTP sent to
                       <label for="">
-                        {/* &nbsp; +91 {formValue.mobileNumber} */}
+                         &nbsp; +91 {logData?.Data.MobileNumber}
+                        
+                         {console.log(logData, "lllol")}
                       </label>
                     </p>
                   </div>
