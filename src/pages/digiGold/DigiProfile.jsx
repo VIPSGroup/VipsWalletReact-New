@@ -2,6 +2,7 @@ import { Button, DatePicker, Form, Input, Select } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-profile.css";
+import "../../assets/styles/digigold/gold-home.css";
 import { MuiSnackBar } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading";
 import {
@@ -48,7 +49,6 @@ const DigiProfile = () => {
     const username = loggedInUser.UserName;
     const password = loggedInUser.TRXNPassword;
     dispatch(loginDigiGold({ username, password }));
-
   }, [dispatch]);
   useEffect(() => {
     dispatch(getStateList());
@@ -77,24 +77,23 @@ const DigiProfile = () => {
     // formValue.gender = logData?.Data?.gender || "";
   }, [logData]);
   const handleSubmit = async () => {
-    if(is18){
-      const username = loggedInUser.UserName;
-      const password = loggedInUser.TRXNPassword;
-      const res = await dispatch(UpdateUser({ formValue, username, password }));
-      if (res.payload.ResponseStatus === 1 && res.payload.ErrorCode === 200) {
-        setSuccessMsg(res.payload.Remarks);
-        setErrorMsg("");
-        setIsSnackBar(true);
-      } else {
-        setSuccessMsg("");
-        setErrorMsg(res.payload.Remarks);
-        setIsSnackBar(true);
-      }
-    }else{
-      setIsSnackBar(true)
-      setErrorMsg("Invalid Age")
+    // if (is18) {
+    const username = loggedInUser.UserName;
+    const password = loggedInUser.TRXNPassword;
+    const res = await dispatch(UpdateUser({ formValue, username, password }));
+    if (res.payload.ResponseStatus === 1 && res.payload.ErrorCode === 200) {
+      setSuccessMsg(res.payload.Remarks);
+      setErrorMsg("");
+      setIsSnackBar(true);
+    } else {
+      setSuccessMsg("");
+      setErrorMsg(res.payload.Remarks);
+      setIsSnackBar(true);
     }
-   
+    // } else {
+    //   setIsSnackBar(true);
+    //   setErrorMsg("Invalid Age");
+    // }
   };
 
   const [date, setDate] = useState();
@@ -115,6 +114,7 @@ const DigiProfile = () => {
                     <Form
                       autoComplete="off"
                       onFinish={handleSubmit}
+                      className="buy-sell-tab-inner"
                       fields={[
                         {
                           name: "Name",
@@ -162,52 +162,67 @@ const DigiProfile = () => {
                       <div class="container">
                         <div class="row">
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item name={"Name"}>
-                              <Input
-                                disabled
-                                size="large"
-                                placeholder="Full Name"
-                              />
-                            </Form.Item>
+                            <div className="input-wrapper">
+                              <div className="input">
+                                <Form.Item name={"Name"}>
+                                  <Input
+                                    disabled
+                                    size="large"
+                                    placeholder="Full Name"
+                                  />
+                                  <label htmlFor="">Full Name</label>
+                                </Form.Item>
+                              </div>
+                            </div>
                           </div>
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item name={"mobileNumber"}>
-                              <Input
-                                value={formValue.mobileNumber}
-                                disabled
-                                size="large"
-                                placeholder="Mobile Number"
-                              />
-                            </Form.Item>
+                            <div className="input-wrapper">
+                              <div className="input">
+                                <Form.Item name={"mobileNumber"}>
+                                  <Input
+                                    value={formValue.mobileNumber}
+                                    disabled
+                                    size="large"
+                                    placeholder="Mobile Number"
+                                  />
+                                  <label htmlFor="">Mobile Number</label>
+                                </Form.Item>
+                              </div>
+                            </div>
                           </div>
 
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item
-                              rules={[
-                                {
-                                  type: "email",
-                                  message: "Please Enter Valid Email",
-                                },
-                                {
-                                  required: true,
-                                  message: "Email is Required",
-                                },
-                              ]}
-                              name={"emailId"}
-                            >
-                              <Input
-                                required
-                                value={formValue.emailId}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formValue,
-                                    emailId: e.target.value,
-                                  })
-                                }
-                                size="large"
-                                placeholder="Email Id"
-                              />
-                            </Form.Item>
+                            <div className="input-wrapper">
+                              <div className="input">
+                                <Form.Item
+                                  rules={[
+                                    {
+                                      type: "email",
+                                      message: "Please Enter Valid Email",
+                                    },
+                                    {
+                                      required: true,
+                                      message: "Email is Required",
+                                    },
+                                  ]}
+                                  name={"emailId"}
+                                >
+                                  <Input
+                                    required
+                                    value={formValue.emailId}
+                                    onChange={(e) =>
+                                      setFormValue({
+                                        ...formValue,
+                                        emailId: e.target.value,
+                                      })
+                                    }
+                                    size="large"
+                                    placeholder="Email Id"
+                                  />
+                                  <label htmlFor="">Email </label>
+                                </Form.Item>
+                              </div>
+                            </div>
                           </div>
                           <div class="col-lg-6 col-md-6">
                             <Form.Item
@@ -362,21 +377,20 @@ const DigiProfile = () => {
                                 addonBefore="Nominee DOB"
                                 type="date"
                                 value={formValue.nomineeDateOfBirth}
-                                onChange={(e) =>{
+                                onChange={(e) => {
                                   const currentYear = new Date().getFullYear();
                                   const year = e.target.value.split("-")[0];
                                   const age = currentYear - year;
-                                  if (age < 18){
-                                    setIs18(false)
-                                  }else{
-                                    setIs18(true)
+                                  if (age < 18) {
+                                    setIs18(false);
+                                  } else {
+                                    setIs18(true);
                                   }
-                                    setFormValue({
-                                      ...formValue,
-                                      nomineeDateOfBirth: e.target.value,
-                                    })
-                                }
-                                }
+                                  setFormValue({
+                                    ...formValue,
+                                    nomineeDateOfBirth: e.target.value,
+                                  });
+                                }}
                                 size="large"
                                 placeholder="Nominee DOB"
                               />

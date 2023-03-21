@@ -5,6 +5,7 @@ import "../../../assets/styles/digigold/digigold-shopping-cart.css";
 import { calculateTotalPrice } from "../../../constants";
 import {
   addItem,
+  deleteItem,
   removeItem,
 } from "../../../redux/slices/digiGold/DeliverySlice";
 
@@ -110,7 +111,7 @@ const DigiDeliveryCart = () => {
                             {/* {console.log(e, 'aaee')} */}
                             <span
                               style={{ cursor: "pointer" }}
-                              onClick={() => dispatch(removeItem(e))}
+                              onClick={() => dispatch(deleteItem(e))}
                             >
                               <i
                                 class="fa fa-trash digigold-cart-remove"

@@ -63,7 +63,16 @@ const DeliverySlice = createSlice({
         }
       }
     },
+    deleteItem: (state, action) => {
+      const products = JSON.parse(localStorage.getItem("digiCart"));
+      console.log(action.payload, "products");
+      const updatedProducts = products.filter(
+        (product) => product.Id !== action.payload.Id
+      );
+      localStorage.setItem("digiCart", JSON.stringify(updatedProducts));
+      state.items = updatedProducts;
+    },
   },
 });
-export const { addItem, removeItem } = DeliverySlice.actions;
+export const { addItem, removeItem, deleteItem } = DeliverySlice.actions;
 export default DeliverySlice.reducer;
