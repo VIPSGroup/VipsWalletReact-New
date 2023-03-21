@@ -1,7 +1,18 @@
 import React from "react";
-import '../../../assets/styles/digigold/digigold-shopping-cart.css'
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import "../../../assets/styles/digigold/digigold-shopping-cart.css";
+import { calculateTotalPrice } from "../../../constants";
+import {
+  addItem,
+  removeItem,
+} from "../../../redux/slices/digiGold/DeliverySlice";
 
 const DigiDeliveryCart = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { items } = useSelector((state) => state.DeliverySlice);
+
   return (
     <>
       <section class="section-align buy-sell-form">
@@ -15,12 +26,12 @@ const DigiDeliveryCart = () => {
             <div class="row">
               <div class="col-sm-12 col-md-12 col-lg-8">
                 <div class="digigold-shopping-cart">
-                  <div>
+                  {/* <div>
                     <p class="digigold-shopping-note">
                       Augmont 10Gm Silver Coin (999 Purity) has been added to
                       your shopping cart.
                     </p>
-                  </div>
+                  </div> */}
 
                   <div class="digigold-cart-column-labels">
                     <label class="digigold-cart-product-details">
@@ -37,109 +48,80 @@ const DigiDeliveryCart = () => {
                     </label>
                   </div>
 
-                  <div class="digigold-cart-product">
-                    <div class="digigold-cart-product-details">
-                      <div class="digigold-cart-product-image">
-                        <img alt="" src="digigold-images/digi-gold-coin.svg" />
-                      </div>
-                      <div class="digigold-cart-product-title">
-                        <p class="digigold-cart-product-name">
-                          Augmont 1Gm Gold Coin (999 Purity)
-                        </p>
-                        <p class="digigold-cart-product-description">
-                          SKU : AU999GC01G
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="digigold-cart-product-weight">
-                      {/* <!-- <p class="d-md-none d-sm-block">Weight (gms)</p> --> */}
-                      <span>10 gms</span>
-                    </div>
-
-                    <div class="digigold-cart-product-quantity">
-                      <div class="digigold-cart-product-choose-quantity">
-                        <div class="value-button decrease-sign" id="decrease">
-                          {" "}
-                          <i class="fa-solid fa-minus"></i>{" "}
+                  {items?.map((e, i) => {
+                    return (
+                      <div class="digigold-cart-product">
+                        <div class="digigold-cart-product-details">
+                          <div class="digigold-cart-product-image">
+                            <img alt="" src={e.productImages} />
+                          </div>
+                          <div class="digigold-cart-product-title">
+                            <p class="digigold-cart-product-name">{e.name}</p>
+                            <p class="digigold-cart-product-description">
+                              SKU : {e.sku}
+                            </p>
+                          </div>
                         </div>
-                        <input
-                          type="number"
-                          class="quantity-number"
-                          id="number"
-                          value="1"
-                        />
-                        <div class="value-button increase-sign" id="increase">
-                          {" "}
-                          <i class="fa-solid fa-plus"></i>{" "}
+
+                        <div class="digigold-cart-product-weight">
+                          {/* <!-- <p class="d-md-none d-sm-block">Weight (gms)</p> --> */}
+                          <span>{e.productWeight} gms</span>
                         </div>
-                      </div>
-                    </div>
 
-                    <div class="digigold-cart-product-price">
-                      <div class="digigold-cart-product-price-inner">
-                        <span>&#x20B9; 705.60</span>
-                        <span>
-                          <i
-                            class="fa fa-trash digigold-cart-remove"
-                            aria-hidden="true"
-                          ></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="digigold-cart-product">
-                    <div class="digigold-cart-product-details">
-                      <div class="digigold-cart-product-image">
-                        <img alt="" src="digigold-images/digi-gold-coin.svg" />
-                      </div>
-                      <div class="digigold-cart-product-title">
-                        <p class="digigold-cart-product-name">
-                          Augmont 1Gm Gold Coin (999 Purity)
-                        </p>
-                        <p class="digigold-cart-product-description">
-                          SKU : AU999GC01G
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="digigold-cart-product-weight">
-                      {/* <!-- <p class="d-md-none d-sm-block">Weight (gms)</p> --> */}
-                      <span>10 gms</span>
-                    </div>
-
-                    <div class="digigold-cart-product-quantity">
-                      <div class="digigold-cart-product-choose-quantity">
-                        <div class="value-button decrease-sign" id="decrease">
-                          {" "}
-                          <i class="fa-solid fa-minus"></i>{" "}
+                        <div class="digigold-cart-product-quantity">
+                          <div class="digigold-cart-product-choose-quantity">
+                            <div
+                              onClick={() => {
+                                if (e.quantity > 1) {
+                                  dispatch(removeItem(e));
+                                }
+                              }}
+                              class="value-button decrease-sign"
+                              id="decrease"
+                            >
+                              {" "}
+                              <i class="fa-solid fa-minus"></i>{" "}
+                            </div>
+                            <h2
+                              style={{
+                                fontSize: 20,
+                                alignSelf: "center",
+                                paddingRight: 12,
+                                paddingLeft: 12,
+                                paddingTop: 5,
+                              }}
+                            >
+                              {e.quantity}
+                            </h2>
+                            <div
+                              onClick={() => dispatch(addItem(e))}
+                              class="value-button increase-sign"
+                              id="increase"
+                            >
+                              {" "}
+                              <i class="fa-solid fa-plus"></i>{" "}
+                            </div>
+                          </div>
                         </div>
-                        <input
-                          type="number"
-                          class="quantity-number"
-                          id="number"
-                          value="1"
-                        />
-                        <div class="value-button increase-sign" id="increase">
-                          {" "}
-                          <i class="fa-solid fa-plus"></i>{" "}
+
+                        <div class="digigold-cart-product-price">
+                          <div class="digigold-cart-product-price-inner">
+                            <span>&#x20B9; {e.quantity * e.basePrice}</span>
+                            {/* {console.log(e, 'aaee')} */}
+                            <span
+                              style={{ cursor: "pointer" }}
+                              onClick={() => dispatch(removeItem(e))}
+                            >
+                              <i
+                                class="fa fa-trash digigold-cart-remove"
+                                aria-hidden="true"
+                              ></i>
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div class="digigold-cart-product-price">
-                      <div class="digigold-cart-product-price-inner">
-                        <span>&#x20B9; 705.60</span>
-                        <span>
-                          <i
-                            class="fa fa-trash digigold-cart-remove"
-                            aria-hidden="true"
-                          ></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                    );
+                  })}
 
                   <div class="digigold-cart-tatal-wrapper">
                     <div class="digigold-cart-total-title">
@@ -149,23 +131,29 @@ const DigiDeliveryCart = () => {
                     </div>
 
                     <div class="digigold-cart-total-weight">
-                      <span>10 gms</span>
+                      <span>
+                        {calculateTotalPrice(items, "productWeight")} gms
+                      </span>
                     </div>
 
                     <div class="digigold-cart-total-quantity d-none d-md-block">
-                      <span>1</span>
+                      <span>{calculateTotalPrice(items, "productWeight")}</span>
                     </div>
 
                     <div class="digigold-cart-total-price">
-                      <span>&#x20B9; 705.60</span>
+                      <span>
+                        &#x20B9; {calculateTotalPrice(items, "basePrice")}
+                      </span>
                     </div>
                   </div>
 
                   <div class="">
                     <div class="digigold-cart-payment-confirm-btn">
-                      <button href="#" class="btn-primery">
-                        {" "}
-                        Proceed To Checkout{" "}
+                      <button
+                        onClick={() => navigate("/vipsgold-checkout")}
+                        class="btn-primery"
+                      >
+                        Proceed To Checkout
                       </button>
                     </div>
                   </div>
@@ -191,7 +179,7 @@ const DigiDeliveryCart = () => {
                             <span> Delivery Fee : </span>
                           </div>
                           <div class="col-5 col-xs-4 text-right">
-                            <span class=""> &#x20B9; 705.60 </span>
+                            <span class=""> &#x20B9; 00 </span>
                           </div>
                         </div>
 
@@ -200,14 +188,12 @@ const DigiDeliveryCart = () => {
                         <div class="row mt-3">
                           <div class="col-7 col-xs-4">
                             <span class="digigold-cart-summery-dark-text">
-                              {" "}
-                              Total Payable :{" "}
+                              Total Payable :
                             </span>
                           </div>
                           <div class="col-5 col-xs-4 text-right">
                             <span class="digigold-cart-summery-dark-text">
-                              {" "}
-                              &#x20B9; 705.60{" "}
+                              &#x20B9; {calculateTotalPrice(items, "basePrice")}
                             </span>
                           </div>
                         </div>

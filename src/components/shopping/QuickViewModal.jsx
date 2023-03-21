@@ -37,8 +37,12 @@ const QuickViewModal = ({ productId }) => {
   const [errorMsg, setErrorMsg] = useState("");
   // const [loggedInUser, setLoggedInUser] = useState();
 
-  const { loggedInUser } = useSelector(state => state.loginSlice.loggetInWithOTP);
-  const { data ,loading} = useSelector((state) => state.productSlice.singleProduct);
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
+  const { data, loading } = useSelector(
+    (state) => state.productSlice.singleProduct
+  );
 
   const imgArray = [];
   let navigate = useNavigate();
@@ -144,8 +148,8 @@ const QuickViewModal = ({ productId }) => {
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
     cartProducts &&
-    cartProducts.map((c, i) => {
-      if (c?.product?.Id == pro?.ProductDetails?.Id) {
+      cartProducts.map((c, i) => {
+        if (c?.product?.Id == pro?.ProductDetails?.Id) {
           setExistInCart(true);
         }
       });
@@ -181,12 +185,12 @@ const QuickViewModal = ({ productId }) => {
     navigate("/login");
   };
   useEffect(() => {
-    dispatch(getSingleProductData({productId}));
+    dispatch(getSingleProductData({ productId }));
   }, []);
   useEffect(() => {
     var p = {};
     p = data?.Data?.ProductDetails;
-setProduct(data?.Data?.ProductDetails);
+    setProduct(data?.Data?.ProductDetails);
     setProductObj(data?.Data);
     checkInCart(data?.Data);
     if (p?.Size) {
@@ -438,7 +442,7 @@ setProduct(data?.Data?.ProductDetails);
                   {" "}
                   Buy Now{" "}
                 </button> */}
-                <ThemeButton onClick={clickBuyNow} value={"Buy Now"}/>
+                <ThemeButton onClick={clickBuyNow} value={"Buy Now"} />
 
                 {/* {<button onClick={(e)=>{e.preventDefault();navigate('/shopping/address',{state:{products:products,totalAmount:product.SalePrice*qty}});}} class="btn btn-primery" type="button"> Buy Now </button>} */}
               </div>

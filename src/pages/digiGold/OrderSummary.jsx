@@ -240,7 +240,6 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
     const password = state?.password;
     dispatch(loginDigiGold({ username, password }));
     dispatch(getWalletBalance({ username, password }));
-
   }, [load]);
   const handleClose = () => {
     setModal(false);
@@ -493,7 +492,10 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                   </div> */}
                   <MyVault />
                   {/* {!load ? ( */}
-                  <Spin spinning={load || list.ResponseStatus === 0} style={{ color: '#ca3060' }} >
+                  <Spin
+                    spinning={load || list.ResponseStatus === 0}
+                    style={{ color: "#ca3060" }}
+                  >
                     <div class="buy-sell-form-outer">
                       <div class="current-rate-outer">
                         <div class="current-rate">
@@ -551,7 +553,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                               Quantity (gms)
                             </p>
                             <p class="digigold-insert-amt">
-                              {currentGram && currentGram?.toFixed(4)} Grams
+                              {currentGram && currentGram} Grams
                             </p>
                           </div>
                           <div
@@ -595,7 +597,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                             : silverRate && state.valType !== "Amount"
                             ? silverRate
                             : state?.valueinAmt} */}
-                              {currentRate && currentRate.toFixed(2)}
+                              {currentRate && currentRate}
                             </p>
                           </div>
                           {state?.type === "buy" && (
@@ -608,7 +610,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                             >
                               <p class="digigold-insert-darktext">Tax</p>
                               <p class="digigold-insert-amt">
-                                &#x20B9; {tax && tax.toFixed(2)}
+                                &#x20B9; {tax && tax}
                               </p>
                             </div>
                           )}
@@ -623,9 +625,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                             </p>
                             <p class="digigold-insert-amt">
                               &#x20B9;{" "}
-                              {totalAmount
-                                ? totalAmount.toFixed(2)
-                                : state?.valueinAmt}
+                              {totalAmount ? totalAmount : state?.valueinAmt}
                             </p>
                           </div>
                         </div>
@@ -639,9 +639,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                             <p class="digigold-payble-amt">
                               {" "}
                               &#x20B9;{" "}
-                              {totalAmount
-                                ? totalAmount.toFixed(2)
-                                : state?.valueinAmt}
+                              {totalAmount ? totalAmount : state?.valueinAmt}
                             </p>
                           </div>
                         </div>
@@ -745,7 +743,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                     {" "}
                                     &#x20B9;{" "}
                                     {totalAmount
-                                      ? totalAmount.toFixed(2)
+                                      ? totalAmount
                                       : state?.valueinAmt}{" "}
                                   </p>
                                 </div>
