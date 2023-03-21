@@ -395,18 +395,18 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/digigold" element={<DigiGoldHome active={active} setActive={setActive}/>} />
-        <Route path="/digigold-order-summary" element={<OrderSummary />} />
-        <Route path="/digigold-profile" element={<DigiProfile />} />
-        <Route path="/digigold-orders" element={<MyOrdersPage />} />
-        <Route path="/digigold/gift" element={<Gift />} />
+        <Route path="/vipsgold" element={<DigiGoldHome active={active} setActive={setActive}/>} />
+        <Route path="/vipsgold-order-summary" element={<OrderSummary />} />
+        <Route path="/vipsgold-profile" element={<DigiProfile />} />
+        <Route path="/vipsgold-orders" element={<MyOrdersPage />} />
+        <Route path="/vipsgold/gift" element={<Gift />} />
 
                 <Route
-          path="/digigold-delivery"
+          path="/vipsgold-delivery"
           element={<DeliveryHome setIsCommonTopNav={setIsCommonTopNav} />}
         />
         <Route
-          path="/digigold-delivery/:title"
+          path="/vipsgold-delivery/:title"
           element={
             <DigiProductDetails
               setIsCommonTopNav={setIsCommonTopNav}
@@ -415,7 +415,7 @@ const Router = () => {
           }
         />
         <Route
-          path="/digigold-cart/"
+          path="/vipsgold-cart/"
           element={
             <DigiDeliveryCart
               setIsCommonTopNav={setIsCommonTopNav}

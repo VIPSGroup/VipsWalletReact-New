@@ -71,125 +71,125 @@ useEffect(() => {
     });
   };
 
-  // const items = logData.Data ? [
-  //   {
-  //     key: "1",
-  //     label: (
-  //       <Link to={"/digigold-profile"} style={{ fontSize: 17 }}>
-  //         {!logLoading && logData.Data && "My Profile"}
-  //       </Link>
-  //     ),
-  //   },
-  //   {
-  //     key: "2",
-  //     label: (
-  //       <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
-  //         {!logLoading && logData.Data && "My Orders"}
-  //       </Link>
-  //     ),
-  //   },
-  //   {
-  //     key: "3",
-  //     label: (
-  //       <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-  //         FAQ's
-  //       </Link>
-  //     ),
-  //   },
-  //   {
-  //     key: "4",
-  //     label: (
-  //       <Link
-  //         target={"_blank"}
-  //         to={"/digi-termscondtion"}
-  //         style={{ fontSize: 17 }}
-  //       >
-  //         Terms & Conditions
+  const items = logData.Data ? [
+    {
+      key: "1",
+      label: (
+        <Link to={"/digigold-profile"} style={{ fontSize: 17 }}>
+          {!logLoading && logData.Data && "My Profile"}
+        </Link>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
+          {!logLoading && logData.Data && "My Orders"}
+        </Link>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+          FAQ's
+        </Link>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <Link
+          target={"_blank"}
+          to={"/digi-termscondtion"}
+          style={{ fontSize: 17 }}
+        >
+          Terms & Conditions
 
-  //       </Link>
-  //     ),
-  //   },
-  //   // {
-  //   //   key: "3",
-  //   //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-  //   // },
-  //   // {
-  //   //   key: "4",
-  //   //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-  //   // },
-  //   // {
-  //   //   key: "5",
-  //   //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-  //   // },
-  //   {
-  //     key: "5",
-  //     label: (
-  //       <Link
-  //         onClick={() => {
-  //           !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
-  //         }}
-  //         style={{ fontSize: 17 }}
-  //       >
-  //         {!logLoading && logData.Data ? "Logout" : "Register"}
-  //       </Link>
-  //     ),
-  //   },
-  // ]
-  // :[
-  //   {
-  //     key: "3",
-  //     label: (
-  //       <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
-  //         {!logLoading && logData.Data && "My KYC"}
-  //       </Link>
-  //     ),
-  //   },
-  //   {
-  //     key: "4",
-  //     label: (
-  //       <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-  //         FAQ's
-  //       </Link>
-  //     ),
-  //   },
-  //   {
-  //     key: "5",
-  //     label: (
-  //       <Link
-  //         target={"_blank"}
-  //         to={"/digi-termscondtion"}
-  //         style={{ fontSize: 17 }}
-  //       >
-  //         Terms & Conditions
-  //       </Link>
-  //     ),
-  //   },
-  //   // {
-  //   //   key: "3",
-  //   //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-  //   // },
-  //   // {
-  //   //   key: "4",
-  //   //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-  //   // },
-  //   // {
-  //   //   key: "5",
-  //   //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-  //   // },
-  //   {
-  //     key: "6",
-  //     label: (
-  //       <Link
-  //         onClick={() => {
-  //           !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
-  //         }}
-  //         style={{ fontSize: 17 }}
-  //       >
-  //         {!logLoading && logData.Data ? "Logout" : "Register"}
-  //       </Link>
-  //     ),
-  //   },
-  // ];
+        </Link>
+      ),
+    },
+    // {
+    //   key: "3",
+    //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+    // },
+    // {
+    //   key: "4",
+    //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+    // },
+    // {
+    //   key: "5",
+    //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+    // },
+    {
+      key: "5",
+      label: (
+        <Link
+          onClick={() => {
+            !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
+          }}
+          style={{ fontSize: 17 }}
+        >
+          {!logLoading && logData.Data ? "Logout" : "Register"}
+        </Link>
+      ),
+    },
+  ]
+  :[
+    {
+      key: "3",
+      label: (
+        <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
+          {!logLoading && logData.Data && "My KYC"}
+        </Link>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+          FAQ's
+        </Link>
+      ),
+    },
+    {
+      key: "5",
+      label: (
+        <Link
+          target={"_blank"}
+          to={"/digi-termscondtion"}
+          style={{ fontSize: 17 }}
+        >
+          Terms & Conditions
+        </Link>
+      ),
+    },
+    // {
+    //   key: "3",
+    //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+    // },
+    // {
+    //   key: "4",
+    //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+    // },
+    // {
+    //   key: "5",
+    //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+    // },
+    {
+      key: "6",
+      label: (
+        <Link
+          onClick={() => {
+            !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
+          }}
+          style={{ fontSize: 17 }}
+        >
+          {!logLoading && logData.Data ? "Logout" : "Register"}
+        </Link>
+      ),
+    },
+  ];
   const CheckWalletBalance = async () => {
     const username = loggedInUser && loggedInUser?.UserName;
     const password = loggedInUser && loggedInUser?.TRXNPassword;
@@ -269,11 +269,11 @@ useEffect(() => {
                         Become a Supplier
                       </Link>
                     </li>
-                    {/* <li class="nav-item">
-                      <Link class="nav-link" to="/digigold">
+                    <li class="nav-item">
+                      <Link class="nav-link" to="/vipsgold">
                         VIPS Gold
                       </Link>
-                    </li> */}
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -281,7 +281,11 @@ useEffect(() => {
 
             <div class="collapse navbar-collapse d-flex flex-row align-self-start justify-content-end">
               <ul class="navbar-nav nabar-right-icon ml-auto flex-row align-self-start">
-                    
+                {pathname !== "/vipsgold" &&
+                  pathname !== "/vipsgold-order-summary/:" &&
+                  pathname !== "/vipsgold-profile" &&
+                  pathname !== "/vipsgold-orders" && pathname!=="/vipsgold/gift" &&  pathname !== `/vipsgold-delivery/${title}` && (
+                    <>
                     <li class="nav-item">
                       <Link class="nav-link nav-icons" to="/shopping/cart">
                         {/* <Badge count={cartCount && cartCount?.length}> */}
@@ -310,7 +314,8 @@ useEffect(() => {
                     </span>
                   </Link>
                 </li>
-                  
+                </>
+                  )}
                 {/* {pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&
                   pathname !== "/digigold-profile" &&
@@ -333,12 +338,12 @@ useEffect(() => {
                     </li>
                   )} */}
 
-                {loggedInUser && (
-                  // pathname !== "/digigold" &&
-                  // pathname !== "/digigold-order-summary" &&  pathname !== "/digigold-delivery" &&
-                  // pathname !== "/digigold-profile" && pathname!=="/digigold/gift" && 
-                  // pathname !== "/digigold-orders" &&
-                  // pathname !== `/digigold-delivery/${title}` && (
+                {loggedInUser &&
+                  pathname !== "/vipsgold" &&
+                  pathname !== "/vipsgold-order-summary" &&
+                  pathname !== "/vipsgold-profile" && pathname!=="/vipsgold/gift" && 
+                  pathname !== "/vipsgold-orders" &&
+                  pathname !== `/vipsgold-delivery/${title}` && (
 
                     <li class="nav-item">
                       <Link
@@ -441,7 +446,13 @@ useEffect(() => {
                       </div>
                     </li>
                   )}
-                {loggedInUser ?  (
+                {loggedInUser ? (
+                  pathname !== "/vipsgold" &&
+                  pathname !== "/vipsgold-order-summary" &&
+                  pathname !== "/vipsgold-profile" && pathname !== "/vipsgold/gift" &&
+                  pathname !== "/vipsgold-orders" &&
+                  pathname !== "/vipsgold-delivery" &&
+                  pathname !== `/vipsgold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
                       <Link
                         class="nav-link nav-icons"
@@ -497,7 +508,28 @@ useEffect(() => {
                           </button>
                         </li>
                       </ul>
-                    </li> ) : (
+                    </li>
+                  ) : (
+                    <Dropdown
+                      menu={{
+                        items,
+                      }}
+                      placement="bottomRight"
+                      arrow
+                    >
+                      <Avatar
+                        className="digigold-user-icon"
+                        // style={{
+                        //   backgroundColor: "#393186",
+                        //   fontWeight: "boldF",
+                        //   cursor: "pointer",
+                        // }}
+                      >
+                        {loggedInUser.Name.slice(0, 2)}
+                      </Avatar>
+                    </Dropdown>
+                  )
+                ) : (
                   <li className="nav-item">
                     <Link class="nav-link nav-icons" to="/login">
                       <FiUser className="nav-icon" />
@@ -517,7 +549,12 @@ useEffect(() => {
 
         {/* {<!-- header bottom start -->} */}
         <div class="section inpage-navbar-bottom-services">
-        
+          {pathname !== "/vipsgold" &&
+          pathname !== "/vipsgold-order-summary" &&
+          pathname !== "/vipsgold-profile" &&
+          pathname !== "/vipsgold-orders" && pathname !== "/vipsgold/gift"  &&
+          pathname !== "/vipsgold-delivery" &&
+          pathname !== `/vipsgold-delivery/${title}` ? (
             <div class="container-fluid">
               <div class="navbar-bottom-services-outer">
                 <div class="navbar-bottom-serv-box">
@@ -590,6 +627,81 @@ useEffect(() => {
                 </div>
               </div>
             </div>
+          ) : (
+            <div class="container-fluid ">
+              <div
+                style={{ display: "flex", justifyContent: "space-evenly" }}
+                class="navbar-bottom-services-outer"
+              >
+                <div class="navbar-bottom-serv-box">
+                  <Link onClick={() => setActive(0)} to="/vipsgold">
+                    <img
+                      src="/images/digigold-images/buy-white-icon.svg"
+                      alt=""
+                    />
+                    <span class="navbar-bottom-serv-box-title">Buy Gold</span>
+                  </Link>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <Link onClick={() => setActive(1)} to="/vipsgold">
+                    <img
+                      src="images/digigold-images/sell-white-icon.svg"
+                      alt=""
+                    />
+                    <span class="navbar-bottom-serv-box-title">Sell Gold</span>
+                  </Link>
+                </div>
+                <div class="navbar-bottom-serv-box">
+                  <Link
+                    href="#"
+                    onClick={() => {
+                      setIsSnackBar(true);
+                      setErrorMsg("Service will be coming soon..");
+                    }}
+                  >
+                    <img
+                      src="images/digigold-images/sip-white-icon.svg"
+                      alt=""
+                    />
+                    <span class="navbar-bottom-serv-box-title">SIP</span>
+                  </Link>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <Link
+                    to="/vipsgold-delivery"
+                    // onClick={() => {
+                    //   setIsSnackBar(true);
+                    //   setErrorMsg("Service will be coming soon..");
+                    // }}
+                  >
+                    <img
+                      src="images/digigold-images/delivery-white-icon.svg"
+                      alt=""
+                    />
+                    <span class="navbar-bottom-serv-box-title">Delivery</span>
+                  </Link>
+                </div>
+
+                <div class="navbar-bottom-serv-box">
+                  <Link
+                    to="/vipsgold/gift"
+                    // onClick={() => {
+                    //   setIsSnackBar(true);
+                    //   setErrorMsg("Service will be coming soon..");
+                    // }}
+                  >
+                    <img
+                      src="images/digigold-images/buy-white-icon.svg"
+                      alt=""
+                    />
+                    <span class="navbar-bottom-serv-box-title">Gift</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
           {/* {<!-- container-->} */}
         </div>
         {/* {<!-- header bottom end -->} */}
@@ -635,7 +747,7 @@ useEffect(() => {
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           <li>
-            <Link to="/digigold"> VIPS Gold</Link>
+            <Link to="/vipsgold"> VIPS Gold</Link>
           </li>
           <li>
             <Link to={vendorPanelAPi} target="_blank">
@@ -651,7 +763,7 @@ useEffect(() => {
   return (
     <>
       {section()}
-      {/* <DigiGoldSignup setIsDigiLogin={setIsDigiLogin} /> */}
+      <DigiGoldSignup setIsDigiLogin={setIsDigiLogin} />
 
       <MuiSnackBar
         open={isSnackBar}

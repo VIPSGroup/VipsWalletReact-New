@@ -50,6 +50,10 @@ body {
   clear: both;
 }
 
+.react-multi-carousel-list {
+  position: unset !important;
+}
+
 .react-multiple-carousel__arrow--right {
   right: calc(4% + 1px);
 }

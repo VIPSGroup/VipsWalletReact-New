@@ -122,11 +122,11 @@ useEffect(() => {
                         Become a Supplier{" "}
                       </Link>
                     </li>
-                    {/* <li class="nav-item">
-                      <Link class="nav-link" to="/digigold">
+                    <li class="nav-item">
+                      <Link class="nav-link" to="/vipsgold">
                         VIPS Gold
                       </Link>
-                    </li> */}
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -455,7 +455,7 @@ useEffect(() => {
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           <li>
-            <Link to="/digigold">DigiGold</Link>
+            <Link to="/vipsgold">DigiGold</Link>
           </li>
           <li>
             <Link to={vendorPanelAPi} target="_blank">
