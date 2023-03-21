@@ -83,13 +83,9 @@ const DeliveryHome = () => {
                   </Select>
 
                   <div class="digi-delivery-cart-badge">
-                    <img
-                      alt=""
-                      src="/public/images/digigold-images/buy-icon.svg"
-                      class="digigold-cart-badge-icon"
-                    />
+                    <img src="/images/digigold-images/cart-icon.svg" class="digigold-cart-badge-icon"/>
                     <div class="digigold-cart-badge">6</div>
-                  </div>
+                  </div> 
                 </div>
               </div>
               {cards.map((e) => {

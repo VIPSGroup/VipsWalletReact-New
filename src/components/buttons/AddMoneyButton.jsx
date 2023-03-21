@@ -13,7 +13,6 @@ const AddMoneyButton = ({
 }) => {
   const formRef = useRef(null);
   // const hashInputRef=useRef(null)
-
   const [hash, setHash] = useState("");
   const [transactionId, setTransactionId] = useState("");
 

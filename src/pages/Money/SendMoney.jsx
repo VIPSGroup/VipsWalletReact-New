@@ -23,7 +23,7 @@ import { MuiSnackBar, ThemeButton } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 
 const SendMoney = () => {
-  const [recieverNo, setRecieverNo] = useState(9970039584);
+  const [recieverNo, setRecieverNo] = useState('');
   const [show, setShow] = useState(false);
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState("");
