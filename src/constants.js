@@ -10,6 +10,43 @@ export const shopadminUrl = "http://shopadmin.vipswallet.com";
 export const vendorPanelAPi = "http://vendor.vipswallet.com/Login/Vendor";
 export const staticTocken = "XMCNBVGDTE734BCU65DW"; //used for getting banners , affiliate etc while calling apis.
 
+// Digi Gold Cart Price Calculation
+export function calculateTotalPrice(products, price) {
+  let totalPrice = 0;
+  for (let i = 0; i < products.length; i++) {
+    totalPrice += products[i][price] * products[i].quantity;
+  }
+  return totalPrice;
+}
+
+// RegEX
+const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; // regular expression for full name validation
+const pincodeRegex = /^[1-9][0-9]{5}$/; // regular expression for Indian PIN code validation
+const mobileRegex = /^[6-9]\d{9}$/; // regular expression for Indian mobile number validation
+
+export const validateName = (_, value) => {
+  if (!value || nameRegex.test(value)) {
+    return Promise.resolve();
+  }
+  return Promise.reject("Please enter a valid full name");
+};
+export const validatePincode = (_, value) => {
+  if (!value || pincodeRegex.test(value)) {
+    return Promise.resolve();
+  }
+  return Promise.reject("Please enter a valid Indian PIN code");
+};
+
+export const validateMobile = (_, value) => {
+  if (!value) {
+    return Promise.reject("Please enter your mobile number");
+  }
+  if (mobileRegex.test(value)) {
+    return Promise.resolve();
+  }
+  return Promise.reject("Please enter a valid 10-digit mobile number");
+};
+
 //Service IDS
 export const mobileServiceId = 1;
 export const dthServiceId = 2;
@@ -92,8 +129,8 @@ export const getTermsConditionsId = (type) => {
 };
 
 export const googleAnalytics = "UA-220725992-1";
-export function digitPrecision({sGramResult, type}) {
-  console.log(sGramResult, type, "theek hahi")
+export function digitPrecision({ sGramResult, type }) {
+  console.log(sGramResult, type, "theek hahi");
   if (type === "amount") {
     // return  round upto 2 decimal
   } else if (type === "quantity") {

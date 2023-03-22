@@ -58,7 +58,7 @@ export const HowItWorks = () => {
     </>
   );
 };
-const DigiGoldHome = ({active,setActive }) => {
+const DigiGoldHome = ({ active, setActive }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isDigiLogin, setIsDigiLogin] = useState("");
@@ -114,21 +114,19 @@ const DigiGoldHome = ({active,setActive }) => {
         setErrorMsg(rateData.Remarks);
         setSuccessMsg("");
         setIsSnackBar(true);
-
-      } 
+      }
       //  if (logData.ResponseStatus === 0) {
-      }
-      // else if (logData.ResponseStatus === 0) {
-      //   dispatch(modalOpen());
-      //   // setErrorMsg(logData.Remarks);
-      //   // setSuccessMsg("");
-      //   // setIsSnackBar(true);
-      // }
-      if (logData.ResponseStatus === 3) {
-        setErrorMsg(logData.Remarks);
-        setSuccessMsg("");
-        setIsSnackBar(true);
-      }
+    }
+    // else if (logData.ResponseStatus === 0) {
+    //   dispatch(modalOpen());
+    //   // setErrorMsg(logData.Remarks);
+    //   // setSuccessMsg("");
+    //   // setIsSnackBar(true);
+    // }
+    if (logData.ResponseStatus === 3) {
+      setErrorMsg(logData.Remarks);
+      setSuccessMsg("");
+      setIsSnackBar(true);
     }
   
   useEffect(() => {
@@ -137,8 +135,6 @@ const DigiGoldHome = ({active,setActive }) => {
       const password = loggedInUser.TRXNPassword;
       dispatch(loginDigiGold({ username, password }));
     }
-
-   
   }, [dispatch]);
 
   useEffect(() => {
@@ -278,7 +274,6 @@ const DigiGoldHome = ({active,setActive }) => {
   };
   return (
     <>
-
       <div className="">
         {/* <!-- body section start Now --> */}
         <Spin spinning={loading || logLoading || digiLogLoading}>
@@ -538,7 +533,7 @@ const DigiGoldHome = ({active,setActive }) => {
                                       }
                                     >
                                       <Input
-                                       onWheel={(e) => e.target.blur()}
+                                        onWheel={(e) => e.target.blur()}
                                         onKeyDown={handleKeyDown}
                                         min={1}
                                         required

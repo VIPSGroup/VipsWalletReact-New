@@ -240,7 +240,6 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
     const password = state?.password;
     dispatch(loginDigiGold({ username, password }));
     dispatch(getWalletBalance({ username, password }));
-
   }, [load]);
   const handleClose = () => {
     setModal(false);
@@ -493,7 +492,10 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                   </div> */}
                   <MyVault />
                   {/* {!load ? ( */}
-                  <Spin spinning={load || list.ResponseStatus === 0} style={{ color: '#ca3060' }} >
+                  <Spin
+                    spinning={load || list.ResponseStatus === 0}
+                    style={{ color: "#ca3060" }}
+                  >
                     <div class="buy-sell-form-outer">
                       <div class="current-rate-outer">
                         <div class="current-rate">

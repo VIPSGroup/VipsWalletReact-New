@@ -78,6 +78,8 @@ import DeliveryHome from "../pages/digiGold/Delivery/DeliveryHome";
 import DigiProductDetails from "../pages/digiGold/Delivery/DigiProductDetails";
 import DigiKYC from "../pages/digiGold/DigiKYC";
 import DigiDeliveryCart from "../pages/digiGold/Delivery/DigiDeliveryCart";
+import DeliveryCheckout from "../pages/digiGold/Delivery/DeliveryCheckout";
+import DeliveryOrderDetails from "../pages/digiGold/Delivery/DeliveryOrderDetails";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
@@ -426,9 +428,27 @@ const Router = () => {
           }
         />
         <Route
-          path="/digigold-cart/"
+          path="/digigold-cart"
           element={
             <DigiDeliveryCart
+              setIsCommonTopNav={setIsCommonTopNav}
+              // setTitle={setTitle}
+            />
+          }
+        />
+        <Route
+          path="/vipsgold-checkout"
+          element={
+            <DeliveryCheckout
+              setIsCommonTopNav={setIsCommonTopNav}
+              // setTitle={setTitle}
+            />
+          }
+        />
+        <Route
+          path="/vipsgold-order-details"
+          element={
+            <DeliveryOrderDetails
               setIsCommonTopNav={setIsCommonTopNav}
               // setTitle={setTitle}
             />

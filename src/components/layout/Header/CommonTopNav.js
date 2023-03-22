@@ -291,6 +291,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                   pathname !== "/digigold-orders" &&
                   pathname !== "/digigold/gift" &&
                   pathname !== "/digigold-orders" &&
+                  pathname !== "/digigold/gift" &&
                   pathname !== `/digigold-delivery/${title}` && (
                     <>
                       <li class="nav-item">
@@ -451,6 +452,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                       </div>
                     </li>
                   )}
+
                 {loggedInUser ? (
                   pathname !== "/digigold" &&
                   pathname !== "/digigold-order-summary" &&

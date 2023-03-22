@@ -2,8 +2,12 @@ import React from "react";
 import { useResolvedPath } from "react-router-dom";
 import { BannerTopNav, CommonTopNav, HomeTopNav } from "./";
 
-
-const Navigation = ({ isHomeTopNav, isBottomTopNav ,isCommonTopNav,title}) => {
+const Navigation = ({
+  isHomeTopNav,
+  isBottomTopNav,
+  isCommonTopNav,
+  title,
+}) => {
   const path = useResolvedPath().pathname;
 
   return (

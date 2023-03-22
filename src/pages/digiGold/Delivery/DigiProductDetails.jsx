@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../../../assets/styles/digigold/digigold-delivery-product-details.css";
-import { addDigiCart } from "../../../redux/slices/digiGold/DeliverySlice";
+import {
+  addItem,
+  removeItem,
+} from "../../../redux/slices/digiGold/DeliverySlice";
 import MyVault from "../MyVault";
-
+export function calculateTotal(quantity, price) {
+  return quantity * price;
+}
 const DigiProductDetails = ({ setTitle }) => {
+  const { items } = useSelector((state) => state.DeliverySlice);
+  console.log(items, "items");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
@@ -18,7 +25,9 @@ const DigiProductDetails = ({ setTitle }) => {
   }, []);
 
   const handleClick = () => {
-    dispatch(addDigiCart({ data, qty }));
+    const TotalAmount = calculateTotal(qty, data.basePrice);
+    // dispatch(addItem(data));
+    navigate("/digigold-cart");
     // let prevCart = JSON.parse(localStorage.getItem("digi-cart"));
     // let cartToBe = [];
     // if (prevCart) {
@@ -31,7 +40,12 @@ const DigiProductDetails = ({ setTitle }) => {
     // }
     // localStorage.setItem("digi-cart", JSON.stringify(cartToBe));
   };
-
+  // useEffect(() => {
+  //   if (cartData?.length > 0) {
+  //     const quant = cartData?.find((a) => a.data?.Id === data?.Id).qty;
+  //     quant && setQty(quant);
+  //   }
+  // }, []);
   return (
     <>
       <section class="section-align buy-sell-form">
@@ -97,8 +111,16 @@ const DigiProductDetails = ({ setTitle }) => {
                       <div class="">
                         <div class="digigold-product-details-choose-quantity">
                           <div
+                            // onClick={() => {
+                            //   qty > 1 && setQty(qty - 1);
+                            // }}
                             onClick={() => {
-                              qty > 1 && setQty(qty - 1);
+                              if (
+                                items?.find((a) => a.Id === data.Id)?.quantity >
+                                1
+                              ) {
+                                dispatch(removeItem(data));
+                              }
                             }}
                             class="value-button decrease-sign"
                             id="decrease"
@@ -115,7 +137,9 @@ const DigiProductDetails = ({ setTitle }) => {
                               paddingTop: 5,
                             }}
                           >
-                            {qty}
+                            {items &&
+                              (items?.find((a) => a.Id === data.Id)?.quantity ??
+                                1)}
                           </h2>
                           {/* <input
                             type="number"
@@ -124,9 +148,10 @@ const DigiProductDetails = ({ setTitle }) => {
                             value="0"
                           /> */}
                           <div
-                            onClick={() => {
-                              setQty(qty + 1);
-                            }}
+                            // onClick={() => {
+                            //   setQty(qty + 1);
+                            // }}
+                            onClick={() => dispatch(addItem(data))}
                             class="value-button increase-sign"
                             id="increase"
                           >
