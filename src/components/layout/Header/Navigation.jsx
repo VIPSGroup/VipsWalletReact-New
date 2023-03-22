@@ -6,7 +6,7 @@ const Navigation = ({
   isHomeTopNav,
   isBottomTopNav,
   isCommonTopNav,
-  title,
+  title,setActive
 }) => {
   const path = useResolvedPath().pathname;
 
@@ -18,7 +18,7 @@ const Navigation = ({
         path !== "/shopping/address" &&
         // path !== "/shopping/checkout" && isCommonTopNav && <CommonTopNav setActive={setActive}/>}
         path !== "/shopping/checkout" &&
-        isCommonTopNav && <CommonTopNav title={title} />}
+        isCommonTopNav && <CommonTopNav title={title} setActive={setActive}/>}
       {isHomeTopNav && <HomeTopNav />}
       {isBottomTopNav && <BannerTopNav />}
     </>

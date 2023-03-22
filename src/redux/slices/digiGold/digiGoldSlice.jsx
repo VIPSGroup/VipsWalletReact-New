@@ -54,6 +54,11 @@ export const BuyDigiGold = async ({
     return res.data;
   } catch (error) {}
 };
+
+
+// /^\d*\.?\d{0,4}$/
+
+
 export const SellDigiGold = async ({
   username,
   password,

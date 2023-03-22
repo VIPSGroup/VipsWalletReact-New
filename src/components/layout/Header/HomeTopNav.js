@@ -123,7 +123,7 @@ useEffect(() => {
                       </Link>
                     </li>
                     <li class="nav-item">
-                      <Link class="nav-link" to="/digigold">
+                      <Link class="nav-link" to="/vipsgold">
                         VIPS Gold
                       </Link>
                     </li>
@@ -455,7 +455,7 @@ useEffect(() => {
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           <li>
-            <Link to="/digigold">DigiGold</Link>
+            <Link to="/vipsgold">VIPS Gold</Link>
           </li>
           <li>
             <Link to={vendorPanelAPi} target="_blank">

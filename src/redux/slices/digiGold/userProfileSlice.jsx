@@ -67,29 +67,14 @@ export const downloadPdf = createAsyncThunk(
 );
 export const UpdateUser = createAsyncThunk(
   "UpdateUser",
-  async (
-    {
-      formValue,
-      username,
-      password,
-
-      // userStateId,
-      // userCityId,
-      // emailId,
-      // userPincode,
-      // dateOfBirth,
-      // nomineeName,
-      // nomineeDateOfBirth,
-      // nomineeRelation,
-      // gender,
-    },
-    thunkAPI
-  ) => {
+  async ({ formValue, username, password }, thunkAPI) => {
     const formData = new FormData();
     formData.append("username", username);
     formData.append("password", password);
     formData.append("userStateId", formValue.userStateId);
     formData.append("userCityId", formValue.userCityId);
+    formData.append("userStateName", formValue.userStateName);
+    formData.append("userCityName", formValue.userCityName);
     formData.append("emailId", formValue.emailId);
     // formData.append("userPincode", formValue.userPincode);
     formData.append("dateOfBirth", formValue.dateOfBirth);
@@ -106,6 +91,47 @@ export const UpdateUser = createAsyncThunk(
     }
   }
 );
+// export const UpdateUser = createAsyncThunk(
+//   "UpdateUser",
+//   async (
+//     {
+//       formValue,
+//       username,
+//       password,
+
+//       // userStateId,
+//       // userCityId,
+//       // emailId,
+//       // userPincode,
+//       // dateOfBirth,
+//       // nomineeName,
+//       // nomineeDateOfBirth,
+//       // nomineeRelation,
+//       // gender,
+//     },
+//     thunkAPI
+//   ) => {
+//     const formData = new FormData();
+//     formData.append("username", username);
+//     formData.append("password", password);
+//     formData.append("userStateId", formValue.userStateId);
+//     formData.append("userCityId", formValue.userCityId);
+//     formData.append("emailId", formValue.emailId);
+//     // formData.append("userPincode", formValue.userPincode);
+//     formData.append("dateOfBirth", formValue.dateOfBirth);
+//     formData.append("nomineeName", formValue.nomineeName);
+//     formData.append("nomineeDateOfBirth", formValue.nomineeDateOfBirth);
+//     formData.append("nomineeRelation", formValue.nomineeRelation);
+//     // formData.append("gender", formValue.gender);
+
+//     try {
+//       const res = await axios.post(`${digiBaseUrl}UpdateUser`, formData);
+//       return res.data;
+//     } catch (error) {
+//       return error;
+//     }
+//   }
+// );
 const userProfileSlice = createSlice({
   name: "userProfileSlice",
   initialState: {

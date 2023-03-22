@@ -76,7 +76,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
         {
           key: "1",
           label: (
-            <Link to={"/digigold-profile"} style={{ fontSize: 17 }}>
+            <Link to={"/vipsgold-profile"} style={{ fontSize: 17 }}>
               {!logLoading && logData.Data && "My Profile"}
             </Link>
           ),
@@ -84,7 +84,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
         {
           key: "2",
           label: (
-            <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
+            <Link to={"/vipsgold-orders"} style={{ fontSize: 17 }}>
               {!logLoading && logData.Data && "My Orders"}
             </Link>
           ),
@@ -274,7 +274,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                       </Link>
                     </li>
                     <li class="nav-item">
-                      <Link class="nav-link" to="/digigold">
+                      <Link class="nav-link" to="/vipsgold">
                         VIPS Gold
                       </Link>
                     </li>
@@ -285,12 +285,12 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
 
             <div class="collapse navbar-collapse d-flex flex-row align-self-start justify-content-end">
               <ul class="navbar-nav nabar-right-icon ml-auto flex-row align-self-start">
-                {pathname !== "/digigold" &&
-                  pathname !== "/digigold-order-summary/:" &&
-                  pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" &&
-                  pathname !== "/digigold/gift" &&
-                  pathname !== `/digigold-delivery/${title}` && (
+                {pathname !== "/vipsgold" &&
+                  pathname !== "/vipsgold-order-summary/:" &&
+                  pathname !== "/vipsgold-profile" &&
+                  pathname !== "/vipsgold-orders" &&
+                  pathname !== "/vipsgold/gift" &&
+                  pathname !== `/vipsgold-delivery/${title}` && (
                     <>
                       <li class="nav-item">
                         <Link class="nav-link nav-icons" to="/shopping/cart">
@@ -322,35 +322,13 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                       </li>
                     </>
                   )}
-                {/* {pathname !== "/digigold" &&
-                  pathname !== "/digigold-order-summary" &&
-                  pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" && (
-                    <li class="nav-item">
-                      <Link
-                        class="nav-link nav-icons"
-                        to="/shopping/wishlist"
-                        role="button"
-                      >
-                        
-                        <Badge count={wishCount && wishCount?.length}>
-                          <AiOutlineHeart className="nav-icon" />
-                        </Badge>
-                        <span class="d-xl-block d-none d-md-none d-sm-none">
-                          {" "}
-                          Wishlist{" "}
-                        </span>
-                      </Link>
-                    </li>
-                  )} */}
-
                 {loggedInUser &&
-                  pathname !== "/digigold" &&
-                  pathname !== "/digigold-order-summary" &&
-                  pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" &&
-                  pathname !== "/digigold/gift" &&
-                  pathname !== `/digigold-delivery/${title}` && (
+                  pathname !== "/vipsgold" &&
+                  pathname !== "/vipsgold-order-summary" &&
+                  pathname !== "/vipsgold-profile" &&
+                  pathname !== "/vipsgold-orders" &&
+                  pathname !== "/vipsgold/gift" &&
+                  pathname !== `/vipsgold-delivery/${title}` && (
                     <li class="nav-item">
                       <Link
                         onClick={CheckWalletBalance}
@@ -452,13 +430,13 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                   )}
 
                 {loggedInUser ? (
-                  pathname !== "/digigold" &&
-                  pathname !== "/digigold-order-summary" &&
-                  pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" &&
-                  pathname !== "/digigold/gift" &&
-                  pathname !== "/digigold-delivery" &&
-                  pathname !== `/digigold-delivery/${title}` ? (
+                  pathname !== "/vipsgold" &&
+                  pathname !== "/vipsgold-order-summary" &&
+                  pathname !== "/vipsgold-profile" &&
+                  pathname !== "/vipsgold-orders" &&
+                  pathname !== "/vipsgold/gift" &&
+                  pathname !== "/vipsgold-delivery" &&
+                  pathname !== `/vipsgold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
                       <Link
                         class="nav-link nav-icons"
@@ -555,13 +533,13 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
 
         {/* {<!-- header bottom start -->} */}
         <div class="section inpage-navbar-bottom-services">
-          {pathname !== "/digigold" &&
-          pathname !== "/digigold-order-summary" &&
-          pathname !== "/digigold-profile" &&
-          pathname !== "/digigold-orders" &&
-          pathname !== "/digigold/gift" &&
-          pathname !== "/digigold-delivery" &&
-          pathname !== `/digigold-delivery/${title}` ? (
+          {pathname !== "/vipsgold" &&
+          pathname !== "/vipsgold-order-summary" &&
+          pathname !== "/vipsgold-profile" &&
+          pathname !== "/vipsgold-orders" &&
+          pathname !== "/vipsgold/gift" &&
+          pathname !== "/vipsgold-delivery" &&
+          pathname !== `/vipsgold-delivery/${title}` ? (
             <div class="container-fluid">
               <div class="navbar-bottom-services-outer">
                 <div class="navbar-bottom-serv-box">
@@ -641,7 +619,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                 class="navbar-bottom-services-outer"
               >
                 <div class="navbar-bottom-serv-box">
-                  <Link onClick={() => setActive(0)} to="/digigold">
+                  <Link onClick={() => setActive(0)} to="/vipsgold">
                     <img
                       src="/images/digigold-images/buy-white-icon.svg"
                       alt=""
@@ -651,7 +629,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                 </div>
 
                 <div class="navbar-bottom-serv-box">
-                  <Link onClick={() => setActive(1)} to="/digigold">
+                  <Link onClick={() => setActive(1)} to="/vipsgold">
                     <img
                       src="images/digigold-images/sell-white-icon.svg"
                       alt=""
@@ -677,7 +655,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    to="/digigold-delivery"
+                    to="/vipsgold-delivery"
                     // onClick={() => {
                     //   setIsSnackBar(true);
                     //   setErrorMsg("Service will be coming soon..");
@@ -693,7 +671,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    to="/digigold/gift"
+                    to="/vipsgold/gift"
                     // onClick={() => {
                     //   setIsSnackBar(true);
                     //   setErrorMsg("Service will be coming soon..");
@@ -754,7 +732,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           <li>
-            <Link to="/digigold"> VIPS Gold</Link>
+            <Link to="/vipsgold"> VIPS Gold</Link>
           </li>
           <li>
             <Link to={vendorPanelAPi} target="_blank">

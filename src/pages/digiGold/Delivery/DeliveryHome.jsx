@@ -21,24 +21,6 @@ const DeliveryHome = () => {
 
           <div class="row">
             <div class="col-lg-12">
-              {/* <div class="my-vault-wrapper">
-                <div class="col-lg-7 mx-auto my-vault-outer">
-                  <div class="my-vault-badge-wrapper">
-                    <span class="my-vault-badge">My Vault</span>
-                  </div>
-                  <div class="my-vault-inner">
-                    <div class="vault-value">
-                      <p class="vault-value-text">Gold Grams</p>
-                      <p class="vault-value-count">0.0000 Grams</p>
-                    </div>
-                    <div class="vertical-separator"></div>
-                    <div class="vault-value">
-                      <p class="vault-value-text">Silver Grams</p>
-                      <p class="vault-value-count">0.0000 Grams</p>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
               <MyVault />
             </div>
           </div>
@@ -54,27 +36,6 @@ const DeliveryHome = () => {
             <div class="row">
               <div class="col-12">
                 <div class="row justify-content-end digigold-product-select">
-                  {/* <div class="dropdown">
-                    <button
-                      class="btn dropdown-toggle delivery-product-select-btn"
-                      type="button"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      All
-                    </button>
-                    <div class="dropdown-menu">
-                      <button class="dropdown-item" type="button">
-                        Product 1
-                      </button>
-                      <button class="dropdown-item" type="button">
-                        Product 2
-                      </button>
-                      <button class="dropdown-item" type="button">
-                        Product 3
-                      </button>
-                    </div>
-                  </div> */}
                   <Select placeholder="All" style={{ width: 150 }}>
                     <Select.Option value="All">All</Select.Option>
                     <Select.Option value="Coin">Coin</Select.Option>
@@ -85,7 +46,7 @@ const DeliveryHome = () => {
                   <div class="digi-delivery-cart-badge">
                     <img
                       alt=""
-                      src="/public/images/digigold-images/buy-icon.svg"
+                      src="/images/digigold-images/cart-icon.svg"
                       class="digigold-cart-badge-icon"
                     />
                     <div class="digigold-cart-badge">6</div>
