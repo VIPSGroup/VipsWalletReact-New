@@ -1,9 +1,35 @@
-import { Card, Form, Input, Row, Select } from "antd";
+import { Card, Checkbox, Form, Input, Row, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import "../../../assets/styles/digigold/digigold-shopping-cart.css";
+import {
+  calculateTotalPrice,
+  validateMobile,
+  validateName,
+  validatePincode,
+} from "../../../constants";
 
 const DeliveryCheckout = () => {
+  const { items } = useSelector((state) => state.DeliverySlice);
+  const [addCheck, setAddCheck] = useState(false);
+  const [billingForm, setBillingForm] = useState({
+    fName: "",
+    fAdd: "",
+    city: "",
+    state: "",
+    zip: "",
+    mob: "",
+  });
+  const [shippingForm, setShippingForm] = useState({
+    fName: "",
+    fAdd: "",
+    city: "",
+    state: "",
+    zip: "",
+    mob: "",
+  });
+
   return (
     <>
       <section class="section-align buy-sell-form">
@@ -40,50 +66,153 @@ const DeliveryCheckout = () => {
                         aria-labelledby="checkouthead1"
                         data-parent="#checkout-accordion"
                       >
-                        <Form class="card-body">
+                        <Form
+                          fields={[
+                            {
+                              name: "fName",
+                              value: billingForm.fName,
+                            },
+                            {
+                              name: "fAdd",
+                              value: billingForm.fAdd,
+                            },
+                            {
+                              name: "city",
+                              value: billingForm.city,
+                            },
+                            {
+                              name: "state",
+                              value: billingForm.state,
+                            },
+                            {
+                              name: "zip",
+                              value: billingForm.zip,
+                            },
+                            {
+                              name: "mob",
+                              value: billingForm.mob,
+                            },
+                          ]}
+                          class="card-body"
+                        >
                           <Card>
                             <Row>
                               <div class="col-lg-12">
-                                <Form.Item>
-                                  <Input placeholder="Enter Full Name" />
+                                <Form.Item
+                                  rules={[
+                                    {
+                                      validator: validateName,
+                                    },
+                                  ]}
+                                  name={"fName"}
+                                >
+                                  <Input
+                                    onChange={(e) =>
+                                      setBillingForm({
+                                        ...billingForm,
+                                        fName: e.target.value,
+                                      })
+                                    }
+                                    name="fName"
+                                    placeholder="Enter Full Name"
+                                  />
                                 </Form.Item>
                               </div>
                               <div class="col-lg-12">
-                                <Form.Item>
+                                <Form.Item name={"fAdd"}>
                                   <TextArea
+                                    onChange={(e) =>
+                                      setBillingForm({
+                                        ...billingForm,
+                                        fAdd: e.target.value,
+                                      })
+                                    }
+                                    name="fAdd"
                                     placeholder="Enter Full Address"
                                     rows={5}
                                   />
                                 </Form.Item>
                               </div>
                               <div class="col-lg-6 col-md-6">
-                                <Form.Item>
+                                <Form.Item name={"city"}>
                                   <Select
+                                    value={billingForm.city}
+                                    onChange={(e) =>
+                                      setBillingForm({
+                                        ...billingForm,
+                                        city: e,
+                                      })
+                                    }
                                     placeholder="Select City"
                                     size="large"
                                   >
-                                    <Select.Option>Select City</Select.Option>
+                                    <Select.Option value="city">
+                                      Select City
+                                    </Select.Option>
                                   </Select>
                                 </Form.Item>
                               </div>
                               <div class="col-lg-6 col-md-6">
-                                <Form.Item>
+                                <Form.Item name={"state"}>
                                   <Select
+                                    value={billingForm.state}
+                                    onChange={(e) =>
+                                      setBillingForm({
+                                        ...billingForm,
+                                        state: e,
+                                      })
+                                    }
                                     placeholder="Select State"
                                     size="large"
                                   >
-                                    <Select.Option>Select State</Select.Option>
+                                    <Select.Option value="state">
+                                      Select State
+                                    </Select.Option>
                                   </Select>
                                 </Form.Item>
                               </div>
                               <div class="col-lg-6 col-md-6">
-                                <Form.Item>
-                                  <Input placeholder="Enter ZIP Code" />
+                                <Form.Item
+                                  rules={[
+                                    {
+                                      validator: validatePincode,
+                                    },
+                                  ]}
+                                  name={"zip"}
+                                >
+                                  <Input
+                                    maxLength={6}
+                                    onChange={(e) =>
+                                      setBillingForm({
+                                        ...billingForm,
+                                        zip: e.target.value,
+                                      })
+                                    }
+                                    name="zip"
+                                    placeholder="Enter ZIP Code"
+                                  />
                                 </Form.Item>
                               </div>
                               <div class="col-lg-6 col-md-6">
-                                <Form.Item>
-                                  <Input placeholder="Enter Mobile Number" />
+                                <Form.Item
+                                  rules={[
+                                    {
+                                      validator: validateMobile,
+                                    },
+                                  ]}
+                                  name={"mob"}
+                                >
+                                  <Input
+                                    maxLength={10}
+                                    onChange={(e) =>
+                                      setBillingForm({
+                                        ...billingForm,
+                                        mob: e.target.value,
+                                      })
+                                    }
+                                    name="mob"
+                                    placeholder="Enter Mobile Number"
+                                  />
                                 </Form.Item>
                               </div>
 
@@ -281,25 +410,109 @@ const DeliveryCheckout = () => {
                             </div>
                           </div>
                         </div> */}
-                        <Form class="card-body">
+                        <Form
+                          fields={[
+                            {
+                              name: "fName",
+                              value: addCheck
+                                ? billingForm.fName
+                                : shippingForm.fName,
+                            },
+                            {
+                              name: "fAdd",
+                              value: addCheck
+                                ? billingForm.fAdd
+                                : shippingForm.fAdd,
+                            },
+                            {
+                              name: "city",
+                              value: addCheck
+                                ? billingForm.city
+                                : shippingForm.city,
+                            },
+                            {
+                              name: "state",
+                              value: addCheck
+                                ? billingForm.state
+                                : shippingForm.state,
+                            },
+                            {
+                              name: "zip",
+                              value: addCheck
+                                ? billingForm.zip
+                                : shippingForm.zip,
+                            },
+                            {
+                              name: "mob",
+                              value: addCheck
+                                ? billingForm.mob
+                                : shippingForm.mob,
+                            },
+                          ]}
+                          class="card-body"
+                        >
                           <Card>
                             <Row>
                               <div class="col-lg-12">
-                                <Form.Item>
-                                  <Input placeholder="Enter Full Name" />
+                                <Form.Item
+                                  rules={[
+                                    {
+                                      validator: validateName,
+                                    },
+                                  ]}
+                                  name={"fName"}
+                                >
+                                  <Input
+                                    value={
+                                      addCheck
+                                        ? billingForm.fName
+                                        : shippingForm.fName
+                                    }
+                                    onChange={(e) =>
+                                      setShippingForm({
+                                        ...shippingForm,
+                                        fName: e.target.value,
+                                      })
+                                    }
+                                    name="fName"
+                                    placeholder="Enter Full Name"
+                                  />
                                 </Form.Item>
                               </div>
                               <div class="col-lg-12">
-                                <Form.Item>
+                                <Form.Item name={"fAdd"}>
                                   <TextArea
+                                    value={
+                                      addCheck
+                                        ? billingForm.fAdd
+                                        : shippingForm.fAdd
+                                    }
+                                    onChange={(e) =>
+                                      setShippingForm({
+                                        ...shippingForm,
+                                        fAdd: e.target.value,
+                                      })
+                                    }
+                                    name="fAdd"
                                     placeholder="Enter Full Address"
                                     rows={5}
                                   />
                                 </Form.Item>
                               </div>
                               <div class="col-lg-6 col-md-6">
-                                <Form.Item>
+                                <Form.Item name={"city"}>
                                   <Select
+                                    onChange={(e) =>
+                                      setShippingForm({
+                                        ...shippingForm,
+                                        city: e,
+                                      })
+                                    }
+                                    value={
+                                      addCheck
+                                        ? billingForm.city
+                                        : shippingForm.city
+                                    }
                                     placeholder="Select City"
                                     size="large"
                                   >
@@ -308,8 +521,19 @@ const DeliveryCheckout = () => {
                                 </Form.Item>
                               </div>
                               <div class="col-lg-6 col-md-6">
-                                <Form.Item>
+                                <Form.Item name={"state"}>
                                   <Select
+                                    onChange={(e) =>
+                                      setShippingForm({
+                                        ...shippingForm,
+                                        state: e,
+                                      })
+                                    }
+                                    value={
+                                      addCheck
+                                        ? billingForm.state
+                                        : shippingForm.state
+                                    }
                                     placeholder="Select State"
                                     size="large"
                                   >
@@ -318,27 +542,69 @@ const DeliveryCheckout = () => {
                                 </Form.Item>
                               </div>
                               <div class="col-lg-6 col-md-6">
-                                <Form.Item>
-                                  <Input placeholder="Enter ZIP Code" />
+                                <Form.Item
+                                  rules={[
+                                    {
+                                      validator: validatePincode,
+                                    },
+                                  ]}
+                                  name={"zip"}
+                                >
+                                  <Input
+                                    maxLength={6}
+                                    onChange={(e) =>
+                                      setShippingForm({
+                                        ...shippingForm,
+                                        zip: e.target.value,
+                                      })
+                                    }
+                                    value={
+                                      addCheck
+                                        ? billingForm.zip
+                                        : shippingForm.zip
+                                    }
+                                    name="zip"
+                                    placeholder="Enter ZIP Code"
+                                  />
                                 </Form.Item>
                               </div>
                               <div class="col-lg-6 col-md-6">
-                                <Form.Item>
-                                  <Input placeholder="Enter Mobile Number" />
+                                <Form.Item
+                                  rules={[
+                                    {
+                                      validator: validateMobile,
+                                    },
+                                  ]}
+                                  name={"mob"}
+                                >
+                                  <Input
+                                    maxLength={10}
+                                    onChange={(e) =>
+                                      setShippingForm({
+                                        ...shippingForm,
+                                        mob: e.target.value,
+                                      })
+                                    }
+                                    value={
+                                      addCheck
+                                        ? billingForm.mob
+                                        : shippingForm.mob
+                                    }
+                                    name="mob"
+                                    placeholder="Enter Mobile Number"
+                                  />
                                 </Form.Item>
                               </div>
 
                               <div class="col-lg-12 ">
                                 <div class="row digigold-checkout-process justify-content-between">
-                                  <div class="custom-control custom-checkbox digigold-check-Style">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="customCheck1"
-                                      checked
+                                  <div class="custom-control">
+                                    <Checkbox
+                                      checked={addCheck}
+                                      onChange={() => setAddCheck(!addCheck)}
                                     />
                                     <label
-                                      class="custom-control-label"
+                                      //   class="custom-control-label"
                                       for="customCheck1"
                                     >
                                       Ship to billing address
@@ -402,7 +668,8 @@ const DeliveryCheckout = () => {
                               <div class="col-lg-4 p-0">
                                 <p class="digigold-paymet-discount-amt">
                                   {" "}
-                                  &#x20B9; 99.00{" "}
+                                  &#x20B9;{" "}
+                                  {calculateTotalPrice(items, "basePrice")}
                                 </p>
                               </div>
                             </div>
@@ -430,7 +697,8 @@ const DeliveryCheckout = () => {
                               <div class="col-lg-4 p-0">
                                 <p class="digigold-paymet-Prime-amt">
                                   {" "}
-                                  &#x20B9; 0.00{" "}
+                                  &#x20B9;
+                                  {calculateTotalPrice(items, "basePrice")}
                                 </p>
                               </div>
                             </div>
@@ -453,24 +721,27 @@ const DeliveryCheckout = () => {
                   <div class="digigold-cart-payment-outer box-shadow-1">
                     <div class="col-md-12 p-0">
                       <div class="digigold-cart-payment-summery">
-                        <div class="row flex-nowrap p-2">
-                          <div class="">
-                            <span>
-                              {" "}
-                              <img
-                                src="images/digigold-images/digi-gold-coin.svg"
-                                class="img img-fluid digigold-checkout-coin-img"
-                              />{" "}
-                            </span>
-                          </div>
-                          <div class="">
-                            <p class="digigold-cart-summery-title mb-1">
-                              {" "}
-                              Augmont 1Gm Gold Coin (999 Purity){" "}
-                            </p>
-                            <p class="mb-0">SFKU : AU999GC01G</p>
-                          </div>
-                        </div>
+                        {items.map((e) => {
+                          return (
+                            <div class="row flex-nowrap p-2">
+                              <div class="">
+                                <span>
+                                  {" "}
+                                  <img
+                                    src={e.productImages}
+                                    class="img img-fluid digigold-checkout-coin-img"
+                                  />{" "}
+                                </span>
+                              </div>
+                              <div class="">
+                                <p class="digigold-cart-summery-title mb-1">
+                                  {e.name}
+                                </p>
+                                <p class="mb-0">SKU : {e.sku}</p>
+                              </div>
+                            </div>
+                          );
+                        })}
 
                         <div class="dropdown-divider"></div>
 
@@ -484,7 +755,7 @@ const DeliveryCheckout = () => {
                           <div class="col-5 col-xs-4 text-right">
                             <span class="digigold-cart-summery-dark-text">
                               {" "}
-                              &#x20B9; 705.60{" "}
+                              &#x20B9; {calculateTotalPrice(items, "basePrice")}
                             </span>
                           </div>
                         </div>

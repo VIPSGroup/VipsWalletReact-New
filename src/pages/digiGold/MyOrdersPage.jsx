@@ -110,15 +110,25 @@ const MyOrdersPage = () => {
       key: "transactionID",
     },
     {
-      title: "Narration",
-      dataIndex: "narration",
-      key: "narration",
+      title: tab === "Delivery" ? "Invoice No" : "Narration",
+      dataIndex: tab === "Delivery" ? "invoice" : "narration",
+      key: tab === "Delivery" ? "invoice" : "narration",
     },
     {
-      title: "Amount (₹)",
-      dataIndex: "amount",
-      key: "amount",
+      title: tab === "Delivery" ? "Ship To" : "Amount (₹)",
+      dataIndex: tab === "Delivery" ? "shipto" : "amount",
+      key: tab === "Delivery" ? "shipto" : "amount",
       align: "right",
+    },
+    {
+      title: tab === "Delivery" ? "Total Paid" : null,
+      dataIndex: tab === "Delivery" ? "totalpaid" : null,
+      key: tab === "Delivery" ? "totalpaid" : null,
+    },
+    {
+      title: tab === "Delivery" ? "Order Status" : null,
+      dataIndex: tab === "Delivery" ? "orderstatus" : null,
+      key: tab === "Delivery" ? "orderstatus" : null,
     },
     {
       title: "Action",
@@ -137,11 +147,7 @@ const MyOrdersPage = () => {
           </h2>
         </>
       ),
-      // timeOfPurchase: (
-      //   <>
-      //     <h2 className="text-gray-500">{item.brand}</h2>
-      //   </>
-      // ),
+
       transactionID: (
         <>
           <h2 style={{ fontSize: 14 }} className="text-gray-500">
@@ -279,11 +285,14 @@ const MyOrdersPage = () => {
                               Sell{" "}
                             </button>{" "}
                           </li>
-                          {/* <li>
-                            {" "}
-                            <button class=""> Delivery </button>{" "}
-                          </li>
                           <li>
+                            {" "}
+                            <button onClick={() => setTab("Delivery")} class="">
+                              {" "}
+                              Delivery{" "}
+                            </button>{" "}
+                          </li>
+                          {/*  <li>
                             {" "}
                             <button class=""> Gift </button>{" "}
                           </li> */}
@@ -293,12 +302,12 @@ const MyOrdersPage = () => {
                       <div class="digigold-order-content">
                         <div class="row"></div>
                         {/* <Card> */}
-                          <Table
-                            scroll={{ x: true }}
-                            loading={orderLoad}
-                            columns={columns}
-                            dataSource={data}
-                          />
+                        <Table
+                          scroll={{ x: true }}
+                          loading={orderLoad}
+                          columns={columns}
+                          dataSource={data}
+                        />
                         {/* </Card> */}
                       </div>
                     </div>
