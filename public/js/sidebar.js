@@ -1,23 +1,23 @@
 // //Navbar sidebar script
-// $(document).ready(function () {
-//   $("#sidebarCollapse").on("click", function () {
-//     $("#sidebar").addClass("active");
-//   });
+$(document).ready(function () {
+  $("#sidebarCollapse").on("click", function () {
+    $("#sidebar").addClass("active");
+  });
 
-//   $("#sidebarCollapseX").on("click", function () {
-//     $("#sidebar").removeClass("active");
-//   });
+  $("#sidebarCollapseX").on("click", function () {
+    $("#sidebar").removeClass("active");
+  });
 
-//   $("#sidebarCollapse").on("click", function () {
-//     if ($("#sidebar").hasClass("active")) {
-//       $(".overlay").addClass("visible");
-//     }
-//   });
+  $("#sidebarCollapse").on("click", function () {
+    if ($("#sidebar").hasClass("active")) {
+      $(".overlay").addClass("visible");
+    }
+  });
 
-//   $("#sidebarCollapseX").on("click", function () {
-//     $(".overlay").removeClass("visible");
-//   });
-// });
+  $("#sidebarCollapseX").on("click", function () {
+    $(".overlay").removeClass("visible");
+  });
+});
 // //sidebar with multiple submenu
 // //sidebar with multiple submenu
 //sidebar with multiple submenu

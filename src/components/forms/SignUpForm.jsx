@@ -21,8 +21,6 @@ const SignUpForm = ({setIsSignIn}) => {
         state => state.loginSlice.checkUser);
     const { validateNo } = useSelector(
         state => state.signUpSlice.validateNumber);
-    //  const {response,loading,newUser,}=  useSelector(state=>state.signup)
-     const {stateCityByPincode}=  useSelector(state=>state.signUpSlice.stateCityPincode)
      const {response,loading}=  useSelector(state=>state.signUpSlice.signUpOtp)
      const {newUser,otploading}=  useSelector(state=>state.signUpSlice.signUp)
       const [getData, setGetData] = useState({})
@@ -50,10 +48,10 @@ const SignUpForm = ({setIsSignIn}) => {
           termsCheck:false
             },
             validationSchema:yup.object({
-              fName:yup.string().required("Please Enter Your First Name"),
-              lName:yup.string().required("Please Enter Your Last Name"),
+              fName:yup.string().required("Please Enter Your First Name").matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Correct First Name"),
+              lName:yup.string().required("Please Enter Your Last Name").matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Correct Last Name"),
               emailId:yup.string().email('email is not valid').required("Please Enter Your email"),
-              refId:yup.string(),
+              refId:yup.string().matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Number"),
               password:yup.string().min(8).max(16).required("Please Enter Password")
               .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
                 "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character" ),
@@ -94,11 +92,7 @@ const SignUpForm = ({setIsSignIn}) => {
                     setIp(user.ip);
                   });
               }
-              if(stateCityByPincode?.ResponseStatus===1){
-            setGetData({...getData,stateName:stateCityByPincode.Data[0].StateName,cityName:stateCityByPincode.Data[0].CityName,cityId:stateCityByPincode.Data[0].CityId,stateId:stateCityByPincode.Data[0].StateId,pincodeId:stateCityByPincode.Data[0].PincodeId,stateError:false,cityError:false})
-              }else if(stateCityByPincode?.ResponseStatus===0){
-                setGetData({...getData,stateName:'',stateId:'',stateError:false,cityId:'',cityName:'',cityError:false})
-              }
+              
               if(response?.ResponseStatus==1){
                 setErrorMsg("")
                 setIsSnackBar(true)
@@ -124,7 +118,7 @@ const SignUpForm = ({setIsSignIn}) => {
               }
             }, [
               signUpFormik.values.refId,newUser, response,
-              signUpFormik.values.password,signUpFormik.values.pincode,stateCityByPincode])
+              signUpFormik.values.password,signUpFormik.values.pincode])
           const renderButton2 = (buttonProps) => {
             return (
               <div className="resendotp col-12 mx-auto pt-3">
@@ -142,7 +136,10 @@ const SignUpForm = ({setIsSignIn}) => {
                     <p>
                       Not received OTP?{" "}
                       <a>
-                        <span style={{ color: "#CA3060" }}>Resend OTP</span>
+                        <span style={{ color: "#CA3060" }} onClick={e=>{
+                          setOtp("")
+                            dispatch(signUpWithOtp({ userName:isUserExist && isUserExist[1], emailId:signUpFormik.values.emailId }))
+                        }}>Resend OTP</span>
                       </a>
                     </p>
                   )}
@@ -156,14 +153,22 @@ const SignUpForm = ({setIsSignIn}) => {
             setPincode(value);
         if(e.target.value.length===6){
           signUpFormik.values.pincode=e.target.value
+          getStateCity(e.target.value).then(response=>{
+            if(response?.ResponseStatus==1){
+              setGetData({...getData,stateName:response.Data[0].StateName,cityName:response.Data[0].CityName,cityId:response.Data[0].CityId,stateId:response.Data[0].StateId,pincodeId:response.Data[0].PincodeId,stateError:false,cityError:false})
+                }else if(response?.ResponseStatus==0){
+                  setGetData({...getData,stateName:'',stateId:'',stateError:false,cityId:'',cityName:'',cityError:false})
+                }
+          })
         }
-        dispatch(getStateCity(e.target.value))
+        // dispatch(getStateCity(e.target.value))
     
         if (e.target.value.length == 0) {
           setGetData({...getData,cityId:'',stateId:'',cityName:'',stateName:''}) }
           };
           const clickVerifySignupOtp = (e) => {
             e.preventDefault();
+            console.log(userDetails);
             dispatch(signUpUser({ ...userDetails, Otp: otp }))
           };
   return (
@@ -397,10 +402,10 @@ const SignUpForm = ({setIsSignIn}) => {
                        </label>
                      </div>
                    </div>
- 
                    <div class="col-lg-6 optional-field">
                      <div class="input-field">
                        <input name="refId"
+                        className={signUpFormik.errors.refId || signUpFormik.touched.refId ?"is-invalid":""}
                          value={signUpFormik.values.refId}
                          onChange={signUpFormik.handleChange}
                          id="referral-mobile"
@@ -416,11 +421,11 @@ const SignUpForm = ({setIsSignIn}) => {
                            Referral Mobile (optional){" "}
                          </span>{" "}
                        </label>
+                        <div className="invalid-feedback text-danger">{signUpFormik.errors.refId}</div>
                      </div>
                      {signUpFormik.values.refId.length==10 && (validateNo?.ResponseStatus==1 ? <div className=" text-left"  style={{ color: "#CA3060" }} >  {validateNo?.Remarks}</div>
                        :<div className=" text-left" style={{ color: "#CA3060" }}> {validateNo?.Remarks} </div>)
                      }
-                      <div className="invalid-feedback text-danger">{signUpFormik.errors.refId}</div>
                    </div>
                    <div class="col-lg-6 ">
                      <div class="input-field">

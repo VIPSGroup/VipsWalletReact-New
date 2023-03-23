@@ -10,7 +10,7 @@ import { LatestLoading } from "../common/Loading";
 import { Spin } from "antd";
 const HomeTopBannerSlider = () => {
   const dispatch = useDispatch();
-  const { SliderBanners } = useSelector((state) => state.bannerSlice);
+  const { SliderBanners ,loading} = useSelector((state) => state.bannerSlice);
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -36,6 +36,7 @@ const HomeTopBannerSlider = () => {
   return (
     <>
       <div className="top-banner-outer">
+        <Spin spinning={loading}>
         {SliderBanners && (
           <Carousel
             responsive={responsive}
@@ -70,6 +71,7 @@ const HomeTopBannerSlider = () => {
             )}
           </Carousel>
         )}
+        </Spin>
       </div>
     </>
   );

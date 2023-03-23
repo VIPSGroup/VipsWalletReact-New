@@ -209,15 +209,9 @@ const DigiGoldHome = ({active,setActive }) => {
     }
   };
   const handleGramsChange = (e) => {
-    let value = e.target.value;
-    // check if the input value contains more than 4 decimal places
-    if (value.indexOf(".") !== -1 && value.split(".")[1].length > 4) {
-      // truncate the input value to 4 decimal places
-      value = parseFloat(value).toFixed(4);
-    }
-
+    let value = e.target.value.split(".").length!==2 ?e.target.value : e.target.value.split(".")[0]+"."+ e.target.value.split(".")[1].substring(0, 4);
     setGrams(value);
-    const gram = parseFloat(e.target.value);
+    const gram = parseFloat(value);
     const gGram = parseFloat(logData?.Data?.GoldGrams);
     const sGram = parseFloat(logData?.Data?.SilverGrams);
     if (logData.Data) {
@@ -241,19 +235,19 @@ const DigiGoldHome = ({active,setActive }) => {
     const TotalAmount =
       (active === 0 &&
         isGold === 0 &&
-        rateData.Data?.result?.data?.rates?.gBuy * e.target.value) ||
+        rateData.Data?.result?.data?.rates?.gBuy * value) ||
       (active === 0 &&
         isGold === 1 &&
-        rateData.Data?.result?.data?.rates?.sBuy * e.target.value) ||
+        rateData.Data?.result?.data?.rates?.sBuy * value) ||
       (active === 1 &&
         isGold === 0 &&
-        rateData.Data?.result?.data?.rates?.gSell * e.target.value) ||
+        rateData.Data?.result?.data?.rates?.gSell * value) ||
       (active === 1 &&
         isGold === 1 &&
-        rateData.Data?.result?.data?.rates?.sSell * e.target.value);
+        rateData.Data?.result?.data?.rates?.sSell * value);
     setValueType({
       ...valueType,
-      valueinGm: e.target.value,
+      valueinGm:value,
       valueinAmt: TotalAmount,
       valType: "quantity",
       metalType: isGold === 0 ? "gold" : "silver",
@@ -286,51 +280,6 @@ const DigiGoldHome = ({active,setActive }) => {
 
               <div class="row">
                 <div class="col-lg-12">
-                  {/* {loggedInUser && !logData?.Data && (
-                    <div class="col-lg-7 mx-auto digigold-logintext">
-                      <p class="digigold-logintext-title mt-2">
-                        You are not Register on VIPS Gold
-                      </p>
-                      <button
-                        onClick={() => dispatch(modalOpen())}
-                        class="digigold-logintext-btn mt-2 btn-primery"
-                      >
-                        Register now
-                      </button>
-                    </div>
-                  )}
-                  {loggedInUser && logData?.Data && (
-                    <div class="my-vault-wrapper">
-                      <div class="col-lg-7 mx-auto">
-                        <div class="my-vault-badge-wrapper">
-                          <span class="my-vault-badge">My Vault</span>
-                        </div>
-                        <div class="my-vault-inner">
-                          <div class="vault-value">
-                            <p class="vault-value-text">Gold Grams</p>
-                            <p class="vault-value-count mt-3">
-                              {" "}
-                              {logData.Data && !loading
-                                ? logData.Data.GoldGrams?.toFixed(4)
-                                : "0.0000"}{" "}
-                              Grams
-                            </p>
-                          </div>
-                          <div class="vertical-separator"></div>
-                          <div class="vault-value">
-                            <p class="vault-value-text">Silver Grams</p>
-                            <p class="vault-value-count mt-3">
-                              {" "}
-                              {logData.Data && !loading
-                                ? logData.Data.SilverGrams?.toFixed(4)
-                                : "0.0000"}{" "}
-                              Grams
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )} */}
                   <MyVault />
 
                   <div class="buy-sell-form-outer">
@@ -473,9 +422,9 @@ const DigiGoldHome = ({active,setActive }) => {
                                       name={"grams"}
                                       // rules={[
                                       //   {
-                                      //     required: true,
-                                      //     message: "Please Enter Grams",
-                                      //   },
+                                      //     pattern: /^\d*\.?\d{0,4}$/,
+                                      //     message: 'Please enter a valid gram',
+                                      // }
                                       // ]}
                                     >
                                       <Input

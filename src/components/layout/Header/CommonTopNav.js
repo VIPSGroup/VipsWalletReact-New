@@ -29,12 +29,8 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-
-
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
-
   const { wishCount } = useSelector((state) => state.wishlistSlice);
-
   const { pathname } = useResolvedPath();
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
@@ -75,7 +71,7 @@ useEffect(() => {
     {
       key: "1",
       label: (
-        <Link to={"/digigold-profile"} style={{ fontSize: 17 }}>
+        <Link to={"/vipsgold-profile"} style={{ fontSize: 17 }}>
           {!logLoading && logData.Data && "My Profile"}
         </Link>
       ),
@@ -83,7 +79,7 @@ useEffect(() => {
     {
       key: "2",
       label: (
-        <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
+        <Link to={"/vipsgold-orders"} style={{ fontSize: 17 }}>
           {!logLoading && logData.Data && "My Orders"}
         </Link>
       ),
@@ -91,7 +87,7 @@ useEffect(() => {
     {
       key: "3",
       label: (
-        <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+        <Link target={"_blank"} to={"/vipsgold-faq"} style={{ fontSize: 17 }}>
           FAQ's
         </Link>
       ),
@@ -101,7 +97,7 @@ useEffect(() => {
       label: (
         <Link
           target={"_blank"}
-          to={"/digi-termscondtion"}
+          to={"/vipsgold-termscondtion"}
           style={{ fontSize: 17 }}
         >
           Terms & Conditions
@@ -147,7 +143,7 @@ useEffect(() => {
     {
       key: "4",
       label: (
-        <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+        <Link target={"_blank"} to={"/vipsgold-faq"} style={{ fontSize: 17 }}>
           FAQ's
         </Link>
       ),
@@ -157,7 +153,7 @@ useEffect(() => {
       label: (
         <Link
           target={"_blank"}
-          to={"/digi-termscondtion"}
+          to={"/vipsgold-termscondtion"}
           style={{ fontSize: 17 }}
         >
           Terms & Conditions
@@ -316,28 +312,7 @@ useEffect(() => {
                 </li>
                 </>
                   )}
-                {/* {pathname !== "/digigold" &&
-                  pathname !== "/digigold-order-summary" &&
-                  pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" && (
-                    <li class="nav-item">
-                      <Link
-                        class="nav-link nav-icons"
-                        to="/shopping/wishlist"
-                        role="button"
-                      >
-                        
-                        <Badge count={wishCount && wishCount?.length}>
-                          <AiOutlineHeart className="nav-icon" />
-                        </Badge>
-                        <span class="d-xl-block d-none d-md-none d-sm-none">
-                          {" "}
-                          Wishlist{" "}
-                        </span>
-                      </Link>
-                    </li>
-                  )} */}
-
+    
                 {loggedInUser &&
                   pathname !== "/vipsgold" &&
                   pathname !== "/vipsgold-order-summary" &&

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import OTPInput, { ResendOTP } from "otp-input-react";
-import { loginWithOtp } from "../../redux/slices/profile/loginSlice";
+import { loginUser, loginWithOtp } from "../../redux/slices/profile/loginSlice";
 import { Loading, MuiSnackBar, ThemeButton } from "../common";
 
 const Otp = ({ userName, password,setFormCount }) => {
@@ -56,12 +56,12 @@ const Otp = ({ userName, password,setFormCount }) => {
               <a>
                 <span
                   style={{ color: "#CA3060" }}
-                  onClick={() => {
-                    dispatch(loginWithOtp({ userName, password, ip, otp }));
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setOtp("")
+                    dispatch(loginUser({ userName, password }));
                   }}
-                >
-                  Resend OTP
-                </span>
+                > Resend OTP</span>
               </a>
             </p>
           )}
