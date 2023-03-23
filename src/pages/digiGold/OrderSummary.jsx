@@ -818,6 +818,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                   //     </div>
                                   //   </div> */}
                                   <Form
+                                  className="buy-sell-tab-inner"
                                     onFinish={handleAddbankDetails}
                                     fields={[
                                       {
@@ -835,11 +836,12 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                     ]}
                                   >
                                     <Row
+                                    // className="align-items-center"
                                       gutter={20}
-                                      style={{
-                                        marginTop: 10,
-                                        marginBottom: 20,
-                                      }}
+                                      // style={{
+                                      //   marginTop: 10,
+                                      //   marginBottom: 20,
+                                      // }}
                                     >
                                       <Col
                                         span={7}
@@ -847,9 +849,12 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                         sm={{ span: 12 }}
                                         md={{ span: 7 }}
                                       >
+                                        <div class="input-wrapper w-100">
+                                  <div className="input">
                                         <Form.Item
+                                        // className="mb-0 "
                                           name={"accountNumber"}
-                                          hasFeedback
+                                          // hasFeedback
                                           rules={[
                                             {
                                               validator: (_, value) => {
@@ -878,7 +883,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                             onKeyPress={handleMobileKeyPress}
                                             size="large"
                                             maxLength={18}
-                                            addonBefore={<FaHashtag />}
+                                            // addonBefore={<FaHashtag />}
                                             placeholder="Enter Account Number"
                                             value={formValue.accountNumber}
                                             onChange={(e) =>
@@ -888,7 +893,10 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                               })
                                             }
                                           />
+                                          <label htmlFor="enter-grams"> Enter Grams </label>
                                         </Form.Item>
+                                        </div>
+                                        </div>
                                       </Col>
                                       <Col
                                         span={7}
@@ -896,10 +904,13 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                         sm={{ span: 12 }}
                                         md={{ span: 7 }}
                                       >
+                                        <div class="input-wrapper w-100">
+                                  <div className="input">
                                         <Form.Item
+                                        // className="mb-0"
                                           onKeyPress={handleKeyPressForName}
                                           name={"accountName"}
-                                          hasFeedback
+                                          // hasFeedback
                                           rules={[
                                             {
                                               required: true,
@@ -911,7 +922,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                           <Input
                                             required
                                             size="large"
-                                            addonBefore={<FaUser />}
+                                            // addonBefore={<FaUser />}
                                             placeholder="Account Holder Name"
                                             value={formValue.accountName}
                                             onChange={(e) =>
@@ -921,17 +932,24 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                               })
                                             }
                                           />
+                                          <label htmlFor=""> Account Holder Name </label>
                                         </Form.Item>
+                                        </div>
+                                        </div>
                                       </Col>
+
                                       <Col
                                         span={7}
                                         xs={{ span: 24 }}
                                         sm={{ span: 12 }}
                                         md={{ span: 7 }}
                                       >
+                                        <div class="input-wrapper w-100">
+                                  <div className="input">
                                         <Form.Item
+                                        // className="mb-0"
                                           name={"ifscCode"}
-                                          hasFeedback
+                                          // hasFeedback
                                           rules={[
                                             {
                                               validator: (_, value) => {
@@ -958,7 +976,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                             size="large"
                                             pattern="[A-Za-z0-9 ]+"
                                             maxLength={11}
-                                            addonBefore={<FaHashtag />}
+                                            // addonBefore={<FaHashtag />}
                                             placeholder="Enter IFSC Code"
                                             value={formValue.ifscCode}
                                             onChange={(e) =>
@@ -968,8 +986,12 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                               })
                                             }
                                           />
+                                          <label htmlFor=""> Enter IFSC Code </label>
                                         </Form.Item>
+                                        </div>
+                                        </div>
                                       </Col>
+
                                       <Col
                                         span={3}
                                         sm={{ span: 12 }}

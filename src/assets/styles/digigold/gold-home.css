@@ -228,7 +228,8 @@
   border-radius: 3px;
   top: 7px;
   left: 0;
-  transform: translate3d(0,-22px,0) scale(0.75)
+  transform: translate3d(0,-22px,0) scale(0.75);
+  color: var(--primary);
 }
 .buy-sell-tab-inner .input input:focus ~ label {
   color: var(--primary);

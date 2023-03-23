@@ -95,7 +95,7 @@ const DigiProfile = () => {
     //   setErrorMsg("Invalid Age");
     // }
   };
-
+console.log(formValue.Name, "name");
   const [date, setDate] = useState();
   return (
     <>
@@ -161,12 +161,15 @@ const DigiProfile = () => {
                     >
                       <div class="container">
                         <div class="row">
+
                           <div class="col-lg-6 col-md-6">
-                            <div className="input-wrapper">
+                            <div className="input-wrapper w-100">
                               <div className="input">
                                 <Form.Item name={"Name"}>
                                   <Input
-                                    disabled
+                                    // disabled
+                                    value={formValue.Name}
+
                                     size="large"
                                     placeholder="Full Name"
                                   />
@@ -175,8 +178,9 @@ const DigiProfile = () => {
                               </div>
                             </div>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
-                            <div className="input-wrapper">
+                            <div className="input-wrapper w-100">
                               <div className="input">
                                 <Form.Item name={"mobileNumber"}>
                                   <Input
@@ -192,7 +196,7 @@ const DigiProfile = () => {
                           </div>
 
                           <div class="col-lg-6 col-md-6">
-                            <div className="input-wrapper">
+                            <div className="input-wrapper w-100">
                               <div className="input">
                                 <Form.Item
                                   rules={[
@@ -224,7 +228,10 @@ const DigiProfile = () => {
                               </div>
                             </div>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
+                          <div className="input-wrapper w-100">
+                              <div className="input">
                             <Form.Item
                               rules={[
                                 {
@@ -235,7 +242,7 @@ const DigiProfile = () => {
                             >
                               <Input
                                 max="2999-12-31"
-                                addonBefore="DOB"
+                                // addonBefore="DOB"
                                 type="date"
                                 value={formValue.dateOfBirth}
                                 onChange={(e) =>
@@ -247,8 +254,12 @@ const DigiProfile = () => {
                                 size="large"
                                 placeholder="Date of Birth"
                               />
+                              <label htmlFor="">DOB</label>
                             </Form.Item>
+                              </div>
+                              </div>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
                             <Form.Item
                               hasFeedback
@@ -289,6 +300,7 @@ const DigiProfile = () => {
                               </Select>
                             </Form.Item>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
                             <Form.Item
                               hasFeedback
@@ -329,36 +341,72 @@ const DigiProfile = () => {
                               </Select>
                             </Form.Item>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item
-                              hasFeedback
-                              name="nomineeName"
-                              rules={[
-                                {
-                                  required:
-                                    formValue.nomineeRelation ||
-                                    formValue.nomineeDateOfBirth,
-                                  message: "This Field is Required ",
-                                },
-                              ]}
-                            >
-                              <Input
-                                onKeyPress={handleKeyPress}
-                                value={formValue.nomineeName}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formValue,
-                                    nomineeName: e.target.value,
-                                  })
-                                }
-                                size="large"
-                                placeholder="Nominee Name"
-                              />
-                            </Form.Item>
+                            <div className="input-wrapper w-100">
+                              <div className="input">
+                                {/* <Form.Item
+                                  hasFeedback
+                                  name="nomineeName"
+                                  rules={[
+                                    {
+                                      required:
+                                        formValue.nomineeRelation ||
+                                        formValue.nomineeDateOfBirth,
+                                      message: "This Field is Required ",
+                                    },
+                                  ]}
+                                >
+                                  <Input
+                                    onKeyPress={handleKeyPress}
+                                    value={formValue.nomineeName}
+                                    onChange={(e) =>
+                                      setFormValue({
+                                        ...formValue,
+                                        nomineeName: e.target.value,
+                                      })
+                                    }
+                                    size="large"
+                                    placeholder="Nominee Name"
+                                    // id="nominee-name"
+                                  />
+                                  <label htmlFor="nominee-name"> Nominee Name </label>
+                              </Form.Item> */}
+                                <Form.Item
+                                  name="nomineeName"
+                                  rules={[
+                                    {
+                                      required:
+                                        formValue.nomineeRelation ||
+                                        formValue.nomineeDateOfBirth,
+                                      message: "This Field is Required ",
+                                    },
+                                  ]}
+                                >
+                                  <Input
+                                    onKeyPress={handleKeyPress}
+                                    value={formValue.nomineeName}
+                                    onChange={(e) =>
+                                      setFormValue({
+                                        ...formValue,
+                                        nomineeName: e.target.value,
+                                      })
+                                    }
+                                    size="large"
+                                    placeholder="Nominee Name"
+                                    // id="nominee-name"
+                                  />
+                                  <label htmlFor="">Nominee name</label>
+                                </Form.Item>
+                              </div>
+                            </div>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
+                          <div className="input-wrapper w-100">
+                              <div className="input">
                             <Form.Item
-                              hasFeedback
+                              
                               rules={[
                                 {
                                   type: "date",
@@ -374,7 +422,6 @@ const DigiProfile = () => {
                             >
                               <Input
                                 max="2999-12-31"
-                                addonBefore="Nominee DOB"
                                 type="date"
                                 value={formValue.nomineeDateOfBirth}
                                 onChange={(e) => {
@@ -394,11 +441,17 @@ const DigiProfile = () => {
                                 size="large"
                                 placeholder="Nominee DOB"
                               />
+                              <label htmlFor="">Nominee DOB</label>
                             </Form.Item>
+                            </div>
+                            </div>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
+                          <div className="input-wrapper w-100">
+                              <div className="input">
                             <Form.Item
-                              hasFeedback
+                              
                               name="nomineeRelation"
                               rules={[
                                 {
@@ -421,8 +474,12 @@ const DigiProfile = () => {
                                 size="large"
                                 placeholder="Nominee Relation"
                               />
+                              <label htmlFor="">Nominee Relation</label>
                             </Form.Item>
+                                </div>
+                                </div>
                           </div>
+
                         </div>
                       </div>
                       <div

@@ -3,13 +3,14 @@ import Modal from "antd/es/modal/Modal";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-signin.css";
+import "../../assets/styles/digigold/sell-order-summery.css";
+// import "../../assets/styles/digigold/gold-home.css";
 import { modalClose } from "../../redux/slices/digiGold/digiGoldSlice";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
 
 import { Link, useNavigate } from "react-router-dom";
-
 
 import {
   getCityList,
@@ -18,7 +19,10 @@ import {
   registerDigiGold,
 } from "../../redux/slices/digiGold/registerDigiSlice";
 
-import { handleKeyPressForName, handleMobileKeyPress } from "../../constant/Constants";
+import {
+  handleKeyPressForName,
+  handleMobileKeyPress,
+} from "../../constant/Constants";
 
 import { MuiSnackBar } from "../../components/common";
 
@@ -79,7 +83,6 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
       if (step === 0) {
         setStep(step + 1);
       }
-
     } else if (res.payload.ResponseStatus === 1) {
       if (
         res.payload.Data.statusCode === 200 ||
@@ -214,7 +217,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                   // { name: "userCityId", value: formValue.userCityId },
                   // { name: "userStateId", value: formValue.userStateId },
                 ]}
-                class="gold-signin-form"
+                class="gold-signin-form buy-sell-tab-inner "
               >
                 <div class="row">
                   <div className="col-lg-12">
@@ -248,34 +251,45 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                     </Form.Item>
                   </div>
                   <div className="col-lg-12">
-                    <Form.Item
-                      hasFeedback
-                      name="Name"
-                      rules={[
-                        { required: true, message: "Full name is required" },
+                    <div class="input-wrapper">
+                      <div className="input">
+                        <Form.Item
+                          // hasFeedback
+                          name="Name"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Full name is required",
+                            },
 
-                        {
-                          min: 3,
-                          message: "Full Name Min 3 Letters",
-                        },
-                        {
-                          pattern: "[A-Za-zs]+",
-                          message: "Name is not valid",
-                        },
-                      ]}
-                    >
-                      <Input
-                        onKeyPress={handleKeyPressForName}
-                        onChange={(e) =>
-                          setFormValue({
-                            ...formValue,
-                            Name: e.target.value,
-                          })
-                        }
-                        size="large"
-                        placeholder="Enter Full Name"
-                      />
-                    </Form.Item>
+                            {
+                              min: 3,
+                              message: "Full Name Min 3 Letters",
+                            },
+                            {
+                              pattern: "[A-Za-zs]+",
+                              message: "Name is not valid",
+                            },
+                          ]}
+                        >
+                          <Input
+                            onKeyPress={handleKeyPressForName}
+                            onChange={(e) =>
+                              setFormValue({
+                                ...formValue,
+                                Name: e.target.value,
+                              })
+                            }
+                            size="large"
+                            placeholder="Enter Full Name"
+                          />
+                          <label htmlFor="">
+                            {" "}
+                            Enter Full Name{" "}
+                          </label>
+                        </Form.Item>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="col-lg-12">
@@ -423,7 +437,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                   id="otp"
                   className="row row-flex justify-content-center mt-1"
                 >
-                  <div className="">
+                  <div className="digisign-otp-input">
                     <OTPInput
                       value={formValue.otp}
                       className="text-dark"
