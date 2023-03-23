@@ -111,7 +111,7 @@ const DeliveryHome = () => {
                       <button
                         onClick={() =>
                           navigate(
-                            `/digigold-delivery/${e.name
+                            `/vipsgold-delivery/${e.name
                               .replace(/\s+/g, "-")
                               .toLowerCase()}`,
                             {

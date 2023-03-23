@@ -389,7 +389,6 @@ const SendMoney = () => {
   return (
     <div className="color-body">
       {sendMoneyUI()}
-      {/* <Footer /> */}
     </div>
   );
 };

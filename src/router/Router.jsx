@@ -424,21 +424,21 @@ const Router = () => {
           }
         />
         <Route
-          path="/digi-faq"
+          path="/vipsgold-faq"
           element={
-            <AllTermsAndCondition title="DigiGold FAQs" type="DigiGold FAQs" />
+            <AllTermsAndCondition title="VIPS Gold FAQs" type="VIPS Gold FAQs" />
           }
         />
         <Route
-          path="/digi-kyc"
+          path="/vipsgold-kyc"
           element={<DigiKYC setIsCommonTopNav={setIsCommonTopNav} />}
         />
         <Route
-          path="/digi-termscondtion"
+          path="/vipsgold-termscondtion"
           element={
             <AllTermsAndCondition
-              title="Digi Terms & Conditions"
-              type="DigiGold Terms And Conditions"
+              title="VIPS Terms & Conditions"
+              type="VIPS Gold Terms And Conditions"
             />
           }
         />

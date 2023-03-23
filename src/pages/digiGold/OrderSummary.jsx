@@ -244,7 +244,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   }, [load]);
   const handleClose = () => {
     setModal(false);
-    navigate("/digigold");
+    navigate("/vipsgold");
   };
   // Get User Bank Details logic
   useEffect(() => {
@@ -1167,7 +1167,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
           <div class="digigold-success-btn">
             {/* <button class="btn btn-gray">View Details</button> */}
             <button
-              onClick={() => navigate("/digigold-orders")}
+              onClick={() => navigate("/vipsgold-orders")}
               class="btn btn-primery"
             >
               Go to my Orders
@@ -1185,7 +1185,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
         footer={[]}
         maskClosable={false}
         centered
-        onCancel={() => navigate("/digigold")}
+        onCancel={() => navigate("/vipsgold")}
         open={step === 1 && true}
       >
         {step === 1 && (
@@ -1280,7 +1280,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
       />
     </>
   ) : (
-    <Navigate to={"/digigold"} />
+    <Navigate to={"/vipsgold"} />
   );
 };
 

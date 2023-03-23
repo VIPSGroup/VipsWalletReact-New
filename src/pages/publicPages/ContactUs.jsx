@@ -107,7 +107,7 @@ const ContactUs = ({setIsBottomTopNav}) => {
             <i class="fa fa-phone"></i> 
             <div class="details-content"> 
               <p class="title-p">Phone Number </p>
-              <p>+09922098098</p>
+              <p>+91922098098</p>
             </div>
           </li>
         </ul>
