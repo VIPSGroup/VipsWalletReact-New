@@ -29,19 +29,21 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
   const { wishCount } = useSelector((state) => state.wishlistSlice);
   const { pathname } = useResolvedPath();
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
-useEffect(() => {
-}, [])
+  useEffect(() => {}, []);
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { data ,loading} = useSelector((state) => state.walletSlice.walletBalance);
+  const { data, loading } = useSelector(
+    (state) => state.walletSlice.walletBalance
+  );
 
   const clickLogout = () => {
     confirmAlert({
@@ -67,125 +69,131 @@ useEffect(() => {
     });
   };
 
-  const items = logData.Data ? [
-    {
-      key: "1",
-      label: (
-        <Link to={"/vipsgold-profile"} style={{ fontSize: 17 }}>
-          {!logLoading && logData.Data && "My Profile"}
-        </Link>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <Link to={"/vipsgold-orders"} style={{ fontSize: 17 }}>
-          {!logLoading && logData.Data && "My Orders"}
-        </Link>
-      ),
-    },
-    {
-      key: "3",
-      label: (
-        <Link target={"_blank"} to={"/vipsgold-faq"} style={{ fontSize: 17 }}>
-          FAQ's
-        </Link>
-      ),
-    },
-    {
-      key: "4",
-      label: (
-        <Link
-          target={"_blank"}
-          to={"/vipsgold-termscondtion"}
-          style={{ fontSize: 17 }}
-        >
-          Terms & Conditions
 
-        </Link>
-      ),
-    },
-    // {
-    //   key: "3",
-    //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-    // },
-    // {
-    //   key: "4",
-    //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-    // },
-    // {
-    //   key: "5",
-    //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-    // },
-    {
-      key: "5",
-      label: (
-        <Link
-          onClick={() => {
-            !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
-          }}
-          style={{ fontSize: 17 }}
-        >
-          {!logLoading && logData.Data ? "Logout" : "Register"}
-        </Link>
-      ),
-    },
-  ]
-  :[
-    {
-      key: "3",
-      label: (
-        <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
-          {!logLoading && logData.Data && "My KYC"}
-        </Link>
-      ),
-    },
-    {
-      key: "4",
-      label: (
-        <Link target={"_blank"} to={"/vipsgold-faq"} style={{ fontSize: 17 }}>
-          FAQ's
-        </Link>
-      ),
-    },
-    {
-      key: "5",
-      label: (
-        <Link
-          target={"_blank"}
-          to={"/vipsgold-termscondtion"}
-          style={{ fontSize: 17 }}
-        >
-          Terms & Conditions
-        </Link>
-      ),
-    },
-    // {
-    //   key: "3",
-    //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-    // },
-    // {
-    //   key: "4",
-    //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-    // },
-    // {
-    //   key: "5",
-    //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-    // },
-    {
-      key: "6",
-      label: (
-        <Link
-          onClick={() => {
-            !logLoading && logData.Data ? clickLogout() : dispatch(modalOpen());
-          }}
-          style={{ fontSize: 17 }}
-        >
-          {!logLoading && logData.Data ? "Logout" : "Register"}
-        </Link>
-      ),
-    },
-  ];
+  const items = logData.Data
+    ? [
+        {
+          key: "1",
+          label: (
+            <Link to={"/vipsgold-profile"} style={{ fontSize: 17 }}>
+              {!logLoading && logData.Data && "My Profile"}
+            </Link>
+          ),
+        },
+        {
+          key: "2",
+          label: (
+            <Link to={"/vipsgold-orders"} style={{ fontSize: 17 }}>
+              {!logLoading && logData.Data && "My Orders"}
+            </Link>
+          ),
+        },
+        {
+          key: "3",
+          label: (
+            <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+              FAQ's
+            </Link>
+          ),
+        },
+        {
+          key: "4",
+          label: (
+            <Link
+              target={"_blank"}
+              to={"/digi-termscondtion"}
+              style={{ fontSize: 17 }}
+            >
+              Terms & Conditions
+            </Link>
+          ),
+        },
+        // {
+        //   key: "3",
+        //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+        // },
+        // {
+        //   key: "4",
+        //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+        // },
+        // {
+        //   key: "5",
+        //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+        // },
+        {
+          key: "5",
+          label: (
+            <Link
+              onClick={() => {
+                !logLoading && logData.Data
+                  ? clickLogout()
+                  : dispatch(modalOpen());
+              }}
+              style={{ fontSize: 17 }}
+            >
+              {!logLoading && logData.Data ? "Logout" : "Register"}
+            </Link>
+          ),
+        },
+      ]
+    : [
+        {
+          key: "3",
+          label: (
+            <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
+              {!logLoading && logData.Data && "My KYC"}
+            </Link>
+          ),
+        },
+        {
+          key: "4",
+          label: (
+            <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+              FAQ's
+            </Link>
+          ),
+        },
+        {
+          key: "5",
+          label: (
+            <Link
+              target={"_blank"}
+              to={"/digi-termscondtion"}
+              style={{ fontSize: 17 }}
+            >
+              Terms & Conditions
+            </Link>
+          ),
+        },
+        // {
+        //   key: "3",
+        //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+        // },
+        // {
+        //   key: "4",
+        //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+        // },
+        // {
+        //   key: "5",
+        //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+        // },
+        {
+          key: "6",
+          label: (
+            <Link
+              onClick={() => {
+                !logLoading && logData.Data
+                  ? clickLogout()
+                  : dispatch(modalOpen());
+              }}
+              style={{ fontSize: 17 }}
+            >
+              {!logLoading && logData.Data ? "Logout" : "Register"}
+            </Link>
+          ),
+        },
+      ];
+
   const CheckWalletBalance = async () => {
     const username = loggedInUser && loggedInUser?.UserName;
     const password = loggedInUser && loggedInUser?.TRXNPassword;
@@ -231,7 +239,7 @@ useEffect(() => {
                 <div class="collapse navbar-collapse" id="navbar">
                   <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
-                      <Link class="nav-link" to="/">
+                      <Link  class="nav-link" to="/">
                         Home <span class="sr-only">(current)</span>
                       </Link>
                     </li>
@@ -320,6 +328,7 @@ useEffect(() => {
                   pathname !== "/vipsgold-orders" &&
                   pathname !== `/vipsgold-delivery/${title}` && (
 
+
                     <li class="nav-item">
                       <Link
                         onClick={CheckWalletBalance}
@@ -350,9 +359,7 @@ useEffect(() => {
                             <span class="nav-wallet-amt">
                               {" "}
                               &#x20B9;{" "}
-                              {!loading && data
-                                ? data?.Data?.Balance
-                                : "..."}
+                              {!loading && data ? data?.Data?.Balance : "..."}
                             </span>
                           </div>
                           <div class="dropdown-divider"></div>
@@ -421,11 +428,13 @@ useEffect(() => {
                       </div>
                     </li>
                   )}
+
                 {loggedInUser ? (
                   pathname !== "/vipsgold" &&
                   pathname !== "/vipsgold-order-summary" &&
                   pathname !== "/vipsgold-profile" && pathname !== "/vipsgold/gift" &&
                   pathname !== "/vipsgold-orders" &&
+
                   pathname !== "/vipsgold-delivery" &&
                   pathname !== `/vipsgold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
@@ -528,6 +537,7 @@ useEffect(() => {
           pathname !== "/vipsgold-order-summary" &&
           pathname !== "/vipsgold-profile" &&
           pathname !== "/vipsgold-orders" && pathname !== "/vipsgold/gift"  &&
+
           pathname !== "/vipsgold-delivery" &&
           pathname !== `/vipsgold-delivery/${title}` ? (
             <div class="container-fluid">

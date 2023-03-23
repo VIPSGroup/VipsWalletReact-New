@@ -455,7 +455,8 @@ useEffect(() => {
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           <li>
-            <Link to="/vipsgold">DigiGold</Link>
+
+            <Link to="/vipsgold">VIPS Gold</Link>
           </li>
           <li>
             <Link to={vendorPanelAPi} target="_blank">

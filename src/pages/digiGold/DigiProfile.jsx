@@ -2,6 +2,7 @@ import { Button, DatePicker, Form, Input, Select } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-profile.css";
+import "../../assets/styles/digigold/gold-home.css";
 import { MuiSnackBar } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading";
 import {
@@ -16,7 +17,6 @@ const DigiProfile = () => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [is18, setIs18] = useState(false);
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
@@ -34,7 +34,9 @@ const DigiProfile = () => {
   const [formValue, setFormValue] = useState({
     mobileNumber: "",
     userStateId: "",
+    userStateName: "",
     userCityId: "",
+    userCityName: "",
     Name: "",
     emailId: "",
     userPincode: "",
@@ -48,7 +50,6 @@ const DigiProfile = () => {
     const username = loggedInUser.UserName;
     const password = loggedInUser.TRXNPassword;
     dispatch(loginDigiGold({ username, password }));
-
   }, [dispatch]);
   useEffect(() => {
     dispatch(getStateList());
@@ -62,13 +63,15 @@ const DigiProfile = () => {
       event.preventDefault();
     }
   };
+  console.log(formValue, "formValue");
   useEffect(() => {
     formValue.Name = logData?.Data?.Name;
     formValue.mobileNumber = logData?.Data?.MobileNumber;
-
     formValue.emailId = logData?.Data?.UserEmail || "";
     formValue.userCityId = logData?.Data?.CityId || "";
     formValue.userStateId = logData?.Data?.StateId || "";
+    formValue.userStateName = logData?.Data?.StateName || "";
+    formValue.userCityName = logData?.Data?.CityName || "";
     // formValue.userPincode = logData?.Data?.Pincode || "";
     formValue.dateOfBirth = logData?.Data?.DateOfBirth || "";
     formValue.nomineeName = logData?.Data?.Nominee || "";
@@ -77,30 +80,29 @@ const DigiProfile = () => {
     // formValue.gender = logData?.Data?.gender || "";
   }, [logData]);
   const handleSubmit = async () => {
-    if(is18){
-      const username = loggedInUser.UserName;
-      const password = loggedInUser.TRXNPassword;
-      const res = await dispatch(UpdateUser({ formValue, username, password }));
-      if (res.payload.ResponseStatus === 1 && res.payload.ErrorCode === 200) {
-        setSuccessMsg(res.payload.Remarks);
-        setErrorMsg("");
-        setIsSnackBar(true);
-      } else {
-        setSuccessMsg("");
-        setErrorMsg(res.payload.Remarks);
-        setIsSnackBar(true);
-      }
-    }else{
-      setIsSnackBar(true)
-      setErrorMsg("Invalid Age")
+    const username = loggedInUser.UserName;
+    const password = loggedInUser.TRXNPassword;
+    const res = await dispatch(UpdateUser({ formValue, username, password }));
+    if (res.payload.ResponseStatus === 1 && res.payload.ErrorCode === 200) {
+      setSuccessMsg(res.payload.Remarks);
+      setErrorMsg("");
+      setIsSnackBar(true);
+    } else if (
+      res.payload.ResponseStatus === 1 &&
+      res.payload.Data.statusCode !== 200
+    ) {
+      setSuccessMsg("");
+      setErrorMsg(res.payload.Data.errors.nomineeDateOfBirth[0].message);
+      setIsSnackBar(true);
+    } else {
+      setSuccessMsg("");
+      setErrorMsg(res.payload.Remarks);
+      setIsSnackBar(true);
     }
-   
   };
 
-  const [date, setDate] = useState();
   return (
     <>
-      {/* <CommonTopNav /> */}
       <section class="digi-gold-section-wrapper buy-sell-form">
         <div class="container">
           <div class="digital-gold-section-head">
@@ -115,6 +117,7 @@ const DigiProfile = () => {
                     <Form
                       autoComplete="off"
                       onFinish={handleSubmit}
+                      className="buy-sell-tab-inner"
                       fields={[
                         {
                           name: "Name",
@@ -162,52 +165,66 @@ const DigiProfile = () => {
                       <div class="container">
                         <div class="row">
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item name={"Name"}>
-                              <Input
-                                disabled
-                                size="large"
-                                placeholder="Full Name"
-                              />
-                            </Form.Item>
+                            <div className="input-wrapper">
+                              <div className="input">
+                                <Form.Item name={"Name"}>
+                                  <Input
+                                    disabled
+                                    size="large"
+                                    placeholder="Full Name"
+                                  />
+                                  <label htmlFor="">Full Name</label>
+                                </Form.Item>
+                              </div>
+                            </div>
                           </div>
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item name={"mobileNumber"}>
-                              <Input
-                                value={formValue.mobileNumber}
-                                disabled
-                                size="large"
-                                placeholder="Mobile Number"
-                              />
-                            </Form.Item>
+                            <div className="input-wrapper">
+                              <div className="input">
+                                <Form.Item name={"mobileNumber"}>
+                                  <Input
+                                    value={formValue.mobileNumber}
+                                    disabled
+                                    size="large"
+                                    placeholder="Mobile Number"
+                                  />
+                                  <label htmlFor="">Mobile Number</label>
+                                </Form.Item>
+                              </div>
+                            </div>
                           </div>
-
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item
-                              rules={[
-                                {
-                                  type: "email",
-                                  message: "Please Enter Valid Email",
-                                },
-                                {
-                                  required: true,
-                                  message: "Email is Required",
-                                },
-                              ]}
-                              name={"emailId"}
-                            >
-                              <Input
-                                required
-                                value={formValue.emailId}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formValue,
-                                    emailId: e.target.value,
-                                  })
-                                }
-                                size="large"
-                                placeholder="Email Id"
-                              />
-                            </Form.Item>
+                            <div className="input-wrapper">
+                              <div className="input">
+                                <Form.Item
+                                  rules={[
+                                    {
+                                      type: "email",
+                                      message: "Please Enter Valid Email",
+                                    },
+                                    {
+                                      required: true,
+                                      message: "Email is Required",
+                                    },
+                                  ]}
+                                  name={"emailId"}
+                                >
+                                  <Input
+                                    required
+                                    value={formValue.emailId}
+                                    onChange={(e) =>
+                                      setFormValue({
+                                        ...formValue,
+                                        emailId: e.target.value,
+                                      })
+                                    }
+                                    size="large"
+                                    placeholder="Email Id"
+                                  />
+                                  <label htmlFor="">Email </label>
+                                </Form.Item>
+                              </div>
+                            </div>
                           </div>
                           <div class="col-lg-6 col-md-6">
                             <Form.Item
@@ -254,12 +271,16 @@ const DigiProfile = () => {
                                     .toLowerCase()
                                     .indexOf(input.toLowerCase()) >= 0
                                 }
-                                onChange={(e) =>
+                                onChange={(e) => {
                                   setFormValue({
                                     ...formValue,
                                     userStateId: e,
-                                  })
-                                }
+                                    userStateName:
+                                      stateList?.Data?.result?.data?.find(
+                                        (a) => a.id === e
+                                      ).name,
+                                  });
+                                }}
                                 size="large"
                                 placeholder="Select State"
                               >
@@ -291,6 +312,10 @@ const DigiProfile = () => {
                                   setFormValue({
                                     ...formValue,
                                     userCityId: e,
+                                    userCityName:
+                                      cityList.Data.result.data?.find(
+                                        (a) => a.id === e
+                                      ).name,
                                   })
                                 }
                                 showSearch
@@ -314,6 +339,42 @@ const DigiProfile = () => {
                               </Select>
                             </Form.Item>
                           </div>
+                          {/* <div class="col-lg-6 col-md-6">
+                            <Form.Item hasFeedback name="userPincode">
+                              <Input
+                                maxLength={6}
+                                value={formValue.userPincode}
+                                onChange={(e) =>
+                                  setFormValue({
+                                    ...formValue,
+                                    userPincode: e.target.value,
+                                  })
+                                }
+                                size="large"
+                                placeholder="Pincode"
+                              />
+                            </Form.Item>
+                          </div> */}
+                          {/* <div class="col-lg-6 col-md-6">
+                            <Form.Item hasFeedback name="gender">
+                              <Select
+                                size="large"
+                                placeholder="Select Gender"
+                                value={formValue.gender}
+                                onChange={(e) =>
+                                  setFormValue({
+                                    ...formValue,
+                                    gender: e,
+                                  })
+                                }
+                              >
+                                <Select.Option value="Male">Male</Select.Option>
+                                <Select.Option value="Female">
+                                  Female
+                                </Select.Option>
+                              </Select>
+                            </Form.Item>
+                          </div> */}
                           <div class="col-lg-6 col-md-6">
                             <Form.Item
                               hasFeedback
@@ -362,20 +423,11 @@ const DigiProfile = () => {
                                 addonBefore="Nominee DOB"
                                 type="date"
                                 value={formValue.nomineeDateOfBirth}
-                                onChange={(e) =>{
-                                  const currentYear = new Date().getFullYear();
-                                  const year = e.target.value.split("-")[0];
-                                  const age = currentYear - year;
-                                  if (age < 18){
-                                    setIs18(false)
-                                  }else{
-                                    setIs18(true)
-                                  }
-                                    setFormValue({
-                                      ...formValue,
-                                      nomineeDateOfBirth: e.target.value,
-                                    })
-                                }
+                                onChange={(e) =>
+                                  setFormValue({
+                                    ...formValue,
+                                    nomineeDateOfBirth: e.target.value,
+                                  })
                                 }
                                 size="large"
                                 placeholder="Nominee DOB"

@@ -42,6 +42,18 @@ body {
   font-weight: normal;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
 .color-body {
   background-color: var(--body-bg) !important;
 }

@@ -4,6 +4,7 @@ import { BannerTopNav, CommonTopNav, HomeTopNav } from "./";
 
 
 const Navigation = ({ isHomeTopNav, isBottomTopNav ,isCommonTopNav,title,setActive}) => {
+
   const path = useResolvedPath().pathname;
 
   return (
@@ -13,6 +14,7 @@ const Navigation = ({ isHomeTopNav, isBottomTopNav ,isCommonTopNav,title,setActi
         path !== "/shopping/cart" &&
         path !== "/shopping/address" &&
         path !== "/shopping/checkout" && isCommonTopNav && <CommonTopNav setActive={setActive} title={title}/>}
+
       {isHomeTopNav && <HomeTopNav />}
       {isBottomTopNav && <BannerTopNav />}
     </>

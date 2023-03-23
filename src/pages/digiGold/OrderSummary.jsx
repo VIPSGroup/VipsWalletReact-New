@@ -526,6 +526,7 @@ const OrderSummary = () => {
                   <MyVault />
                   {/* {!load ? ( */}
                   <Spin spinning={load || list.ResponseStatus === 0}>
+
                     <div class="buy-sell-form-outer">
                       <div class="current-rate-outer">
                         <div class="current-rate">

@@ -61,4 +61,8 @@ const store = configureStore({
   },
 });
 
+store.subscribe(() => {
+  localStorage.setItem("digiCart", JSON.stringify(store.getState().DeliverySlice.items));
+});
+
 export default store;
