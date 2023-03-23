@@ -44,13 +44,15 @@ const DeliveryHome = () => {
                   </Select>
 
                   <div class="digi-delivery-cart-badge">
+
                     <img
                       alt=""
                       src="/images/digigold-images/cart-icon.svg"
                       class="digigold-cart-badge-icon"
                     />
+
                     <div class="digigold-cart-badge">6</div>
-                  </div>
+                  </div> 
                 </div>
               </div>
               {cards.map((e) => {
@@ -76,7 +78,7 @@ const DeliveryHome = () => {
                       <button
                         onClick={() =>
                           navigate(
-                            `/digigold-delivery/${e.name
+                            `/vipsgold-delivery/${e.name
                               .replace(/\s+/g, "-")
                               .toLowerCase()}`,
                             {

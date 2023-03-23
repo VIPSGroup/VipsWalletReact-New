@@ -16,10 +16,10 @@ import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 import DigiGoldSignup from "../../../pages/digiGold/DigiGoldSignup";
 import { Avatar, Badge, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
-
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
-const CommonTopNav = ({ isShow = true, setActive, title }) => {
+const CommonTopNav = ({ isShow = true, setActive,title }) => {
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDigiLogin, setIsDigiLogin] = useState("");
@@ -31,9 +31,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
-
   const { wishCount } = useSelector((state) => state.wishlistSlice);
-
   const { pathname } = useResolvedPath();
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
@@ -70,6 +68,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
       overlayClassName: "overlay-custom-class-name",
     });
   };
+
 
   const items = logData.Data
     ? [
@@ -194,6 +193,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
           ),
         },
       ];
+
   const CheckWalletBalance = async () => {
     const username = loggedInUser && loggedInUser?.UserName;
     const password = loggedInUser && loggedInUser?.TRXNPassword;
@@ -216,7 +216,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
   const section = () => (
     <>
       <header class="header-main sticky-top">
-        <nav class="navbar navbar-expand-md navbar-light bg-light inpage-header-nav-position">
+        <nav class="navbar navbar-expand-md navbar-light bg-light inpage-header-nav-position ">
           <div class="container-fluid flex-nowrap">
             <button
               type="button"
@@ -239,7 +239,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                 <div class="collapse navbar-collapse" id="navbar">
                   <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
-                      <Link class="nav-link" to="/">
+                      <Link  class="nav-link" to="/">
                         Home <span class="sr-only">(current)</span>
                       </Link>
                     </li>
@@ -288,47 +288,47 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                 {pathname !== "/vipsgold" &&
                   pathname !== "/vipsgold-order-summary/:" &&
                   pathname !== "/vipsgold-profile" &&
-                  pathname !== "/vipsgold-orders" &&
-                  pathname !== "/vipsgold/gift" &&
-                  pathname !== `/vipsgold-delivery/${title}` && (
+                  pathname !== "/vipsgold-orders" && pathname!=="/vipsgold/gift" &&  pathname !== `/vipsgold-delivery/${title}` && (
                     <>
-                      <li class="nav-item">
-                        <Link class="nav-link nav-icons" to="/shopping/cart">
-                          {/* <Badge count={cartCount && cartCount?.length}> */}
-                          <AiOutlineShoppingCart className="nav-icon" />
-                          {/* </Badge> */}
-                          {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
-                          <span class="d-xl-block d-none d-md-none d-sm-none">
-                            {" "}
-                            My Cart{" "}
-                          </span>
-                        </Link>
-                      </li>
-                      <li class="nav-item">
-                        <Link
-                          class="nav-link nav-icons"
-                          to="/shopping/wishlist"
-                          role="button"
-                        >
-                          {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
-                          <Badge count={wishCount && wishCount?.length}>
-                            <AiOutlineHeart className="nav-icon" />
-                          </Badge>
-                          <span class="d-xl-block d-none d-md-none d-sm-none">
-                            {" "}
-                            Wishlist{" "}
-                          </span>
-                        </Link>
-                      </li>
-                    </>
+                    <li class="nav-item">
+                      <Link class="nav-link nav-icons" to="/shopping/cart">
+                        {/* <Badge count={cartCount && cartCount?.length}> */}
+                        <AiOutlineShoppingCart className="nav-icon" />
+                        {/* </Badge> */}
+                        {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
+                        <span class="d-xl-block d-none d-md-none d-sm-none">
+                          {" "}
+                          My Cart{" "}
+                        </span>
+                      </Link>
+                    </li>
+                    <li class="nav-item">
+                  <Link
+                    class="nav-link nav-icons"
+                    to="/shopping/wishlist"
+                    role="button"
+                  >
+                    {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
+                    <Badge count={wishCount && wishCount?.length}>
+                      <AiOutlineHeart className="nav-icon" />
+                    </Badge>
+                    <span class="d-xl-block d-none d-md-none d-sm-none">
+                      {" "}
+                      Wishlist{" "}
+                    </span>
+                  </Link>
+                </li>
+                </>
                   )}
+    
                 {loggedInUser &&
                   pathname !== "/vipsgold" &&
                   pathname !== "/vipsgold-order-summary" &&
-                  pathname !== "/vipsgold-profile" &&
+                  pathname !== "/vipsgold-profile" && pathname!=="/vipsgold/gift" && 
                   pathname !== "/vipsgold-orders" &&
-                  pathname !== "/vipsgold/gift" &&
                   pathname !== `/vipsgold-delivery/${title}` && (
+
+
                     <li class="nav-item">
                       <Link
                         onClick={CheckWalletBalance}
@@ -432,9 +432,9 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                 {loggedInUser ? (
                   pathname !== "/vipsgold" &&
                   pathname !== "/vipsgold-order-summary" &&
-                  pathname !== "/vipsgold-profile" &&
+                  pathname !== "/vipsgold-profile" && pathname !== "/vipsgold/gift" &&
                   pathname !== "/vipsgold-orders" &&
-                  pathname !== "/vipsgold/gift" &&
+
                   pathname !== "/vipsgold-delivery" &&
                   pathname !== `/vipsgold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
@@ -536,8 +536,8 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
           {pathname !== "/vipsgold" &&
           pathname !== "/vipsgold-order-summary" &&
           pathname !== "/vipsgold-profile" &&
-          pathname !== "/vipsgold-orders" &&
-          pathname !== "/vipsgold/gift" &&
+          pathname !== "/vipsgold-orders" && pathname !== "/vipsgold/gift"  &&
+
           pathname !== "/vipsgold-delivery" &&
           pathname !== `/vipsgold-delivery/${title}` ? (
             <div class="container-fluid">

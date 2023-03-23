@@ -4,7 +4,7 @@ import { ThreeDots } from "react-loader-spinner";
 
 const LoadingBar = ({ color = "#fff" }) => {
   return (
-    <div className="service-loader services-page-loader service-loader-outer">
+    <div className="service-loader services-page-loader service-loader-outer d-flex justify-content-center">
       <ThreeDots
         height="20"
         width="50"
@@ -13,7 +13,7 @@ const LoadingBar = ({ color = "#fff" }) => {
         ariaLabel="three-dots-loading"
         wrapperStyle={{}}
         wrapperClassName=""
-        className="threedots-animation"
+        className="threedots-animation justify-content-center"
         visible={true}
       />
     </div>

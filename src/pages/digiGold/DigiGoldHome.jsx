@@ -107,7 +107,7 @@ const DigiGoldHome = ({active,setActive }) => {
       ) {
         localStorage.setItem("valueType", JSON.stringify(valueType));
 
-        navigate("/digigold-order-summary", { state: valueType });
+        navigate("/vipsgold-order-summary", { state: valueType });
       } else if (rateData.ResponseStatus === 0) {
       } else {
         // alert(`${err ? err : "Something Went Wrong"}`);
@@ -602,7 +602,7 @@ export const quickServiceArr = [
   {
     img: "delivery-icon.svg",
     title: "DELIVERY",
-    route: "/digigold-delivery",
+    route: "/vipsgold-delivery",
   },
   // {
   //   img: "my-orders-icon.svg",

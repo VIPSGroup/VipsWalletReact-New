@@ -71,6 +71,7 @@ export const SellDigiGold = async ({
   ifscCode,
   OTP,
 }) => {
+  console.error(quantity);
   const formData = new FormData();
   formData.append("username", username);
   formData.append("password", password);

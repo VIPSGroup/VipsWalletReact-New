@@ -185,7 +185,9 @@ const QuickViewModal = ({ productId }) => {
     navigate("/login");
   };
   useEffect(() => {
-    dispatch(getSingleProductData({ productId }));
+
+    console.log("USeEffect____________", productId);
+
   }, []);
   useEffect(() => {
     var p = {};
@@ -282,15 +284,7 @@ const QuickViewModal = ({ productId }) => {
         <div class="col-lg-6">
           <div class="quick-view-product">
             <>
-              {/* {  <div class="quick-view-product-img">
-                   
-                    <img
-                      class="img-thumbnail"
-                      src={`http://shopadmin.vipswallet.com`+productImages[0].original}
-                      alt="Slide Image"
-                    />
-                  </div>} */}
-
+<Spin spinning={loading}>
               <Carousel
                 responsive={responsive}
                 infinite={true}
@@ -307,6 +301,7 @@ const QuickViewModal = ({ productId }) => {
                     </div>
                   ))}
               </Carousel>
+              </Spin>
             </>
           </div>
         </div>
@@ -501,7 +496,9 @@ const QuickViewModal = ({ productId }) => {
     <div>
       <button
         onClick={() => {
+          console.error("Quick View" ,  product);
           product?.Quantity !== 0 && setShowModal(true);
+          dispatch(getSingleProductData({productId}));
         }}
         type="button"
         class="btn-cta"

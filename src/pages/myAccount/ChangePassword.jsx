@@ -40,8 +40,8 @@ const ChangePassword = () => {
         setIsSnackBar(true)
         setSuccessMsg(success.Remarks)
  localStorage.removeItem("user");
+ navigate("/");
  window.location.reload()
-      navigate("/");
       }else{
         setSuccessMsg("")
         setIsSnackBar(true)

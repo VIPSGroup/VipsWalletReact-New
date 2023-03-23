@@ -455,6 +455,7 @@ useEffect(() => {
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           <li>
+
             <Link to="/vipsgold">VIPS Gold</Link>
           </li>
           <li>

@@ -62,8 +62,8 @@ const travelTerms = "Travel";
 const faq = "FAQ";
 const privacypolicy = "Privacy Policy";
 const termsAndConditions = "Terms And Conditions";
-const DigitermsAndConditions = "DigiGold Terms And Conditions";
-const Digifaq = "DigiGold FAQs";
+const VIPSGoldtermsAndConditions = "VIPS Gold Terms And Conditions";
+const VIPSGoldfaq = "VIPS Gold FAQs";
 
 export const electronicCategoryId = 53;
 export const fashionCategoryId = 43;
@@ -87,10 +87,10 @@ export const getTermsConditionsId = (type) => {
     return faq;
   } else if (type && type.includes("termscondtion")) {
     return termsAndConditions;
-  } else if (type && type.includes("DigiGold Terms And Conditions")) {
-    return DigitermsAndConditions;
-  } else if (type && type.includes("DigiGold FAQs")) {
-    return Digifaq;
+  } else if (type && type.includes("VIPS Gold Terms And Conditions")) {
+    return VIPSGoldtermsAndConditions;
+  } else if (type && type.includes("VIPS Gold FAQs")) {
+    return VIPSGoldfaq;
   }
 };
 

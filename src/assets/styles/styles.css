@@ -62,6 +62,10 @@ input[type=number] {
   clear: both;
 }
 
+.react-multi-carousel-list {
+  position: unset !important;
+}
+
 .react-multiple-carousel__arrow--right {
   right: calc(4% + 1px);
 }
@@ -630,6 +634,9 @@ input[type=number] {
   left: 0;
   right: 0;
 }
+/* .services-page-loader .service-loader-outer .three-dots-loading{
+  justify-content: center !important;
+} */
 
 /* product sold badge start */
 .sold-badge-overlay-lft {

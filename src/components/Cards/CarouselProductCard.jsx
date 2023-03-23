@@ -8,6 +8,7 @@ import { getReplaceSpace } from "../../constant/Constants";
 const CarouselProductCard = ({ product, wishlistCard }) => {
   const [existInWishlist, setExistInWishlist] = useState(false);
   const [wishlistChange, setWishlistChange] = useState(false);
+  const [showQuickModal, setShowQuickModal] = useState(false);
 
   const checkInWishlist = () => {
     let wishlist = JSON.parse(localStorage.getItem("wishlist"));
@@ -19,6 +20,9 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
         }
       });
   };
+useEffect(() => {
+ console.warn("UseEffect");
+}, [showQuickModal])
 
   useEffect(() => {
     checkInWishlist();
@@ -84,6 +88,17 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
       </Link>
       <div class="promo-product-action">
         <div class="promo-quick-view">
+          {/* {showQuickModal ? <QuickViewModal/>: <button
+        onClick={() => {
+          console.error("Quick View" ,);
+          setShowQuickModal(true)
+          // product?.Quantity !== 0 && setShowModal(true);
+        }}
+        type="button"
+        class="btn-cta"
+      >
+        Quick View
+      </button>} */}
           <QuickViewModal productId={product.Id} />
         </div>
         {wishlistCard ? (

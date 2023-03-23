@@ -46,8 +46,8 @@ const SelectField = ({ setGetData, getData }) => {
                     stateName: item.StateName,
                     stateError: false,
                     stateId: item.Id,
-                    cityName: item.Citys[0].CityName,
-                    cityId: item.Citys[0].Id,
+                    // cityName: item.Citys[0].CityName,
+                    // cityId: item.Citys[0].Id,
                   });
                 }}
               >

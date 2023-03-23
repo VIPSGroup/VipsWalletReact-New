@@ -45,6 +45,7 @@ export const validateMobile = (_, value) => {
   }
   return Promise.reject("Please enter a valid 10-digit mobile number");
 };
+export const gameZopLink = "https://6234.play.gamezop.com/";
 
 //Service IDS
 export const mobileServiceId = 1;
@@ -128,6 +129,7 @@ export const getTermsConditionsId = (type) => {
 };
 
 export const googleAnalytics = "UA-220725992-1";
+
 export function digitPrecision({ sGramResult, type }) {
   console.log(sGramResult, type, "theek hahi");
   if (type === "amount") {
@@ -136,6 +138,7 @@ export function digitPrecision({ sGramResult, type }) {
     // return simply truncate digit after 4 decimal
   }
 }
+
 
 export const getServiceId = (serviceName) => {
   if (serviceName && serviceName.includes("broadband")) {
@@ -203,4 +206,29 @@ export const getTransactionId = () => {
 
   const finalHash = SHA512(randomString).toString().substring(0, 20);
   return finalHash;
+};
+
+
+export function getFixedDecimalNumber(input, precision) {
+  if (input.toString().split(".").pop().length > precision) {
+    return parseFloat(
+      input
+        .toString()
+        .substring(0, input.toString().indexOf(".") + precision + 1)
+    );
+  } else {
+    return input;
+  }
+};
+
+export function digitPrecision(data, type) {
+  if (type === "amount") {
+    const amt = parseFloat(data);
+    return amt.toFixed(2);
+  } else if (type === "quantity") {
+    console.log(data, "data");
+    return getFixedDecimalNumber(data, 4);
+  } else {
+    return data;
+  }
 };

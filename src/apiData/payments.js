@@ -97,7 +97,22 @@ export const finstockGenerateOtp = (username, password, email, vipsCoin) => {
     })
     .catch((err) => {});
 };
-
+export const globalConfiguration = (type) => {
+  return fetch(`${baseApiUrl}/GlobalConfiguration/GetConfigBySubKey`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Basic " + btoa("VipsWallet:vips@@1029"),
+    },
+    body: JSON.stringify({
+      key: type,
+    }),
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .catch((err) => {});
+};
 export const finstockAdd = (
   username,
   password,

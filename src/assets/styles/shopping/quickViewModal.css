@@ -358,6 +358,7 @@
     border-radius: 8px;
     color: var(--primary);
     text-decoration: underline;
+    padding: 13.5px 15px;
 }
 .quick-view-pincode .input-group button{
     outline: 0;
