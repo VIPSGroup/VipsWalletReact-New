@@ -317,7 +317,7 @@ setLoading(true)
               </div>
             </div>
 
-            <div class="col-lg-6">
+            <div class="col-lg-6">{console.warn(product)}
               <div class="product-details-info-outer">
                 <h1 class="product-details-title">{product.Name}</h1>
                 <div class="product-details-info-box">
@@ -328,16 +328,17 @@ setLoading(true)
                       {product?.SalePrice &&
                         product?.SalePrice.toLocaleString()}
                     </span>
-                    <span class="mr-2 cut">
+                   
+                    {product?.CostPrice!==0 &&  <> <span class="mr-2 cut">
                       {" "}
                       &#x20B9;{" "}
                       {product?.RetailPrice &&
                         product?.RetailPrice.toLocaleString()}
-                    </span>
-                    <span class="product-details-discount">
+                    </span><span class="product-details-discount">
                       {" "}
                       ({product?.CostPrice}% Off){" "}
-                    </span>
+                    </span></>}
+                   
                     {product.ShoppingAmt > 0 && (
                       <span class="product-details-cb-badge">
                         {" "}

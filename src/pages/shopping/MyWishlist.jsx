@@ -87,7 +87,7 @@ const MyWishlist = () => {
                               {product.SalePrice &&
                                 product.SalePrice.toLocaleString()}
                             </span>
-                            <span class="promo-product-list-price">
+                            {product.CostPrice!==0 && <> <span class="promo-product-list-price">
                               <s>
                                 {" "}
                                 &#x20B9;{" "}
@@ -95,7 +95,8 @@ const MyWishlist = () => {
                                   product.RetailPrice.toLocaleString()}
                               </s>
                               ({product.CostPrice}% Off)
-                            </span>
+                            </span></>}
+                           
                           </div>
                           <div class="promo-product-delivery">
                             <p>Delivery by {product.DeliveryEnd}</p>

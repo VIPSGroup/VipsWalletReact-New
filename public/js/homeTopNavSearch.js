@@ -34,7 +34,6 @@ $(function()
 
     //   {top services animation}
       $(window).scroll(function() {
-        console.log("called");
         if ($(this).scrollTop() > 450 && !$('.navbar-bottom-services').hasClass('open')) {
           $('.navbar-bottom-services').addClass('open');
           $('.navbar-bottom-services').slideDown();

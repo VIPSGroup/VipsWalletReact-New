@@ -335,7 +335,6 @@ const SignUpForm = ({setIsSignIn}) => {
                          autoFocus={true}
                          id="enter-first-name"
                          placeholder="&nbsp;"
-                         
                        />
                        <label for="enter-first-name" class="label-name">
                          <span class="content-name">Enter First Name</span>

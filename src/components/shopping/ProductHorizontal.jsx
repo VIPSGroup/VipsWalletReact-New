@@ -36,7 +36,7 @@ const ProductHorizontal = ({
   };
   return (
     <>
-      {/* {!loading && (
+      {!loading && (
         <section class="section-align deals-of-day">
           <div class="container">
             <div class="container">
@@ -70,8 +70,8 @@ const ProductHorizontal = ({
             )}
           </div>
         </section>
-      )} */}
-      {products && (
+      )}
+      {/* {products && (
         <section class="section-align deals-of-day">
           <div class="container">
             <div class="container">
@@ -91,9 +91,7 @@ const ProductHorizontal = ({
                   products.slice(0, 9).map((p, i) => (
                     <>
                       <div className="m-3">
-                        {/* <a href="#" class="promo-product"> */}
                         <CarouselProductCard product={p} />
-                        {/* </a> */}
                       </div>
                     </>
                   ))
@@ -104,7 +102,7 @@ const ProductHorizontal = ({
             </div>
           </div>
         </section>
-      )}
+      )} */}
     </>
   );
 };

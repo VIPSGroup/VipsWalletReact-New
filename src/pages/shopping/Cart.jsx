@@ -165,7 +165,8 @@ const Cart = ({ setIsHomeTopNav }) => {
                                 {pro.product.SalePrice &&
                                   pro.product.SalePrice.toLocaleString()}
                               </span>
-                              <span class="cut">
+                              {pro.product.CostPrice!==0 && <>
+                                <span class="cut">
                                 {" "}
                                 ₹{" "}
                                 {pro.product.RetailPrice &&
@@ -175,6 +176,8 @@ const Cart = ({ setIsHomeTopNav }) => {
                                 {" "}
                                 ({pro.product.CostPrice}% Off){" "}
                               </span>
+                              </>}
+                              
                             </p>
                             <p class="shopping-cart-product-color">
                               Color : <span> {pro.selectedColor} </span>{" "}
