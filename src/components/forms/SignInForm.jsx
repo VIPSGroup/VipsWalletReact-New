@@ -153,19 +153,17 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
   const clickLogin = (e) => {
     if (
       loginUsernameFormik.values.username &&
-      loginUsernameFormik.values.username.length == 10
+      loginUsernameFormik.values.username.length == 10 
     ) {
       dispatch(
         checkUserExist({ username: loginUsernameFormik.values.username })
       );
-
       if (
         isUserExist &&
         isUserExist[0]?.ResponseStatus === 1 &&
-        loginPasswordFormik.values.password
+        loginPasswordFormik.values.password 
       ) {
-        dispatch(
-          loginUser({
+        dispatch( loginUser({
             userName: loginUsernameFormik.values.username,
             password: loginPasswordFormik.values.password,
             ip,
@@ -204,6 +202,7 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
               <MdArrowBack />
             </button>
           )}
+          {JSON.stringify(loginPasswordFormik.error)}
           {formCount === 3 ? (
             <>
               <button
