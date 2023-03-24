@@ -8,7 +8,6 @@ import { getReplaceSpace } from "../../constant/Constants";
 const CarouselProductCard = ({ product, wishlistCard }) => {
   const [existInWishlist, setExistInWishlist] = useState(false);
   const [wishlistChange, setWishlistChange] = useState(false);
-  const [showQuickModal, setShowQuickModal] = useState(false);
 
   const checkInWishlist = () => {
     let wishlist = JSON.parse(localStorage.getItem("wishlist"));
@@ -20,9 +19,6 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
         }
       });
   };
-useEffect(() => {
- console.warn("UseEffect");
-}, [showQuickModal])
 
   useEffect(() => {
     checkInWishlist();
@@ -68,9 +64,11 @@ useEffect(() => {
               <span class="promo-product-mrp">
                 {" "}
                 &#x20B9;{" "}
-                {product?.SalePrice && product?.SalePrice.toLocaleString()}
+                {product?.SalePrice.toLocaleString().split(".").length!==2 ?product?.SalePrice && product?.SalePrice.toLocaleString() :product?.SalePrice.toLocaleString().split(".")[0] }
               </span>
-              <span class="promo-product-list-price">
+              {
+                product.CostPrice!==0 &&<>
+                  <span class="promo-product-list-price">
                 <s>
                   {" "}
                   &#x20B9;{" "}
@@ -78,7 +76,9 @@ useEffect(() => {
                     product?.RetailPrice.toLocaleString()}
                 </s>
                 ({product.CostPrice}% Off)
-              </span>
+              </span></>
+              }
+            
             </div>
             <div class="promo-product-delivery">
               <p>Delivery by {product.DeliveryEnd}</p>

@@ -32,6 +32,7 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
 
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
   const { wishCount } = useSelector((state) => state.wishlistSlice);
+  const { cartCount } = useSelector((state) => state?.cartSlice);
   const { pathname } = useResolvedPath();
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
@@ -292,9 +293,9 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                     <>
                     <li class="nav-item">
                       <Link class="nav-link nav-icons" to="/shopping/cart">
-                        {/* <Badge count={cartCount && cartCount?.length}> */}
+                        <Badge count={cartCount && cartCount?.length}>
                         <AiOutlineShoppingCart className="nav-icon" />
-                        {/* </Badge> */}
+                        </Badge>
                         {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
                         <span class="d-xl-block d-none d-md-none d-sm-none">
                           {" "}

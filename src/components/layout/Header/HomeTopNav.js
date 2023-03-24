@@ -17,6 +17,7 @@ import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 const HomeTopNav = ({ isPrime }) => {
   const dispatch = useDispatch();
   const { wishCount } = useSelector((state) => state?.wishlistSlice);
+  const { cartCount } = useSelector((state) => state?.cartSlice);
   const { loggedInUser } = useSelector(
     (state) => state?.loginSlice?.loggetInWithOTP
   );
@@ -141,9 +142,9 @@ useEffect(() => {
                     role="button"
                   >
                     {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
-                    {/* <Badge count={cartCount && cartCount.length}> */}
+                    <Badge count={cartCount && cartCount.length}>
                     <AiOutlineShoppingCart className="nav-icon" />
-                    {/* </Badge> */}
+                    </Badge>
                     <span class="d-xl-block d-none d-md-none d-sm-none">
                       {" "}
                       My Cart{" "}
