@@ -403,13 +403,13 @@ const Router = () => {
         <Route path="/vipsgold-order-summary" element={<OrderSummary />} />
         <Route path="/vipsgold-profile" element={<DigiProfile />} />
         <Route path="/vipsgold-orders" element={<MyOrdersPage />} />
-        <Route path="/vipsgold/gift" element={<Gift />} />
-
-                <Route
+        
+        {/* <Route path="/vipsgold/gift" element={<Gift />} /> */}
+                {/* <Route
           path="/vipsgold-delivery"
           element={<DeliveryHome setIsCommonTopNav={setIsCommonTopNav} />}
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/vipsgold-delivery/:title"
           element={
             <DigiProductDetails
@@ -417,7 +417,7 @@ const Router = () => {
               setTitle={setTitle}
             />
           }
-        />
+        /> */}
         <Route
           path="/vipsgold-cart/"
           element={

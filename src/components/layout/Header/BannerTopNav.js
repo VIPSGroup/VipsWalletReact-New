@@ -17,6 +17,7 @@ const BannerTopNav = () => {
     (state) => state.loginSlice.loggetInWithOTP
   );
   const { wishCount } = useSelector((state) => state.wishlistSlice);
+  const { cartCount } = useSelector((state) => state?.cartSlice);
   const { data, loading } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
@@ -130,9 +131,9 @@ const BannerTopNav = () => {
                     role="button"
                   >
                     {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
-                    {/* <Badge count={cartCount && cartCount?.length}> */}
+                    <Badge count={cartCount && cartCount?.length}>
                     <AiOutlineShoppingCart className="nav-icon" />
-                    {/* </Badge> */}
+                    </Badge>
                     <span class="d-xl-block d-none d-md-none d-sm-none">
                       {" "}
                       My Cart{" "}

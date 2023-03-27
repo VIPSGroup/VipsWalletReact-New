@@ -32,6 +32,7 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
 
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
   const { wishCount } = useSelector((state) => state.wishlistSlice);
+  const { cartCount } = useSelector((state) => state?.cartSlice);
   const { pathname } = useResolvedPath();
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
@@ -292,9 +293,9 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                     <>
                     <li class="nav-item">
                       <Link class="nav-link nav-icons" to="/shopping/cart">
-                        {/* <Badge count={cartCount && cartCount?.length}> */}
+                        <Badge count={cartCount && cartCount?.length}>
                         <AiOutlineShoppingCart className="nav-icon" />
-                        {/* </Badge> */}
+                        </Badge>
                         {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
                         <span class="d-xl-block d-none d-md-none d-sm-none">
                           {" "}
@@ -434,7 +435,6 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                   pathname !== "/vipsgold-order-summary" &&
                   pathname !== "/vipsgold-profile" && pathname !== "/vipsgold/gift" &&
                   pathname !== "/vipsgold-orders" &&
-
                   pathname !== "/vipsgold-delivery" &&
                   pathname !== `/vipsgold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
@@ -655,11 +655,11 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    to="/vipsgold-delivery"
-                    // onClick={() => {
-                    //   setIsSnackBar(true);
-                    //   setErrorMsg("Service will be coming soon..");
-                    // }}
+                    // to="/vipsgold-delivery"
+                    onClick={() => {
+                      setIsSnackBar(true);
+                      setErrorMsg("Service will be coming soon..");
+                    }}
                   >
                     <img
                       src="images/digigold-images/delivery-white-icon.svg"
@@ -671,11 +671,11 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    to="/vipsgold/gift"
-                    // onClick={() => {
-                    //   setIsSnackBar(true);
-                    //   setErrorMsg("Service will be coming soon..");
-                    // }}
+                    // to="/vipsgold/gift"
+                    onClick={() => {
+                      setIsSnackBar(true);
+                      setErrorMsg("Service will be coming soon..");
+                    }}
                   >
                     <img
                       src="images/digigold-images/buy-white-icon.svg"
