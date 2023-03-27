@@ -184,11 +184,7 @@ const QuickViewModal = ({ productId }) => {
     handleClose();
     navigate("/login");
   };
-  useEffect(() => {
 
-    console.log("USeEffect____________", productId);
-
-  }, []);
   useEffect(() => {
     var p = {};
     p = data?.Data?.ProductDetails;

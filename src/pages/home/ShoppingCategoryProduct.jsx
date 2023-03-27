@@ -15,7 +15,7 @@ export const ShoppingCategoryProduct = ({
     setLoading(true)
     getProductsByCategory(categoryId).then(response=>{
       setLoading(false)
-      setProducts(response.Data)
+      setProducts(response.Data.filter(product=>product.Quantity!==0))
     })
   }, []);
   
@@ -24,7 +24,7 @@ export const ShoppingCategoryProduct = ({
         <ProductHorizontal
           title={title}
           subtitle={subtitle}
-          products={products}
+          products={products?.filter(product=>product.Quantity!==0)}
           loading={loading}
           description={description}
         />

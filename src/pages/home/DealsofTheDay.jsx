@@ -20,7 +20,7 @@ const DealsofTheDay = () => {
         title="Deals "
         loading={loading}
         subtitle="of the Day"
-        products={data.Data}
+        products={data?.Data?.filter(product=>product.Quantity!==0)}
         description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
       />
     </>
