@@ -13,12 +13,12 @@ export const NewArrivalProducts = () => {
     dispatch(getNewArrivalProducts());
   }, []);
   return (
-    <>
+    <> 
       {
         <ProductHorizontal
           title="New"
           subtitle=" Arrival Products"
-          products={data && data.Data}
+          products={data && data.Data?.filter(product=>product.Quantity!==0)}
           description="Fresh, new products releasing and going live everyday!"
         />
       }

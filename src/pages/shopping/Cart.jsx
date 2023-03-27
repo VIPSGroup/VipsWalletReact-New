@@ -131,7 +131,7 @@ const Cart = ({ setIsHomeTopNav }) => {
 
         <div class="row">
           {/* { <!-- shopping-cart start --> } */}
-
+{console.warn(cartProducts)}
           <div class="col-sm-12 col-md-12 col-lg-8">
             <div class="shopping-cart-left">
               <div class="shopping-cart-box-outer">

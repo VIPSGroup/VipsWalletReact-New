@@ -317,7 +317,7 @@ setLoading(true)
               </div>
             </div>
 
-            <div class="col-lg-6">{console.warn(product)}
+            <div class="col-lg-6">
               <div class="product-details-info-outer">
                 <h1 class="product-details-title">{product.Name}</h1>
                 <div class="product-details-info-box">
@@ -512,7 +512,7 @@ setLoading(true)
           <ProductHorizontal
             title="Similar Product"
             // subtitle="of the Day"
-            products={similar}
+            products={similar?.filter(product=>product.Quantity!==0)}
             description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
           />
         </div>
