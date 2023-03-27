@@ -4,6 +4,7 @@ import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digigold-myorder.css";
 import { MuiSnackBar } from "../../components/common";
+import CommonTopNav from "../../components/layout/Header/CommonTopNav";
 import { fetchGoldSilverRates } from "../../redux/slices/digiGold/digiGoldSlice";
 import {
   downloadPdf,
@@ -45,6 +46,9 @@ const MyOrdersPage = () => {
   }, [ordersList]);
   useEffect(() => {
     if (sellStatus.ResponseStatus === 1 && sellStatus.Data.statusCode === 200) {
+      // setErrorMsg("");
+      // setIsSnackBar(true);
+      // setSuccessMsg(sellStatus.Data.message);
       setModalData({
         ...modalData,
         TransactionStatus: sellStatus.Data.result.data.status,
@@ -53,6 +57,7 @@ const MyOrdersPage = () => {
       sellStatus.ResponseStatus === 1 &&
       sellStatus.Data.statusCode !== 200
     ) {
+      console.log(sellStatus.Data.message, "sellStatus.Data.message");
       setErrorMsg(sellStatus.Data.message);
       setIsSnackBar(true);
       setSuccessMsg("");
@@ -60,12 +65,14 @@ const MyOrdersPage = () => {
       setSuccessMsg("");
       setIsSnackBar(true);
       setErrorMsg(sellStatus.Remarks);
+      console.log(sellStatus.Remarks, "sellStatus.Remarks");
     }
   }, [sellStatus]);
   useEffect(() => {
     if (pdfData.ResponseStatus === 1) {
       setErrorMsg("");
       setIsSnackBar(true);
+      console.log(pdfData.Remarks, "pdfData.Remarks");
       setSuccessMsg(pdfData.Remarks);
       const linkSource = `data:application/pdf;base64,${pdfData.Data.InvoiceString}`;
       const downloadLink = document.createElement("a");
@@ -73,9 +80,11 @@ const MyOrdersPage = () => {
       downloadLink.download = pdfData.Data.invoiceNumber;
       downloadLink.click();
     } else if (pdfData.ResponseStatus === 0) {
+      console.log("errorrrrrrrr");
       setSuccessMsg("");
       setIsSnackBar(true);
       setErrorMsg(pdfData.Remarks);
+      console.log(pdfData.Remarks, "pdfData.Remarks");
     }
   }, [pdfData]);
   const convertBase64ToPDF = (base64String) => {
@@ -97,6 +106,126 @@ const MyOrdersPage = () => {
     URL.revokeObjectURL(url);
   };
 
+  // const columns = [
+  //   {
+  //     title: "Date",
+  //     dataIndex: "date",
+  //     key: "date",
+  //   },
+
+  //   {
+  //     title: "Transaction ID",
+  //     dataIndex: "transactionID",
+  //     key: "transactionID",
+  //   },
+  //   {
+  //     title: "Narration",
+  //     dataIndex: "narration",
+  //     key: "narration",
+  //   },
+  //   {
+  //     title: "Amount (₹)",
+  //     dataIndex: "amount",
+  //     key: "amount",
+  //     align: "right",
+  //   },
+  //   {
+  //     title: "Action",
+  //     dataIndex: "invoice",
+  //     key: "invoice",
+  //     // render: (_, record) => (
+  //     //   <button
+  //     //     className="pdf-down-btn"
+  //     //     type="button"
+  //     //     data-toggle="modal"
+  //     //     data-target="#digigoldorderdetails"
+  //     //   >
+  //     //     <img
+  //     //       onClick={() => setModal(true)}
+  //     //       src="/images/digigold-images/pdf-icon.svg"
+  //     //       alt="Download PDF"
+  //     //     />
+  //     //   </button>
+  //     // ),
+  //   },
+  // ];
+  // const data = dataSource
+  //   ?.filter((a) => a.TransactionType === tab)
+  //   .map((item, index) => ({
+  //     key: index,
+  //     date: (
+  //       <>
+  //         <h2 style={{ fontSize: 14 }} className="text-gray-500">
+  //           <Moment format="DD-MM-YYYY">{item.AddDate}</Moment>
+  //         </h2>
+  //       </>
+  //     ),
+  //     // timeOfPurchase: (
+  //     //   <>
+  //     //     <h2 className="text-gray-500">{item.brand}</h2>
+  //     //   </>
+  //     // ),
+  //     transactionID: (
+  //       <>
+  //         <h2 style={{ fontSize: 14 }} className="text-gray-500">
+  //           {item.TransactionId}
+  //         </h2>
+  //       </>
+  //     ),
+  //     narration: (
+  //       <>
+  //         <h2 style={{ fontSize: 14 }} className="text-gray-500">
+  //           {`${
+  //             item.TransactionType === "Buy"
+  //               ? `${item.MetalType?.toUpperCase()} Bought ${item.Quantity.toFixed(
+  //                   4
+  //                 )} gm`
+  //               : `${item.MetalType.toUpperCase()} Sold ${item.Quantity.toFixed(
+  //                   4
+  //                 )} gm`
+  //           }`}
+  //         </h2>
+  //       </>
+  //     ),
+  //     amount: (
+  //       <>
+  //         <h2 style={{ fontSize: 14 }} className="text-gray-500">
+  //           ₹ {item.TotalAmount}
+  //         </h2>
+  //       </>
+  //     ),
+  //     invoice: (
+  //       <>
+  //         {item.TransactionType === "Buy" ? (
+  //           <img
+  //             style={{ cursor: "pointer" }}
+  //             onClick={() => {
+  //               setModal(true);
+  //               setModalData(item);
+  //             }}
+  //             src="/images/digigold-images/pdf-icon.svg"
+  //             alt="Download PDF"
+  //           />
+  //         ) : (
+  //           <Button
+  //             onClick={() => {
+  //               dispatch(
+  //                 getSellStatus({
+  //                   transactionId: item.TransactionId,
+  //                   Username: loggedInUser.UserName,
+  //                   Password: loggedInUser.TRXNPassword,
+  //                 })
+  //               );
+  //               setModal(true);
+  //               setModalData(item);
+  //             }}
+  //           >
+  //             {item.TransactionType === "Buy" ? "Invoice" : "Status"}
+  //           </Button>
+  //         )}
+  //       </>
+  //     ),
+  //   }));
   const columns = [
     {
       title: "Date",
@@ -209,7 +338,6 @@ const MyOrdersPage = () => {
         </>
       ),
     }));
-
   return (
     <>
       {/* <CommonTopNav /> */}
@@ -422,12 +550,16 @@ const MyOrdersPage = () => {
 
                 <div class="row mb-3">
                   <div class="col-xl-6 col-sm-6">
-                    <span> Invoice (&#x20B9;): </span>
+                    <span>
+                      {" "}
+                      {tab === "buy" ? "Invoice" : "Status"} (&#x20B9;):{" "}
+                    </span>
                   </div>
                   <div
                     class="col-xl-6 col-sm-6 text-sm-right"
                     onClick={() => {
-                      dispatch(downloadPdf(modalData.TransactionId));
+                      tab === "buy" &&
+                        dispatch(downloadPdf(modalData.TransactionId));
                     }}
                   >
                     {modalData.TransactionStatus === null ? (

@@ -7,20 +7,19 @@ import { modalClose } from "../../redux/slices/digiGold/digiGoldSlice";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
-
 import { Link, useNavigate } from "react-router-dom";
-
-
 import {
   getCityList,
   getStateList,
   loginDigiGold,
   registerDigiGold,
 } from "../../redux/slices/digiGold/registerDigiSlice";
-
-import { handleKeyPressForName, handleMobileKeyPress } from "../../constant/Constants";
-
 import { MuiSnackBar } from "../../components/common";
+import {
+  handleKeyPressForName,
+  handleMobileKeyPress,
+  namePattern,
+} from "../../constants";
 
 const DigiGoldSignup = ({ setIsDigiLogin }) => {
   const dispatch = useDispatch();
@@ -79,7 +78,6 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
       if (step === 0) {
         setStep(step + 1);
       }
-
     } else if (res.payload.ResponseStatus === 1) {
       if (
         res.payload.Data.statusCode === 200 ||
@@ -107,9 +105,9 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
       setSuccessMsg("");
       setIsSnackBar(true);
     } else if (res.payload.ResponseStatus === 0 && !res.payload.Data) {
+      console.log("ye hai ");
       setErrorMsg(res.payload.Remarks);
       setSuccessMsg("");
-
       setIsSnackBar(true);
     }
   };
@@ -211,8 +209,8 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                 fields={[
                   { name: "mobileNumber", value: formValue.mobileNumber },
                   { name: "Name", value: formValue.Name },
-                  // { name: "userCityId", value: formValue.userCityId },
-                  // { name: "userStateId", value: formValue.userStateId },
+                  { name: "userCityId", value: formValue.userCityId },
+                  { name: "userStateId", value: formValue.userStateId },
                 ]}
                 class="gold-signin-form"
               >
@@ -262,6 +260,10 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                           pattern: "[A-Za-zs]+",
                           message: "Name is not valid",
                         },
+                        {
+                          pattern: namePattern,
+                          message: "Please enter a valid full name!",
+                        },
                       ]}
                     >
                       <Input
@@ -296,6 +298,8 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                           setFormValue({
                             ...formValue,
                             userStateId: e,
+                            // userCityName: "Select City",
+                            userCityId: "Select City",
                           })
                         }
                         size="large"
@@ -319,6 +323,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                       rules={[{ required: true, message: "City is required" }]}
                     >
                       <Select
+                        value={formValue.userCityId}
                         onChange={(e) =>
                           setFormValue({
                             ...formValue,
@@ -366,7 +371,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                     >
                       <Checkbox className="check-term-Style">
                         I Agree to the{" "}
-                        <Link to="/digi-termscondtion" target="_blank">
+                        <Link to="/vipsgold-termscondtion" target="_blank">
                           Terms & Conditions
                         </Link>
                       </Checkbox>

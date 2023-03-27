@@ -16,10 +16,19 @@ import "../../assets/styles/digigold/sell-order-summery.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { FaHashtag, FaUser } from "react-icons/fa";
 import { LatestLoading } from "../../components/common/Loading.jsx";
+// import {
+//   digitPrecision,
+//   handleKeyPressForName,
+//   handleMobileKeyPress,
+// } from "../../constants";
+import CommonTopNav from "../../components/layout/Header/CommonTopNav";
 import { MuiSnackBar } from "../../components/common";
 import MyVault from "./MyVault";
-import { handleKeyPressForName, handleMobileKeyPress } from "../../constant/Constants";
-import { digitPrecision } from "../../constants";
+import {
+  handleKeyPressForName,
+  handleMobileKeyPress,
+} from "../../constant/Constants";
+import { digitPrecision, namePattern } from "../../constants";
 
 const OrderSummary = () => {
   const { state } = useLocation();
@@ -526,7 +535,6 @@ const OrderSummary = () => {
                   <MyVault />
                   {/* {!load ? ( */}
                   <Spin spinning={load || list.ResponseStatus === 0}>
-
                     <div class="buy-sell-form-outer">
                       <div class="current-rate-outer">
                         <div class="current-rate">
@@ -827,6 +835,7 @@ const OrderSummary = () => {
                                 {list?.Data?.result?.length === 0 ||
                                 editAddress ? (
                                   <Form
+                                    // className="buy-sell-tab-inner"
                                     onFinish={handleAddbankDetails}
                                     fields={[
                                       {
@@ -887,7 +896,7 @@ const OrderSummary = () => {
                                             onKeyPress={handleMobileKeyPress}
                                             size="large"
                                             maxLength={18}
-                                            addonBefore={<FaHashtag />}
+                                            // addonBefore={<FaHashtag />}
                                             placeholder="Enter Account Number"
                                             value={formValue.accountNumber}
                                             onChange={(e) =>
@@ -915,12 +924,17 @@ const OrderSummary = () => {
                                               message:
                                                 "Holder Name is Required",
                                             },
+                                            {
+                                              pattern: namePattern,
+                                              message:
+                                                "Please enter a valid full name!",
+                                            },
                                           ]}
                                         >
                                           <Input
                                             required
                                             size="large"
-                                            addonBefore={<FaUser />}
+                                            // addonBefore={<FaUser />}
                                             placeholder="Account Holder Name"
                                             value={formValue.accountName}
                                             onChange={(e) =>
@@ -967,7 +981,7 @@ const OrderSummary = () => {
                                             size="large"
                                             pattern="[A-Za-z0-9 ]+"
                                             maxLength={11}
-                                            addonBefore={<FaHashtag />}
+                                            // addonBefore={<FaHashtag />}
                                             placeholder="Enter IFSC Code"
                                             value={formValue.ifscCode}
                                             onChange={(e) =>
@@ -1187,6 +1201,7 @@ const OrderSummary = () => {
                     <div class="otp-btnCol btnTopSpace">
                       <Button
                         htmlType="submit"
+                        disabled={otp.length !== 6}
                         loading={loading || sellLoad}
                         type="primary"
                         size="large"

@@ -1,8 +1,8 @@
 import { SHA512 } from "crypto-js";
 
 const themeColor = "#393186";
-export const baseApiUrl = "https://api.vipswallet.com/api";
-// export const baseApiUrl = "http://devtest.vipswallet.com/api";
+// export const baseApiUrl = "https://api.vipswallet.com/api";
+export const baseApiUrl = "http://devtest.vipswallet.com/api";
 export const digiBaseUrl = "http://devtest.vipswallet.com/api/DigiGold/";
 // export const baseApiUrl = "http://webplat.vipswallet.com/api/";
 export const shopadminUrl = "http://shopadmin.vipswallet.com";
@@ -18,10 +18,26 @@ export function calculateTotalPrice(products, price) {
   return totalPrice;
 }
 
+export const handleKeyPressForName = (event) => {
+  const charCode = event.which ? event.which : event.keyCode;
+  if (charCode !== 8 && !/^[a-zA-Z ]+$/.test(String.fromCharCode(charCode))) {
+    event.preventDefault();
+  }
+};
+
+export function handleMobileKeyPress(event) {
+  const charCode = event.which || event.keyCode;
+  if (charCode < 48 || charCode > 57) {
+    event.preventDefault();
+  }
+}
+
 // RegEX
-const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; // regular expression for full name validation
-const pincodeRegex = /^[1-9][0-9]{5}$/; // regular expression for Indian PIN code validation
-const mobileRegex = /^[6-9]\d{9}$/; // regular expression for Indian mobile number validation
+export const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; // regular expression for full name validation
+export const pincodeRegex = /^[1-9][0-9]{5}$/; // regular expression for Indian PIN code validation
+export const mobileRegex = /^[6-9]\d{9}$/; // regular expression for Indian mobile number validation
+// export const namePattern = /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/; // regular expression for full name validation
+export const namePattern = /^[a-zA-Z]+ [a-zA-Z]+$/
 
 export const validateName = (_, value) => {
   if (!value || nameRegex.test(value)) {
@@ -129,16 +145,29 @@ export const getTermsConditionsId = (type) => {
 };
 
 export const googleAnalytics = "UA-220725992-1";
-
-export function digitPrecision({ sGramResult, type }) {
-  console.log(sGramResult, type, "theek hahi");
-  if (type === "amount") {
-    // return  round upto 2 decimal
-  } else if (type === "quantity") {
-    // return simply truncate digit after 4 decimal
+export function getFixedDecimalNumber(input, precision) {
+  if (input.toString().split(".").pop().length > precision) {
+    return parseFloat(
+      input
+        .toString()
+        .substring(0, input.toString().indexOf(".") + precision + 1)
+    );
+  } else {
+    return input;
   }
 }
-
+// Amount Round
+export function digitPrecision(data, type) {
+  if (type === "amount") {
+    const amt = parseFloat(data);
+    return amt.toFixed(2);
+  } else if (type === "quantity") {
+    console.log(data, "data");
+    return getFixedDecimalNumber(data, 4);
+  } else {
+    return data;
+  }
+}
 
 export const getServiceId = (serviceName) => {
   if (serviceName && serviceName.includes("broadband")) {
@@ -207,28 +236,3 @@ export const getTransactionId = () => {
   const finalHash = SHA512(randomString).toString().substring(0, 20);
   return finalHash;
 };
-
-
-export function getFixedDecimalNumber(input, precision) {
-  if (input.toString().split(".").pop().length > precision) {
-    return parseFloat(
-      input
-        .toString()
-        .substring(0, input.toString().indexOf(".") + precision + 1)
-    );
-  } else {
-    return input;
-  }
-};
-
-// export function digitPrecision(data, type) {
-//   if (type === "amount") {
-//     const amt = parseFloat(data);
-//     return amt.toFixed(2);
-//   } else if (type === "quantity") {
-//     console.log(data, "data");
-//     return getFixedDecimalNumber(data, 4);
-//   } else {
-//     return data;
-//   }
-// };

@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { appType, digiBaseUrl } from "../../../constants";
-
 export const fetchGoldSilverRates = createAsyncThunk(
   "fetchGoldSilverRates",
   async () => {
@@ -54,11 +53,6 @@ export const BuyDigiGold = async ({
     return res.data;
   } catch (error) {}
 };
-
-
-// /^\d*\.?\d{0,4}$/
-
-
 export const SellDigiGold = async ({
   username,
   password,
@@ -84,7 +78,7 @@ export const SellDigiGold = async ({
 
   // formData.append("accountName", accountName);
   // formData.append("ifscCode", ifscCode);
-  formData.append("otp", OTP);
+  formData.append("otp", OTP || "");
 
   try {
     const res = await axios.post(`${digiBaseUrl}SellDigiGold`, formData);

@@ -42,12 +42,9 @@ const EditProfile = () => {
       PerAddress: "",
     },
     validationSchema: yup.object({
-      AlternateMobile: yup
-        .string()
-        .optional()
-        // .min(10)
-        // .max(10),
-        ,
+      AlternateMobile: yup.string().optional(),
+      // .min(10)
+      // .max(10),
       PanCard: yup
         .string()
         .required("Please Enter Your Pan Number")
@@ -141,9 +138,10 @@ const EditProfile = () => {
         });
       }
     }
+
     if (formik.values.Pincode.length === 6) {
       // dispatch(getStateCity(formik.values.Pincode));
-      getStateCity(formik.values.Pincode).then(response=>{
+      getStateCity(formik.values.Pincode).then((response) => {
         if (response?.ResponseStatus === 1) {
           setGetData({
             ...getData,
@@ -166,7 +164,7 @@ const EditProfile = () => {
             cityError: false,
           });
         }
-      })
+      });
     }
   }, [pinCode, formik.values.Pincode, getData]);
 
@@ -235,10 +233,13 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="AlternateMobile"
-                            className={ formik.errors.AlternateMobile || formik.touched.AlternateMobile ? "is-invalid": "" }
-                            onChange={
-                              formik.handleChange
+                            className={
+                              formik.errors.AlternateMobile ||
+                              formik.touched.AlternateMobile
+                                ? "is-invalid"
+                                : ""
                             }
+                            onChange={formik.handleChange}
                             id="user-alternate-number"
                             placeholder="&nbsp;"
                             value={
@@ -254,7 +255,9 @@ const EditProfile = () => {
                           <label for="user-alternate-number">
                             Alternate Number
                           </label>
-                          <div className="invalid-feedback text-danger">{formik.errors.AlternateMobile}</div>
+                          <div className="invalid-feedback text-danger">
+                            {formik.errors.AlternateMobile}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -264,9 +267,7 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="PanCard"
-                            onChange={
-                              formik.handleChange
-                            }
+                            onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             className={
                               formik.errors.PanCard && formik.touched.PanCard
@@ -302,9 +303,7 @@ const EditProfile = () => {
                                 ? formik.values.AadharNo
                                 : ""
                             }
-                            onChange={
-                              formik.handleChange
-                            }
+                            onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             className={
                               formik.errors.AadharNo && formik.touched.AadharNo
@@ -363,7 +362,10 @@ const EditProfile = () => {
                             onBlur={formik.handleBlur}
                             className={
                               formik.errors.PerAddress &&
-                              formik.touched.PerAddress ? " is-invalid" : ""}
+                              formik.touched.PerAddress
+                                ? " is-invalid"
+                                : ""
+                            }
                             id="user-address"
                             type="text"
                             placeholder="&nbsp;"
@@ -390,7 +392,10 @@ const EditProfile = () => {
                           {/* <button type="submit" class="btn-primery">
                             {loading ? <Loading /> : "Save Profile"}
                           </button> */}
-                          <ThemeButton loading={loading} value={"Save Profile"}/>
+                          <ThemeButton
+                            loading={loading}
+                            value={"Save Profile"}
+                          />
                         </div>
                       </div>
                     </div>

@@ -18,8 +18,7 @@ import { Avatar, Badge, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
-const CommonTopNav = ({ isShow = true, setActive,title }) => {
-
+const CommonTopNav = ({ isShow = true, setActive, title }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDigiLogin, setIsDigiLogin] = useState("");
@@ -70,130 +69,199 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
     });
   };
 
+  // const items = logData.Data
+  //   ? [
+  //       {
+  //         key: "1",
+  //         label: (
+  //           <Link to={"/vipsgold-profile"} style={{ fontSize: 17 }}>
+  //             {!logLoading && logData.Data && "My Profile"}
+  //           </Link>
+  //         ),
+  //       },
+  //       {
+  //         key: "2",
+  //         label: (
+  //           <Link to={"/vipsgold-orders"} style={{ fontSize: 17 }}>
+  //             {!logLoading && logData.Data && "My Orders"}
+  //           </Link>
+  //         ),
+  //       },
+  //       {
+  //         key: "3",
+  //         label: (
+  //           <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+  //             FAQ's
+  //           </Link>
+  //         ),
+  //       },
+  //       {
+  //         key: "4",
+  //         label: (
+  //           <Link
+  //             target={"_blank"}
+  //             to={"/digi-termscondtion"}
+  //             style={{ fontSize: 17 }}
+  //           >
+  //             Terms & Conditions
+  //           </Link>
+  //         ),
+  //       },
+  //       // {
+  //       //   key: "3",
+  //       //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+  //       // },
+  //       // {
+  //       //   key: "4",
+  //       //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+  //       // },
+  //       // {
+  //       //   key: "5",
+  //       //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+  //       // },
+  //       {
+  //         key: "5",
+  //         label: (
+  //           <Link
+  //             onClick={() => {
+  //               !logLoading && logData.Data
+  //                 ? clickLogout()
+  //                 : dispatch(modalOpen());
+  //             }}
+  //             style={{ fontSize: 17 }}
+  //           >
+  //             {!logLoading && logData.Data ? "Logout" : "Register"}
+  //           </Link>
+  //         ),
+  //       },
+  //     ]
+  //   : [
+  //       {
+  //         key: "3",
+  //         label: (
+  //           <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
+  //             {!logLoading && logData.Data && "My KYC"}
+  //           </Link>
+  //         ),
+  //       },
+  //       {
+  //         key: "4",
+  //         label: (
+  //           <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+  //             FAQ's
+  //           </Link>
+  //         ),
+  //       },
+  //       {
+  //         key: "5",
+  //         label: (
+  //           <Link
+  //             target={"_blank"}
+  //             to={"/digi-termscondtion"}
+  //             style={{ fontSize: 17 }}
+  //           >
+  //             Terms & Conditions
+  //           </Link>
+  //         ),
+  //       },
+  //       // {
+  //       //   key: "3",
+  //       //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+  //       // },
+  //       // {
+  //       //   key: "4",
+  //       //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+  //       // },
+  //       // {
+  //       //   key: "5",
+  //       //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+  //       // },
+  //       {
+  //         key: "6",
+  //         label: (
+  //           <Link
+  //             onClick={() => {
+  //               !logLoading && logData.Data
+  //                 ? clickLogout()
+  //                 : dispatch(modalOpen());
+  //             }}
+  //             style={{ fontSize: 17 }}
+  //           >
+  //             {!logLoading && logData.Data ? "Logout" : "Register"}
+  //           </Link>
+  //         ),
+  //       },
+  //     ];
 
-  const items = logData.Data
-    ? [
-        {
+  const items = [
+    !logLoading && logData?.Data
+      ? {
           key: "1",
           label: (
             <Link to={"/vipsgold-profile"} style={{ fontSize: 17 }}>
-              {!logLoading && logData.Data && "My Profile"}
+              My Profile
             </Link>
           ),
-        },
-        {
+        }
+      : null,
+    !logLoading && logData?.Data
+      ? {
           key: "2",
           label: (
             <Link to={"/vipsgold-orders"} style={{ fontSize: 17 }}>
-              {!logLoading && logData.Data && "My Orders"}
+              My Orders
             </Link>
           ),
-        },
-        {
-          key: "3",
-          label: (
-            <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-              FAQ's
-            </Link>
-          ),
-        },
-        {
-          key: "4",
-          label: (
-            <Link
-              target={"_blank"}
-              to={"/digi-termscondtion"}
-              style={{ fontSize: 17 }}
-            >
-              Terms & Conditions
-            </Link>
-          ),
-        },
-        // {
-        //   key: "3",
-        //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-        // },
-        // {
-        //   key: "4",
-        //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-        // },
-        // {
-        //   key: "5",
-        //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-        // },
-        {
-          key: "5",
-          label: (
-            <Link
-              onClick={() => {
-                !logLoading && logData.Data
-                  ? clickLogout()
-                  : dispatch(modalOpen());
-              }}
-              style={{ fontSize: 17 }}
-            >
-              {!logLoading && logData.Data ? "Logout" : "Register"}
-            </Link>
-          ),
-        },
-      ]
-    : [
-        {
-          key: "3",
-          label: (
-            <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
-              {!logLoading && logData.Data && "My KYC"}
-            </Link>
-          ),
-        },
-        {
-          key: "4",
-          label: (
-            <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-              FAQ's
-            </Link>
-          ),
-        },
-        {
-          key: "5",
-          label: (
-            <Link
-              target={"_blank"}
-              to={"/digi-termscondtion"}
-              style={{ fontSize: 17 }}
-            >
-              Terms & Conditions
-            </Link>
-          ),
-        },
-        // {
-        //   key: "3",
-        //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-        // },
-        // {
-        //   key: "4",
-        //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-        // },
-        // {
-        //   key: "5",
-        //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-        // },
-        {
-          key: "6",
-          label: (
-            <Link
-              onClick={() => {
-                !logLoading && logData.Data
-                  ? clickLogout()
-                  : dispatch(modalOpen());
-              }}
-              style={{ fontSize: 17 }}
-            >
-              {!logLoading && logData.Data ? "Logout" : "Register"}
-            </Link>
-          ),
-        },
-      ];
+        }
+      : null,
+    {
+      key: "3",
+      label: (
+        <Link target={"_blank"} to={"/vipsgold-faq"} style={{ fontSize: 17 }}>
+          FAQ's
+        </Link>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <Link
+          target={"_blank"}
+          to={"/vipsgold-termscondtion"}
+          style={{ fontSize: 17 }}
+        >
+          Terms & Conditions
+        </Link>
+      ),
+    },
+    // {
+    //   key: "3",
+    //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+    // },
+    // {
+    //   key: "4",
+    //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+    // },
+    // {
+    //   key: "5",
+    //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+    // },
+    {
+      key: "5",
+      label: (
+        <Link
+          onClick={() => {
+            !logLoading && logData?.Data
+              ? clickLogout()
+              : dispatch(modalOpen());
+          }}
+          style={{ fontSize: 17 }}
+        >
+          {!logLoading && logData?.Data ? "Logout" : "Register"}
+        </Link>
+      ),
+    },
+  ];
 
   const CheckWalletBalance = async () => {
     const username = loggedInUser && loggedInUser?.UserName;
@@ -240,20 +308,48 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                 <div class="collapse navbar-collapse" id="navbar">
                   <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
-                      <Link  class="nav-link" to="/">
+                      <Link
+                        style={{
+                          borderBottomWidth: pathname === "/" && 2,
+                          borderBottomColor: pathname === "/" && "#CA3060",
+                          borderBottomStyle: pathname === "/" && "solid",
+                        }}
+                        class="nav-link"
+                        to="/"
+                      >
                         Home <span class="sr-only">(current)</span>
                       </Link>
                     </li>
 
                     {/*Level one dropdown */}
                     <li class="nav-item ">
-                      <Link to="/shopping" class="nav-link ">
+                      <Link
+                        style={{
+                          borderBottomWidth: pathname === "/shopping" && 2,
+                          borderBottomColor:
+                            pathname === "/shopping" && "#CA3060",
+                          borderBottomStyle:
+                            pathname === "/shopping" && "solid",
+                        }}
+                        to="/shopping"
+                        class="nav-link "
+                      >
                         Shopping
                       </Link>
                     </li>
 
                     <li class="nav-item ">
-                      <Link to="/services" class="nav-link ">
+                      <Link
+                        style={{
+                          borderBottomWidth: pathname === "/services" && 2,
+                          borderBottomColor:
+                            pathname === "/services" && "#CA3060",
+                          borderBottomStyle:
+                            pathname === "/services" && "solid",
+                        }}
+                        to="/services"
+                        class="nav-link "
+                      >
                         Services
                       </Link>
                     </li>
@@ -261,7 +357,17 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                     {/* <!-- End Level one --> */}
 
                     <li class="nav-item">
-                      <Link class="nav-link" to="/onlinestores">
+                      <Link
+                        style={{
+                          borderBottomWidth: pathname === "/onlinestores" && 2,
+                          borderBottomColor:
+                            pathname === "/onlinestores" && "#CA3060",
+                          borderBottomStyle:
+                            pathname === "/onlinestores" && "solid",
+                        }}
+                        class="nav-link"
+                        to="/onlinestores"
+                      >
                         Online Stores
                       </Link>
                     </li>
@@ -275,7 +381,17 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                       </Link>
                     </li>
                     <li class="nav-item">
-                      <Link class="nav-link" to="/vipsgold">
+                      <Link
+                        style={{
+                          borderBottomWidth: pathname === "/vipsgold" && 2,
+                          borderBottomColor:
+                            pathname === "/vipsgold" && "#CA3060",
+                          borderBottomStyle:
+                            pathname === "/vipsgold" && "solid",
+                        }}
+                        class="nav-link"
+                        to="/vipsgold"
+                      >
                         VIPS Gold
                       </Link>
                     </li>
@@ -289,47 +405,48 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                 {pathname !== "/vipsgold" &&
                   pathname !== "/vipsgold-order-summary/:" &&
                   pathname !== "/vipsgold-profile" &&
-                  pathname !== "/vipsgold-orders" && pathname!=="/vipsgold/gift" &&  pathname !== `/vipsgold-delivery/${title}` && (
+                  pathname !== "/vipsgold-orders" &&
+                  pathname !== "/vipsgold/gift" &&
+                  pathname !== `/vipsgold-delivery/${title}` && (
                     <>
-                    <li class="nav-item">
-                      <Link class="nav-link nav-icons" to="/shopping/cart">
-                        <Badge count={cartCount && cartCount?.length}>
-                        <AiOutlineShoppingCart className="nav-icon" />
-                        </Badge>
-                        {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
-                        <span class="d-xl-block d-none d-md-none d-sm-none">
-                          {" "}
-                          My Cart{" "}
-                        </span>
-                      </Link>
-                    </li>
-                    <li class="nav-item">
-                  <Link
-                    class="nav-link nav-icons"
-                    to="/shopping/wishlist"
-                    role="button"
-                  >
-                    {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
-                    <Badge count={wishCount && wishCount?.length}>
-                      <AiOutlineHeart className="nav-icon" />
-                    </Badge>
-                    <span class="d-xl-block d-none d-md-none d-sm-none">
-                      {" "}
-                      Wishlist{" "}
-                    </span>
-                  </Link>
-                </li>
-                </>
+                      <li class="nav-item">
+                        <Link class="nav-link nav-icons" to="/shopping/cart">
+                          <Badge count={cartCount && cartCount?.length}>
+                            <AiOutlineShoppingCart className="nav-icon" />
+                          </Badge>
+                          {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
+                          <span class="d-xl-block d-none d-md-none d-sm-none">
+                            {" "}
+                            My Cart{" "}
+                          </span>
+                        </Link>
+                      </li>
+                      <li class="nav-item">
+                        <Link
+                          class="nav-link nav-icons"
+                          to="/shopping/wishlist"
+                          role="button"
+                        >
+                          {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
+                          <Badge count={wishCount && wishCount?.length}>
+                            <AiOutlineHeart className="nav-icon" />
+                          </Badge>
+                          <span class="d-xl-block d-none d-md-none d-sm-none">
+                            {" "}
+                            Wishlist{" "}
+                          </span>
+                        </Link>
+                      </li>
+                    </>
                   )}
-    
+
                 {loggedInUser &&
                   pathname !== "/vipsgold" &&
                   pathname !== "/vipsgold-order-summary" &&
-                  pathname !== "/vipsgold-profile" && pathname!=="/vipsgold/gift" && 
+                  pathname !== "/vipsgold-profile" &&
+                  pathname !== "/vipsgold/gift" &&
                   pathname !== "/vipsgold-orders" &&
                   pathname !== `/vipsgold-delivery/${title}` && (
-
-
                     <li class="nav-item">
                       <Link
                         onClick={CheckWalletBalance}
@@ -433,7 +550,8 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                 {loggedInUser ? (
                   pathname !== "/vipsgold" &&
                   pathname !== "/vipsgold-order-summary" &&
-                  pathname !== "/vipsgold-profile" && pathname !== "/vipsgold/gift" &&
+                  pathname !== "/vipsgold-profile" &&
+                  pathname !== "/vipsgold/gift" &&
                   pathname !== "/vipsgold-orders" &&
                   pathname !== "/vipsgold-delivery" &&
                   pathname !== `/vipsgold-delivery/${title}` ? (
@@ -536,8 +654,8 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
           {pathname !== "/vipsgold" &&
           pathname !== "/vipsgold-order-summary" &&
           pathname !== "/vipsgold-profile" &&
-          pathname !== "/vipsgold-orders" && pathname !== "/vipsgold/gift"  &&
-
+          pathname !== "/vipsgold-orders" &&
+          pathname !== "/vipsgold/gift" &&
           pathname !== "/vipsgold-delivery" &&
           pathname !== `/vipsgold-delivery/${title}` ? (
             <div class="container-fluid">

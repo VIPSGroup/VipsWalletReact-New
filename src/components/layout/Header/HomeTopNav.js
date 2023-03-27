@@ -1,7 +1,7 @@
 import "../../../assets/styles/core/homeTopNav.css";
 import React, { useState, useEffect } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useResolvedPath } from "react-router-dom";
 
 import { FiUser } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 const HomeTopNav = ({ isPrime }) => {
+  const { pathname } = useResolvedPath();
   const dispatch = useDispatch();
   const { wishCount } = useSelector((state) => state?.wishlistSlice);
   const { cartCount } = useSelector((state) => state?.cartSlice);
@@ -51,8 +52,7 @@ const HomeTopNav = ({ isPrime }) => {
     const password = loggedInUser && loggedInUser?.TRXNPassword;
     dispatch(getWalletBalance({ username, password }));
   };
-useEffect(() => {
-}, [loggedInUser])
+  useEffect(() => {}, [loggedInUser]);
 
   const navSection = () => (
     <>
@@ -83,7 +83,15 @@ useEffect(() => {
                   <ul class="navbar-nav mx-auto">
                     {/* <Link to='/' className="nav-link">ss</Link> */}
                     <li class="nav-item active">
-                      <Link class="nav-link" to="/">
+                      <Link
+                        style={{
+                          borderBottomWidth: pathname === "/" && 2,
+                          borderBottomColor: pathname === "/" && "#CA3060",
+                          borderBottomStyle: pathname === "/" && "solid",
+                        }}
+                        class="nav-link"
+                        to="/"
+                      >
                         Home <span class="sr-only">(current)</span>
                       </Link>
                     </li>
@@ -201,9 +209,7 @@ useEffect(() => {
                           <span class="nav-wallet-amt">
                             {" "}
                             &#x20B9;{" "}
-                            {!loading && data
-                              ? data?.Data?.Balance
-                              : "..."}
+                            {!loading && data ? data?.Data?.Balance : "..."}
                           </span>
                         </div>
                         <div class="dropdown-divider"></div>

@@ -2,9 +2,9 @@ import { Button, DatePicker, Form, Input, Select } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-profile.css";
-import "../../assets/styles/digigold/gold-home.css";
 import { MuiSnackBar } from "../../components/common";
-import { LatestLoading } from "../../components/common/Loading";
+import { LatestLoading } from "../../components/common/Loading.jsx";
+import CommonTopNav from "../../components/layout/Header/CommonTopNav";
 import {
   getCityList,
   getStateList,
@@ -101,8 +101,11 @@ const DigiProfile = () => {
     }
   };
 
+  console.log(formValue, "formValud");
+
   return (
     <>
+      {/* <CommonTopNav /> */}
       <section class="digi-gold-section-wrapper buy-sell-form">
         <div class="container">
           <div class="digital-gold-section-head">
@@ -117,7 +120,6 @@ const DigiProfile = () => {
                     <Form
                       autoComplete="off"
                       onFinish={handleSubmit}
-                      className="buy-sell-tab-inner"
                       fields={[
                         {
                           name: "Name",
@@ -165,66 +167,51 @@ const DigiProfile = () => {
                       <div class="container">
                         <div class="row">
                           <div class="col-lg-6 col-md-6">
-                            <div className="input-wrapper">
-                              <div className="input">
-                                <Form.Item name={"Name"}>
-                                  <Input
-                                    disabled
-                                    size="large"
-                                    placeholder="Full Name"
-                                  />
-                                  <label htmlFor="">Full Name</label>
-                                </Form.Item>
-                              </div>
-                            </div>
+                            <Form.Item name={"Name"}>
+                              <Input
+                                disabled
+                                size="large"
+                                placeholder="Full Name"
+                              />
+                            </Form.Item>
                           </div>
                           <div class="col-lg-6 col-md-6">
-                            <div className="input-wrapper">
-                              <div className="input">
-                                <Form.Item name={"mobileNumber"}>
-                                  <Input
-                                    value={formValue.mobileNumber}
-                                    disabled
-                                    size="large"
-                                    placeholder="Mobile Number"
-                                  />
-                                  <label htmlFor="">Mobile Number</label>
-                                </Form.Item>
-                              </div>
-                            </div>
+                            <Form.Item name={"mobileNumber"}>
+                              <Input
+                                value={formValue.mobileNumber}
+                                disabled
+                                size="large"
+                                placeholder="Mobile Number"
+                              />
+                            </Form.Item>
                           </div>
                           <div class="col-lg-6 col-md-6">
-                            <div className="input-wrapper">
-                              <div className="input">
-                                <Form.Item
-                                  rules={[
-                                    {
-                                      type: "email",
-                                      message: "Please Enter Valid Email",
-                                    },
-                                    {
-                                      required: true,
-                                      message: "Email is Required",
-                                    },
-                                  ]}
-                                  name={"emailId"}
-                                >
-                                  <Input
-                                    required
-                                    value={formValue.emailId}
-                                    onChange={(e) =>
-                                      setFormValue({
-                                        ...formValue,
-                                        emailId: e.target.value,
-                                      })
-                                    }
-                                    size="large"
-                                    placeholder="Email Id"
-                                  />
-                                  <label htmlFor="">Email </label>
-                                </Form.Item>
-                              </div>
-                            </div>
+                            <Form.Item
+                              rules={[
+                                {
+                                  type: "email",
+                                  message: "Please Enter Valid Email",
+                                },
+                                {
+                                  required: true,
+                                  message: "Email is Required",
+                                },
+                              ]}
+                              name={"emailId"}
+                            >
+                              <Input
+                                required
+                                value={formValue.emailId}
+                                onChange={(e) =>
+                                  setFormValue({
+                                    ...formValue,
+                                    emailId: e.target.value,
+                                  })
+                                }
+                                size="large"
+                                placeholder="Email Id"
+                              />
+                            </Form.Item>
                           </div>
                           <div class="col-lg-6 col-md-6">
                             <Form.Item
@@ -236,6 +223,11 @@ const DigiProfile = () => {
                               name={"dateOfBirth"}
                             >
                               <Input
+                                onclick={(e) => {
+                                  e.target.max = new Date()
+                                    .toISOString()
+                                    .split("T")[0];
+                                }}
                                 max="2999-12-31"
                                 addonBefore="DOB"
                                 type="date"
@@ -279,6 +271,8 @@ const DigiProfile = () => {
                                       stateList?.Data?.result?.data?.find(
                                         (a) => a.id === e
                                       ).name,
+                                    userCityName: "Select City",
+                                    userCityId: "Select City",
                                   });
                                 }}
                                 size="large"

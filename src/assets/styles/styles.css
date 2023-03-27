@@ -42,18 +42,6 @@ body {
   font-weight: normal;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-
 .color-body {
   background-color: var(--body-bg) !important;
 }
@@ -749,11 +737,6 @@ input[type=number] {
 .ant-select-single.ant-select-lg {
   text-align: left;
 }
-/* .ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagignation-size-changer) .ant-select-selector{
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgb(202 48 96 / 10%);
-  outline: 0;
-} */
 .ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(
     .ant-pagignation-size-changer
   ):hover
@@ -762,9 +745,14 @@ input[type=number] {
   box-shadow: 0 0 0 2px rgb(202 48 96 / 10%);
   outline: 0;
 }
-/* .ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector{
-  border: 1px solid var(--borderColor);
-} */
+
+.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(
+    .ant-pagignation-size-changer
+  )
+  .ant-select-selector {
+  border-color: var(--primary) !important;
+  box-shadow: none !important;
+}
 
 .ant-checkbox .ant-checkbox-inner {
   border-color: var(--lightGray);
@@ -786,13 +774,13 @@ input[type=number] {
 .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
   .ant-checkbox-inner,
 .ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
-  /* background-color: var(--primary); */
   border-color: var(--primary);
 }
 .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
   .ant-checkbox-checked:not(.ant-checkbox-disabled):after {
   border-color: var(--primary);
 }
+
 /* -- digi gold sign in page end-- */
 /* Digigold React overwrite styles start  */
 
