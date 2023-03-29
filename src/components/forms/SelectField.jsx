@@ -18,7 +18,7 @@ const SelectField = ({ setGetData, getData }) => {
   }, []);
   return (
     <>
-    <div class="col-lg-6">
+    <div class="col-lg-6 shopping-address-select">
       <div class="dropdown signup-select-option">
         <button
           class="dropdown-toggle select-toggle select-type"
@@ -46,8 +46,8 @@ const SelectField = ({ setGetData, getData }) => {
                     stateName: item.StateName,
                     stateError: false,
                     stateId: item.Id,
-                    // cityName: item.Citys[0].CityName,
-                    // cityId: item.Citys[0].Id,
+                    cityName: '',
+                    cityId: '',
                   });
                 }}
               >

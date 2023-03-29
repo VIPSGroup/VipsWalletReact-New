@@ -91,7 +91,7 @@ const dispatch= useDispatch()
                   <div class="col-md-12 mobile-recharge-content-head">
                     <h3 class="mobile-recharge-title">
                       {" "}
-                      Recharge or Pay DTH Bill{" "}
+                      Pay DTH Bill{" "}
                     </h3>
                   </div>
                 </div>

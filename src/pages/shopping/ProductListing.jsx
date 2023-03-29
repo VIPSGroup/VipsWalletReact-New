@@ -96,6 +96,7 @@ const ProductListing = () => {
       setActiveProducts(sorted);
     } else if (e === "new") {
       getNewArrivalProducts().then((response) => {
+        console.error(categoryId);
         setActiveProducts(response.Data);
       });
     }
@@ -206,7 +207,7 @@ const ProductListing = () => {
         <div class="container">
           <div class="row">
             {activeProducts &&
-              activeProducts?.map((product, i) => (
+              activeProducts?.filter(product=>product.Quantity!==0).map((product, i) => (
                 <ProductCard product={product} />
               ))}
           </div>

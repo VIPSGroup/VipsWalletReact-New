@@ -17,7 +17,7 @@ const AllTermsAndCondition = ({ title, type }) => {
     getDynamicContent().then((response) => {
       setLoading(false)
       let collection = response.Data?.find((element) => element.Type === value);
-      console.log(response.Data);
+      console.log(collection);
       setData(collection);
     });
   }, []);

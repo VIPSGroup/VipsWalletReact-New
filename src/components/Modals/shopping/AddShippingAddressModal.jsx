@@ -32,8 +32,8 @@ const AddShippingAddressModal = () => {
     },
     validationSchema: yup.object({
       pincode: yup.string().min(6).max(6).required("Please Enter Pincode"),
-      fname: yup.string().required("Please Enter first name"),
-      lname: yup.string().required("Please Enter last name"),
+      fname: yup.string().required("Please Enter first name").matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Correct First Name"),
+      lname: yup.string().required("Please Enter last name").matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Correct Last Name"),
       mobileno: yup.string().min(10).max(10).required("Please Enter mobileno"),
       addressType: yup.string().required("Please Enter addressType"),
       address: yup.string().required("Please Enter address"),
@@ -281,13 +281,13 @@ const AddShippingAddressModal = () => {
                     </div>
                   </div>
 
-                  <div class="shopping-address-select">
+                  {/* <div class="shopping-address-select"> */}
                     <SelectField
                       pincode={formik.values.pincode}
                       setGetData={setGetData}
                       getData={getData}
                     />
-                  </div>
+                  {/* </div> */}
 
                   <div class="shopping-address-select"></div>
 

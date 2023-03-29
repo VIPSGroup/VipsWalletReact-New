@@ -107,7 +107,7 @@ const ProductDetails = () => {
     let wishlist = JSON.parse(localStorage.getItem("wishlist"));
     wishlist &&
       wishlist.map((w, i) => {
-        if (w.Id.toString() === productId) {
+        if (w?.Id?.toString() === productId) {
           setExistInWishlist(true);
         }
       });
@@ -228,21 +228,21 @@ const ProductDetails = () => {
 setLoading(true)
     getSingleProductData(productId).then((response) => {
       setLoading(false)
-      p = response.Data.ProductDetails;
-      setProduct(response.Data.ProductDetails);
-      manageRecentlyViewed(response.Data.ProductDetails);
+      p = response?.Data?.ProductDetails;
+      setProduct(response?.Data?.ProductDetails);
+      manageRecentlyViewed(response?.Data?.ProductDetails);
       clearRecentlyViewed();
-      setProductObj(response.Data);
+      setProductObj(response?.Data);
 
       if (p.Size) {
-        getSizes(response.Data.ProductDetails.Size);
+        getSizes(response?.Data?.ProductDetails?.Size);
       }
       if (p.Color) {
-        getColors(response.Data.ProductDetails.Color);
+        getColors(response?.Data?.ProductDetails?.Color);
       }
-      getProductImages(response.Data.ProductDetails);
-      checkInCart(response.Data);
-      getSimilarProduct(response.Data.ProductDetails.Category);
+      getProductImages(response?.Data?.ProductDetails);
+      checkInCart(response?.Data);
+      getSimilarProduct(response?.Data?.ProductDetails?.Category);
     });
 
 
@@ -288,7 +288,6 @@ setLoading(true)
   };
 
   const ProductDetailsSection = () => (
-    
     <Spin spinning={loading} >
       <section class="section-align">
         <div class="container">
