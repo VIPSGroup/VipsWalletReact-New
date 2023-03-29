@@ -42,10 +42,7 @@ export const BuyDigiGold = async ({
   formData.append("quantity", quantity);
   formData.append("blockId", blockid);
   formData.append("AppType", appType);
-  formData.append(
-    "modeOfTransaction",
-    type === "Grams" ? "quantity" : "amount"
-  );
+  formData.append("modeOfTransaction", type);
   formData.append("amount", amount);
 
   try {

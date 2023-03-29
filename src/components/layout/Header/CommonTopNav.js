@@ -406,7 +406,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                   pathname !== "/vipsgold-order-summary/:" &&
                   pathname !== "/vipsgold-profile" &&
                   pathname !== "/vipsgold-orders" &&
-                  pathname !== "/vipsgold/gift" &&
+                  pathname !== "/vipsgold-gift" &&
                   pathname !== `/vipsgold-delivery/${title}` && (
                     <>
                       <li class="nav-item">
@@ -444,7 +444,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                   pathname !== "/vipsgold" &&
                   pathname !== "/vipsgold-order-summary" &&
                   pathname !== "/vipsgold-profile" &&
-                  pathname !== "/vipsgold/gift" &&
+                  pathname !== "/vipsgold-gift" &&
                   pathname !== "/vipsgold-orders" &&
                   pathname !== `/vipsgold-delivery/${title}` && (
                     <li class="nav-item">
@@ -551,7 +551,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                   pathname !== "/vipsgold" &&
                   pathname !== "/vipsgold-order-summary" &&
                   pathname !== "/vipsgold-profile" &&
-                  pathname !== "/vipsgold/gift" &&
+                  pathname !== "/vipsgold-gift" &&
                   pathname !== "/vipsgold-orders" &&
                   pathname !== "/vipsgold-delivery" &&
                   pathname !== `/vipsgold-delivery/${title}` ? (
@@ -655,7 +655,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
           pathname !== "/vipsgold-order-summary" &&
           pathname !== "/vipsgold-profile" &&
           pathname !== "/vipsgold-orders" &&
-          pathname !== "/vipsgold/gift" &&
+          pathname !== "/vipsgold-gift" &&
           pathname !== "/vipsgold-delivery" &&
           pathname !== `/vipsgold-delivery/${title}` ? (
             <div class="container-fluid">
@@ -789,11 +789,11 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    // to="/vipsgold/gift"
-                    onClick={() => {
-                      setIsSnackBar(true);
-                      setErrorMsg("Service will be coming soon..");
-                    }}
+                    to="/vipsgold-gift"
+                    // onClick={() => {
+                    //   setIsSnackBar(true);
+                    //   setErrorMsg("Service will be coming soon..");
+                    // }}
                   >
                     <img
                       src="images/digigold-images/buy-white-icon.svg"

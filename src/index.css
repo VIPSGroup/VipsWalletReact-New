@@ -1,4 +1,21 @@
 :where(.css-dev-only-do-not-override-1km3mtt).ant-spin .ant-spin-dot-item {
-    background-color:#ca3060;
-  }
+  background-color: #ca3060;
+}
 
+.sendTo {
+  color: green;
+}
+.recieveTo {
+  color: red;
+}
+
+.disabled-input input[type=number]::-webkit-inner-spin-button,
+.disabled-input input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.disabled-input input[type=number] {
+  /* cursor: not-allowed; */
+  /* opacity: 0.5; */
+}

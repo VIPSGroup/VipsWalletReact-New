@@ -592,7 +592,7 @@ const OrderSummary = () => {
                               Quantity (gms)
                             </p>
                             <p class="digigold-insert-amt">
-                              {currentGram && currentGram} Grams
+                              {currentGram && currentGram?.toFixed(4)} Grams
                             </p>
                           </div>
                           <div

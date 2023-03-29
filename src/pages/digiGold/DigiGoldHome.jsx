@@ -2,7 +2,7 @@ import { Button, Form, Input, InputNumber, Spin } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import "../../index.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../assets/styles/digigold/gold-home.css";
 import {
   fetchGoldSilverRates,
@@ -11,10 +11,15 @@ import {
 import { loginDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
 import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
 import DigiGoldSignup from "./DigiGoldSignup";
-import { digitPrecision } from "../../constants";
+import {
+  digitPrecision,
+  formatter,
+  handleKeyDown,
+  parser,
+} from "../../constants";
 import { MuiSnackBar } from "../../components/common";
-import CommonTopNav from "../../components/layout/Header/CommonTopNav";
 import MyVault from "./MyVault";
+import QuickService from "../../components/digiGold/QuickService";
 
 export const HowItWorks = () => {
   return (
@@ -60,6 +65,7 @@ export const HowItWorks = () => {
   );
 };
 const DigiGoldHome = ({ setActive, active }) => {
+  const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isDigiLogin, setIsDigiLogin] = useState("");
@@ -95,35 +101,34 @@ const DigiGoldHome = ({ setActive, active }) => {
     valueType.username = loggedInUser?.UserName;
     valueType.password = loggedInUser?.TRXNPassword;
     valueType.type = active === 0 ? "buy" : "sell";
-    // valueType.taxes = rateData?.Data?.result?.data?.taxes;
-    if (!loggedInUser) {
-      navigate("/login");
+    if (!amount && !grams) {
+      setErr("Please Enter Amount or Grams");
     } else {
-      if (
-        rateData.ResponseStatus !== 0 &&
-        !loading &&
-        !err &&
-        logData.ResponseStatus !== 0
-      ) {
-        navigate("/vipsgold-order-summary", { state: valueType });
-        localStorage.setItem("valueType", JSON.stringify(valueType));
+      if (!loggedInUser) {
+        navigate("/login");
+      } else {
+        if (
+          rateData.ResponseStatus !== 0 &&
+          !loading &&
+          !err &&
+          logData.ResponseStatus !== 0
+        ) {
+          navigate("/vipsgold-order-summary", { state: valueType });
+          localStorage.setItem("valueType", JSON.stringify(valueType));
 
-        navigate("/vipsgold-order-summary", { state: valueType });
-      } else if (rateData.ResponseStatus === 0) {
-        // alert(`${err ? err : "Something Went Wrong"}`);
-        setErrorMsg(rateData.Remarks);
-        setSuccessMsg("");
-        setIsSnackBar(true);
-      } else if (logData.ResponseStatus === 0) {
-        dispatch(modalOpen());
-        // setErrorMsg(logData.Remarks);
-        // setSuccessMsg("");
-        // setIsSnackBar(true);
-      }
-      if (logData.ResponseStatus === 3) {
-        setErrorMsg(logData.Remarks);
-        setSuccessMsg("");
-        setIsSnackBar(true);
+          navigate("/vipsgold-order-summary", { state: valueType });
+        } else if (rateData.ResponseStatus === 0) {
+          setErrorMsg(rateData.Remarks);
+          setSuccessMsg("");
+          setIsSnackBar(true);
+        } else if (logData.ResponseStatus === 0) {
+          dispatch(modalOpen());
+        }
+        if (logData.ResponseStatus === 3) {
+          setErrorMsg(logData.Remarks);
+          setSuccessMsg("");
+          setIsSnackBar(true);
+        }
       }
     }
   };
@@ -190,34 +195,9 @@ const DigiGoldHome = ({ setActive, active }) => {
     const str = roundedNum.toFixed(4);
     const ResultGrams = parseFloat(str);
     setGrams(quantity);
+    setErr("");
   };
-  const handleKeyDown = (event) => {
-    const maxLength = 8;
-    const key = event.key;
-    const allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-    if (key === "." || key === "," || key === "-") {
-      // prevent decimal and negative sign
-      event.preventDefault();
-      return;
-    }
-
-    if (key === "Backspace" || key === "Delete") {
-      return;
-    }
-
-    if (event.target.value.length >= maxLength) {
-      // limit to 8 digits
-      event.preventDefault();
-      return;
-    }
-
-    if (!allowedKeys.includes(key)) {
-      // prevent non-digit keys
-      event.preventDefault();
-      return;
-    }
-  };
   const handleGramsChange = (e) => {
     let value =
       e.target.value.split(".").length !== 2
@@ -274,16 +254,18 @@ const DigiGoldHome = ({ setActive, active }) => {
     const strTotal = totalRound.toFixed(2);
     const totalResult = parseFloat(strTotal);
     // console.log(totalResult, "total Result")
-    setAmount(totalResult);
+    console.log(totalRound, "result");
+    setAmount(totalResult || "");
+    setErr("");
   };
-  const formatter = (value) => {
-    return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
+  useEffect(() => {
+    if (state) {
+      setActive(state);
+    }
+  }, []);
 
-  const parser = (value) => {
-    value = value.replace(/\$\s?|(,*)/g, "");
-    return isNaN(value) ? "" : parseFloat(value).toFixed(4);
-  };
+  const regex = /^[0-9]*\.?[0-9]+$/;
+
   return (
     <>
       {/* <CommonTopNav setActive={setActive} /> */}
@@ -391,7 +373,7 @@ const DigiGoldHome = ({ setActive, active }) => {
                           setGrams("");
                         }}
                         style={{ cursor: "pointer" }}
-                        class={active === 0 && "option-active"}
+                        class={parseFloat(active) === 0 && "option-active"}
                       >
                         <h2> Buy</h2>
                       </div>
@@ -402,7 +384,7 @@ const DigiGoldHome = ({ setActive, active }) => {
                           setAmount("");
                           setGrams("");
                         }}
-                        class={active === 1 && "option-active"}
+                        class={parseFloat(active) === 1 && "option-active"}
                       >
                         <h2>Sell</h2>
                       </div>
@@ -481,42 +463,43 @@ const DigiGoldHome = ({ setActive, active }) => {
                                 class="row align-items-center"
                               >
                                 <div class="input-wrapper">
-                                  <div className="input">
-                                    <Form.Item
-                                      className="mb-0"
-                                      name={"grams"}
-                                      // rules={[
-                                      //   {
-                                      //     required: true,
-                                      //     message: "Please Enter Grams",
-                                      //   },
-                                      // ]}
-                                    >
-                                      <Input
-                                        formatter={formatter}
-                                        // onKeyDown={handleKeyDown2}
-                                        className="mb-0"
-                                        onWheel={(e) => e.target.blur()}
-                                        parser={parser}
-                                        min={0.0001}
-                                        precision={4}
-                                        required
-                                        // addonBefore="Grams"
-                                        value={grams}
-                                        type="number"
-                                        name="grams"
-                                        onChange={handleGramsChange}
-                                        placeholder="Enter Grams"
-                                        size="large"
-                                        // step={0.0001}
-                                        step={"any"}
-                                        // style={{ padding: 15 }}
-                                      />
-                                      <label htmlFor="Enter Grams">
+                                  {/* <div className="input"> */}
+                                  <Form.Item
+                                    // hasFeedback
+                                    className="mb-0"
+                                    name={"grams"}
+                                    // rules={[
+                                    //   {
+                                    //     required: true,
+                                    //     message: "Please Enter Grams",
+                                    //   },
+                                    // ]}
+                                  >
+                                    <Input
+                                      formatter={formatter}
+                                      // onKeyDown={handleKeyDown2}
+                                      className="mb-0 disabled-input"
+                                      onWheel={(e) => e.target.blur()}
+                                      parser={parser}
+                                      min={0.0001}
+                                      precision={4}
+                                      // required
+                                      addonBefore="Grams"
+                                      value={grams}
+                                      type="number"
+                                      name="grams"
+                                      onChange={handleGramsChange}
+                                      placeholder="Enter Grams"
+                                      size="large"
+                                      // step={0.0001}
+                                      step={"any"}
+                                      // style={{ padding: 15 }}
+                                    />
+                                    {/* <label htmlFor="Enter Grams">
                                         Enter Grams
-                                      </label>
-                                    </Form.Item>
-                                  </div>
+                                      </label> */}
+                                  </Form.Item>
+                                  {/* </div> */}
                                 </div>
                                 <div class="exchange-arrow-outer text-center">
                                   <span class="exchange-arrow ">
@@ -533,58 +516,57 @@ const DigiGoldHome = ({ setActive, active }) => {
                                   </span>
                                 </div>
                                 <div class="input-wrapper">
-                                  <div className="input">
-                                    <Form.Item
+                                  {/* <div className="input"> */}
+                                  <Form.Item
+                                    // hasFeedback
+                                    name="amount"
+                                    className="mb-0"
+                                    // rules={[
+                                    //   {
+                                    //     required: true,
+                                    //     message: "Please Enter Amount",
+                                    //   },
+                                    // ]}
+                                  >
+                                    <Input
+                                      onKeyDown={handleKeyDown}
+                                      min={1}
+                                      // required
+                                      onWheel={(e) => e.target.blur()}
+                                      value={amount}
+                                      maxLength={8}
+                                      max={180000}
+                                      addonBefore="Rs."
+                                      type="number"
                                       name="amount"
-                                      className="mb-0"
-                                      rules={
-                                        [
-                                          // {
-                                          //   required: true,
-                                          //   message: "Please Enter Amount",
-                                          // },
-                                        ]
-                                      }
-                                    >
-                                      <Input
-                                        onKeyDown={handleKeyDown}
-                                        min={1}
-                                        required
-                                        onWheel={(e) => e.target.blur()}
-                                        value={amount}
-                                        maxLength={8}
-                                        max={180000}
-                                        // addonBefore="Rs."
-                                        type="number"
-                                        name="amount"
-                                        onChange={handleAmountChange}
-                                        disabled={active === 0 ? false : true}
-                                        placeholder="Enter Amount"
-                                        size="large"
-                                        step={"any"}
-                                        className="mb-0"
-                                        style={{
-                                          backgroundColor:
-                                            active !== 0 && "#80808052",
-                                        }}
-                                      />
-                                      <label htmlFor="Enter Amount">
+                                      onChange={handleAmountChange}
+                                      disabled={active === 0 ? false : true}
+                                      placeholder="Enter Amount"
+                                      size="large"
+                                      step={"any"}
+                                      className="mb-0 disabled-input"
+                                      style={{
+                                        backgroundColor:
+                                          active !== 0 && "#80808000",
+                                      }}
+                                    />
+                                    {/* <label htmlFor="Enter Amount">
                                         Enter Amount
-                                      </label>
-                                    </Form.Item>
-                                  </div>
+                                      </label> */}
+                                  </Form.Item>
+                                  {/* </div> */}
                                 </div>
                               </div>
 
                               <div class="buy-btn">
                                 <button
-                                  disabled={err || amount < 1}
+                                  // disabled={amount < 1}
                                   htmlType="submit"
                                   size="large"
                                   type="primary"
                                   class={`${
                                     amount < 1 && (amount || grams)
-                                      ? "btn-disable"
+                                      ? "btn-disable quick-buy"
                                       : "btn-primery quick-buy"
                                   } `}
                                 >
@@ -612,7 +594,7 @@ const DigiGoldHome = ({ setActive, active }) => {
           </section>
         </Spin>
 
-        <section class="digi-gold-section-wrapper digital-gold-services">
+        {/* <section class="digi-gold-section-wrapper digital-gold-services">
           <div class="container">
             <div class="digigold-service-box-outer">
               {quickServiceArr.map((e) => {
@@ -628,7 +610,7 @@ const DigiGoldHome = ({ setActive, active }) => {
                           class="digigold-service-icon"
                         >
                           <img
-                            src={`/images/digigold-images/${e.img}`}
+                            src={`images/digigold-images/${e.img}`}
                             alt="VIPS Gold Silver Services"
                             class="img-fluid digigold-service-img"
                           />
@@ -644,7 +626,8 @@ const DigiGoldHome = ({ setActive, active }) => {
               })}
             </div>
           </div>
-        </section>
+        </section> */}
+        <QuickService setActive={setActive} />
         {HowItWorks(setActive)}
         <DigiGoldSignup setIsDigiLogin={setIsDigiLogin} />
       </div>
@@ -664,12 +647,14 @@ export const quickServiceArr = [
   {
     img: "buy-icon.svg",
     title: "BUY",
-    buy: 0,
+    buy: "0",
+    route: "/vipsgold",
   },
   {
     img: "sell-icon.svg",
     title: "SELL",
     buy: 1,
+    route: "/vipsgold",
   },
   // {
   //   img: "sip-icon.svg",
@@ -679,6 +664,11 @@ export const quickServiceArr = [
     img: "delivery-icon.svg",
     title: "DELIVERY",
     route: "/vipsgold-delivery",
+  },
+  {
+    img: "buy-icon.svg",
+    title: "Gift",
+    route: "/vipsgold-gift",
   },
   // {
   //   img: "my-orders-icon.svg",

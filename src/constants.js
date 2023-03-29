@@ -1,14 +1,14 @@
 import { SHA512 } from "crypto-js";
 
 const themeColor = "#393186";
-// export const baseApiUrl = "https://api.vipswallet.com/api";
-export const baseApiUrl = "http://devtest.vipswallet.com/api";
+export const baseApiUrl = "https://api.vipswallet.com/api";
+// export const baseApiUrl = "http://devtest.vipswallet.com/api";
 export const digiBaseUrl = "http://devtest.vipswallet.com/api/DigiGold/";
 // export const baseApiUrl = "http://webplat.vipswallet.com/api/";
 export const shopadminUrl = "http://shopadmin.vipswallet.com";
 export const vendorPanelAPi = "http://vendor.vipswallet.com/Login/Vendor";
 export const staticTocken = "XMCNBVGDTE734BCU65DW"; //used for getting banners , affiliate etc while calling apis.
-
+export const currAppVersion = 1.0;
 // Digi Gold Cart Price Calculation
 export function calculateTotalPrice(products, price) {
   let totalPrice = 0;
@@ -31,13 +31,48 @@ export function handleMobileKeyPress(event) {
     event.preventDefault();
   }
 }
+export const formatter = (value) => {
+  return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+export const parser = (value) => {
+  value = value.replace(/\$\s?|(,*)/g, "");
+  return isNaN(value) ? "" : parseFloat(value).toFixed(4);
+};
+export const handleKeyDown = (event) => {
+  const maxLength = 8;
+  const key = event.key;
+  const allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+  if (key === "." || key === "," || key === "-") {
+    // prevent decimal and negative sign
+    event.preventDefault();
+    return;
+  }
+
+  if (key === "Backspace" || key === "Delete") {
+    return;
+  }
+
+  if (event.target.value.length >= maxLength) {
+    // limit to 8 digits
+    event.preventDefault();
+    return;
+  }
+
+  if (!allowedKeys.includes(key)) {
+    // prevent non-digit keys
+    event.preventDefault();
+    return;
+  }
+};
 
 // RegEX
 export const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; // regular expression for full name validation
 export const pincodeRegex = /^[1-9][0-9]{5}$/; // regular expression for Indian PIN code validation
 export const mobileRegex = /^[6-9]\d{9}$/; // regular expression for Indian mobile number validation
 // export const namePattern = /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/; // regular expression for full name validation
-export const namePattern = /^[a-zA-Z]+ [a-zA-Z]+$/
+export const namePattern = /^[a-zA-Z]+ [a-zA-Z]+$/;
 
 export const validateName = (_, value) => {
   if (!value || nameRegex.test(value)) {
@@ -117,7 +152,7 @@ const faq = "FAQ";
 const privacypolicy = "Privacy Policy";
 const termsAndConditions = "Terms And Conditions";
 
-export const appType = "WebSite";
+export const appType = "Website";
 
 export const electronicCategoryId = 53;
 export const fashionCategoryId = 43;

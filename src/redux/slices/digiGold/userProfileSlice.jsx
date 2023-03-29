@@ -55,6 +55,7 @@ export const getSellStatus = createAsyncThunk(
 export const downloadPdf = createAsyncThunk(
   "downloadPdf",
   async (transactionId, thunkAPI) => {
+    console.log("Chl rha hai")
     const formData = new FormData();
     formData.append("transactionid", transactionId);
     try {
