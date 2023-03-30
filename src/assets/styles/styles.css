@@ -771,7 +771,14 @@ body {
   border-color: var(--primary);
 }
 
-
+/* .ant-input-number-handler-wrap {
+  display: none !important;
+} */
+.ant-form-item-control-input input[type="number"]::-webkit-inner-spin-button,
+.ant-form-item-control-input input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 /* -- digi gold sign in page end-- */
 /* Digigold React overwrite styles start  */
 

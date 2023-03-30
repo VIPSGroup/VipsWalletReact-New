@@ -194,12 +194,12 @@
   color:var(--darkText);
 }
 .buy-sell-tab-inner .input input::-webkit-input-placeholder  {
-  opacity: 0;
+  opacity: 0.6;
   transition: opacity 200ms;
   color: var(--darkText);
 }
 .buy-sell-tab-inner .input input::-moz-placeholder {
-  opacity: 0;
+  opacity: 0.6;
   transition: opacity 200ms;
   color: var(--darkText);
 }
@@ -236,7 +236,7 @@
 }
 
 .buy-sell-tab-inner .input input:valid:not(:placeholder-shown) {
-  /* box-shadow: 0 0 0 1px var(--primary) !important; */
+  
   border: 1px solid var(--primary);
 }
 .buy-sell-tab-inner .input input:valid:not(:placeholder-shown) ~ label {
@@ -245,7 +245,7 @@
 }
 
 .buy-sell-tab-inner .input input:invalid:not(:placeholder-shown) {
-  /* box-shadow: 0 0 0 1px var(--primary) !important; */
+  
   border: 1px solid var(--primary);
 }
 .buy-sell-tab-inner .input input:invalid:not(:placeholder-shown) ~ label {
@@ -263,6 +263,7 @@
 
 
 /* price check form end */
+
 
 .sip-box-wrapper{
   margin-top: 15px;
@@ -431,7 +432,7 @@
 
 .digigold-work-div-box .digigold-work-title { 
   margin-bottom: 15px;
-  height: 11vh;
+  height: auto;
 }
 
 .digigold-work-div-box .digigold-work-title h3 {
@@ -1126,6 +1127,9 @@
 
 
 @media only screen and (min-width: 992px) and (max-width: 1280px){
+  .digigold-work-div-box {
+    padding: 18px 10px;
+  }
   .digigold-work-div-box .digigold-work-title {
     height: auto;
   }

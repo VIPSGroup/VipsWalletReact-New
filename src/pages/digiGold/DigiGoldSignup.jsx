@@ -251,8 +251,8 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                     </Form.Item>
                   </div>
                   <div className="col-lg-12">
-                    <div class="input-wrapper">
-                      <div className="input">
+                    {/* <div class="input-wrapper">
+                      <div className="input"> */}
                         <Form.Item
                           // hasFeedback
                           name="Name"
@@ -283,13 +283,10 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                             size="large"
                             placeholder="Enter Full Name"
                           />
-                          <label htmlFor="">
-                            {" "}
-                            Enter Full Name{" "}
-                          </label>
+                          {/* <label htmlFor=""> {" "} Enter Full Name{" "} </label> */}
                         </Form.Item>
-                      </div>
-                    </div>
+                      {/* </div>
+                    </div> */}
                   </div>
 
                   <div className="col-lg-12">

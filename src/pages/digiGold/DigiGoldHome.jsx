@@ -20,7 +20,7 @@ export const HowItWorks = () => {
     <>
       {/* <!-- -- How it work section start -- --> */}
       <section class="digi-gold-section-wrapper digital-gold-services">
-        <div class="container">
+        <div class="container-fluid">
           <div class="digital-gold-section-head">
             <h1 class="section-head-title">How It works</h1>
           </div>
@@ -447,7 +447,7 @@ const DigiGoldHome = ({active,setActive }) => {
                                         step={"any"}
                                         // style={{ padding: 15 }}
                                       />
-                                      <label htmlFor="enter-grams"> Enter Grams </label>
+                                      {/* <label htmlFor="enter-grams"> Enter Grams </label> */}
                                     </Form.Item>
                                   </div>
                                 </div>
@@ -498,7 +498,7 @@ const DigiGoldHome = ({active,setActive }) => {
                                         className="mb-0"
                                         // style={{ padding: 15 }}
                                       />
-                                      <label htmlFor="enter-amount"> Enter Amount </label>
+                                      {/* <label htmlFor="enter-amount"> Enter Amount </label> */}
                                     </Form.Item>
                                   </div>
                                 </div>
