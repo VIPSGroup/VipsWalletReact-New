@@ -11,6 +11,7 @@ import {
   getSellStatus,
   MyOrders,
 } from "../../redux/slices/digiGold/userProfileSlice";
+import { CurrentRateSection } from "./MyVault";
 
 const MyOrdersPage = () => {
   const dispatch = useDispatch();
@@ -391,32 +392,7 @@ const MyOrdersPage = () => {
           <div class="row">
             <div class="col-lg-12">
               <div class="buy-sell-form-outer">
-                <div class="current-rate-outer">
-                  <div class="current-rate">
-                    <span class="current-rate-title mb-3">GOLD</span>
-                    <span class="current-rate-amt">
-                      &#x20B9;{" "}
-                      {!loading && rateData
-                        ? rateData.Data?.result?.data?.rates?.gBuy
-                        : "Loading..."}
-                      / gm
-                    </span>
-                  </div>
-                  <div class="digi-icon">
-                    <img src="/images/digigold-images/digi-icon.svg" alt="" />
-                  </div>
-                  <div class="current-rate">
-                    <span class="current-rate-title mb-3">SILVER</span>
-                    <span class="current-rate-amt">
-                      {" "}
-                      &#x20B9;{" "}
-                      {!loading && rateData
-                        ? rateData.Data?.result?.data?.rates?.sBuy
-                        : "Loading..."}{" "}
-                      / gm
-                    </span>
-                  </div>
-                </div>
+                <CurrentRateSection active={tab === "Buy" ? 0 : 1} />
 
                 <div class="buy-sell-tab-outer">
                   {/* <!-- tab content start --> */}

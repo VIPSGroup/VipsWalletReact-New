@@ -3,7 +3,7 @@ import "../../../assets/styles/digigold/digigold-gift.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { Button, Form, Input, Modal, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
-import MyVault from "../MyVault";
+import MyVault, { CurrentRateSection } from "../MyVault";
 import { useDispatch, useSelector } from "react-redux";
 import {
   digitPrecision,
@@ -17,6 +17,7 @@ import { DigiGiftSend } from "../../../redux/slices/digiGold/gift/DigiGiftSlice"
 import QuickService from "../../../components/digiGold/QuickService";
 import { MuiSnackBar } from "../../../components/common";
 import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
+import { HowItWorks } from "../DigiGoldHome";
 
 const Gift = ({ setIsCommonTopNav }) => {
   const dispatch = useDispatch();
@@ -52,9 +53,7 @@ const Gift = ({ setIsCommonTopNav }) => {
   const { loggedInUser, loading: logLoading } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { data, loading: giftLoading } = useSelector(
-    (state) => state.DigiGiftSlice
-  );
+
   // console.log(data, "rateData.Data?.result");
 
   const handleClose = () => {
@@ -272,33 +271,10 @@ const Gift = ({ setIsCommonTopNav }) => {
 
           <div class="row">
             <div class="col-lg-12">
-              {/* <div class="col-lg-7 mx-auto digigold-logintext">
-                <p class="digigold-logintext-title">You are not login</p>
-                <button href="#" class="digigold-logintext-btn btn-primery">Register now</button>
-              </div>  */}
-
-              {/* <div class="my-vault-wrapper">
-                <div class="col-lg-7 mx-auto my-vault-outer">
-                  <div class="my-vault-badge-wrapper">
-                    <span class="my-vault-badge">My Vault</span>
-                  </div>
-                  <div class="my-vault-inner">
-                    <div class="vault-value">
-                      <p class="vault-value-text">Gold Grams</p>
-                      <p class="vault-value-count">0.0000 Grams</p>
-                    </div>
-                    <div class="vertical-separator"></div>
-                    <div class="vault-value">
-                      <p class="vault-value-text">Silver Grams</p>
-                      <p class="vault-value-count">0.0000 Grams</p>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
               <MyVault />
               <Spin spinning={load}>
                 <div class="buy-sell-form-outer">
-                  <div class="current-rate-outer">
+                  {/* <div class="current-rate-outer">
                     <div class="current-rate">
                       <span class="current-rate-title mb-3">GOLD</span>
                       <span class="current-rate-amt">
@@ -324,12 +300,8 @@ const Gift = ({ setIsCommonTopNav }) => {
                         / gm
                       </span>
                     </div>
-                  </div>
-
-                  {/* <div class="buy-sell-option">
-                        <a class="option-active" href="#">Buy</a>
-                        <a href="#">Sell</a>
-                    </div>  */}
+                  </div> */}
+                  <CurrentRateSection />
 
                   <div class="buy-sell-tab-outer">
                     <Form
@@ -385,135 +357,6 @@ const Gift = ({ setIsCommonTopNav }) => {
                           {/* </div> */}
                         </div>
                       </div>
-
-                      {/* <ul class="nav nav-pills tab-pills-wrapper">
-                      <li class="nav-item tab-pills">
-                        <a
-                          class="nav-link active tab-pills-link"
-                          data-toggle="pill"
-                          href="#goldrate"
-                          role="tab"
-                          aria-controls="pills-gold"
-                          aria-selected="true"
-                        >
-                          GOLD 24k 999
-                        </a>
-                      </li>
-                      <li class="nav-item tab-pills">
-                        <a
-                          class="nav-link tab-pills-link"
-                          data-toggle="pill"
-                          href="#silverrate"
-                          role="tab"
-                          aria-controls="pills-silver"
-                          aria-selected="false"
-                        >
-                          SILVER 24k 999
-                        </a>
-                      </li>
-                    </ul>
-                    <div class="tab-content mt-3">
-                      <div
-                        class="tab-pane fade show active"
-                        id="goldrate"
-                        role="tabpanel"
-                        aria-labelledby="gold-tab"
-                      >
-                        <div class="col-lg-12">
-                          <div class="row align-items-center">
-                            <div class="input-wrapper">
-                              <div class="input">
-                                <input
-                                  id="grams"
-                                  name="Grams"
-                                  type="text"
-                                  placeholder="&nbsp"
-                                  autocomplete="off"
-                                />
-                                <label for="grams">Quantity ( in gm)*</label>
-                              </div>
-                            </div>
-                            <div class="exchange-arrow-outer text-center">
-                              <span class="exchange-arrow">
-                                {" "}
-                                <img src="images/digigold-images/two-arrows.svg" />{" "}
-                              </span>
-                            </div>
-                            <div class="input-wrapper">
-                              <div class="input">
-                                <input
-                                  id="amount"
-                                  name="Amount"
-                                  type="text"
-                                  placeholder="&nbsp"
-                                  autocomplete="off"
-                                />
-                                <label for="amount">Amount (₹)*</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="buy-btn">
-                            <button
-                              type="button"
-                              class="btn-primery quick-buy"
-                              id="digigold-otp"
-                              data-toggle="modal"
-                              data-target="#digigoldotpform"
-                            >
-                              Send Gift
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="tab-pane fade"
-                        id="silverrate"
-                        role="tabpanel"
-                        aria-labelledby="silver-tab"
-                      >
-                        <div class="col-lg-12">
-                          <div class="row align-items-center">
-                            <div class="input-wrapper">
-                              <div class="input">
-                                <input
-                                  id="grams"
-                                  name="Grams"
-                                  type="text"
-                                  placeholder="&nbsp"
-                                  autocomplete="off"
-                                />
-                                <label for="grams">Quantity ( in gm)*</label>
-                              </div>
-                            </div>
-                            <div class="exchange-arrow-outer text-center">
-                              <span class="exchange-arrow">
-                                {" "}
-                                <img src="images/digigold-images/two-arrows.svg" />{" "}
-                              </span>
-                            </div>
-                            <div class="input-wrapper">
-                              <div class="input">
-                                <input
-                                  id="amount"
-                                  name="Amount"
-                                  type="text"
-                                  placeholder="&nbsp"
-                                  autocomplete="off"
-                                />
-                                <label for="amount">Amount (₹)*</label>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="buy-btn">
-                            <button class="btn-primery quick-buy">
-                              Send Gift
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div> */}
 
                       <div class="buy-sell-tab-outer">
                         {/* <!-- tab content start --> */}
@@ -807,6 +650,7 @@ const Gift = ({ setIsCommonTopNav }) => {
         </div>
       </Modal>
       <QuickService />
+      {HowItWorks()}
       <MuiSnackBar
         open={isSnackBar}
         setOpen={setIsSnackBar}

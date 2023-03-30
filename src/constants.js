@@ -231,7 +231,6 @@ export function digitPrecision(data, type) {
     const amt = parseFloat(data);
     return amt.toFixed(2);
   } else if (type === "quantity") {
-    console.log(data, "data");
     return getFixedDecimalNumber(data, 4);
   } else {
     return data;

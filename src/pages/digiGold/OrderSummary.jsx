@@ -499,7 +499,6 @@ const OrderSummary = () => {
 
   return localStorage.getItem("valueType") ? (
     <>
-      {/* <CommonTopNav /> */}
       <div className="">
         <section class="digi-gold-section-wrapper buy-sell-form">
           <div class="container">
@@ -513,34 +512,6 @@ const OrderSummary = () => {
             >
               <div class="row">
                 <div class="col-lg-12">
-                  {/* <div class="my-vault-wrapper">
-                    <div class="col-lg-7 mx-auto">
-                      <div class="my-vault-badge-wrapper">
-                        <span class="my-vault-badge">My Vault</span>
-                      </div>
-                      <div class="my-vault-inner">
-                        <div class="vault-value">
-                          <p class="vault-value-text">Gold Grams</p>
-                          <p class="vault-value-count mt-3">
-                            {logData?.Data && !loading
-                              ? logData?.Data?.GoldGrams?.toFixed(4)
-                              : "0.0000"}{" "}
-                            Grams
-                          </p>
-                        </div>
-                        <div class="vertical-separator"></div>
-                        <div class="vault-value">
-                          <p class="vault-value-text">Silver Grams</p>
-                          <p class="vault-value-count mt-3">
-                            {logData?.Data && !loading
-                              ? logData?.Data?.SilverGrams?.toFixed(4)
-                              : "0.0000"}{" "}
-                            Grams
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
                   <MyVault />
                   {/* {!load ? ( */}
                   <Spin spinning={load || list.ResponseStatus === 0}>
@@ -554,7 +525,7 @@ const OrderSummary = () => {
                               ? state?.type === "buy"
                                 ? rateData?.Data?.result?.data?.rates?.gBuy
                                 : rateData?.Data?.result?.data?.rates?.gSell
-                              : "Loading..."}
+                              : "Loading..."}{" "}
                             / gm
                           </span>
                         </div>
@@ -1182,7 +1153,6 @@ const OrderSummary = () => {
                       <label for=""></label>
                     </p>
                   </div>
-                  {/* </div> */}
                 </div>
               </div>
 

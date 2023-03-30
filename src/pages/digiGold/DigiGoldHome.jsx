@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber, Spin } from "antd";
+import { Form, Input, Spin } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import "../../index.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,6 @@ import {
   modalOpen,
 } from "../../redux/slices/digiGold/digiGoldSlice";
 import { loginDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
-import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
 import DigiGoldSignup from "./DigiGoldSignup";
 import {
   digitPrecision,
@@ -19,7 +18,7 @@ import {
   parser,
 } from "../../constants";
 import { MuiSnackBar } from "../../components/common";
-import MyVault from "./MyVault";
+import MyVault, { CurrentRateSection } from "./MyVault";
 import QuickService from "../../components/digiGold/QuickService";
 
 export const HowItWorks = () => {
@@ -168,19 +167,12 @@ const DigiGoldHome = ({
       parseFloat(rateData.Data.result.data.taxes[1].taxPerc);
     setAmount(e.target.value);
     const inclTaxAmount = digitPrecision(e.target.value, "amount");
+    const GoldBuyRate = rateData.Data.result.data.rates.gBuy;
+    const SilverBuyRate = rateData.Data.result.data.rates.sBuy;
     const TaxInc =
-      (parseFloat(
-        isGold === 0
-          ? rateData.Data.result.data.rates.gBuy
-          : rateData.Data.result.data.rates.sBuy
-      ) *
-        taxRate) /
+      (parseFloat(isGold === 0 ? GoldBuyRate : SilverBuyRate) * taxRate) /
         parseFloat(100) +
-      parseFloat(
-        isGold === 0
-          ? rateData.Data.result.data.rates.gBuy
-          : rateData.Data.result.data.rates.sBuy
-      );
+      parseFloat(isGold === 0 ? GoldBuyRate : SilverBuyRate);
 
     const inclTaxRate = digitPrecision(TaxInc, "amount");
     const qty = inclTaxAmount / inclTaxRate;
@@ -188,25 +180,21 @@ const DigiGoldHome = ({
     setValueType({
       ...valueType,
       valueinAmt: e.target.value,
-      valueinGm:
-        e.target.value /
-        (isGold === 0
-          ? rateData.Data?.result?.data?.rates?.gBuy
-          : rateData.Data?.result?.data?.rates?.sBuy),
+      valueinGm: e.target.value / (isGold === 0 ? GoldBuyRate : SilverBuyRate),
       valType: "amount",
       metalType: isGold === 0 ? "gold" : "silver",
     });
-    const gbuy = parseFloat(rateData.Data?.result?.data?.rates?.gBuy || 0);
-    const gGST = parseFloat(rateData.Data?.result?.data?.rates?.gBuyGst || 0);
-    const sbuy = parseFloat(rateData.Data?.result?.data?.rates?.sBuy || 0);
-    const sGST = parseFloat(rateData.Data?.result?.data?.rates?.sBuyGst || 0);
-    const gwithGST = gbuy + gGST;
-    const swithGst = sbuy + sGST;
-    const finalGrams = e.target.value / (isGold === 0 ? gwithGST : swithGst);
+    // const gbuy = parseFloat(GoldBuyRate || 0);
+    // const gGST = parseFloat(rateData.Data?.result?.data?.rates?.gBuyGst || 0);
+    // const sbuy = parseFloat(SilverBuyRate || 0);
+    // const sGST = parseFloat(rateData.Data?.result?.data?.rates?.sBuyGst || 0);
+    // const gwithGST = gbuy + gGST;
+    // const swithGst = sbuy + sGST;
+    // const finalGrams = e.target.value / (isGold === 0 ? gwithGST : swithGst);
 
-    const roundedNum = Math.round(finalGrams * 10000) / 10000;
-    const str = roundedNum.toFixed(4);
-    const ResultGrams = parseFloat(str);
+    // const roundedNum = Math.round(finalGrams * 10000) / 10000;
+    // const str = roundedNum.toFixed(4);
+    // const ResultGrams = parseFloat(str);
     setGrams(quantity);
     if (quantity === 0) {
       setErr("");
@@ -264,20 +252,15 @@ const DigiGoldHome = ({
         setErr("");
       }
     }
-
+    const GoldBuyRates = rateData.Data?.result?.data?.rates?.gBuy;
+    const SilverBuyRates = rateData.Data?.result?.data?.rates?.sBuy;
+    const GoldSellRates = rateData.Data?.result?.data?.rates?.gSell;
+    const SilverSellRates = rateData.Data?.result?.data?.rates?.sSell;
     const TotalAmount =
-      (parseFloat(active) === 0 &&
-        isGold === 0 &&
-        rateData.Data?.result?.data?.rates?.gBuy * quantity) ||
-      (parseFloat(active) === 0 &&
-        isGold === 1 &&
-        rateData.Data?.result?.data?.rates?.sBuy * quantity) ||
-      (parseFloat(active) === 1 &&
-        isGold === 0 &&
-        rateData.Data?.result?.data?.rates?.gSell * quantity) ||
-      (parseFloat(active) === 1 &&
-        isGold === 1 &&
-        rateData.Data?.result?.data?.rates?.sSell * quantity);
+      (parseFloat(active) === 0 && isGold === 0 && GoldBuyRates * quantity) ||
+      (parseFloat(active) === 0 && isGold === 1 && SilverBuyRates * quantity) ||
+      (parseFloat(active) === 1 && isGold === 0 && GoldSellRates * quantity) ||
+      (parseFloat(active) === 1 && isGold === 1 && SilverSellRates * quantity);
     setValueType({
       ...valueType,
       valueinGm: quantity,
@@ -287,10 +270,7 @@ const DigiGoldHome = ({
     });
     const totalRound = Math.round(TotalAmount * 10000) / 10000;
     const strTotal = totalRound.toFixed(2);
-    console.log(strTotal, "strTotal");
     const totalResult = parseFloat(strTotal);
-    console.log(totalResult, "totalResult");
-
     setAmount((totalResult === "0.00" ? 0 : totalResult) || "");
     if (totalResult === 0) {
       setErr("");
@@ -301,6 +281,15 @@ const DigiGoldHome = ({
       setActive(state);
     }
   }, []);
+
+  // Select the input element
+  const amountInput = document.getElementById("amount");
+  const gramsInput = document.getElementById("grams");
+  // console.log(amountInput., 'amount')
+  // Set the input value programmatically
+  // amountInput.value = "new value";
+
+  // useEffect(() => {}, [rateData]);
 
   return (
     <>
@@ -320,7 +309,7 @@ const DigiGoldHome = ({
                 <div class="col-lg-12">
                   <MyVault setStep={setStep} />
                   <div class="buy-sell-form-outer">
-                    <div class="current-rate-outer">
+                    {/* <div class="current-rate-outer">
                       <div class="current-rate">
                         <span class="current-rate-title mb-3">GOLD</span>
                         <span class="current-rate-amt">
@@ -353,7 +342,8 @@ const DigiGoldHome = ({
                           / gm
                         </span>
                       </div>
-                    </div>
+                    </div> */}
+                    <CurrentRateSection active={active} />
 
                     <div class="buy-sell-option">
                       <div
@@ -455,7 +445,6 @@ const DigiGoldHome = ({
                                 <div class="input-wrapper">
                                   {/* <div className="input"> */}
                                   <Form.Item
-                                    // hasFeedback
                                     className="mb-0"
                                     name={"grams"}
                                     // rules={[
@@ -466,6 +455,7 @@ const DigiGoldHome = ({
                                     // ]}
                                   >
                                     <Input
+                                      id="grams"
                                       formatter={formatter}
                                       onKeyDown={handleKeyDown2}
                                       className="mb-0 disabled-input"
@@ -485,9 +475,6 @@ const DigiGoldHome = ({
                                       step={"any"}
                                       // style={{ padding: 15 }}
                                     />
-                                    {/* <label htmlFor="Enter Grams">
-                                        Enter Grams
-                                      </label> */}
                                   </Form.Item>
                                   {/* </div> */}
                                 </div>
@@ -508,7 +495,6 @@ const DigiGoldHome = ({
                                 <div class="input-wrapper">
                                   {/* <div className="input"> */}
                                   <Form.Item
-                                    // hasFeedback
                                     name="amount"
                                     className="mb-0"
                                     // rules={[
@@ -519,6 +505,7 @@ const DigiGoldHome = ({
                                     // ]}
                                   >
                                     <Input
+                                      id="amount"
                                       onKeyDown={handleKeyDown}
                                       min={1}
                                       // required
@@ -543,9 +530,6 @@ const DigiGoldHome = ({
                                           "#80808000",
                                       }}
                                     />
-                                    {/* <label htmlFor="Enter Amount">
-                                        Enter Amount
-                                      </label> */}
                                   </Form.Item>
                                   {/* </div> */}
                                 </div>

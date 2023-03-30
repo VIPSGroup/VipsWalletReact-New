@@ -1,6 +1,48 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { modalOpen } from "../../redux/slices/digiGold/digiGoldSlice";
+
+export const CurrentRateSection = ({ active }) => {
+  const { rateData, loading } = useSelector(
+    (state) => state.digiGoldSlice.rates
+  );
+  console.log(active, "active")
+  return (
+    <>
+      <div class="current-rate-outer">
+        <div class="current-rate">
+          <span class="current-rate-title mb-3">GOLD</span>
+          <span class="current-rate-amt">
+            &#x20B9;{" "}
+            {!loading && rateData
+              ? parseFloat(active) === 0
+                ? rateData.Data?.result?.data?.rates?.gBuy
+                : rateData?.Data?.result?.data?.rates?.gSell
+              : "Loading..."}{" "}
+            / gm
+          </span>
+        </div>
+        <div class="digi-icon d-none d-md-block">
+          <img src="/images/digigold-images/digi-icon.svg" alt="" />
+        </div>
+        <div className="vertical-separator d-md-none d-sm-block"></div>
+        <div class="current-rate">
+          <span class="current-rate-title mb-3">SILVER</span>
+          <span class="current-rate-amt">
+            {" "}
+            &#x20B9;{" "}
+            {!loading && rateData
+              ? parseFloat(active) === 0
+                ? rateData?.Data?.result?.data?.rates?.sBuy
+                : rateData?.Data?.result?.data?.rates?.sSell
+              : "Loading..."}{" "}
+            / gm
+          </span>
+        </div>
+      </div>
+    </>
+  );
+};
 
 const MyVault = ({ setStep }) => {
   const dispatch = useDispatch();

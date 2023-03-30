@@ -110,7 +110,6 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
       setIsSnackBar(true);
     }
   };
-  console.log(step, "step");
   const renderTime2 = () => React.Fragment;
   const renderButton2 = (buttonProps) => {
     return (
@@ -183,7 +182,6 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
     setErrorMsg("");
     setIsSnackBar(false);
   }, [data]);
-  console.log(step, "step");
   return (
     <>
       <Modal
