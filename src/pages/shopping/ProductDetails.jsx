@@ -43,7 +43,6 @@ const ProductDetails = () => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-
   const [similar, setSimilar] = useState([]);
 
   let navigate = useNavigate();
@@ -427,8 +426,12 @@ setLoading(true)
                     </div>
 
                     <div class="d-flex ml-auto">
-                      <div class="product-details-wishlist">
-                        <AddWishListButton
+                      <div class="product-details-wishlist" onClick={()=>{
+                        // setErrorMsg('')
+                        // setIsSnackBar(true)
+                        // setSuccessMsg("Product Added Successfully")
+                      }}>
+                        <AddWishListButton 
                           product={product}
                           inWishlistStateChanger={setExistInWishlist}
                           inWishlist={existInWishlist}

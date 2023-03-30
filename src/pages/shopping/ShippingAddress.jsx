@@ -36,7 +36,6 @@ const ShippingAddress = () => {
 
   const location = useLocation();
   const propsProductsData = location.state;
-
   const clickDeleteAddress = async (e) => {
     e.preventDefault();
     const addressId = e.currentTarget.value;
@@ -52,10 +51,8 @@ const ShippingAddress = () => {
     const clickedAddress = addressList.find(
       (item) => item.Id == e.target.value
     );
-
     setSelectedAddress(clickedAddress);
   };
-
   useEffect(() => {
     ReactGA.pageview(window?.location?.pathname);
     dispatch(getAddress({ Mobile, TRXNPassword }));
@@ -72,7 +69,8 @@ const ShippingAddress = () => {
       ) {
         setSelectedAddress(addressGetData.Data[0]);
       }
-    } else {
+    } else if(addressGetData.ResponseStatus === 0) {
+      setSelectedAddress({})
       setAddressList("");
       setLastShippingAddress("");
     }
@@ -133,14 +131,6 @@ const ShippingAddress = () => {
               </div>
             </div>
           </div>
-
-          {/* <div class="container">
-                
-                            <div class="col-12">
-                                
-                            </div>
-                        
-                    </div> */}
 
           <div class="row">
             {/* {<!-- shopping-cart start --> } */}

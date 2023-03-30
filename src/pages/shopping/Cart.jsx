@@ -7,8 +7,9 @@ import "../../assets/styles/shopping/cart.css";
 // import { MuiSnackBar } from "../../components/common/snackbars";
 import ReactGA from "react-ga";
 import { googleAnalytics } from "../../constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MuiSnackBar, ThemeButton } from "../../components/common";
+import { removeCart } from "../../redux/slices/shopping/cartSlice";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -21,18 +22,23 @@ const Cart = ({ setIsHomeTopNav }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   let navigate = useNavigate();
+ const dispatch= useDispatch()
+ const { cartCount } = useSelector((state) => state.cartSlice);
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const clickRemove = (e) => {
-    e.preventDefault();
-
-    const data = cartProducts.splice(e.currentTarget.value, 1);
-
-    const newCart = [...cartProducts];
-    setCartProducts(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart));
-    setDummy(!dummy);
+  const clickRemove = (id) => {
+dispatch(removeCart(id))
+    const allCart = JSON.parse(localStorage.getItem("cart"))
+    const filteredCart= allCart.filter(item=>item.product.Id!==id)
+    console.log(filteredCart);
+    setCartProducts(filteredCart);
+    localStorage.setItem("cart", JSON.stringify(filteredCart));
+    let price=0
+    filteredCart.map((d, i) => {
+      price = price + d.qty * d.product.SalePrice;
+    })
+    setTotalAmount(price)
   };
 
   const handleQuantityChange = (e, i, curretQty) => {
@@ -69,6 +75,7 @@ const Cart = ({ setIsHomeTopNav }) => {
   }, []);
 
   useEffect(() => {
+    console.log("useEffect");
     const data = JSON.parse(localStorage.getItem("cart"));
     data && setCartProducts(data);
     var price = 0;
@@ -81,6 +88,18 @@ const Cart = ({ setIsHomeTopNav }) => {
 
     setTotalAmount(price);
   }, [dummy]);
+// useEffect(() => {
+//   let price=0
+//   console.log(cartProducts);
+//  if (cartProducts.length!==0) {
+//       cartProducts.map((d, i) => {
+//         console.warn(d);
+//         price = price + d.qty * d.product.SalePrice;
+//       });
+//     }
+
+//     // setTotalAmount(price);
+// }, [dummy])
 
   const cartSection = () => (
     <section class="inpage-section-align">
@@ -131,7 +150,6 @@ const Cart = ({ setIsHomeTopNav }) => {
 
         <div class="row">
           {/* { <!-- shopping-cart start --> } */}
-{console.warn(cartProducts)}
           <div class="col-sm-12 col-md-12 col-lg-8">
             <div class="shopping-cart-left">
               <div class="shopping-cart-box-outer">
@@ -228,7 +246,7 @@ const Cart = ({ setIsHomeTopNav }) => {
                           <div class="shopping-cart-remove-product-btn">
                             <button
                               type="button"
-                              onClick={clickRemove}
+                              onClick={()=>clickRemove(pro.product.Id)}
                               name="remove"
                               class="btn btn-cta"
                               value={i}

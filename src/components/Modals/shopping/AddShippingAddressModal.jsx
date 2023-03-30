@@ -34,7 +34,7 @@ const AddShippingAddressModal = () => {
       pincode: yup.string().min(6).max(6).required("Please Enter Pincode"),
       fname: yup.string().required("Please Enter first name").matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Correct First Name"),
       lname: yup.string().required("Please Enter last name").matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Correct Last Name"),
-      mobileno: yup.string().min(10).max(10).required("Please Enter mobileno"),
+      mobileno: yup.string().min(10).max(10).matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Number").required("Please Enter mobile no"),
       addressType: yup.string().required("Please Enter addressType"),
       address: yup.string().required("Please Enter address"),
       landmark: yup.string().required("Please Enter landmark"),

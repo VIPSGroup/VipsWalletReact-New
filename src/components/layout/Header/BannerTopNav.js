@@ -17,7 +17,7 @@ const BannerTopNav = () => {
     (state) => state.loginSlice.loggetInWithOTP
   );
   const { wishCount } = useSelector((state) => state.wishlistSlice);
-  const { cartCount } = useSelector((state) => state?.cartSlice);
+  const { cartCount } = useSelector((state) => state.cartSlice);
   const { data, loading } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
