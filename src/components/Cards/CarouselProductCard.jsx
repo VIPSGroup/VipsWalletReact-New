@@ -109,7 +109,7 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
           </div>
         ) : (
           <div class="promo-wishlist ml-auto">
-            <AddWishListButton
+            <AddWishListButton 
               product={product}
               inWishlist={existInWishlist}
               inWishlistStateChanger={setExistInWishlist}
