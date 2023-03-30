@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { quickServiceArr } from "../../pages/digiGold/DigiGoldHome";
+import { MuiSnackBar } from "../common";
 
-const QuickService = ({ setActive }) => {
+const QuickService = ({ setActive, setAmount, setGrams }) => {
   const navigate = useNavigate();
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   return (
     <>
       <section class="digi-gold-section-wrapper digital-gold-services">
@@ -13,7 +17,13 @@ const QuickService = ({ setActive }) => {
               return (
                 <div
                   onClick={() => {
-                    navigate(e.route, { state: e.buy });
+                    if (e.title === "DELIVERY") {
+                      setIsSnackBar(true);
+                      setErrorMsg("Service will be coming soon..");
+                    } else {
+                      navigate(e.route, { state: e.buy });
+                    }
+
                     // setActive(e.buy);
                   }}
                   class="digigold-service-box-inner"
@@ -22,8 +32,12 @@ const QuickService = ({ setActive }) => {
                     <div class="digigold-service-div-box">
                       <div
                         onClick={() => {
-                          setActive(e.buy);
-                          window.scroll({ top: 0, behavior: "smooth" });
+                          if (e.title !== "DELIVERY") {
+                            setActive(e.buy);
+                            setAmount("");
+                            setGrams("");
+                            window.scroll({ top: 0, behavior: "smooth" });
+                          }
                         }}
                         class="digigold-service-icon"
                       >
@@ -45,6 +59,14 @@ const QuickService = ({ setActive }) => {
           </div>
         </div>
       </section>
+      <MuiSnackBar
+        open={isSnackBar}
+        setOpen={setIsSnackBar}
+        successMsg={successMsg}
+        errorMsg={errorMsg}
+        setSuccess={setSuccessMsg}
+        setError={setErrorMsg}
+      />
     </>
   );
 };

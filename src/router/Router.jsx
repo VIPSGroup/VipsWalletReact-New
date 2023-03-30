@@ -75,6 +75,9 @@ const Router = () => {
   const [isCommonTopNav, setIsCommonTopNav] = useState(true);
   const [active, setActive] = useState(0);
   const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [grams, setGrams] = useState("");
+
   return (
     <>
       <Navigation
@@ -83,6 +86,10 @@ const Router = () => {
         isCommonTopNav={isCommonTopNav}
         setActive={setActive}
         title={title}
+        setAmount={setAmount}
+        amount={amount}
+        setGrams={setGrams}
+        grams={grams}
       />
       <Routes>
         <Route
@@ -395,7 +402,16 @@ const Router = () => {
         />
         <Route
           path="/vipsgold"
-          element={<DigiGoldHome active={active} setActive={setActive} />}
+          element={
+            <DigiGoldHome
+              active={active}
+              setActive={setActive}
+              setAmount={setAmount}
+              amount={amount}
+              setGrams={setGrams}
+              grams={grams}
+            />
+          }
         />
         <Route path="/vipsgold-order-summary" element={<OrderSummary />} />
         <Route path="/vipsgold-profile" element={<DigiProfile />} />
@@ -442,7 +458,7 @@ const Router = () => {
             />
           }
         />
-        <Route
+        {/* <Route
           path="/vipsgold-faq"
           element={
             <AllTermsAndCondition
@@ -450,17 +466,35 @@ const Router = () => {
               type="VIPS Gold FAQs"
             />
           }
-        />
+        /> */}
         <Route
           path="/vipsgold-kyc"
           element={<DigiKYC setIsCommonTopNav={setIsCommonTopNav} />}
         />
-        <Route
+        {/* <Route
           path="/vipsgold-termscondtion"
           element={
             <AllTermsAndCondition
               title="VIPS Terms & Conditions"
               type="VIPS Gold Terms And Conditions"
+            />
+          }
+        /> */}
+        <Route
+          path="/vipsgold-faq"
+          element={
+            <AllTermsAndCondition
+              title="VIPS Gold FAQs"
+              type="DigiGold FAQs"
+            />
+          }
+        />
+        <Route
+          path="/vipsgold-termscondtion"
+          element={
+            <AllTermsAndCondition
+              title="VIPS Gold Terms & Conditions"
+              type="DigiGold Terms And Conditions"
             />
           }
         />

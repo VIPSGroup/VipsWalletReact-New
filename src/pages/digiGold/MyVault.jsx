@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { modalOpen } from "../../redux/slices/digiGold/digiGoldSlice";
 
-const MyVault = () => {
+const MyVault = ({ setStep }) => {
   const dispatch = useDispatch();
+  // const [step, setStep] = useState("");
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
@@ -13,6 +14,7 @@ const MyVault = () => {
   const { rateData, loading } = useSelector(
     (state) => state.digiGoldSlice.rates
   );
+
   return (
     <>
       {loggedInUser && !logData?.Data && (
@@ -21,7 +23,10 @@ const MyVault = () => {
             You are not Register on DigiGold
           </p>
           <button
-            onClick={() => dispatch(modalOpen())}
+            onClick={() => {
+              dispatch(modalOpen());
+              setStep(0);
+            }}
             class="digigold-logintext-btn mt-2 btn-primery"
           >
             Register now

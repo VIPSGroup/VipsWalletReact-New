@@ -18,7 +18,15 @@ import { Avatar, Badge, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
-const CommonTopNav = ({ isShow = true, setActive, title }) => {
+const CommonTopNav = ({
+  isShow = true,
+  setActive,
+  title,
+  setGrams,
+  grams,
+  setAmount,
+  amount,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDigiLogin, setIsDigiLogin] = useState("");
@@ -269,19 +277,6 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
     dispatch(getWalletBalance({ username, password }));
   };
 
-  // useEffect(() => {
-  //   let user = JSON.parse(localStorage.getItem("user"));
-
-  //   const userName = user && user.UserName;
-  //   const password = user && user.TRXNPassword;
-  //   user &&
-  //     getWalletBalance({ userName, password }).then((response) => {
-  //       setBalance(response?.Data?.Balance);
-  //       setShoppingPoints(response?.Data?.Shoppingpoints);
-  //       setPrimePoints(response?.Data?.PrimePoints);
-  //     });
-  // }, []);
-
   const section = () => (
     <>
       <header class="header-main sticky-top">
@@ -294,7 +289,6 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
             >
               <i class="fa-solid fa-bars"></i>
             </button>
-
             <Link class="navbar-brand " to="/">
               <img
                 src="/images/VipsLogoMain.png"
@@ -737,9 +731,16 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                 class="navbar-bottom-services-outer"
               >
                 <div class="navbar-bottom-serv-box">
-                  <Link onClick={() => setActive(0)} to="/vipsgold">
+                  <Link
+                    onClick={() => {
+                      setActive(0);
+                      setGrams("");
+                      setAmount("");
+                    }}
+                    to="/vipsgold"
+                  >
                     <img
-                      src="/images/digigold-images/buy-white-icon.svg"
+                      src="/images/digigold-imagess/buy-white-icon.svg"
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">Buy Gold</span>
@@ -747,7 +748,14 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                 </div>
 
                 <div class="navbar-bottom-serv-box">
-                  <Link onClick={() => setActive(1)} to="/vipsgold">
+                  <Link
+                    onClick={() => {
+                      setActive(1);
+                      setGrams("");
+                      setAmount("");
+                    }}
+                    to="/vipsgold"
+                  >
                     <img
                       src="images/digigold-images/sell-white-icon.svg"
                       alt=""

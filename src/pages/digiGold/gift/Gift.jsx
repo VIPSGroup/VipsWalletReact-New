@@ -16,6 +16,7 @@ import { fetchGoldSilverRates } from "../../../redux/slices/digiGold/digiGoldSli
 import { DigiGiftSend } from "../../../redux/slices/digiGold/gift/DigiGiftSlice";
 import QuickService from "../../../components/digiGold/QuickService";
 import { MuiSnackBar } from "../../../components/common";
+import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 
 const Gift = ({ setIsCommonTopNav }) => {
   const dispatch = useDispatch();
@@ -185,48 +186,57 @@ const Gift = ({ setIsCommonTopNav }) => {
     return () => clearInterval(intervalId); // Clear the interval on unmount
   }, [dispatch]);
   const handleFinish = async () => {
-    setLoad(true);
     const senderUsername = loggedInUser.UserName;
     const Password = loggedInUser.TRXNPassword;
     const otp = Otp;
 
-    const res = await DigiGiftSend({
-      senderUsername,
-      Password,
-      otp,
-      formvalue,
-    });
-    if (res.ResponseStatus === 2) {
-      setLoad(false);
-      setIsSnackBar(true);
-      setErrorMsg("");
-      setSuccessMsg(res.Remarks);
-      setStep(1);
-    }
-    if (res.ResponseStatus === 1) {
-      if (res.Data.statusCode === 200) {
-        setLoad(false);
-        setStep(0);
-        setResponse(res.Data.message);
-        setModal(true);
-      } else {
+    if (logData.Data) {
+      setLoad(true);
+      const res = await DigiGiftSend({
+        senderUsername,
+        Password,
+        otp,
+        formvalue,
+      });
+      if (res.ResponseStatus === 2) {
         setLoad(false);
         setIsSnackBar(true);
-        setErrorMsg("Something Went Wrong");
-        setSuccessMsg("");
+        setErrorMsg("");
+        setSuccessMsg(res.Remarks);
+        setStep(1);
       }
-    }
-    if (res.ResponseStatus === 0) {
-      if (res.Data.statusCode === 412) {
-        setLoad(false);
-        setIsSnackBar(true);
-        setErrorMsg(res.Data.message);
-        setSuccessMsg("");
+      if (res.ResponseStatus === 1) {
+        if (res.Data.statusCode === 200) {
+          setLoad(false);
+          setStep(0);
+          setResponse(res.Data.message);
+          setModal(true);
+        } else {
+          setLoad(false);
+          setIsSnackBar(true);
+          setErrorMsg("Something Went Wrong");
+          setSuccessMsg("");
+        }
+      }
+      if (res.ResponseStatus === 0) {
+        if (res.Data?.statusCode === 412) {
+          console.log("Yes");
+          setLoad(false);
+          setIsSnackBar(true);
+          setErrorMsg(res.Data.message);
+          setSuccessMsg("");
+        } else {
+          setLoad(false);
+          setIsSnackBar(true);
+          setErrorMsg(res.Remarks);
+          setSuccessMsg("");
+        }
+      }
+    } else {
+      if (loggedInUser) {
+        dispatch(modalOpen());
       } else {
-        setLoad(false);
-        setIsSnackBar(true);
-        setErrorMsg(res.Remarks);
-        setSuccessMsg("");
+        navigate("/login");
       }
     }
   };
@@ -322,44 +332,57 @@ const Gift = ({ setIsCommonTopNav }) => {
                     </div>  */}
 
                   <div class="buy-sell-tab-outer">
-                    <div class="buy-sell-tab-inner">
+                    <Form
+                      fields={[
+                        {
+                          name: "grams",
+                          value: grams,
+                        },
+                        {
+                          name: "amount",
+                          value: amount,
+                        },
+                      ]}
+                      onFinish={handleFinish}
+                      class="buy-sell-tab-inner"
+                    >
                       <div class="gift-recipient-outer">
                         <div class="gift-recipient-input-wrapper">
-                          <div class="input">
-                            <Form.Item
-                              // hasFeedback
-                              name="mobileNumber"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Mobile number is required",
-                                },
-                                {
-                                  pattern: /^\d{10}$/,
-                                  message: "Mobile number is not valid",
-                                },
-                              ]}
-                            >
-                              <Input
-                                onKeyPress={handleMobileKeyPress}
-                                value={formvalue.receiverUserName}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formvalue,
-                                    receiverUserName: e.target.value,
-                                  })
-                                }
-                                maxLength={10}
-                                // addonBefore={"+91"}
-                                size="large"
-                                placeholder="Enter Mobile Number"
-                              />
-                              <label htmlFor="">
+                          {/* <div class="input"> */}
+                          <Form.Item
+                            // hasFeedback
+                            name="mobileNumber"
+                            rules={[
+                              {
+                                required: true,
+                                message: "Mobile number is required",
+                              },
+                              {
+                                pattern: /^\d{10}$/,
+                                message: "Mobile number is not valid",
+                              },
+                            ]}
+                          >
+                            <Input
+                              onKeyPress={handleMobileKeyPress}
+                              value={formvalue.receiverUserName}
+                              onChange={(e) =>
+                                setFormValue({
+                                  ...formvalue,
+                                  receiverUserName: e.target.value,
+                                })
+                              }
+                              maxLength={10}
+                              // addonBefore={"+91"}
+                              size="large"
+                              placeholder="Enter Mobile Number"
+                            />
+                            {/* <label htmlFor="">
                                 {" "}
                                 Enter the Recipient's Mobile Number
-                              </label>
-                            </Form.Item>
-                          </div>
+                              </label> */}
+                          </Form.Item>
+                          {/* </div> */}
                         </div>
                       </div>
 
@@ -494,20 +517,7 @@ const Gift = ({ setIsCommonTopNav }) => {
 
                       <div class="buy-sell-tab-outer">
                         {/* <!-- tab content start --> */}
-                        <Form
-                          fields={[
-                            {
-                              name: "grams",
-                              value: grams,
-                            },
-                            {
-                              name: "amount",
-                              value: amount,
-                            },
-                          ]}
-                          onFinish={handleFinish}
-                          className="buy-sell-tab-inner"
-                        >
+                        <div className="buy-sell-tab-inner">
                           <ul class="nav nav-pills tab-pills-wrapper">
                             <li
                               style={{ cursor: "pointer" }}
@@ -565,42 +575,42 @@ const Gift = ({ setIsCommonTopNav }) => {
                                   class="row align-items-center"
                                 >
                                   <div class="input-wrapper">
-                                    <div className="input">
-                                      <Form.Item
+                                    {/* <div className="input"> */}
+                                    <Form.Item
+                                      className="mb-0"
+                                      name={"grams"}
+                                      rules={[
+                                        {
+                                          required: true,
+                                          message: "Please Enter Grams",
+                                        },
+                                      ]}
+                                    >
+                                      <Input
+                                        formatter={formatter}
+                                        // onKeyDown={handleKeyDown2}
                                         className="mb-0"
-                                        name={"grams"}
-                                        rules={[
-                                          {
-                                            required: true,
-                                            message: "Please Enter Grams",
-                                          },
-                                        ]}
-                                      >
-                                        <Input
-                                          formatter={formatter}
-                                          // onKeyDown={handleKeyDown2}
-                                          className="mb-0"
-                                          onWheel={(e) => e.target.blur()}
-                                          parser={parser}
-                                          min={0.0001}
-                                          precision={4}
-                                          required
-                                          // addonBefore="Grams"
-                                          value={grams}
-                                          type="number"
-                                          name="grams"
-                                          onChange={handleGramsChange}
-                                          placeholder="Enter Grams"
-                                          size="large"
-                                          // step={0.0001}
-                                          step={"any"}
-                                          // style={{ padding: 15 }}
-                                        />
-                                        <label htmlFor="Enter Grams">
+                                        onWheel={(e) => e.target.blur()}
+                                        parser={parser}
+                                        min={0.0001}
+                                        precision={4}
+                                        required
+                                        // addonBefore="Grams"
+                                        value={grams}
+                                        type="number"
+                                        name="grams"
+                                        onChange={handleGramsChange}
+                                        placeholder="Enter Grams"
+                                        size="large"
+                                        // step={0.0001}
+                                        step={"any"}
+                                        // style={{ padding: 15 }}
+                                      />
+                                      {/* <label htmlFor="Enter Grams">
                                           Enter Grams
-                                        </label>
-                                      </Form.Item>
-                                    </div>
+                                        </label> */}
+                                    </Form.Item>
+                                    {/* </div> */}
                                   </div>
                                   <div class="exchange-arrow-outer text-center">
                                     <span class="exchange-arrow ">
@@ -617,75 +627,81 @@ const Gift = ({ setIsCommonTopNav }) => {
                                     </span>
                                   </div>
                                   <div class="input-wrapper">
-                                    <div className="input">
-                                      <Form.Item
+                                    {/* <div className="input"> */}
+                                    <Form.Item
+                                      name="amount"
+                                      className="mb-0"
+                                      rules={
+                                        [
+                                          // {
+                                          //   required: true,
+                                          //   message: "Please Enter Amount",
+                                          // },
+                                        ]
+                                      }
+                                    >
+                                      <Input
+                                        onKeyDown={handleKeyDown}
+                                        min={1}
+                                        required
+                                        onWheel={(e) => e.target.blur()}
+                                        value={amount}
+                                        maxLength={8}
+                                        max={180000}
+                                        // addonBefore="Rs."
+                                        type="number"
                                         name="amount"
+                                        onChange={handleAmountChange}
+                                        // disabled={active === 0 ? false : true}
+                                        placeholder="Enter Amount"
+                                        size="large"
+                                        step={"any"}
                                         className="mb-0"
-                                        rules={
-                                          [
-                                            // {
-                                            //   required: true,
-                                            //   message: "Please Enter Amount",
-                                            // },
-                                          ]
-                                        }
-                                      >
-                                        <Input
-                                          onKeyDown={handleKeyDown}
-                                          min={1}
-                                          required
-                                          onWheel={(e) => e.target.blur()}
-                                          value={amount}
-                                          maxLength={8}
-                                          max={180000}
-                                          // addonBefore="Rs."
-                                          type="number"
-                                          name="amount"
-                                          onChange={handleAmountChange}
-                                          // disabled={active === 0 ? false : true}
-                                          placeholder="Enter Amount"
-                                          size="large"
-                                          step={"any"}
-                                          className="mb-0"
-                                          // style={{
-                                          //   backgroundColor:
-                                          //     active !== 0 && "#80808052",
-                                          // }}
-                                        />
-                                        <label htmlFor="Enter Amount">
+                                        // style={{
+                                        //   backgroundColor:
+                                        //     active !== 0 && "#80808052",
+                                        // }}
+                                      />
+                                      {/* <label htmlFor="Enter Amount">
                                           Enter Amount
-                                        </label>
-                                      </Form.Item>
-                                    </div>
+                                        </label> */}
+                                    </Form.Item>
+                                    {/* </div> */}
                                   </div>
                                 </div>
 
                                 <div class="buy-btn">
                                   <button
-                                    // disabled={err || amount < 1}
+                                    // disabled={
+                                    //   !formvalue.receiverUserName || amount < 1
+                                    // }
                                     htmlType="submit"
                                     size="large"
                                     type="primary"
-                                    class={"btn-primery quick-buy"}
+                                    class={`${
+                                      amount < 1 && (amount || grams)
+                                        ? "btn-disable quick-buy"
+                                        : "btn-primery quick-buy"
+                                    } `}
                                   >
                                     Send Gift
                                   </button>
-                                  {/* <p style={{ color: "red", marginTop: 20 }}>
-                                  {amount < 1 && (amount || grams)
-                                    ? "Minimum Amount Rs.1"
-                                    : null}
-                                </p>
-                                <p style={{ color: "red", marginTop: 20 }}>
-                                  {err}
-                                </p> */}
+                                  <p style={{ color: "red", marginTop: 20 }}>
+                                    {amount < 1 && (amount || grams)
+                                      ? "Minimum Amount Rs.1"
+                                      : null}
+                                  </p>
+                                  <p style={{ color: "red", marginTop: 20 }}>
+                                    {err}
+                                  </p>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </Form>
+                        </div>
                         {/* <!-- tab content end --> */}
                       </div>
-                    </div>
+                    </Form>
                   </div>
                 </div>
               </Spin>

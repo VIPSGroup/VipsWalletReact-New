@@ -21,13 +21,13 @@ import {
   namePattern,
 } from "../../constants";
 
-const DigiGoldSignup = ({ setIsDigiLogin }) => {
+const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [step, setStep] = useState(0);
+  // const [step, setStep] = useState(0);
   // const [stateList, setStateList] = useState([]);
   const { modalBool } = useSelector((state) => state.digiGoldSlice.modal);
   const { loading, data } = useSelector(
@@ -105,12 +105,12 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
       setSuccessMsg("");
       setIsSnackBar(true);
     } else if (res.payload.ResponseStatus === 0 && !res.payload.Data) {
-      console.log("ye hai ");
       setErrorMsg(res.payload.Remarks);
       setSuccessMsg("");
       setIsSnackBar(true);
     }
   };
+  console.log(step, "step");
   const renderTime2 = () => React.Fragment;
   const renderButton2 = (buttonProps) => {
     return (
@@ -183,7 +183,7 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
     setErrorMsg("");
     setIsSnackBar(false);
   }, [data]);
-
+  console.log(step, "step");
   return (
     <>
       <Modal
@@ -205,6 +205,8 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
             </div>
             <div class="">
               <Form
+                autoComplete="off"
+                autoCapitalize="off"
                 onFinish={handleSubmit}
                 fields={[
                   { name: "mobileNumber", value: formValue.mobileNumber },
@@ -251,11 +253,6 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                       name="Name"
                       rules={[
                         { required: true, message: "Full name is required" },
-
-                        {
-                          min: 3,
-                          message: "Full Name Min 3 Letters",
-                        },
                         {
                           pattern: "[A-Za-zs]+",
                           message: "Name is not valid",

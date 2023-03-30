@@ -1,8 +1,8 @@
 import { SHA512 } from "crypto-js";
 
 const themeColor = "#393186";
-export const baseApiUrl = "https://api.vipswallet.com/api";
-// export const baseApiUrl = "http://devtest.vipswallet.com/api";
+// export const baseApiUrl = "https://api.vipswallet.com/api";
+export const baseApiUrl = "http://devtest.vipswallet.com/api";
 export const digiBaseUrl = "http://devtest.vipswallet.com/api/DigiGold/";
 // export const baseApiUrl = "http://webplat.vipswallet.com/api/";
 export const shopadminUrl = "http://shopadmin.vipswallet.com";
@@ -66,13 +66,41 @@ export const handleKeyDown = (event) => {
     return;
   }
 };
+export const handleKeyDown2 = (event) => {
+  const maxLength = 8;
+  const key = event.key;
+  const allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
+
+  if (key === "," || key === "-") {
+    // prevent comma and negative sign
+    event.preventDefault();
+    return;
+  }
+
+  if (key === "Backspace" || key === "Delete") {
+    return;
+  }
+
+  if (event.target.value.length >= maxLength && key !== ".") {
+    // limit to 8 digits (excluding the decimal point)
+    event.preventDefault();
+    return;
+  }
+
+  if (!allowedKeys.includes(key)) {
+    // prevent non-digit and non-decimal-point keys
+    event.preventDefault();
+    return;
+  }
+};
 
 // RegEX
 export const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; // regular expression for full name validation
 export const pincodeRegex = /^[1-9][0-9]{5}$/; // regular expression for Indian PIN code validation
 export const mobileRegex = /^[6-9]\d{9}$/; // regular expression for Indian mobile number validation
 // export const namePattern = /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/; // regular expression for full name validation
-export const namePattern = /^[a-zA-Z]+ [a-zA-Z]+$/;
+export const namePattern = /^([\w]{3,})+\s+([\w\s]{1,})+$/i;
+export const FirstNamePattern = /^[a-zA-Z]+$/;
 
 export const validateName = (_, value) => {
   if (!value || nameRegex.test(value)) {
@@ -151,6 +179,8 @@ const travelTerms = "Travel";
 const faq = "FAQ";
 const privacypolicy = "Privacy Policy";
 const termsAndConditions = "Terms And Conditions";
+const DigitermsAndConditions = "DigiGold Terms And Conditions";
+const Digifaq = "DigiGold FAQs";
 
 export const appType = "Website";
 
@@ -176,6 +206,10 @@ export const getTermsConditionsId = (type) => {
     return faq;
   } else if (type && type.includes("termscondtion")) {
     return termsAndConditions;
+  } else if (type && type.includes("DigiGold Terms And Conditions")) {
+    return DigitermsAndConditions;
+  } else if (type && type.includes("DigiGold FAQs")) {
+    return Digifaq;
   }
 };
 

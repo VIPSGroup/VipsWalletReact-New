@@ -6,6 +6,13 @@ import { MuiSnackBar } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading.jsx";
 import CommonTopNav from "../../components/layout/Header/CommonTopNav";
 import {
+  FirstNamePattern,
+  handleKeyPress,
+  handleKeyPressForName,
+  namePattern,
+  validateFullName,
+} from "../../constants";
+import {
   getCityList,
   getStateList,
   loginDigiGold,
@@ -13,6 +20,7 @@ import {
 import { UpdateUser } from "../../redux/slices/digiGold/userProfileSlice";
 
 const DigiProfile = () => {
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
@@ -57,12 +65,7 @@ const DigiProfile = () => {
       dispatch(getCityList(formValue.userStateId));
     }
   }, [formValue.userStateId]);
-  const handleKeyPress = (event) => {
-    const charCode = event.which ? event.which : event.keyCode;
-    if (charCode !== 8 && !/^[a-zA-Z ]+$/.test(String.fromCharCode(charCode))) {
-      event.preventDefault();
-    }
-  };
+
   console.log(formValue, "formValue");
   useEffect(() => {
     formValue.Name = logData?.Data?.Name;
@@ -118,6 +121,7 @@ const DigiProfile = () => {
                 <div class="buy-sell-form-outer">
                   <div class="digigold-profile-wrapper">
                     <Form
+                      form={form}
                       autoComplete="off"
                       onFinish={handleSubmit}
                       fields={[
@@ -380,10 +384,14 @@ const DigiProfile = () => {
                                     formValue.nomineeDateOfBirth,
                                   message: "This Field is Required ",
                                 },
+                                {
+                                  pattern: namePattern,
+                                  message: "Please enter a valid full name!",
+                                },
                               ]}
                             >
                               <Input
-                                onKeyPress={handleKeyPress}
+                                // onKeyPress={handleKeyPressForName}
                                 value={formValue.nomineeName}
                                 onChange={(e) =>
                                   setFormValue({
@@ -439,10 +447,15 @@ const DigiProfile = () => {
                                     formValue.nomineeDateOfBirth,
                                   message: "This Field is Required ",
                                 },
+                                {
+                                  pattern: FirstNamePattern,
+                                  message: "Please enter a valid Relation",
+                                },
                               ]}
                             >
                               <Input
-                                onKeyPress={handleKeyPress}
+                                // onKeyPress={handleKeyPress}
+                                onKeyPress={handleKeyPressForName}
                                 value={formValue.nomineeRelation}
                                 onChange={(e) =>
                                   setFormValue({

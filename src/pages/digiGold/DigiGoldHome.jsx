@@ -15,6 +15,7 @@ import {
   digitPrecision,
   formatter,
   handleKeyDown,
+  handleKeyDown2,
   parser,
 } from "../../constants";
 import { MuiSnackBar } from "../../components/common";
@@ -35,8 +36,11 @@ export const HowItWorks = () => {
           <div class="digigold-work-box-outer">
             {howItWorkArr.map((e) => {
               return (
-                <div class="digigold-work-box-inner">
-                  <a href="#" class="digigold-work-div-outer">
+                <div
+                  style={{ cursor: "pointer" }}
+                  class="digigold-work-box-inner"
+                >
+                  <div class="digigold-work-div-outer">
                     <div class="digigold-work-div-box">
                       <div class="digigold-work-icon">
                         <img
@@ -51,7 +55,7 @@ export const HowItWorks = () => {
                       </div>
                       <p class="digigold-work-description">{e.desc}</p>
                     </div>
-                  </a>
+                  </div>
                 </div>
               );
             })}
@@ -64,7 +68,14 @@ export const HowItWorks = () => {
     </>
   );
 };
-const DigiGoldHome = ({ setActive, active }) => {
+const DigiGoldHome = ({
+  setActive,
+  active,
+  setGrams,
+  grams,
+  setAmount,
+  amount,
+}) => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -72,9 +83,9 @@ const DigiGoldHome = ({ setActive, active }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [amount, setAmount] = useState("");
+  // const [amount, setAmount] = useState("");
   const [isGold, setIsGold] = useState(0); //0 for Gold 1 for Silver
-  const [grams, setGrams] = useState("");
+  // const [grams, setGrams] = useState("");
   const [err, setErr] = useState("");
 
   const [valueType, setValueType] = useState({
@@ -86,6 +97,7 @@ const DigiGoldHome = ({ setActive, active }) => {
     metalType: "",
     type: "",
   });
+  const [step, setStep] = useState("");
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
@@ -95,12 +107,11 @@ const DigiGoldHome = ({ setActive, active }) => {
   const { rateData, loading } = useSelector(
     (state) => state.digiGoldSlice.rates
   );
-
   const handleClick = () => {
     valueType.uniqueId = loggedInUser?.Id;
     valueType.username = loggedInUser?.UserName;
     valueType.password = loggedInUser?.TRXNPassword;
-    valueType.type = active === 0 ? "buy" : "sell";
+    valueType.type = parseFloat(active) === 0 ? "buy" : "sell";
     if (!amount && !grams) {
       setErr("Please Enter Amount or Grams");
     } else {
@@ -115,6 +126,8 @@ const DigiGoldHome = ({ setActive, active }) => {
         ) {
           navigate("/vipsgold-order-summary", { state: valueType });
           localStorage.setItem("valueType", JSON.stringify(valueType));
+          setAmount("");
+          setGrams("");
 
           navigate("/vipsgold-order-summary", { state: valueType });
         } else if (rateData.ResponseStatus === 0) {
@@ -195,76 +208,99 @@ const DigiGoldHome = ({ setActive, active }) => {
     const str = roundedNum.toFixed(4);
     const ResultGrams = parseFloat(str);
     setGrams(quantity);
-    setErr("");
+    if (quantity === 0) {
+      setErr("");
+    }
   };
-
   const handleGramsChange = (e) => {
     let value =
-      e.target.value.split(".").length !== 2
-        ? e.target.value
-        : e.target.value.split(".")[0] +
-          "." +
-          e.target.value.split(".")[1].substring(0, 4);
+      e.target.value.indexOf(".") === -1
+        ? e.target.value.slice(0, 4).replace(/[^\d]/g, "")
+        : e.target.value
+            .split(".")
+            .map((part, index) =>
+              index === 0
+                ? part.replace(/[^\d]/g, "")
+                : part.slice(0, 4).replace(/[^\d]/g, "")
+            )
+            .join(".");
+
+    if (e.target.value.length > value.length) {
+      e.target.value = value;
+    }
+
     const quantity = digitPrecision(value, "quantity");
     setGrams(quantity);
-    const gram = parseFloat(value);
+    const gram = parseFloat(quantity);
     const gGram = parseFloat(logData?.Data?.GoldGrams);
     const sGram = parseFloat(logData?.Data?.SilverGrams);
     if (logData.Data) {
-      if (active === 1 && gram > (isGold === 0 ? gGram : sGram)) {
+      if (
+        parseFloat(active) === 1 &&
+        gram > (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))
+      ) {
         const roundedNum = Math.round(gGram * 10000) / 10000;
         const gGramStr = roundedNum.toFixed(4);
         const gGramResult = parseFloat(gGramStr);
         const sGramRounded = Math.round(sGram * 10000) / 10000;
         const sGramStr = sGramRounded.toFixed(4);
         const sGramResult = parseFloat(sGramStr);
-        console.log(gram > gGram, "gram");
-        // console.log(gGramResult, "gGramResult")
-        setErr(
-          ` You can sell up to ${isGold === 0 ? gGramResult : sGramResult} gm ${
-            isGold === 0 ? "Gold" : "Silver"
-          } of total  ${isGold === 0 ? gGramResult : sGramResult} gm `
-        );
+        if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
+          setErr(
+            ` You can sell up to ${
+              isGold === 0 ? gGramResult : sGramResult
+            } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+              isGold === 0 ? gGramResult : sGramResult
+            } gm `
+          );
+        } else {
+          setErr(
+            `You do not have a enough ${
+              isGold === 0 ? "Gold" : "Silver"
+            } to Sell `
+          );
+        }
       } else {
         setErr("");
       }
     }
 
     const TotalAmount =
-      (active === 0 &&
+      (parseFloat(active) === 0 &&
         isGold === 0 &&
-        rateData.Data?.result?.data?.rates?.gBuy * value) ||
-      (active === 0 &&
+        rateData.Data?.result?.data?.rates?.gBuy * quantity) ||
+      (parseFloat(active) === 0 &&
         isGold === 1 &&
-        rateData.Data?.result?.data?.rates?.sBuy * value) ||
-      (active === 1 &&
+        rateData.Data?.result?.data?.rates?.sBuy * quantity) ||
+      (parseFloat(active) === 1 &&
         isGold === 0 &&
-        rateData.Data?.result?.data?.rates?.gSell * value) ||
-      (active === 1 &&
+        rateData.Data?.result?.data?.rates?.gSell * quantity) ||
+      (parseFloat(active) === 1 &&
         isGold === 1 &&
-        rateData.Data?.result?.data?.rates?.sSell * value);
+        rateData.Data?.result?.data?.rates?.sSell * quantity);
     setValueType({
       ...valueType,
-      valueinGm: value,
+      valueinGm: quantity,
       valueinAmt: TotalAmount,
       valType: "quantity",
       metalType: isGold === 0 ? "gold" : "silver",
     });
     const totalRound = Math.round(TotalAmount * 10000) / 10000;
     const strTotal = totalRound.toFixed(2);
+    console.log(strTotal, "strTotal");
     const totalResult = parseFloat(strTotal);
-    // console.log(totalResult, "total Result")
-    console.log(totalRound, "result");
-    setAmount(totalResult || "");
-    setErr("");
+    console.log(totalResult, "totalResult");
+
+    setAmount((totalResult === "0.00" ? 0 : totalResult) || "");
+    if (totalResult === 0) {
+      setErr("");
+    }
   };
   useEffect(() => {
     if (state) {
       setActive(state);
     }
   }, []);
-
-  const regex = /^[0-9]*\.?[0-9]+$/;
 
   return (
     <>
@@ -282,53 +318,7 @@ const DigiGoldHome = ({ setActive, active }) => {
 
               <div class="row">
                 <div class="col-lg-12">
-                  {/* {loggedInUser && !logData?.Data && (
-                    <div class="col-lg-7 mx-auto digigold-logintext">
-                      <p class="digigold-logintext-title mt-2">
-                        You are not Register on VIPS Gold
-                      </p>
-                      <button
-                        onClick={() => dispatch(modalOpen())}
-                        class="digigold-logintext-btn mt-2 btn-primery"
-                      >
-                        Register now
-                      </button>
-                    </div>
-                  )}
-                  {loggedInUser && logData?.Data && (
-                    <div class="my-vault-wrapper">
-                      <div class="col-lg-7 mx-auto">
-                        <div class="my-vault-badge-wrapper">
-                          <span class="my-vault-badge">My Vault</span>
-                        </div>
-                        <div class="my-vault-inner">
-                          <div class="vault-value">
-                            <p class="vault-value-text">Gold Grams</p>
-                            <p class="vault-value-count mt-3">
-                              {" "}
-                              {logData.Data && !loading
-                                ? logData.Data.GoldGrams?.toFixed(4)
-                                : "0.0000"}{" "}
-                              Grams
-                            </p>
-                          </div>
-                          <div class="vertical-separator"></div>
-                          <div class="vault-value">
-                            <p class="vault-value-text">Silver Grams</p>
-                            <p class="vault-value-count mt-3">
-                              {" "}
-                              {logData.Data && !loading
-                                ? logData.Data.SilverGrams?.toFixed(4)
-                                : "0.0000"}{" "}
-                              Grams
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )} */}
-                  <MyVault />
-
+                  <MyVault setStep={setStep} />
                   <div class="buy-sell-form-outer">
                     <div class="current-rate-outer">
                       <div class="current-rate">
@@ -336,10 +326,10 @@ const DigiGoldHome = ({ setActive, active }) => {
                         <span class="current-rate-amt">
                           &#x20B9;{" "}
                           {!loading && rateData
-                            ? active === 0
+                            ? parseFloat(active) === 0
                               ? rateData.Data?.result?.data?.rates?.gBuy
                               : rateData?.Data?.result?.data?.rates?.gSell
-                            : "Loading..."}
+                            : "Loading..."}{" "}
                           / gm
                         </span>
                       </div>
@@ -356,7 +346,7 @@ const DigiGoldHome = ({ setActive, active }) => {
                           {" "}
                           &#x20B9;{" "}
                           {!loading && rateData
-                            ? active === 0
+                            ? parseFloat(active) === 0
                               ? rateData?.Data?.result?.data?.rates?.sBuy
                               : rateData?.Data?.result?.data?.rates?.sSell
                             : "Loading..."}{" "}
@@ -477,7 +467,7 @@ const DigiGoldHome = ({ setActive, active }) => {
                                   >
                                     <Input
                                       formatter={formatter}
-                                      // onKeyDown={handleKeyDown2}
+                                      onKeyDown={handleKeyDown2}
                                       className="mb-0 disabled-input"
                                       onWheel={(e) => e.target.blur()}
                                       parser={parser}
@@ -540,14 +530,17 @@ const DigiGoldHome = ({ setActive, active }) => {
                                       type="number"
                                       name="amount"
                                       onChange={handleAmountChange}
-                                      disabled={active === 0 ? false : true}
+                                      disabled={
+                                        parseFloat(active) === 0 ? false : true
+                                      }
                                       placeholder="Enter Amount"
                                       size="large"
                                       step={"any"}
                                       className="mb-0 disabled-input"
                                       style={{
                                         backgroundColor:
-                                          active !== 0 && "#80808000",
+                                          parseFloat(active) !== 0 &&
+                                          "#80808000",
                                       }}
                                     />
                                     {/* <label htmlFor="Enter Amount">
@@ -565,12 +558,14 @@ const DigiGoldHome = ({ setActive, active }) => {
                                   size="large"
                                   type="primary"
                                   class={`${
-                                    amount < 1 && (amount || grams)
+                                    (amount < 1 && (amount || grams)) || err
                                       ? "btn-disable quick-buy"
                                       : "btn-primery quick-buy"
                                   } `}
                                 >
-                                  {active === 0 ? "Quick Buy" : "Quick Sell"}
+                                  {parseFloat(active) === 0
+                                    ? "Quick Buy"
+                                    : "Quick Sell"}
                                 </button>
                                 <p style={{ color: "red", marginTop: 20 }}>
                                   {amount < 1 && (amount || grams)
@@ -627,9 +622,17 @@ const DigiGoldHome = ({ setActive, active }) => {
             </div>
           </div>
         </section> */}
-        <QuickService setActive={setActive} />
+        <QuickService
+          setActive={setActive}
+          setAmount={setAmount}
+          setGrams={setGrams}
+        />
         {HowItWorks(setActive)}
-        <DigiGoldSignup setIsDigiLogin={setIsDigiLogin} />
+        <DigiGoldSignup
+          setIsDigiLogin={setIsDigiLogin}
+          setStep={setStep}
+          step={step}
+        />
       </div>
       <MuiSnackBar
         open={isSnackBar}

@@ -73,7 +73,6 @@ const OrderSummary = () => {
   // Grams Crop
 
   // Complete Login is this UseEffect
-
   useEffect(() => {
     if (counter === 0 || counter === 300) {
       const fetchRates = async () => {
@@ -97,7 +96,11 @@ const OrderSummary = () => {
               const TotalAmount =
                 parseFloat(exclTaxRate) + parseFloat(totalTax);
               const inclTaxAmount = digitPrecision(TotalAmount, "amount");
-              setCurrentGram(quantity);
+              const newQty = quantity.toString().includes(".")
+                ? quantity
+                : parseFloat(quantity).toFixed(4);
+
+              setCurrentGram(newQty);
               setTax(totalTax);
               setCurrentRate(exclTaxRate);
               setTotalAmount(inclTaxAmount);
@@ -119,7 +122,8 @@ const OrderSummary = () => {
               const inclTaxRate = digitPrecision(TaxInc, "amount");
               const qty = inclTaxAmount / inclTaxRate;
               const quantity = digitPrecision(qty, "quantity");
-              setCurrentGram(quantity);
+
+              setCurrentGram(quantity.toFixed(4));
               setTotalAmount(inclTaxAmount);
               setCurrentRate(exclTaxAmount);
               setTax(totalTax);
@@ -139,8 +143,10 @@ const OrderSummary = () => {
               const TotalAmount =
                 parseFloat(exclTaxRate) + parseFloat(totalTax);
               const inclTaxAmount = digitPrecision(TotalAmount, "amount");
-
-              setCurrentGram(quantity);
+              const newQty = quantity.toString().includes(".")
+                ? quantity
+                : parseFloat(quantity).toFixed(4);
+              setCurrentGram(newQty);
               setTax(totalTax);
               setCurrentRate(exclTaxRate);
               setTotalAmount(inclTaxAmount);
@@ -158,11 +164,14 @@ const OrderSummary = () => {
                   taxRate) /
                   parseFloat(100) +
                 parseFloat(res.payload.Data.result.data.rates.sBuy);
-
               const inclTaxRate = digitPrecision(TaxInc, "amount");
               const qty = inclTaxAmount / inclTaxRate;
               const quantity = digitPrecision(qty, "quantity");
-              setCurrentGram(quantity);
+              // const newQty = quantity.toString().includes(".")
+              //   ? quantity.toFixed(4)
+              //   : quantity;
+              // console.log(newQty, "ye New hai");
+              setCurrentGram(quantity.toFixed(4));
               setTotalAmount(inclTaxAmount);
               setCurrentRate(exclTaxAmount);
               setTax(totalTax);
@@ -255,10 +264,10 @@ const OrderSummary = () => {
     const password = state.password;
     const lockPrice = lockprice;
     const metalType = state.metalType;
-    const roundedCurrent = Math.round(currentGram * 10000) / 10000;
-    const str = roundedCurrent.toFixed(4);
-    const result = parseFloat(str);
-    const quantity = result;
+    // const roundedCurrent = Math.round(currentGram * 10000) / 10000;
+    // const str = roundedCurrent.toFixed(4);
+    // const result = parseFloat(currentGram);
+    const quantity = currentGram;
     const blockid = blockId;
     const amount = totalAmount ? totalAmount : state.valueinAmt;
     const type = state.valType;
@@ -592,7 +601,7 @@ const OrderSummary = () => {
                               Quantity (gms)
                             </p>
                             <p class="digigold-insert-amt">
-                              {currentGram && currentGram?.toFixed(4)} Grams
+                              {currentGram && currentGram} Grams
                             </p>
                           </div>
                           <div
@@ -1155,7 +1164,7 @@ const OrderSummary = () => {
         centered
         onCancel={() => {
           localStorage.removeItem("valueType");
-          navigate("/digigold");
+          navigate("/vipsgold");
         }}
         open={step === 1 && true}
       >

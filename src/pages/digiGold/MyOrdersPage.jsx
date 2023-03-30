@@ -36,7 +36,7 @@ const MyOrdersPage = () => {
   const { data: sellStatus } = useSelector(
     (state) => state.userProfileSlice.sellStatus
   );
-  const { pdfData } = useSelector((state) => state.userProfileSlice.invoice);
+  // const { pdfData } = useSelector((state) => state.userProfileSlice.invoice);
 
   useEffect(() => {
     if (loggedInUser) {
@@ -78,25 +78,7 @@ const MyOrdersPage = () => {
       console.log(sellStatus.Remarks, "sellStatus.Remarks");
     }
   }, [sellStatus]);
-  useEffect(() => {
-    if (pdfData.ResponseStatus === 1) {
-      setErrorMsg("");
-      setIsSnackBar(true);
-      console.log(pdfData.Remarks, "pdfData.Remarks");
-      setSuccessMsg(pdfData.Remarks);
-      const linkSource = `data:application/pdf;base64,${pdfData.Data.InvoiceString}`;
-      const downloadLink = document.createElement("a");
-      downloadLink.href = linkSource;
-      downloadLink.download = pdfData.Data.invoiceNumber;
-      downloadLink.click();
-    } else if (pdfData.ResponseStatus === 0) {
-      console.log("errorrrrrrrr");
-      setSuccessMsg("");
-      setIsSnackBar(true);
-      setErrorMsg(pdfData.Remarks);
-      console.log(pdfData.Remarks, "pdfData.Remarks");
-    }
-  }, [pdfData]);
+
   const convertBase64ToPDF = (base64String) => {
     const binaryData = atob(base64String);
 
@@ -194,10 +176,29 @@ const MyOrdersPage = () => {
     },
   ];
 
+  const handleDownloadInvoice = async (TrxnID) => {
+    const res = await dispatch(downloadPdf(TrxnID));
+    if (res.payload.ResponseStatus === 1) {
+      setErrorMsg("");
+      setIsSnackBar(true);
+      setSuccessMsg(res.payload.Remarks);
+      const linkSource = `data:application/pdf;base64,${res.payload.Data.InvoiceString}`;
+      const downloadLink = document.createElement("a");
+      downloadLink.href = linkSource;
+      downloadLink.download = res.payload.Data.invoiceNumber;
+      downloadLink.click();
+    } else if (res.payload.ResponseStatus === 0) {
+      setSuccessMsg("");
+      setIsSnackBar(true);
+      setErrorMsg(res.payload.Remarks);
+    }
+  };
+
+  // This Function for Diff Color Row Sent to and Recieved From
   const FilterClass = (item) => {
-    if (logData.Data.UniqueId === item.SenderUniqueId) {
-      return "#22DD22      ";
-    } else if (logData.Data.UniqueId === item.ReceiverUniqueId) {
+    if (logData.Data?.UniqueId === item.SenderUniqueId) {
+      return "#008000      ";
+    } else if (logData.Data?.UniqueId === item.ReceiverUniqueId) {
       return "red";
     } else {
       return "N/A";
@@ -210,8 +211,12 @@ const MyOrdersPage = () => {
       date: (
         <>
           <h2
-            style={{ fontSize: 14, color: FilterClass(item) }}
-            className="text-gray-500"
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              color: item.TransactionType === "Gift" && FilterClass(item),
+            }}
+            className="text-gray-500 "
           >
             <Moment format="DD-MM-YYYY">{item.AddDate}</Moment>
           </h2>
@@ -220,7 +225,12 @@ const MyOrdersPage = () => {
       transactionID: (
         <>
           <h2
-            style={{ fontSize: 14, color: FilterClass(item) }}
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+
+              color: item.TransactionType === "Gift" && FilterClass(item),
+            }}
             className="text-gray-500"
           >
             {item.TransactionId}
@@ -230,7 +240,12 @@ const MyOrdersPage = () => {
       narration: (
         <>
           <h2
-            style={{ fontSize: 14, color: FilterClass(item) }}
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+
+              color: item.TransactionType === "Gift" && FilterClass(item),
+            }}
             className="text-gray-500"
           >
             {`${
@@ -248,7 +263,11 @@ const MyOrdersPage = () => {
       amount: (
         <>
           <h2
-            style={{ fontSize: 14, color: FilterClass(item) }}
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              color: FilterClass(item),
+            }}
             className="text-gray-500"
           >
             ₹ {item.TotalAmount}
@@ -258,7 +277,11 @@ const MyOrdersPage = () => {
       metaltype: (
         <>
           <h2
-            style={{ fontSize: 14, color: FilterClass(item) }}
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              color: FilterClass(item),
+            }}
             className="text-gray-500"
           >
             {item.MetalType}
@@ -268,7 +291,11 @@ const MyOrdersPage = () => {
       qty: (
         <>
           <h2
-            style={{ fontSize: 14, color: FilterClass(item) }}
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              color: FilterClass(item),
+            }}
             className="text-gray-500"
           >
             {item.Quantity?.toFixed(2)}
@@ -278,7 +305,11 @@ const MyOrdersPage = () => {
       transactiontype: (
         <>
           <h2
-            style={{ fontSize: 14, color: FilterClass(item) }}
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              color: FilterClass(item),
+            }}
             className="text-gray-500"
           >
             {(() => {
@@ -296,7 +327,11 @@ const MyOrdersPage = () => {
       customername: (
         <>
           <h2
-            style={{ fontSize: 14, color: FilterClass(item) }}
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              color: FilterClass(item),
+            }}
             className="text-gray-500"
           >
             {(() => {
@@ -344,7 +379,6 @@ const MyOrdersPage = () => {
       ),
     }));
 
-  console.log(modalData, "modalData");
   return (
     <>
       {/* <CommonTopNav /> */}
@@ -578,9 +612,9 @@ const MyOrdersPage = () => {
                   <div
                     class="col-xl-6 col-sm-6 text-sm-right"
                     onClick={() => {
-                      console.log(tab);
                       tab === "Buy" &&
-                        dispatch(downloadPdf(modalData.TransactionId));
+                        handleDownloadInvoice(modalData.TransactionId);
+                      // dispatch(downloadPdf(modalData.TransactionId));
                     }}
                   >
                     {modalData.TransactionType?.toLowerCase() === "buy" ? (
