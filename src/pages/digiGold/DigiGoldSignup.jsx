@@ -348,7 +348,6 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                   </div>
 
                   <div class="col-lg-12">
-                    {/* <div class="custom-control custom-checkbox check-term-Style"> */}
                     <Form.Item
                       name="terms"
                       valuePropName="checked"
@@ -362,7 +361,6 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                                 ),
                         },
                       ]}
-                      // {...tailFormItemLayout}
                     >
                       <Checkbox className="check-term-Style">
                         I Agree to the{" "}
@@ -379,12 +377,8 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                       <Button
                         loading={loading}
                         htmlType="submit"
-                        // onClick={handleClick}
                         type="primary"
                         class="btn btn-primery login-btn"
-                        // id="digigold-otp"
-                        // data-toggle="modal"
-                        // data-target="#digigoldotpform"
                       >
                         Send OTP
                       </Button>

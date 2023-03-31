@@ -147,14 +147,13 @@ const DigiGoldHome = ({
       }
     }
   };
-  console.log(isServiceEnable, "isServiceEnable");
   useEffect(() => {
     if (
       loggedInUser &&
       isServiceEnable.ResponseStatus === 1 &&
       isServiceEnable.Data.IsServiceEnabled === true
     ) {
-      console.log("chl rha ahi")
+      console.log("chl rha ahi");
       const username = loggedInUser.UserName;
       const password = loggedInUser.TRXNPassword;
       dispatch(loginDigiGold({ username, password }));
@@ -294,7 +293,6 @@ const DigiGoldHome = ({
 
   return (
     <>
-      {/* <CommonTopNav setActive={setActive} /> */}
       <div className="">
         {/* <!-- body section start Now --> */}
         <Spin size="large" spinning={loading || logLoading || digiLogLoading}>
@@ -619,30 +617,6 @@ const DigiGoldHome = ({
           step={step}
         />
       </div>
-      {/* {isServiceEnable.ResponseStatus === 0 &&
-        isServiceEnable.Data.IsServiceEnabled &&
-        !ServiceEnableLoading && (
-          <>
-            <Modal
-              open={true}
-              footer={null}
-              centered
-              maskClosable={false}
-              closable={false}
-              width={500}
-              bodyStyle={{ textAlign: "center" }}
-            >
-              <p style={{ fontSize: 20, fontWeight: "600" }}>
-                We are currently undergoing maintenance. Please check back
-                later.
-              </p>
-              <Space />
-              <Button type="primary" onClick={() => navigate("/")}>
-                Back to Home
-              </Button>
-            </Modal>
-          </>
-        )} */}
       <UserNotExist />
       <MuiSnackBar
         open={isSnackBar}
