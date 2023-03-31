@@ -146,7 +146,7 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
           });
         }
         // setLoading(false);
-      } else {
+      } else  if (rechargeData.ResponseCode === 0 || rechargeData.ResponseStatus === 0){
         // setLoading(false);
         setIsSnackBar(true);
         setErrorMsg(rechargeData.Remarks);

@@ -187,20 +187,20 @@ const QuickViewModal = ({ productId }) => {
 
   useEffect(() => {
     var p = {};
-    p = data?.Data?.ProductDetails;
-    setProduct(data?.Data?.ProductDetails);
-    setProductObj(data?.Data);
-    checkInCart(data?.Data);
+    p = data?.response?.Data?.ProductDetails;
+    setProduct(data?.response?.Data?.ProductDetails);
+    setProductObj(data?.response?.Data);
+    checkInCart(data?.response?.Data);
     if (p?.Size) {
-      getSizes(data?.Data?.ProductDetails?.Size);
+      getSizes(data?.response?.Data?.ProductDetails?.Size);
     }
     if (p?.Color) {
-      getColors(data.Data.ProductDetails.Color);
+      getColors(data.response?.Data.ProductDetails.Color);
     }
-    getProductImages(data?.Data?.ProductDetails);
+    getProductImages(data?.response?.Data?.ProductDetails);
     const buyNowProductDeatils = {
-      product: data.Data?.ProductDetails,
-      charges: data.Data?.ProductTax,
+      product: data.response?.Data?.ProductDetails,
+      charges: data.response?.Data?.ProductTax,
       selectedColor: selectedColor,
       selectedSize: selectedSize,
       qty: qty,
@@ -280,14 +280,14 @@ const QuickViewModal = ({ productId }) => {
         <div class="col-lg-6">
           <div class="quick-view-product">
             <>
+            
 <Spin spinning={loading}>
-              <Carousel
+  {/* {data?.imgArray?.map(item=> <p>{JSON.stringify(item.original)}</p>)} */}
+ {data?.imgArray &&  <Carousel
                 responsive={responsive}
                 infinite={true}
                 className="quick-view-product-img-outer"
-              >
-                {productImages &&
-                  productImages.map((image, i) => (
+              >{ data?.imgArray?.map((image, i) => (
                     <div class="quick-view-product-img">
                       <img
                         class="img-thumbnail "
@@ -296,7 +296,8 @@ const QuickViewModal = ({ productId }) => {
                       />
                     </div>
                   ))}
-              </Carousel>
+              </Carousel>}
+             
               </Spin>
             </>
           </div>

@@ -399,11 +399,11 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/vipsgold" element={<DigiGoldHome active={active} setActive={setActive}/>} />
+        {/* <Route path="/vipsgold" element={<DigiGoldHome active={active} setActive={setActive}/>} />
         <Route path="/vipsgold-order-summary" element={<OrderSummary />} />
         <Route path="/vipsgold-profile" element={<DigiProfile />} />
         <Route path="/vipsgold-orders" element={<MyOrdersPage />} />
-        
+         */}
         {/* <Route path="/vipsgold/gift" element={<Gift />} /> */}
                 {/* <Route
           path="/vipsgold-delivery"
@@ -418,7 +418,7 @@ const Router = () => {
             />
           }
         /> */}
-        <Route
+        {/* <Route
           path="/vipsgold-cart/"
           element={
             <DigiDeliveryCart
@@ -465,7 +465,7 @@ const Router = () => {
               type="VIPS Gold Terms And Conditions"
             />
           }
-        />
+        /> */}
         <Route
           path="/prime"
           element={

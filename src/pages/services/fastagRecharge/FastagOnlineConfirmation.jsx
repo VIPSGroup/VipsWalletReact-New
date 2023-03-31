@@ -130,7 +130,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
           setIsSnackBar(true);
           setErrorMsg(fastagRecharge?.Data?.ResponseMessage);
         }
-      } else if(fastagRecharge?.ResponseCode === 0){
+      } else if(fastagRecharge?.ResponseCode === 0 || fastagRecharge?.ResponseStatus === 0){
         setSuccessMsg("")
         setIsSnackBar(true);
         setErrorMsg(fastagRecharge?.Remarks

@@ -265,13 +265,13 @@ const ShoppingCheckout = () => {
             <div class="order-tracking-wrapper">
               <div class="order-tracking-outer">
                 <div class="order-tracking order-tracking-cart">
-                  <Link class=""> Cart </Link>
+                  <span class=""> Cart </span>
                 </div>
                 <div class="order-tracking order-tracking-address">
-                  <Link class=""> Address </Link>
+                  <span class=""> Address </span>
                 </div>
                 <div class="order-tracking order-tracking-payment completed">
-                  <Link class=""> Payment </Link>
+                  <span class=""> Payment </span>
                 </div>
               </div>
             </div>

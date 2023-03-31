@@ -161,7 +161,7 @@ const ProductListing = () => {
                 options={[
                   { value: "lowtohigh", label: "Price : Low to High" },
                   { value: "hightolow", label: "Price : High to Low" },
-                  { value: "new", label: "Newest Arrivals" },
+                  // { value: "new", label: "Newest Arrivals" },
                 ]}
               />
             </Row>

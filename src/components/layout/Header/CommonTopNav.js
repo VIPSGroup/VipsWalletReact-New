@@ -274,11 +274,11 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                         Become a Supplier
                       </Link>
                     </li>
-                    <li class="nav-item">
+                    {/* <li class="nav-item">
                       <Link class="nav-link" to="/vipsgold">
                         VIPS Gold
                       </Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
@@ -731,9 +731,9 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
           <li>
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/vipsgold"> VIPS Gold</Link>
-          </li>
+          </li> */}
           <li>
             <Link to={vendorPanelAPi} target="_blank">
               {" "}

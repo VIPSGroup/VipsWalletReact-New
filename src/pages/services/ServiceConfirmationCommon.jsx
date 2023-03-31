@@ -52,11 +52,13 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
   );
   // const { rechargeData,reLoading, } = useSelector(state => state.fastagSlice.fastagRecharge);
   const handleClickConfirm = (e) => {
+    console.warn("called");
     e.preventDefault();
     setShowSuccess(true);
     setLoading(true);
     const paymentRefId = getRandomNumber();
     if (serviceId === gasServiceId) {
+      console.warn("$$$$$$$$$");
       dispatch(
         naturalGasBillPay({
           username: loggedInUser.Mobile,
@@ -70,6 +72,7 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
         })
       );
     } else {
+      console.warn("_____");
       dispatch(
         commonServiceConfirm({
           username: loggedInUser.Mobile,
@@ -83,85 +86,6 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
         })
       );
     }
-    // if (serviceId === gasServiceId) {
-    //   naturalGasBillPay(
-    //     loggedInUser.Mobile,
-    //     loggedInUser.TRXNPassword,
-    //     amt,
-    //     inputFields,
-    //     paymentRefId,
-    //     props.billData.TransactionId,
-    //     props.operatorId,
-    //     props.number
-    //   ).then((response) => {
-    //     setLoading(false);
-
-    //     if (response.ResponseStatus === 1) {
-    //       if (response.Data != null) {
-    //         var data = response.Data;
-    //         var time = getTodayDate();
-    //         navigate("/services/success", {
-    //           state: {
-    //             amount: data.BillAmount,
-    //             status: response.Status,
-    //             mobileNo: inputFields[0].fieldValue,
-    //             operator: props.operator,
-    //             circle: "",
-    //             date: time,
-    //             transactionId: data.TransactionId,
-    //           },
-    //         });
-    //       } else {
-    //         setIsSnackBar(true);
-    //         setErrorMsg(response.Data.ResponseMessage);
-    //       }
-    //     } else {
-    //       setIsSnackBar(true);
-    //       setErrorMsg(
-    //         response.Data ? response.Data.ResponseMessage : response.Remarks
-    //       );
-    //     }
-    //   });
-    // } else {
-    //   commonServiceConfirm(
-    //     loggedInUser.Mobile,
-    //     loggedInUser.TRXNPassword,
-    //     amt,
-    //     inputFields,
-    //     paymentRefId,
-    //     props.billData.TransactionId,
-    //     props.operatorId,
-    //     props.number
-    //   ).then((response) => {
-    //     setLoading(false);
-
-    //     if (response.ResponseStatus === 1) {
-    //       if (response.Data != null) {
-    //         var data = response.Data;
-    //         var time = getTodayDate();
-    //         navigate("/services/success", {
-    //           state: {
-    //             amount: data.BillAmount,
-    //             status: response.Status,
-    //             mobileNo: props.number,
-    //             operator: props.operator,
-    //             circle: "",
-    //             date: time,
-    //             transactionId: data.TransactionId,
-    //           },
-    //         });
-    //       } else {
-    //         setIsSnackBar(true);
-    //         setErrorMsg(response.Data.ResponseMessage);
-    //       }
-    //     } else {
-    //       setIsSnackBar(true);
-    //       setErrorMsg(
-    //         response.Data ? response.Data.ResponseMessage : response.Remarks
-    //       );
-    //     }
-    //   });
-    // }
   };
 
   const handlePaymentMethod = (e) => {
@@ -241,9 +165,9 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
           setIsSnackBar(true);
           setErrorMsg(gasBill?.Data?.ResponseMessage);
         }
-      } else {
+      } else if (gasBill.ResponseCode === 0 || gasBill.ResponseStatus === 0) {
         setIsSnackBar(true);
-        setErrorMsg(gasBill?.Data?.ResponseMessage);
+        setErrorMsg(gasBill?.Remarks);
       }
     }
     if (commonBill && showSuccess) {
@@ -266,7 +190,7 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
           setIsSnackBar(true);
           setErrorMsg(commonBill?.Data?.ResponseMessage);
         }
-      } else if(commonBill.ResponseCode===0){
+      } else if(commonBill.ResponseCode===0 || commonBill.ResponseStatus===0){
         setIsSnackBar(true);
         setErrorMsg(commonBill?.Remarks);
       }

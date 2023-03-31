@@ -58,45 +58,6 @@ const LpgGasConfirmation = ({setIsCommonTopNav}) => {
 
     const paymentRefId = getRandomNumber();
 dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,billAmount:amt,inputObj: inputFields,paymentRef:paymentRefId,refId: props.billData.TransactionId,operatorCode: props.operatorId,mobNo:props.number,pointType:selectedDiscount}))
-    // LPGBillPay(
-    //   loggedInUser.Mobile,
-    //   loggedInUser.TRXNPassword,
-    //   amt,
-    //   inputFields,
-    //   paymentRefId,
-    //   props.billData.TransactionId,
-    //   props.operatorId,
-    //   props.number,
-    //   dType
-    // ).then((response) => {
-    //   setLoading(false);
-
-    //   if (response.ResponseStatus === 1) {
-    //     if (response.Data != null) {
-    //       var data = response.Data;
-    //       var time = getTodayDate();
-    //       navigate("/services/success", {
-    //         state: {
-    //           amount: data.BillAmount,
-    //           status: response.Status,
-    //           mobileNo: inputFields[0].fieldValue,
-    //           operator: props.operator,
-    //           circle: "",
-    //           date: time,
-    //           transactionId: data.TransactionId,
-    //         },
-    //       });
-    //     } else {
-    //       setIsSnackBar(true);
-    //       setErrorMsg(response.Data.ResponseMessage);
-    //     }
-    //   } else {
-    //     setIsSnackBar(true);
-    //     setErrorMsg(
-    //       response.Data ? response.Data.ResponseMessage : response.Remarks
-    //     );
-    //   }
-    // });
   };
 
   const handlePaymentMethod = (e) => {
@@ -146,8 +107,10 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
         dispatch(getWalletBalance({username,password}))
       }
     }
-    return ()=>{setShowSuccess(false)
-      setIsCommonTopNav(true)}
+    return ()=>{
+      setShowSuccess(false)
+      setIsCommonTopNav(true)
+    }
   }, []);
   useEffect(() => {
     dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
@@ -175,11 +138,9 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
           setIsSnackBar(true);
           setErrorMsg(rechargeData?.Data?.ResponseMessage);
         }
-      } else {
+      } else if(rechargeData?.ResponseCode === 0 || rechargeData?.ResponseStatus === 0){
         setIsSnackBar(true);
-        setErrorMsg(
-          rechargeData?.Data ? rechargeData?.Data?.ResponseMessage : rechargeData?.Remarks
-        );
+        setErrorMsg( rechargeData?.Remarks);
       }
     }
       }, [data.Data, selectedDiscount,rechargeData])

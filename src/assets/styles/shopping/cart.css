@@ -25,11 +25,11 @@
   color: var(--darkText);
   text-decoration: none;
 }
-.completed a{
+.completed span{
   color: var(--primary);
   text-decoration: underline;
 }
-.completed a:hover{
+.completed span:hover{
   color: var(--primary);
   text-decoration: underline;
 }

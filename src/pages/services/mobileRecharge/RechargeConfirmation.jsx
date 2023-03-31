@@ -126,7 +126,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
             },
           });
         }
-      } else {
+      } else if (rechargeData.ResponseCode== 0 || rechargeData.ResponseStatus == 0) {
         setIsSnackBar(true);
         setErrorMsg(rechargeData.Remarks);
       }

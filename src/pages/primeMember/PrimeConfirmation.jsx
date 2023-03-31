@@ -51,7 +51,7 @@ const PrimeConfirmation = ({setIsHomeTopNav}) => {
       setLoading(false);
       if (response.ResponseStatus == 1) {
         setShowSuccessModal(true);
-      } else {
+      } else if (response.ResponseStatus == 0){
         setIsSnackBar(true);
         setErrorMsg(response.Remarks);
       }
