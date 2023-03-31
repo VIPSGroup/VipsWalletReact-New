@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import {
   BuyDigiGold,
+  CheckIfscCode,
   fetchGoldSilverRates,
   GetUserBankList,
   SellDigiGold,
@@ -51,7 +52,6 @@ const OrderSummary = () => {
   const [counter, setCounter] = useState(300); // 5 minutes in seconds
   const [walletShow, setWalletShow] = useState(false);
   const [otp, setOtp] = useState("");
-  const [local, setLocal] = useState();
   const [sellLoad, setSellLoad] = useState(false);
   const [formValue, setFormValue] = useState({
     accountNumber: "",
@@ -70,25 +70,37 @@ const OrderSummary = () => {
   const { data, loading: walletLoad } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
+  const { Verified } = useSelector((state) => state.digiGoldSlice.ifsc);
   // Grams Crop
+  console.log(Verified, "Verified");
+  // VIPS Username & Password
+  const username = state?.username;
+  const password = state?.password;
+
+  // Gold & Silver Buy & Sell
+  const GoldBuyRates = rateData?.Data?.result?.data?.rates?.gBuy;
+  const GoldSellRates = rateData?.Data?.result?.data?.rates?.gSell;
+  const SilverBuyRates = rateData?.Data?.result?.data?.rates?.sBuy;
+  const SilverSellRates = rateData?.Data?.result?.data?.rates?.sSell;
 
   // Complete Login is this UseEffect
   useEffect(() => {
     if (counter === 0 || counter === 300) {
       const fetchRates = async () => {
         const res = await dispatch(fetchGoldSilverRates());
+        const blockId = res.payload.Data.result.data.blockId;
         const taxRate =
           parseFloat(res.payload.Data.result.data.taxes[0].taxPerc) +
           parseFloat(res.payload.Data.result.data.taxes[1].taxPerc);
 
         if (state?.type === "buy") {
           if (state?.metalType === "gold") {
-            setLockPrice(res.payload.Data.result.data.rates.gBuy);
-            setBlockId(res.payload.Data.result.data.blockId);
+            const GoldBuyRates = res.payload.Data.result.data.rates.gBuy;
+            setLockPrice(GoldBuyRates);
+            setBlockId(blockId);
             if (state?.valType === "quantity") {
               const quantity = digitPrecision(state?.valueinGm, "quantity");
-              const excTaxAmount =
-                quantity * res.payload.Data.result.data.rates.gBuy;
+              const excTaxAmount = quantity * GoldBuyRates;
               const exclTaxRate = digitPrecision(excTaxAmount, "amount");
               const TaxTotal = (exclTaxRate * taxRate) / 100;
               const totalTax = digitPrecision(TaxTotal, "amount");
@@ -114,10 +126,8 @@ const OrderSummary = () => {
                 "amount"
               );
               const TaxInc =
-                (parseFloat(res.payload.Data.result.data.rates.gBuy) *
-                  taxRate) /
-                  parseFloat(100) +
-                parseFloat(res.payload.Data.result.data.rates.gBuy);
+                (parseFloat(GoldBuyRates) * taxRate) / parseFloat(100) +
+                parseFloat(GoldBuyRates);
 
               const inclTaxRate = digitPrecision(TaxInc, "amount");
               const qty = inclTaxAmount / inclTaxRate;
@@ -129,12 +139,12 @@ const OrderSummary = () => {
               setTax(totalTax);
             }
           } else {
-            setBlockId(res.payload.Data.result.data.blockId);
-            setLockPrice(res.payload.Data.result.data.rates.sBuy);
+            const SilverBuyRates = res.payload.Data.result.data.rates.sBuy;
+            setBlockId(blockId);
+            setLockPrice(SilverBuyRates);
             if (state?.valType === "quantity") {
               const quantity = digitPrecision(state?.valueinGm, "quantity");
-              const excTaxAmount =
-                quantity * res.payload.Data.result.data.rates.sBuy;
+              const excTaxAmount = quantity * SilverBuyRates;
               const exclTaxRate = digitPrecision(excTaxAmount, "amount");
               console.log(exclTaxRate, "exclTaxRate");
               const TaxTotal = (exclTaxRate * taxRate) / 100;
@@ -160,10 +170,8 @@ const OrderSummary = () => {
                 "amount"
               );
               const TaxInc =
-                (parseFloat(res.payload.Data.result.data.rates.sBuy) *
-                  taxRate) /
-                  parseFloat(100) +
-                parseFloat(res.payload.Data.result.data.rates.sBuy);
+                (parseFloat(SilverBuyRates) * taxRate) / parseFloat(100) +
+                parseFloat(SilverBuyRates);
               const inclTaxRate = digitPrecision(TaxInc, "amount");
               const qty = inclTaxAmount / inclTaxRate;
               const quantity = digitPrecision(qty, "quantity");
@@ -178,30 +186,33 @@ const OrderSummary = () => {
             }
           }
         } else {
+          const GoldSellRates = res?.payload?.Data?.result?.data?.rates?.gSell;
           if (state?.metalType === "gold") {
-            setBlockId(res.payload.Data.result.data.blockId);
-            setLockPrice(res?.payload?.Data?.result?.data?.rates?.gSell);
+            setBlockId(blockId);
+            setLockPrice(GoldSellRates);
             if (state.valType === "quantity") {
               const quantity = digitPrecision(state?.valueinGm, "quantity");
               const totalAmount = digitPrecision(
-                quantity * res?.payload?.Data?.result?.data?.rates?.gSell,
+                quantity * GoldSellRates,
                 "amount"
               );
-              setBlockId(res.payload.Data.result.data.blockId);
+              setBlockId(blockId);
               setCurrentRate(totalAmount);
               setCurrentGram(quantity);
               setTotalAmount(totalAmount);
             }
           } else {
-            setBlockId(res.payload.Data.result.data.blockId);
-            setLockPrice(res?.payload?.Data?.result?.data?.rates?.sSell);
+            const SilverSellRates =
+              res?.payload?.Data?.result?.data?.rates?.sSell;
+            setBlockId(blockId);
+            setLockPrice(SilverSellRates);
             if (state.valType === "quantity") {
               const quantity = digitPrecision(state?.valueinGm, "quantity");
               const totalAmount = digitPrecision(
-                quantity * res?.payload?.Data?.result?.data?.rates?.sSell,
+                quantity * SilverSellRates,
                 "amount"
               );
-              setBlockId(res.payload.Data.result.data.blockId);
+              setBlockId(blockId);
               setCurrentRate(totalAmount);
               setCurrentGram(quantity);
               setTotalAmount(totalAmount);
@@ -225,8 +236,8 @@ const OrderSummary = () => {
   // Counter Logic
   // Login & GetWalletBalance Logic
   useEffect(() => {
-    const username = state?.username;
-    const password = state?.password;
+    // const username = state?.username;
+    // const password = state?.password;
     dispatch(loginDigiGold({ username, password }));
     dispatch(getWalletBalance({ username, password }));
   }, [load]);
@@ -236,8 +247,8 @@ const OrderSummary = () => {
   };
   // Get User Bank Details logic
   useEffect(() => {
-    const username = state?.username;
-    const password = state?.password;
+    // const username = state?.username;
+    // const password = state?.password;
     dispatch(GetUserBankList({ username, password }));
   }, [state]);
   // If Wallet Balance is Lower Than Total Amount Logic
@@ -260,8 +271,8 @@ const OrderSummary = () => {
   };
   // Gold & Silver Buy Logic
   const handleSubmit = async () => {
-    const username = state.username;
-    const password = state.password;
+    // const username = state.username;
+    // const password = state.password;
     const lockPrice = lockprice;
     const metalType = state.metalType;
     // const roundedCurrent = Math.round(currentGram * 10000) / 10000;
@@ -305,8 +316,8 @@ const OrderSummary = () => {
   // Gold & Silver Sell Logic
   const handleSellSubmit = async () => {
     setSellLoad(true);
-    const username = state.username;
-    const password = state.password;
+    // const username = state.username;
+    // const password = state.password;
     const lockPrice = lockprice;
     const metalType = state.metalType;
     const quantity = currentGram;
@@ -359,10 +370,11 @@ const OrderSummary = () => {
       setSuccessMsg("");
     }
   };
+
   const handleResendSellOTPSubmit = async () => {
     setOtp("");
-    const username = state.username;
-    const password = state.password;
+    // const username = state.username;
+    // const password = state.password;
     const lockPrice = lockprice;
     const metalType = state.metalType;
     const quantity = currentGram;
@@ -443,48 +455,67 @@ const OrderSummary = () => {
   };
   // Bank Details Add Logic
   const handleAddbankDetails = async () => {
-    const username = state.username;
-    const password = state.password;
+    // const username = state.username;
+    // const password = state.password;
     const accountNumber = formValue.accountNumber;
     const accountName = formValue.accountName;
     const ifscCode = formValue.ifscCode;
     const user_bank_id = list.Data?.result[0]?.userBankId;
     if (editAddress) {
-      const res = await UpdateBankAccountDetails({
-        username,
-        password,
-        accountNumber,
-        accountName,
-        ifscCode,
-        user_bank_id,
-      });
-      if (
-        res.ResponseStatus === 1 &&
-        (res.Data?.statusCode === 200 || res.Data?.statusCode === 201)
-      ) {
-        setEditAddress(false);
-        dispatch(GetUserBankList({ username, password }));
-      } else if (
-        res.ResponseStatus === 0 ||
-        (res.ResponseStatus === 1 && res.Data?.statusCode === 422)
-      ) {
-        setErrorMsg(res.Remarks);
+      if (Verified !== 0) {
+        const res = await UpdateBankAccountDetails({
+          username,
+          password,
+          accountNumber,
+          accountName,
+          ifscCode,
+          user_bank_id,
+        });
+        if (
+          res.ResponseStatus === 1 &&
+          (res.Data?.statusCode === 200 || res.Data?.statusCode === 201)
+        ) {
+          setEditAddress(false);
+          dispatch(GetUserBankList({ username, password }));
+        } else if (
+          res.ResponseStatus === 0 ||
+          (res.ResponseStatus === 1 && res.Data?.statusCode === 422)
+        ) {
+          setErrorMsg(res.Remarks);
+          setSuccessMsg("");
+          setIsSnackBar(true);
+        }
+      } else {
+        setErrorMsg("Please Enter Valid IFSC");
         setSuccessMsg("");
         setIsSnackBar(true);
       }
     } else {
-      const res = await UserbankAccountCreate({
-        username,
-        password,
-        accountNumber,
-        accountName,
-        ifscCode,
-      });
-      if (res.ResponseStatus === 1) {
-        dispatch(GetUserBankList({ username, password }));
+      if (Verified !== 0) {
+        const res = await UserbankAccountCreate({
+          username,
+          password,
+          accountNumber,
+          accountName,
+          ifscCode,
+        });
+        if (res.ResponseStatus === 1) {
+          dispatch(GetUserBankList({ username, password }));
+        }
+      } else {
+        setErrorMsg("Please Enter Valid IFSC");
+        setSuccessMsg("");
+        setIsSnackBar(true);
       }
     }
   };
+
+  useEffect(() => {
+    if (formValue.ifscCode.length === 11) {
+      const ifsc = formValue.ifscCode;
+      dispatch(CheckIfscCode({ ifsc }));
+    }
+  }, [formValue.ifscCode]);
   // Bank Details Update Logic
   const updateBankDetails = () => {
     formValue.accountName = list.Data.result[0].accountName;
@@ -543,8 +574,8 @@ const OrderSummary = () => {
                             &#x20B9;{" "}
                             {!loading && rateData
                               ? state?.type === "buy"
-                                ? rateData?.Data?.result?.data?.rates?.sBuy
-                                : rateData?.Data?.result?.data?.rates?.sSell
+                                ? SilverBuyRates
+                                : SilverSellRates
                               : "Loading..."}{" "}
                             / gm
                           </span>
@@ -595,11 +626,11 @@ const OrderSummary = () => {
                               {!loading && rateData
                                 ? state?.type === "buy"
                                   ? state?.metalType === "gold"
-                                    ? rateData?.Data?.result?.data?.rates?.gBuy
-                                    : rateData?.Data?.result?.data?.rates?.sBuy
+                                    ? GoldBuyRates
+                                    : SilverBuyRates
                                   : state?.metalType === "gold"
-                                  ? rateData?.Data?.result?.data?.rates?.gSell
-                                  : rateData?.Data?.result?.data?.rates?.sSell
+                                  ? GoldSellRates
+                                  : SilverSellRates
                                 : "Loading..."}
                             </p>
                           </div>
@@ -744,17 +775,6 @@ const OrderSummary = () => {
                                       <Link
                                         className="digigold-addmoney"
                                         to={"/addMoney/options"}
-                                        // style={{
-                                        //   backgroundColor: "blue ",
-                                        //   color: "white",
-                                        //   marginLeft: 20,
-                                        //   fontSize: 15,
-                                        //   padding: 3,
-                                        //   borderRadius: 5,
-                                        //   outline: "none",
-                                        //   textDecoration: "none",
-                                        //   cursor: "pointer",
-                                        // }}
                                       >
                                         Add Money
                                       </Link>
@@ -971,6 +991,18 @@ const OrderSummary = () => {
                                               })
                                             }
                                           />
+                                          <label
+                                            style={{
+                                              fontSize: 12,
+                                              marginLeft: 10,
+                                            }}
+                                            htmlFor=""
+                                          >
+                                            {formValue.ifscCode.length === 11 &&
+                                              (Verified
+                                                ? Verified
+                                                : "Please Enter Valid IFSC")}
+                                          </label>
                                         </Form.Item>
                                       </Col>
                                       <Col

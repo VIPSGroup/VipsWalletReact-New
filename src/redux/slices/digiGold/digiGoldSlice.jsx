@@ -130,6 +130,17 @@ export const UpdateBankAccountDetails = async ({
     return res.data;
   } catch (error) {}
 };
+export const CheckIfscCode = createAsyncThunk(
+  "CheckIfscCode",
+  async ({ ifsc }, thunkAPI) => {
+    try {
+      const res = await axios.get(`https://ifsc.razorpay.com/${ifsc}`);
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
 
 export const startFetchData = () => (dispatch) => {
   setInterval(() => {
@@ -151,6 +162,10 @@ const digiGoldSlice = createSlice({
     bankList: {
       list: "",
       loading: false,
+      error: "",
+    },
+    ifsc: {
+      Verified: "",
       error: "",
     },
   },
@@ -184,6 +199,18 @@ const digiGoldSlice = createSlice({
     builder.addCase(GetUserBankList.rejected, (state, action) => {
       state.bankList.error = action.error;
       state.bankList.loading = false;
+    });
+    // IFSC Verify
+    builder.addCase(CheckIfscCode.fulfilled, (state, action) => {
+      if (action.payload?.response?.status === 404) {
+        state.ifsc.Verified = 0;
+      } else {
+        state.ifsc.Verified = action.payload.BRANCH;
+      }
+    });
+    builder.addCase(CheckIfscCode.rejected, (state, action) => {
+      console.log(action.error, "error");
+      state.ifsc.error = action.error;
     });
   },
 });
