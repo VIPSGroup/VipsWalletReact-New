@@ -147,6 +147,7 @@ export const subscriptionServiceId = 48;
 export const clubAndAssociationServiceId = 50;
 export const municipalTaxServiceId = 44;
 export const municipalServicesServiceId = 45;
+export const digiGoldServiceId = 57;
 
 export const jharkandOpCode = "JBVNL0000JHA01";
 export const torrentOpCode = "TORR00000NATLX";

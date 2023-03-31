@@ -17,6 +17,7 @@ import DigiGoldSignup from "../../../pages/digiGold/DigiGoldSignup";
 import { Avatar, Badge, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
+import { CheckServiceEnableOrNot } from "../../../redux/slices/coreSlice";
 
 const CommonTopNav = ({
   isShow = true,
@@ -44,7 +45,6 @@ const CommonTopNav = ({
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
-  useEffect(() => {}, []);
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
@@ -76,130 +76,6 @@ const CommonTopNav = ({
       overlayClassName: "overlay-custom-class-name",
     });
   };
-
-  // const items = logData.Data
-  //   ? [
-  //       {
-  //         key: "1",
-  //         label: (
-  //           <Link to={"/vipsgold-profile"} style={{ fontSize: 17 }}>
-  //             {!logLoading && logData.Data && "My Profile"}
-  //           </Link>
-  //         ),
-  //       },
-  //       {
-  //         key: "2",
-  //         label: (
-  //           <Link to={"/vipsgold-orders"} style={{ fontSize: 17 }}>
-  //             {!logLoading && logData.Data && "My Orders"}
-  //           </Link>
-  //         ),
-  //       },
-  //       {
-  //         key: "3",
-  //         label: (
-  //           <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-  //             FAQ's
-  //           </Link>
-  //         ),
-  //       },
-  //       {
-  //         key: "4",
-  //         label: (
-  //           <Link
-  //             target={"_blank"}
-  //             to={"/digi-termscondtion"}
-  //             style={{ fontSize: 17 }}
-  //           >
-  //             Terms & Conditions
-  //           </Link>
-  //         ),
-  //       },
-  //       // {
-  //       //   key: "3",
-  //       //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-  //       // },
-  //       // {
-  //       //   key: "4",
-  //       //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-  //       // },
-  //       // {
-  //       //   key: "5",
-  //       //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-  //       // },
-  //       {
-  //         key: "5",
-  //         label: (
-  //           <Link
-  //             onClick={() => {
-  //               !logLoading && logData.Data
-  //                 ? clickLogout()
-  //                 : dispatch(modalOpen());
-  //             }}
-  //             style={{ fontSize: 17 }}
-  //           >
-  //             {!logLoading && logData.Data ? "Logout" : "Register"}
-  //           </Link>
-  //         ),
-  //       },
-  //     ]
-  //   : [
-  //       {
-  //         key: "3",
-  //         label: (
-  //           <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
-  //             {!logLoading && logData.Data && "My KYC"}
-  //           </Link>
-  //         ),
-  //       },
-  //       {
-  //         key: "4",
-  //         label: (
-  //           <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-  //             FAQ's
-  //           </Link>
-  //         ),
-  //       },
-  //       {
-  //         key: "5",
-  //         label: (
-  //           <Link
-  //             target={"_blank"}
-  //             to={"/digi-termscondtion"}
-  //             style={{ fontSize: 17 }}
-  //           >
-  //             Terms & Conditions
-  //           </Link>
-  //         ),
-  //       },
-  //       // {
-  //       //   key: "3",
-  //       //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-  //       // },
-  //       // {
-  //       //   key: "4",
-  //       //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-  //       // },
-  //       // {
-  //       //   key: "5",
-  //       //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-  //       // },
-  //       {
-  //         key: "6",
-  //         label: (
-  //           <Link
-  //             onClick={() => {
-  //               !logLoading && logData.Data
-  //                 ? clickLogout()
-  //                 : dispatch(modalOpen());
-  //             }}
-  //             style={{ fontSize: 17 }}
-  //           >
-  //             {!logLoading && logData.Data ? "Logout" : "Register"}
-  //           </Link>
-  //         ),
-  //       },
-  //     ];
 
   const items = [
     !logLoading && logData?.Data
@@ -374,7 +250,10 @@ const CommonTopNav = ({
                         Become a Supplier
                       </Link>
                     </li>
-                    <li class="nav-item">
+                    <li
+                      class="nav-item"
+                      onClick={() => dispatch(CheckServiceEnableOrNot())}
+                    >
                       <Link
                         style={{
                           borderBottomWidth: pathname === "/vipsgold" && 2,
@@ -857,7 +736,7 @@ const CommonTopNav = ({
           <li>
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
-          <li>
+          <li onClick={() => dispatch(CheckServiceEnableOrNot())}>
             <Link to="/vipsgold"> VIPS Gold</Link>
           </li>
           <li>

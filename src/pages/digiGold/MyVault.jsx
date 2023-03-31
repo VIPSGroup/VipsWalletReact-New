@@ -6,7 +6,6 @@ export const CurrentRateSection = ({ active }) => {
   const { rateData, loading } = useSelector(
     (state) => state.digiGoldSlice.rates
   );
-  console.log(active, "active")
   return (
     <>
       <div class="current-rate-outer">

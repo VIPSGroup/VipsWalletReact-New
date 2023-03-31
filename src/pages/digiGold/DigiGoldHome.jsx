@@ -1,4 +1,4 @@
-import { Form, Input, Spin } from "antd";
+import { Button, Form, Input, Modal, Row, Space, Spin } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import "../../index.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ import {
 import { MuiSnackBar } from "../../components/common";
 import MyVault, { CurrentRateSection } from "./MyVault";
 import QuickService from "../../components/digiGold/QuickService";
+import UserNotExist from "../../components/digiGold/UserNotExist";
 
 export const HowItWorks = () => {
   return (
@@ -86,7 +87,9 @@ const DigiGoldHome = ({
   const [isGold, setIsGold] = useState(0); //0 for Gold 1 for Silver
   // const [grams, setGrams] = useState("");
   const [err, setErr] = useState("");
-
+  const { isServiceEnable, ServiceEnableLoading } = useSelector(
+    (state) => state.coreSlice
+  );
   const [valueType, setValueType] = useState({
     valueinAmt: "",
     valueinGm: "",
@@ -144,8 +147,14 @@ const DigiGoldHome = ({
       }
     }
   };
+  console.log(isServiceEnable, "isServiceEnable");
   useEffect(() => {
-    if (loggedInUser) {
+    if (
+      loggedInUser &&
+      isServiceEnable.ResponseStatus === 1 &&
+      isServiceEnable.Data.IsServiceEnabled === true
+    ) {
+      console.log("chl rha ahi")
       const username = loggedInUser.UserName;
       const password = loggedInUser.TRXNPassword;
       dispatch(loginDigiGold({ username, password }));
@@ -177,6 +186,7 @@ const DigiGoldHome = ({
     const inclTaxRate = digitPrecision(TaxInc, "amount");
     const qty = inclTaxAmount / inclTaxRate;
     const quantity = digitPrecision(qty, "quantity");
+    console.log(quantity);
     setValueType({
       ...valueType,
       valueinAmt: e.target.value,
@@ -281,15 +291,6 @@ const DigiGoldHome = ({
       setActive(state);
     }
   }, []);
-
-  // Select the input element
-  const amountInput = document.getElementById("amount");
-  const gramsInput = document.getElementById("grams");
-  // console.log(amountInput., 'amount')
-  // Set the input value programmatically
-  // amountInput.value = "new value";
-
-  // useEffect(() => {}, [rateData]);
 
   return (
     <>
@@ -618,6 +619,31 @@ const DigiGoldHome = ({
           step={step}
         />
       </div>
+      {/* {isServiceEnable.ResponseStatus === 0 &&
+        isServiceEnable.Data.IsServiceEnabled &&
+        !ServiceEnableLoading && (
+          <>
+            <Modal
+              open={true}
+              footer={null}
+              centered
+              maskClosable={false}
+              closable={false}
+              width={500}
+              bodyStyle={{ textAlign: "center" }}
+            >
+              <p style={{ fontSize: 20, fontWeight: "600" }}>
+                We are currently undergoing maintenance. Please check back
+                later.
+              </p>
+              <Space />
+              <Button type="primary" onClick={() => navigate("/")}>
+                Back to Home
+              </Button>
+            </Modal>
+          </>
+        )} */}
+      <UserNotExist />
       <MuiSnackBar
         open={isSnackBar}
         setOpen={setIsSnackBar}

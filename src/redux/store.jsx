@@ -59,6 +59,7 @@ const store = configureStore({
     publicSlice: publicSlice,
     DeliverySlice: DeliverySlice,
     DigiGiftSlice: DigiGiftSlice,
+    coreSlice: coreSlice,
   },
 });
 

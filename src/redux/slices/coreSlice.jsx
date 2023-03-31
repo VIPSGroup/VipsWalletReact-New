@@ -1,98 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { baseApiUrl, getDouble } from "../../constants";
-// import axios from "axios";
-// import { baseApiUrl, getDouble } from "../../constants";
-
-// // export const getServiceDiscounts = createAsyncThunk(
-// //   "getServiceDiscounts",
-// //   async ({ amt, response }, thunkAPI) => {
-// //     const formData = new FormData();
-// //     formData.append("ServiceId", "1");
-// //     try {
-// //       const res = await axios.post(
-// //         `${baseApiUrl}/OperatorServices/GetServiceName`,
-// //         formData
-// //       );
-// //       return [res.data, amt, response];
-// //     } catch (error) {
-// //       return error;
-// //     }
-// //   }
-// // );
-
-// export const getServiceDiscounts = async () => {
-//   const formData = new FormData();
-//   formData.append("ServiceId", "1");
-//   try {
-//     const res = await axios.post(
-//       `${baseApiUrl}/OperatorServices/GetServiceName`,
-//       formData
-//     );
-
-//   } catch (error) {}
-//   //   return fetch(`${baseApiUrl}/OperatorServices/GetServiceName`, {
-//   //     method: "POST",
-//   //   })
-//   //     .then((data) => {
-//   //       return data.json();
-//   //     })
-//   //     .catch((err) => {});
-// };
-
-// const coreSlice = createSlice({
-//   name: "coreSlice",
-//   initialState: {
-//     serviceDiscount: {
-//       DiscountObj: {},
-//       ShoppingDiscount: "",
-//       finalAmount: "",
-//       primeDiscount: "",
-//     },
-//   },
-//   reducers: {},
-//   //   extraReducers: (builder) => {
-//   //     builder.addCase(getServiceDiscounts.pending, (state, action) => {});
-//   //     builder.addCase(getServiceDiscounts.fulfilled, (state, action) => {
-//   //       var result = action.payload[0].Data.filter((r) => r.Id == "1");
-//   //       state.serviceDiscount.DiscountObj = result[0];
-//   //       // //   setDiscountObj(result[0]);
-//   //       const sDiscount = (result[0].ShoppingPer / 100) * action.payload[1];
-//   //       if (sDiscount <= action.payload[2].Data.Shoppingpoints) {
-//   //         state.serviceDiscount.ShoppingDiscount = getDouble(sDiscount);
-//   //         //   setShoppingDiscount(getDouble(sDiscount));
-//   //         const amt = parseInt(action.payload[1]) - parseInt(sDiscount);
-//   //         state.serviceDiscount.finalAmount = amt;
-//   //         // setFinalAmount(amt);
-//   //       } else {
-//   //         state.serviceDiscount.ShoppingDiscount = getDouble(
-//   //           action.payload[2].Data.Shoppingpoints
-//   //         );
-//   //         state.serviceDiscount.finalAmount =
-//   //           action.payload[1] - action.payload[2].Data.Shoppingpoints;
-//   //         // setShoppingDiscount(getDouble(response.Data.Shoppingpoints));
-//   //         // setFinalAmount(amt - response.Data.Shoppingpoints);
-//   //       }
-//   //       const pDiscount = (result[0].PrimePointPer / 100) * action.payload[1];
-//   //       if (pDiscount <= action.payload[2].Data.PrimePoints) {
-//   //         state.serviceDiscount.primeDiscount = getDouble(pDiscount);
-//   //         state.serviceDiscount.finalAmount = action.payload[1] - pDiscount;
-//   //         // setPrimeDiscount(getDouble(pDiscount));
-//   //         // setFinalAmount(amt - pDiscount);
-//   //       } else {
-//   //         state.serviceDiscount.primeDiscount = getDouble(
-//   //           action.payload[2].Data.PrimePoints
-//   //         );
-
-//   //         state.serviceDiscount.finalAmount =
-//   //           action.payload[1] - action.payload[2].Data.PrimePoints;
-//   //         // setPrimeDiscount(getDouble(response.Data.PrimePoints));
-//   //         // setFinalAmount(amt - response.Data.PrimePoints);
-//   //       }
-//   //     });
-//   //     builder.addCase(getServiceDiscounts.rejected, (state, action) => {});
-//   //   },
-// });
-// export default coreSlice.reducer;
+import axios from "axios";
+import { baseApiUrl, digiGoldServiceId, getDouble } from "../../constants";
 
 export const getServiceDiscounts = createAsyncThunk(
   "getServiceDiscounts",
@@ -104,6 +12,22 @@ export const getServiceDiscounts = createAsyncThunk(
     return [data, amt, response];
   }
 );
+export const CheckServiceEnableOrNot = createAsyncThunk(
+  "CheckServiceEnableOrNot",
+  async () => {
+    try {
+      const res = await axios.post(
+        `${baseApiUrl}/ServiceApiHotel/GetServiceStatus`,
+        {
+          ServiceId: digiGoldServiceId,
+        }
+      );
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
 
 const coreSlice = createSlice({
   name: "coreSlice",
@@ -112,6 +36,8 @@ const coreSlice = createSlice({
     shoppingDiscount: 0,
     primeDiscount: 0,
     finalAmount: 0,
+    isServiceEnable: "",
+    ServiceEnableLoading: false,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -153,6 +79,15 @@ const coreSlice = createSlice({
       state.shoppingDiscount = shoppingDiscount;
       state.primeDiscount = primeDiscount;
       state.finalAmount = finalAmount;
+    });
+
+    // CheckServiceIDActiveOrNot
+    builder.addCase(CheckServiceEnableOrNot.pending, (state, action) => {
+      state.ServiceEnableLoading = true;
+    });
+    builder.addCase(CheckServiceEnableOrNot.fulfilled, (state, action) => {
+      state.isServiceEnable = action.payload;
+      state.ServiceEnableLoading = false;
     });
   },
 });

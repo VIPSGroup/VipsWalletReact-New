@@ -18,6 +18,7 @@ import QuickService from "../../../components/digiGold/QuickService";
 import { MuiSnackBar } from "../../../components/common";
 import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 import { HowItWorks } from "../DigiGoldHome";
+import UserNotExist from "../../../components/digiGold/UserNotExist";
 
 const Gift = ({ setIsCommonTopNav }) => {
   const dispatch = useDispatch();
@@ -552,6 +553,7 @@ const Gift = ({ setIsCommonTopNav }) => {
           </div>
         </div>
       </section>
+      <UserNotExist />
       <Modal
         footer={[]}
         maskClosable={false}
