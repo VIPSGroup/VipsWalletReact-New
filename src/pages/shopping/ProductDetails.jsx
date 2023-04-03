@@ -168,7 +168,7 @@ const ProductDetails = () => {
   };
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
-    const getCart = cartProducts.find(
+    const getCart = cartProducts?.find(
       (a) => a.product.Id === pro.ProductDetails.Id
     );
     if (getCart) {

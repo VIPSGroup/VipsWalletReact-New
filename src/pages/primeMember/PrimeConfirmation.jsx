@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
-// import { getWalletBalance } from "../../apiData/user/userDetails";
-// import { becomePrime } from "../../apiData/user/primeMembership";
 import "../../assets/styles/prime/primeConfirmation.css";
 import { needHelpUrl, googleAnalytics } from "../../constants";
 import Modal from "react-bootstrap/Modal";
 import ReactGA from "react-ga";
 import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
 import { useDispatch, useSelector } from "react-redux";
-import {  becomePrime, getWalletBalance } from "../../redux/slices/payment/walletSlice";
+import {   getWalletBalance } from "../../redux/slices/payment/walletSlice";
+import { becomePrime } from "../../redux/slices/primeUserSlice";
 ReactGA.initialize(googleAnalytics);
 
 const PrimeConfirmation = ({setIsHomeTopNav}) => {

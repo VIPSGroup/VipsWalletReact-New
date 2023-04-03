@@ -15,6 +15,7 @@ const SelectField = ({ setGetData, getData }) => {
   };
   useEffect(() => {
     setStateList(sortState(allStateCityList?.Data));
+    setCityList(sortCity(allStateCityList?.Data[0].Citys));
   }, []);
   return (
     <>
@@ -74,7 +75,6 @@ const SelectField = ({ setGetData, getData }) => {
             "Select City"
           )}
         </button>
-
         <div class="dropdown-menu">
           {getData.stateName ? (
             cityList &&

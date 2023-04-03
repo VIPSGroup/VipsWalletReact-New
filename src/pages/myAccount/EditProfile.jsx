@@ -35,19 +35,19 @@ const EditProfile = () => {
   );
   const formik = useFormik({
     initialValues: {
-      AlternateMobile: "",
+      // AlternateMobile: "",
       PanCard: "",
       AadharNo: "",
       Pincode: "",
       PerAddress: "",
     },
     validationSchema: yup.object({
-      AlternateMobile: yup
-        .string()
-        .optional()
+      // AlternateMobile: yup
+      //   .string()
+        // .optional()
         // .min(10)
         // .max(10),
-        ,
+        // ,
       PanCard: yup
         .string()
         .required("Please Enter Your Pan Number")
@@ -63,8 +63,9 @@ const EditProfile = () => {
     onSubmit: (values, { resetForm }) => {
       if (pinCode.length == 6) {
         setLoading(true);
-        const userData = {
-          username: userDetails.UserName,
+        console.log(alternateNumber);
+        const userData =alternateNumber=='' || alternateNumber == null 
+        ? { username: userDetails.UserName,
           password: loggedInUser.TRXNPassword,
           FName: userDetails.FName,
           LName: userDetails.LName,
@@ -77,8 +78,24 @@ const EditProfile = () => {
             getData && getData.pincodeId != "" ? getData.pincodeId : pinCodeId,
           StateId: getData ? getData.stateId : stateCode,
           CityId: getData ? getData.cityId : cityCode,
-          AlternateMobile: values.AlternateMobile,
+          // AlternateMobile: null,
+        }
+        : { username: userDetails.UserName,
+          password: loggedInUser.TRXNPassword,
+          FName: userDetails.FName,
+          LName: userDetails.LName,
+          Mobile: userDetails.Mobile,
+          EmailId: userDetails.EmailId,
+          Pancard: values.PanCard,
+          Address: values.PerAddress,
+          AadharNo: values.AadharNo,
+          Pincode:
+            getData && getData.pincodeId != "" ? getData.pincodeId : pinCodeId,
+          StateId: getData ? getData.stateId : stateCode,
+          CityId: getData ? getData.cityId : cityCode,
+          AlternateMobile: alternateNumber,
         };
+        console.warn(userData);
         updateProfile(userData).then((response) => {
           if (response.ResponseStatus == 1) {
             setIsSnackBar(true);
@@ -95,7 +112,7 @@ const EditProfile = () => {
   });
 
   useEffect(() => {
-    if (!pinCode) {
+    if (!userDetails.Id) {
       getProfileDetails({
         username: loggedInUser.Mobile,
         password: loggedInUser.TRXNPassword,
@@ -141,8 +158,10 @@ const EditProfile = () => {
         });
       }
     }
+  }, [pinCode]);
+
+  useEffect(() => {
     if (formik.values.Pincode.length === 6) {
-      // dispatch(getStateCity(formik.values.Pincode));
       getStateCity(formik.values.Pincode).then(response=>{
         if (response?.ResponseStatus === 1) {
           setGetData({
@@ -167,9 +186,20 @@ const EditProfile = () => {
           });
         }
       })
+    }else{
+      setGetData({
+        ...getData,
+        stateName: "",
+        stateId: "",
+        stateError: false,
+        cityId: "",
+        cityName: "",
+        cityError: false,
+      });
     }
-  }, [pinCode, formik.values.Pincode, getData]);
-
+ 
+  }, [formik.values.Pincode])
+  
   const editProfileSection = () => (
     <>
       <div class="my-account-right">
@@ -236,16 +266,10 @@ const EditProfile = () => {
                           <input
                             name="AlternateMobile"
                             className={ formik.errors.AlternateMobile || formik.touched.AlternateMobile ? "is-invalid": "" }
-                            onChange={
-                              formik.handleChange
-                            }
+                            onChange={e=>{setAlternateNumber(e.target.value)}}
                             id="user-alternate-number"
                             placeholder="&nbsp;"
-                            value={
-                              formik.values.AlternateMobile != "null"
-                                ? formik.values.AlternateMobile
-                                : ""
-                            }
+                            value={alternateNumber}
                             autocomplete="off"
                             maxLength={10}
                             minLength={10}
@@ -295,6 +319,7 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="AadharNo"
+                            type="number"
                             id="user-adhar-number"
                             placeholder="&nbsp;"
                             value={

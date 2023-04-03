@@ -42,8 +42,8 @@ const ServiceSuccess = () => {
                 <div class="recharge-success-body">
                   {/** <!-- success animation start --> */}
                   <div class="col-md-12">
-                    {props?.status.includes("Success") ||
-                    props?.status.includes("Reversal") ? (
+                    {props?.status?.includes("Success") ||
+                    props?.status?.includes("Reversal") ? (
                       <div class="recharge-seccess-box">
                         <div class="recharge-success-inner success-animation">
                           <svg
@@ -82,8 +82,8 @@ const ServiceSuccess = () => {
                     {/** <!-- success animation end --> */}
 
                     {/** <!-- warning animation start --> */}
-                    {props?.status.includes("Recharge under process") ||
-                    props?.status.includes("Pending") ? (
+                    {props?.status?.includes("Recharge under process") ||
+                    props?.status?.includes("Pending") ? (
                       <div class="recharge-seccess-box">
                         <div class="recharge-success-inner warning-animation">
                           <div class="svg-box">
@@ -132,8 +132,8 @@ const ServiceSuccess = () => {
                     {/** <!-- warning animation end -->*/}
                     {/** <!-- faild animation start --> */}
 
-                    {props?.status.includes("Failure") ||
-                    props?.status.includes("Failed") ? (
+                    {props?.status?.includes("Failure") ||
+                    props?.status?.includes("Failed") ? (
                       <div class="recharge-seccess-box">
                         <div class="recharge-success-inner faild-animation">
                           <div class="svg-box">

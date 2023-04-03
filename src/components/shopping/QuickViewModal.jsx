@@ -280,8 +280,6 @@ const QuickViewModal = ({ productId }) => {
         <div class="col-lg-6">
           <div class="quick-view-product">
             <>
-            
-<Spin spinning={loading}>
   {/* {data?.imgArray?.map(item=> <p>{JSON.stringify(item.original)}</p>)} */}
  {data?.imgArray &&  <Carousel
                 responsive={responsive}
@@ -297,8 +295,6 @@ const QuickViewModal = ({ productId }) => {
                     </div>
                   ))}
               </Carousel>}
-             
-              </Spin>
             </>
           </div>
         </div>

@@ -62,7 +62,7 @@ const dispatch= useDispatch()
               setIsSnackBar(false)
               setErrorMsg("")
               if(!refError){
-                setUserDetails({...values,cityId:getData.cityId,stateId:getData.stateId,RefId:refId,pincodeId,Ip:ip,userName:isUserExist && isUserExist[1]})
+                setUserDetails({...values,cityId:getData.cityId,stateId:getData.stateId,RefId:refId,pincodeId:getData.pincodeId,Ip:ip,userName:isUserExist && isUserExist[1]})
                 dispatch(signUpWithOtp({ userName:isUserExist && isUserExist[1], emailId:signUpFormik.values.emailId }))
               }
             }else{

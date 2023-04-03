@@ -56,7 +56,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
         password: loggedInUser.TRXNPassword,
         amount: amt,
         number: props?.number,
-        operatorId: props?.operatorId,
+        operatorId: props?.operatorId===151 ?"JIO" :props?.operatorId,
         circleId: props?.circleId,
         pointType: selectedDiscount,
         operator: props?.operator,
@@ -92,12 +92,12 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
         const resp = rechargeData.Data;
 
         const str = resp && resp.split(";");
-        const status = str[0].split("=")[1];
+        const status = str[0]?.split("=")[1];
 
-        const amount = str[3].split("=")[1] || amt;
-        const mobileNumber = str[2].split("=")[1];
-        const time = str[1].split("=")[1] || "--";
-        const txId = str.length > 6 ? str[6].split("=")[1] : "--";
+        const amount = str[3]?.split("=")[1] || amt;
+        const mobileNumber = str[2]?.split("=")[1];
+        const time = str[1]?.split("=")[1] || "--";
+        const txId = str?.length > 6 ? str[6]?.split("=")[1] : "--";
 
         navigate("/services/status", {
           state: {

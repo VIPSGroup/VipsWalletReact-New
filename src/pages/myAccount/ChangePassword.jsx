@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
 import { changePassword } from "../../redux/slices/profile/profileSlice";
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
 const ChangePassword = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,9 @@ const ChangePassword = () => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [showPassword3, setShowPassword3] = useState(false);
   const { success, loading } = useSelector(
     (state) => state.profileSlice.changePass
   );
@@ -114,11 +118,23 @@ const ChangePassword = () => {
                   <div class="row">
                     <div class="col-md-12">
                       <div class="input-field">
+                      <i
+                                      id="togglePassword"
+                                      onClick={() =>
+                                        setShowPassword1(!showPassword1)
+                                      }
+                                    >
+                                      {showPassword1 ? (
+                                        <BsFillEyeFill />
+                                      ) : (
+                                        <BsFillEyeSlashFill />
+                                      )}{" "}
+                                    </i>
                         <input
                           onChange={handleOldPassword}
                           value={oldPassword}
                           id="user-pan-number"
-                          type={"password"}
+                          type={showPassword1 ? "text" : "password"}
                           placeholder="&nbsp;"
                           autocomplete="off"
                         />
@@ -128,11 +144,23 @@ const ChangePassword = () => {
 
                     <div class="col-md-12">
                       <div class="input-field">
+                      <i
+                                      id="togglePassword"
+                                      onClick={() =>
+                                        setShowPassword2(!showPassword2)
+                                      }
+                                    >
+                                      {showPassword2 ? (
+                                        <BsFillEyeFill />
+                                      ) : (
+                                        <BsFillEyeSlashFill />
+                                      )}{" "}
+                                    </i>
                         <input
                           onChange={handleNewPassword}
                           value={newPassword}
                           id="user-new-password"
-                          type={"password"}
+                          type={showPassword2 ? "text" : "password"}
                           placeholder="&nbsp;"
                           autocomplete="off"
                         />
@@ -142,11 +170,23 @@ const ChangePassword = () => {
 
                     <div class="col-md-12">
                       <div class="input-field">
+                      <i
+                                      id="togglePassword"
+                                      onClick={() =>
+                                        setShowPassword3(!showPassword3)
+                                      }
+                                    >
+                                      {showPassword3 ? (
+                                        <BsFillEyeFill />
+                                      ) : (
+                                        <BsFillEyeSlashFill />
+                                      )}{" "}
+                                    </i>
                         <input
                           onChange={handleConfirmPassword}
                           value={confirmPassword}
                           id="user-confirm-pw"
-                          type={"password"}
+                          type={showPassword3 ? "text" : "password"}
                           placeholder="&nbsp;"
                           autocomplete="off"
                         />

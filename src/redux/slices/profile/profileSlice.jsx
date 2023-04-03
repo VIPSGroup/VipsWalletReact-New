@@ -17,7 +17,9 @@ export const updateProfile = (userData) => {
   formData.append("CityId", userData.CityId);
   formData.append("AadharNo", userData.AadharNo);
   formData.append("PincodeId", userData.Pincode);
-  formData.append("AlternateMobile", userData.AlternateMobile);
+  if(userData.AlternateMobile){
+    formData.append("AlternateMobile", userData.AlternateMobile);
+  }
 
   return fetch(`${baseApiUrl}/UserServices/GetUpdateUser`, {
     method: "POST",

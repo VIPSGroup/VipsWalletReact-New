@@ -18,15 +18,6 @@ import {
 } from "../pages/publicPages";
 
 import HospitalBills from "../pages/services/hospitalBills/HospitalBills";
-// import {
-//   Cart,
-//   Checkout,
-//   ProductDetails,
-//   ProductListing,
-//   ShippingAddress,
-//   ShoppingHome,
-//   Wishlist,
-// } from "../pages/shopping";
 import Footer from "../components/layout/Footer/Footer";
 import {
   Broadband,
