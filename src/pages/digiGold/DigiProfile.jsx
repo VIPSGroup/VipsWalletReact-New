@@ -4,13 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-profile.css";
 import { MuiSnackBar } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading.jsx";
-import CommonTopNav from "../../components/layout/Header/CommonTopNav";
 import {
   FirstNamePattern,
-  handleKeyPress,
   handleKeyPressForName,
   namePattern,
-  validateFullName,
 } from "../../constants";
 import {
   getCityList,
@@ -18,7 +15,9 @@ import {
   loginDigiGold,
 } from "../../redux/slices/digiGold/registerDigiSlice";
 import { UpdateUser } from "../../redux/slices/digiGold/userProfileSlice";
-
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 const DigiProfile = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -66,7 +65,6 @@ const DigiProfile = () => {
     }
   }, [formValue.userStateId]);
 
-  console.log(formValue, "formValue");
   useEffect(() => {
     formValue.Name = logData?.Data?.Name;
     formValue.mobileNumber = logData?.Data?.MobileNumber;
@@ -75,7 +73,6 @@ const DigiProfile = () => {
     formValue.userStateId = logData?.Data?.StateId || "";
     formValue.userStateName = logData?.Data?.StateName || "";
     formValue.userCityName = logData?.Data?.CityName || "";
-    // formValue.userPincode = logData?.Data?.Pincode || "";
     formValue.dateOfBirth = logData?.Data?.DateOfBirth || "";
     formValue.nomineeName = logData?.Data?.Nominee || "";
     formValue.nomineeDateOfBirth = logData?.Data?.NomineeDateOfBirth || "";
@@ -85,27 +82,41 @@ const DigiProfile = () => {
   const handleSubmit = async () => {
     const username = loggedInUser.UserName;
     const password = loggedInUser.TRXNPassword;
-    const res = await dispatch(UpdateUser({ formValue, username, password }));
-    if (res.payload.ResponseStatus === 1 && res.payload.ErrorCode === 200) {
-      setSuccessMsg(res.payload.Remarks);
-      setErrorMsg("");
-      setIsSnackBar(true);
-    } else if (
-      res.payload.ResponseStatus === 1 &&
-      res.payload.Data.statusCode !== 200
-    ) {
+    if (formValue.userCityId === "Select City") {
       setSuccessMsg("");
-      setErrorMsg(res.payload.Data.errors.nomineeDateOfBirth[0].message);
+      setErrorMsg("Please Select City");
       setIsSnackBar(true);
     } else {
-      setSuccessMsg("");
-      setErrorMsg(res.payload.Remarks);
-      setIsSnackBar(true);
+      const res = await dispatch(UpdateUser({ formValue, username, password }));
+      if (res.payload.ResponseStatus === 1 && res.payload.ErrorCode === 200) {
+        setSuccessMsg(res.payload.Remarks);
+        setErrorMsg("");
+        setIsSnackBar(true);
+      } else if (
+        res.payload.ResponseStatus === 1 &&
+        res.payload.Data.statusCode !== 200
+      ) {
+        let obj = res.payload.Data.errors;
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            const errorArr = obj[key];
+            errorArr.forEach((errorObj) => {
+              setErrorMsg(errorObj.message);
+              setIsSnackBar(true);
+              setSuccessMsg("");
+            });
+          }
+        }
+      } else {
+        setSuccessMsg("");
+        setErrorMsg(res.payload.Remarks);
+        setIsSnackBar(true);
+      }
     }
   };
 
-  console.log(formValue, "formValud");
-
+  // console.log(formValue.dateOfBirth.$d, "formValud");
+  const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
   return (
     <>
       {/* <CommonTopNav /> */}
@@ -148,7 +159,9 @@ const DigiProfile = () => {
 
                         {
                           name: "dateOfBirth",
-                          value: formValue.dateOfBirth,
+                          value: formValue.dateOfBirth
+                            ? dayjs(formValue.dateOfBirth)
+                            : null,
                         },
                         {
                           name: "nomineeName",
@@ -156,7 +169,9 @@ const DigiProfile = () => {
                         },
                         {
                           name: "nomineeDateOfBirth",
-                          value: formValue.nomineeDateOfBirth,
+                          value: formValue.nomineeDateOfBirth
+                            ? dayjs(formValue.nomineeDateOfBirth)
+                            : null,
                         },
                         {
                           name: "nomineeRelation",
@@ -218,32 +233,37 @@ const DigiProfile = () => {
                             </Form.Item>
                           </div>
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item
-                              rules={[
-                                {
-                                  type: "date",
-                                },
-                              ]}
-                              name={"dateOfBirth"}
-                            >
-                              <Input
-                                onclick={(e) => {
-                                  e.target.max = new Date()
-                                    .toISOString()
-                                    .split("T")[0];
-                                }}
-                                max="2999-12-31"
-                                addonBefore="DOB"
-                                type="date"
-                                value={formValue.dateOfBirth}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formValue,
-                                    dateOfBirth: e.target.value,
-                                  })
-                                }
+                            <Form.Item name={"dateOfBirth"}>
+                              <DatePicker
+                                style={{ width: "100%" }}
                                 size="large"
-                                placeholder="Date of Birth"
+                                disabledDate={(current) => {
+                                  // Disable dates that are less than 18 years ago
+                                  const today = new Date();
+                                  const diffInMs = Math.abs(today - current);
+                                  const age = Math.floor(
+                                    diffInMs / (1000 * 60 * 60 * 24 * 365)
+                                  );
+                                  return age < 18;
+                                }}
+                                clearIcon={false}
+                                onChange={(date, dateString) => {
+                                  if (date === null || date === undefined) {
+                                    setFormValue({
+                                      ...formValue,
+                                      dateOfBirth: undefined, // or set a default value like new Date()
+                                    });
+                                  } else {
+                                    setFormValue({
+                                      ...formValue,
+                                      dateOfBirth: date,
+                                    });
+                                  }
+                                }}
+                                placeholder="Select User DOB"
+                                value={formValue.dateOfBirth}
+                                format={dateFormatList[0]}
+                                mode="date"
                               />
                             </Form.Item>
                           </div>
@@ -385,13 +405,13 @@ const DigiProfile = () => {
                                   message: "This Field is Required ",
                                 },
                                 {
-                                  pattern: namePattern,
-                                  message: "Please enter a valid full name!",
+                                  min: 3,
+                                  message: "Min 3 Character Required",
                                 },
                               ]}
                             >
                               <Input
-                                // onKeyPress={handleKeyPressForName}
+                                onKeyPress={handleKeyPressForName}
                                 value={formValue.nomineeName}
                                 onChange={(e) =>
                                   setFormValue({
@@ -408,9 +428,9 @@ const DigiProfile = () => {
                             <Form.Item
                               hasFeedback
                               rules={[
-                                {
-                                  type: "date",
-                                },
+                                // {
+                                //   type: "date",
+                                // },
                                 {
                                   required:
                                     formValue.nomineeName ||
@@ -420,7 +440,7 @@ const DigiProfile = () => {
                               ]}
                               name="nomineeDateOfBirth"
                             >
-                              <Input
+                              {/* <Input
                                 max="2999-12-31"
                                 addonBefore="Nominee DOB"
                                 type="date"
@@ -433,6 +453,37 @@ const DigiProfile = () => {
                                 }
                                 size="large"
                                 placeholder="Nominee DOB"
+                              /> */}
+                              <DatePicker
+                                style={{ width: "100%" }}
+                                size="large"
+                                disabledDate={(current) => {
+                                  // Disable dates that are less than 18 years ago
+                                  const today = new Date();
+                                  const diffInMs = Math.abs(today - current);
+                                  const age = Math.floor(
+                                    diffInMs / (1000 * 60 * 60 * 24 * 365)
+                                  );
+                                  return age < 18;
+                                }}
+                                clearIcon={false}
+                                onChange={(date, dateString) => {
+                                  if (date === null || date === undefined) {
+                                    setFormValue({
+                                      ...formValue,
+                                      nomineeDateOfBirth: undefined, // or set a default value like new Date()
+                                    });
+                                  } else {
+                                    setFormValue({
+                                      ...formValue,
+                                      nomineeDateOfBirth: date,
+                                    });
+                                  }
+                                }}
+                                placeholder="Select Nominee DOB"
+                                value={formValue.nomineeDateOfBirth}
+                                format={dateFormatList[0]}
+                                mode="date"
                               />
                             </Form.Item>
                           </div>
@@ -448,8 +499,8 @@ const DigiProfile = () => {
                                   message: "This Field is Required ",
                                 },
                                 {
-                                  pattern: FirstNamePattern,
-                                  message: "Please enter a valid Relation",
+                                  min: 3,
+                                  message: "Min 3 Character Required",
                                 },
                               ]}
                             >

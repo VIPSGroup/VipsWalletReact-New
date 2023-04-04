@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Row, Space, Spin } from "antd";
+import { Form, Input, Spin } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import "../../index.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,8 @@ import {
 import { loginDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
 import DigiGoldSignup from "./DigiGoldSignup";
 import {
+  HandleAmounthange,
+  HandleGramChange,
   digitPrecision,
   formatter,
   handleKeyDown,
@@ -153,7 +155,6 @@ const DigiGoldHome = ({
       isServiceEnable.ResponseStatus === 1 &&
       isServiceEnable.Data.IsServiceEnabled === true
     ) {
-      console.log("chl rha ahi");
       const username = loggedInUser.UserName;
       const password = loggedInUser.TRXNPassword;
       dispatch(loginDigiGold({ username, password }));
@@ -193,17 +194,6 @@ const DigiGoldHome = ({
       valType: "amount",
       metalType: isGold === 0 ? "gold" : "silver",
     });
-    // const gbuy = parseFloat(GoldBuyRate || 0);
-    // const gGST = parseFloat(rateData.Data?.result?.data?.rates?.gBuyGst || 0);
-    // const sbuy = parseFloat(SilverBuyRate || 0);
-    // const sGST = parseFloat(rateData.Data?.result?.data?.rates?.sBuyGst || 0);
-    // const gwithGST = gbuy + gGST;
-    // const swithGst = sbuy + sGST;
-    // const finalGrams = e.target.value / (isGold === 0 ? gwithGST : swithGst);
-
-    // const roundedNum = Math.round(finalGrams * 10000) / 10000;
-    // const str = roundedNum.toFixed(4);
-    // const ResultGrams = parseFloat(str);
     setGrams(quantity);
     if (quantity === 0) {
       setErr("");
@@ -225,9 +215,8 @@ const DigiGoldHome = ({
     if (e.target.value.length > value.length) {
       e.target.value = value;
     }
-
     const quantity = digitPrecision(value, "quantity");
-    setGrams(quantity);
+    setGrams(value);
     const gram = parseFloat(quantity);
     const gGram = parseFloat(logData?.Data?.GoldGrams);
     const sGram = parseFloat(logData?.Data?.SilverGrams);
@@ -291,10 +280,47 @@ const DigiGoldHome = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (valueType.valType === "quantity") {
+      HandleGramChange({
+        setAmount,
+        setGrams,
+        rateData,
+        active,
+        logData,
+        setErr,
+        setValueType,
+        grams,
+        isGold,
+        valueType,
+      });
+    } else if (valueType.valType === "amount") {
+      HandleAmounthange({
+        rateData,
+        setAmount,
+        isGold,
+        setValueType,
+        valueType,
+        setGrams,
+        setErr,
+        amount,
+      });
+    }
+  }, [rateData]);
+
+  const handleBlur = (e) => {
+    // Set the position of the cursor
+    const input = e.target;
+    const position = input.value.indexOf(".");
+    input.setSelectionRange(
+      position === -1 ? input.value.length : position,
+      position === -1 ? input.value.length : position + 1
+    );
+  };
+
   return (
     <>
       <div className="">
-        {/* <!-- body section start Now --> */}
         <Spin size="large" spinning={loading || logLoading || digiLogLoading}>
           <section class="digi-gold-section-wrapper  buy-sell-form">
             <div class="container">
@@ -308,40 +334,6 @@ const DigiGoldHome = ({
                 <div class="col-lg-12">
                   <MyVault setStep={setStep} />
                   <div class="buy-sell-form-outer">
-                    {/* <div class="current-rate-outer">
-                      <div class="current-rate">
-                        <span class="current-rate-title mb-3">GOLD</span>
-                        <span class="current-rate-amt">
-                          &#x20B9;{" "}
-                          {!loading && rateData
-                            ? parseFloat(active) === 0
-                              ? rateData.Data?.result?.data?.rates?.gBuy
-                              : rateData?.Data?.result?.data?.rates?.gSell
-                            : "Loading..."}{" "}
-                          / gm
-                        </span>
-                      </div>
-                      <div class="digi-icon d-none d-md-block">
-                        <img
-                          src="/images/digigold-images/digi-icon.svg"
-                          alt=""
-                        />
-                      </div>
-                      <div className="vertical-separator d-md-none d-sm-block"></div>
-                      <div class="current-rate">
-                        <span class="current-rate-title mb-3">SILVER</span>
-                        <span class="current-rate-amt">
-                          {" "}
-                          &#x20B9;{" "}
-                          {!loading && rateData
-                            ? parseFloat(active) === 0
-                              ? rateData?.Data?.result?.data?.rates?.sBuy
-                              : rateData?.Data?.result?.data?.rates?.sSell
-                            : "Loading..."}{" "}
-                          / gm
-                        </span>
-                      </div>
-                    </div> */}
                     <CurrentRateSection active={active} />
 
                     <div class="buy-sell-option">
@@ -370,7 +362,6 @@ const DigiGoldHome = ({
                     </div>
 
                     <div class="buy-sell-tab-outer">
-                      {/* <!-- tab content start --> */}
                       <Form
                         fields={[
                           {
@@ -443,26 +434,18 @@ const DigiGoldHome = ({
                               >
                                 <div class="input-wrapper">
                                   {/* <div className="input"> */}
-                                  <Form.Item
-                                    className="mb-0"
-                                    name={"grams"}
-                                    // rules={[
-                                    //   {
-                                    //     required: true,
-                                    //     message: "Please Enter Grams",
-                                    //   },
-                                    // ]}
-                                  >
+                                  <Form.Item className="mb-0" name={"grams"}>
                                     <Input
                                       id="grams"
                                       formatter={formatter}
                                       onKeyDown={handleKeyDown2}
+                                      onBlur={handleBlur}
                                       className="mb-0 disabled-input"
                                       onWheel={(e) => e.target.blur()}
                                       parser={parser}
                                       min={0.0001}
                                       precision={4}
-                                      // required
+                                      // pattern="/^\d{1,3}(?:\.\d{0,4})?$/"
                                       addonBefore="Grams"
                                       value={grams}
                                       type="number"
@@ -470,44 +453,25 @@ const DigiGoldHome = ({
                                       onChange={handleGramsChange}
                                       placeholder="Enter Grams"
                                       size="large"
-                                      // step={0.0001}
                                       step={"any"}
-                                      // style={{ padding: 15 }}
                                     />
                                   </Form.Item>
-                                  {/* </div> */}
                                 </div>
                                 <div class="exchange-arrow-outer text-center">
                                   <span class="exchange-arrow ">
                                     {" "}
                                     <img
                                       alt=""
-                                      // style={{
-                                      //   width: 40,
-                                      //   marginLeft: 10,
-                                      //   marginRight: 10,
-                                      // }}
                                       src="/images/digigold-images/two-arrows.svg"
                                     />{" "}
                                   </span>
                                 </div>
                                 <div class="input-wrapper">
-                                  {/* <div className="input"> */}
-                                  <Form.Item
-                                    name="amount"
-                                    className="mb-0"
-                                    // rules={[
-                                    //   {
-                                    //     required: true,
-                                    //     message: "Please Enter Amount",
-                                    //   },
-                                    // ]}
-                                  >
+                                  <Form.Item name="amount" className="mb-0">
                                     <Input
                                       id="amount"
                                       onKeyDown={handleKeyDown}
                                       min={1}
-                                      // required
                                       onWheel={(e) => e.target.blur()}
                                       value={amount}
                                       maxLength={8}
@@ -530,7 +494,6 @@ const DigiGoldHome = ({
                                       }}
                                     />
                                   </Form.Item>
-                                  {/* </div> */}
                                 </div>
                               </div>
 
@@ -563,7 +526,6 @@ const DigiGoldHome = ({
                           </div>
                         </div>
                       </Form>
-                      {/* <!-- tab content end --> */}
                     </div>
                   </div>
                 </div>
@@ -572,39 +534,6 @@ const DigiGoldHome = ({
           </section>
         </Spin>
 
-        {/* <section class="digi-gold-section-wrapper digital-gold-services">
-          <div class="container">
-            <div class="digigold-service-box-outer">
-              {quickServiceArr.map((e) => {
-                return (
-                  <div class="digigold-service-box-inner">
-                    <div class="digigold-service-div-outer">
-                      <div class="digigold-service-div-box">
-                        <div
-                          onClick={() => {
-                            setActive(e.buy);
-                            window.scroll({ top: 0, behavior: "smooth" });
-                          }}
-                          class="digigold-service-icon"
-                        >
-                          <img
-                            src={`images/digigold-images/${e.img}`}
-                            alt="VIPS Gold Silver Services"
-                            class="img-fluid digigold-service-img"
-                          />
-                        </div>
-
-                        <div class="digigold-service-title">
-                          <h3>{e.title}</h3>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section> */}
         <QuickService
           setActive={setActive}
           setAmount={setAmount}

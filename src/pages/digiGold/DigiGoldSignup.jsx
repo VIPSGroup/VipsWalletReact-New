@@ -71,43 +71,49 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
     const emailId = loggedInUser.Emailid;
     const password = loggedInUser.TRXNPassword;
     const username = loggedInUser.UserName;
-    const res = await dispatch(
-      registerDigiGold({ formValue, emailId, password, username })
-    );
-    if (res.payload.ResponseStatus === 2) {
-      if (step === 0) {
-        setStep(step + 1);
-      }
-    } else if (res.payload.ResponseStatus === 1) {
-      if (
-        res.payload.Data.statusCode === 200 ||
-        res.payload.Data.statusCode === 201
-      ) {
-        setSuccessMsg(res.payload.Data.message);
-        setErrorMsg("");
-        setIsSnackBar(true);
-        handleClose();
-      } else {
-        for (const key in res.payload.Data.errors) {
-          for (const iterator of res.payload.Data.errors[key]) {
-            setErrorMsg(iterator.message);
-            setSuccessMsg("");
-            setIsSnackBar(true);
+    if (formValue.userCityId === "Select City") {
+      setErrorMsg("Please Select City");
+      setSuccessMsg("");
+      setIsSnackBar(true);
+    } else {
+      const res = await dispatch(
+        registerDigiGold({ formValue, emailId, password, username })
+      );
+      if (res.payload.ResponseStatus === 2) {
+        if (step === 0) {
+          setStep(step + 1);
+        }
+      } else if (res.payload.ResponseStatus === 1) {
+        if (
+          res.payload.Data.statusCode === 200 ||
+          res.payload.Data.statusCode === 201
+        ) {
+          setSuccessMsg(res.payload.Data.message);
+          setErrorMsg("");
+          setIsSnackBar(true);
+          handleClose();
+        } else {
+          for (const key in res.payload.Data.errors) {
+            for (const iterator of res.payload.Data.errors[key]) {
+              setErrorMsg(iterator.message);
+              setSuccessMsg("");
+              setIsSnackBar(true);
+            }
           }
         }
+      } else if (
+        res.payload.ResponseStatus === 0 &&
+        (res.payload.Data?.statusCode !== 200 ||
+          res.payload.Data?.statusCode !== 201)
+      ) {
+        setErrorMsg(res.payload.Remarks || "Something Went Wrong");
+        setSuccessMsg("");
+        setIsSnackBar(true);
+      } else if (res.payload.ResponseStatus === 0 && !res.payload.Data) {
+        setErrorMsg(res.payload.Remarks);
+        setSuccessMsg("");
+        setIsSnackBar(true);
       }
-    } else if (
-      res.payload.ResponseStatus === 0 &&
-      (res.payload.Data?.statusCode !== 200 ||
-        res.payload.Data?.statusCode !== 201)
-    ) {
-      setErrorMsg(res.payload.Remarks || "Something Went Wrong");
-      setSuccessMsg("");
-      setIsSnackBar(true);
-    } else if (res.payload.ResponseStatus === 0 && !res.payload.Data) {
-      setErrorMsg(res.payload.Remarks);
-      setSuccessMsg("");
-      setIsSnackBar(true);
     }
   };
   const renderTime2 = () => React.Fragment;
@@ -251,13 +257,13 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                       name="Name"
                       rules={[
                         { required: true, message: "Full name is required" },
+                        // {
+                        //   pattern: "[A-Za-zs]+",
+                        //   message: "Name is not valid",
+                        // },
                         {
-                          pattern: "[A-Za-zs]+",
-                          message: "Name is not valid",
-                        },
-                        {
-                          pattern: namePattern,
-                          message: "Please enter a valid full name!",
+                          min: 3,
+                          message: "Min 3 Character are Required",
                         },
                       ]}
                     >
@@ -277,11 +283,12 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
 
                   <div className="col-lg-12">
                     <Form.Item
-                      hasFeedback
+                      // hasFeedback
                       name="userStateId"
                       rules={[{ required: true, message: "State is required" }]}
                     >
                       <Select
+                        placeholder="Select State"
                         showSearch
                         optionFilterProp="children"
                         filterOption={(input, option) =>
@@ -298,7 +305,6 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                           })
                         }
                         size="large"
-                        placeholder="Select State"
                       >
                         {stateList?.Data &&
                           stateList?.Data?.result?.data?.map((e) => {
@@ -313,7 +319,7 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                   </div>
                   <div className="col-lg-12">
                     <Form.Item
-                      hasFeedback
+                      // hasFeedback
                       name="userCityId"
                       rules={[{ required: true, message: "City is required" }]}
                     >

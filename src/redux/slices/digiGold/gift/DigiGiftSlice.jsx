@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   appType,
   currAppVersion,
+  currentAppVersion,
   digiBaseUrl,
   digitPrecision,
 } from "../../../../constants";
@@ -22,7 +23,7 @@ export const DigiGiftSend = async ({
   formData.append("quantity", formvalue.valueinGm);
   formData.append("otp", otp || "");
   formData.append("AppType", appType);
-  formData.append("currentAppVersion", currAppVersion);
+  formData.append("currentAppVersion", currentAppVersion);
 
   try {
     const res = await axios.post(`${digiBaseUrl}TransferGoldSilver`, formData);

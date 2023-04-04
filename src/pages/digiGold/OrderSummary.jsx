@@ -322,10 +322,10 @@ const OrderSummary = () => {
     const metalType = state.metalType;
     const quantity = currentGram;
     const blockid = blockId;
-    const userBankId = list.Data && list.Data.result[0].userBankId;
-    const accountName = list.Data && list.Data.result[0].accountName;
-    const accountNumber = list.Data && list.Data.result[0].accountNumber;
-    const ifscCode = list.Data && list.Data.result[0].ifscCode;
+    const userBankId = list.Data && list.Data.result[0]?.userBankId;
+    const accountName = list.Data && list.Data.result[0]?.accountName;
+    const accountNumber = list.Data && list.Data.result[0]?.accountNumber;
+    const ifscCode = list.Data && list.Data.result[0]?.ifscCode;
     const OTP = otp;
 
     const res = await SellDigiGold({

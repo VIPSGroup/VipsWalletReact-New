@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { digiBaseUrl } from "../../../constants";
+import moment from "moment";
 
 export const GetUserProfileDetails = createAsyncThunk(
   "GetUserProfileDetails",
@@ -55,7 +56,7 @@ export const getSellStatus = createAsyncThunk(
 export const downloadPdf = createAsyncThunk(
   "downloadPdf",
   async (transactionId, thunkAPI) => {
-    console.log("Chl rha hai")
+    console.log("Chl rha hai");
     const formData = new FormData();
     formData.append("transactionid", transactionId);
     try {
@@ -69,7 +70,20 @@ export const downloadPdf = createAsyncThunk(
 export const UpdateUser = createAsyncThunk(
   "UpdateUser",
   async ({ formValue, username, password }, thunkAPI) => {
+    const momentDate = moment(
+      formValue.dateOfBirth.$d
+        ? formValue.dateOfBirth.$d
+        : formValue.dateOfBirth
+    );
+    const momentDateNominee = moment(
+      formValue.nomineeDateOfBirth.$d
+        ? formValue.nomineeDateOfBirth.$d
+        : formValue.nomineeDateOfBirth
+    );
+    const formattedDOB = momentDate.format("YYYY-MM-DD");
+    const formattedDOBNominee = momentDateNominee.format("YYYY-MM-DD");
     const formData = new FormData();
+    console.log(momentDate, "formValue.dateOfBirth.$d");
     formData.append("username", username);
     formData.append("password", password);
     formData.append("userStateId", formValue.userStateId);
@@ -77,10 +91,9 @@ export const UpdateUser = createAsyncThunk(
     formData.append("userStateName", formValue.userStateName);
     formData.append("userCityName", formValue.userCityName);
     formData.append("emailId", formValue.emailId);
-    // formData.append("userPincode", formValue.userPincode);
-    formData.append("dateOfBirth", formValue.dateOfBirth);
+    formData.append("dateOfBirth", formattedDOB || "");
     formData.append("nomineeName", formValue.nomineeName);
-    formData.append("nomineeDateOfBirth", formValue.nomineeDateOfBirth);
+    formData.append("nomineeDateOfBirth", formattedDOBNominee || "");
     formData.append("nomineeRelation", formValue.nomineeRelation);
     // formData.append("gender", formValue.gender);
 

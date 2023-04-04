@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { appType, digiBaseUrl } from "../../../constants";
+import { appType, currentAppVersion, digiBaseUrl } from "../../../constants";
 export const fetchGoldSilverRates = createAsyncThunk(
   "fetchGoldSilverRates",
   async () => {
@@ -44,6 +44,7 @@ export const BuyDigiGold = async ({
   formData.append("AppType", appType);
   formData.append("modeOfTransaction", type);
   formData.append("amount", amount);
+  formData.append("currentAppVersion", currentAppVersion);
 
   try {
     const res = await axios.post(`${digiBaseUrl}BuyDigiGold`, formData);
@@ -62,7 +63,6 @@ export const SellDigiGold = async ({
   ifscCode,
   OTP,
 }) => {
-  console.error(quantity);
   const formData = new FormData();
   formData.append("username", username);
   formData.append("password", password);
@@ -72,6 +72,7 @@ export const SellDigiGold = async ({
   formData.append("blockId", blockid);
   formData.append("userBankId", userBankId);
   formData.append("AppType", appType);
+  formData.append("currentAppVersion", currentAppVersion);
 
   // formData.append("accountName", accountName);
   // formData.append("ifscCode", ifscCode);

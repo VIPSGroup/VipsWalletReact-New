@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../../../assets/styles/digigold/digigold-gift.css";
+import "../../../index.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { Button, Form, Input, Modal, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import MyVault, { CurrentRateSection } from "../MyVault";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  HandleAmounthange,
+  HandleGramChange,
   digitPrecision,
   formatter,
   handleKeyDown,
@@ -19,11 +22,12 @@ import { MuiSnackBar } from "../../../components/common";
 import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 import { HowItWorks } from "../DigiGoldHome";
 import UserNotExist from "../../../components/digiGold/UserNotExist";
+import DigiGoldSignup from "../DigiGoldSignup";
 
 const Gift = ({ setIsCommonTopNav }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [load, setLoad] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
@@ -31,6 +35,9 @@ const Gift = ({ setIsCommonTopNav }) => {
   const [amount, setAmount] = useState("");
   const [isGold, setIsGold] = useState(0); //0 for Gold 1 for Silver
   const [grams, setGrams] = useState("");
+  const [active, setActive] = useState(1);
+  const [isDigiLogin, setIsDigiLogin] = useState("");
+
   const [err, setErr] = useState("");
   const [Otp, setOtp] = useState("");
   const [modal, setModal] = useState(false);
@@ -65,6 +72,8 @@ const Gift = ({ setIsCommonTopNav }) => {
 
   const handleAmountChange = (e) => {
     const value = e.target.value;
+    const gGram = parseFloat(logData?.Data?.GoldGrams);
+    const sGram = parseFloat(logData?.Data?.SilverGrams);
     setAmount(value);
     if (isGold === 0) {
       const totalAmount = digitPrecision(value, "amount");
@@ -79,6 +88,35 @@ const Gift = ({ setIsCommonTopNav }) => {
         valueinGm: quantity,
       });
       setGrams(quantity);
+      const gram = parseFloat(quantity);
+
+      if (logData.Data) {
+        if (gram > (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
+          const roundedNum = Math.round(gGram * 10000) / 10000;
+          const gGramStr = roundedNum.toFixed(4);
+          const gGramResult = parseFloat(gGramStr);
+          const sGramRounded = Math.round(sGram * 10000) / 10000;
+          const sGramStr = sGramRounded.toFixed(4);
+          const sGramResult = parseFloat(sGramStr);
+          if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
+            setErr(
+              ` You can gift up to ${
+                isGold === 0 ? gGramResult : sGramResult
+              } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+                isGold === 0 ? gGramResult : sGramResult
+              } gm `
+            );
+          } else {
+            setErr(
+              `You do not have a enough ${
+                isGold === 0 ? "Gold" : "Silver"
+              } to Gift `
+            );
+          }
+        } else {
+          setErr("");
+        }
+      }
     } else {
       const totalAmount = digitPrecision(value, "amount");
 
@@ -92,6 +130,35 @@ const Gift = ({ setIsCommonTopNav }) => {
         valueinGm: quantity,
       });
       setGrams(quantity);
+      const gram = parseFloat(quantity);
+
+      if (logData.Data) {
+        if (gram > (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
+          const roundedNum = Math.round(gGram * 10000) / 10000;
+          const gGramStr = roundedNum.toFixed(4);
+          const gGramResult = parseFloat(gGramStr);
+          const sGramRounded = Math.round(sGram * 10000) / 10000;
+          const sGramStr = sGramRounded.toFixed(4);
+          const sGramResult = parseFloat(sGramStr);
+          if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
+            setErr(
+              ` You can gift up to ${
+                isGold === 0 ? gGramResult : sGramResult
+              } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+                isGold === 0 ? gGramResult : sGramResult
+              } gm `
+            );
+          } else {
+            setErr(
+              `You do not have a enough ${
+                isGold === 0 ? "Gold" : "Silver"
+              } to Gift `
+            );
+          }
+        } else {
+          setErr("");
+        }
+      }
     }
   };
 
@@ -107,21 +174,47 @@ const Gift = ({ setIsCommonTopNav }) => {
     const gram = parseFloat(value);
     const gGram = parseFloat(logData?.Data?.GoldGrams);
     const sGram = parseFloat(logData?.Data?.SilverGrams);
+    // if (logData.Data) {
+    //   if (gram > (isGold === 0 ? gGram : sGram)) {
+    //     const roundedNum = Math.round(gGram * 10000) / 10000;
+    //     const gGramStr = roundedNum.toFixed(4);
+    //     const gGramResult = parseFloat(gGramStr);
+    //     const sGramRounded = Math.round(sGram * 10000) / 10000;
+    //     const sGramStr = sGramRounded.toFixed(4);
+    //     const sGramResult = parseFloat(sGramStr);
+    //     // console.log(gGramResult, "gGramResult")
+    //     setErr(
+    //       ` You can gift up to ${isGold === 0 ? gGramResult : sGramResult} gm ${
+    //         isGold === 0 ? "Gold" : "Silver"
+    //       } of total  ${isGold === 0 ? gGramResult : sGramResult} gm `
+    //     );
+    //   } else {
+    //     setErr("");
+    //   }
+    // }
     if (logData.Data) {
-      if (gram > (isGold === 0 ? gGram : sGram)) {
+      if (gram > (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
         const roundedNum = Math.round(gGram * 10000) / 10000;
         const gGramStr = roundedNum.toFixed(4);
         const gGramResult = parseFloat(gGramStr);
         const sGramRounded = Math.round(sGram * 10000) / 10000;
         const sGramStr = sGramRounded.toFixed(4);
         const sGramResult = parseFloat(sGramStr);
-        console.log(gram > gGram, "gram");
-        // console.log(gGramResult, "gGramResult")
-        setErr(
-          ` You can sell up to ${isGold === 0 ? gGramResult : sGramResult} gm ${
-            isGold === 0 ? "Gold" : "Silver"
-          } of total  ${isGold === 0 ? gGramResult : sGramResult} gm `
-        );
+        if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
+          setErr(
+            ` You can gif up to ${
+              isGold === 0 ? gGramResult : sGramResult
+            } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+              isGold === 0 ? gGramResult : sGramResult
+            } gm `
+          );
+        } else {
+          setErr(
+            `You do not have a enough ${
+              isGold === 0 ? "Gold" : "Silver"
+            } to Gift `
+          );
+        }
       } else {
         setErr("");
       }
@@ -140,8 +233,12 @@ const Gift = ({ setIsCommonTopNav }) => {
     const totalRound = Math.round(TotalAmount * 10000) / 10000;
     const strTotal = totalRound.toFixed(2);
     const totalResult = parseFloat(strTotal);
-    // console.log(totalResult, "total Result")
-    setAmount(totalResult);
+    // console.log(totalResult, "total");
+    setAmount((totalResult === "0.00" ? 0 : totalResult) || "");
+    if (totalResult === 0) {
+      setErr("");
+    }
+    // setAmount(totalResult);
   };
 
   const renderTime2 = () => React.Fragment;
@@ -190,7 +287,7 @@ const Gift = ({ setIsCommonTopNav }) => {
     const Password = loggedInUser.TRXNPassword;
     const otp = Otp;
 
-    if (logData.Data) {
+    if (logData.Data && !err) {
       setLoad(true);
       const res = await DigiGiftSend({
         senderUsername,
@@ -257,7 +354,22 @@ const Gift = ({ setIsCommonTopNav }) => {
       setStep(1);
     }
   };
-
+  useEffect(() => {
+    HandleGramChange({
+      setAmount,
+      setGrams,
+      rateData,
+      active,
+      logData,
+      setErr,
+      // setValueType,
+      grams,
+      isGold,
+      // valueType,
+      setFormValue,
+      formvalue,
+    });
+  }, [rateData]);
   return (
     <>
       {/* <CommonTopNav /> */}
@@ -272,7 +384,7 @@ const Gift = ({ setIsCommonTopNav }) => {
 
           <div class="row">
             <div class="col-lg-12">
-              <MyVault />
+              <MyVault setStep={setStep} />
               <Spin spinning={load}>
                 <div class="buy-sell-form-outer">
                   {/* <div class="current-rate-outer">
@@ -421,19 +533,21 @@ const Gift = ({ setIsCommonTopNav }) => {
                                   <div class="input-wrapper">
                                     {/* <div className="input"> */}
                                     <Form.Item
-                                      className="mb-0"
+                                      className="mb-0 disabled-input"
                                       name={"grams"}
-                                      rules={[
-                                        {
-                                          required: true,
-                                          message: "Please Enter Grams",
-                                        },
-                                      ]}
+                                      rules={
+                                        [
+                                          // {
+                                          //   required: true,
+                                          //   // message: "Please Enter Grams",
+                                          // },
+                                        ]
+                                      }
                                     >
                                       <Input
                                         formatter={formatter}
                                         // onKeyDown={handleKeyDown2}
-                                        className="mb-0"
+                                        className="mb-0 disabled-input"
                                         onWheel={(e) => e.target.blur()}
                                         parser={parser}
                                         min={0.0001}
@@ -474,7 +588,7 @@ const Gift = ({ setIsCommonTopNav }) => {
                                     {/* <div className="input"> */}
                                     <Form.Item
                                       name="amount"
-                                      className="mb-0"
+                                      className="mb-0 disabled-input"
                                       rules={
                                         [
                                           // {
@@ -500,7 +614,7 @@ const Gift = ({ setIsCommonTopNav }) => {
                                         placeholder="Enter Amount"
                                         size="large"
                                         step={"any"}
-                                        className="mb-0"
+                                        className="mb-0 disabled-input"
                                         // style={{
                                         //   backgroundColor:
                                         //     active !== 0 && "#80808052",
@@ -516,14 +630,12 @@ const Gift = ({ setIsCommonTopNav }) => {
 
                                 <div class="buy-btn">
                                   <button
-                                    // disabled={
-                                    //   !formvalue.receiverUserName || amount < 1
-                                    // }
+                                    disabled={err}
                                     htmlType="submit"
                                     size="large"
                                     type="primary"
                                     class={`${
-                                      amount < 1 && (amount || grams)
+                                      (amount < 1 && (amount || grams)) || err
                                         ? "btn-disable quick-buy"
                                         : "btn-primery quick-buy"
                                     } `}
@@ -554,7 +666,7 @@ const Gift = ({ setIsCommonTopNav }) => {
         </div>
       </section>
       <UserNotExist />
-      <Modal
+      {/* <Modal
         footer={[]}
         maskClosable={false}
         centered
@@ -580,7 +692,6 @@ const Gift = ({ setIsCommonTopNav }) => {
                       <label for=""></label>
                     </p>
                   </div>
-                  {/* </div> */}
                 </div>
               </div>
 
@@ -650,7 +761,12 @@ const Gift = ({ setIsCommonTopNav }) => {
             </button>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
+      <DigiGoldSignup
+        setIsDigiLogin={setIsDigiLogin}
+        setStep={setStep}
+        step={step}
+      />
       <QuickService />
       {HowItWorks()}
       <MuiSnackBar

@@ -180,9 +180,7 @@ const CommonTopNav = ({
                     <li class="nav-item active">
                       <Link
                         style={{
-                          borderBottomWidth: pathname === "/" && 2,
-                          borderBottomColor: pathname === "/" && "#CA3060",
-                          borderBottomStyle: pathname === "/" && "solid",
+                          borderBottom: pathname === "/" && "2px solid #CA3060",
                         }}
                         class="nav-link"
                         to="/"
@@ -195,11 +193,8 @@ const CommonTopNav = ({
                     <li class="nav-item ">
                       <Link
                         style={{
-                          borderBottomWidth: pathname === "/shopping" && 2,
-                          borderBottomColor:
-                            pathname === "/shopping" && "#CA3060",
-                          borderBottomStyle:
-                            pathname === "/shopping" && "solid",
+                          borderBottom:
+                            pathname === "/shopping" && "2px solid #CA3060",
                         }}
                         to="/shopping"
                         class="nav-link "
@@ -211,11 +206,8 @@ const CommonTopNav = ({
                     <li class="nav-item ">
                       <Link
                         style={{
-                          borderBottomWidth: pathname === "/services" && 2,
-                          borderBottomColor:
-                            pathname === "/services" && "#CA3060",
-                          borderBottomStyle:
-                            pathname === "/services" && "solid",
+                          borderBottom:
+                            pathname === "/services" && "2px solid #CA3060",
                         }}
                         to="/services"
                         class="nav-link "
@@ -229,11 +221,8 @@ const CommonTopNav = ({
                     <li class="nav-item">
                       <Link
                         style={{
-                          borderBottomWidth: pathname === "/onlinestores" && 2,
-                          borderBottomColor:
-                            pathname === "/onlinestores" && "#CA3060",
-                          borderBottomStyle:
-                            pathname === "/onlinestores" && "solid",
+                          borderBottom:
+                            pathname === "/onlinestores" && "2px solid #CA3060",
                         }}
                         class="nav-link"
                         to="/onlinestores"
@@ -256,11 +245,8 @@ const CommonTopNav = ({
                     >
                       <Link
                         style={{
-                          borderBottomWidth: pathname === "/vipsgold" && 2,
-                          borderBottomColor:
-                            pathname === "/vipsgold" && "#CA3060",
-                          borderBottomStyle:
-                            pathname === "/vipsgold" && "solid",
+                          borderBottom:
+                            pathname === "/vipsgold" && "2px solid #CA3060",
                         }}
                         class="nav-link"
                         to="/vipsgold"

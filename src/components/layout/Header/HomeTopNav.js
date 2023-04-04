@@ -84,11 +84,9 @@ const HomeTopNav = ({ isPrime }) => {
                     {/* <Link to='/' className="nav-link">ss</Link> */}
                     <li class="nav-item active">
                       <Link
-                        style={{
-                          borderBottomWidth: pathname === "/" && 2,
-                          borderBottomColor: pathname === "/" && "#CA3060",
-                          borderBottomStyle: pathname === "/" && "solid",
-                        }}
+                          style={{
+                            borderBottom: pathname === "/" && "2px solid #CA3060",
+                          }}
                         class="nav-link"
                         to="/"
                       >

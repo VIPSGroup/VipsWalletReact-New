@@ -68,7 +68,6 @@ const MyOrdersPage = () => {
       sellStatus.ResponseStatus === 1 &&
       sellStatus.Data.statusCode !== 200
     ) {
-      console.log(sellStatus.Data.message, "sellStatus.Data.message");
       setErrorMsg(sellStatus.Data.message);
       setIsSnackBar(true);
       setSuccessMsg("");
@@ -76,28 +75,27 @@ const MyOrdersPage = () => {
       setSuccessMsg("");
       setIsSnackBar(true);
       setErrorMsg(sellStatus.Remarks);
-      console.log(sellStatus.Remarks, "sellStatus.Remarks");
     }
   }, [sellStatus]);
 
-  const convertBase64ToPDF = (base64String) => {
-    const binaryData = atob(base64String);
+  // const convertBase64ToPDF = (base64String) => {
+  //   const binaryData = atob(base64String);
 
-    // Step 2: Create a new blob object with the binary data
-    const blob = new Blob([binaryData], { type: "application/pdf" });
+  //   // Step 2: Create a new blob object with the binary data
+  //   const blob = new Blob([binaryData], { type: "application/pdf" });
 
-    // Step 3: Create a URL for the blob object
-    const url = URL.createObjectURL(blob);
+  //   // Step 3: Create a URL for the blob object
+  //   const url = URL.createObjectURL(blob);
 
-    // Step 4: Create a link to download the PDF
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "filename.pdf";
-    link.click();
+  //   // Step 4: Create a link to download the PDF
+  //   const link = document.createElement("a");
+  //   link.href = url;
+  //   link.download = "filename.pdf";
+  //   link.click();
 
-    // Optional: Clean up the URL object
-    URL.revokeObjectURL(url);
-  };
+  //   // Optional: Clean up the URL object
+  //   URL.revokeObjectURL(url);
+  // };
 
   const columns = [
     {
@@ -198,9 +196,9 @@ const MyOrdersPage = () => {
   // This Function for Diff Color Row Sent to and Recieved From
   const FilterClass = (item) => {
     if (logData.Data?.UniqueId === item.SenderUniqueId) {
-      return "#008000      ";
-    } else if (logData.Data?.UniqueId === item.ReceiverUniqueId) {
       return "red";
+    } else if (logData.Data?.UniqueId === item.ReceiverUniqueId) {
+      return "#008000";
     } else {
       return "N/A";
     }
