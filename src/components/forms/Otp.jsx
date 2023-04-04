@@ -19,7 +19,9 @@ const Otp = ({ userName, password,setFormCount }) => {
     (state) => state.loginSlice.loggetInWithOTP
   );
   useEffect(() => {
-    if (loggedInUser === false && toggle && !loading) {
+    console.log(loggedInUser === false );
+    if (loggedInUser === false ) {
+      console.warn("iffffffffff");
       if (!loggedInUser.Id) {
         setIsSnackBar(true);
         setErrorMessage("Invalid OTP");
@@ -34,7 +36,10 @@ const Otp = ({ userName, password,setFormCount }) => {
       setsuccessMessage("Login Successful")
       navigate("/");
     }
-  }, [loggedInUser, toggle]);
+  }, [loggedInUser]);
+useEffect(() => {
+console.error("logged");
+}, [dispatch])
 
   const renderTime2 = () => React.Fragment;
   const renderButton2 = (buttonProps) => {
@@ -99,10 +104,10 @@ const Otp = ({ userName, password,setFormCount }) => {
                     <ThemeButton disabled={otp.length == 6 ? false : true} onClick={(e) => {
                       e.preventDefault()
                         dispatch(loginWithOtp({ userName, password, ip, otp }));
-                        setToggle(true);
-                        setTimeout(() => {
-                          setToggle(false);
-                        }, 4000);
+                        // setToggle(true);
+                        // setTimeout(() => {
+                        //   setToggle(false);
+                        // }, 0);
                       }} loading={loading} value={"Verify & Proceed"}/>
                     {/* <button
                       type="button"

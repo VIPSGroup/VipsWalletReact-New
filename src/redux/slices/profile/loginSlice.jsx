@@ -160,6 +160,7 @@ const loginSlice = createSlice({
     // Login With OTP
     builder.addCase(loginWithOtp.pending, (state, action) => {
       state.loggetInWithOTP.loading = true;
+      state.loggetInWithOTP.loggedInUser = false;
     });
     builder.addCase(loginWithOtp.fulfilled, (state, action) => {
       state.loggetInWithOTP.loggedInUser = action.payload;

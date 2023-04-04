@@ -73,7 +73,7 @@ const ServiceArr = [
     img: "/images/services/dth.svg",
     title: "DTH",
     route: "/services/dth",
-    desc: "Get Instant 2% Cashback On Mobile Recharge",
+    desc: "Get Instant 2% Cashback On DTH Recharge",
   },
   {
     img: "/images/services/digital-cable.svg",
@@ -85,7 +85,7 @@ const ServiceArr = [
     img: "/images/services/broadBand.svg",
     title: "BroadBand",
     route: "/services/BroadBand",
-    desc: "Get Instant 3% Shopping Points on",
+    desc: "Get Instant 3% Shopping Points on BroadBand",
   },
   {
     img: "/images/services/electricity.svg",

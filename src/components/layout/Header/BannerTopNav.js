@@ -5,7 +5,7 @@ import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
 import { IoWalletOutline } from "react-icons/io5";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { Link } from "react-router-dom";
+import { Link, useResolvedPath } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { vendorPanelAPi } from "../../../constants";
 import { Badge } from "antd";
@@ -13,6 +13,7 @@ import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 const BannerTopNav = () => {
   const dispatch = useDispatch();
+  const { pathname } = useResolvedPath();
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
@@ -79,14 +80,24 @@ const BannerTopNav = () => {
                 <div class="collapse navbar-collapse" id="navbar">
                   <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
-                      <Link class="nav-link" to="/">
+                      <Link class="nav-link" to="/"  style={{
+                          borderBottomWidth: pathname === "/" && 2,
+                          borderBottomColor: pathname === "/" && "#CA3060",
+                          borderBottomStyle: pathname === "/" && "solid",
+                        }}>
                         Home <span class="sr-only">(current)</span>
                       </Link>
                     </li>
 
                     {/* { <!-- Level one dropdown -->} */}
                     <li class="nav-item ">
-                      <Link to="/shopping" class="nav-link ">
+                      <Link to="/shopping" class="nav-link "  style={{
+                          borderBottomWidth: pathname === "/shopping" && 2,
+                          borderBottomColor:
+                            pathname === "/shopping" && "#CA3060",
+                          borderBottomStyle:
+                            pathname === "/shopping" && "solid",
+                        }}>
                         Shopping
                       </Link>
                     </li>
@@ -94,14 +105,26 @@ const BannerTopNav = () => {
 
             <!-- Level one dropdown -->} */}
                     <li class="nav-item ">
-                      <Link to="/services" class="nav-link ">
+                      <Link to="/services" class="nav-link " style={{
+                          borderBottomWidth: pathname === "/services" && 2,
+                          borderBottomColor:
+                            pathname === "/services" && "#CA3060",
+                          borderBottomStyle:
+                            pathname === "/services" && "solid",
+                        }}>
                         Services
                       </Link>
                     </li>
                     {/* { <!-- End Level one -->} */}
 
                     <li class="nav-item">
-                      <Link class="nav-link" to="/onlinestores">
+                      <Link class="nav-link" to="/onlinestores" style={{
+                          borderBottomWidth: pathname === "/onlinestores" && 2,
+                          borderBottomColor:
+                            pathname === "/onlinestores" && "#CA3060",
+                          borderBottomStyle:
+                            pathname === "/onlinestores" && "solid",
+                        }}>
                         Online Stores
                       </Link>
                     </li>

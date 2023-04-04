@@ -13,6 +13,8 @@ import {
 const EditProfile = () => {
   const [userDetails, setUserDetails] = useState({});
   const [getData, setGetData] = useState({});
+  const [isClass, setIsClass] = useState(true);
+  const [error, setError] = useState("");
   const [panNo, setPanNo] = useState("");
   const [aadharNo, setAadharNo] = useState("");
   const [alternateNumber, setAlternateNumber] = useState("");
@@ -48,6 +50,10 @@ const EditProfile = () => {
         // .min(10)
         // .max(10),
         // ,
+        // .matches(
+        //   /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/,
+        //   "Please Enter Valid Number"
+        // )
       PanCard: yup
         .string()
         .required("Please Enter Your Pan Number")
@@ -62,8 +68,8 @@ const EditProfile = () => {
     }),
     onSubmit: (values, { resetForm }) => {
       if (pinCode.length == 6) {
+        if(!error){
         setLoading(true);
-        console.log(alternateNumber);
         const userData =alternateNumber=='' || alternateNumber == null 
         ? { username: userDetails.UserName,
           password: loggedInUser.TRXNPassword,
@@ -95,18 +101,18 @@ const EditProfile = () => {
           CityId: getData ? getData.cityId : cityCode,
           AlternateMobile: alternateNumber,
         };
-        console.warn(userData);
-        updateProfile(userData).then((response) => {
-          if (response.ResponseStatus == 1) {
-            setIsSnackBar(true);
-            setSuccessMsg(response.Remarks);
-          } else {
-            setIsSnackBar(true);
-          }
-          setLoading(false);
-        });
-      } else {
-        setIsSnackBar(true);
+        
+          updateProfile(userData).then((response) => {
+            if (response.ResponseStatus == 1) {
+              setIsSnackBar(true);
+              setSuccessMsg(response.Remarks);
+            } else {
+              setIsSnackBar(true);
+            }
+            setLoading(false);
+          });
+        }
+       
       }
     },
   });
@@ -265,10 +271,20 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="AlternateMobile"
-                            className={ formik.errors.AlternateMobile || formik.touched.AlternateMobile ? "is-invalid": "" }
-                            onChange={e=>{setAlternateNumber(e.target.value)}}
+                            className={ error && "is-invalid" }
+                            onChange={e=>{
+                              const regex=/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/
+                              console.log(e.target.value.length);
+                              setAlternateNumber(e.target.value)
+                              if(!regex.test(e.target.value)){
+                                setError("Please Enter Valid Mobile Number")
+                              }else{
+                                  setError("")
+                                }}
+                              }
                             id="user-alternate-number"
                             placeholder="&nbsp;"
+                            type="number"
                             value={alternateNumber}
                             autocomplete="off"
                             maxLength={10}
@@ -278,7 +294,7 @@ const EditProfile = () => {
                           <label for="user-alternate-number">
                             Alternate Number
                           </label>
-                          <div className="invalid-feedback text-danger">{formik.errors.AlternateMobile}</div>
+                          <div className="invalid-feedback text-danger">{error}</div>
                         </div>
                       </div>
                     </div>
@@ -409,6 +425,7 @@ const EditProfile = () => {
                         pincode={formik.values.Pincode}
                         setGetData={setGetData}
                         getData={getData}
+                        isClass={isClass}
                       />
                       <div class="col-lg-12">
                         <div class="save-profile-btn text-center mt-4">

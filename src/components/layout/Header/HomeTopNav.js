@@ -1,7 +1,7 @@
 import "../../../assets/styles/core/homeTopNav.css";
 import React, { useState, useEffect } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useResolvedPath } from "react-router-dom";
 
 import { FiUser } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
@@ -16,6 +16,7 @@ import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 const HomeTopNav = ({ isPrime }) => {
   const dispatch = useDispatch();
+  const { pathname } = useResolvedPath();
   const { wishCount } = useSelector((state) => state?.wishlistSlice);
   const { cartCount } = useSelector((state) => state?.cartSlice);
   const { loggedInUser } = useSelector(
@@ -83,7 +84,11 @@ useEffect(() => {
                   <ul class="navbar-nav mx-auto">
                     {/* <Link to='/' className="nav-link">ss</Link> */}
                     <li class="nav-item active">
-                      <Link class="nav-link" to="/">
+                      <Link class="nav-link" to="/"  style={{
+                          borderBottomWidth: pathname === "/" && 2,
+                          borderBottomColor: pathname === "/" && "#CA3060",
+                          borderBottomStyle: pathname === "/" && "solid",
+                        }}>
                         Home <span class="sr-only">(current)</span>
                       </Link>
                     </li>
@@ -286,7 +291,7 @@ useEffect(() => {
                       <FiUser className="nav-icon" />
                       <span class="d-xl-block d-none d-md-none d-sm-none">
                         {" "}
-                        {loggedInUser.Name.substring(0, 7)}...{" "}
+                        {loggedInUser?.Name?.substring(0, 7)}...{" "}
                       </span>
                     </Link>
                     <ul class="dropdown-menu dropdown-position profile-dropdown">
@@ -296,7 +301,7 @@ useEffect(() => {
                           to="#"
                         >
                           {" "}
-                          {loggedInUser && loggedInUser.Name}
+                          {loggedInUser && loggedInUser?.Name}
                           {"  "}
                           {isPrime ? (
                             <FaCrown color="#ffbb48" size={18} />

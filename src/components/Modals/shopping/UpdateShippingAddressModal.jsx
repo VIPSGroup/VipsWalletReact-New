@@ -305,7 +305,7 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
                     <SelectField
                       pincode={formik.values.pincode}
                       setGetData={setGetData}
-                      getData={getData}
+                      getData={getData} isClass={false}
                     />
                   </div>
 

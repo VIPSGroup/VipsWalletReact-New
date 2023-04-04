@@ -472,7 +472,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <PrimeConfirmation setIsHomeTopNav={setIsHomeTopNav} />{" "}
+              <PrimeConfirmation   setIsCommonTopNav={setIsCommonTopNav} />{" "}
             </ProtectedRoute>
           }
         />
