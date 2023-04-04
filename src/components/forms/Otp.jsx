@@ -8,20 +8,18 @@ import { Loading, MuiSnackBar, ThemeButton } from "../common";
 const Otp = ({ userName, password,setFormCount }) => {
   const [otp, setOtp] = useState("");
   const [ip, setIp] = useState("");
-  const [toggle, setToggle] = useState(false);
+  // const [toggle, setToggle] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [showSuccessMessage, setsuccessMessage] = useState("");
   const [showErrorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { loggedInUser,loading } = useSelector(
-    (state) => state.loginSlice.loggetInWithOTP
+  const { loggedInUser,loading ,toggle} = useSelector(
+ (state) => state.loginSlice.loggetInWithOTP
   );
   useEffect(() => {
-    console.log(loggedInUser === false );
-    if (loggedInUser === false ) {
-      console.warn("iffffffffff");
+    if (loggedInUser === false && toggle ) {
       if (!loggedInUser.Id) {
         setIsSnackBar(true);
         setErrorMessage("Invalid OTP");
@@ -29,17 +27,14 @@ const Otp = ({ userName, password,setFormCount }) => {
       }
     }
     if (loggedInUser?.Id) {
-      setToggle(false);
+      // setToggle(false);
       setFormCount(1)
       setErrorMessage("");
       setIsSnackBar(true);
       setsuccessMessage("Login Successful")
       navigate("/");
     }
-  }, [loggedInUser]);
-useEffect(() => {
-console.error("logged");
-}, [dispatch])
+  }, [loggedInUser,toggle]);
 
   const renderTime2 = () => React.Fragment;
   const renderButton2 = (buttonProps) => {
@@ -107,7 +102,7 @@ console.error("logged");
                         // setToggle(true);
                         // setTimeout(() => {
                         //   setToggle(false);
-                        // }, 0);
+                        // }, 100);
                       }} loading={loading} value={"Verify & Proceed"}/>
                     {/* <button
                       type="button"

@@ -23,7 +23,6 @@ const HomeBottomServiceBar = () => {
           </div>
         </div>
       </div>
-      ;
     </>
   );
 };
