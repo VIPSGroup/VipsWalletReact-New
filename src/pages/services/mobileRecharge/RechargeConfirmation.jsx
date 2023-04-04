@@ -343,7 +343,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4">
-              <div class="mobile-payment-right">
+              {/* <div class="mobile-payment-right"> */}
                 <div class="mobile-payment-right-sticky box-shadow-1">
                   <div class="row">
                     <div class="col-md-12 mobile-payment-content-head">
@@ -459,7 +459,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
 <MuiSnackBar
               open={isSnackBar}

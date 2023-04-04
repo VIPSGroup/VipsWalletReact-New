@@ -616,8 +616,9 @@ input[type=number] {
 
 /* New fixed right button end */
 
+/* loading bar styles start */
 .services-page-loader .service-loader-outer {
-  /* width: 90px; */
+  width: 90px;
 
   display: flex;
   align-content: center;
@@ -634,9 +635,31 @@ input[type=number] {
   left: 0;
   right: 0;
 }
+
+
+.brows-plan-loader .brows-plan-loader-outer{
+  width: 90px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.brows-plan-loader .service-loader{
+  position: absolute;
+  margin-top: 22%;
+  margin-left: 45%;
+  left: 0;
+  right: 0;
+}
 /* .services-page-loader .service-loader-outer .three-dots-loading{
   justify-content: center !important;
 } */
+
+/* loading bar styles end */
 
 /* product sold badge start */
 .sold-badge-overlay-lft {

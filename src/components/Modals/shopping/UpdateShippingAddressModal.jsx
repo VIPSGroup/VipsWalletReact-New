@@ -252,10 +252,11 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
                         minLength="10"
                       />
                       <label htmlFor="user-mobile"> Mobile Number </label>
-                      <div className="invalid-feedback text-danger">
+                      
+                    </div>
+                    <div className="invalid-feedback text-danger">
                         {formik.errors.mobileno}
                       </div>
-                    </div>
                   </div>
 
                   <div class="textarea-field">
@@ -309,7 +310,7 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
                     />
                   </div>
 
-                  <div>
+                  <div className="mt-3">
                     <p class="select-address-type-title"> Address Type </p>
                     <div class="select-address-type">
                       <label>
