@@ -220,11 +220,11 @@ const AddShippingAddressModal = () => {
                         onBlur={formik.handleBlur}
                         className={
                           formik.errors.mobileno && formik.touched.mobileno
-                            ? " is-invalid"
-                            : ""
+                            ? "mobile-input is-invalid w-100"
+                            : "mobile-input"
                         }
                         value={formik.values.mobileno}
-                        class="mobile-input"
+                        // class="mobile-input"
                         type="text"
                         placeholder="&nbsp;"
                         autoComplete="off"
@@ -232,10 +232,11 @@ const AddShippingAddressModal = () => {
                         minLength="10"
                       />
                       <label for="user-mobile"> Mobile Number </label>
-                      <div className="invalid-feedback text-danger">
+                      
+                    </div>
+                    <div className="invalid-feedback text-danger w-100">
                         {formik.errors.mobileno}
                       </div>
-                    </div>
                   </div>
 
                   <div class="textarea-field">
@@ -291,7 +292,7 @@ const AddShippingAddressModal = () => {
 
                   <div class="shopping-address-select"></div>
 
-                  <div>
+                  <div className="mt-3">
                     <p class="select-address-type-title"> Address Type </p>
                     <div class="select-address-type">
                       <label>

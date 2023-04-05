@@ -346,12 +346,12 @@
 .quick-view-pincode .input-group input{
     font-size: 14px;
     border-right:none;
-    padding: 25px 15px;
+    padding: 24px 15px;
     border-radius: 8px;
     border-color: var(--borderColor);
 }
 .quick-view-pincode .input-group button{
-    font-size: 16px;
+    font-size: 14px;
     background: var(--whiteColor); 
     border-left:none;
     border-color: var(--borderColor);

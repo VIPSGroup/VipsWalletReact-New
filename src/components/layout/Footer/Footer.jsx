@@ -72,7 +72,7 @@ const Footer = () => {
                   {UsefullLinks.map((e, i) => {
                     return (
                       <li key={i}>
-                        <Link target="_blank" to={e.route}>
+                        <Link to={e.route}>
                           {" "}
                           {e.title}{" "}
                         </Link>

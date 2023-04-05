@@ -201,7 +201,7 @@ useEffect(() => {
 
   const primeConfirmSection = () => (
     <div>
-      <section class="section-align payment-confirmation">
+      <section class="inpage-section-align payment-confirmation">
         <div class="container">
           <div class="payment-head">
             <a class="" href="/">
@@ -277,7 +277,7 @@ useEffect(() => {
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4">
-              <div class="payment-confirmation-right">
+              {/* <div class="payment-confirmation-right"> */}
                 <div class="payment-confirmation-right-sticky shadow-light">
                   <div class="row">
                     <div class="col-md-12 payment-confirmation-content-head">
@@ -345,7 +345,7 @@ useEffect(() => {
                     </div>
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
 
             {/* {   <!-- payment confirmation end -->} */}
