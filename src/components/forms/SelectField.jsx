@@ -14,7 +14,6 @@ const SelectField = ({ setGetData, getData,isClass }) => {
     return sortedCity;
   };
   useEffect(() => {
-    console.log("useEffect______");
     setStateList(sortState(allStateCityList?.Data));
    
    
@@ -26,9 +25,7 @@ const SelectField = ({ setGetData, getData,isClass }) => {
     // }
   }, []);
   useEffect(() => {
-  console.log("useEffect_");
   console.warn(getData.stateName);
-  console.log(allStateCityList?.Data.filter(item=>item.StateName==getData.stateName));
   if(getData.stateName){
     setCityList(sortCity(allStateCityList?.Data.filter(item=>item.StateName==getData.stateName)[0].Citys));
     console.log(allStateCityList?.Data.filter(item=>item.StateName==getData.stateName)[0].Citys);

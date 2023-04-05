@@ -12,7 +12,6 @@ export const getStateCity = (pincode) => {
     body: formData,
   })
     .then((data) => {
-      console.log(data);
       return data.json();
     })
     .catch((err) => {});
