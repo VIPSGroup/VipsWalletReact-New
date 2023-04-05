@@ -104,7 +104,7 @@ const BrowsePlans = ({
                   <p class="brows-plans-user-title">
                     {" "}
                     +91 {number}{" "}
-                    <a onClick={() => setSection(1)} className="" style={{ cursor: "pointer" }}>
+                    <a onClick={() => setSection(1)} className="mx-2" style={{ cursor: "pointer" }}>
                       {" "}
                       Edit{" "}
                     </a>{" "}

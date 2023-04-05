@@ -542,7 +542,7 @@
 /* input group start */
 .shopping-address-field .input-group {
   display: flex;
-  flex-wrap: nowrap;
+  /* flex-wrap: nowrap; */
 }
 .shopping-address-field .input-field .mobile-input{
   margin-left: -39px;

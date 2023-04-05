@@ -40,7 +40,7 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
       lname: yup.string().required("Please Enter last name")
       // .matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid Last Name")
       ,
-      mobileno: yup.string().min(10).max(10).required("Please Enter mobileno").matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Number"),
+      mobileno: yup.string().min(10).max(10).required("Please Enter mobile no").matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Number"),
       addressType: yup.string().required("Please Enter addressType"),
       address: yup.string().required("Please Enter address"),
       landmark: yup.string().required("Please Enter landmark"),
@@ -256,11 +256,11 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
                         minLength="10"
                       />
                       <label htmlFor="user-mobile"> Mobile Number </label>
-                      
-                    </div>
-                    <div className="invalid-feedback text-danger">
+                      <div className="invalid-feedback text-danger">
                         {formik.errors.mobileno}
                       </div>
+                    </div>
+                    
                   </div>
 
                   <div class="textarea-field">
