@@ -131,7 +131,7 @@ const Cart = ({ setIsHomeTopNav }) => {
 
         <div class="row">
           {/* { <!-- shopping-cart start --> } */}
-
+{console.warn(cartProducts)}
           <div class="col-sm-12 col-md-12 col-lg-8">
             <div class="shopping-cart-left">
               <div class="shopping-cart-box-outer">
@@ -165,7 +165,8 @@ const Cart = ({ setIsHomeTopNav }) => {
                                 {pro.product.SalePrice &&
                                   pro.product.SalePrice.toLocaleString()}
                               </span>
-                              <span class="cut">
+                              {pro.product.CostPrice!==0 && <>
+                                <span class="cut">
                                 {" "}
                                 ₹{" "}
                                 {pro.product.RetailPrice &&
@@ -175,6 +176,8 @@ const Cart = ({ setIsHomeTopNav }) => {
                                 {" "}
                                 ({pro.product.CostPrice}% Off){" "}
                               </span>
+                              </>}
+                              
                             </p>
                             <p class="shopping-cart-product-color">
                               Color : <span> {pro.selectedColor} </span>{" "}

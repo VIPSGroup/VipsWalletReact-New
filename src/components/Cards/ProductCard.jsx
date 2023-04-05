@@ -68,7 +68,7 @@ const ProductCard = ({ product, wishlistCard }) => {
                   &#x20B9;{" "}
                   {product.SalePrice && product.SalePrice.toLocaleString()}
                 </span>
-                <span class="promo-product-list-price">
+                {product.CostPrice!==0 && <><span class="promo-product-list-price">
                   <s>
                     {" "}
                     &#x20B9;{" "}
@@ -76,7 +76,16 @@ const ProductCard = ({ product, wishlistCard }) => {
                       product.RetailPrice.toLocaleString()}
                   </s>
                   ({product.CostPrice}% Off)
-                </span>
+                </span></>}
+                {/* <span class="promo-product-list-price">
+                  <s>
+                    {" "}
+                    &#x20B9;{" "}
+                    {product.RetailPrice &&
+                      product.RetailPrice.toLocaleString()}
+                  </s>
+                  ({product.CostPrice}% Off)
+                </span> */}
               </div>
               <div class="promo-product-delivery">
                 <p>Delivery by {product.DeliveryEnd}</p>

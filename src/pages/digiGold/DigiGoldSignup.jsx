@@ -9,30 +9,27 @@ import { modalClose } from "../../redux/slices/digiGold/digiGoldSlice";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
-
 import { Link, useNavigate } from "react-router-dom";
-
 import {
   getCityList,
   getStateList,
   loginDigiGold,
   registerDigiGold,
 } from "../../redux/slices/digiGold/registerDigiSlice";
-
+import { MuiSnackBar } from "../../components/common";
 import {
   handleKeyPressForName,
   handleMobileKeyPress,
-} from "../../constant/Constants";
+  namePattern,
+} from "../../constants";
 
-import { MuiSnackBar } from "../../components/common";
-
-const DigiGoldSignup = ({ setIsDigiLogin }) => {
+const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [step, setStep] = useState(0);
+  // const [step, setStep] = useState(0);
   // const [stateList, setStateList] = useState([]);
   const { modalBool } = useSelector((state) => state.digiGoldSlice.modal);
   const { loading, data } = useSelector(
@@ -76,44 +73,49 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
     const emailId = loggedInUser.Emailid;
     const password = loggedInUser.TRXNPassword;
     const username = loggedInUser.UserName;
-    const res = await dispatch(
-      registerDigiGold({ formValue, emailId, password, username })
-    );
-    if (res.payload.ResponseStatus === 2) {
-      if (step === 0) {
-        setStep(step + 1);
-      }
-    } else if (res.payload.ResponseStatus === 1) {
-      if (
-        res.payload.Data.statusCode === 200 ||
-        res.payload.Data.statusCode === 201
-      ) {
-        setSuccessMsg(res.payload.Data.message);
-        setErrorMsg("");
-        setIsSnackBar(true);
-        handleClose();
-      } else {
-        for (const key in res.payload.Data.errors) {
-          for (const iterator of res.payload.Data.errors[key]) {
-            setErrorMsg(iterator.message);
-            setSuccessMsg("");
-            setIsSnackBar(true);
+    if (formValue.userCityId === "Select City") {
+      setErrorMsg("Please Select City");
+      setSuccessMsg("");
+      setIsSnackBar(true);
+    } else {
+      const res = await dispatch(
+        registerDigiGold({ formValue, emailId, password, username })
+      );
+      if (res.payload.ResponseStatus === 2) {
+        if (step === 0) {
+          setStep(step + 1);
+        }
+      } else if (res.payload.ResponseStatus === 1) {
+        if (
+          res.payload.Data.statusCode === 200 ||
+          res.payload.Data.statusCode === 201
+        ) {
+          setSuccessMsg(res.payload.Data.message);
+          setErrorMsg("");
+          setIsSnackBar(true);
+          handleClose();
+        } else {
+          for (const key in res.payload.Data.errors) {
+            for (const iterator of res.payload.Data.errors[key]) {
+              setErrorMsg(iterator.message);
+              setSuccessMsg("");
+              setIsSnackBar(true);
+            }
           }
         }
+      } else if (
+        res.payload.ResponseStatus === 0 &&
+        (res.payload.Data?.statusCode !== 200 ||
+          res.payload.Data?.statusCode !== 201)
+      ) {
+        setErrorMsg(res.payload.Remarks || "Something Went Wrong");
+        setSuccessMsg("");
+        setIsSnackBar(true);
+      } else if (res.payload.ResponseStatus === 0 && !res.payload.Data) {
+        setErrorMsg(res.payload.Remarks);
+        setSuccessMsg("");
+        setIsSnackBar(true);
       }
-    } else if (
-      res.payload.ResponseStatus === 0 &&
-      (res.payload.Data?.statusCode !== 200 ||
-        res.payload.Data?.statusCode !== 201)
-    ) {
-      setErrorMsg(res.payload.Remarks || "Something Went Wrong");
-      setSuccessMsg("");
-      setIsSnackBar(true);
-    } else if (res.payload.ResponseStatus === 0 && !res.payload.Data) {
-      setErrorMsg(res.payload.Remarks);
-      setSuccessMsg("");
-
-      setIsSnackBar(true);
     }
   };
   const renderTime2 = () => React.Fragment;
@@ -188,7 +190,6 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
     setErrorMsg("");
     setIsSnackBar(false);
   }, [data]);
-
   return (
     <>
       <Modal
@@ -210,12 +211,14 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
             </div>
             <div class="">
               <Form
+                autoComplete="off"
+                autoCapitalize="off"
                 onFinish={handleSubmit}
                 fields={[
                   { name: "mobileNumber", value: formValue.mobileNumber },
                   { name: "Name", value: formValue.Name },
-                  // { name: "userCityId", value: formValue.userCityId },
-                  // { name: "userStateId", value: formValue.userStateId },
+                  { name: "userCityId", value: formValue.userCityId },
+                  { name: "userStateId", value: formValue.userStateId },
                 ]}
                 class="gold-signin-form buy-sell-tab-inner "
               >
@@ -251,51 +254,43 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                     </Form.Item>
                   </div>
                   <div className="col-lg-12">
-                    {/* <div class="input-wrapper">
-                      <div className="input"> */}
-                        <Form.Item
-                          // hasFeedback
-                          name="Name"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Full name is required",
-                            },
-
-                            {
-                              min: 3,
-                              message: "Full Name Min 3 Letters",
-                            },
-                            {
-                              pattern: "[A-Za-zs]+",
-                              message: "Name is not valid",
-                            },
-                          ]}
-                        >
-                          <Input
-                            onKeyPress={handleKeyPressForName}
-                            onChange={(e) =>
-                              setFormValue({
-                                ...formValue,
-                                Name: e.target.value,
-                              })
-                            }
-                            size="large"
-                            placeholder="Enter Full Name"
-                          />
-                          {/* <label htmlFor=""> {" "} Enter Full Name{" "} </label> */}
-                        </Form.Item>
-                      {/* </div>
-                    </div> */}
+                    <Form.Item
+                      hasFeedback
+                      name="Name"
+                      rules={[
+                        { required: true, message: "Full name is required" },
+                        // {
+                        //   pattern: "[A-Za-zs]+",
+                        //   message: "Name is not valid",
+                        // },
+                        {
+                          min: 3,
+                          message: "Min 3 Character are Required",
+                        },
+                      ]}
+                    >
+                      <Input
+                        onKeyPress={handleKeyPressForName}
+                        onChange={(e) =>
+                          setFormValue({
+                            ...formValue,
+                            Name: e.target.value,
+                          })
+                        }
+                        size="large"
+                        placeholder="Enter Full Name"
+                      />
+                    </Form.Item>
                   </div>
 
                   <div className="col-lg-12">
                     <Form.Item
-                      hasFeedback
+                      // hasFeedback
                       name="userStateId"
                       rules={[{ required: true, message: "State is required" }]}
                     >
                       <Select
+                        placeholder="Select State"
                         showSearch
                         optionFilterProp="children"
                         filterOption={(input, option) =>
@@ -307,10 +302,11 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                           setFormValue({
                             ...formValue,
                             userStateId: e,
+                            // userCityName: "Select City",
+                            userCityId: "Select City",
                           })
                         }
                         size="large"
-                        placeholder="Select State"
                       >
                         {stateList?.Data &&
                           stateList?.Data?.result?.data?.map((e) => {
@@ -325,11 +321,12 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                   </div>
                   <div className="col-lg-12">
                     <Form.Item
-                      hasFeedback
+                      // hasFeedback
                       name="userCityId"
                       rules={[{ required: true, message: "City is required" }]}
                     >
                       <Select
+                        value={formValue.userCityId}
                         onChange={(e) =>
                           setFormValue({
                             ...formValue,
@@ -359,7 +356,6 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                   </div>
 
                   <div class="col-lg-12">
-                    {/* <div class="custom-control custom-checkbox check-term-Style"> */}
                     <Form.Item
                       name="terms"
                       valuePropName="checked"
@@ -373,11 +369,10 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                                 ),
                         },
                       ]}
-                      // {...tailFormItemLayout}
                     >
                       <Checkbox className="check-term-Style">
                         I Agree to the{" "}
-                        <Link to="/digi-termscondtion" target="_blank">
+                        <Link to="/vipsgold-termscondtion" target="_blank">
                           Terms & Conditions
                         </Link>
                       </Checkbox>
@@ -390,12 +385,8 @@ const DigiGoldSignup = ({ setIsDigiLogin }) => {
                       <Button
                         loading={loading}
                         htmlType="submit"
-                        // onClick={handleClick}
                         type="primary"
                         class="btn btn-primery login-btn"
-                        // id="digigold-otp"
-                        // data-toggle="modal"
-                        // data-target="#digigoldotpform"
                       >
                         Send OTP
                       </Button>

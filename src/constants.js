@@ -1,15 +1,15 @@
 import { SHA512 } from "crypto-js";
+import pakcage from "../package.json";
 
 const themeColor = "#393186";
 // export const baseApiUrl = "https://api.vipswallet.com/api";
-
 export const baseApiUrl = "http://devtest.vipswallet.com/api";
 export const digiBaseUrl = "http://devtest.vipswallet.com/api/DigiGold/";
 // export const baseApiUrl = "http://webplat.vipswallet.com/api/";
 export const shopadminUrl = "http://shopadmin.vipswallet.com";
 export const vendorPanelAPi = "http://vendor.vipswallet.com/Login/Vendor";
 export const staticTocken = "XMCNBVGDTE734BCU65DW"; //used for getting banners , affiliate etc while calling apis.
-
+export const currAppVersion = 1.0;
 // Digi Gold Cart Price Calculation
 export function calculateTotalPrice(products, price) {
   let totalPrice = 0;
@@ -19,11 +19,285 @@ export function calculateTotalPrice(products, price) {
   return totalPrice;
 }
 
-// RegEX
-const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; // regular expression for full name validation
-const pincodeRegex = /^[1-9][0-9]{5}$/; // regular expression for Indian PIN code validation
-const mobileRegex = /^[6-9]\d{9}$/; // regular expression for Indian mobile number validation
+export const handleKeyPressForName = (event) => {
+  const charCode = event.which ? event.which : event.keyCode;
+  if (charCode !== 8 && !/^[a-zA-Z ]+$/.test(String.fromCharCode(charCode))) {
+    event.preventDefault();
+  }
+};
 
+export function handleMobileKeyPress(event) {
+  const charCode = event.which || event.keyCode;
+  if (charCode < 48 || charCode > 57) {
+    event.preventDefault();
+  }
+}
+export const formatter = (value) => {
+  return `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+export const parser = (value) => {
+  value = value.replace(/\$\s?|(,*)/g, "");
+  return isNaN(value) ? "" : parseFloat(value).toFixed(4);
+};
+export const handleKeyDown = (event) => {
+  const maxLength = 8;
+  const key = event.key;
+  const allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+  if (key === "." || key === "," || key === "-") {
+    // prevent decimal and negative sign
+    event.preventDefault();
+    return;
+  }
+
+  if (key === "Backspace" || key === "Delete") {
+    return;
+  }
+
+  if (event.target.value.length >= maxLength) {
+    // limit to 8 digits
+    event.preventDefault();
+    return;
+  }
+
+  if (!allowedKeys.includes(key)) {
+    // prevent non-digit keys
+    event.preventDefault();
+    return;
+  }
+};
+
+export const handleKeyDown2 = (event) => {
+  const maxLength = 8;
+  const key = event.key;
+  const allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
+
+  if (key === "," || key === "-") {
+    // prevent comma and negative sign
+    event.preventDefault();
+    return;
+  }
+
+  if (key === "Backspace" || key === "Delete") {
+    return;
+  }
+
+  if (event.target.value.length >= maxLength && key !== ".") {
+    // limit to 8 digits (excluding the decimal point)
+    event.preventDefault();
+    return;
+  }
+
+  if (!allowedKeys.includes(key)) {
+    // prevent non-digit and non-decimal-point keys
+    event.preventDefault();
+    return;
+  }
+};
+
+// RegEX
+
+// export const handleKeyDown2 = (event) => {
+//   console.log(event.target.value.length, "updated");
+//   var maxLength = 4;
+//   const key = event.key;
+//   // const afterDec = event.target.value.split(".")[1];
+//   // const beforeDec = event.target.value.split(".")[0];
+//   // if (event.target.value.includes(".")) {
+//   //   console.log("isme aa rha hai");
+//   //   const afterDec = event.target.value.split(".")[1];
+//   //   const beforeDec = event.target.value.split(".")[0];
+//   //   if (beforeDec.length === 1) {
+//   //     console.log("one");
+//   //     maxLength = 6;
+//   //   } else if (beforeDec.length === 2) {
+//   //     console.log("Two");
+//   //     maxLength = 7;
+//   //   } else if (beforeDec.length === 3) {
+//   //     console.log("Three");
+//   //     maxLength = 8;
+//   //   }
+//   // } else {
+//   //   maxLength = 3;
+//   // }
+//   const allowedKeys = /^\d{1,3}(?:\.\d{0,4})?$/; // allow digits and decimal point
+
+//   if (key === "," || key === "-") {
+//     // prevent comma and negative sign
+//     event.preventDefault();
+//     return;
+//   }
+
+//   if (key === "Backspace" || key === "Delete") {
+//     return;
+//   }
+
+//   if (event.target.value.length >= maxLength && key !== ".") {
+//     // limit to 8 digits (excluding the decimal point)
+//     event.preventDefault();
+//     return;
+//   }
+
+//   if (!allowedKeys?.some((regex) => regex.test(key))) {
+//     // prevent non-digit and non-decimal-point keys
+//     event.preventDefault();
+//     return;
+//   }
+
+//   const value = event.target.value;
+//   const [beforeDec, afterDec] = value.split(".");
+
+//   if (beforeDec && beforeDec.length > 3) {
+//     // limit to 3 digits before decimal point
+//     event.preventDefault();
+//     return;
+//   }
+
+//   if (afterDec && afterDec.length > 4) {
+//     // limit to 4 digits after decimal point
+//     event.preventDefault();
+//     return;
+//   }
+
+//   const regex = /^\d{1,3}(?:\.\d{0,4})?$/;
+
+//   if (!regex.test(value)) {
+//     // prevent invalid input
+//     event.preventDefault();
+//     return;
+//   }
+// };
+
+export const HandleGramChange = ({
+  setAmount,
+  setGrams,
+  rateData,
+  active,
+  logData,
+  setErr,
+  setValueType,
+  value,
+  grams,
+  isGold,
+  valueType,
+  setFormValue,
+  formvalue,
+}) => {
+  const quantity = digitPrecision(value ? value : grams, "quantity");
+  setGrams(quantity);
+  const gram = parseFloat(quantity);
+  const gGram = parseFloat(logData?.Data?.GoldGrams);
+  const sGram = parseFloat(logData?.Data?.SilverGrams);
+  if (logData.Data) {
+    if (
+      parseFloat(active) === 1 &&
+      gram > (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))
+    ) {
+      const roundedNum = Math.round(gGram * 10000) / 10000;
+      const gGramStr = roundedNum.toFixed(4);
+      const gGramResult = parseFloat(gGramStr);
+      const sGramRounded = Math.round(sGram * 10000) / 10000;
+      const sGramStr = sGramRounded.toFixed(4);
+      const sGramResult = parseFloat(sGramStr);
+      if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
+        setErr(
+          ` You can sell up to ${isGold === 0 ? gGramResult : sGramResult} gm ${
+            isGold === 0 ? "Gold" : "Silver"
+          } of total  ${isGold === 0 ? gGramResult : sGramResult} gm `
+        );
+      } else {
+        setErr(
+          `You do not have a enough ${
+            isGold === 0 ? "Gold" : "Silver"
+          } to Sell `
+        );
+      }
+    } else {
+      setErr("");
+    }
+  }
+  const GoldBuyRates = rateData.Data?.result?.data?.rates?.gBuy;
+  const SilverBuyRates = rateData.Data?.result?.data?.rates?.sBuy;
+  const GoldSellRates = rateData.Data?.result?.data?.rates?.gSell;
+  const SilverSellRates = rateData.Data?.result?.data?.rates?.sSell;
+  const TotalAmount =
+    (parseFloat(active) === 0 && isGold === 0 && GoldBuyRates * quantity) ||
+    (parseFloat(active) === 0 && isGold === 1 && SilverBuyRates * quantity) ||
+    (parseFloat(active) === 1 && isGold === 0 && GoldSellRates * quantity) ||
+    (parseFloat(active) === 1 && isGold === 1 && SilverSellRates * quantity);
+  setValueType
+    ? setValueType({
+        ...valueType,
+        valueinGm: quantity,
+        valueinAmt: TotalAmount,
+        valType: "quantity",
+        metalType: isGold === 0 ? "gold" : "silver",
+      })
+    : setFormValue({
+        ...formvalue,
+        valueinGm: value,
+        valueinAmt: TotalAmount,
+        valType: "quantity",
+        metalType: isGold === 0 ? "gold" : "silver",
+      });
+  const totalRound = Math.round(TotalAmount * 10000) / 10000;
+  const strTotal = totalRound.toFixed(2);
+  const totalResult = parseFloat(strTotal);
+  setAmount((totalResult === "0.00" ? 0 : totalResult) || "");
+  if (totalResult === 0) {
+    setErr("");
+  }
+};
+export const HandleAmounthange = ({
+  rateData,
+  setAmount,
+  isGold,
+  setValueType,
+  valueType,
+  setGrams,
+  setErr,
+  amount,
+}) => {
+  const taxRate =
+    parseFloat(rateData.Data.result.data.taxes[0].taxPerc) +
+    parseFloat(rateData.Data.result.data.taxes[1].taxPerc);
+  setAmount(amount);
+  const inclTaxAmount = digitPrecision(amount, "amount");
+  const GoldBuyRate = rateData.Data.result.data.rates.gBuy;
+  const SilverBuyRate = rateData.Data.result.data.rates.sBuy;
+  const TaxInc =
+    (parseFloat(isGold === 0 ? GoldBuyRate : SilverBuyRate) * taxRate) /
+      parseFloat(100) +
+    parseFloat(isGold === 0 ? GoldBuyRate : SilverBuyRate);
+
+  const inclTaxRate = digitPrecision(TaxInc, "amount");
+  const qty = inclTaxAmount / inclTaxRate;
+  const quantity = digitPrecision(qty, "quantity");
+  console.log(
+    rateData.Data.result.data.rates.gBuy,
+    "rateData.Data.result.data.rates.gBuy"
+  );
+  setValueType({
+    ...valueType,
+    valueinAmt: amount,
+    valueinGm: amount / (isGold === 0 ? GoldBuyRate : SilverBuyRate),
+    valType: "amount",
+    metalType: isGold === 0 ? "gold" : "silver",
+  });
+  setGrams(quantity);
+  if (quantity === 0) {
+    setErr("");
+  }
+};
+export const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; // regular expression for full name validation
+export const pincodeRegex = /^[1-9][0-9]{5}$/; // regular expression for Indian PIN code validation
+export const mobileRegex = /^[6-9]\d{9}$/; // regular expression for Indian mobile number validation
+// export const namePattern = /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/; // regular expression for full name validation
+// export const namePattern = /^([\w]{3,})+\s+([\w\s]{1,})+$/i;
+export const FirstNamePattern = /^[a-zA-Z]+$/;
+// export const namePattern = /^[a-zA-Z ]+$/;
+export const namePattern = /^[a-zA-Z]{3,}$/;
 export const validateName = (_, value) => {
   if (!value || nameRegex.test(value)) {
     return Promise.resolve();
@@ -36,7 +310,6 @@ export const validatePincode = (_, value) => {
   }
   return Promise.reject("Please enter a valid Indian PIN code");
 };
-
 export const validateMobile = (_, value) => {
   if (!value) {
     return Promise.reject("Please enter your mobile number");
@@ -46,7 +319,7 @@ export const validateMobile = (_, value) => {
   }
   return Promise.reject("Please enter a valid 10-digit mobile number");
 };
-
+export const gameZopLink = "https://6234.play.gamezop.com/";
 //Service IDS
 export const mobileServiceId = 1;
 export const dthServiceId = 2;
@@ -68,6 +341,8 @@ export const subscriptionServiceId = 48;
 export const clubAndAssociationServiceId = 50;
 export const municipalTaxServiceId = 44;
 export const municipalServicesServiceId = 45;
+export const digiGoldServiceId = 57;
+export const currentAppVersion = pakcage.version;
 
 export const jharkandOpCode = "JBVNL0000JHA01";
 export const torrentOpCode = "TORR00000NATLX";
@@ -100,8 +375,10 @@ const travelTerms = "Travel";
 const faq = "FAQ";
 const privacypolicy = "Privacy Policy";
 const termsAndConditions = "Terms And Conditions";
+const DigitermsAndConditions = "DigiGold Terms And Conditions";
+const Digifaq = "DigiGold FAQs";
 
-export const appType = "WebSite";
+export const appType = "Website";
 
 export const electronicCategoryId = 53;
 export const fashionCategoryId = 43;
@@ -125,16 +402,34 @@ export const getTermsConditionsId = (type) => {
     return faq;
   } else if (type && type.includes("termscondtion")) {
     return termsAndConditions;
+  } else if (type && type.includes("DigiGold Terms And Conditions")) {
+    return DigitermsAndConditions;
+  } else if (type && type.includes("DigiGold FAQs")) {
+    return Digifaq;
   }
 };
 
 export const googleAnalytics = "UA-220725992-1";
-export function digitPrecision({ sGramResult, type }) {
-  console.log(sGramResult, type, "theek hahi");
+export function getFixedDecimalNumber(input, precision) {
+  if (input.toString().split(".").pop().length > precision) {
+    return parseFloat(
+      input
+        .toString()
+        .substring(0, input.toString().indexOf(".") + precision + 1)
+    );
+  } else {
+    return input;
+  }
+}
+// Amount Round
+export function digitPrecision(data, type) {
   if (type === "amount") {
-    // return  round upto 2 decimal
+    const amt = parseFloat(data);
+    return amt.toFixed(2);
   } else if (type === "quantity") {
-    // return simply truncate digit after 4 decimal
+    return getFixedDecimalNumber(data, 4);
+  } else {
+    return data;
   }
 }
 

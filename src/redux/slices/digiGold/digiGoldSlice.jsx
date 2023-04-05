@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { appType, digiBaseUrl } from "../../../constants";
-
+import { appType, currentAppVersion, digiBaseUrl } from "../../../constants";
 export const fetchGoldSilverRates = createAsyncThunk(
   "fetchGoldSilverRates",
   async () => {
@@ -43,11 +42,9 @@ export const BuyDigiGold = async ({
   formData.append("quantity", quantity);
   formData.append("blockId", blockid);
   formData.append("AppType", appType);
-  formData.append(
-    "modeOfTransaction",
-    type === "Grams" ? "quantity" : "amount"
-  );
+  formData.append("modeOfTransaction", type);
   formData.append("amount", amount);
+  formData.append("currentAppVersion", currentAppVersion);
 
   try {
     const res = await axios.post(`${digiBaseUrl}BuyDigiGold`, formData);
@@ -75,10 +72,11 @@ export const SellDigiGold = async ({
   formData.append("blockId", blockid);
   formData.append("userBankId", userBankId);
   formData.append("AppType", appType);
+  formData.append("currentAppVersion", currentAppVersion);
 
   // formData.append("accountName", accountName);
   // formData.append("ifscCode", ifscCode);
-  formData.append("otp", OTP);
+  formData.append("otp", OTP || "");
 
   try {
     const res = await axios.post(`${digiBaseUrl}SellDigiGold`, formData);
@@ -133,6 +131,17 @@ export const UpdateBankAccountDetails = async ({
     return res.data;
   } catch (error) {}
 };
+export const CheckIfscCode = createAsyncThunk(
+  "CheckIfscCode",
+  async ({ ifsc }, thunkAPI) => {
+    try {
+      const res = await axios.get(`https://ifsc.razorpay.com/${ifsc}`);
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
 
 export const startFetchData = () => (dispatch) => {
   setInterval(() => {
@@ -154,6 +163,10 @@ const digiGoldSlice = createSlice({
     bankList: {
       list: "",
       loading: false,
+      error: "",
+    },
+    ifsc: {
+      Verified: "",
       error: "",
     },
   },
@@ -187,6 +200,18 @@ const digiGoldSlice = createSlice({
     builder.addCase(GetUserBankList.rejected, (state, action) => {
       state.bankList.error = action.error;
       state.bankList.loading = false;
+    });
+    // IFSC Verify
+    builder.addCase(CheckIfscCode.fulfilled, (state, action) => {
+      if (action.payload?.response?.status === 404) {
+        state.ifsc.Verified = 0;
+      } else {
+        state.ifsc.Verified = action.payload.BRANCH;
+      }
+    });
+    builder.addCase(CheckIfscCode.rejected, (state, action) => {
+      console.log(action.error, "error");
+      state.ifsc.error = action.error;
     });
   },
 });

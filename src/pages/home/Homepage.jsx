@@ -10,6 +10,7 @@ import PaymentApp from "./PaymentApp";
 import InspiredByBrowsingHistory from "./InspiredByBrowsingHistory";
 import { useEffect } from "react";
 import { ShoppingCategoryProduct } from "./ShoppingCategoryProduct";
+import GameBanner from "./GameBanner";
 const Homepage = ({ setIsHomeTopNav }) => {
   useEffect(() => {
     setIsHomeTopNav(true);
@@ -24,6 +25,7 @@ const Homepage = ({ setIsHomeTopNav }) => {
       <HomeBottomServiceBar />
       <ShopByCategory />
       <ServiceCategory />
+      <GameBanner/>
       <ShoppingCategoryProduct title="VIPS" subtitle=" Promotional"  description="Discover all the VIPS merchandise here!" categoryId={11}/>
       <OnlineStore />
       <PrimeMembership />

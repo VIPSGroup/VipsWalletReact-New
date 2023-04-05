@@ -64,9 +64,11 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
               <span class="promo-product-mrp">
                 {" "}
                 &#x20B9;{" "}
-                {product?.SalePrice && product?.SalePrice.toLocaleString()}
+                {product?.SalePrice.toLocaleString().split(".").length!==2 ?product?.SalePrice && product?.SalePrice.toLocaleString() :product?.SalePrice.toLocaleString().split(".")[0] }
               </span>
-              <span class="promo-product-list-price">
+              {
+                product.CostPrice!==0 &&<>
+                  <span class="promo-product-list-price">
                 <s>
                   {" "}
                   &#x20B9;{" "}
@@ -74,7 +76,9 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
                     product?.RetailPrice.toLocaleString()}
                 </s>
                 ({product.CostPrice}% Off)
-              </span>
+              </span></>
+              }
+            
             </div>
             <div class="promo-product-delivery">
               <p>Delivery by {product.DeliveryEnd}</p>
@@ -84,6 +88,17 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
       </Link>
       <div class="promo-product-action">
         <div class="promo-quick-view">
+          {/* {showQuickModal ? <QuickViewModal/>: <button
+        onClick={() => {
+          console.error("Quick View" ,);
+          setShowQuickModal(true)
+          // product?.Quantity !== 0 && setShowModal(true);
+        }}
+        type="button"
+        class="btn-cta"
+      >
+        Quick View
+      </button>} */}
           <QuickViewModal productId={product.Id} />
         </div>
         {wishlistCard ? (

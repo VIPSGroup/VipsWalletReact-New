@@ -432,7 +432,7 @@
 
 .digigold-work-div-box .digigold-work-title { 
   margin-bottom: 15px;
-  height: auto;
+  /* height: 11vh; */
 }
 
 .digigold-work-div-box .digigold-work-title h3 {
@@ -1127,9 +1127,6 @@
 
 
 @media only screen and (min-width: 992px) and (max-width: 1280px){
-  .digigold-work-div-box {
-    padding: 18px 10px;
-  }
   .digigold-work-div-box .digigold-work-title {
     height: auto;
   }

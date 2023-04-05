@@ -15,7 +15,6 @@
 //   addMoneyFromGAB,
 //   checkGABBalance,
 // } from "../../redux/slices/walletSlice";
-
 // const AddAmount = () => {
 //   const dispatch = useDispatch();
 //   const [amount, setAmount] = useState(0);

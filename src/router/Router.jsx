@@ -4,7 +4,6 @@ import ProtectedRoute from "../auth/ProtectedRoute";
 import { Navigation } from "../components/layout/Header";
 import { Login } from "../pages/authentication";
 import Homepage from "../pages/home/Homepage";
-
 import { AddAmount, PaymentOptions, SendMoney } from "../pages/Money";
 import { AccountWireframe, MyOrder, Passbook } from "../pages/myAccount";
 import { PrimeConfirmation, PrimeIndex } from "../pages/primeMember";
@@ -16,17 +15,7 @@ import {
   ReferAFriend,
   TermsAndConditions,
 } from "../pages/publicPages";
-
 import HospitalBills from "../pages/services/hospitalBills/HospitalBills";
-// import {
-//   Cart,
-//   Checkout,
-//   ProductDetails,
-//   ProductListing,
-//   ShippingAddress,
-//   ShoppingHome,
-//   Wishlist,
-// } from "../pages/shopping";
 import Footer from "../components/layout/Footer/Footer";
 import {
   Broadband,
@@ -72,7 +61,6 @@ import {
   MyOrdersPage,
   OrderSummary,
 } from "../pages/digiGold";
-
 import AllTermsAndCondition from "../pages/publicPages/TermsAndConditions";
 import DeliveryHome from "../pages/digiGold/Delivery/DeliveryHome";
 import DigiProductDetails from "../pages/digiGold/Delivery/DigiProductDetails";
@@ -87,15 +75,22 @@ const Router = () => {
   const [isCommonTopNav, setIsCommonTopNav] = useState(true);
   const [active, setActive] = useState(0);
   const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [grams, setGrams] = useState("");
 
   return (
     <>
-      {/* <Navigation isHomeTopNav={isHomeTopNav} isBottomTopNav={isBottomTopNav} isCommonTopNav={isCommonTopNav} setActive={setActive} title={title}/> */}
       <Navigation
         isHomeTopNav={isHomeTopNav}
         isBottomTopNav={isBottomTopNav}
         isCommonTopNav={isCommonTopNav}
-      />{" "}
+        setActive={setActive}
+        title={title}
+        setAmount={setAmount}
+        amount={amount}
+        setGrams={setGrams}
+        grams={grams}
+      />
       <Routes>
         <Route
           element={<Homepage setIsHomeTopNav={setIsHomeTopNav} />}
@@ -406,29 +401,38 @@ const Router = () => {
           }
         />
         <Route
-          path="/digigold"
-          element={<DigiGoldHome active={active} setActive={setActive} />}
+          path="/vipsgold"
+          element={
+            <DigiGoldHome
+              active={active}
+              setActive={setActive}
+              setAmount={setAmount}
+              amount={amount}
+              setGrams={setGrams}
+              grams={grams}
+            />
+          }
         />
-        <Route path="/digigold-order-summary" element={<OrderSummary />} />
-        <Route path="/digigold-profile" element={<DigiProfile />} />
-        <Route path="/digigold-orders" element={<MyOrdersPage />} />
-        <Route path="/digigold/gift" element={<Gift />} />
+        <Route path="/vipsgold-order-summary" element={<OrderSummary />} />
+        <Route path="/vipsgold-profile" element={<DigiProfile />} />
+        <Route path="/vipsgold-orders" element={<MyOrdersPage />} />
 
-        <Route
-          path="/digigold-delivery"
+        <Route path="/vipsgold-gift" element={<Gift />} setActive={setActive} />
+        {/* <Route
+          path="/vipsgold-delivery"
           element={<DeliveryHome setIsCommonTopNav={setIsCommonTopNav} />}
-        />
-        <Route
-          path="/digigold-delivery/:title"
+        /> */}
+        {/* <Route
+          path="/vipsgold-delivery/:title"
           element={
             <DigiProductDetails
               setIsCommonTopNav={setIsCommonTopNav}
               setTitle={setTitle}
             />
           }
-        />
+        /> */}
         <Route
-          path="/digigold-cart"
+          path="/vipsgold-cart/"
           element={
             <DigiDeliveryCart
               setIsCommonTopNav={setIsCommonTopNav}
@@ -454,21 +458,42 @@ const Router = () => {
             />
           }
         />
-        <Route
-          path="/digi-faq"
+        {/* <Route
+          path="/vipsgold-faq"
           element={
-            <AllTermsAndCondition title="DigiGold FAQs" type="DigiGold FAQs" />
+            <AllTermsAndCondition
+              title="VIPS Gold FAQs"
+              type="VIPS Gold FAQs"
+            />
+          }
+        /> */}
+        <Route
+          path="/vipsgold-kyc"
+          element={<DigiKYC setIsCommonTopNav={setIsCommonTopNav} />}
+        />
+        {/* <Route
+          path="/vipsgold-termscondtion"
+          element={
+            <AllTermsAndCondition
+              title="VIPS Terms & Conditions"
+              type="VIPS Gold Terms And Conditions"
+            />
+          }
+        /> */}
+        <Route
+          path="/vipsgold-faq"
+          element={
+            <AllTermsAndCondition
+              title="VIPS Gold FAQs"
+              type="DigiGold FAQs"
+            />
           }
         />
         <Route
-          path="/digi-kyc"
-          element={<DigiKYC setIsCommonTopNav={setIsCommonTopNav} />}
-        />
-        <Route
-          path="/digi-termscondtion"
+          path="/vipsgold-termscondtion"
           element={
             <AllTermsAndCondition
-              title="Digi Terms & Conditions"
+              title="VIPS Gold Terms & Conditions"
               type="DigiGold Terms And Conditions"
             />
           }

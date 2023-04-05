@@ -1,12 +1,10 @@
 import { Button, Col, Form, Input, Modal, Row, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { LatestLoading } from "../../components/common/Loading";
-
 import {
   BuyDigiGold,
+  CheckIfscCode,
   fetchGoldSilverRates,
   GetUserBankList,
   SellDigiGold,
@@ -18,22 +16,25 @@ import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
 import "../../assets/styles/digigold/sell-order-summery.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { FaHashtag, FaUser } from "react-icons/fa";
-
+import { LatestLoading } from "../../components/common/Loading.jsx";
+// import {
+//   digitPrecision,
+//   handleKeyPressForName,
+//   handleMobileKeyPress,
+// } from "../../constants";
+import CommonTopNav from "../../components/layout/Header/CommonTopNav";
+import { MuiSnackBar } from "../../components/common";
+import MyVault from "./MyVault";
 import {
   handleKeyPressForName,
   handleMobileKeyPress,
 } from "../../constant/Constants";
-import { CommonTopNav } from "../../components/layout/Header";
-import { MuiSnackBar } from "../../components/common";
-import MyVault from "./MyVault";
+import { digitPrecision, namePattern } from "../../constants";
 
-const OrderSummary = ({ setIsCommonTopNav }) => {
+const OrderSummary = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const location = useLocation();
-
   const [totalAmount, setTotalAmount] = useState("");
   const [step, setStep] = useState(0);
   const [editAddress, setEditAddress] = useState(false);
@@ -51,6 +52,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   const [counter, setCounter] = useState(300); // 5 minutes in seconds
   const [walletShow, setWalletShow] = useState(false);
   const [otp, setOtp] = useState("");
+  const [sellLoad, setSellLoad] = useState(false);
   const [formValue, setFormValue] = useState({
     accountNumber: "",
     accountName: "",
@@ -68,48 +70,37 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   const { data, loading: walletLoad } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
+  const { Verified } = useSelector((state) => state.digiGoldSlice.ifsc);
+  // Grams Crop
+  console.log(Verified, "Verified");
+  // VIPS Username & Password
+  const username = state?.username;
+  const password = state?.password;
 
-  function getFixedDecimalNumber(input, precision) {
-    if (input.toString().split(".").pop().length > precision) {
-      return parseFloat(
-        input
-          .toString()
-          .substring(0, input.toString().indexOf(".") + precision + 1)
-      );
-    } else {
-      return input;
-    }
-  }
-  // Amount Round
-  function digitPrecision(data, type) {
-    if (type === "amount") {
-      const amt = parseFloat(data);
-      return amt.toFixed(2);
-    } else if (type === "quantity") {
-      console.log(data, "data");
-      return getFixedDecimalNumber(data, 4);
-    } else {
-      return data;
-    }
-  }
+  // Gold & Silver Buy & Sell
+  const GoldBuyRates = rateData?.Data?.result?.data?.rates?.gBuy;
+  const GoldSellRates = rateData?.Data?.result?.data?.rates?.gSell;
+  const SilverBuyRates = rateData?.Data?.result?.data?.rates?.sBuy;
+  const SilverSellRates = rateData?.Data?.result?.data?.rates?.sSell;
+
   // Complete Login is this UseEffect
   useEffect(() => {
     if (counter === 0 || counter === 300) {
       const fetchRates = async () => {
         const res = await dispatch(fetchGoldSilverRates());
-
+        const blockId = res.payload.Data.result.data.blockId;
         const taxRate =
           parseFloat(res.payload.Data.result.data.taxes[0].taxPerc) +
           parseFloat(res.payload.Data.result.data.taxes[1].taxPerc);
 
         if (state?.type === "buy") {
           if (state?.metalType === "gold") {
-            setLockPrice(res.payload.Data.result.data.rates.gBuy);
-            setBlockId(res.payload.Data.result.data.blockId);
+            const GoldBuyRates = res.payload.Data.result.data.rates.gBuy;
+            setLockPrice(GoldBuyRates);
+            setBlockId(blockId);
             if (state?.valType === "quantity") {
               const quantity = digitPrecision(state?.valueinGm, "quantity");
-              const excTaxAmount =
-                quantity * res.payload.Data.result.data.rates.gBuy;
+              const excTaxAmount = quantity * GoldBuyRates;
               const exclTaxRate = digitPrecision(excTaxAmount, "amount");
               const TaxTotal = (exclTaxRate * taxRate) / 100;
               const totalTax = digitPrecision(TaxTotal, "amount");
@@ -117,7 +108,11 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
               const TotalAmount =
                 parseFloat(exclTaxRate) + parseFloat(totalTax);
               const inclTaxAmount = digitPrecision(TotalAmount, "amount");
-              setCurrentGram(quantity);
+              const newQty = quantity.toString().includes(".")
+                ? quantity
+                : parseFloat(quantity).toFixed(4);
+
+              setCurrentGram(newQty);
               setTax(totalTax);
               setCurrentRate(exclTaxRate);
               setTotalAmount(inclTaxAmount);
@@ -131,26 +126,25 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                 "amount"
               );
               const TaxInc =
-                (parseFloat(res.payload.Data.result.data.rates.gBuy) *
-                  taxRate) /
-                  parseFloat(100) +
-                parseFloat(res.payload.Data.result.data.rates.gBuy);
+                (parseFloat(GoldBuyRates) * taxRate) / parseFloat(100) +
+                parseFloat(GoldBuyRates);
 
               const inclTaxRate = digitPrecision(TaxInc, "amount");
               const qty = inclTaxAmount / inclTaxRate;
               const quantity = digitPrecision(qty, "quantity");
-              setCurrentGram(quantity);
+
+              setCurrentGram(quantity.toFixed(4));
               setTotalAmount(inclTaxAmount);
               setCurrentRate(exclTaxAmount);
               setTax(totalTax);
             }
           } else {
-            setBlockId(res.payload.Data.result.data.blockId);
-            setLockPrice(res.payload.Data.result.data.rates.sBuy);
+            const SilverBuyRates = res.payload.Data.result.data.rates.sBuy;
+            setBlockId(blockId);
+            setLockPrice(SilverBuyRates);
             if (state?.valType === "quantity") {
               const quantity = digitPrecision(state?.valueinGm, "quantity");
-              const excTaxAmount =
-                quantity * res.payload.Data.result.data.rates.sBuy;
+              const excTaxAmount = quantity * SilverBuyRates;
               const exclTaxRate = digitPrecision(excTaxAmount, "amount");
               console.log(exclTaxRate, "exclTaxRate");
               const TaxTotal = (exclTaxRate * taxRate) / 100;
@@ -159,8 +153,10 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
               const TotalAmount =
                 parseFloat(exclTaxRate) + parseFloat(totalTax);
               const inclTaxAmount = digitPrecision(TotalAmount, "amount");
-
-              setCurrentGram(quantity);
+              const newQty = quantity.toString().includes(".")
+                ? quantity
+                : parseFloat(quantity).toFixed(4);
+              setCurrentGram(newQty);
               setTax(totalTax);
               setCurrentRate(exclTaxRate);
               setTotalAmount(inclTaxAmount);
@@ -174,45 +170,49 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                 "amount"
               );
               const TaxInc =
-                (parseFloat(res.payload.Data.result.data.rates.sBuy) *
-                  taxRate) /
-                  parseFloat(100) +
-                parseFloat(res.payload.Data.result.data.rates.sBuy);
-
+                (parseFloat(SilverBuyRates) * taxRate) / parseFloat(100) +
+                parseFloat(SilverBuyRates);
               const inclTaxRate = digitPrecision(TaxInc, "amount");
               const qty = inclTaxAmount / inclTaxRate;
               const quantity = digitPrecision(qty, "quantity");
-              setCurrentGram(quantity);
+              // const newQty = quantity.toString().includes(".")
+              //   ? quantity.toFixed(4)
+              //   : quantity;
+              // console.log(newQty, "ye New hai");
+              setCurrentGram(quantity.toFixed(4));
               setTotalAmount(inclTaxAmount);
               setCurrentRate(exclTaxAmount);
               setTax(totalTax);
             }
           }
         } else {
+          const GoldSellRates = res?.payload?.Data?.result?.data?.rates?.gSell;
           if (state?.metalType === "gold") {
-            setBlockId(res.payload.Data.result.data.blockId);
-            setLockPrice(res?.payload?.Data?.result?.data?.rates?.gSell);
+            setBlockId(blockId);
+            setLockPrice(GoldSellRates);
             if (state.valType === "quantity") {
               const quantity = digitPrecision(state?.valueinGm, "quantity");
               const totalAmount = digitPrecision(
-                quantity * res?.payload?.Data?.result?.data?.rates?.gSell,
+                quantity * GoldSellRates,
                 "amount"
               );
-              setBlockId(res.payload.Data.result.data.blockId);
+              setBlockId(blockId);
               setCurrentRate(totalAmount);
               setCurrentGram(quantity);
               setTotalAmount(totalAmount);
             }
           } else {
-            setBlockId(res.payload.Data.result.data.blockId);
-            setLockPrice(res?.payload?.Data?.result?.data?.rates?.sSell);
+            const SilverSellRates =
+              res?.payload?.Data?.result?.data?.rates?.sSell;
+            setBlockId(blockId);
+            setLockPrice(SilverSellRates);
             if (state.valType === "quantity") {
               const quantity = digitPrecision(state?.valueinGm, "quantity");
               const totalAmount = digitPrecision(
-                quantity * res?.payload?.Data?.result?.data?.rates?.sSell,
+                quantity * SilverSellRates,
                 "amount"
               );
-              setBlockId(res.payload.Data.result.data.blockId);
+              setBlockId(blockId);
               setCurrentRate(totalAmount);
               setCurrentGram(quantity);
               setTotalAmount(totalAmount);
@@ -236,19 +236,19 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   // Counter Logic
   // Login & GetWalletBalance Logic
   useEffect(() => {
-    const username = state?.username;
-    const password = state?.password;
+    // const username = state?.username;
+    // const password = state?.password;
     dispatch(loginDigiGold({ username, password }));
     dispatch(getWalletBalance({ username, password }));
   }, [load]);
   const handleClose = () => {
     setModal(false);
-    navigate("/digigold");
+    navigate("/vipsgold");
   };
   // Get User Bank Details logic
   useEffect(() => {
-    const username = state?.username;
-    const password = state?.password;
+    // const username = state?.username;
+    // const password = state?.password;
     dispatch(GetUserBankList({ username, password }));
   }, [state]);
   // If Wallet Balance is Lower Than Total Amount Logic
@@ -269,15 +269,16 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
       seconds < 10 ? "0" : ""
     }${seconds}`;
   };
+  // Gold & Silver Buy Logic
   const handleSubmit = async () => {
-    const username = state.username;
-    const password = state.password;
+    // const username = state.username;
+    // const password = state.password;
     const lockPrice = lockprice;
     const metalType = state.metalType;
-    const roundedCurrent = Math.round(currentGram * 10000) / 10000;
-    const str = roundedCurrent.toFixed(4);
-    const result = parseFloat(str);
-    const quantity = result;
+    // const roundedCurrent = Math.round(currentGram * 10000) / 10000;
+    // const str = roundedCurrent.toFixed(4);
+    // const result = parseFloat(currentGram);
+    const quantity = currentGram;
     const blockid = blockId;
     const amount = totalAmount ? totalAmount : state.valueinAmt;
     const type = state.valType;
@@ -293,7 +294,6 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
         amount,
         type,
       });
-
       if (res.ResponseStatus === 1) {
         if (res.Data.statusCode === 200) {
           dispatch(loginDigiGold);
@@ -315,16 +315,17 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   };
   // Gold & Silver Sell Logic
   const handleSellSubmit = async () => {
-    const username = state.username;
-    const password = state.password;
+    setSellLoad(true);
+    // const username = state.username;
+    // const password = state.password;
     const lockPrice = lockprice;
     const metalType = state.metalType;
     const quantity = currentGram;
     const blockid = blockId;
-    const userBankId = list.Data && list.Data.result[0].userBankId;
-    const accountName = list.Data && list.Data.result[0].accountName;
-    const accountNumber = list.Data && list.Data.result[0].accountNumber;
-    const ifscCode = list.Data && list.Data.result[0].ifscCode;
+    const userBankId = list.Data && list.Data.result[0]?.userBankId;
+    const accountName = list.Data && list.Data.result[0]?.accountName;
+    const accountNumber = list.Data && list.Data.result[0]?.accountNumber;
+    const ifscCode = list.Data && list.Data.result[0]?.ifscCode;
     const OTP = otp;
 
     const res = await SellDigiGold({
@@ -341,6 +342,64 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
       OTP,
     });
     if (res.ResponseStatus === 2) {
+      setSellLoad(false);
+      setIsSnackBar(true);
+      setErrorMsg("");
+      setSuccessMsg(res.Remarks);
+      setStep(1);
+    }
+    if (res.ResponseStatus === 1) {
+      if (res.Data.statusCode === 200) {
+        setSellLoad(false);
+        setStep(0);
+        setResponse(
+          `Successfully Sold ${quantity} grams of ${metalType} @ ${lockPrice}`
+        );
+        setModal(true);
+      } else {
+        setSellLoad(false);
+        setIsSnackBar(true);
+        setErrorMsg("Something Went Wrong");
+        setSuccessMsg("");
+      }
+    }
+    if (res.ResponseStatus === 0) {
+      setSellLoad(false);
+      setIsSnackBar(true);
+      setErrorMsg(res.Remarks);
+      setSuccessMsg("");
+    }
+  };
+
+  const handleResendSellOTPSubmit = async () => {
+    setOtp("");
+    // const username = state.username;
+    // const password = state.password;
+    const lockPrice = lockprice;
+    const metalType = state.metalType;
+    const quantity = currentGram;
+    const blockid = blockId;
+    const userBankId = list.Data && list.Data.result[0].userBankId;
+    const accountName = list.Data && list.Data.result[0].accountName;
+    const accountNumber = list.Data && list.Data.result[0].accountNumber;
+    const ifscCode = list.Data && list.Data.result[0].ifscCode;
+
+    const res = await SellDigiGold({
+      username,
+      password,
+      lockPrice,
+      metalType,
+      quantity,
+      blockid,
+      userBankId,
+      accountName,
+      accountNumber,
+      ifscCode,
+    });
+    if (res.ResponseStatus === 2) {
+      setIsSnackBar(true);
+      setErrorMsg("");
+      setSuccessMsg(res.Remarks);
       setStep(1);
     }
     if (res.ResponseStatus === 1) {
@@ -358,7 +417,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
     }
     if (res.ResponseStatus === 0) {
       setIsSnackBar(true);
-      setErrorMsg(res.Data.message);
+      setErrorMsg(res.Remarks);
       setSuccessMsg("");
     }
   };
@@ -381,7 +440,10 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
             <p>
               Not received OTP?{" "}
               <a>
-                <span style={{ color: "#CA3060" }} onClick={handleSellSubmit}>
+                <span
+                  style={{ color: "#CA3060" }}
+                  onClick={handleResendSellOTPSubmit}
+                >
                   Resend OTP
                 </span>
               </a>
@@ -393,50 +455,67 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   };
   // Bank Details Add Logic
   const handleAddbankDetails = async () => {
-    const username = state.username;
-    const password = state.password;
+    // const username = state.username;
+    // const password = state.password;
     const accountNumber = formValue.accountNumber;
     const accountName = formValue.accountName;
     const ifscCode = formValue.ifscCode;
     const user_bank_id = list.Data?.result[0]?.userBankId;
     if (editAddress) {
-      const res = await UpdateBankAccountDetails({
-        username,
-        password,
-        accountNumber,
-        accountName,
-        ifscCode,
-        user_bank_id,
-      });
-      if (
-        res.ResponseStatus === 1 &&
-        (res.Data?.statusCode === 200 || res.Data?.statusCode === 201)
-      ) {
-        setEditAddress(false);
-        dispatch(GetUserBankList({ username, password }));
-        // window.location.reload();
-      } else if (
-        res.ResponseStatus === 0 ||
-        (res.ResponseStatus === 1 && res.Data?.statusCode === 422)
-      ) {
-        setErrorMsg(res.Remarks);
+      if (Verified !== 0) {
+        const res = await UpdateBankAccountDetails({
+          username,
+          password,
+          accountNumber,
+          accountName,
+          ifscCode,
+          user_bank_id,
+        });
+        if (
+          res.ResponseStatus === 1 &&
+          (res.Data?.statusCode === 200 || res.Data?.statusCode === 201)
+        ) {
+          setEditAddress(false);
+          dispatch(GetUserBankList({ username, password }));
+        } else if (
+          res.ResponseStatus === 0 ||
+          (res.ResponseStatus === 1 && res.Data?.statusCode === 422)
+        ) {
+          setErrorMsg(res.Remarks);
+          setSuccessMsg("");
+          setIsSnackBar(true);
+        }
+      } else {
+        setErrorMsg("Please Enter Valid IFSC");
         setSuccessMsg("");
         setIsSnackBar(true);
       }
     } else {
-      const res = await UserbankAccountCreate({
-        username,
-        password,
-        accountNumber,
-        accountName,
-        ifscCode,
-      });
-      if (res.ResponseStatus === 1) {
-        dispatch(GetUserBankList({ username, password }));
-        // window.location.reload();
+      if (Verified !== 0) {
+        const res = await UserbankAccountCreate({
+          username,
+          password,
+          accountNumber,
+          accountName,
+          ifscCode,
+        });
+        if (res.ResponseStatus === 1) {
+          dispatch(GetUserBankList({ username, password }));
+        }
+      } else {
+        setErrorMsg("Please Enter Valid IFSC");
+        setSuccessMsg("");
+        setIsSnackBar(true);
       }
     }
   };
+
+  useEffect(() => {
+    if (formValue.ifscCode.length === 11) {
+      const ifsc = formValue.ifscCode;
+      dispatch(CheckIfscCode({ ifsc }));
+    }
+  }, [formValue.ifscCode]);
   // Bank Details Update Logic
   const updateBankDetails = () => {
     formValue.accountName = list.Data.result[0].accountName;
@@ -448,9 +527,9 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
   window.onpopstate = function (event) {
     localStorage.removeItem("valueType");
   };
+
   return localStorage.getItem("valueType") ? (
     <>
-      {/* <CommonTopNav /> */}
       <div className="">
         <section class="digi-gold-section-wrapper buy-sell-form">
           <div class="container">
@@ -458,44 +537,15 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
               <h1 class="section-head-title">Order Summary</h1>
             </div>
             <Spin
-              spinning={loading || listLoad || digiLogLoading || walletLoad}
+              spinning={
+                loading || listLoad || digiLogLoading || walletLoad || sellLoad
+              }
             >
               <div class="row">
                 <div class="col-lg-12">
-                  {/* <div class="my-vault-wrapper">
-                    <div class="col-lg-7 mx-auto">
-                      <div class="my-vault-badge-wrapper">
-                        <span class="my-vault-badge">My Vault</span>
-                      </div>
-                      <div class="my-vault-inner">
-                        <div class="vault-value">
-                          <p class="vault-value-text">Gold Grams</p>
-                          <p class="vault-value-count mt-3">
-                            {logData?.Data && !loading
-                              ? logData?.Data?.GoldGrams?.toFixed(4)
-                              : "0.0000"}{" "}
-                            Grams
-                          </p>
-                        </div>
-                        <div class="vertical-separator"></div>
-                        <div class="vault-value">
-                          <p class="vault-value-text">Silver Grams</p>
-                          <p class="vault-value-count mt-3">
-                            {logData?.Data && !loading
-                              ? logData?.Data?.SilverGrams?.toFixed(4)
-                              : "0.0000"}{" "}
-                            Grams
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
                   <MyVault />
                   {/* {!load ? ( */}
-                  <Spin
-                    spinning={load || list.ResponseStatus === 0}
-                    style={{ color: "#ca3060" }}
-                  >
+                  <Spin spinning={load || list.ResponseStatus === 0}>
                     <div class="buy-sell-form-outer">
                       <div class="current-rate-outer">
                         <div class="current-rate">
@@ -506,7 +556,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                               ? state?.type === "buy"
                                 ? rateData?.Data?.result?.data?.rates?.gBuy
                                 : rateData?.Data?.result?.data?.rates?.gSell
-                              : "Loading..."}
+                              : "Loading..."}{" "}
                             / gm
                           </span>
                         </div>
@@ -524,8 +574,8 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                             &#x20B9;{" "}
                             {!loading && rateData
                               ? state?.type === "buy"
-                                ? rateData?.Data?.result?.data?.rates?.sBuy
-                                : rateData?.Data?.result?.data?.rates?.sSell
+                                ? SilverBuyRates
+                                : SilverSellRates
                               : "Loading..."}{" "}
                             / gm
                           </span>
@@ -537,7 +587,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                           {state?.type === "buy" && (
                             <div class="col-lg-12">
                               <p class="digigold-insert-title">
-                                This prices will be valid for :{" "}
+                                This price will be valid for :{" "}
                                 <span>{formatTime(counter)}</span>{" "}
                               </p>
                             </div>
@@ -545,8 +595,8 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? "col-lg-3 col-sm-6"
-                                : "col-lg-4 col-sm-4"
+                                ? "col-lg-2 col-sm-6"
+                                : "col-lg-3 col-sm-4"
                             } `}
                           >
                             <p class="digigold-insert-darktext">
@@ -560,7 +610,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                             class={`${
                               state?.type === "buy"
                                 ? "col-lg-2 col-sm-6"
-                                : "col-lg-4 col-sm-4"
+                                : "col-lg-3 col-sm-4"
                             } `}
                           >
                             <p class="digigold-insert-darktext">Rate</p>
@@ -575,16 +625,20 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                             : state?.valueinAmt} */}
                               {!loading && rateData
                                 ? state?.type === "buy"
-                                  ? rateData?.Data?.result?.data?.rates?.sBuy
-                                  : rateData?.Data?.result?.data?.rates?.sSell
+                                  ? state?.metalType === "gold"
+                                    ? GoldBuyRates
+                                    : SilverBuyRates
+                                  : state?.metalType === "gold"
+                                  ? GoldSellRates
+                                  : SilverSellRates
                                 : "Loading..."}
                             </p>
                           </div>
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? "col-lg-2 col-sm-6"
-                                : "col-lg-4 col-sm-4"
+                                ? "col-lg-3 col-sm-6"
+                                : "col-lg-3 col-sm-4"
                             } `}
                           >
                             <p class="digigold-insert-darktext">Amount</p>
@@ -605,7 +659,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                               class={`${
                                 state?.type === "buy"
                                   ? "col-lg-2 col-sm-6"
-                                  : "col-lg-4 col-sm-4"
+                                  : "col-lg-3  col-sm-4"
                               } `}
                             >
                               <p class="digigold-insert-darktext">Tax</p>
@@ -616,7 +670,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                           )}
                           <div
                             class={`${
-                              state?.type === "buy" ? "col-lg-3" : "col-lg-4"
+                              state?.type === "buy" ? "col-lg-3" : "col-lg-3"
                             } `}
                           >
                             <p class="digigold-insert-darktext">
@@ -725,17 +779,6 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                       <Link
                                         className="digigold-addmoney"
                                         to={"/addMoney/options"}
-                                        // style={{
-                                        //   backgroundColor: "blue ",
-                                        //   color: "white",
-                                        //   marginLeft: 20,
-                                        //   fontSize: 15,
-                                        //   padding: 3,
-                                        //   borderRadius: 5,
-                                        //   outline: "none",
-                                        //   textDecoration: "none",
-                                        //   cursor: "pointer",
-                                        // }}
                                       >
                                         Add Money
                                       </Link>
@@ -782,7 +825,6 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                           </div>
                         </div> */}
                             </div>
-                            {/* <!-- </div>  --> */}
                           </div>
                         )}
                         {/* Digi Gold Bank Details */}
@@ -796,29 +838,8 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                               <div class="container">
                                 {list?.Data?.result?.length === 0 ||
                                 editAddress ? (
-                                  // // <div class="row">
-                                  //   {/* <div class="col-lg-6 col-md-6">
-                                  //     <div class="floating-input-wrapper">
-                                  //       <select
-                                  //         class="floating-select-wraper"
-                                  //         onclick="this.setAttribute('value', this.value);"
-                                  //         onchange="this.setAttribute('value', this.value);"
-                                  //         value=""
-                                  //       >
-                                  //         <option value=""></option>
-                                  //         <option value="1">1</option>
-                                  //         <option value="2">2</option>
-                                  //         <option value="3">3</option>
-                                  //         <option value="4">4</option>
-                                  //         <option value="5">5</option>
-                                  //       </select>
-                                  //       <label class="floating-label-name">
-                                  //         Bank Name *{" "}
-                                  //       </label>
-                                  //     </div>
-                                  //   </div> */}
                                   <Form
-                                  className="buy-sell-tab-inner"
+                                    // className="buy-sell-tab-inner"
                                     onFinish={handleAddbankDetails}
                                     fields={[
                                       {
@@ -917,6 +938,11 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                               message:
                                                 "Holder Name is Required",
                                             },
+                                            {
+                                              pattern: namePattern,
+                                              message:
+                                                "Please enter a valid full name!",
+                                            },
                                           ]}
                                         >
                                           <Input
@@ -986,7 +1012,18 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                               })
                                             }
                                           />
-                                          <label htmlFor=""> Enter IFSC Code </label>
+                                          <label
+                                            style={{
+                                              fontSize: 12,
+                                              marginLeft: 10,
+                                            }}
+                                            htmlFor=""
+                                          >
+                                            {formValue.ifscCode.length === 11 &&
+                                              (Verified
+                                                ? Verified
+                                                : "Please Enter Valid IFSC")}
+                                          </label>
                                         </Form.Item>
                                         </div>
                                         </div>
@@ -1001,68 +1038,13 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                                           Submit
                                         </Button>
                                       </Col>
-
-                                      {/* <div class="col-lg-6 col-md-6">
-                                  <div class="floating-input-wrapper">
-                                    <input
-                                      class="floating-input-box"
-                                      type="text"
-                                      placeholder=" "
-                                    />
-                                    <label class="floating-label-name">
-                                      Bank Account Number *
-                                    </label>
-                                  </div>
-                                </div> */}
-
-                                      {/* <div class="col-lg-6 col-md-6">
-                                  <div class="floating-input-wrapper">
-                                    <input
-                                      class="floating-input-box"
-                                      type="text"
-                                      placeholder=" "
-                                    />
-                                    <label class="floating-label-name">
-                                      Account Holder Name *
-                                    </label>
-                                  </div>
-                                </div>
-
-                                <div class="col-lg-6 col-md-6">
-                                  <div class="floating-input-wrapper">
-                                    <input
-                                      class="floating-input-box"
-                                      type="text"
-                                      placeholder=" "
-                                    />
-                                    <label class="floating-label-name">
-                                      IFSC Code *
-                                    </label>
-                                  </div>
-                                </div> */}
                                     </Row>
                                   </Form>
                                 ) : (
-                                  // </div>
                                   <div class="row justify-content-center">
                                     <div class="col-lg-7 col-md-8 user-bank-details shadow-light">
                                       <div class="row">
-                                        <div class="col-9 col-md-9">
-                                          {/* <span class="text-gray">
-                                            Bank Name :{" "}
-                                          </span>
-                                          <span>UNION BANK OF INDIA</span> */}
-                                        </div>
-                                        {/* <div class="col-3 col-md-3 px-0 px-md-3 text-right">
-                                          <button
-                                            onClick={updateBankDetails}
-                                            class="edit-bank-details"
-                                          >
-                                            {" "}
-                                            <img src="/images/digigold-images/edit-icon.svg" />{" "}
-                                            Edit{" "}
-                                          </button>
-                                        </div> */}
+                                        <div class="col-9 col-md-9"></div>
                                       </div>
 
                                       <div class="row">
@@ -1126,11 +1108,17 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                         )}
                         <div class="order-proceed-btn">
                           <button
-                            disabled={editAddress}
+                            // disabled={editAddress ? }
                             style={{ marginTop: 10 }}
                             onClick={
                               state?.type === "buy"
                                 ? () => handleSubmit()
+                                : editAddress
+                                ? () => {
+                                    setIsSnackBar(true);
+                                    setErrorMsg("Please Submit Bank Details");
+                                    setSuccessMsg("");
+                                  }
                                 : () => handleSellSubmit()
                             }
                             class="btn btn-primery"
@@ -1155,12 +1143,8 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                           )}
                         </div>
                       </div>
-                      {/* </Spin> */}
                     </div>
                   </Spin>
-                  {/* ) : (
-                  <LatestLoading />
-                )} */}
                 </div>
               </div>
             </Spin>
@@ -1175,23 +1159,20 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
         maskClosable={false}
         open={modal}
       >
-        {/* <div class="buy-sell-form-outer"> */}
         <div class="digigold-order-success text-center">
           <img
+            alt=""
             src="/images/digigold-images/check-green.svg"
             class="img img-fluid check-green-img"
           />
-          <p
-            // style={{ fontWeight: "700", fontSize: 20 }}
-            class="digigold-success-title mt-3 "
-          >
-            CONGRATULATIONS!
-          </p>
+          <p class="digigold-success-title mt-3 ">CONGRATULATIONS!</p>
           <p class="success-note">{response}</p>
           <div class="digigold-success-btn">
-            {/* <button class="btn btn-gray">View Details</button> */}
             <button
-              onClick={() => navigate("/digigold-orders")}
+              onClick={() => {
+                localStorage.removeItem("valueType");
+                navigate("/vipsgold-orders");
+              }}
               class="btn btn-primery"
             >
               Go to my Orders
@@ -1203,13 +1184,15 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
             </p>
           )}
         </div>
-        {/* </div> */}
       </Modal>
       <Modal
         footer={[]}
         maskClosable={false}
         centered
-        onCancel={() => navigate("/digigold")}
+        onCancel={() => {
+          localStorage.removeItem("valueType");
+          navigate("/vipsgold");
+        }}
         open={step === 1 && true}
       >
         {step === 1 && (
@@ -1217,29 +1200,19 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
             <div class="digigoldotpForm-outer">
               <div class="row">
                 <div class="col-lg-12">
-                  {/* <div style={{ justifyContent: "center" }} class=""> */}
                   <div className="digigoldotp-titleMain formText text-center">
                     <h2>OTP Verification</h2>
                   </div>
                   <div class="otp-send-to">
                     <p>
-                      Enter the OTP sent to
-                      <label for="">
-                         &nbsp; +91 {logData?.Data.MobileNumber}
-                        
-                         {console.log(logData, "lllol")}
-                      </label>
+                      Enter the OTP sent to {logData.Data.MobileNumber}
+                      <label for=""></label>
                     </p>
                   </div>
-                  {/* </div> */}
                 </div>
               </div>
 
               <div className="formStyle">
-                {/* <Otp
-                  userName={formValue.mobileNumber}
-                  password={loggedInUser.TRXNPassword}
-                /> */}
                 <div
                   id="otp"
                   className="row row-flex justify-content-center mt-1"
@@ -1263,30 +1236,13 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
                     <div class="otp-btnCol btnTopSpace">
                       <Button
                         htmlType="submit"
-                        loading={loading}
+                        disabled={otp.length !== 6}
+                        loading={loading || sellLoad}
                         type="primary"
                         size="large"
-                        // class="btn otp-btn btn-primery modal-loading-btn"
-                        // id="addmoneymodal"
-                        // disabled={formValue.otp.length == 6 ? false : true}
-                        onClick={
-                          handleSellSubmit
-                          // () => {
-                          //   // !loading &&
-                          //   dispatch(loginWithOtp({ userName, password, ip, otp }));
-                          //   setToggle(true);
-                          //   setTimeout(() => {
-                          //     setToggle(false);
-                          //   }, 4000);
-                          // }
-                        }
+                        onClick={handleSellSubmit}
                       >
                         Verify & Proceed
-                        {/* {loading ? (
-                                       <LoadingBar class="" />
-                                     ) : (
-                                       "Verify & Proceed"
-                                     )} */}
                       </Button>
                     </div>
                   </div>
@@ -1306,7 +1262,7 @@ const OrderSummary = ({ setIsCommonTopNav }) => {
       />
     </>
   ) : (
-    <Navigate to={"/digigold"} />
+    <Navigate to={"/vipsgold"} />
   );
 };
 

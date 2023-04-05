@@ -5,12 +5,15 @@
 /.pnp
 .pnp.js
 
+*.zip
+
+
 # testing
 /coverage
 
 # production
 /build
-
+.zip
 # misc
 .DS_Store
 .env.local

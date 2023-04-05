@@ -97,7 +97,6 @@ export const commonServiceConfirm = createAsyncThunk(
       try {
         const res = await axios.post(
           `${baseApiUrl}/Recharge/UtilityOnlineBillPaymentsForAllFBBPSOperators`,formData );
-          console.warn(res.data);
         return res.data
       } catch (error) {
         return error;

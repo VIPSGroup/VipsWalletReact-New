@@ -104,6 +104,24 @@ const PaymentOptions = () => {
                           onChange={handleChange}
                           type="radio"
                           name="radio-button"
+                          value="CC"
+                          checked={selectedPaymentOption === "CC"}
+                        />
+                        <span>
+                          {" "}
+                          <img
+                            src="/images/logos/credit-card.svg"
+                            class="img-fluid img2"
+                          />{" "}
+                          Credit Card{" "}
+                        </span>
+                      </label>
+
+                      <label>
+                        <input
+                          onChange={handleChange}
+                          type="radio"
+                          name="radio-button"
                           value="Finstock"
                           checked={selectedPaymentOption === "Finstock"}
                         />

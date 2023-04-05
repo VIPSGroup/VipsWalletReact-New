@@ -7,6 +7,11 @@ const Navigation = ({
   isBottomTopNav,
   isCommonTopNav,
   title,
+  setActive,
+  setGrams,
+  grams,
+  setAmount,
+  amount,
 }) => {
   const path = useResolvedPath().pathname;
 

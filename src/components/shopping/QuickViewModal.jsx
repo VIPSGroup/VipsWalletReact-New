@@ -51,7 +51,7 @@ const QuickViewModal = ({ productId }) => {
     let wishlist = JSON.parse(localStorage.getItem("wishlist"));
     wishlist &&
       wishlist.map((w, i) => {
-        if (w?.Id.toString() === productId) {
+        if (w?.Id?.toString() === productId) {
           setExistInWishlist(true);
         }
       });
@@ -62,7 +62,7 @@ const QuickViewModal = ({ productId }) => {
   };
 
   const getSizes = (sizeString) => {
-    const sizeSplit = sizeString.split(",").filter(function (str) {
+    const sizeSplit = sizeString?.split(",").filter(function (str) {
       return /\S/.test(str);
     });
 
@@ -70,7 +70,7 @@ const QuickViewModal = ({ productId }) => {
     setSelectedSize(sizeSplit[0]);
   };
   const getColors = (colorString) => {
-    const colorSplit = colorString.split(",");
+    const colorSplit = colorString?.split(",");
 
     setColors(colorSplit);
     setSelectedColor(colorSplit[0]);
@@ -82,7 +82,7 @@ const QuickViewModal = ({ productId }) => {
         original: productData?.ImageURL1,
         thumbnail: productData?.ImageThumbURL1,
       };
-      imgArray.push(obj);
+      imgArray?.push(obj);
     }
     if (productData?.ImageThumbURL2 != null && productData?.ImageURL2 != null) {
       const obj = {
@@ -184,9 +184,7 @@ const QuickViewModal = ({ productId }) => {
     handleClose();
     navigate("/login");
   };
-  useEffect(() => {
-    dispatch(getSingleProductData({ productId }));
-  }, []);
+
   useEffect(() => {
     var p = {};
     p = data?.Data?.ProductDetails;
@@ -282,15 +280,7 @@ const QuickViewModal = ({ productId }) => {
         <div class="col-lg-6">
           <div class="quick-view-product">
             <>
-              {/* {  <div class="quick-view-product-img">
-                   
-                    <img
-                      class="img-thumbnail"
-                      src={`http://shopadmin.vipswallet.com`+productImages[0].original}
-                      alt="Slide Image"
-                    />
-                  </div>} */}
-
+<Spin spinning={loading}>
               <Carousel
                 responsive={responsive}
                 infinite={true}
@@ -307,6 +297,7 @@ const QuickViewModal = ({ productId }) => {
                     </div>
                   ))}
               </Carousel>
+              </Spin>
             </>
           </div>
         </div>
@@ -501,7 +492,9 @@ const QuickViewModal = ({ productId }) => {
     <div>
       <button
         onClick={() => {
+          console.error("Quick View" ,  product);
           product?.Quantity !== 0 && setShowModal(true);
+          dispatch(getSingleProductData({productId}));
         }}
         type="button"
         class="btn-cta"

@@ -328,16 +328,17 @@ setLoading(true)
                       {product?.SalePrice &&
                         product?.SalePrice.toLocaleString()}
                     </span>
-                    <span class="mr-2 cut">
+                   
+                    {product?.CostPrice!==0 &&  <> <span class="mr-2 cut">
                       {" "}
                       &#x20B9;{" "}
                       {product?.RetailPrice &&
                         product?.RetailPrice.toLocaleString()}
-                    </span>
-                    <span class="product-details-discount">
+                    </span><span class="product-details-discount">
                       {" "}
                       ({product?.CostPrice}% Off){" "}
-                    </span>
+                    </span></>}
+                   
                     {product.ShoppingAmt > 0 && (
                       <span class="product-details-cb-badge">
                         {" "}
@@ -511,7 +512,7 @@ setLoading(true)
           <ProductHorizontal
             title="Similar Product"
             // subtitle="of the Day"
-            products={similar}
+            products={similar?.filter(product=>product.Quantity!==0)}
             description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
           />
         </div>

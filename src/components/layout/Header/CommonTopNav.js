@@ -16,10 +16,18 @@ import { modalOpen } from "../../../redux/slices/digiGold/digiGoldSlice";
 import DigiGoldSignup from "../../../pages/digiGold/DigiGoldSignup";
 import { Avatar, Badge, Dropdown } from "antd";
 import { MuiSnackBar } from "../../common";
-
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
+import { CheckServiceEnableOrNot } from "../../../redux/slices/coreSlice";
 
-const CommonTopNav = ({ isShow = true, setActive, title }) => {
+const CommonTopNav = ({
+  isShow = true,
+  setActive,
+  title,
+  setGrams,
+  grams,
+  setAmount,
+  amount,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDigiLogin, setIsDigiLogin] = useState("");
@@ -31,14 +39,12 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
-
   const { wishCount } = useSelector((state) => state.wishlistSlice);
-
+  const { cartCount } = useSelector((state) => state?.cartSlice);
   const { pathname } = useResolvedPath();
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
-  useEffect(() => {}, []);
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
@@ -71,152 +77,86 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
     });
   };
 
-  const items = logData.Data
-    ? [
-        {
+  const items = [
+    !logLoading && logData?.Data
+      ? {
           key: "1",
           label: (
-            <Link to={"/digigold-profile"} style={{ fontSize: 17 }}>
-              {!logLoading && logData.Data && "My Profile"}
+            <Link to={"/vipsgold-profile"} style={{ fontSize: 17 }}>
+              My Profile
             </Link>
           ),
-        },
-        {
+        }
+      : null,
+    !logLoading && logData?.Data
+      ? {
           key: "2",
           label: (
-            <Link to={"/digigold-orders"} style={{ fontSize: 17 }}>
-              {!logLoading && logData.Data && "My Orders"}
+            <Link to={"/vipsgold-orders"} style={{ fontSize: 17 }}>
+              My Orders
             </Link>
           ),
-        },
-        {
-          key: "3",
-          label: (
-            <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-              FAQ's
-            </Link>
-          ),
-        },
-        {
-          key: "4",
-          label: (
-            <Link
-              target={"_blank"}
-              to={"/digi-termscondtion"}
-              style={{ fontSize: 17 }}
-            >
-              Terms & Conditions
-            </Link>
-          ),
-        },
-        // {
-        //   key: "3",
-        //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-        // },
-        // {
-        //   key: "4",
-        //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-        // },
-        // {
-        //   key: "5",
-        //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-        // },
-        {
-          key: "5",
-          label: (
-            <Link
-              onClick={() => {
-                !logLoading && logData.Data
-                  ? clickLogout()
-                  : dispatch(modalOpen());
-              }}
-              style={{ fontSize: 17 }}
-            >
-              {!logLoading && logData.Data ? "Logout" : "Register"}
-            </Link>
-          ),
-        },
-      ]
-    : [
-        {
-          key: "3",
-          label: (
-            <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
-              {!logLoading && logData.Data && "My KYC"}
-            </Link>
-          ),
-        },
-        {
-          key: "4",
-          label: (
-            <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-              FAQ's
-            </Link>
-          ),
-        },
-        {
-          key: "5",
-          label: (
-            <Link
-              target={"_blank"}
-              to={"/digi-termscondtion"}
-              style={{ fontSize: 17 }}
-            >
-              Terms & Conditions
-            </Link>
-          ),
-        },
-        // {
-        //   key: "3",
-        //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-        // },
-        // {
-        //   key: "4",
-        //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-        // },
-        // {
-        //   key: "5",
-        //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-        // },
-        {
-          key: "6",
-          label: (
-            <Link
-              onClick={() => {
-                !logLoading && logData.Data
-                  ? clickLogout()
-                  : dispatch(modalOpen());
-              }}
-              style={{ fontSize: 17 }}
-            >
-              {!logLoading && logData.Data ? "Logout" : "Register"}
-            </Link>
-          ),
-        },
-      ];
+        }
+      : null,
+    {
+      key: "3",
+      label: (
+        <Link target={"_blank"} to={"/vipsgold-faq"} style={{ fontSize: 17 }}>
+          FAQ's
+        </Link>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <Link
+          target={"_blank"}
+          to={"/vipsgold-termscondtion"}
+          style={{ fontSize: 17 }}
+        >
+          Terms & Conditions
+        </Link>
+      ),
+    },
+    // {
+    //   key: "3",
+    //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+    // },
+    // {
+    //   key: "4",
+    //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+    // },
+    // {
+    //   key: "5",
+    //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+    // },
+    {
+      key: "5",
+      label: (
+        <Link
+          onClick={() => {
+            !logLoading && logData?.Data
+              ? clickLogout()
+              : dispatch(modalOpen());
+          }}
+          style={{ fontSize: 17 }}
+        >
+          {!logLoading && logData?.Data ? "Logout" : "Register"}
+        </Link>
+      ),
+    },
+  ];
+
   const CheckWalletBalance = async () => {
     const username = loggedInUser && loggedInUser?.UserName;
     const password = loggedInUser && loggedInUser?.TRXNPassword;
     dispatch(getWalletBalance({ username, password }));
   };
 
-  // useEffect(() => {
-  //   let user = JSON.parse(localStorage.getItem("user"));
-
-  //   const userName = user && user.UserName;
-  //   const password = user && user.TRXNPassword;
-  //   user &&
-  //     getWalletBalance({ userName, password }).then((response) => {
-  //       setBalance(response?.Data?.Balance);
-  //       setShoppingPoints(response?.Data?.Shoppingpoints);
-  //       setPrimePoints(response?.Data?.PrimePoints);
-  //     });
-  // }, []);
-
   const section = () => (
     <>
       <header class="header-main sticky-top">
-        <nav class="navbar navbar-expand-md navbar-light bg-light inpage-header-nav-position">
+        <nav class="navbar navbar-expand-md navbar-light bg-light inpage-header-nav-position ">
           <div class="container-fluid flex-nowrap">
             <button
               type="button"
@@ -225,7 +165,6 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
             >
               <i class="fa-solid fa-bars"></i>
             </button>
-
             <Link class="navbar-brand " to="/">
               <img
                 src="/images/VipsLogoMain.png"
@@ -239,20 +178,40 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                 <div class="collapse navbar-collapse" id="navbar">
                   <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
-                      <Link class="nav-link" to="/">
+                      <Link
+                        style={{
+                          borderBottom: pathname === "/" && "2px solid #CA3060",
+                        }}
+                        class="nav-link"
+                        to="/"
+                      >
                         Home <span class="sr-only">(current)</span>
                       </Link>
                     </li>
 
                     {/*Level one dropdown */}
                     <li class="nav-item ">
-                      <Link to="/shopping" class="nav-link ">
+                      <Link
+                        style={{
+                          borderBottom:
+                            pathname === "/shopping" && "2px solid #CA3060",
+                        }}
+                        to="/shopping"
+                        class="nav-link "
+                      >
                         Shopping
                       </Link>
                     </li>
 
                     <li class="nav-item ">
-                      <Link to="/services" class="nav-link ">
+                      <Link
+                        style={{
+                          borderBottom:
+                            pathname === "/services" && "2px solid #CA3060",
+                        }}
+                        to="/services"
+                        class="nav-link "
+                      >
                         Services
                       </Link>
                     </li>
@@ -260,7 +219,14 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                     {/* <!-- End Level one --> */}
 
                     <li class="nav-item">
-                      <Link class="nav-link" to="/onlinestores">
+                      <Link
+                        style={{
+                          borderBottom:
+                            pathname === "/onlinestores" && "2px solid #CA3060",
+                        }}
+                        class="nav-link"
+                        to="/onlinestores"
+                      >
                         Online Stores
                       </Link>
                     </li>
@@ -273,8 +239,18 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                         Become a Supplier
                       </Link>
                     </li>
-                    <li class="nav-item">
-                      <Link class="nav-link" to="/digigold">
+                    <li
+                      class="nav-item"
+                      onClick={() => dispatch(CheckServiceEnableOrNot())}
+                    >
+                      <Link
+                        style={{
+                          borderBottom:
+                            pathname === "/vipsgold" && "2px solid #CA3060",
+                        }}
+                        class="nav-link"
+                        to="/vipsgold"
+                      >
                         VIPS Gold
                       </Link>
                     </li>
@@ -285,20 +261,18 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
 
             <div class="collapse navbar-collapse d-flex flex-row align-self-start justify-content-end">
               <ul class="navbar-nav nabar-right-icon ml-auto flex-row align-self-start">
-                {pathname !== "/digigold" &&
-                  pathname !== "/digigold-order-summary/:" &&
-                  pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" &&
-                  pathname !== "/digigold/gift" &&
-                  pathname !== "/digigold-orders" &&
-                  pathname !== "/digigold/gift" &&
-                  pathname !== `/digigold-delivery/${title}` && (
+                {pathname !== "/vipsgold" &&
+                  pathname !== "/vipsgold-order-summary/:" &&
+                  pathname !== "/vipsgold-profile" &&
+                  pathname !== "/vipsgold-orders" &&
+                  pathname !== "/vipsgold-gift" &&
+                  pathname !== `/vipsgold-delivery/${title}` && (
                     <>
                       <li class="nav-item">
                         <Link class="nav-link nav-icons" to="/shopping/cart">
-                          {/* <Badge count={cartCount && cartCount?.length}> */}
-                          <AiOutlineShoppingCart className="nav-icon" />
-                          {/* </Badge> */}
+                          <Badge count={cartCount && cartCount?.length}>
+                            <AiOutlineShoppingCart className="nav-icon" />
+                          </Badge>
                           {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
                           <span class="d-xl-block d-none d-md-none d-sm-none">
                             {" "}
@@ -324,35 +298,14 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                       </li>
                     </>
                   )}
-                {/* {pathname !== "/digigold" &&
-                  pathname !== "/digigold-order-summary" &&
-                  pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" && (
-                    <li class="nav-item">
-                      <Link
-                        class="nav-link nav-icons"
-                        to="/shopping/wishlist"
-                        role="button"
-                      >
-                        
-                        <Badge count={wishCount && wishCount?.length}>
-                          <AiOutlineHeart className="nav-icon" />
-                        </Badge>
-                        <span class="d-xl-block d-none d-md-none d-sm-none">
-                          {" "}
-                          Wishlist{" "}
-                        </span>
-                      </Link>
-                    </li>
-                  )} */}
 
                 {loggedInUser &&
-                  pathname !== "/digigold" &&
-                  pathname !== "/digigold-order-summary" &&
-                  pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" &&
-                  pathname !== "/digigold/gift" &&
-                  pathname !== `/digigold-delivery/${title}` && (
+                  pathname !== "/vipsgold" &&
+                  pathname !== "/vipsgold-order-summary" &&
+                  pathname !== "/vipsgold-profile" &&
+                  pathname !== "/vipsgold-gift" &&
+                  pathname !== "/vipsgold-orders" &&
+                  pathname !== `/vipsgold-delivery/${title}` && (
                     <li class="nav-item">
                       <Link
                         onClick={CheckWalletBalance}
@@ -454,13 +407,13 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                   )}
 
                 {loggedInUser ? (
-                  pathname !== "/digigold" &&
-                  pathname !== "/digigold-order-summary" &&
-                  pathname !== "/digigold-profile" &&
-                  pathname !== "/digigold-orders" &&
-                  pathname !== "/digigold/gift" &&
-                  pathname !== "/digigold-delivery" &&
-                  pathname !== `/digigold-delivery/${title}` ? (
+                  pathname !== "/vipsgold" &&
+                  pathname !== "/vipsgold-order-summary" &&
+                  pathname !== "/vipsgold-profile" &&
+                  pathname !== "/vipsgold-gift" &&
+                  pathname !== "/vipsgold-orders" &&
+                  pathname !== "/vipsgold-delivery" &&
+                  pathname !== `/vipsgold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
                       <Link
                         class="nav-link nav-icons"
@@ -557,13 +510,13 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
 
         {/* {<!-- header bottom start -->} */}
         <div class="section inpage-navbar-bottom-services">
-          {pathname !== "/digigold" &&
-          pathname !== "/digigold-order-summary" &&
-          pathname !== "/digigold-profile" &&
-          pathname !== "/digigold-orders" &&
-          pathname !== "/digigold/gift" &&
-          pathname !== "/digigold-delivery" &&
-          pathname !== `/digigold-delivery/${title}` ? (
+          {pathname !== "/vipsgold" &&
+          pathname !== "/vipsgold-order-summary" &&
+          pathname !== "/vipsgold-profile" &&
+          pathname !== "/vipsgold-orders" &&
+          pathname !== "/vipsgold-gift" &&
+          pathname !== "/vipsgold-delivery" &&
+          pathname !== `/vipsgold-delivery/${title}` ? (
             <div class="container-fluid">
               <div class="navbar-bottom-services-outer">
                 <div class="navbar-bottom-serv-box">
@@ -643,9 +596,16 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                 class="navbar-bottom-services-outer"
               >
                 <div class="navbar-bottom-serv-box">
-                  <Link onClick={() => setActive(0)} to="/digigold">
+                  <Link
+                    onClick={() => {
+                      setActive(0);
+                      setGrams("");
+                      setAmount("");
+                    }}
+                    to="/vipsgold"
+                  >
                     <img
-                      src="/images/digigold-images/buy-white-icon.svg"
+                      src="/images/digigold-imagess/buy-white-icon.svg"
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">Buy Gold</span>
@@ -653,7 +613,14 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
                 </div>
 
                 <div class="navbar-bottom-serv-box">
-                  <Link onClick={() => setActive(1)} to="/digigold">
+                  <Link
+                    onClick={() => {
+                      setActive(1);
+                      setGrams("");
+                      setAmount("");
+                    }}
+                    to="/vipsgold"
+                  >
                     <img
                       src="images/digigold-images/sell-white-icon.svg"
                       alt=""
@@ -679,11 +646,11 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    to="/digigold-delivery"
-                    // onClick={() => {
-                    //   setIsSnackBar(true);
-                    //   setErrorMsg("Service will be coming soon..");
-                    // }}
+                    // to="/vipsgold-delivery"
+                    onClick={() => {
+                      setIsSnackBar(true);
+                      setErrorMsg("Service will be coming soon..");
+                    }}
                   >
                     <img
                       src="images/digigold-images/delivery-white-icon.svg"
@@ -695,7 +662,7 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    to="/digigold/gift"
+                    to="/vipsgold-gift"
                     // onClick={() => {
                     //   setIsSnackBar(true);
                     //   setErrorMsg("Service will be coming soon..");
@@ -755,8 +722,8 @@ const CommonTopNav = ({ isShow = true, setActive, title }) => {
           <li>
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
-          <li>
-            <Link to="/digigold"> VIPS Gold</Link>
+          <li onClick={() => dispatch(CheckServiceEnableOrNot())}>
+            <Link to="/vipsgold"> VIPS Gold</Link>
           </li>
           <li>
             <Link to={vendorPanelAPi} target="_blank">

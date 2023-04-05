@@ -1,7 +1,7 @@
 import "../../../assets/styles/core/homeTopNav.css";
 import React, { useState, useEffect } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useResolvedPath } from "react-router-dom";
 
 import { FiUser } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
@@ -15,8 +15,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 const HomeTopNav = ({ isPrime }) => {
+  const { pathname } = useResolvedPath();
   const dispatch = useDispatch();
   const { wishCount } = useSelector((state) => state?.wishlistSlice);
+  const { cartCount } = useSelector((state) => state?.cartSlice);
   const { loggedInUser } = useSelector(
     (state) => state?.loginSlice?.loggetInWithOTP
   );
@@ -50,8 +52,7 @@ const HomeTopNav = ({ isPrime }) => {
     const password = loggedInUser && loggedInUser?.TRXNPassword;
     dispatch(getWalletBalance({ username, password }));
   };
-useEffect(() => {
-}, [loggedInUser])
+  useEffect(() => {}, [loggedInUser]);
 
   const navSection = () => (
     <>
@@ -82,7 +83,13 @@ useEffect(() => {
                   <ul class="navbar-nav mx-auto">
                     {/* <Link to='/' className="nav-link">ss</Link> */}
                     <li class="nav-item active">
-                      <Link class="nav-link" to="/">
+                      <Link
+                          style={{
+                            borderBottom: pathname === "/" && "2px solid #CA3060",
+                          }}
+                        class="nav-link"
+                        to="/"
+                      >
                         Home <span class="sr-only">(current)</span>
                       </Link>
                     </li>
@@ -123,7 +130,7 @@ useEffect(() => {
                       </Link>
                     </li>
                     <li class="nav-item">
-                      <Link class="nav-link" to="/digigold">
+                      <Link class="nav-link" to="/vipsgold">
                         VIPS Gold
                       </Link>
                     </li>
@@ -141,9 +148,9 @@ useEffect(() => {
                     role="button"
                   >
                     {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
-                    {/* <Badge count={cartCount && cartCount.length}> */}
+                    <Badge count={cartCount && cartCount.length}>
                     <AiOutlineShoppingCart className="nav-icon" />
-                    {/* </Badge> */}
+                    </Badge>
                     <span class="d-xl-block d-none d-md-none d-sm-none">
                       {" "}
                       My Cart{" "}
@@ -200,9 +207,7 @@ useEffect(() => {
                           <span class="nav-wallet-amt">
                             {" "}
                             &#x20B9;{" "}
-                            {!loading && data
-                              ? data?.Data?.Balance
-                              : "..."}
+                            {!loading && data ? data?.Data?.Balance : "..."}
                           </span>
                         </div>
                         <div class="dropdown-divider"></div>
@@ -455,7 +460,8 @@ useEffect(() => {
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           <li>
-            <Link to="/digigold">DigiGold</Link>
+
+            <Link to="/vipsgold">VIPS Gold</Link>
           </li>
           <li>
             <Link to={vendorPanelAPi} target="_blank">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { checkGABBalance, addMoneyFromGAB } from "../../apiData/payments";
+import { checkGABBalance, addMoneyFromGAB, globalConfiguration } from "../../apiData/payments";
 import "../../assets/styles/addMoney/addMoney.css";
 import "../../assets/styles/styles.css";
 import { useSelector } from "react-redux";
@@ -15,6 +15,8 @@ const AddAmount = () => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+    const [status, setStatus] = useState(false);
+    const [chargesPer, setChargesPer] = useState(0);
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
@@ -45,13 +47,25 @@ const AddAmount = () => {
       setErrorMsg("Please enter valid amount");
     }
   };
-
+  const amountWithFee = () => {
+    return parseInt(amount) + getFee();
+  };
   useEffect(() => {
     checkGABBalance(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
       (response) => {
         setGABBalance(response.Data);
       }
     );
+    if (option === "CC") {
+      globalConfiguration("CreditCard").then((response) => {
+        if (response.ResponseStatus === 1) {
+          setStatus(response.Data.Status);
+          if (response.Data.Status) {
+            setChargesPer(response.Data.Value);
+          }
+        }
+      });
+    }
   }, []);
 
   const onChange = (e) => {
@@ -61,7 +75,9 @@ const AddAmount = () => {
       setAmount(e.target.value);
     }
   };
-
+  const getFee = () => {
+    return (amount * chargesPer) / 100;
+  };
   return (
     <div className="color-body">
       <section class="inpage-section-align inset-shadow-top-light addmoney">
@@ -95,7 +111,7 @@ const AddAmount = () => {
                           onChange={onChange}
                           value={amount > 0 ? amount : ""}
                           minLength={1}
-                          maxLength={option === "Payu" ? 4 : 7}
+                          maxLength={option === "Payu" || option === "CC" ? 4 : 7}
                           required
                           type="text"
                           autoComplete="off"
@@ -163,12 +179,21 @@ const AddAmount = () => {
                   </div>
 
                   <div class="dropdown-divider"></div>
+                  {option === "CC" && status && (
+                    <div class="convenience-outer">
+                      <p>Convenience Fee </p>
+                      {/* <button class="convenience-info"> <GoInfo/> </button>  */}
+                      <p>&#x20B9; {getFee()}</p>
+                    </div>
+                  )}
 
-                  {option === "Payu" ? (
+                  {option === "Payu" || option === "CC"  ? (
                     <AddMoneyButton
-                      amount={amount}
+                    amount={amountWithFee()}
                       setIsSnackBar={setIsSnackBar}
                       setErrorMsg={setErrorMsg}
+                      isCreditCardEnable={option !== "Payu"}
+                      chargesAmount={getFee()}
                     />
                   ) : (
                     <div class="add-money-body">

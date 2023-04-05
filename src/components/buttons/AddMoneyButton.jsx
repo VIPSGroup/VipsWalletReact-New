@@ -4,16 +4,19 @@ import { getTransactionId } from "../../constants";
 import { getPayUHash } from "../../redux/slices/payment/paymentSlice";
 import { ThemeButton } from "../common";
 
-const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
-  const { loggedInUser } = useSelector(
-    (state) => state.loginSlice.loggetInWithOTP
-  );
+const AddMoneyButton = ({
+  amount,
+  setIsSnackBar,
+  setErrorMsg,
+  isCreditCardEnable = false,
+  chargesAmount,
+}) => {
   const formRef = useRef(null);
-
+  // const hashInputRef=useRef(null)
   const [hash, setHash] = useState("");
-  const [loading, setLoading] = useState(false);
   const [transactionId, setTransactionId] = useState("");
-  var hashstring = "";
+
+  const user = JSON.parse(localStorage.getItem("user"));
   const clickAddMoney = (e) => {
     setIsSnackBar(false);
     e.preventDefault();
@@ -21,13 +24,10 @@ const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
       if (amount <= 5000) {
         const trxnId = getTransactionId();
         setTransactionId(trxnId);
-        setLoading(true)
-        getPayUHash(loggedInUser, trxnId, amount).then(async (res) => {
-          setLoading(false)
+        getPayUHash(user, trxnId, amount, chargesAmount).then(async (res) => {
           formRef.current.txnid.value = trxnId;
-          formRef.current.hash.value = res.results?.payment_hash;
-          setHash(res.results?.payment_hash);
-          hashstring = res.results?.payment_hash;
+          formRef.current.hash.value = res.results.payment_hash;
+          setHash(res.results.payment_hash);
           const resp = await formRef.current.submit();
         });
       } else {
@@ -58,39 +58,29 @@ const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
         method="post"
         target="_blank"
       >
-        <input
-          name="firstname"
-          type="hidden"
-          value={loggedInUser?.Name?.split(" ")[0]}
-        />
+        <input name="firstname" type="hidden" value={user.Name.split(" ")[0]} />
         <input name="txnid" type="hidden" value={getTranId()} />
 
         <input name="productinfo" type="hidden" value="AddMoney" />
-        <input
-          name="phone"
-          type="hidden"
-          value={loggedInUser && loggedInUser.Mobile}
-        />
+        <input name="phone" type="hidden" value={user && user.Mobile} />
         <input
           name="furl"
           type="hidden"
-          value={`http://api.vipswallet.com/api/Ecommerceservices/GetCallURL?code=${
-            loggedInUser && loggedInUser.UserName
-          }`}
+          value={`http://webplat.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
         />
         <input name="key" type="hidden" value="e9ZmdY" />
         <input name="hash" type="hidden" value={callHash()} />
-        <input
-          name="email"
-          type="hidden"
-          value={loggedInUser && loggedInUser.Emailid}
-        />
+        <input name="email" type="hidden" value={user && user.Emailid} />
+        {isCreditCardEnable ? (
+          <input name="enforce_paymethod" type="hidden" value="creditcard" />
+        ) : (
+          <input name="drop_category" type="hidden" value="CC" />
+        )}
+
         <input
           name="surl"
           type="hidden"
-          value={`http://api.vipswallet.com/api/Ecommerceservices/GetCallURL?code=${
-            loggedInUser && loggedInUser.UserName
-          }`}
+          value={`http://webplat.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
         />
         <input name="amount" type="hidden" value={amount} />
       </form>
@@ -101,8 +91,7 @@ const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
     <div class="add-money-body">
       <div class="col-md-12">
         <div class="add-money-btn">
-          <ThemeButton onClick={clickAddMoney} value={"Add Money"} loading={loading}/>
-          {/* <button
+          <button
             onClick={clickAddMoney}
             href="#"
             class="btn-primery"
@@ -112,10 +101,10 @@ const AddMoneyButton = ({ amount, setIsSnackBar, setErrorMsg }) => {
           >
             {" "}
             Add Money{" "}
-          </button> */}
+          </button>
         </div>
       </div>
-      {loggedInUser && <div>{payuform()}</div>}
+      {user && <div>{payuform()}</div>}
     </div>
   );
 };
