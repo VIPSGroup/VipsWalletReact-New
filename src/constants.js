@@ -69,17 +69,38 @@ export const handleKeyDown = (event) => {
 };
 
 export const handleKeyDown2 = (event) => {
-  const maxLength = 8;
+  // const maxLength = 8;
+  // const key = event.key;
+  // const allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
+
+  // if (key === "," || key === "-") {
+  //   // prevent comma and negative sign
+  //   event.preventDefault();
+  //   return;
+  // }
+
+  // if (key === "Backspace" || key === "Delete") {
+  //   return;
+  // }
+
+  // if (event.target.value.length >= maxLength && key !== ".") {
+  //   // limit to 8 digits (excluding the decimal point)
+  //   event.preventDefault();
+  //   return;
+  // }
+
+  // if (!allowedKeys.includes(key)) {
+  //   // prevent non-digit and non-decimal-point keys
+  //   event.preventDefault();
+  //   return;
+  // }
+  const maxLength = event.target.value.includes(".") ? 8 : 3;
   const key = event.key;
-  const allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
+  const allowedKeys = /^\d{1,3}(?:\.\d{0,4})?$/; // allow digits and decimal point
 
-  if (key === "," || key === "-") {
-    // prevent comma and negative sign
-    event.preventDefault();
-    return;
-  }
-
-  if (key === "Backspace" || key === "Delete") {
+  if (key === "," || key === "-" || key === "Backspace" || key === "Delete") {
+    // prevent comma, negative sign, backspace and delete
+    // event.preventDefault();
     return;
   }
 
@@ -89,12 +110,76 @@ export const handleKeyDown2 = (event) => {
     return;
   }
 
-  if (!allowedKeys.includes(key)) {
+  if (!allowedKeys.test(event.target.value + key)) {
     // prevent non-digit and non-decimal-point keys
     event.preventDefault();
     return;
   }
+
+  const [beforeDec, afterDec] = event.target.value.split(".");
+
+  if (beforeDec && beforeDec.length > 3) {
+    // limit to 3 digits before decimal point
+    event.preventDefault();
+    return;
+  }
+
+  if (afterDec && afterDec.length > 4) {
+    // limit to 4 digits after decimal point
+    event.preventDefault();
+    return;
+  }
 };
+
+// export const handleKeyDown3 = (event) => {
+//   var maxLength = 3;
+//   console.log(event.target.value.split(".")[0].length, "ooo");
+//   if (event.target.value.includes(".")) {
+//     if (event.target.value.split(".")[0].length === 1) {
+//       maxLength = 5;
+//     } else if (event.target.value.split(".")[0].length === 2) {
+//       maxLength = 6;
+//     } else if (event.target.value.split(".")[0].length === 3) {
+//       maxLength = 7;
+//     }
+//   } else {
+//     maxLength = 3;
+//   }
+//   const key = event.key;
+//   const allowedKeys = /^\d{1,3}(?:\.\d{0,4})?$/; // allow digits and decimal point
+
+//   if (key === "," || key === "-" || key === "Backspace" || key === "Delete") {
+//     // prevent comma, negative sign, backspace and delete
+//     // event.preventDefault();
+//     return;
+//   }
+
+//   if (event.target.value.length >= maxLength && key !== ".") {
+//     // limit to 8 digits (excluding the decimal point)
+//     event.preventDefault();
+//     return;
+//   }
+
+//   if (!allowedKeys.test(event.target.value + key)) {
+//     // prevent non-digit and non-decimal-point keys
+//     event.preventDefault();
+//     return;
+//   }
+
+//   const [beforeDec, afterDec] = event.target.value.split(".");
+
+//   if (beforeDec && beforeDec.length > 3) {
+//     // limit to 3 digits before decimal point
+//     event.preventDefault();
+//     return;
+//   }
+
+//   if (afterDec && afterDec.length > 4) {
+//     // limit to 4 digits after decimal point
+//     event.preventDefault();
+//     return;
+//   }
+// };
 
 // RegEX
 

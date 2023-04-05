@@ -22,7 +22,6 @@ import { LatestLoading } from "../../components/common/Loading.jsx";
 //   handleKeyPressForName,
 //   handleMobileKeyPress,
 // } from "../../constants";
-import CommonTopNav from "../../components/layout/Header/CommonTopNav";
 import { MuiSnackBar } from "../../components/common";
 import MyVault from "./MyVault";
 import {
@@ -72,7 +71,6 @@ const OrderSummary = () => {
   );
   const { Verified } = useSelector((state) => state.digiGoldSlice.ifsc);
   // Grams Crop
-  console.log(Verified, "Verified");
   // VIPS Username & Password
   const username = state?.username;
   const password = state?.password;
@@ -108,11 +106,13 @@ const OrderSummary = () => {
               const TotalAmount =
                 parseFloat(exclTaxRate) + parseFloat(totalTax);
               const inclTaxAmount = digitPrecision(TotalAmount, "amount");
-              const newQty = quantity.toString().includes(".")
-                ? quantity
-                : parseFloat(quantity).toFixed(4);
+              // const newQty = quantity.toString().includes(".")
+              //   ? quantity
+              //   : parseFloat(quantity).toFixed(4);
 
-              setCurrentGram(newQty);
+              const newqty = parseFloat(quantity).toFixed(4);
+              console.log(newqty, "new hai");
+              setCurrentGram(newqty);
               setTax(totalTax);
               setCurrentRate(exclTaxRate);
               setTotalAmount(inclTaxAmount);
@@ -132,8 +132,8 @@ const OrderSummary = () => {
               const inclTaxRate = digitPrecision(TaxInc, "amount");
               const qty = inclTaxAmount / inclTaxRate;
               const quantity = digitPrecision(qty, "quantity");
-
-              setCurrentGram(quantity.toFixed(4));
+              const newqty = parseFloat(quantity).toFixed(4);
+              setCurrentGram(newqty);
               setTotalAmount(inclTaxAmount);
               setCurrentRate(exclTaxAmount);
               setTax(totalTax);
@@ -153,10 +153,11 @@ const OrderSummary = () => {
               const TotalAmount =
                 parseFloat(exclTaxRate) + parseFloat(totalTax);
               const inclTaxAmount = digitPrecision(TotalAmount, "amount");
-              const newQty = quantity.toString().includes(".")
-                ? quantity
-                : parseFloat(quantity).toFixed(4);
-              setCurrentGram(newQty);
+              // const newQty = quantity.toString().includes(".")
+              //   ? quantity
+              //   : parseFloat(quantity).toFixed(4);
+              const newqty = parseFloat(quantity).toFixed(4);
+              setCurrentGram(newqty);
               setTax(totalTax);
               setCurrentRate(exclTaxRate);
               setTotalAmount(inclTaxAmount);
@@ -179,7 +180,8 @@ const OrderSummary = () => {
               //   ? quantity.toFixed(4)
               //   : quantity;
               // console.log(newQty, "ye New hai");
-              setCurrentGram(quantity.toFixed(4));
+              const newqty = parseFloat(quantity).toFixed(4);
+              setCurrentGram(newqty);
               setTotalAmount(inclTaxAmount);
               setCurrentRate(exclTaxAmount);
               setTax(totalTax);
@@ -196,9 +198,10 @@ const OrderSummary = () => {
                 quantity * GoldSellRates,
                 "amount"
               );
+              const newqty = parseFloat(quantity).toFixed(4);
               setBlockId(blockId);
               setCurrentRate(totalAmount);
-              setCurrentGram(quantity);
+              setCurrentGram(newqty);
               setTotalAmount(totalAmount);
             }
           } else {
@@ -212,9 +215,10 @@ const OrderSummary = () => {
                 quantity * SilverSellRates,
                 "amount"
               );
+              const newqty = parseFloat(quantity).toFixed(4);
               setBlockId(blockId);
               setCurrentRate(totalAmount);
-              setCurrentGram(quantity);
+              setCurrentGram(newqty);
               setTotalAmount(totalAmount);
             }
           }
@@ -278,6 +282,7 @@ const OrderSummary = () => {
     // const roundedCurrent = Math.round(currentGram * 10000) / 10000;
     // const str = roundedCurrent.toFixed(4);
     // const result = parseFloat(currentGram);
+    console.log(currentGram, "currentGram");
     const quantity = currentGram;
     const blockid = blockId;
     const amount = totalAmount ? totalAmount : state.valueinAmt;
@@ -297,7 +302,7 @@ const OrderSummary = () => {
       if (res.ResponseStatus === 1) {
         if (res.Data.statusCode === 200) {
           dispatch(loginDigiGold);
-          setResponse(res.Data.message);
+          setResponse(res.Data);
           setLoad(false);
           setModal(true);
         }
@@ -328,46 +333,50 @@ const OrderSummary = () => {
     const ifscCode = list.Data && list.Data.result[0]?.ifscCode;
     const OTP = otp;
 
-    const res = await SellDigiGold({
-      username,
-      password,
-      lockPrice,
-      metalType,
-      quantity,
-      blockid,
-      userBankId,
-      accountName,
-      accountNumber,
-      ifscCode,
-      OTP,
-    });
-    if (res.ResponseStatus === 2) {
-      setSellLoad(false);
-      setIsSnackBar(true);
-      setErrorMsg("");
-      setSuccessMsg(res.Remarks);
-      setStep(1);
-    }
-    if (res.ResponseStatus === 1) {
-      if (res.Data.statusCode === 200) {
-        setSellLoad(false);
-        setStep(0);
-        setResponse(
-          `Successfully Sold ${quantity} grams of ${metalType} @ ${lockPrice}`
-        );
-        setModal(true);
-      } else {
+    if (!editAddress) {
+      const res = await SellDigiGold({
+        username,
+        password,
+        lockPrice,
+        metalType,
+        quantity,
+        blockid,
+        userBankId,
+        accountName,
+        accountNumber,
+        ifscCode,
+        OTP,
+      });
+      if (res.ResponseStatus === 2) {
         setSellLoad(false);
         setIsSnackBar(true);
-        setErrorMsg("Something Went Wrong");
+        setErrorMsg("");
+        setSuccessMsg(res.Remarks);
+        setStep(1);
+      }
+      if (res.ResponseStatus === 1) {
+        if (res.Data.statusCode === 200) {
+          setSellLoad(false);
+          setStep(0);
+          setResponse(res.Data);
+          setModal(true);
+        } else {
+          setSellLoad(false);
+          setIsSnackBar(true);
+          setErrorMsg("Something Went Wrong");
+          setSuccessMsg("");
+        }
+      }
+      if (res.ResponseStatus === 0) {
+        setSellLoad(false);
+        setIsSnackBar(true);
+        setErrorMsg(res.Remarks);
         setSuccessMsg("");
       }
-    }
-    if (res.ResponseStatus === 0) {
-      setSellLoad(false);
-      setIsSnackBar(true);
-      setErrorMsg(res.Remarks);
+    } else {
+      setErrorMsg("Please Submit bank Details");
       setSuccessMsg("");
+      setIsSnackBar(true);
     }
   };
 
@@ -461,7 +470,7 @@ const OrderSummary = () => {
     const accountName = formValue.accountName;
     const ifscCode = formValue.ifscCode;
     const user_bank_id = list.Data?.result[0]?.userBankId;
-    if (editAddress) {
+    if (editAddress && list?.Data?.result?.length !== 0 ) {
       if (Verified !== 0) {
         const res = await UpdateBankAccountDetails({
           username,
@@ -509,6 +518,11 @@ const OrderSummary = () => {
       }
     }
   };
+  useEffect(() => {
+    if (list?.Data?.result?.length === 0) {
+      setEditAddress(true);
+    }
+  }, [list]);
 
   useEffect(() => {
     if (formValue.ifscCode.length === 11) {
@@ -527,7 +541,7 @@ const OrderSummary = () => {
   window.onpopstate = function (event) {
     localStorage.removeItem("valueType");
   };
-
+  console.log(editAddress, "editAddress");
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">
@@ -925,9 +939,8 @@ const OrderSummary = () => {
                                                 "Holder Name is Required",
                                             },
                                             {
-                                              pattern: namePattern,
-                                              message:
-                                                "Please enter a valid full name!",
+                                              min: 3,
+                                              message: "Min 3 Character are Required",
                                             },
                                           ]}
                                         >
@@ -1084,7 +1097,10 @@ const OrderSummary = () => {
                         )}
                         <div class="order-proceed-btn">
                           <button
-                            // disabled={editAddress ? }
+                            // disabled={
+                            //   state?.type === "sell" &&
+                            //   list?.Data?.result?.length === 0
+                            // }
                             style={{ marginTop: 10 }}
                             onClick={
                               state?.type === "buy"
@@ -1142,7 +1158,21 @@ const OrderSummary = () => {
             class="img img-fluid check-green-img"
           />
           <p class="digigold-success-title mt-3 ">CONGRATULATIONS!</p>
-          <p class="success-note">{response}</p>
+          {response && (
+            <p class="success-note">
+              {state?.type === "buy"
+                ? `Successfully bought ${response?.result?.data?.quantity?.toFixed(
+                    4
+                  )} grams of ${response?.result?.data?.metalType} @${
+                    response?.result?.data?.rate
+                  }`
+                : `Successfully Sold ${response?.result?.data?.quantity?.toFixed(
+                    4
+                  )} grams of ${response?.result?.data?.metalType} @${
+                    response?.result?.data?.rate
+                  }`}
+            </p>
+          )}
           <div class="digigold-success-btn">
             <button
               onClick={() => {

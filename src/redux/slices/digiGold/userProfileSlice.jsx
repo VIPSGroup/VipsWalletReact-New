@@ -83,7 +83,8 @@ export const UpdateUser = createAsyncThunk(
     const formattedDOB = momentDate.format("YYYY-MM-DD");
     const formattedDOBNominee = momentDateNominee.format("YYYY-MM-DD");
     const formData = new FormData();
-    console.log(momentDate, "formValue.dateOfBirth.$d");
+    console.log(formattedDOB, "formValue.dateOfBirth.$d");
+    console.log(formattedDOBNominee, "formattedDOBNominee");
     formData.append("username", username);
     formData.append("password", password);
     formData.append("userStateId", formValue.userStateId);
@@ -91,9 +92,15 @@ export const UpdateUser = createAsyncThunk(
     formData.append("userStateName", formValue.userStateName);
     formData.append("userCityName", formValue.userCityName);
     formData.append("emailId", formValue.emailId);
-    formData.append("dateOfBirth", formattedDOB || "");
+    formData.append(
+      "dateOfBirth",
+      formattedDOB === "Invalid date" ? "" : formattedDOB || ""
+    );
     formData.append("nomineeName", formValue.nomineeName);
-    formData.append("nomineeDateOfBirth", formattedDOBNominee || "");
+    formData.append(
+      "nomineeDateOfBirth",
+      formattedDOBNominee === "Invalid date" ? "" : formattedDOBNominee || ""
+    );
     formData.append("nomineeRelation", formValue.nomineeRelation);
     // formData.append("gender", formValue.gender);
 

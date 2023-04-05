@@ -1,5 +1,5 @@
 import { Form, Input, Spin } from "antd";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import "../../index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ import {
   formatter,
   handleKeyDown,
   handleKeyDown2,
+  handleKeyDown3,
   parser,
 } from "../../constants";
 import { MuiSnackBar } from "../../components/common";
@@ -78,6 +79,8 @@ const DigiGoldHome = ({
   setAmount,
   amount,
 }) => {
+  const inputRef = useRef(null);
+
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -309,7 +312,6 @@ const DigiGoldHome = ({
   }, [rateData]);
 
   const handleBlur = (e) => {
-    // Set the position of the cursor
     const input = e.target;
     const position = input.value.indexOf(".");
     input.setSelectionRange(
@@ -438,7 +440,9 @@ const DigiGoldHome = ({
                                     <Input
                                       id="grams"
                                       formatter={formatter}
+                                      // onKeyPress={handleKeyDown2}
                                       onKeyDown={handleKeyDown2}
+                                      // onInput={handleKeyDown3}
                                       onBlur={handleBlur}
                                       className="mb-0 disabled-input"
                                       onWheel={(e) => e.target.blur()}
