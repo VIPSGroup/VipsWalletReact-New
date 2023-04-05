@@ -367,67 +367,6 @@ const DigiProfile = () => {
                               </Select>
                             </Form.Item>
                           </div>
-<<<<<<< HEAD
-
-                          <div class="col-lg-6 col-md-6">
-                            <div className="input-wrapper w-100">
-                              <div className="input">
-                                {/* <Form.Item
-                                  hasFeedback
-                                  name="nomineeName"
-                                  rules={[
-                                    {
-                                      required:
-                                        formValue.nomineeRelation ||
-                                        formValue.nomineeDateOfBirth,
-                                      message: "This Field is Required ",
-                                    },
-                                  ]}
-                                >
-                                  <Input
-                                    onKeyPress={handleKeyPress}
-                                    value={formValue.nomineeName}
-                                    onChange={(e) =>
-                                      setFormValue({
-                                        ...formValue,
-                                        nomineeName: e.target.value,
-                                      })
-                                    }
-                                    size="large"
-                                    placeholder="Nominee Name"
-                                    // id="nominee-name"
-                                  />
-                                  <label htmlFor="nominee-name"> Nominee Name </label>
-                              </Form.Item> */}
-                                <Form.Item
-                                  name="nomineeName"
-                                  rules={[
-                                    {
-                                      required:
-                                        formValue.nomineeRelation ||
-                                        formValue.nomineeDateOfBirth,
-                                      message: "This Field is Required ",
-                                    },
-                                  ]}
-                                >
-                                  <Input
-                                    onKeyPress={handleKeyPress}
-                                    value={formValue.nomineeName}
-                                    onChange={(e) =>
-                                      setFormValue({
-                                        ...formValue,
-                                        nomineeName: e.target.value,
-                                      })
-                                    }
-                                    size="large"
-                                    placeholder="Nominee Name"
-                                    // id="nominee-name"
-                                  />
-                                  <label htmlFor="">Nominee name</label>
-                                </Form.Item>
-                              </div>
-                            </div>
-=======
                           {/* <div class="col-lg-6 col-md-6">
                             <Form.Item hasFeedback name="userPincode">
                               <Input
@@ -494,7 +433,6 @@ const DigiProfile = () => {
                                 placeholder="Nominee Name"
                               />
                             </Form.Item>
->>>>>>> 1959376f72369971cad6a2bf4382ea8922ee687a
                           </div>
 
                           <div class="col-lg-6 col-md-6">
