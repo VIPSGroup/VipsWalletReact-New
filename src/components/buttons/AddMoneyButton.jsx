@@ -66,7 +66,7 @@ const AddMoneyButton = ({
         <input
           name="furl"
           type="hidden"
-          value={`http://webplat.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
+          value={`https://api.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
         />
         <input name="key" type="hidden" value="e9ZmdY" />
         <input name="hash" type="hidden" value={callHash()} />
@@ -80,7 +80,7 @@ const AddMoneyButton = ({
         <input
           name="surl"
           type="hidden"
-          value={`http://webplat.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
+          value={`https://api.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
         />
         <input name="amount" type="hidden" value={amount} />
       </form>
