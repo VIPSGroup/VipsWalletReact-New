@@ -62,8 +62,6 @@ const Gift = ({ setIsCommonTopNav }) => {
     (state) => state.loginSlice.loggetInWithOTP
   );
 
-  // console.log(data, "rateData.Data?.result");
-
   const handleClose = () => {
     setModal(false);
     navigate("/vipsgold-gift");
@@ -182,7 +180,6 @@ const Gift = ({ setIsCommonTopNav }) => {
     //     const sGramRounded = Math.round(sGram * 10000) / 10000;
     //     const sGramStr = sGramRounded.toFixed(4);
     //     const sGramResult = parseFloat(sGramStr);
-    //     // console.log(gGramResult, "gGramResult")
     //     setErr(
     //       ` You can gift up to ${isGold === 0 ? gGramResult : sGramResult} gm ${
     //         isGold === 0 ? "Gold" : "Silver"
@@ -233,7 +230,6 @@ const Gift = ({ setIsCommonTopNav }) => {
     const totalRound = Math.round(TotalAmount * 10000) / 10000;
     const strTotal = totalRound.toFixed(2);
     const totalResult = parseFloat(strTotal);
-    // console.log(totalResult, "total");
     setAmount((totalResult === "0.00" ? 0 : totalResult) || "");
     if (totalResult === 0) {
       setErr("");
@@ -317,7 +313,6 @@ const Gift = ({ setIsCommonTopNav }) => {
       }
       if (res.ResponseStatus === 0) {
         if (res.Data?.statusCode === 412) {
-          console.log("Yes");
           setLoad(false);
           setIsSnackBar(true);
           setErrorMsg(res.Data.message);

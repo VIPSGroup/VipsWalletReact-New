@@ -111,7 +111,6 @@ const OrderSummary = () => {
               //   : parseFloat(quantity).toFixed(4);
 
               const newqty = parseFloat(quantity).toFixed(4);
-              console.log(newqty, "new hai");
               setCurrentGram(newqty);
               setTax(totalTax);
               setCurrentRate(exclTaxRate);
@@ -146,7 +145,6 @@ const OrderSummary = () => {
               const quantity = digitPrecision(state?.valueinGm, "quantity");
               const excTaxAmount = quantity * SilverBuyRates;
               const exclTaxRate = digitPrecision(excTaxAmount, "amount");
-              console.log(exclTaxRate, "exclTaxRate");
               const TaxTotal = (exclTaxRate * taxRate) / 100;
               const totalTax = digitPrecision(TaxTotal, "amount");
 
@@ -179,7 +177,6 @@ const OrderSummary = () => {
               // const newQty = quantity.toString().includes(".")
               //   ? quantity.toFixed(4)
               //   : quantity;
-              // console.log(newQty, "ye New hai");
               const newqty = parseFloat(quantity).toFixed(4);
               setCurrentGram(newqty);
               setTotalAmount(inclTaxAmount);
@@ -282,7 +279,6 @@ const OrderSummary = () => {
     // const roundedCurrent = Math.round(currentGram * 10000) / 10000;
     // const str = roundedCurrent.toFixed(4);
     // const result = parseFloat(currentGram);
-    console.log(currentGram, "currentGram");
     const quantity = currentGram;
     const blockid = blockId;
     const amount = totalAmount ? totalAmount : state.valueinAmt;
@@ -470,7 +466,7 @@ const OrderSummary = () => {
     const accountName = formValue.accountName;
     const ifscCode = formValue.ifscCode;
     const user_bank_id = list.Data?.result[0]?.userBankId;
-    if (editAddress && list?.Data?.result?.length !== 0 ) {
+    if (editAddress && list?.Data?.result?.length !== 0) {
       if (Verified !== 0) {
         const res = await UpdateBankAccountDetails({
           username,
@@ -541,7 +537,6 @@ const OrderSummary = () => {
   window.onpopstate = function (event) {
     localStorage.removeItem("valueType");
   };
-  console.log(editAddress, "editAddress");
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">
@@ -940,7 +935,8 @@ const OrderSummary = () => {
                                             },
                                             {
                                               min: 3,
-                                              message: "Min 3 Character are Required",
+                                              message:
+                                                "Min 3 Character are Required",
                                             },
                                           ]}
                                         >

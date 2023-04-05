@@ -189,7 +189,6 @@ const DigiGoldHome = ({
     const inclTaxRate = digitPrecision(TaxInc, "amount");
     const qty = inclTaxAmount / inclTaxRate;
     const quantity = digitPrecision(qty, "quantity");
-    console.log(quantity);
     setValueType({
       ...valueType,
       valueinAmt: e.target.value,

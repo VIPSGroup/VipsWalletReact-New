@@ -115,7 +115,6 @@ const DigiProfile = () => {
     }
   };
 
-  // console.log(formValue.dateOfBirth.$d, "formValud");
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
   return (
     <>

@@ -195,16 +195,16 @@ const MyOrdersPage = () => {
 
   // This Function for Diff Color Row Sent to and Recieved From
   const FilterClass = (item) => {
-    if (logData.Data?.UniqueId === item.SenderUniqueId) {
+    if (logData?.Data?.UniqueId === item?.SenderUniqueId) {
       return "red";
-    } else if (logData.Data?.UniqueId === item.ReceiverUniqueId) {
+    } else if (logData?.Data?.UniqueId === item?.ReceiverUniqueId) {
       return "#008000";
     } else {
       return "N/A";
     }
   };
   const data = dataSource
-    ?.filter((a) => a.TransactionType === tab)
+    ?.filter((a) => a?.TransactionType === tab)
     .map((item, index) => ({
       key: index,
       date: (
@@ -213,11 +213,11 @@ const MyOrdersPage = () => {
             style={{
               fontSize: 14,
               fontWeight: "400",
-              color: item.TransactionType === "Gift" && FilterClass(item),
+              color: item?.TransactionType === "Gift" && FilterClass(item),
             }}
             className="text-gray-500 "
           >
-            <Moment format="DD-MM-YYYY">{item.AddDate}</Moment>
+            <Moment format="DD-MM-YYYY">{item?.AddDate}</Moment>
           </h2>
         </>
       ),
@@ -228,11 +228,11 @@ const MyOrdersPage = () => {
               fontSize: 14,
               fontWeight: "400",
 
-              color: item.TransactionType === "Gift" && FilterClass(item),
+              color: item?.TransactionType === "Gift" && FilterClass(item),
             }}
             className="text-gray-500"
           >
-            {item.TransactionId}
+            {item?.TransactionId}
           </h2>
         </>
       ),
@@ -243,16 +243,16 @@ const MyOrdersPage = () => {
               fontSize: 14,
               fontWeight: "400",
 
-              color: item.TransactionType === "Gift" && FilterClass(item),
+              color: item?.TransactionType === "Gift" && FilterClass(item),
             }}
             className="text-gray-500"
           >
             {`${
-              item.TransactionType === "Buy"
-                ? `${item.MetalType?.toUpperCase()} Bought ${item.Quantity?.toFixed(
+              item?.TransactionType === "Buy"
+                ? `${item?.MetalType?.toUpperCase()} Bought ${item.Quantity?.toFixed(
                     4
                   )} gm`
-                : `${item.MetalType?.toUpperCase()} Sold ${item.Quantity?.toFixed(
+                : `${item?.MetalType?.toUpperCase()} Sold ${item.Quantity?.toFixed(
                     4
                   )} gm`
             }`}
@@ -269,7 +269,7 @@ const MyOrdersPage = () => {
             }}
             className="text-gray-500"
           >
-            ₹ {item.TotalAmount}
+            ₹ {item?.TotalAmount}
           </h2>
         </>
       ),
@@ -283,7 +283,7 @@ const MyOrdersPage = () => {
             }}
             className="text-gray-500"
           >
-            {item.MetalType}
+            {item?.MetalType}
           </h2>
         </>
       ),
@@ -297,7 +297,7 @@ const MyOrdersPage = () => {
             }}
             className="text-gray-500"
           >
-            {item.Quantity?.toFixed(4)}
+            {item?.Quantity?.toFixed(4)}
           </h2>
         </>
       ),
@@ -312,9 +312,9 @@ const MyOrdersPage = () => {
             className="text-gray-500"
           >
             {(() => {
-              if (logData.Data.UniqueId === item.SenderUniqueId) {
+              if (logData?.Data?.UniqueId === item?.SenderUniqueId) {
                 return "Gift Sent To";
-              } else if (logData.Data.UniqueId === item.ReceiverUniqueId) {
+              } else if (logData?.Data?.UniqueId === item?.ReceiverUniqueId) {
                 return "Gift Received From";
               } else {
                 return "N/A";
@@ -334,10 +334,10 @@ const MyOrdersPage = () => {
             className="text-gray-500"
           >
             {(() => {
-              if (logData.Data.UniqueId === item.SenderUniqueId) {
-                return item.ReceiverName;
-              } else if (logData.Data.UniqueId === item.ReceiverUniqueId) {
-                return item.SenderName;
+              if (logData?.Data?.UniqueId === item?.SenderUniqueId) {
+                return item?.ReceiverName;
+              } else if (logData?.Data?.UniqueId === item?.ReceiverUniqueId) {
+                return item?.SenderName;
               } else {
                 return "N/A";
               }
@@ -347,7 +347,7 @@ const MyOrdersPage = () => {
       ),
       invoice: (
         <>
-          {item.TransactionType === "Buy" ? (
+          {item?.TransactionType === "Buy" ? (
             <img
               style={{ cursor: "pointer", color: FilterClass(item) }}
               onClick={() => {
@@ -371,7 +371,7 @@ const MyOrdersPage = () => {
                 setModalData(item);
               }}
             >
-              {item.TransactionType === "Buy" ? "Invoice" : "Status"}
+              {item?.TransactionType === "Buy" ? "Invoice" : "Status"}
             </Button>
           )}
         </>
