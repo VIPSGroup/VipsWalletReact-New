@@ -297,7 +297,7 @@ const MyOrdersPage = () => {
             }}
             className="text-gray-500"
           >
-            {item.Quantity}
+            {item.Quantity?.toFixed(4)}
           </h2>
         </>
       ),

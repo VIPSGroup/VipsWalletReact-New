@@ -306,7 +306,7 @@ const Gift = ({ setIsCommonTopNav }) => {
         if (res.Data.statusCode === 200) {
           setLoad(false);
           setStep(0);
-          setResponse(res.Data.message);
+          setResponse(res.Data);
           setModal(true);
         } else {
           setLoad(false);
@@ -666,7 +666,7 @@ const Gift = ({ setIsCommonTopNav }) => {
         </div>
       </section>
       <UserNotExist />
-      {/* <Modal
+      <Modal
         footer={[]}
         maskClosable={false}
         centered
@@ -749,7 +749,11 @@ const Gift = ({ setIsCommonTopNav }) => {
             class="img img-fluid check-green-img"
           />
           <p class="digigold-success-title mt-3 ">Thank You!</p>
-          <p class="success-note">{response}</p>
+          <p class="success-note">
+            {`Successfully transferred ${response?.result?.data?.quantity?.toFixed(
+              4
+            )} grams of ${response?.result?.data?.metalType} `}
+          </p>
           <div class="digigold-success-btn">
             <button
               onClick={() => {
@@ -761,7 +765,7 @@ const Gift = ({ setIsCommonTopNav }) => {
             </button>
           </div>
         </div>
-      </Modal> */}
+      </Modal>
       <DigiGoldSignup
         setIsDigiLogin={setIsDigiLogin}
         setStep={setStep}
