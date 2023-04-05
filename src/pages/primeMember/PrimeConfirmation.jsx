@@ -11,7 +11,7 @@ import {   getWalletBalance } from "../../redux/slices/payment/walletSlice";
 import { becomePrime } from "../../redux/slices/primeUserSlice";
 ReactGA.initialize(googleAnalytics);
 
-const PrimeConfirmation = ({setIsHomeTopNav}) => {
+const PrimeConfirmation = ({setIsCommonTopNav}) => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
@@ -92,7 +92,7 @@ const PrimeConfirmation = ({setIsHomeTopNav}) => {
   };
 
   useEffect(() => {
-    setIsHomeTopNav(false)
+    setIsCommonTopNav(false);
     ReactGA.pageview(window.location.pathname);
     setLoading(false);
     const username = loggedInUser && loggedInUser.UserName;
@@ -100,6 +100,9 @@ const PrimeConfirmation = ({setIsHomeTopNav}) => {
     if (loggedInUser) {
         dispatch(getWalletBalance({ username, password }));
     }
+    return () => {
+      setIsCommonTopNav(true)
+    };
   }, []);
 useEffect(() => {
   if (data.Data) {

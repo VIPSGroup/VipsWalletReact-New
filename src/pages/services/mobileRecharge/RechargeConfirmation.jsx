@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { ThreeDots } from "react-loader-spinner";
-
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
 import "../../../assets/styles/prime/primeConfirmation.css";
 import { mobileServiceId } from "../../../constants";
@@ -49,7 +47,12 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
   const handleClickConfirm = (e) => {
     setShowSuccess(true);
     e.preventDefault();
-    dispatch(
+    if(data?.Data?.length){
+      setSuccessMsg('')
+setIsSnackBar(true)
+setErrorMsg("Something Went wrong, Please try again later")
+    }else{
+       dispatch(
       finalRecharge({
         rechargeType: "Mobile",
         userName: loggedInUser.UserName,
@@ -63,6 +66,8 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
         circle: props?.circle,
       })
     );
+    }
+   
   };
   useEffect(() => {
     setIsCommonTopNav(false);

@@ -234,26 +234,41 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                 class="img-fluid vips-logo"
               />
             </Link>
-
             <nav class="left-navbar sub-menu d-none d-xl-block">
               <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbar">
                   <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
-                      <Link  class="nav-link" to="/">
+                      <Link  class="nav-link" to="/"  style={{
+                          borderBottomWidth: pathname === "/" && 2,
+                          borderBottomColor: pathname === "/" && "#CA3060",
+                          borderBottomStyle: pathname === "/" && "solid",
+                        }}>
                         Home <span class="sr-only">(current)</span>
                       </Link>
                     </li>
 
                     {/*Level one dropdown */}
                     <li class="nav-item ">
-                      <Link to="/shopping" class="nav-link ">
+                      <Link to="/shopping" class="nav-link "  style={{
+                          borderBottomWidth: pathname === "/shopping" && 2,
+                          borderBottomColor:
+                            pathname === "/shopping" && "#CA3060",
+                          borderBottomStyle:
+                            pathname === "/shopping" && "solid",
+                        }}>
                         Shopping
                       </Link>
                     </li>
 
                     <li class="nav-item ">
-                      <Link to="/services" class="nav-link ">
+                      <Link to="/services" class="nav-link " style={{
+                          borderBottomWidth: pathname === "/services" && 2,
+                          borderBottomColor:
+                            pathname === "/services" && "#CA3060",
+                          borderBottomStyle:
+                            pathname === "/services" && "solid",
+                        }}>
                         Services
                       </Link>
                     </li>
@@ -261,7 +276,13 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                     {/* <!-- End Level one --> */}
 
                     <li class="nav-item">
-                      <Link class="nav-link" to="/onlinestores">
+                      <Link class="nav-link" to="/onlinestores"   style={{
+                          borderBottomWidth: pathname === "/onlinestores" && 2,
+                          borderBottomColor:
+                            pathname === "/onlinestores" && "#CA3060",
+                          borderBottomStyle:
+                            pathname === "/onlinestores" && "solid",
+                        }}>
                         Online Stores
                       </Link>
                     </li>

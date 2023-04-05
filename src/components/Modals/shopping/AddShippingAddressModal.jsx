@@ -31,9 +31,9 @@ const AddShippingAddressModal = () => {
       landmark: "",
     },
     validationSchema: yup.object({
-      pincode: yup.string().min(6).max(6).required("Please Enter Pincode"),
-      fname: yup.string().required("Please Enter first name").matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Correct First Name"),
-      lname: yup.string().required("Please Enter last name").matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Correct Last Name"),
+      pincode: yup.string().required("Please Enter Pincode").matches(/^\d{6}$/,"Please Enter Valid Pincode"),
+      fname: yup.string().required("Please Enter first name").matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid First Name"),
+      lname: yup.string().required("Please Enter last name").matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid Last Name"),
       mobileno: yup.string().min(10).max(10).matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Number").required("Please Enter mobile no"),
       addressType: yup.string().required("Please Enter addressType"),
       address: yup.string().required("Please Enter address"),
@@ -71,7 +71,7 @@ const AddShippingAddressModal = () => {
   };
 
   useEffect(() => {
-    if (formik.values.pincode.length == 6) {
+    if (formik.values.pincode.toString().length == 6) {
       getStateCity(formik.values.pincode).then(response=>{
         if (response?.ResponseStatus === 1) {
           setGetData({
@@ -152,7 +152,7 @@ const AddShippingAddressModal = () => {
                       }
                       value={formik.values.pincode}
                       id="pincode"
-                      type="text"
+                      type="number"
                       placeholder="&nbsp;"
                       autoComplete="off"
                       minLength={6}
@@ -286,7 +286,7 @@ const AddShippingAddressModal = () => {
                     <SelectField
                       pincode={formik.values.pincode}
                       setGetData={setGetData}
-                      getData={getData}
+                      getData={getData} isClass={false}
                     />
                   {/* </div> */}
 

@@ -13,8 +13,8 @@ const AddWishListButton = ({
 }) => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
-  const [isSnackBar, setIsSnackBar] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
+  // const [isSnackBar, setIsSnackBar] = useState(false);
+  // const [successMsg, setSuccessMsg] = useState("");
 
   const [isproductInWishlist, setIsProductInWishlist] = useState(false);
 
@@ -29,15 +29,13 @@ const AddWishListButton = ({
     }
 
     wishlistToBe.push(product);
-
-    let strWishlist = JSON.stringify(wishlistToBe);
     dispatch(addWish(wishlistToBe));
     localStorage.setItem("wishlist", JSON.stringify(wishlistToBe));
     // window.location.reload()
     stateChanger(!wishlistState);
 
-    setIsSnackBar(true)
-    setSuccessMsg("Product was added to Wishlist successfully")
+    // setIsSnackBar(true)
+    // setSuccessMsg("Product was added to Wishlist successfully")
   };
 
   const removeFromWishlist = (e) => {
@@ -66,12 +64,12 @@ const AddWishListButton = ({
       <i class="fa-regular fa-heart"></i>
     </button>
   )}
-  <MuiSnackBar
+  {/* <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               setSuccess={setSuccessMsg}
-            />
+            /> */}
   </>
  
 };

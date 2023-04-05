@@ -43,7 +43,7 @@ const SignUpForm = ({ setIsSignIn }) => {
   const [refError, setRefError] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [refId, setRefId] = useState("");
-  const [pincodeId, setPincodeId] = useState("");
+  const [isClass, setIsClass] = useState(true);
   const [userDetails, setUserDetails] = useState({});
   const [ip, setIp] = useState("");
   const signUpFormik = useFormik({
@@ -631,6 +631,7 @@ const SignUpForm = ({ setIsSignIn }) => {
                             pincode={signUpFormik.values.pincode}
                             getData={getData}
                             setGetData={setGetData}
+                            isClass={isClass}
                           />
 
                           <div class="col-lg-12 ">

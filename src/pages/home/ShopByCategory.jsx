@@ -83,7 +83,7 @@ const ShopByCategory = () => {
                   );
                 })}
 
-                <div class="col-md-11 text-center mt-4">
+                <div class="col-md-12 text-center mt-4">
                   <div class="view-all-btn">
                     <Link to="/shopping" class="btn-cta">
                       {" "}

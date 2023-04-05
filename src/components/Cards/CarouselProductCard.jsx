@@ -4,6 +4,7 @@ import "../../assets/styles/shopping/quickViewModal.css";
 import { Link } from "react-router-dom";
 import AddWishListButton from "../buttons/AddWishListButton";
 import { getReplaceSpace } from "../../constant/Constants";
+import { MuiSnackBar } from "../common";
 
 const CarouselProductCard = ({ product, wishlistCard }) => {
   const [existInWishlist, setExistInWishlist] = useState(false);

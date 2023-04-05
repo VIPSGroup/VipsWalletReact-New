@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {  useSelector } from "react-redux";
 
-const SelectField = ({ setGetData, getData }) => {
+const SelectField = ({ setGetData, getData,isClass }) => {
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
   const { allStateCityList } = useSelector((state) => state.signUpSlice.stateList);
@@ -15,12 +15,30 @@ const SelectField = ({ setGetData, getData }) => {
   };
   useEffect(() => {
     setStateList(sortState(allStateCityList?.Data));
-    setCityList(sortCity(allStateCityList?.Data[0].Citys));
+   
+   
+    // if(getData.stateName){
+    //   console.log("if");
+    // }else{
+    //   console.log("else");
+    //   setCityList(sortCity(allStateCityList?.Data[0].Citys));
+    // }
   }, []);
+  useEffect(() => {
+  console.warn(getData.stateName);
+  if(getData.stateName){
+    setCityList(sortCity(allStateCityList?.Data.filter(item=>item.StateName==getData.stateName)[0].Citys));
+    console.log(allStateCityList?.Data.filter(item=>item.StateName==getData.stateName)[0].Citys);
+  }else{
+    console.log("else");
+    setCityList(sortCity(allStateCityList?.Data[0].Citys));
+  }
+  }, [getData])
+  
   return (
     <>
-    <div class="col-lg-6 shopping-address-select">
-      <div class="dropdown signup-select-option">
+    <div class={isClass ? "col-lg-6" : "shopping-address-select"}>
+      <div class={isClass ?"dropdown signup-select-option" :"dropdown signup-select-option select-option"}>
         <button
           class="dropdown-toggle select-toggle select-type"
           type="button"
@@ -61,8 +79,8 @@ const SelectField = ({ setGetData, getData }) => {
         )}
       </div>
     </div>
-    <div class="col-lg-6">
-      <div class="dropdown signup-select-option">
+    <div class={isClass ? "col-lg-6" : "shopping-address-select"}>
+      <div class={isClass ?"dropdown signup-select-option" :"dropdown signup-select-option select-option"}>
         <button
           class="dropdown-toggle select-toggle select-type"
           type="button"

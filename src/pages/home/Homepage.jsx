@@ -21,9 +21,8 @@ const Homepage = ({ setIsHomeTopNav }) => {
   const [isPrime, setIsPrime] = useState(false);
   useEffect(() => {
     if(loggedInUser){
-      console.log(loggedInUser);
     checkPrime({userName:loggedInUser.UserName, password:loggedInUser.TRXNPassword}).then((response) => {
-        if (response.ResponseStatus === 1) {
+      if (response.ResponseStatus === 1) {
           setIsPrime(true);
         }
       });
@@ -35,7 +34,7 @@ const Homepage = ({ setIsHomeTopNav }) => {
   });
   const primeFixed = () => (
     // {<!-- New fixed right button start -->}
-    <div class="fixed-right-button">
+    <div class="fixed-right-button">{console.log("calld")}
       <ul>
         <li>
           <Link to="/prime">

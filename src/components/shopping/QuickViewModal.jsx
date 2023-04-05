@@ -148,9 +148,9 @@ const QuickViewModal = ({ productId }) => {
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
     cartProducts &&
-      cartProducts.map((c, i) => {
-        if (c?.product?.Id == pro?.ProductDetails?.Id) {
-          setExistInCart(true);
+    cartProducts.map((c, i) => {
+      if (c?.product?.Id == pro?.ProductDetails?.Id) {
+        setExistInCart(true);
         }
       });
   };
@@ -210,6 +210,9 @@ const QuickViewModal = ({ productId }) => {
 
     setProducts(buyNowProductsArray);
     checkInWishlist();
+    return ()=>{
+      setExistInCart(false);
+    }
   }, [data]);
   useEffect(() => {
     checkInWishlist();
