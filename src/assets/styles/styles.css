@@ -273,6 +273,13 @@ input[type=number] {
   color: var(--lightGray);
 }
 
+.invalid-feedback{
+  text-align: left;
+}
+.select-error-align{
+  text-align: left;
+}
+
 /* Form start */
 .logform {
   position: relative;
