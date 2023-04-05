@@ -605,7 +605,7 @@ const CommonTopNav = ({
                     to="/vipsgold"
                   >
                     <img
-                      src="/images/digigold-imagess/buy-white-icon.svg"
+                      src="images/digigold-images/buy-white-icon.svg"
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">Buy Gold</span>

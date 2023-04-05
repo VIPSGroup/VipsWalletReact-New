@@ -357,6 +357,7 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
 
                   <div class="col-lg-12">
                     <Form.Item
+                      className="digi-check-terms"
                       name="terms"
                       valuePropName="checked"
                       rules={[

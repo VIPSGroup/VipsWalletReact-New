@@ -93,7 +93,7 @@ select.floating-select-wraper::-ms-expand {
   margin: 0 0px 30px;
 }
 .order-proceed-btn button {
-  padding: 9px 60px;
+  padding: 9px 60px !important;
 }
 
 .user-bank-details {

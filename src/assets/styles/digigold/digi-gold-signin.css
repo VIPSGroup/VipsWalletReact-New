@@ -17,13 +17,7 @@
   margin-top: 24px;
   
 }
-.login-btn{
-  width: 160px;
-  cursor: pointer;
-}
-.login-btn:hover{
-  color: var(--whiteColor);
-}
+
 
 .login-modal .modal-dialog {
   /* max-width: 990px !important; */
@@ -52,7 +46,7 @@
 
 .digi-gold-loginForm {
   margin: 0 auto;
-  padding: 15px 30px 30px;
+  padding: 15px 10px 30px;
   text-align: center;
   max-width: 430px;
   /* background-color: var(--whiteColor); */
@@ -556,6 +550,9 @@ select.did-floating-select::-ms-expand {
   }
   .digisign-otp-input input{
     margin-right: 9px !important;
+  }
+  .digisign-otp-input input:last-child{
+    margin-right: 0px !important;
   }
 
 

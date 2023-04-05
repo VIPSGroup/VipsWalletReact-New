@@ -432,7 +432,7 @@
 
 .digigold-work-div-box .digigold-work-title { 
   margin-bottom: 15px;
-  /* height: 11vh; */
+  height: auto;
 }
 
 .digigold-work-div-box .digigold-work-title h3 {
@@ -521,7 +521,7 @@
   width: 24px;
 }
 .digigold-payment-debit-vips{
-  margin: 0 22px 0px 29px;
+  margin: 0 15px 0px 21px;
   width: 30px;
 }
 .digigold-payment-debit-payu{
@@ -548,6 +548,7 @@
   font-size: 16px;
   font-weight: 400; 
   color: var(--darkText);
+  display: flex;
 }
 
 .digigold-addmoney{

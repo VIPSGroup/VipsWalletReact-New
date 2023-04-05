@@ -760,7 +760,7 @@ const OrderSummary = () => {
                                     >
                                       <img
                                         alt=""
-                                        src="/images/digigold-images/vips-logo-small.png"
+                                        src="../images/logos/vips-logo-small.png"
                                         class="img-fluid digigold-payment-debit-vips"
                                       />{" "}
                                       VIPS Wallet ( &#x20B9;{" "}
@@ -914,7 +914,7 @@ const OrderSummary = () => {
                                               })
                                             }
                                           />
-                                          <label htmlFor="enter-grams"> Enter Grams </label>
+                                          {/* <label htmlFor="enter-grams"> Enter Grams </label> */}
                                         </Form.Item>
                                         </div>
                                         </div>
@@ -958,7 +958,7 @@ const OrderSummary = () => {
                                               })
                                             }
                                           />
-                                          <label htmlFor=""> Account Holder Name </label>
+                                          {/* <label htmlFor=""> Account Holder Name </label> */}
                                         </Form.Item>
                                         </div>
                                         </div>

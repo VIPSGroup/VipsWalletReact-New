@@ -208,7 +208,7 @@ const DigiProfile = () => {
                           </div>
 
                           <div class="col-lg-6 col-md-6">
-                          <div className="input-wrapper w-100">
+                            <div className="input-wrapper w-100">
                               <div className="input">
                             <Form.Item
                               rules={[
@@ -237,6 +237,10 @@ const DigiProfile = () => {
                               />
                             </Form.Item>
                           </div>
+                          
+                            </div>
+                          </div>
+
                           <div class="col-lg-6 col-md-6">
                             <Form.Item name={"dateOfBirth"}>
                               <DatePicker
@@ -270,11 +274,9 @@ const DigiProfile = () => {
                                 format={dateFormatList[0]}
                                 mode="date"
                               />
-                              <label htmlFor="">DOB</label>
+                              {/* <label htmlFor="">DOB</label> */}
                             </Form.Item>
                               </div>
-                              </div>
-                          </div>
 
                           <div class="col-lg-6 col-md-6">
                             <Form.Item
@@ -497,7 +499,7 @@ const DigiProfile = () => {
                                 format={dateFormatList[0]}
                                 mode="date"
                               />
-                              <label htmlFor="">Nominee DOB</label>
+                              {/* <label htmlFor="">Nominee DOB</label> */}
                             </Form.Item>
                             </div>
                             </div>
@@ -535,7 +537,7 @@ const DigiProfile = () => {
                                 size="large"
                                 placeholder="Nominee Relation"
                               />
-                              <label htmlFor="">Nominee Relation</label>
+                              {/* <label htmlFor="">Nominee Relation</label> */}
                             </Form.Item>
                                 </div>
                                 </div>
@@ -543,20 +545,20 @@ const DigiProfile = () => {
 
                         </div>
                       </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          marginBottom: 50,
-                          marginTop: 30,
-                        }}
+                      <div className="order-proceed-btn"
+                        // style={{
+                        //   display: "flex",
+                        //   justifyContent: "center",
+                        //   marginBottom: 50,
+                        //   marginTop: 30,
+                        // }}
                       >
                         <Button
                           loading={updateLoading}
                           htmlType="submit"
                           size="large"
-                          style={{ backgroundColor: "#CA3060", color: "white" }}
-                          class="btn-primary"
+                          // style={{ backgroundColor: "#CA3060", color: "white" }}
+                          className="btn btn-primery"
                         >
                           {" "}
                           Update{" "}
