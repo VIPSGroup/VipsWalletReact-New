@@ -273,6 +273,13 @@ input[type=number] {
   color: var(--lightGray);
 }
 
+.invalid-feedback{
+  text-align: left;
+}
+.select-error-align{
+  text-align: left;
+}
+
 /* Form start */
 .logform {
   position: relative;
@@ -618,11 +625,11 @@ input[type=number] {
 
 /* loading bar styles start */
 .services-page-loader .service-loader-outer {
-  width: 90px;
+  /* width:100%; */
 
   display: flex;
   align-content: center;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   margin: auto;
   vertical-align: middle;

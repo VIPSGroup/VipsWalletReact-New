@@ -75,7 +75,7 @@ const SelectField = ({ setGetData, getData,isClass }) => {
             ))}
         </div>
         {getData.stateError && (
-          <div className="text-danger">Please Select State</div>
+          <div className="text-danger select-error-align">Please Select State</div>
         )}
       </div>
     </div>
@@ -118,7 +118,7 @@ const SelectField = ({ setGetData, getData,isClass }) => {
           )}
         </div>
         {getData.cityError && (
-          <div className="text-danger">Please Select City</div>
+          <div className="text-danger select-error-align">Please Select City</div>
         )}
       </div>
     </div>
