@@ -69,31 +69,6 @@ export const handleKeyDown = (event) => {
 };
 
 export const handleKeyDown2 = (event) => {
-  // const maxLength = 8;
-  // const key = event.key;
-  // const allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
-
-  // if (key === "," || key === "-") {
-  //   // prevent comma and negative sign
-  //   event.preventDefault();
-  //   return;
-  // }
-
-  // if (key === "Backspace" || key === "Delete") {
-  //   return;
-  // }
-
-  // if (event.target.value.length >= maxLength && key !== ".") {
-  //   // limit to 8 digits (excluding the decimal point)
-  //   event.preventDefault();
-  //   return;
-  // }
-
-  // if (!allowedKeys.includes(key)) {
-  //   // prevent non-digit and non-decimal-point keys
-  //   event.preventDefault();
-  //   return;
-  // }
   const maxLength = event.target.value.includes(".") ? 8 : 3;
   const key = event.key;
   const allowedKeys = /^\d{1,3}(?:\.\d{0,4})?$/; // allow digits and decimal point

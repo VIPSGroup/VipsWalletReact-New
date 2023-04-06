@@ -190,8 +190,8 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
             <div class="row">
               <div class="col-lg-12">
                 <div class="titleMain formText text-center">
-                  <h2>Sign In</h2>
-                  <p>Enter Mobile Number To Sign In</p>
+                  <h2>Sign up</h2>
+                  <p>Fill up Form To Sign up VIPS Gold</p>
                 </div>
               </div>
             </div>
