@@ -78,6 +78,8 @@ const DigiGoldHome = ({
   grams,
   setAmount,
   amount,
+  setStep,
+  step,
 }) => {
   const inputRef = useRef(null);
 
@@ -104,7 +106,7 @@ const DigiGoldHome = ({
     metalType: "",
     type: "",
   });
-  const [step, setStep] = useState("");
+  // const [step, setStep] = useState("");
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );

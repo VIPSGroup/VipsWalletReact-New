@@ -12,6 +12,8 @@ const Navigation = ({
   grams,
   setAmount,
   amount,
+  setStep,
+  step,
 }) => {
   const path = useResolvedPath().pathname;
 
@@ -30,6 +32,8 @@ const Navigation = ({
             amount={amount}
             setGrams={setGrams}
             grams={grams}
+            setStep={setStep}
+            step={step}
           />
         )}
 

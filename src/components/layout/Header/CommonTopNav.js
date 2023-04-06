@@ -27,6 +27,8 @@ const CommonTopNav = ({
   grams,
   setAmount,
   amount,
+  setStep,
+  step,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -135,9 +137,16 @@ const CommonTopNav = ({
       label: (
         <Link
           onClick={() => {
-            !logLoading && logData?.Data
-              ? clickLogout()
-              : dispatch(modalOpen());
+            if (!logLoading && logData?.Data) {
+              clickLogout();
+            } else {
+              dispatch(modalOpen());
+              setStep(0);
+            }
+
+            // !logLoading && logData?.Data
+            //   ? clickLogout()
+            //   : dispatch(modalOpen());
           }}
           style={{ fontSize: 17 }}
         >
