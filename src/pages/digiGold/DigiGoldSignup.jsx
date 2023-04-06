@@ -390,7 +390,7 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                   <div class="otp-send-to">
                     <p>
                       Enter the OTP sent to
-                      <label for="">&nbsp; +91 {formValue.mobileNumber}</label>
+                      <label for="">&nbsp; +91 {loggedInUser.UserName}</label>
                     </p>
                   </div>
                 </div>
