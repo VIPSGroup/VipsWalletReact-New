@@ -15,11 +15,7 @@ import {
   registerDigiGold,
 } from "../../redux/slices/digiGold/registerDigiSlice";
 import { MuiSnackBar } from "../../components/common";
-import {
-  handleKeyPressForName,
-  handleMobileKeyPress,
-  namePattern,
-} from "../../constants";
+import { handleKeyPressForName, handleMobileKeyPress } from "../../constants";
 
 const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
   const dispatch = useDispatch();
@@ -60,12 +56,6 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
       otp: "",
     });
   };
-  // const handleKeyPress = (event) => {
-  //   const charCode = event.which ? event.which : event.keyCode;
-  //   if (charCode !== 8 && !/^[a-zA-Z ]+$/.test(String.fromCharCode(charCode))) {
-  //     event.preventDefault();
-  //   }
-  // };
 
   const handleSubmit = async () => {
     const emailId = loggedInUser.Emailid;
@@ -156,7 +146,6 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
       setIsDigiLogin(logData?.Data);
     }
   }, [step]);
-
   useEffect(() => {
     dispatch(getStateList());
     if (formValue.userStateId) {
@@ -165,19 +154,18 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
   }, [formValue.userStateId]);
   // Digi Register Modal
   useEffect(() => {
-    if (data.ResponseStatus === 1) {
-      if (data.Data.ResponseStatus === 1) {
+    if (data?.ResponseStatus === 1) {
+      if (data?.Data.ResponseStatus === 1) {
         localStorage.setItem(
           "digiUser",
           JSON.stringify(data?.Data?.result?.data)
         );
-        // window.location.reload();
         dispatch(modalClose());
         setSuccessMsg("Login SuccessFully");
         setErrorMsg("");
         setIsSnackBar(true);
       } else {
-        setErrorMsg(data.Remarks);
+        setErrorMsg(data?.Remarks);
         setSuccessMsg("");
         setIsSnackBar(true);
       }
@@ -213,7 +201,7 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                 autoCapitalize="off"
                 onFinish={handleSubmit}
                 fields={[
-                  { name: "mobileNumber", value: formValue.mobileNumber },
+                  { name: "mobileNumber", value: loggedInUser.UserName },
                   { name: "Name", value: formValue.Name },
                   { name: "userCityId", value: formValue.userCityId },
                   { name: "userStateId", value: formValue.userStateId },
@@ -244,6 +232,8 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                             mobileNumber: e.target.value,
                           })
                         }
+                        disabled
+                        value={loggedInUser.UserName}
                         maxLength={10}
                         addonBefore={"+91"}
                         size="large"
@@ -257,14 +247,7 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                       name="Name"
                       rules={[
                         { required: true, message: "Full name is required" },
-                        // {
-                        //   pattern: "[A-Za-zs]+",
-                        //   message: "Name is not valid",
-                        // },
-                        {
-                          min: 3,
-                          message: "Min 3 Character are Required",
-                        },
+                        { min: 3, message: "Min 3 Character are Required" },
                       ]}
                     >
                       <Input
@@ -280,7 +263,6 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                       />
                     </Form.Item>
                   </div>
-
                   <div className="col-lg-12">
                     <Form.Item
                       // hasFeedback

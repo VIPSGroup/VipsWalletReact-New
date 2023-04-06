@@ -143,6 +143,7 @@ const DigiGoldHome = ({
           setIsSnackBar(true);
         } else if (logData.ResponseStatus === 0) {
           dispatch(modalOpen());
+          setStep(0);
         }
         if (logData.ResponseStatus === 3) {
           setErrorMsg(logData.Remarks);
@@ -451,7 +452,7 @@ const DigiGoldHome = ({
                                       // pattern="/^\d{1,3}(?:\.\d{0,4})?$/"
                                       addonBefore="Grams"
                                       value={grams}
-                                      type="number"
+                                      type="text"
                                       name="grams"
                                       onChange={handleGramsChange}
                                       placeholder="Enter Grams"
