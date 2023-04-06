@@ -50,6 +50,7 @@ if(loggedInUser){
           <div class="row">
             <div class="col-md-12 recharge-table-scroll mobile-recharge-table-outer services-page-loader">
               <div class="service-loader-outer">
+                
                 {loading ? (
                   <Loading color="#CA3060" class="" />
                 ) : rechargeHistoryList?.length===0 ? (
@@ -62,7 +63,7 @@ if(loggedInUser){
                   {rechargeHistoryList &&
                     rechargeHistoryList.map((r, i) => (
                       <tr>
-                        <td class="align-middle">
+                        <td class="align-middle text-left">
                           {" "}
                           <img
                             alt=""

@@ -4,7 +4,7 @@ import { ThreeDots } from "react-loader-spinner";
 
 const LoadingBar = ({ color = "#fff" }) => {
   return (
-    <div className="service-loader services-page-loader service-loader-outer ">
+    <div className="service-loader ">
       <ThreeDots
         height="20"
         width="50"

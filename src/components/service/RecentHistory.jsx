@@ -76,9 +76,9 @@ const RecentHistory = ({
 
           <div class="row">
             <div class="col-md-12 recharge-table-scroll mobile-recharge-table-outer services-page-loader">
-              <div class="service-loader-outer">
+              <div class="">
                 {loading ? (
-                  <Loading/>
+                  <Loading className="service-loader-outer"/>
                 ) : rechargeHistory.length < 1 ? (
                   <div class="text-center">
                     <img src="/images/No_Data.svg" />
@@ -88,7 +88,7 @@ const RecentHistory = ({
                   {!loading && rechargeHistory &&
                     rechargeHistory.map((r, i) => (
                       <tr>
-                        <td class="align-middle">
+                        <td class="align-middle text-left">
                           {" "}
                           <img
                             alt=""
