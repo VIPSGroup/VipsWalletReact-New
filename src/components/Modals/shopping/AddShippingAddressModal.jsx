@@ -36,7 +36,7 @@ const AddShippingAddressModal = () => {
       lname: yup.string().required("Please Enter last name").matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid Last Name"),
       mobileno: yup.string().min(10).max(10).matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Number").required("Please Enter mobile no"),
       addressType: yup.string().required("Please Enter addressType"),
-      address: yup.string().required("Please Enter address"),
+      address: yup.string().required("Please Enter address") .matches(/.{20,}/,"Address must be at least 20 characters"),
       landmark: yup.string().required("Please Enter landmark"),
     }),
 

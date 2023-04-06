@@ -202,11 +202,12 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
               <MdArrowBack />
             </button>
           )}
-          {JSON.stringify(loginPasswordFormik.error)}
-          {formCount === 3 ? (
+          {formCount === 3   ? (
             <>
               <button
-                onClick={() => setFormCount(1)}
+                onClick={() => {
+                  setFormCount(1)
+                }}
                 className="close login-close mt-3"
               >
                 <MdArrowBack />
@@ -363,9 +364,7 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
                                   <div className="input-field">
                                     <i
                                       id="togglePassword"
-                                      onClick={() =>
-                                        setShowPassword(!showPassword)
-                                      }
+                                      onClick={() => setShowPassword(!showPassword)}
                                     >
                                       {showPassword ? (
                                         <BsFillEyeFill />
@@ -450,7 +449,11 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
           ) : (
             <>
               <button
-                onClick={() => setFormCount(1)}
+                onClick={() => {
+                  setFormCount(1)
+                  loginPasswordFormik.values.password=''
+                  dispatch(resetState())
+                }}
                 className="close login-close mt-3"
               >
                 <MdArrowBack />

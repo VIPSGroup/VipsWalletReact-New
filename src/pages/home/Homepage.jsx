@@ -34,7 +34,7 @@ const Homepage = ({ setIsHomeTopNav }) => {
   });
   const primeFixed = () => (
     // {<!-- New fixed right button start -->}
-    <div class="fixed-right-button">{console.log("calld")}
+    <div class="fixed-right-button">
       <ul>
         <li>
           <Link to="/prime">

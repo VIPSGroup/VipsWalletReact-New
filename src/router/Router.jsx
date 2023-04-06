@@ -611,7 +611,7 @@ const Router = () => {
           path="/contactus"
           element={<ContactUs setIsBottomTopNav={setIsBottomTopNav} />}
         />
-        <Route path="/onlinestores" element={<OnlineStores />} />
+        <Route path="/onlinestores" element={<ProtectedRoute><OnlineStores /></ProtectedRoute>} />
 
         <Route
           path="/payment"

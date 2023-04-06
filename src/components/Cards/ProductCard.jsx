@@ -5,6 +5,7 @@ import "../../assets/styles/shopping/quickViewModal.css";
 import { getReplaceSpace } from "../../constants";
 import AddWishListButton from "../buttons/AddWishListButton";
 import QuickViewModal from "../shopping/QuickViewModal";
+// import { checkInWishlist } from "../../utils/CommonFunctions";
 
 const ProductCard = ({ product, wishlistCard }) => {
   const [existInWishlist, setExistInWishlist] = useState(false);
@@ -22,7 +23,7 @@ const ProductCard = ({ product, wishlistCard }) => {
   };
 
   useEffect(() => {
-    checkInWishlist();
+    checkInWishlist(product.Id,setExistInWishlist);
   }, [wishlistChange]);
 
   const quickViewModal = () => (
@@ -77,15 +78,6 @@ const ProductCard = ({ product, wishlistCard }) => {
                   </s>
                   ({product.CostPrice}% Off)
                 </span></>}
-                {/* <span class="promo-product-list-price">
-                  <s>
-                    {" "}
-                    &#x20B9;{" "}
-                    {product.RetailPrice &&
-                      product.RetailPrice.toLocaleString()}
-                  </s>
-                  ({product.CostPrice}% Off)
-                </span> */}
               </div>
               <div class="promo-product-delivery">
                 <p>Delivery by {product.DeliveryEnd}</p>
@@ -105,6 +97,7 @@ const ProductCard = ({ product, wishlistCard }) => {
             </div>
           ) : (
             <div class="promo-wishlist ml-auto">
+              {/* {JSON.stringify(existInWishlist)} */}
               <AddWishListButton
                 product={product}
                 inWishlist={existInWishlist}

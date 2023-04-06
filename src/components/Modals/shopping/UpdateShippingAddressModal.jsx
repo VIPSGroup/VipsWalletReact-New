@@ -9,11 +9,8 @@ import { SelectField } from "../../forms";
 import { MuiSnackBar, ThemeButton } from "../../common";
 
 const UpdateShippingAddressModal = ({ addressProp }) => {
-  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [pincode, setPincode] = useState("");
-  // const [success, setSuccess] = useState(false);
-  // const [error, setError] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -33,16 +30,17 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
       landmark: "",
     },
     validationSchema: yup.object({
-      pincode: yup.string().min(6).max(6).required("Please Enter Pincode").matches(/^\d{6}$/,"Please Enter Valid Pincode"),
+      pincode: yup.string().required("Please Enter Pincode").matches(/^\d{6}$/,"Please Enter Valid Pincode"),
       fname: yup.string().required("Please Enter first name")
-      // .matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid First Name")
+      .matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid First Name")
       ,
       lname: yup.string().required("Please Enter last name")
-      // .matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid Last Name")
+      .matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid Last Name")
       ,
       mobileno: yup.string().min(10).max(10).required("Please Enter mobile no").matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Number"),
       addressType: yup.string().required("Please Enter addressType"),
-      address: yup.string().required("Please Enter address"),
+      address: yup.string().required("Please Enter address").matches(/.{20,}/,"Address must be at least 20 characters")
+      ,
       landmark: yup.string().required("Please Enter landmark"),
     }),
 

@@ -24,8 +24,6 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
   const dispatch = useDispatch();
   const [isDigiLogin, setIsDigiLogin] = useState("");
   const [balance, setBalance] = useState(0);
-  const [shoppingPoints, setShoppingPoints] = useState("");
-  const [primePoints, setPrimePoints] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -201,19 +199,6 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
     dispatch(getWalletBalance({ username, password }));
   };
 
-  // useEffect(() => {
-  //   let user = JSON.parse(localStorage.getItem("user"));
-
-  //   const userName = user && user.UserName;
-  //   const password = user && user.TRXNPassword;
-  //   user &&
-  //     getWalletBalance({ userName, password }).then((response) => {
-  //       setBalance(response?.Data?.Balance);
-  //       setShoppingPoints(response?.Data?.Shoppingpoints);
-  //       setPrimePoints(response?.Data?.PrimePoints);
-  //     });
-  // }, []);
-
   const section = () => (
     <>
       <header class="header-main sticky-top">
@@ -223,6 +208,9 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
               type="button"
               id="sidebarCollapse"
               class="btn btn-link d-block d-xl-none"
+              onClick={(e) => {
+                document.getElementById("sidebar").classList.add("active");
+              }}
             >
               <i class="fa-solid fa-bars"></i>
             </button>
