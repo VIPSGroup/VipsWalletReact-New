@@ -574,7 +574,7 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
                                     setSelectCity(null);
                                     setBillAmount(null);
                                   }}
-                                  type="button"
+                                  // type="button"
                                   class="dropdown-item"
                                 >
                                   {o.OperatorName}

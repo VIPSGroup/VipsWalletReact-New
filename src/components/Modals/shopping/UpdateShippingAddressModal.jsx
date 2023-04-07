@@ -256,11 +256,11 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
                         minLength="10"
                       />
                       <label htmlFor="user-mobile"> Mobile Number </label>
-                      
-                    </div>
-                    <div className="invalid-feedback text-danger">
+                      <div className="invalid-feedback text-danger">
                         {formik.errors.mobileno}
                       </div>
+                    </div>
+                    
                   </div>
 
                   <div class="textarea-field">

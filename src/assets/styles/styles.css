@@ -629,7 +629,7 @@ input[type=number] {
 
   display: flex;
   align-content: center;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   margin: auto;
   vertical-align: middle;
