@@ -597,27 +597,27 @@ export const howItWorkArr = [
   {
     img: "open-an-account.svg",
     title: "Open An Account",
-    desc: " Buy Gold/Silver at the best market prices",
+    desc: "Buy Gold/Silver at the best market prices",
   },
   {
     img: "buy-sell.svg",
     title: "Buy / Sell Small",
-    desc: "Buy Gold/Silver at the best market prices",
+    desc: "Buy/Sell for as low as ₹ 1",
   },
   {
     img: "secured-vault.svg",
     title: "Secured Vault",
-    desc: "Buy Gold/Silver at the best market prices",
+    desc: "Free storage and insurance, verified by an independent trustee",
   },
   {
     img: "request-delivery.svg",
     title: "Request Delivery",
-    desc: "Buy Gold/Silver at the best market prices",
+    desc: "In the form of Gold/Silver coins",
   },
   {
     img: "doorstep-delivery.svg",
     title: "Doorstep Delivery",
-    desc: "Buy Gold/Silver at the best market prices",
+    desc: "The requested article will be delivered to your doorsteps",
   },
 ];
 export default memo(DigiGoldHome);

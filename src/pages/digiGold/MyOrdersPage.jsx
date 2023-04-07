@@ -457,6 +457,7 @@ const MyOrdersPage = () => {
                         <div class="row"></div>
                         {/* <Card> */}
                         <Table
+                          className="text-nowrap"
                           scroll={{ x: true }}
                           loading={orderLoad}
                           columns={columns}
