@@ -74,7 +74,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
           obj.MobileNumber = mobileNo;
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
-dispatch(fetchBill({obj,username:loggedInUser.Mobile,password: loggedInUser.TRXNPassword}))
+dispatch(fetchBill({obj,username:loggedInUser?.Mobile,password: loggedInUser?.TRXNPassword}))
         }
       } else {
         setErrorMsg("Please enter valid mobile number");

@@ -399,7 +399,7 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
                         <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
-                            &#x20B9; {discount?.finalAmount}{" "}
+                            &#x20B9; {discount?.finalAmount?.toFixed(2)}{" "}
                           </span>
                         </div>
                       </div>
