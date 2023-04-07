@@ -1,0 +1,887 @@
+
+/* bus listing horizantal form start */
+.bus-listing-form{
+    width: 90%;
+    margin: auto;
+}
+.booking-form-horizontal{
+    position: relative;
+    /* margin: 9% 0% 2%; */
+    margin: 3% 0% 2%;
+    background: var(--body-bg);
+    box-shadow: 0px 0px 11px 2px rgb(57 49 134 / 10%);
+    border-radius: 8px;
+}
+.horizontal-booking-form{
+    padding: 20px 10px;
+    display: flex;
+}
+.horizontal-booking-form-right{
+    display: flex;
+}
+.travel-form-title{
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--darkText);
+}
+.horizontal-booking-form .input-field {
+    position: relative;
+    margin: 25px 0 0;
+    padding-left: 0px;
+    color: var(--darkText);
+}
+.horizontal-booking-form .input-field input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-radius: 0;
+    width: 100%;
+    font-size: 15px;
+    height: 40px;
+    border-bottom: 1px solid var(--borderColor);
+    color: inherit;
+    transition: 0.2s ease;
+}
+.horizontal-booking-form .input-field input::-moz-placeholder {
+    color: transparent;
+}
+.horizontal-booking-form .input-field input:-ms-input-placeholder {
+    color: transparent;
+}
+.horizontal-booking-form .input-field input::placeholder {
+    color: transparent;
+}
+.horizontal-booking-form .input-field input:not(:-moz-placeholder-shown) {
+    border-bottom: 1px solid var(--primary);
+    box-shadow: 0 1px 0 0 var(--primary);
+}
+.horizontal-booking-form .input-field input:not(:-ms-input-placeholder) {
+    border-bottom: 1px solid var(--primary);
+    box-shadow: 0 1px 0 0 var(--primary);
+}
+.horizontal-booking-form .input-field input:focus, .horizontal-booking-form .input-field input:not(:placeholder-shown) {
+    border-bottom: 1px solid var(--primary);
+}
+.horizontal-booking-form .input-field input:not(:-moz-placeholder-shown) + label {
+    transform: translateY(-14px) scale(0.85);
+    color: var(--primary);
+}
+.horizontal-booking-form .input-field input:not(:-ms-input-placeholder) + label {
+    transform: translateY(-14px) scale(0.85);
+    color: var(--primary);
+}
+.horizontal-booking-form .input-field input:focus + label, .horizontal-booking-form .input-field input:not(:placeholder-shown) + label {
+    transform: translateY(-14px) scale(0.85);
+    color: var(--textGray);
+}
+.horizontal-booking-form .input-field label {
+    color: var(--textGray);
+    position: absolute;
+    top: -10px;
+    left: 0px;
+    font-size: 15px;
+    cursor: text;
+    transform-origin: 0% 100%;
+    transform: translateY(14px);
+    transition: 0.2s ease-out;
+}
+/* .bus-booking-date{
+    margin-top: 35px;
+} */
+.horizontal-booking-form .search-bus-btn{
+    text-align: center;
+    margin: 20px 0 0 0;
+}
+.horizontal-booking-form .search-bus-btn button{
+    padding: 10px 30px;
+}
+  
+/* selectpicker start */
+.horizontal-booking-form .select-option{
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.horizontal-booking-form .select-option .select-type{
+    font-size: 15px;
+    color: var(--textGray);
+    font-weight: normal; 
+    width: 100%;
+    height: 100%;
+    bottom: 0px;
+    left: 0%; 
+    border: none;
+    border-bottom: 1px solid var(--borderColor);
+    margin-bottom: 0;
+    background: none;
+    text-align: left;
+    padding-bottom: 6px;
+}
+    
+.horizontal-booking-form .select-toggle::after { 
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+    float: right;
+    margin-top: 13px;
+}
+.horizontal-booking-form .select-option a:hover{
+    background-color: var(--primary);
+    color: var(--whiteColor);
+}
+    
+.horizontal-booking-form .select-option .dropdown-menu{
+    height: 200px; 
+    overflow-y: scroll;
+    width: 100%;
+}
+    
+.horizontal-booking-form .select-option .dropdown-menu {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--darkText);
+}
+    
+.horizontal-booking-form .select-option .dropdown-menu::-webkit-scrollbar {
+    width: 5px;
+}
+.horizontal-booking-form .select-option .dropdown-menu {
+    scrollbar-width: thin;
+    scrollbar-color: var(--darkText);
+}
+.horizontal-booking-form .select-option .dropdown-menu::-webkit-scrollbar-track {
+    background: var(--whiteColor);
+}
+.horizontal-booking-form .select-option .dropdown-menu::-webkit-scrollbar-thumb {
+    background-color: var(--borderColor) ;
+    border-radius: 6px;
+}
+/* selectpicker end */
+
+/* location form start */
+.horizontal-booking-form .lable {
+	display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.horizontal-booking-form .lable .icon {
+	margin: 0 10px 0 0;
+}
+.horizontal-booking-form .lable .text {
+	font-family: roboto;
+}
+.horizontal-booking-form .inside-wrap {
+    position: relative;
+    display: flex;
+}
+
+/* .horizontal-booking-form .from {
+ 	border-bottom: 1px solid var(--borderColor);
+} */
+/* .horizontal-booking-form .from, .to {
+	padding: 5px 0px;
+} */
+.horizontal-booking-form .rotate-btn {
+    margin: 10px auto 0;
+    width: 8%;
+    text-align: center;
+}
+.horizontal-booking-form .rotate-btn figure {
+    margin: 0;
+    /* width: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+.horizontal-booking-form .rotate-btn figure img {
+    margin: 0;
+    width: 34px;
+    height: 34px;
+}
+
+/* location form end */
+
+/* bus listing horizantal form start */
+
+
+/* bus listing section start */
+
+/* bus listing left section start */
+.bus-booking-list{
+    width: 90%;
+    margin: auto;
+}
+.bus-listing-left-sidebar{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    /* padding: 12px 15px; */
+    background: var(--whiteColor);
+    border-radius: 10px;
+}
+.bus-filter-head{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+.filter-head-title{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--secondary);
+    margin: 0;
+}
+.reset-filter-btn{
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-weight: 500;
+    font-size: 13px;
+}
+.bus-type-filter-head{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--borderColor);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+.bus-type-filter{
+    padding: 15px;
+}
+.bus-type-filter-title{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--darkText);
+    margin: 0;
+}
+.bus-type-filter-reset{
+    background: none;
+    border: none;
+    color: var(--textGray);
+    font-weight: 500;
+    font-size: 13px;
+}
+.filter-box-separator{
+    border-bottom: 3px solid var(--lightBorder);
+}
+
+.bus-type-filter-list .custom-control{
+    padding-left: 1.2rem;
+    margin-bottom: 5px;
+}
+.bus-type-filter-list .custom-control-label{
+    padding-left: 10px;
+    font-size: 14px;
+}
+.bus-type-filter-list .custom-control-label::before{
+    top: 0.1rem;
+    border: 2px solid var(--textGray);
+}
+.bus-type-filter-list .custom-control-label::after{
+    top: 0.1rem;
+}
+
+
+.search-point{
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.search-point .input-group input{
+    border: 1px solid var(--borderColor);
+    border-right: none;
+}
+.search-point .input-group .form-control{
+    font-size: 14px;
+    color: var(--darkText);
+}
+.search-point .input-group .form-control::placeholder{
+    font-size: 12px;
+    color: var(--textGray);
+}
+.search-point .input-group button{
+    border: 1px solid var(--borderColor);
+    border-left: none;
+    font-size: 14px;
+}
+
+.bus-time-filter-box{
+    display: flex;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.time-filter-btn{
+    padding: 10px;
+    background: none;
+    border: 1px solid var(--borderColor);
+    border-radius: 6px;
+    font-size: 14px;
+}
+.time-filter-btn p{
+    margin: 0;
+}
+.filter-time{
+    color: var(--textGray);
+}
+/* bus listing left section end */
+
+/* bus listing right section start */
+.bus-listing-right-outer{
+    position: relative;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border-radius: 10px;
+}
+
+.bus-sort-outer{
+    padding: 10px 15px;
+    background: var(--whiteColor);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+.bus-sort-outer .sort-dark{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--secondary);
+}
+.bus-info-outer{
+    padding: 15px 0px;
+    background: var(--whiteColor);
+    border-radius: 10px;
+    
+    margin-bottom: 15px;
+}
+.bus-info-inner{
+    display: flex;
+    justify-content: space-between;
+}
+.bus-info-left-outer{
+    border-right: 1px solid var(--borderColor);
+    padding-right: 30px !important;
+}
+.bus-info-left{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--borderColor);
+    margin-bottom: 12px;
+}
+.bus-info{
+    display: flex;
+    flex-wrap: wrap;
+}
+.bus-name{
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.bus-seat-info{
+    display: flex;
+    color: var(--textGray);
+}
+.bus-type{
+    padding-right: 10px;
+    border-right: 1px solid var(--borderColor);
+    margin-right: 10px;
+}
+.bus-seat-info img{
+    width: 10px;
+}
+.bus-tracking{
+    color: var(--textGray);
+}
+.bus-status{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.bus-time{
+    font-size: 16px;
+    font-weight: 500;
+}
+.bus-time .sup{
+    vertical-align: super;
+    font-size: 12px;
+    line-height: normal;
+    color: var(--textGray);
+    font-weight: 400;
+}
+.bus-status p{
+    margin: 0;
+}
+.bus-time-status{
+    display: flex;
+    align-items: flex-start;
+}
+.bus-travel-time{
+    font-size: 13px;
+    color: var(--textGray);
+}
+.bus-cancel-policy{
+    color: var(--secondary);
+    cursor: pointer;
+    text-decoration: underline;
+    list-style: disc;
+}
+
+/* -- arrow start -- */
+.arrow-dashline-outer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+.arrow-dashline{
+    display: flex;
+    align-items: center;
+}
+.bus-time-status .arrow-circle{
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    margin-left: 10px;
+}
+.bus-time-status hr.dashline {
+    border-top: 2px dashed var(--primary);
+    width: 93px;
+    margin: 0;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+.bus-time-status img{
+    margin-right: 10px;
+}
+/* -- arrow end -- */
+
+.bus-info-right-outer{
+    /* display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: flex-end; */
+
+    display: grid;
+    align-content: space-between;
+    align-items: stretch;
+    justify-items: end;
+}
+.bus-ticket-amt{
+    font-size: 16px;
+    font-weight: 500;
+}
+.select-seat-btn{
+    padding: 7px 20px;
+    font-weight: 500;
+}
+
+/* bus listing right section end */
+
+/* bus listing section end */
+
+/* bus-seat-details start */
+.bus-seat-details{
+    display: flex;
+    border-top: 1px solid var(--borderColor);
+    margin-top: 20px;
+    padding-top: 15px;
+}
+.select-point-outetr{
+    display: flex;
+    grid-column-gap: 15px;
+}
+.bus-bording-point{
+    padding: 10px 0px 10px 10px;
+    border: 1px solid var(--lightBorder);
+    border-radius: 10px;
+}
+.bus-dropping-point{
+    padding: 10px 0px 10px 10px;
+    border: 1px solid var(--lightBorder);
+    border-radius: 10px;
+}
+.select-point-head{
+    border-bottom: 1px solid var(--borderColor);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.select-point-title{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--darkText);
+    margin: 0;
+}
+
+/* radio button style start */
+.select-point {
+    position: relative;
+    display: flex;
+}
+
+.select-point input[type=radio] {
+    opacity: 0;
+}
+.select-point label {
+    padding-left: 10px;
+    cursor: pointer;
+    margin-bottom: 7px !important;
+    color: var(--darkText);
+}
+.select-point label p{
+    margin: 0;
+}
+.select-point .gray-text{
+    color: var(--textGray);
+}
+.select-point label:before {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    content: "";
+    display: inline-block;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 0.1rem;
+    border-color: var(--textGray);
+}
+.select-point input[type=radio] {
+    margin: 0px;
+}
+.select-point input[type=radio]:disabled + label {
+    color: var(--textGray);
+}
+.select-point input[type=radio]:disabled + label:before {
+    background-color: var(--primary);
+}
+.select-point input[type=radio]:checked + label::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 4px;
+    display: inline-block;
+    font-size: 11px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary);
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+  
+.rdio-default input[type=radio]:checked + label:before {
+    border-color: var(--primary);
+}
+  
+.rdio-primary input[type=radio]:checked + label:before {
+    border-color: var(--primary);
+}
+.rdio-primary input[type=radio]:checked + label::after {
+    background-color: var(--primary);
+}
+/* radio button style end */
+
+/* seat view start */
+.select-seat-status{
+    display: grid;
+    grid: auto / auto auto auto;
+    grid-row-gap: 16px;
+}
+
+.seat-view-outer{
+    margin-top: 35px;
+}
+.upper-deck{
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid var(--borderColor);
+    border-radius: 10px;
+}
+.seat-row-post{
+    margin-right: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+.seat-row-post p{
+    margin: 0;
+}
+.seat-row-post img{
+    margin-bottom: 15px;
+}
+
+.seats-row{
+    width: 100%;
+    display: flex;
+    grid-column-gap: 10px;
+    margin-bottom: 15px;
+}
+.seats-row:last-child{
+    margin-bottom: 0;
+}
+.seats-row-spacing{
+    margin-top: 11%;
+}
+.lower-deck{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid var(--borderColor);
+    border-radius: 10px;
+}
+
+.available-seat-horizontal{
+    background: none;
+    /* background-image: url(../images/bus-booking/available-seat-horizontal.svg); */
+    background-image: url(../../../../public/images/bus-booking/available-seat-horizontal.svg);
+    background-repeat: no-repeat;
+    width: 62px;
+    height: 25px;
+    border: none;
+}
+.selected-seat-horizontal{
+    /* border: 1.5px solid #757575;
+    background: var(--whiteColor); */
+    background: none;
+    background-image: url(../../../../public/images/bus-booking/selected-seat-horizontal.svg);
+    background-repeat: no-repeat;
+    width: 62px;
+    height: 25px;
+    border: none;
+}
+.booked-seat-horizontal{
+    background: none;
+    background-image: url(../../../../public/images/bus-booking/booked-seat-horizontal.svg);
+    background-repeat: no-repeat;
+    width: 62px;
+    height: 25px;
+    border: none;
+}
+.booked-ladies-seat-horizontal{
+    background: none;
+    background-image: url(../../../../public/images/bus-booking/booked-ladies-seat-horizontal.svg);
+    background-repeat: no-repeat;
+    width: 62px;
+    height: 25px;
+    border: none;
+}
+.reserved-ladies-seat-horizontal{
+    background: none;
+    background-image: url(../../../../public/images/bus-booking/reserved-ladies-seat-horizontal.svg);
+    background-repeat: no-repeat;
+    width: 62px;
+    height: 25px;
+    border: none;
+}
+
+
+.seat-select-details{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 15px 0 15px;
+    margin-top: 20px;
+    border-top: 1px solid var(--borderColor);
+}
+.seat-book-status-title{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--secondary);
+    margin: 0;
+}
+.seat-book-status-subtitle{
+    font-size: 14px;
+    color: var(--textGray);
+    font-weight: 400;
+    margin: 0;
+}
+.fare-details-amt{
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--secondary);
+    margin: 0;
+}
+.fare-details-text{
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--primary);
+    margin: 0;
+}
+
+.book-seat{
+    padding: 7px 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.siting-view{
+    padding: 15px;
+    border: 1px solid var(--borderColor);
+    border-radius: 10px;
+}
+.siting-seats-row{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.siting-seats-row:last-child{
+    margin-bottom: 0;
+}
+.available-seat-siting{
+    background: none;
+    background-image: url(../../../../public/images/bus-booking/booking-available-seat.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+    border: none;
+}
+.selected-seat-siting{
+    background: none;
+    background-image: url(../../../../public/images/bus-booking/booking-selected-seat.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+    border: none;
+}
+.booked-seat-siting{
+    background: none;
+    background-image: url(../../../../public/images/bus-booking/booking-booked-seat.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+    border: none;
+}
+.reserved-ladies-seat-siting{
+    background: none;
+    background-image: url(../../../../public/images/bus-booking/booking-reserved-ladies-seat.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+    border: none;
+}
+.booked-ladies-seat-siting{
+    background: none;
+    background-image: url(../../../../public/images/bus-booking/booking-booked-ladies-seat.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+    border: none;
+}
+.blocked-seat-siting{
+    background: none;
+    background-image: url(../../../../public/images/bus-booking/booking-blocked-seat.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+    border: none;
+}
+
+/* seat view end */
+
+
+/* bus-seat-details end */
+
+/* scroll start */
+.select-boarding-point{
+    height: 258px; 
+    overflow: hidden;
+    overflow-y: scroll;
+    width: 100%;
+    padding-right: 12px;
+}
+.select-boarding-point {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+}
+  
+.select-boarding-point::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+.select-boarding-point {
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+}
+.select-boarding-point::-webkit-scrollbar-track {
+    background: var(--whiteColor);
+}
+.select-boarding-point::-webkit-scrollbar-thumb {
+    background-color: var(--borderColor) ;
+    border-radius: 6px;
+}
+/* scroll end */
+
+
+
+@media only screen and (min-width: 320px) and (max-width: 413px){
+    .horizontal-booking-form {
+        padding: 20px 10px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .horizontal-booking-form .inside-wrap {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .horizontal-booking-form-right {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+    
+
+}
+
+
+@media only screen and (min-width: 640px) and (max-width: 767px){
+    
+
+}
+
+
+
+@media only screen and (min-width: 768px) and (max-width: 992px){
+    
+
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+    
+
+}
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+
+
+}
+
+  

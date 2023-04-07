@@ -133,6 +133,18 @@ useEffect(() => {
                         VIPS Gold
                       </Link>
                     </li> */}
+
+                    {/* Bus Booking start */}
+
+
+                    <li class="nav-item">
+                      <Link class="nav-link" to="/bus-home">
+                       Bus
+                      </Link>
+                    </li>
+
+
+                      {/* Bus Booking end */}
                   </ul>
                 </div>
               </div>
@@ -461,9 +473,16 @@ useEffect(() => {
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           {/* <li>
-
             <Link to="/vipsgold">VIPS Gold</Link>
           </li> */}
+
+          {/* Bus Booking start */}
+
+          <li>
+            <Link to="/bus-home">Bus</Link>
+          </li>
+
+          {/* Bus Booking end */}
           <li>
             <Link to={vendorPanelAPi} target="_blank">
               {" "}

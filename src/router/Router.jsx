@@ -65,6 +65,8 @@ import DigiKYC from "../pages/digiGold/DigiKYC";
 import DigiDeliveryCart from "../pages/digiGold/Delivery/DigiDeliveryCart";
 import DeliveryCheckout from "../pages/digiGold/Delivery/DeliveryCheckout";
 import DeliveryOrderDetails from "../pages/digiGold/Delivery/DeliveryOrderDetails";
+import BusBookingHome from "../pages/busBooking/BusBookingHome";
+import BusListing from "../pages/busBooking/BusListing";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
@@ -390,6 +392,23 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
+
+         <Route
+          path="/bus-home"
+          element={
+            <ProtectedRoute>
+              {" "}
+              {/* <BusBookingHome setIsBottomTopNav={setIsBottomTopNav} />{" "} */}
+              <BusListing setIsBottomTopNav={setIsBottomTopNav} />{" "}
+            </ProtectedRoute>
+          }
+        />
+
+
+
+
+
+
         {/* <Route path="/vipsgold" element={<DigiGoldHome active={active} setActive={setActive}/>} />
         <Route path="/vipsgold-order-summary" element={<OrderSummary />} />
         <Route path="/vipsgold-profile" element={<DigiProfile />} />
@@ -463,7 +482,6 @@ const Router = () => {
             <ProtectedRoute>
               {" "}
               <PrimeIndex setIsBottomTopNav={setIsBottomTopNav} />
-              {/* <PrimeIndex setIsBottomTopNav={setIsBottomTopNav} /> */}
             </ProtectedRoute>
           }
         />
@@ -482,7 +500,6 @@ const Router = () => {
             <ProtectedRoute>
               {" "}
               <ReferAFriend setIsBottomTopNav={setIsBottomTopNav} />{" "}
-              {/* <ReferAFriend setIsBottomTopNav={setIsBottomTopNav} />{" "} */}
             </ProtectedRoute>
           }
         />

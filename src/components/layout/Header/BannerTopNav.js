@@ -133,6 +133,15 @@ const BannerTopNav = () => {
                         Become a Supplier
                       </a>
                     </li>
+                      {/* Bus Booking start */}
+
+                      <li class="nav-item">
+                      <Link class="nav-link" to="/bus-home">
+                       Bus
+                      </Link>
+                    </li>
+
+                      {/* Bus Booking end */}
                   </ul>
                 </div>
               </div>
@@ -492,6 +501,10 @@ export const Nav = [
   {
     title: "Services",
     route: "/services",
+  },
+  {
+    title: "Bus",
+    route: "/bus-home",
   },
   {
     title: "Online Stores",

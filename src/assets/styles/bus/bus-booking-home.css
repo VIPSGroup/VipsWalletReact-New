@@ -1,0 +1,498 @@
+/* bus booking top banner start */
+.bus-home-top-banner{
+    position: relative;
+    padding: 11% 2% 3%;
+    background-size: cover;
+    background-position: center 100%;
+    margin-top: -44px;
+}
+.bus-home-top-banner-title{
+    font-size: 42px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--secondary);
+}
+.bus-home-top-banner-title span{
+    color: var(--primary);
+}
+.bus-home-top-banner-text{
+    font-size: 16px;
+    color: var(--darkText);
+    margin-bottom: 21px;
+}
+/* bus booking top banner end */
+
+.bus-home-banner{
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+/* Bus Ticket Booking form start */
+
+.bus-booking-form{
+    background: var(--body-bg);
+    /* background: #fff; */
+    box-shadow: 0px 0px 11px 2px rgb(57 49 134 / 10%);
+    padding: 20px;
+    border-radius: 8px;
+}
+.travel-form-title{
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--darkText);
+}
+.bus-booking-form .input-field {
+    position: relative;
+    margin: 25px 0;
+    padding-left: 0px;
+    color: var(--darkText);
+}
+.bus-booking-form .input-field input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-radius: 0;
+    width: 100%;
+    font-size: 15px;
+    height: 40px;
+    border-bottom: 1px solid var(--borderColor);
+    color: inherit;
+    transition: 0.2s ease;
+}
+.bus-booking-form .input-field input::-moz-placeholder {
+    color: transparent;
+}
+.bus-booking-form .input-field input:-ms-input-placeholder {
+    color: transparent;
+}
+.bus-booking-form .input-field input::placeholder {
+    color: transparent;
+}
+.bus-booking-form .input-field input:not(:-moz-placeholder-shown) {
+    border-bottom: 1px solid var(--primary);
+    box-shadow: 0 1px 0 0 var(--primary);
+}
+.bus-booking-form .input-field input:not(:-ms-input-placeholder) {
+    border-bottom: 1px solid var(--primary);
+    box-shadow: 0 1px 0 0 var(--primary);
+}
+.bus-booking-form .input-field input:focus, .bus-booking-form .input-field input:not(:placeholder-shown) {
+    border-bottom: 1px solid var(--primary);
+    /* box-shadow: 0 1px 0 0 var(--primary); */
+}
+.bus-booking-form .input-field input:not(:-moz-placeholder-shown) + label {
+    transform: translateY(-14px) scale(0.85);
+    color: var(--primary);
+}
+.bus-booking-form .input-field input:not(:-ms-input-placeholder) + label {
+    transform: translateY(-14px) scale(0.85);
+    color: var(--primary);
+}
+.bus-booking-form .input-field input:focus + label, .bus-booking-form .input-field input:not(:placeholder-shown) + label {
+    transform: translateY(-14px) scale(0.85);
+    /* color: var(--primary); */
+    color: var(--textGray);
+}
+.bus-booking-form .input-field label {
+    color: var(--textGray);
+    position: absolute;
+    top: -10px;
+    left: 0px;
+    font-size: 15px;
+    cursor: text;
+    transform-origin: 0% 100%;
+    transform: translateY(14px);
+    transition: 0.2s ease-out;
+}
+.bus-booking-date{
+    margin-top: 35px;
+}
+.bus-booking-form .search-bus-btn{
+    text-align: center;
+    margin: 20px 0;
+}
+.bus-booking-form .search-bus-btn button{
+    padding: 10px 30px;
+}
+  
+/* selectpicker start */
+.bus-booking-form .select-option{
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.bus-booking-form .select-option .select-type{
+    font-size: 15px;
+    color: var(--textGray);
+    font-weight: normal; 
+    width: 100%;
+    height: 100%;
+    bottom: 0px;
+    left: 0%; 
+    border: none;
+    /* border-bottom: 1px solid var(--borderColor); */
+    margin-bottom: 0;
+    background: none;
+    text-align: left;
+    padding-bottom: 6px;
+}
+    
+.bus-booking-form .select-toggle::after { 
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+    float: right;
+    margin-top: 13px;
+}
+.bus-booking-form .select-option a:hover{
+    background-color: var(--primary);
+    color: var(--whiteColor);
+}
+    
+.bus-booking-form .select-option .dropdown-menu{
+    height: 200px; 
+    overflow-y: scroll;
+    width: 100%;
+}
+    
+.bus-booking-form .select-option .dropdown-menu {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--darkText);
+}
+    
+.bus-booking-form .select-option .dropdown-menu::-webkit-scrollbar {
+    width: 5px;
+}
+.bus-booking-form .select-option .dropdown-menu {
+    scrollbar-width: thin;
+    scrollbar-color: var(--darkText);
+}
+.bus-booking-form .select-option .dropdown-menu::-webkit-scrollbar-track {
+    background: var(--whiteColor);
+}
+.bus-booking-form .select-option .dropdown-menu::-webkit-scrollbar-thumb {
+    background-color: var(--borderColor) ;
+    border-radius: 6px;
+}
+/* selectpicker end */
+
+/* location form start */
+.bus-booking-form .lable {
+	display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.bus-booking-form .lable .icon {
+	margin: 0 10px 0 0;
+}
+.bus-booking-form .lable .text {
+	font-family: roboto;
+}
+.bus-booking-form .inside-wrap {
+	/* background-color: #66A1F3; */
+    /*padding: 10px 0px;*/
+    position: relative;
+    /* border-radius: 5px; */
+}
+
+.bus-booking-form .from {
+ 	border-bottom: 1px solid var(--borderColor);
+ }
+.bus-booking-form .from, .to {
+	padding: 5px 0px;
+}
+.bus-booking-form .rotate-btn {
+    position: absolute;
+    right: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.bus-booking-form .rotate-btn figure {
+    margin: 0;
+    width: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.bus-booking-form .rotate-btn figure img {
+    margin: 0;
+    width: 34px;
+    height: 34px;
+}
+
+/* location form end */
+    
+/* Bus Ticket Booking form end */
+.bus-animation .bus-outer{
+    width: 400px;
+    margin: auto;
+}
+
+/* <!-- Recent search start --> */
+.recent-search-outer{
+    background: var(--whiteColor);
+    /* border: 0.5px solid var(--lightBorder); */
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+}
+.recent-search-card{
+    display: flex;
+}
+.recent-searched-location{
+    display: flex;
+    align-items: center;
+}
+.recent-searched-location p{
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--darkText);
+}
+.recent-dept-date{
+    margin-top: 10px;
+    color: var(--textGray);
+    font-size: 14px;
+}
+.recent-dept-date p{
+    margin: 0;
+}
+.recent-dept-date span{
+    color: var(--darkText);
+}
+.recent-dept-date i{
+    color: var(--primary);
+}
+.track-search-btn{
+    margin-left: auto;
+}
+.track-search-btn button{
+    font-size: 15px;
+    font-weight: 500;
+    background: none;
+    padding: 6px 36px;
+}
+
+/* -- arrow start -- */
+.recent-searched-location .arrow-circle{
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    margin-left: 10px;
+}
+.recent-searched-location hr.dashline {
+    border-top: 2px dashed var(--primary);
+    width: 93px;
+    margin: 0;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+.recent-searched-location img{
+    margin-right: 10px;
+}
+/* -- arrow end -- */
+
+/* <!-- Recent search end --> */
+
+/* bus travel policy start */
+.bus-travel-policy-outer{
+    /* background: var(--whiteColor); */
+    /* border: 0.5px solid var(--lightBorder); */
+    margin-top: 35px;
+    border-radius: 10px;
+    padding: 15px;
+}
+/* bus travel policy end */
+
+
+@media only screen and (min-width: 320px) and (max-width: 413px){
+    .bus-home-top-banner { 
+        padding: 24% 2% 3%;
+        margin-top: -70px;
+    }
+    .bus-home-top-banner-title {
+        font-size: 26px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        margin-top: 20px;
+    }
+    .bus-home-top-banner-text {
+        font-size: 13px; 
+        margin-bottom: 20px;
+    }
+
+
+    .bus-home-banner {
+        margin-top: 30px;
+        margin-bottom: 13px;
+        padding: 0 15px;
+    }
+
+
+    .recent-search{
+        padding: 0 15px;
+    }
+    .recent-search-card {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    .recent-searched-location hr.dashline {
+        width: 30px;
+    }
+    .track-search-btn {
+        margin-left: 0;
+        margin-top: 16px;
+    }
+    .track-search-btn button {
+        font-size: 14px;
+        font-weight: 500;
+        background: none;
+        padding: 5px 30px;
+    }
+    .bus-travel-policy-outer { 
+        margin-top: 13px; 
+    }
+}
+
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+    .bus-home-top-banner { 
+        padding: 24% 2% 3%;
+        margin-top: -70px;
+    }
+    .bus-home-top-banner-title {
+        font-size: 26px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        margin-top: 20px;
+    }
+    .bus-home-top-banner-text {
+        font-size: 13px; 
+        margin-bottom: 20px;
+    }
+
+
+    .bus-home-banner {
+        margin-top: 30px;
+        margin-bottom: 13px;
+        padding: 0 15px;
+    }
+
+
+    .recent-search{
+        padding: 0 15px;
+    }
+    .recent-search-card {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    .recent-searched-location hr.dashline {
+        width: 30px;
+    }
+    .track-search-btn {
+        margin-left: 0;
+        margin-top: 16px;
+    }
+    .track-search-btn button {
+        font-size: 14px;
+        font-weight: 500;
+        background: none;
+        padding: 5px 30px;
+    }
+    .bus-travel-policy-outer { 
+        margin-top: 13px; 
+    }
+
+}
+
+
+@media only screen and (min-width: 640px) and (max-width: 767px){
+    .bus-home-top-banner {
+        padding: 22% 2% 1%;
+        margin-top: -63px;
+    }
+
+    .recent-search-card {
+        display: flex;
+        /* flex-wrap: wrap; */
+        flex-direction: row;
+    }
+
+    .track-search-btn {
+        margin-left: auto;
+        margin-top: 0;
+    }
+
+}
+
+
+
+@media only screen and (min-width: 768px) and (max-width: 992px){
+    .bus-home-top-banner { 
+        padding: 21% 2% 4%;
+        margin-top: -62px;
+    }
+    .bus-home-top-banner-title {
+        font-size: 28px; 
+    }
+    .bus-home-top-banner-text {
+        font-size: 14px; 
+        margin-bottom: 19px;
+    }
+
+
+    .recent-searched-location hr.dashline { 
+        width: 72px; 
+    }
+
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+    .bus-home-top-banner { 
+        padding: 17% 2% 3%; 
+        margin-top: -68px;
+    }
+    .bus-home-top-banner-title {
+        font-size: 36px; 
+        margin-bottom: 10px; 
+    }
+    .bus-home-top-banner-text {
+        font-size: 16px; 
+        margin-bottom: 19px;
+    }
+    .bus-home-top-banner-btn a {
+        padding: 7px 22px;
+        font-size: 15px;
+    }
+
+}
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+
+
+    .bus-home-top-banner {
+        padding: 13% 2% 3%;
+        margin-top: -44px;
+    }
+    .bus-home-top-banner-title {
+        font-size: 48px; 
+        margin-bottom: 12px; 
+    }
+    .bus-home-top-banner-text {
+        font-size: 18px; 
+        margin-bottom: 19px;
+    }
+
+}
+
+  

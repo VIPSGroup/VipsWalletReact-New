@@ -15,7 +15,7 @@ import "../../../assets/styles/home/footer.css";
 const Footer = () => {
   return (
     <>
-      <section class="vips-footer footer-section mb-0">
+      <section class="vips-footer footer-section mb-0 mt-5">
         <footer class="footer-outer">
           <div class="container">
             <div class="footer-inner">
