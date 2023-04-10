@@ -12,6 +12,7 @@ import {
   digitPrecision,
   formatter,
   handleKeyDown,
+  handleKeyDown2,
   handleMobileKeyPress,
   parser,
 } from "../../../constants";
@@ -61,13 +62,11 @@ const Gift = ({ setIsCommonTopNav }) => {
   const { loggedInUser, loading: logLoading } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-
   const handleClose = () => {
     setModal(false);
     navigate("/vipsgold-gift");
     setOtp("");
   };
-
   const handleAmountChange = (e) => {
     const value = e.target.value;
     const gGram = parseFloat(logData?.Data?.GoldGrams);
@@ -85,7 +84,7 @@ const Gift = ({ setIsCommonTopNav }) => {
         metalType: "gold",
         valueinGm: quantity,
       });
-      setGrams(quantity);
+      setGrams(quantity ? quantity : "");
       const gram = parseFloat(quantity);
 
       if (logData.Data) {
@@ -127,7 +126,7 @@ const Gift = ({ setIsCommonTopNav }) => {
         metalType: "silver",
         valueinGm: quantity,
       });
-      setGrams(quantity);
+      setGrams(quantity ? quantity : "");
       const gram = parseFloat(quantity);
 
       if (logData.Data) {
@@ -159,16 +158,32 @@ const Gift = ({ setIsCommonTopNav }) => {
       }
     }
   };
-
   const handleGramsChange = (e) => {
+    // let value =
+    //   e.target.value.split(".").length !== 2
+    //     ? e.target.value
+    //     : e.target.value.split(".")[0] +
+    //       "." +
+    //       e.target.value.split(".")[1].substring(0, 4);
+    // const quantity = digitPrecision(value, "quantity");
+    // setGrams(quantity);
     let value =
-      e.target.value.split(".").length !== 2
-        ? e.target.value
-        : e.target.value.split(".")[0] +
-          "." +
-          e.target.value.split(".")[1].substring(0, 4);
+      e.target.value.indexOf(".") === -1
+        ? e.target.value.slice(0, 4).replace(/[^\d]/g, "")
+        : e.target.value
+            .split(".")
+            .map((part, index) =>
+              index === 0
+                ? part.replace(/[^\d]/g, "")
+                : part.slice(0, 4).replace(/[^\d]/g, "")
+            )
+            .join(".");
+
+    if (e.target.value.length > value.length) {
+      e.target.value = value;
+    }
     const quantity = digitPrecision(value, "quantity");
-    setGrams(quantity);
+    setGrams(value);
     const gram = parseFloat(value);
     const gGram = parseFloat(logData?.Data?.GoldGrams);
     const sGram = parseFloat(logData?.Data?.SilverGrams);
@@ -199,7 +214,7 @@ const Gift = ({ setIsCommonTopNav }) => {
         const sGramResult = parseFloat(sGramStr);
         if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
           setErr(
-            ` You can gif up to ${
+            ` You can Gift up to ${
               isGold === 0 ? gGramResult : sGramResult
             } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
               isGold === 0 ? gGramResult : sGramResult
@@ -218,11 +233,11 @@ const Gift = ({ setIsCommonTopNav }) => {
     }
 
     const TotalAmount =
-      (isGold === 0 && rateData.Data?.result?.data?.rates?.gSell * value) ||
-      (isGold === 1 && rateData.Data?.result?.data?.rates?.sSell * value);
+      (isGold === 0 && rateData.Data?.result?.data?.rates?.gSell * quantity) ||
+      (isGold === 1 && rateData.Data?.result?.data?.rates?.sSell * quantity);
     setFormValue({
       ...formvalue,
-      valueinGm: value,
+      valueinGm: quantity,
       valueinAmt: TotalAmount,
       valType: "quantity",
       metalType: isGold === 0 ? "gold" : "silver",
@@ -236,7 +251,6 @@ const Gift = ({ setIsCommonTopNav }) => {
     }
     // setAmount(totalResult);
   };
-
   const renderTime2 = () => React.Fragment;
   // OTP Resend Logic
   const renderButton2 = (buttonProps) => {
@@ -350,6 +364,7 @@ const Gift = ({ setIsCommonTopNav }) => {
     }
   };
   useEffect(() => {
+    const type = "gift";
     HandleGramChange({
       setAmount,
       setGrams,
@@ -363,8 +378,17 @@ const Gift = ({ setIsCommonTopNav }) => {
       // valueType,
       setFormValue,
       formvalue,
+      type,
     });
   }, [rateData]);
+  const handleBlur = (e) => {
+    const input = e.target;
+    const position = input.value.indexOf(".");
+    input.setSelectionRange(
+      position === -1 ? input.value.length : position,
+      position === -1 ? input.value.length : position + 1
+    );
+  };
   return (
     <>
       {/* <CommonTopNav /> */}
@@ -539,9 +563,9 @@ const Gift = ({ setIsCommonTopNav }) => {
                                         ]
                                       }
                                     >
-                                      <Input
+                                      {/* <Input
                                         formatter={formatter}
-                                        // onKeyDown={handleKeyDown2}
+                                        onKeyDown={handleKeyDown2}
                                         className="mb-0 disabled-input"
                                         onWheel={(e) => e.target.blur()}
                                         parser={parser}
@@ -550,7 +574,7 @@ const Gift = ({ setIsCommonTopNav }) => {
                                         required
                                         // addonBefore="Grams"
                                         value={grams}
-                                        type="number"
+                                        type="text"
                                         name="grams"
                                         onChange={handleGramsChange}
                                         placeholder="Enter Grams"
@@ -558,6 +582,28 @@ const Gift = ({ setIsCommonTopNav }) => {
                                         // step={0.0001}
                                         step={"any"}
                                         // style={{ padding: 15 }}
+                                      /> */}
+                                      <Input
+                                        id="grams"
+                                        formatter={formatter}
+                                        // onKeyPress={handleKeyDown2}
+                                        onKeyDown={handleKeyDown2}
+                                        // onInput={handleKeyDown3}
+                                        onBlur={handleBlur}
+                                        className="mb-0 disabled-input"
+                                        onWheel={(e) => e.target.blur()}
+                                        parser={parser}
+                                        min={0.0001}
+                                        precision={4}
+                                        // pattern="/^\d{1,3}(?:\.\d{0,4})?$/"
+                                        // addonBefore="Grams"
+                                        value={grams}
+                                        type="text"
+                                        name="grams"
+                                        onChange={handleGramsChange}
+                                        placeholder="Enter Grams"
+                                        size="large"
+                                        step={"any"}
                                       />
                                       {/* <label htmlFor="Enter Grams">
                                           Enter Grams

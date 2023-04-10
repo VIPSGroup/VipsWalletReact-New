@@ -540,7 +540,6 @@ const OrderSummary = () => {
   window.onpopstate = function (event) {
     localStorage.removeItem("valueType");
   };
-  console.log(typeof currentRate, "currentRate");
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">

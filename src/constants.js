@@ -243,6 +243,7 @@ export const HandleGramChange = ({
   valueType,
   setFormValue,
   formvalue,
+  type,
 }) => {
   const quantity = digitPrecision(value ? value : grams, "quantity");
   setGrams(quantity);
@@ -262,15 +263,17 @@ export const HandleGramChange = ({
       const sGramResult = parseFloat(sGramStr);
       if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
         setErr(
-          ` You can sell up to ${isGold === 0 ? gGramResult : sGramResult} gm ${
-            isGold === 0 ? "Gold" : "Silver"
-          } of total  ${isGold === 0 ? gGramResult : sGramResult} gm `
+          ` You can ${type ? "Gift" : "Sell"} up to ${
+            isGold === 0 ? gGramResult : sGramResult
+          } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+            isGold === 0 ? gGramResult : sGramResult
+          } gm `
         );
       } else {
         setErr(
-          `You do not have a enough ${
-            isGold === 0 ? "Gold" : "Silver"
-          } to Sell `
+          `You do not have a enough ${isGold === 0 ? "Gold" : "Silver"} to ${
+            type ? "Gift" : "Sell"
+          } `
         );
       }
     } else {
