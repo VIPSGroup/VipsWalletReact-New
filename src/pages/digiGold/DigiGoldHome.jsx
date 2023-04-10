@@ -199,7 +199,7 @@ const DigiGoldHome = ({
       valType: "amount",
       metalType: isGold === 0 ? "gold" : "silver",
     });
-    setGrams(quantity);
+    setGrams(quantity ? quantity : "");
     if (quantity === 0) {
       setErr("");
     }

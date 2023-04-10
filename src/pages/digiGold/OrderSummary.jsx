@@ -296,11 +296,16 @@ const OrderSummary = () => {
         type,
       });
       if (res.ResponseStatus === 1) {
-        if (res.Data.statusCode === 200) {
+        if (res.Data?.statusCode === 200) {
           dispatch(loginDigiGold);
           setResponse(res.Data);
           setLoad(false);
           setModal(true);
+        } else {
+          setLoad(false);
+          setIsSnackBar(true);
+          setErrorMsg(res.Remarks);
+          setSuccessMsg("");
         }
       } else if (res.ResponseStatus === 0) {
         setLoad(false);
@@ -519,7 +524,6 @@ const OrderSummary = () => {
       setEditAddress(true);
     }
   }, [list]);
-
   useEffect(() => {
     if (formValue.ifscCode.length === 11) {
       const ifsc = formValue.ifscCode;
@@ -533,7 +537,6 @@ const OrderSummary = () => {
     formValue.ifscCode = list.Data.result[0].ifscCode;
     setEditAddress(true);
   };
-
   window.onpopstate = function (event) {
     localStorage.removeItem("valueType");
   };
@@ -1139,7 +1142,6 @@ const OrderSummary = () => {
           </div>
         </section>
       </div>
-
       <Modal
         footer={[]}
         onCancel={handleClose}

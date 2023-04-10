@@ -330,7 +330,7 @@ const DigiProfile = () => {
                                     ...formValue,
                                     userCityId: e,
                                     userCityName:
-                                      cityList.Data.result.data?.find(
+                                      cityList?.Data?.result?.data?.find(
                                         (a) => a.id === e
                                       ).name,
                                   })
@@ -346,7 +346,7 @@ const DigiProfile = () => {
                                 placeholder="Select City"
                               >
                                 {cityList.Data &&
-                                  cityList.Data.result.data.map((e) => {
+                                  cityList?.Data?.result?.data?.map((e) => {
                                     return (
                                       <Select.Option key={e.id} value={e.id}>
                                         {e.name}
