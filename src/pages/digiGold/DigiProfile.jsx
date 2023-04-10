@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-profile.css";
 import { MuiSnackBar } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading.jsx";
+import { differenceInYears } from "date-fns";
+
 import {
   FirstNamePattern,
   handleKeyPressForName,
@@ -17,6 +19,7 @@ import {
 import { UpdateUser } from "../../redux/slices/digiGold/userProfileSlice";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import moment from "moment";
 dayjs.extend(customParseFormat);
 const DigiProfile = () => {
   const [form] = Form.useForm();
@@ -457,9 +460,9 @@ const DigiProfile = () => {
                                 style={{ width: "100%" }}
                                 size="large"
                                 disabledDate={(current) => {
-                                  // Disable dates that are less than 18 years ago
                                   const today = new Date();
-                                  const diffInMs = Math.abs(today - current);
+                                  const diffInMs = Math.abs(today - current.$d);
+                                  console.log(diffInMs, "diff");
                                   const age = Math.floor(
                                     diffInMs / (1000 * 60 * 60 * 24 * 365)
                                   );

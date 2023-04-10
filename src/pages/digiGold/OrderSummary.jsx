@@ -540,6 +540,7 @@ const OrderSummary = () => {
   window.onpopstate = function (event) {
     localStorage.removeItem("valueType");
   };
+  console.log(typeof currentRate, "currentRate");
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">
@@ -638,11 +639,15 @@ const OrderSummary = () => {
                               {!loading && rateData
                                 ? state?.type === "buy"
                                   ? state?.metalType === "gold"
-                                    ? GoldBuyRates
-                                    : SilverBuyRates
+                                    ? parseFloat(GoldBuyRates)?.toLocaleString()
+                                    : parseFloat(
+                                        SilverBuyRates
+                                      )?.toLocaleString()
                                   : state?.metalType === "gold"
-                                  ? GoldSellRates
-                                  : SilverSellRates
+                                  ? parseFloat(GoldSellRates)?.toLocaleString()
+                                  : parseFloat(
+                                      SilverSellRates
+                                    )?.toLocaleString()
                                 : "Loading..."}
                             </p>
                           </div>
@@ -663,7 +668,8 @@ const OrderSummary = () => {
                             : silverRate && state.valType !== "Amount"
                             ? silverRate
                             : state?.valueinAmt} */}
-                              {currentRate && currentRate}
+                              {currentRate &&
+                                parseFloat(currentRate)?.toLocaleString()}
                             </p>
                           </div>
                           {state?.type === "buy" && (
@@ -676,7 +682,8 @@ const OrderSummary = () => {
                             >
                               <p class="digigold-insert-darktext">Tax</p>
                               <p class="digigold-insert-amt">
-                                &#x20B9; {tax && tax}
+                                &#x20B9;{" "}
+                                {tax && parseFloat(tax)?.toLocaleString()}
                               </p>
                             </div>
                           )}
@@ -691,7 +698,11 @@ const OrderSummary = () => {
                             </p>
                             <p class="digigold-insert-amt">
                               &#x20B9;{" "}
-                              {totalAmount ? totalAmount : state?.valueinAmt}
+                              {totalAmount
+                                ? parseFloat(totalAmount)?.toLocaleString()
+                                : parseFloat(
+                                    state?.valueinAmt
+                                  )?.toLocaleString()}
                             </p>
                           </div>
                         </div>
@@ -705,7 +716,11 @@ const OrderSummary = () => {
                             <p class="digigold-payble-amt">
                               {" "}
                               &#x20B9;{" "}
-                              {totalAmount ? totalAmount : state?.valueinAmt}
+                              {totalAmount
+                                ? parseFloat(totalAmount).toLocaleString()
+                                : parseFloat(
+                                    state?.valueinAmt
+                                  ).toLocaleString()}
                             </p>
                           </div>
                         </div>
@@ -773,7 +788,9 @@ const OrderSummary = () => {
                                       />{" "}
                                       VIPS Wallet ( &#x20B9;{" "}
                                       {data.Data && !walletLoad
-                                        ? data.Data.Balance
+                                        ? parseFloat(
+                                            data.Data.Balance
+                                          )?.toLocaleString()
                                         : "Loading..."}
                                       )
                                     </label>
@@ -798,8 +815,10 @@ const OrderSummary = () => {
                                     {" "}
                                     &#x20B9;{" "}
                                     {totalAmount
-                                      ? totalAmount
-                                      : state?.valueinAmt}{" "}
+                                      ? parseFloat(totalAmount).toLocaleString()
+                                      : parseFloat(
+                                          state?.valueinAmt
+                                        ).toLocaleString()}{" "}
                                   </p>
                                 </div>
                               </div>
@@ -940,6 +959,11 @@ const OrderSummary = () => {
                                               min: 3,
                                               message:
                                                 "Min 3 Character are Required",
+                                            },
+                                            {
+                                              pattern: namePattern,
+                                              message:
+                                                "Please Enter Valid Full Name",
                                             },
                                           ]}
                                         >

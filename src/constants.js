@@ -354,10 +354,10 @@ export const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; // regula
 export const pincodeRegex = /^[1-9][0-9]{5}$/; // regular expression for Indian PIN code validation
 export const mobileRegex = /^[6-9]\d{9}$/; // regular expression for Indian mobile number validation
 // export const namePattern = /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/; // regular expression for full name validation
-// export const namePattern = /^([\w]{3,})+\s+([\w\s]{1,})+$/i;
+export const namePattern = /^([\w]{3,})+\s+([\w\s]{1,})+$/i;
 export const FirstNamePattern = /^[a-zA-Z]+$/;
 // export const namePattern = /^[a-zA-Z ]+$/;
-export const namePattern = /^[a-zA-Z]{3,}$/;
+// export const namePattern = /^[a-zA-Z]{3,}$/;
 export const validateName = (_, value) => {
   if (!value || nameRegex.test(value)) {
     return Promise.resolve();

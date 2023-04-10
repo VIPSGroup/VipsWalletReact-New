@@ -346,6 +346,7 @@ const DigiGoldHome = ({
                           setActive(0);
                           setAmount("");
                           setGrams("");
+                          setErr("");
                         }}
                         style={{ cursor: "pointer" }}
                         class={parseFloat(active) === 0 && "option-active"}
@@ -358,6 +359,7 @@ const DigiGoldHome = ({
                           setActive(1);
                           setAmount("");
                           setGrams("");
+                          setErr("");
                         }}
                         class={parseFloat(active) === 1 && "option-active"}
                       >
