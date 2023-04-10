@@ -1,96 +1,54 @@
-import React from 'react';
-import "../../assets/styles/bus/bus-listing-page.css"
-// import "../../assets/styles/bus/bus-booking-home.css"
+import React, { useEffect, useState } from "react";
+import "../../assets/styles/bus/bus-listing-page.css";
+import {
+  BusList,
+  BusListingForm,
+  SelectionPoint,
+} from "../../components/busBooking";
+import { useNavigate } from "react-router-dom";
 
-const BusListing = () => {
+const BusListing = ({ setIsFooter }) => {
+  const [mobileScreen, setMobileScreen] = useState();
+  const [showBusList, setShowBusList] = useState(true);
+const navigate= useNavigate()
+  const resize = () => {
+    if (window.innerWidth < 912) {
+      setMobileScreen(true);
+    } else {
+      setMobileScreen(false);
+    }
+  };
+  useEffect(() => {
+    if (!mobileScreen) {
+      resize();
+    }
+    window.addEventListener("resize", resize);
+    if (mobileScreen) {
+      setIsFooter(false);
+    } else {
+      setIsFooter(true);
+    }
+
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  }, [mobileScreen]);
+
   return (
     <>
-    <section class="bus-listing-form">
-    <div class="container-fluid">
-
-        <div class="">
-
-            <div class="booking-form-horizontal">
-                <form class="horizontal-booking-form">
-
-                    <div class="col-lg-7 inside-wrap">
-                      <div class="col-lg-5 from">
-                        
-                        <div class="dropdown select-option">
-                          <button class="select-type" type="button" data-toggle="dropdown" aria-expanded="false">
-                            Travelling From
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Maharashtra</a>
-                            <a class="dropdown-item" href="#">Karmataka</a>
-                            <a class="dropdown-item" href="#">Gujrat</a>
-                            <a class="dropdown-item" href="#">Maharashtra</a>
-                            <a class="dropdown-item" href="#">Karmataka</a>
-                            <a class="dropdown-item" href="#">Gujrat</a>
-                            <a class="dropdown-item" href="#">Maharashtra</a>
-                            <a class="dropdown-item" href="#">Karmataka</a>
-                            <a class="dropdown-item" href="#">Gujrat</a>
-                          </div>
-                        </div>
-                        
-                      </div>
-
-                      <div class="rotate-btn">
-                        <figure>
-                          <img src="images/bus-booking/swipe-horizontal-icon.svg"/>
-                        </figure>
-                      </div>
-
-                      <div class="col-lg-5 to">
-    
-                        <div class="dropdown select-option">
-                          <button class="select-type" type="button" data-toggle="dropdown" aria-expanded="false">
-                            Travelling To
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Maharashtra</a>
-                            <a class="dropdown-item" href="#">Karmataka</a>
-                            <a class="dropdown-item" href="#">Gujrat</a>
-                            <a class="dropdown-item" href="#">Maharashtra</a>
-                            <a class="dropdown-item" href="#">Karmataka</a>
-                            <a class="dropdown-item" href="#">Gujrat</a>
-                            <a class="dropdown-item" href="#">Maharashtra</a>
-                            <a class="dropdown-item" href="#">Karmataka</a>
-                            <a class="dropdown-item" href="#">Gujrat</a>
-                          </div>
-                        </div>
-    
-                      </div>
-                    </div>
-    
-                    <div class="col-lg-5 horizontal-booking-form-right">
-                        <div class="col-lg-7">
-                            <div class="input-field"> 
-                                <input data-date-format="dd/mm/yyyy" id="datepicker"/>
-                                <label>Departure Date</label>
-                            </div>
-                        </div>
-              
-                        <div class="col-lg-5 ">
-                            <div class="search-bus-btn">
-                              <button class="btn-primery"> Modify Search </button>
-                            </div> 
-                        </div>
-                    </div>
-    
-                </form>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-<section class="inpage-section-align bus-booking-list">
+      <BusListingForm />
+      {mobileScreen ? 
+        <>
+        {showBusList
+        ?<BusList setShowBusList={setShowBusList} />
+      :<SelectionPoint/>}
+          
+          {/*  */}
+        </>
+       : <>
+       <section class="inpage-section-align bus-booking-list dp-resp-view">
   <div class="container-fluid">
     <div class="row">
-      
-       {/* bus listing left section start  */}
       <div class="col-lg-3">
         <div class="bus-listing-left-sidebar box-shadow-1">
 
@@ -208,22 +166,22 @@ const BusListing = () => {
             <div class="bus-time-filter-box">
 
               <button class="time-filter-btn">
-                <img src="images/bus-booking/sunrise.svg" />  
+                <img src="../images/bus-booking/sunrise.svg" alt="sunrise"/>  
                 <p>Morning</p>
                 <p class="filter-time"> 6AM - 12PM</p>
               </button>
               <button class="time-filter-btn">
-                <img src="images/bus-booking/sun.svg" />  
+                <img src="../images/bus-booking/sun.svg" alt="sun"/>  
                 <p>Afternoon</p>
                 <p class="filter-time"> 12PM - 6PM</p>
               </button>
               <button class="time-filter-btn">
-                <img src="images/bus-booking/evening-sun.svg" />  
+                <img src="../images/bus-booking/evening-sun.svg" alt="evening-sun"/>  
                 <p>Evening</p>
                 <p class="filter-time"> 6AM - 12PM</p>
               </button>
               <button class="time-filter-btn">
-                <img src="images/bus-booking/moon.svg" />  
+                <img src="../images/bus-booking/moon.svg" alt="moon" />  
                 <p>Night</p>
                 <p class="filter-time"> 12PM - 6AM</p>
               </button>
@@ -233,8 +191,6 @@ const BusListing = () => {
 
         </div>
       </div>
-
-
       <div class="col-lg-9">
         <div class="bus-listing-right-outer">
 
@@ -248,13 +204,13 @@ const BusListing = () => {
 
           <div class="bus-info-outer box-shadow-1">
             <div class="bus-info-inner">
-              <div class="col-lg-10 bus-info-left-outer">
+              <div class="col-xl-10 col-sm-9 bus-info-left-outer">
                 <div class="bus-info-left">
                   <div class="bus-info">
                     <p class="bus-name"> Biffco Enterprises Ltd. </p>
                     <div class="bus-seat-info">
                       <p class="bus-type">A/C Sleeper (2+1)</p>
-                      <p> <img src="images/bus-booking/seat-icon.svg" /> 30 Seats Left</p>
+                      <p> <img src="../images/bus-booking/seat-icon.svg" alt="seat"/> 30 Seats Left</p>
                     </div>
                   </div>
                   <p class="bus-tracking"> <i class="fas fa-location"></i> Live Tracking</p>
@@ -267,7 +223,7 @@ const BusListing = () => {
                       <div class="arrow-dashline">
                         <span class="arrow-circle"></span>
                         <hr class="dashline"/>
-                        <img src="images/bus-booking/bus-icon.svg" />
+                        <img src="../images/bus-booking/bus-icon.svg" alt="bus"/>
                       </div>
                       <p class="bus-travel-time">14:59m</p>
                     </div>
@@ -279,7 +235,7 @@ const BusListing = () => {
                   <a class="bus-cancel-policy">Cancellation Policy</a>
                 </div>
               </div>
-              <div class="col-lg-2 bus-info-right-outer">
+              <div class="col-xl-2 col-sm-3 bus-info-right-outer">
                 <p class="bus-ticket-amt"> &#x20B9; 2,552.00</p>
                 <button class="select-seat-btn btn-cta">Select Seat</button>
               </div>
@@ -288,13 +244,13 @@ const BusListing = () => {
           </div>
           <div class="bus-info-outer box-shadow-1">
             <div class="bus-info-inner">
-              <div class="col-lg-10 bus-info-left-outer">
+              <div class="col-xl-10 col-sm-9 bus-info-left-outer">
                 <div class="bus-info-left">
                   <div class="bus-info">
                     <p class="bus-name"> Biffco Enterprises Ltd. </p>
                     <div class="bus-seat-info">
                       <p class="bus-type">A/C Sleeper (2+1)</p>
-                      <p> <img src="images/bus-booking/seat-icon.svg" /> 30 Seats Left</p>
+                      <p> <img src="../images/bus-booking/seat-icon.svg" alt="seat"/> 30 Seats Left</p>
                     </div>
                   </div>
                   <p class="bus-tracking"> <i class="fas fa-location"></i> Live Tracking</p>
@@ -307,7 +263,7 @@ const BusListing = () => {
                       <div class="arrow-dashline">
                         <span class="arrow-circle"></span>
                         <hr class="dashline"/>
-                        <img src="images/bus-booking/bus-icon.svg" />
+                        <img src="../images/bus-booking/bus-icon.svg" />
                       </div>
                       <p class="bus-travel-time">14:59m</p>
                     </div>
@@ -319,7 +275,7 @@ const BusListing = () => {
                   <a class="bus-cancel-policy">Cancellation Policy</a>
                 </div>
               </div>
-              <div class="col-lg-2 bus-info-right-outer">
+              <div class="col-xl-2 col-sm-3 bus-info-right-outer">
                 <p class="bus-ticket-amt"> &#x20B9; 2,552.00</p>
                 <button class="select-seat-btn btn-cta">Hide Seat</button>
               </div>
@@ -328,7 +284,7 @@ const BusListing = () => {
             <div class="bus-seat-details-outer">
 
               <div class="bus-seat-details">
-                <div class="col-lg-6">
+                <div class="col-xl-6 col-md-12">
   
                   <div class="select-point-outetr">
   
@@ -440,15 +396,15 @@ const BusListing = () => {
   
                 </div>
   
-                <div class="col-lg-6">
+                <div class="col-xl-6 col-md-12">
                   
                   <div class="select-seat-status">
-                    <span><img src="images/bus-booking/available-seat.svg" /> Available Seat</span>
-                    <span><img src="images/bus-booking/selected-seat.svg" /> Selected Seat</span>
-                    <span><img src="images/bus-booking/booked-seat.svg" /> Booked Seat</span>
-                    <span><img src="images/bus-booking/reserved-ladies.svg" /> Reserved for Seat</span>
-                    <span><img src="images/bus-booking/booked-ladies.svg" /> Booked by Seat</span>
-                    <span><img src="images/bus-booking/blocked-seat.svg" /> Blocked Seat</span>
+                    <span><img src="../images/bus-booking/available-seat.svg" alt="available-seat"/> Available Seat</span>
+                    <span><img src="../images/bus-booking/selected-seat.svg" alt="selected-seat"/> Selected Seat</span>
+                    <span><img src="../images/bus-booking/booked-seat.svg" alt="booked-seat"/> Booked Seat</span>
+                    <span><img src="../images/bus-booking/reserved-ladies.svg" alt="reserved-ladies"/> Reserved for Seat</span>
+                    <span><img src="../images/bus-booking/booked-ladies.svg" alt="booked-ladies"/> Booked by Seat</span>
+                    <span><img src="../images/bus-booking/blocked-seat.svg" alt="blocked-seat"/> Blocked Seat</span>
                   </div>
   
                   <div class="seat-view-outer">
@@ -459,57 +415,57 @@ const BusListing = () => {
                       </div>
                       <div class="seat-view-inner">
                         <div class="seats-row">
-                          <button class="available-seat-horizontal">  </button>
-                          <button class="selected-seat-horizontal">  </button>
-                          <button class="reserved-ladies-seat-horizontal">  </button>
-                          <button class="booked-seat-horizontal">  </button>
-                          <button class="booked-ladies-seat-horizontal">  </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/available-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/selected-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-ladies-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/reserved-ladies-seat-horizontal.svg" alt="seat"/> </button>
                         </div>
                         <div class="seats-row">
-                          <button class="available-seat-horizontal">  </button>
-                          <button class="selected-seat-horizontal">  </button>
-                          <button class="reserved-ladies-seat-horizontal">  </button>
-                          <button class="booked-seat-horizontal">  </button>
-                          <button class="booked-ladies-seat-horizontal">  </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/available-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/selected-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-ladies-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/reserved-ladies-seat-horizontal.svg" alt="seat"/> </button>
                         </div>
   
                         <div class="seats-row seats-row-spacing">
-                          <button class="available-seat-horizontal">  </button>
-                          <button class="selected-seat-horizontal">  </button>
-                          <button class="reserved-ladies-seat-horizontal">  </button>
-                          <button class="booked-seat-horizontal">  </button>
-                          <button class="booked-ladies-seat-horizontal">  </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/available-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/selected-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-ladies-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/reserved-ladies-seat-horizontal.svg" alt="seat"/> </button>
                         </div>
                       </div>
                     </div>
   
                     <div class="lower-deck shadow-dark">
                       <div class="seat-row-post">
-                        <img src="images/bus-booking/steering-wheel.svg" />
+                        <img src="../images/bus-booking/steering-wheel.svg" alt="steering-wheel"/>
                         <p>Lower deck</p>
                       </div>
                       <div class="seat-view-inner">
                         <div class="seats-row">
-                          <button class="available-seat-horizontal">  </button>
-                          <button class="selected-seat-horizontal">  </button>
-                          <button class="reserved-ladies-seat-horizontal">  </button>
-                          <button class="booked-seat-horizontal">  </button>
-                          <button class="booked-ladies-seat-horizontal">  </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/available-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/selected-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-ladies-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/reserved-ladies-seat-horizontal.svg" alt="seat"/> </button>
                         </div>
                         <div class="seats-row">
-                          <button class="available-seat-horizontal">  </button>
-                          <button class="selected-seat-horizontal">  </button>
-                          <button class="reserved-ladies-seat-horizontal">  </button>
-                          <button class="booked-seat-horizontal">  </button>
-                          <button class="booked-ladies-seat-horizontal">  </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/available-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/selected-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-ladies-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/reserved-ladies-seat-horizontal.svg"alt="seat" /> </button>
                         </div>
   
                         <div class="seats-row seats-row-spacing">
-                          <button class="available-seat-horizontal">  </button>
-                          <button class="selected-seat-horizontal">  </button>
-                          <button class="reserved-ladies-seat-horizontal">  </button>
-                          <button class="booked-seat-horizontal">  </button>
-                          <button class="booked-ladies-seat-horizontal">  </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/available-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/selected-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/booked-ladies-seat-horizontal.svg" alt="seat"/> </button>
+                          <button class="seat-horizontal"> <img src="../images/bus-booking/reserved-ladies-seat-horizontal.svg" alt="seat"/> </button>
                         </div>
                       </div>
                     </div>
@@ -517,6 +473,7 @@ const BusListing = () => {
                   </div>
   
                 </div>
+                
               </div>
 
               <div class="seat-select-details">
@@ -529,21 +486,22 @@ const BusListing = () => {
                   <a href="#" class="fare-details-text">Fare Details</a>
                 </div>
                 <div class="seat-book-btn">
-                  <button class="book-seat btn-primery">Book Seats</button>
+                  <button class="book-seat btn-primery" onClick={()=>{navigate("/review-itinerary")}}>Book Seats</button>
                 </div>
               </div>
+
             </div>
 
           </div>
           <div class="bus-info-outer box-shadow-1">
             <div class="bus-info-inner">
-              <div class="col-lg-10 bus-info-left-outer">
+              <div class="col-xl-10 col-sm-9 bus-info-left-outer">
                 <div class="bus-info-left">
                   <div class="bus-info">
                     <p class="bus-name"> Biffco Enterprises Ltd. </p>
                     <div class="bus-seat-info">
                       <p class="bus-type">A/C Sleeper (2+1)</p>
-                      <p> <img src="images/bus-booking/seat-icon.svg" /> 30 Seats Left</p>
+                      <p> <img src="../images/bus-booking/seat-icon.svg" alt="seat"/> 30 Seats Left</p>
                     </div>
                   </div>
                   <p class="bus-tracking"> <i class="fas fa-location"></i> Live Tracking</p>
@@ -556,28 +514,26 @@ const BusListing = () => {
                       <div class="arrow-dashline">
                         <span class="arrow-circle"></span>
                         <hr class="dashline"/>
-                        <img src="images/bus-booking/bus-icon.svg" />
+                        <img src="../images/bus-booking/bus-icon.svg" alt="bus"/>
                       </div>
                       <p class="bus-travel-time">14:59m</p>
                     </div>
                     
-  
                     <p class="bus-time">18:30 <span class="sup">+1day</span> </p>
                     
                   </div>
                   <a class="bus-cancel-policy">Cancellation Policy</a>
                 </div>
               </div>
-              <div class="col-lg-2 bus-info-right-outer">
+              <div class="col-xl-2 col-sm-3 bus-info-right-outer">
                 <p class="bus-ticket-amt"> &#x20B9; 2,552.00</p>
                 <button class="select-seat-btn btn-cta">Hide Seat</button>
               </div>
             </div>
-
             <div class="bus-seat-details-outer">
 
               <div class="bus-seat-details">
-                <div class="col-lg-6">
+                <div class="col-xl-6 col-md-12">
   
                   <div class="select-point-outetr">
   
@@ -689,72 +645,77 @@ const BusListing = () => {
   
                 </div>
   
-                <div class="col-lg-6">
+                <div class="col-xl-6 col-md-12">
                   
                   <div class="select-seat-status">
-                    <span><img src="images/bus-booking/available-seat.svg" /> Available Seat</span>
-                    <span><img src="images/bus-booking/selected-seat.svg" /> Selected Seat</span>
-                    <span><img src="images/bus-booking/booked-seat.svg" /> Booked Seat</span>
-                    <span><img src="images/bus-booking/reserved-ladies.svg" /> Reserved for Seat</span>
-                    <span><img src="images/bus-booking/booked-ladies.svg" /> Booked by Seat</span>
-                    <span><img src="images/bus-booking/blocked-seat.svg" /> Blocked Seat</span>
+                    <span><img src="../images/bus-booking/available-seat.svg" alt="available-seat"/> Available Seat</span>
+                    <span><img src="../images/bus-booking/selected-seat.svg" alt="selected-seat"/> Selected Seat</span>
+                    <span><img src="../images/bus-booking/booked-seat.svg" alt="booked-seat"/> Booked Seat</span>
+                    <span><img src="../images/bus-booking/reserved-ladies.svg" alt="reserved-ladies"/> Reserved for Seat</span>
+                    <span><img src="../images/bus-booking/booked-ladies.svg" alt="booked-ladies"/> Booked by Seat</span>
+                    <span><img src="../images/bus-booking/blocked-seat.svg" alt="blocked-seat"/> Blocked Seat</span>
                   </div>
   
                   <div class="seat-view-outer">
-  
+                    
                     <div class="siting-view shadow-dark">
+
+                      <div class="seat-row-post">
+                        <img src="../images/bus-booking/steering-wheel.svg" alt=""/>
+                      </div>
                       
                       <div class="seat-view-inner">
                         <div class="siting-seats-row">
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="reserved-ladies-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="booked-seat-siting">  </button>
-                          <button class="reserved-ladies-seat-siting">  </button>
-                          <button class="booked-ladies-seat-siting">  </button>
-                          <button class="blocked-seat-siting">  </button>
+
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-available-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-selected-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-reserved-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-reserved-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-reserved-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-blocked-seat.svg" alt=""/> </button>
                         </div>
                         <div class="siting-seats-row">
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="reserved-ladies-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="booked-seat-siting">  </button>
-                          <button class="reserved-ladies-seat-siting">  </button>
-                          <button class="booked-ladies-seat-siting">  </button>
-                          <button class="blocked-seat-siting">  </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-available-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-selected-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-reserved-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-reserved-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-reserved-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-ladies-seat.svg" alt=""/> </button>
                         </div>
                         <div class="siting-seats-row justify-content-end">
-                          <button class="available-seat-siting">  </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-selected-seat.svg" alt=""/> </button>
                         </div>
                         <div class="siting-seats-row">
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="reserved-ladies-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="booked-seat-siting">  </button>
-                          <button class="reserved-ladies-seat-siting">  </button>
-                          <button class="booked-ladies-seat-siting">  </button>
-                          <button class="blocked-seat-siting">  </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-available-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-selected-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-reserved-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-blocked-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-reserved-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-available-seat.svg" alt=""/> </button>
                         </div>
                         <div class="siting-seats-row">
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="reserved-ladies-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="available-seat-siting">  </button>
-                          <button class="booked-seat-siting">  </button>
-                          <button class="reserved-ladies-seat-siting">  </button>
-                          <button class="booked-ladies-seat-siting">  </button>
-                          <button class="blocked-seat-siting">  </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-available-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-selected-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-reserved-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-reserved-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-reserved-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-booked-ladies-seat.svg" alt=""/> </button>
+                          <button class="seat-siting"> <img src="../images/bus-booking/booking-available-seat.svg" alt=""/> </button>
                         </div>
                       </div>
                     </div>
@@ -762,6 +723,7 @@ const BusListing = () => {
                   </div>
   
                 </div>
+
               </div>
 
               <div class="seat-select-details">
@@ -774,18 +736,21 @@ const BusListing = () => {
                   <a href="#" class="fare-details-text">Fare Details</a>
                 </div>
                 <div class="seat-book-btn">
-                  <button class="book-seat btn-primery">Book Seats</button>
+                  <button class="book-seat btn-primery" onClick={()=>{navigate("/review-itinerary")}}>Book Seats</button>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
+       </>}
     </>
-  )
-}
+  );
+};
 
-export default BusListing
+export default BusListing;

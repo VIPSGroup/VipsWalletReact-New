@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 
 import {
   checkGABBalance,
-  finstocTradePriceCheck,
+  finstocTradePriceCheck
 } from "../../apiData/payments";
 
 import "../../assets/styles/addMoney/addMoney.css";
 import "../../assets/styles/styles.css";
 import { getDouble } from "../../constants";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FinstockModal from "../../components/Modals/FinstockModal";
 import { MuiSnackBar } from "../../components/common";
+import { globalConfiguration } from "../../redux/slices/payment/paymentSlice";
 
 const PaymentOptions = () => {
   const [selectedPaymentOption, setSelectedPaymentOption] = useState("GAB");
@@ -23,6 +24,7 @@ const PaymentOptions = () => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+ const dispatch= useDispatch()
   const handleChange = (e) => {
     setSelectedPaymentOption(e.target.value);
   };
@@ -43,6 +45,10 @@ const PaymentOptions = () => {
         setCoinPrice(response.Data.price);
       }
     );
+dispatch(globalConfiguration("AddMoney"))
+    // globalConfiguration("AddMoney").then(response=>{
+    //   console.log(response);
+    // })
   }, []);
   return (
     <div className="color-body">

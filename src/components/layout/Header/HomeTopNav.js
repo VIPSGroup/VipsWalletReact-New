@@ -82,7 +82,6 @@ useEffect(() => {
               <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbar">
                   <ul class="navbar-nav mx-auto">
-                    {/* <Link to='/' className="nav-link">ss</Link> */}
                     <li class="nav-item active">
                       <Link class="nav-link" to="/"  style={{
                           borderBottomWidth: pathname === "/" && 2,

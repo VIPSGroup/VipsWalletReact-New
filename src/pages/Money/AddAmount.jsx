@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { checkGABBalance, addMoneyFromGAB, globalConfiguration } from "../../apiData/payments";
+import { checkGABBalance, addMoneyFromGAB } from "../../apiData/payments";
 import "../../assets/styles/addMoney/addMoney.css";
 import "../../assets/styles/styles.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddMoneyButton from "../../components/buttons/AddMoneyButton";
 import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
+import { globalConfiguration } from "../../redux/slices/payment/paymentSlice";
 
 const AddAmount = () => {
   const [amount, setAmount] = useState(0);
@@ -20,7 +21,20 @@ const AddAmount = () => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+  const {data}= useSelector(state=>state.paymentSlice.configBySubKey)
+const dispatch=  useDispatch()
   let { option } = useParams();
+useEffect(() => {
+  if(data){
+      if (data.ResponseStatus === 1) {
+        setStatus(data.Data.Status);
+        if (data.Data.Status) {
+          setChargesPer(data.Data.Value);
+        }
+      }
+  }
+}, [data])
+
   const clickAddFromGAB = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -57,14 +71,7 @@ const AddAmount = () => {
       }
     );
     if (option === "CC") {
-      globalConfiguration("CreditCard").then((response) => {
-        if (response.ResponseStatus === 1) {
-          setStatus(response.Data.Status);
-          if (response.Data.Status) {
-            setChargesPer(response.Data.Value);
-          }
-        }
-      });
+      dispatch(globalConfiguration("CreditCard"))
     }
   }, []);
 

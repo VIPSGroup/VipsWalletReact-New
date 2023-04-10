@@ -65,15 +65,17 @@ import DigiKYC from "../pages/digiGold/DigiKYC";
 import DigiDeliveryCart from "../pages/digiGold/Delivery/DigiDeliveryCart";
 import DeliveryCheckout from "../pages/digiGold/Delivery/DeliveryCheckout";
 import DeliveryOrderDetails from "../pages/digiGold/Delivery/DeliveryOrderDetails";
-import BusBookingHome from "../pages/busBooking/BusBookingHome";
-import BusListing from "../pages/busBooking/BusListing";
+import { BusBookingHome, BusListing,Review_Itinerary ,BusPaymentConfirmation} from "../pages/busBooking";
+// import { Review_Itinerary } from "../pages/busBooking";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
   const [isBottomTopNav, setIsBottomTopNav] = useState(false);
   const [isCommonTopNav, setIsCommonTopNav] = useState(true);
+  const [isFooter, setIsFooter] = useState(true);
   const [active, setActive] = useState(0); 
   const [title, setTitle] = useState("");
+  
   return (
     <>
       <Navigation
@@ -392,17 +394,46 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
+{/* Bus Booking Start */}
 
          <Route
           path="/bus-home"
           element={
             <ProtectedRoute>
               {" "}
-              {/* <BusBookingHome setIsBottomTopNav={setIsBottomTopNav} />{" "} */}
-              <BusListing setIsBottomTopNav={setIsBottomTopNav} />{" "}
+              <BusBookingHome setIsBottomTopNav={setIsBottomTopNav}/>
             </ProtectedRoute>
           }
         />
+         <Route
+          path="/bus-listing"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <BusListing setIsBottomTopNav={setIsBottomTopNav} setIsFooter={setIsFooter}/>
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/review-itinerary"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <Review_Itinerary setIsBottomTopNav={setIsBottomTopNav}/>
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/bus/confirm"
+          element={
+            <ProtectedRoute>
+              {" "}
+              <BusPaymentConfirmation setIsBottomTopNav={setIsBottomTopNav}/>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Bus Booking End */}
 
 
 
@@ -637,17 +668,7 @@ const Router = () => {
           }
         />
       </Routes>
-      {/* <Routes>
-        <Route element={<Homepage HomeTopNav={HomeTopNav} />} path="/" />
-        <Route
-          element={<ShoppingHome CommonTopNav={CommonTopNav} />}
-          path="/shopping"
-        />
-        <Route
-          element={<AllServicePage CommonTopNav={CommonTopNav} />}
-          path="/services"
-        />
-      </Routes> */}
+       <Footer isFooter={isFooter}/>
       <Footer />
     </>
   );

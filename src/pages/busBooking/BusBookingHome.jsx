@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
+// import "../../assets/styles/bus/bus-booking-home.css";
 import "../../assets/styles/bus/bus-booking-home.css";
+import { useNavigate } from 'react-router-dom';
 
 const BusBookingHome = ({ setIsBottomTopNav }) => {
     useEffect(() => {
@@ -8,7 +10,7 @@ const BusBookingHome = ({ setIsBottomTopNav }) => {
           setIsBottomTopNav(false);
         };
       }, []);
-    
+   const navigate= useNavigate()
   return (
     <>
     <section class="bus-booking-top">
@@ -81,7 +83,7 @@ const BusBookingHome = ({ setIsBottomTopNav }) => {
             
                         <div class="">
                           <div class="search-bus-btn">
-                            <button class="btn-primery"> Search Bus </button>
+                            <button class="btn-primery" onClick={()=>{navigate("/bus-listing")}}> Search Bus </button>
                           </div> 
                         </div>
 

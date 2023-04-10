@@ -26,6 +26,7 @@ import digiGoldSlice from "./slices/digiGold/digiGoldSlice";
 import userProfileSlice from "./slices/digiGold/userProfileSlice";
 import registerDigiSlice from "./slices/digiGold/registerDigiSlice";
 import walletSlice from "./slices/payment/walletSlice";
+import paymentSlice from "./slices/payment/paymentSlice";
 
 import DeliverySlice from "./slices/digiGold/DeliverySlice";
 
@@ -51,6 +52,7 @@ const store = configureStore({
     servicesSlice: servicesSlice,
     LpgGasSlice: LpgGasSlice,
     walletSlice: walletSlice,
+    paymentSlice:paymentSlice,
     orderSlice: orderSlice,
     profileSlice: profileSlice,
     registerDigiSlice: registerDigiSlice,

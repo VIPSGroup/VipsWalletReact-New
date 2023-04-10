@@ -10,6 +10,7 @@ export const getOperatorsByServiceId = createAsyncThunk(
       try {
         const res = await axios.post(
             `${baseApiUrl}/OperatorServices/GetCommonElectricityOperatorByServiceId`,formData );
+            console.warn(res.data);
             let sortedOperators = res.data.Data.sort((a, b) =>
             a.OperatorName.toLowerCase() > b.OperatorName.toLowerCase() ? 1 : -1
           );

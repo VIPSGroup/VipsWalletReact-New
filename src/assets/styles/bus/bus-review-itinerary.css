@@ -1,0 +1,170 @@
+
+
+.bg-card-wrapper {
+    padding: 15px 0px;
+    background: var(--whiteColor);
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+.card-title-info{
+    margin-bottom: 15px;
+}
+.card-title-info .card-main-title{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+.card-title-info .card-sub-title{
+    font-size: 14px;
+    margin-bottom: 0;
+    color: var(--textGray);
+}
+
+
+
+[data-toggle="collapse"] .fa:before {  
+    content: "\f077"; 
+}
+  
+[data-toggle="collapse"].collapsed .fa:before {
+    content: "\f078";
+}
+  
+.arrow-expand{
+    margin-left:10px;
+}
+  
+  
+.collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.7s ease;
+}
+.accordion-group-tab{
+    border: 1px solid var(--borderColor);
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+.accordian-tab-title{
+    margin: 0;
+    padding: 13px 15px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+}
+.passenger-detail-wrapper{
+    padding: 0px 15px;
+}
+.passenger-detail{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--borderColor);
+    padding: 10px 0px;
+}
+.passenger-detail:last-child{
+    border: none;
+}
+.passenger-detail-label{
+    display: flex;
+    align-items: center;
+    grid-column-gap: 10px;
+}
+.passenger-name{
+    font-size: 14px;
+    font-weight: 500;
+}
+.passenger-remove-btn{
+    border: none;
+    background: none;
+    font-size: 18px;
+    color: var(--textGray);
+}
+.gender-info{
+    display: flex;
+    grid-column-gap: 20px;
+    padding: 10px 0;
+}
+.gender-info label{
+    font-size: 14px;
+
+}
+.seat-info-form{
+    padding: 20px 0;
+}
+.seat-info-save{
+    text-align: right;
+}
+
+
+@media screen and (max-width: 992px) {
+    .card-title-info .card-main-title {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+    .seat-info-save {
+        text-align: center;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .card-title-info .card-main-title {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+    .seat-info-save {
+        text-align: center;
+    }
+}
+
+
+@media screen and (max-width: 640px) {
+    .card-title-info {
+        margin-bottom: 15px;
+    }
+    .seat-info-save{
+        text-align: center;
+    }
+    .card-title-info .card-main-title {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+    .card-title-info .card-sub-title {
+        font-size: 12px;
+    }
+    .passenger-detail-label {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+
+@media screen and (max-width: 350px) {
+
+    .card-title-info {
+        margin-bottom: 15px;
+    }
+    .seat-info-save{
+        text-align: center;
+    }
+    .card-title-info .card-main-title {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+    .card-title-info .card-sub-title {
+        font-size: 12px;
+    }
+    .passenger-detail-label {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+}

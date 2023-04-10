@@ -12,10 +12,10 @@ import {
 } from "../../../constant/Constants";
 import "../../../assets/styles/home/footer.css";
 
-const Footer = () => {
+const Footer = ({isFooter}) => {
   return (
     <>
-      <section class="vips-footer footer-section mb-0 mt-5">
+    {isFooter &&  <section class="vips-footer footer-section mb-0 mt-5">
         <footer class="footer-outer">
           <div class="container">
             <div class="footer-inner">
@@ -176,7 +176,8 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section>}
+     
     </>
   );
 };
