@@ -9,17 +9,28 @@
   color: red;
 }
 
-.disabled-input input[type=number]::-webkit-inner-spin-button,
-.disabled-input input[type=number]::-webkit-outer-spin-button {
+.disabled-input input[type="number"]::-webkit-inner-spin-button,
+.disabled-input input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.disabled-input input[type=number] {
-  /* cursor: not-allowed; */
-  /* opacity: 0.5; */
+.disabled-input input[type="number"] {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 .ant-select-selection-placeholder {
   opacity: 1;
 }
 
+ {
+  /* CSS to hide the arrows */
+}
+#amount::-webkit-outer-spin-button,
+#amount::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#amount {
+  -moz-appearance: textfield;
+}

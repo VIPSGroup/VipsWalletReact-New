@@ -15,8 +15,12 @@ export const CurrentRateSection = ({ active }) => {
             &#x20B9;{" "}
             {!loading && rateData
               ? parseFloat(active) === 0
-                ? rateData.Data?.result?.data?.rates?.gBuy
-                : rateData?.Data?.result?.data?.rates?.gSell
+                ? parseFloat(
+                    rateData.Data?.result?.data?.rates?.gBuy
+                  )?.toLocaleString()
+                : parseFloat(
+                    rateData?.Data?.result?.data?.rates?.gSell
+                  )?.toLocaleString()
               : "Loading..."}{" "}
             / gm
           </span>
@@ -32,8 +36,12 @@ export const CurrentRateSection = ({ active }) => {
             &#x20B9;{" "}
             {!loading && rateData
               ? parseFloat(active) === 0
-                ? rateData?.Data?.result?.data?.rates?.sBuy
-                : rateData?.Data?.result?.data?.rates?.sSell
+                ? parseFloat(
+                    rateData?.Data?.result?.data?.rates?.sBuy
+                  )?.toLocaleString()
+                : parseFloat(
+                    rateData?.Data?.result?.data?.rates?.sSell
+                  )?.toLocaleString()
               : "Loading..."}{" "}
             / gm
           </span>

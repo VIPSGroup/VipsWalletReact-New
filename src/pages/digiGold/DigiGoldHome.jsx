@@ -1,5 +1,5 @@
 import { Form, Input, Spin } from "antd";
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import "../../index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,7 +17,6 @@ import {
   formatter,
   handleKeyDown,
   handleKeyDown2,
-  handleKeyDown3,
   parser,
 } from "../../constants";
 import { MuiSnackBar } from "../../components/common";
@@ -28,13 +27,11 @@ import UserNotExist from "../../components/digiGold/UserNotExist";
 export const HowItWorks = () => {
   return (
     <>
-      {/* <!-- -- How it work section start -- --> */}
       <section class="digi-gold-section-wrapper digital-gold-services">
         <div class="container">
           <div class="digital-gold-section-head">
             <h1 class="section-head-title">How It works</h1>
           </div>
-          {/* <!-- <div class="row"> --> */}
 
           <div class="digigold-work-box-outer">
             {howItWorkArr.map((e) => {
@@ -63,11 +60,8 @@ export const HowItWorks = () => {
               );
             })}
           </div>
-
-          {/* <!-- </div> --> */}
         </div>
       </section>
-      {/* <!-- How it work section end --> */}
     </>
   );
 };
@@ -81,8 +75,6 @@ const DigiGoldHome = ({
   setStep,
   step,
 }) => {
-  const inputRef = useRef(null);
-
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -90,9 +82,7 @@ const DigiGoldHome = ({
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  // const [amount, setAmount] = useState("");
   const [isGold, setIsGold] = useState(0); //0 for Gold 1 for Silver
-  // const [grams, setGrams] = useState("");
   const [err, setErr] = useState("");
   const { isServiceEnable, ServiceEnableLoading } = useSelector(
     (state) => state.coreSlice
@@ -106,7 +96,6 @@ const DigiGoldHome = ({
     metalType: "",
     type: "",
   });
-  // const [step, setStep] = useState("");
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
@@ -175,7 +164,6 @@ const DigiGoldHome = ({
 
     return () => clearInterval(intervalId); // Clear the interval on unmount
   }, [dispatch]);
-
   const handleAmountChange = (e) => {
     const taxRate =
       parseFloat(rateData.Data.result.data.taxes[0].taxPerc) +
@@ -284,7 +272,6 @@ const DigiGoldHome = ({
       setActive(state);
     }
   }, []);
-
   useEffect(() => {
     if (valueType.valType === "quantity") {
       HandleGramChange({
@@ -312,7 +299,6 @@ const DigiGoldHome = ({
       });
     }
   }, [rateData]);
-
   const handleBlur = (e) => {
     const input = e.target;
     const position = input.value.indexOf(".");
@@ -321,7 +307,6 @@ const DigiGoldHome = ({
       position === -1 ? input.value.length : position + 1
     );
   };
-
   return (
     <>
       <div className="">
@@ -439,22 +424,17 @@ const DigiGoldHome = ({
                                 class="row align-items-center"
                               >
                                 <div class="input-wrapper">
-                                  {/* <div className="input"> */}
                                   <Form.Item className="mb-0" name={"grams"}>
                                     <Input
                                       id="grams"
                                       formatter={formatter}
-                                      // onKeyPress={handleKeyDown2}
                                       onKeyDown={handleKeyDown2}
-                                      // onInput={handleKeyDown3}
                                       onBlur={handleBlur}
                                       className="mb-0 disabled-input"
                                       onWheel={(e) => e.target.blur()}
                                       parser={parser}
                                       min={0.0001}
                                       precision={4}
-                                      // pattern="/^\d{1,3}(?:\.\d{0,4})?$/"
-                                      addonBefore="Grams"
                                       value={grams}
                                       type="text"
                                       name="grams"
@@ -467,15 +447,14 @@ const DigiGoldHome = ({
                                 </div>
                                 <div class="exchange-arrow-outer text-center">
                                   <span class="exchange-arrow ">
-                                    {" "}
                                     <img
                                       alt=""
                                       src="/images/digigold-images/two-arrows.svg"
-                                    />{" "}
+                                    />
                                   </span>
                                 </div>
                                 <div class="input-wrapper">
-                                  <Form.Item name="amount" className="mb-0">
+                                  <Form.Item name="amount" className="mb-0 ">
                                     <Input
                                       id="amount"
                                       onKeyDown={handleKeyDown}
@@ -484,7 +463,6 @@ const DigiGoldHome = ({
                                       value={amount}
                                       maxLength={8}
                                       max={180000}
-                                      addonBefore="Rs."
                                       type="number"
                                       name="amount"
                                       onChange={handleAmountChange}
@@ -498,7 +476,7 @@ const DigiGoldHome = ({
                                       style={{
                                         backgroundColor:
                                           parseFloat(active) !== 0 &&
-                                          "#80808000",
+                                          "rgb(211 211 211 / 23%)",
                                       }}
                                     />
                                   </Form.Item>
@@ -507,7 +485,6 @@ const DigiGoldHome = ({
 
                               <div class="buy-btn">
                                 <button
-                                  // disabled={amount < 1}
                                   htmlType="submit"
                                   size="large"
                                   type="primary"

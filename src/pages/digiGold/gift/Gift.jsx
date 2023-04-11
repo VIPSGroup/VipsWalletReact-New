@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import MyVault, { CurrentRateSection } from "../MyVault";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  HandleAmounthange,
   HandleGramChange,
   digitPrecision,
   formatter,
@@ -391,8 +390,6 @@ const Gift = ({ setIsCommonTopNav }) => {
   };
   return (
     <>
-      {/* <CommonTopNav /> */}
-
       <section class="section-align buy-sell-form">
         <div class="container">
           <div class="digital-gold-section-head">
@@ -406,35 +403,7 @@ const Gift = ({ setIsCommonTopNav }) => {
               <MyVault setStep={setStep} />
               <Spin spinning={load}>
                 <div class="buy-sell-form-outer">
-                  {/* <div class="current-rate-outer">
-                    <div class="current-rate">
-                      <span class="current-rate-title mb-3">GOLD</span>
-                      <span class="current-rate-amt">
-                        &#x20B9;{" "}
-                        {!loading && rateData
-                          ? rateData?.Data?.result?.data?.rates?.gSell
-                          : "Loading..."}{" "}
-                        / gm
-                      </span>
-                    </div>
-                    <div class="digi-icon d-none d-md-block">
-                      <img src="/images/digigold-images/digi-icon.svg" alt="" />
-                    </div>
-                    <div className="vertical-separator d-md-none d-sm-block"></div>
-                    <div class="current-rate">
-                      <span class="current-rate-title mb-3">SILVER</span>
-                      <span class="current-rate-amt">
-                        {" "}
-                        &#x20B9;{" "}
-                        {!loading && rateData
-                          ? rateData?.Data?.result?.data?.rates?.sSell
-                          : "Loading..."}{" "}
-                        / gm
-                      </span>
-                    </div>
-                  </div> */}
                   <CurrentRateSection />
-
                   <div class="buy-sell-tab-outer">
                     <Form
                       fields={[
@@ -452,9 +421,7 @@ const Gift = ({ setIsCommonTopNav }) => {
                     >
                       <div class="gift-recipient-outer">
                         <div class="gift-recipient-input-wrapper">
-                          {/* <div class="input"> */}
                           <Form.Item
-                            // hasFeedback
                             name="mobileNumber"
                             rules={[
                               {
@@ -477,21 +444,14 @@ const Gift = ({ setIsCommonTopNav }) => {
                                 })
                               }
                               maxLength={10}
-                              // addonBefore={"+91"}
                               size="large"
                               placeholder="Enter Mobile Number"
                             />
-                            {/* <label htmlFor="">
-                                {" "}
-                                Enter the Recipient's Mobile Number
-                              </label> */}
                           </Form.Item>
-                          {/* </div> */}
                         </div>
                       </div>
 
                       <div class="buy-sell-tab-outer">
-                        {/* <!-- tab content start --> */}
                         <div className="buy-sell-tab-inner">
                           <ul class="nav nav-pills tab-pills-wrapper">
                             <li
@@ -550,53 +510,20 @@ const Gift = ({ setIsCommonTopNav }) => {
                                   class="row align-items-center"
                                 >
                                   <div class="input-wrapper">
-                                    {/* <div className="input"> */}
                                     <Form.Item
                                       className="mb-0 disabled-input"
                                       name={"grams"}
-                                      rules={
-                                        [
-                                          // {
-                                          //   required: true,
-                                          //   // message: "Please Enter Grams",
-                                          // },
-                                        ]
-                                      }
                                     >
-                                      {/* <Input
-                                        formatter={formatter}
-                                        onKeyDown={handleKeyDown2}
-                                        className="mb-0 disabled-input"
-                                        onWheel={(e) => e.target.blur()}
-                                        parser={parser}
-                                        min={0.0001}
-                                        precision={4}
-                                        required
-                                        // addonBefore="Grams"
-                                        value={grams}
-                                        type="text"
-                                        name="grams"
-                                        onChange={handleGramsChange}
-                                        placeholder="Enter Grams"
-                                        size="large"
-                                        // step={0.0001}
-                                        step={"any"}
-                                        // style={{ padding: 15 }}
-                                      /> */}
                                       <Input
                                         id="grams"
                                         formatter={formatter}
-                                        // onKeyPress={handleKeyDown2}
                                         onKeyDown={handleKeyDown2}
-                                        // onInput={handleKeyDown3}
                                         onBlur={handleBlur}
                                         className="mb-0 disabled-input"
                                         onWheel={(e) => e.target.blur()}
                                         parser={parser}
                                         min={0.0001}
                                         precision={4}
-                                        // pattern="/^\d{1,3}(?:\.\d{0,4})?$/"
-                                        // addonBefore="Grams"
                                         value={grams}
                                         type="text"
                                         name="grams"
@@ -605,40 +532,19 @@ const Gift = ({ setIsCommonTopNav }) => {
                                         size="large"
                                         step={"any"}
                                       />
-                                      {/* <label htmlFor="Enter Grams">
-                                          Enter Grams
-                                        </label> */}
                                     </Form.Item>
-                                    {/* </div> */}
                                   </div>
                                   <div class="exchange-arrow-outer text-center">
                                     <span class="exchange-arrow ">
                                       {" "}
                                       <img
                                         alt=""
-                                        // style={{
-                                        //   width: 40,
-                                        //   marginLeft: 10,
-                                        //   marginRight: 10,
-                                        // }}
                                         src="/images/digigold-images/two-arrows.svg"
                                       />{" "}
                                     </span>
                                   </div>
                                   <div class="input-wrapper">
-                                    {/* <div className="input"> */}
-                                    <Form.Item
-                                      name="amount"
-                                      className="mb-0 disabled-input"
-                                      rules={
-                                        [
-                                          // {
-                                          //   required: true,
-                                          //   message: "Please Enter Amount",
-                                          // },
-                                        ]
-                                      }
-                                    >
+                                    <Form.Item name="amount" className="mb-0">
                                       <Input
                                         onKeyDown={handleKeyDown}
                                         min={1}
@@ -647,25 +553,15 @@ const Gift = ({ setIsCommonTopNav }) => {
                                         value={amount}
                                         maxLength={8}
                                         max={180000}
-                                        // addonBefore="Rs."
                                         type="number"
                                         name="amount"
                                         onChange={handleAmountChange}
-                                        // disabled={active === 0 ? false : true}
                                         placeholder="Enter Amount"
                                         size="large"
                                         step={"any"}
-                                        className="mb-0 disabled-input"
-                                        // style={{
-                                        //   backgroundColor:
-                                        //     active !== 0 && "#80808052",
-                                        // }}
+                                        className="mb-0"
                                       />
-                                      {/* <label htmlFor="Enter Amount">
-                                          Enter Amount
-                                        </label> */}
                                     </Form.Item>
-                                    {/* </div> */}
                                   </div>
                                 </div>
 
@@ -696,7 +592,6 @@ const Gift = ({ setIsCommonTopNav }) => {
                             </div>
                           </div>
                         </div>
-                        {/* <!-- tab content end --> */}
                       </div>
                     </Form>
                   </div>
@@ -712,7 +607,6 @@ const Gift = ({ setIsCommonTopNav }) => {
         maskClosable={false}
         centered
         onCancel={() => {
-          // localStorage.removeItem("valueType");
           setOtp("");
           navigate("/vipsgold-gift");
           setStep(0);

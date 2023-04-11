@@ -15,13 +15,7 @@ import { loginDigiGold } from "../../redux/slices/digiGold/registerDigiSlice";
 import { getWalletBalance } from "../../redux/slices/payment/walletSlice";
 import "../../assets/styles/digigold/sell-order-summery.css";
 import OTPInput, { ResendOTP } from "otp-input-react";
-import { FaHashtag, FaUser } from "react-icons/fa";
 import { LatestLoading } from "../../components/common/Loading.jsx";
-// import {
-//   digitPrecision,
-//   handleKeyPressForName,
-//   handleMobileKeyPress,
-// } from "../../constants";
 import { MuiSnackBar } from "../../components/common";
 import MyVault from "./MyVault";
 import {
@@ -70,7 +64,6 @@ const OrderSummary = () => {
     (state) => state.walletSlice.walletBalance
   );
   const { Verified } = useSelector((state) => state.digiGoldSlice.ifsc);
-  // Grams Crop
   // VIPS Username & Password
   const username = state?.username;
   const password = state?.password;
@@ -90,7 +83,6 @@ const OrderSummary = () => {
         const taxRate =
           parseFloat(res.payload.Data.result.data.taxes[0].taxPerc) +
           parseFloat(res.payload.Data.result.data.taxes[1].taxPerc);
-
         if (state?.type === "buy") {
           if (state?.metalType === "gold") {
             const GoldBuyRates = res.payload.Data.result.data.rates.gBuy;
@@ -106,10 +98,6 @@ const OrderSummary = () => {
               const TotalAmount =
                 parseFloat(exclTaxRate) + parseFloat(totalTax);
               const inclTaxAmount = digitPrecision(TotalAmount, "amount");
-              // const newQty = quantity.toString().includes(".")
-              //   ? quantity
-              //   : parseFloat(quantity).toFixed(4);
-
               const newqty = parseFloat(quantity).toFixed(4);
               setCurrentGram(newqty);
               setTax(totalTax);
@@ -151,9 +139,6 @@ const OrderSummary = () => {
               const TotalAmount =
                 parseFloat(exclTaxRate) + parseFloat(totalTax);
               const inclTaxAmount = digitPrecision(TotalAmount, "amount");
-              // const newQty = quantity.toString().includes(".")
-              //   ? quantity
-              //   : parseFloat(quantity).toFixed(4);
               const newqty = parseFloat(quantity).toFixed(4);
               setCurrentGram(newqty);
               setTax(totalTax);
@@ -174,9 +159,7 @@ const OrderSummary = () => {
               const inclTaxRate = digitPrecision(TaxInc, "amount");
               const qty = inclTaxAmount / inclTaxRate;
               const quantity = digitPrecision(qty, "quantity");
-              // const newQty = quantity.toString().includes(".")
-              //   ? quantity.toFixed(4)
-              //   : quantity;
+
               const newqty = parseFloat(quantity).toFixed(4);
               setCurrentGram(newqty);
               setTotalAmount(inclTaxAmount);
@@ -237,8 +220,6 @@ const OrderSummary = () => {
   // Counter Logic
   // Login & GetWalletBalance Logic
   useEffect(() => {
-    // const username = state?.username;
-    // const password = state?.password;
     dispatch(loginDigiGold({ username, password }));
     dispatch(getWalletBalance({ username, password }));
   }, [load]);
@@ -248,8 +229,6 @@ const OrderSummary = () => {
   };
   // Get User Bank Details logic
   useEffect(() => {
-    // const username = state?.username;
-    // const password = state?.password;
     dispatch(GetUserBankList({ username, password }));
   }, [state]);
   // If Wallet Balance is Lower Than Total Amount Logic
@@ -272,13 +251,9 @@ const OrderSummary = () => {
   };
   // Gold & Silver Buy Logic
   const handleSubmit = async () => {
-    // const username = state.username;
-    // const password = state.password;
     const lockPrice = lockprice;
     const metalType = state.metalType;
-    // const roundedCurrent = Math.round(currentGram * 10000) / 10000;
-    // const str = roundedCurrent.toFixed(4);
-    // const result = parseFloat(currentGram);
+
     const quantity = currentGram;
     const blockid = blockId;
     const amount = totalAmount ? totalAmount : state.valueinAmt;
@@ -540,6 +515,7 @@ const OrderSummary = () => {
   window.onpopstate = function (event) {
     localStorage.removeItem("valueType");
   };
+
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">
@@ -556,7 +532,7 @@ const OrderSummary = () => {
               <div class="row">
                 <div class="col-lg-12">
                   <MyVault />
-                  {/* {!load ? ( */}
+
                   <Spin spinning={load || list.ResponseStatus === 0}>
                     <div class="buy-sell-form-outer">
                       <div class="current-rate-outer">
