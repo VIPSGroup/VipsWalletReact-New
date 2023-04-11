@@ -15,7 +15,11 @@ import {
   registerDigiGold,
 } from "../../redux/slices/digiGold/registerDigiSlice";
 import { MuiSnackBar } from "../../components/common";
-import { handleKeyPressForName, handleMobileKeyPress } from "../../constants";
+import {
+  handleKeyPressForName,
+  handleMobileKeyPress,
+  namePattern,
+} from "../../constants";
 
 const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
   const dispatch = useDispatch();
@@ -245,9 +249,23 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                     <Form.Item
                       hasFeedback
                       name="Name"
+                      // rules={[
+                      //   { required: true, message: "Full name is required" },
+                      //   { min: 3, message: "Min 3 Character are Required" },
+                      // ]}
                       rules={[
-                        { required: true, message: "Full name is required" },
-                        { min: 3, message: "Min 3 Character are Required" },
+                        {
+                          required: true,
+                          message: "Holder Name is Required",
+                        },
+                        {
+                          min: 3,
+                          message: "Min 3 Character are Required",
+                        },
+                        {
+                          pattern: namePattern,
+                          message: "Please Enter Valid Full Name",
+                        },
                       ]}
                     >
                       <Input
