@@ -269,7 +269,7 @@ const MyOrdersPage = () => {
             }}
             className="text-gray-500"
           >
-            ₹ {item?.TotalAmount}
+            ₹ {parseFloat(item?.TotalAmount)?.toLocaleString()}
           </h2>
         </>
       ),
@@ -545,7 +545,7 @@ const MyOrdersPage = () => {
                   </div>
                   <div class="col-xl-6 col-sm-6 text-sm-right">
                     <span class="digigoldorderdetails-amt">
-                      {modalData?.PreTaxAmount}{" "}
+                      {parseFloat(modalData?.PreTaxAmount)?.toLocaleString()}{" "}
                     </span>
                   </div>
                 </div>
@@ -558,7 +558,7 @@ const MyOrdersPage = () => {
                     <div class="col-xl-6 col-sm-6 text-sm-right">
                       <span class="digigoldorderdetails-amt">
                         {" "}
-                        {modalData?.TaxAmount}{" "}
+                        {parseFloat(modalData?.TaxAmount)?.toLocaleString()}{" "}
                       </span>
                     </div>
                   </div>
@@ -571,7 +571,7 @@ const MyOrdersPage = () => {
                   <div class="col-xl-6 col-sm-6 text-sm-right">
                     <span class="digigoldorderdetails-amt">
                       {" "}
-                      {modalData?.TotalAmount}{" "}
+                      {parseFloat(modalData?.TotalAmount)?.toLocaleString()}{" "}
                     </span>
                   </div>
                 </div>
