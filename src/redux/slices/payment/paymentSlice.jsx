@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { appType, baseApiUrl } from "../../../constants";
 
-export const getPayUHash = async (user, transactionId, amount,value,stringValue) => {
+export const getPayUHash = async (user, transactionId, amount,key,string) => {
   const formData = new FormData();
   const fname = user?.Name?.split(" ")[0];
   formData.append("txnid", transactionId);
@@ -10,7 +10,7 @@ export const getPayUHash = async (user, transactionId, amount,value,stringValue)
   formData.append("productinfo", "AddMoney");
   formData.append("firstname", fname);
   formData.append("email", user.Emailid);
-  formData.append("user_credentials",`${value}:` + user.UserName);
+  formData.append("user_credentials",`${key}:` + user.UserName);
   formData.append("chargesAmount", 1.0);
   formData.append("transactionType", "ADD_MONEY");
   formData.append("currentAppVersion", 10.26);
@@ -18,8 +18,8 @@ export const getPayUHash = async (user, transactionId, amount,value,stringValue)
 
   try {
     let res 
-    console.warn(stringValue==="PAYUMONEY");
-    if(stringValue==="PAYUMONEY"){
+    console.warn(string==="PAYUMONEY");
+    if(string==="PAYUMONEY"){
       res= await axios.post(`${baseApiUrl}/PayUMoneyHash`, formData);
     }else{
       res= await axios.post(`${baseApiUrl}/payuhash`, formData);
@@ -129,6 +129,8 @@ const paymentSlice = createSlice({
     //   taxId: "",
     // },
     configBySubKey: {
+      key:'',
+      string:'',
       loading: false,
       data:{},
       error: "",
@@ -161,6 +163,14 @@ const paymentSlice = createSlice({
     });
     builder.addCase(globalConfiguration.fulfilled, (state, action) => {
       console.warn(action.payload);
+      if(action.payload.ResponseStatus===1){
+        if(action.payload.Data.Key){
+          state.configBySubKey.key=action.payload.Data.Key
+        }
+        if(action.payload.Data.String!=="3"){
+          state.configBySubKey.string=action.payload.Data.String
+        }
+      }
       state.configBySubKey.data = action.payload;
       state.configBySubKey.loading = false;
     });
