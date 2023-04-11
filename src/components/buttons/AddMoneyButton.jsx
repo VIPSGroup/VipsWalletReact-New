@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getTransactionId } from "../../constants";
 import { getPayUHash } from "../../redux/slices/payment/paymentSlice";
@@ -11,11 +11,21 @@ const AddMoneyButton = ({
   isCreditCardEnable = false,
   chargesAmount,
 }) => {
+  const {data}= useSelector(state=>state.paymentSlice.configBySubKey)
   const formRef = useRef(null);
   // const hashInputRef=useRef(null)
   const [hash, setHash] = useState("");
   const [transactionId, setTransactionId] = useState("");
-
+  const [value, setValue] = useState("");
+  const [stringValue, setStringValue] = useState("");
+  useEffect(() => {
+    if(data){
+     if(data.ResponseStatus === 1){
+      setValue(data.Data.Key)
+      setStringValue(data.Data.String)
+     }
+    }
+   }, [data])
   const user = JSON.parse(localStorage.getItem("user"));
   const clickAddMoney = (e) => {
     setIsSnackBar(false);
@@ -24,7 +34,7 @@ const AddMoneyButton = ({
       if (amount <= 5000) {
         const trxnId = getTransactionId();
         setTransactionId(trxnId);
-        getPayUHash(user, trxnId, amount, chargesAmount).then(async (res) => {
+        getPayUHash(user, trxnId, amount,value,stringValue, chargesAmount).then(async (res) => {
           formRef.current.txnid.value = trxnId;
           formRef.current.hash.value = res.results.payment_hash;
           setHash(res.results.payment_hash);
@@ -68,7 +78,7 @@ const AddMoneyButton = ({
           type="hidden"
           value={`https://api.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
         />
-        <input name="key" type="hidden" value="e9ZmdY" />
+        <input name="key" type="hidden" value={value} />
         <input name="hash" type="hidden" value={callHash()} />
         <input name="email" type="hidden" value={user && user.Emailid} />
         {isCreditCardEnable ? (

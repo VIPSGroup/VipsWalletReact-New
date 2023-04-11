@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchBill } from "../../../apiData/services/electricity";
-import {
-  // getLpgGasOperators,
-  // getInputFieldsByOperator,
-  // fetchLPGBill,
-} from "../../../apiData/services/lpgGas";
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
 import {
   indaneGasOpCode,
@@ -13,7 +7,6 @@ import {
   bharatGasOpCode,
   hpGasOpCode,
 } from "../../../constants";
-import { getRechargeHistory } from "../../../apiData/services/mobileRecharge";
 import RecentHistory from "../../../components/services/RecentHistory";
 import { lpgGasServiceId, googleAnalytics } from "../../../constants";
 
@@ -260,17 +253,6 @@ const { billData,loading } = useSelector(state => state.LpgGasSlice.lpgBill );
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
 dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword}))
-          // fetchLPGBill(obj, user.Mobile, user.TRXNPassword).then((response) => {
-          //   if (response.Data.ResponseMessage == "Successful") {
-          //     setShowBill(true);
-          //     setBillFetchData(response.Data);
-          //     setBillAmount(parseFloat(response.Data.BillAmount));
-          //     setLoading(false);
-          //   } else {
-          //     setBillFetchError(response.Data.ResponseMessage);
-          //     setLoading(false);
-          //   }
-          // });
         }
       } else {
         setErrorSnackBar("Enter Valid Mobile Number");

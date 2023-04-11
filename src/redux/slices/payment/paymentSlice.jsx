@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { appType, baseApiUrl } from "../../../constants";
 
-export const getPayUHash = async (user, transactionId, amount) => {
+export const getPayUHash = async (user, transactionId, amount,value,stringValue) => {
   const formData = new FormData();
   const fname = user?.Name?.split(" ")[0];
   formData.append("txnid", transactionId);
@@ -10,43 +10,43 @@ export const getPayUHash = async (user, transactionId, amount) => {
   formData.append("productinfo", "AddMoney");
   formData.append("firstname", fname);
   formData.append("email", user.Emailid);
-  formData.append("user_credentials", "e9ZmdY:" + user.UserName);
+  formData.append("user_credentials",`${value}:` + user.UserName);
   formData.append("chargesAmount", 1.0);
   formData.append("transactionType", "ADD_MONEY");
   formData.append("currentAppVersion", 10.26);
   formData.append("AppType", appType);
 
   try {
-    const res = await axios.post(`${baseApiUrl}/payuhash`, formData);
+    let res 
+    console.warn(stringValue==="PAYUMONEY");
+    if(stringValue==="PAYUMONEY"){
+      res= await axios.post(`${baseApiUrl}/PayUMoneyHash`, formData);
+    }else{
+      res= await axios.post(`${baseApiUrl}/payuhash`, formData);
+    }
     return res.data;
   } catch (error) {}
 };
 
-// export const finstockGenerateOtp = createAsyncThunk(
-//   "finstockGenerateOtp",
-//   async ({ Mobile, Password, email, coins }, thunkAPI) => {
-//     const data = {
-//       UserName: Mobile,
-//       Password: Password,
-//       email: email,
-//       VipsCoin: coins,
-//     };
-
-//     var json = JSON.stringify(data);
-//     return fetch(`${baseApiUrl}/RequestService/VIPSFINSTOCK_GENERATE_OTP`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: "Basic " + btoa(`${Mobile}:${Password}`),
-//       },
-//       body: json,
-//     })
-//       .then((data) => {
-//         return data.json();
-//       })
-//       .catch((err) => {});
-//   }
-// );
+export const globalConfiguration = createAsyncThunk(
+  "globalConfiguration",
+  async (type) => { 
+    try {
+     const res=  await axios({
+          method: 'post',
+          url:`${baseApiUrl}/GlobalConfiguration/GetConfigBySubKey`,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Basic " + btoa("VipsWallet:vips@@1029")
+        }, 
+          data: {key:type}
+        })
+    return res.data
+    } catch (error) {
+      return error;
+    }
+  }
+);
 
 export const finstockGenerateOtp = (username, password, email, vipsCoin) => {
   const formData = new FormData();
@@ -122,35 +122,51 @@ export const finstockAdd = (
 const paymentSlice = createSlice({
   name: "paymentSlice",
   initialState: {
-    finOtpGenerate: {
-      formCount: 1,
+    // finOtpGenerate: {
+    //   formCount: 1,
+    //   loading: false,
+    //   error: "",
+    //   taxId: "",
+    // },
+    configBySubKey: {
       loading: false,
+      data:{},
       error: "",
-      taxId: "",
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(finstockGenerateOtp.pending, (state, action) => {
-      state.finOtpGenerate.loading = true;
-    });
-    builder.addCase(finstockGenerateOtp.fulfilled, (state, action) => {
-      if (action.payload.ResponseStatus === 1) {
-        state.finOtpGenerate.formCount = 2;
-        state.finOtpGenerate.loading = false;
-        state.finOtpGenerate.error = "";
-        state.finOtpGenerate.taxId = action.payload.Data.vipstxid;
-        // setFormCount(2);
-        // setLoading(false);
-        // setError("");
-        // setTaxId(response.Data.vipstxid);
-      } else {
-        state.finOtpGenerate.error = action.payload.Remarks;
-        state.finOtpGenerate.loading = false;
+    // builder.addCase(finstockGenerateOtp.pending, (state, action) => {
+    //   state.finOtpGenerate.loading = true;
+    // });
+    // builder.addCase(finstockGenerateOtp.fulfilled, (state, action) => {
+    //   if (action.payload.ResponseStatus === 1) {
+    //     state.finOtpGenerate.formCount = 2;
+    //     state.finOtpGenerate.loading = false;
+    //     state.finOtpGenerate.error = "";
+    //     state.finOtpGenerate.taxId = action.payload.Data.vipstxid;
+    //     // setFormCount(2);
+    //     // setLoading(false);
+    //     // setError("");
+    //     // setTaxId(response.Data.vipstxid);
+    //   } else {
+    //     state.finOtpGenerate.error = action.payload.Remarks;
+    //     state.finOtpGenerate.loading = false;
 
-        // setError(response.Remarks);
-        // setLoading(false);
-      }
+    //     // setError(response.Remarks);
+    //     // setLoading(false);
+    //   }
+    // });
+    builder.addCase(globalConfiguration.pending, (state, action) => {
+      state.configBySubKey.loading = true;
     });
+    builder.addCase(globalConfiguration.fulfilled, (state, action) => {
+      console.warn(action.payload);
+      state.configBySubKey.data = action.payload;
+      state.configBySubKey.loading = false;
+    });
+    builder.addCase(globalConfiguration.rejected, (state, action) => {
+      state.configBySubKey.error = action.error;
+    })
   },
 });
 
