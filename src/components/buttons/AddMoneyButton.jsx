@@ -28,6 +28,7 @@ const AddMoneyButton = ({
    }, [data])
   const user = JSON.parse(localStorage.getItem("user"));
   const clickAddMoney = (e) => {
+    console.log("called");
     setIsSnackBar(false);
     e.preventDefault();
     if (amount && amount > 0) {
@@ -36,9 +37,13 @@ const AddMoneyButton = ({
         setTransactionId(trxnId);
         getPayUHash(user, trxnId, amount,value,stringValue, chargesAmount).then(async (res) => {
           formRef.current.txnid.value = trxnId;
-          formRef.current.hash.value = res.results.payment_hash;
-          setHash(res.results.payment_hash);
+          formRef.current.hash.value = res?.results?.payment_hash;
+          setHash(res?.results?.payment_hash);
           const resp = await formRef.current.submit();
+          if(res.status=="Failed"){
+            setIsSnackBar(true)
+            setErrorMsg(res.errormsg)
+          }
         });
       } else {
         setIsSnackBar(true);

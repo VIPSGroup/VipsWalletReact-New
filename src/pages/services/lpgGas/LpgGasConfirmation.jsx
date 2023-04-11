@@ -397,11 +397,24 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                         <div class="col-5 col-xs-4 text-right">
                         <span class="mobile-payment-summery-amt">
                               {" "}
-                              &#x20B9; {discount?.finalAmount}{" "}
+                              &#x20B9; {discount?.finalAmount?.toFixed(2)}{" "}
                             </span>
                         </div>
                       </div>
                     </div>
+
+                    {amt > data?.Data?.Balance ? (
+                      <div className="alert alert-danger d-block mt-4">
+                        Wallet Balance less than the Amount.{" "}
+                        <Link
+                          to="/addMoney/options"
+                          className="text-decoration-none text-primery"
+                          style={{ textDecoration: "none" }}
+                        >
+                          Add Money
+                        </Link>
+                      </div>
+                    ) : null}
 
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
