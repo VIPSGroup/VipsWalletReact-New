@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { appType, baseApiUrl } from "../../../constants";
 
-export const getPayUHash = async (user, transactionId, amount,value,stringValue) => {
+export const getPayUHash = async (user, transactionId, amount,key,string) => {
   const formData = new FormData();
   const fname = user?.Name?.split(" ")[0];
   formData.append("txnid", transactionId);
@@ -10,7 +10,7 @@ export const getPayUHash = async (user, transactionId, amount,value,stringValue)
   formData.append("productinfo", "AddMoney");
   formData.append("firstname", fname);
   formData.append("email", user.Emailid);
-  formData.append("user_credentials",`${value}:` + user.UserName);
+  formData.append("user_credentials",`${key}:` + user.UserName);
   formData.append("chargesAmount", 1.0);
   formData.append("transactionType", "ADD_MONEY");
   formData.append("currentAppVersion", 10.26);
@@ -18,8 +18,8 @@ export const getPayUHash = async (user, transactionId, amount,value,stringValue)
 
   try {
     let res 
-    console.warn(stringValue==="PAYUMONEY");
-    if(stringValue==="PAYUMONEY"){
+    console.warn(string==="PAYUMONEY");
+    if(string==="PAYUMONEY"){
       res= await axios.post(`${baseApiUrl}/PayUMoneyHash`, formData);
     }else{
       res= await axios.post(`${baseApiUrl}/payuhash`, formData);
@@ -130,16 +130,6 @@ export const globalConfiguration = createAsyncThunk(
   "globalConfiguration",
   async (type) => { 
     try {
-  //  const res=   await axios.post(
-  //       `${baseApiUrl}/GlobalConfiguration/GetConfigBySubKey`,{
-  //         headers: {
-  //             'Content-Type': 'application/json',
-  //             'Authorization': "Basic " + btoa("VipsWallet:vips@@1029")
-  //         },
-  //         body: JSON.stringify({
-  //           key: type,
-  //         })
-  //       })
      const res=  await axios({
           method: 'post',
           url:`${baseApiUrl}/GlobalConfiguration/GetConfigBySubKey`,
@@ -150,21 +140,6 @@ export const globalConfiguration = createAsyncThunk(
           data: {key:type}
         })
     return res.data
-      // return fetch(`${baseApiUrl}/GlobalConfiguration/GetConfigBySubKey`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: "Basic " + btoa("VipsWallet:vips@@1029"),
-      //   },
-      //   body: JSON.stringify({
-      //     key: type,
-      //   }),
-      // })
-      //   .then((data) => {
-      //     console.error(data.json());
-      //     return data.json();
-      //   })
-      //   .catch((err) => {});
     } catch (error) {
       return error;
     }
@@ -180,6 +155,8 @@ const paymentSlice = createSlice({
     //   taxId: "",
     // },
     configBySubKey: {
+      key:'',
+      string:'',
       loading: false,
       data:{},
       error: "",
@@ -205,6 +182,19 @@ const paymentSlice = createSlice({
     });
     builder.addCase(globalConfiguration.fulfilled, (state, action) => {
       console.warn(action.payload);
+      if(action.payload.ResponseStatus===1){
+        if(action.payload.Data.Key){
+          state.configBySubKey.key=action.payload.Data.Key
+        }
+        if(action.payload.Data.String!=="3"){
+          state.configBySubKey.string=action.payload.Data.String
+        }
+
+        // if(action.payload.Data.String){
+        //   state.configBySubKey.key=action.payload.Data.Key
+        //   console.log(action.payload.Data.Key);
+        // }
+      }
       state.configBySubKey.data = action.payload;
       state.configBySubKey.loading = false;
     });
