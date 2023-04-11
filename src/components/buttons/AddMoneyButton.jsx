@@ -29,6 +29,7 @@ const AddMoneyButton = ({
         const trxnId = getTransactionId();
         setTransactionId(trxnId);
         getPayUHash(user, trxnId, amount,key,string, chargesAmount).then(async (res) => {
+          console.log(res?.results?.payment_hash);
           formRef.current.txnid.value = trxnId;
           formRef.current.hash.value = res?.results?.payment_hash;
           setHash(res?.results?.payment_hash);
@@ -86,16 +87,11 @@ const AddMoneyButton = ({
         <input name="key" type="hidden" value={key} />
         <input name="hash" type="hidden" value={callHash()} />
         <input name="email" type="hidden" value={user && user.Emailid} />
-        {isCreditCardEnable ? (
-          <>{console.log("creditcard")}
-          <input name="enforce_paymethod" type="hidden" value="creditcard" />
-          </>
-        ) : (
-          <>{console.log("CC")}
-          <input name="drop_category" type="hidden" value="CC" />
-          </>
-        )}
-  {/* <input name="enforce_paymethod" type="hidden" value="creditcard" /> */}
+        <input name="enforce_paymethod" type="hidden" value="CC" />
+        {isCreditCardEnable ? <input name="drop_category" type="hidden" value="CC" />
+        :<input name="enforce_paymethod" type="hidden" value="creditcard" />
+
+           }
         <input
           name="surl"
           type="hidden"
