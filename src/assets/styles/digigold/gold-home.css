@@ -1134,5 +1134,8 @@
   .digigold-work-div-box .digigold-work-title h3 {
     font-size: 16px;
   }
+  .digigold-work-div-box {
+    padding: 10px;
+}
 
 }
