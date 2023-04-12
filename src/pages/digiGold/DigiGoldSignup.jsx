@@ -3,6 +3,8 @@ import Modal from "antd/es/modal/Modal";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-signin.css";
+import "../../assets/styles/digigold/sell-order-summery.css";
+// import "../../assets/styles/digigold/gold-home.css";
 import { modalClose } from "../../redux/slices/digiGold/digiGoldSlice";
 import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
@@ -210,7 +212,7 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                   { name: "userCityId", value: formValue.userCityId },
                   { name: "userStateId", value: formValue.userStateId },
                 ]}
-                class="gold-signin-form"
+                class="gold-signin-form buy-sell-tab-inner "
               >
                 <div class="row">
                   <div className="col-lg-12">
@@ -355,6 +357,7 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
 
                   <div class="col-lg-12">
                     <Form.Item
+                      className="digi-check-terms"
                       name="terms"
                       valuePropName="checked"
                       rules={[
@@ -423,7 +426,7 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
                   id="otp"
                   className="row row-flex justify-content-center mt-1"
                 >
-                  <div className="">
+                  <div className="digisign-otp-input">
                     <OTPInput
                       value={formValue.otp}
                       className="text-dark"

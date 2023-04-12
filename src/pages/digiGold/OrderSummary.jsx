@@ -758,7 +758,7 @@ const OrderSummary = () => {
                                     >
                                       <img
                                         alt=""
-                                        src="/images/digigold-images/vips-logo-small.png"
+                                        src="../images/logos/vips-logo-small.png"
                                         class="img-fluid digigold-payment-debit-vips"
                                       />{" "}
                                       VIPS Wallet ( &#x20B9;{" "}
@@ -859,11 +859,12 @@ const OrderSummary = () => {
                                     ]}
                                   >
                                     <Row
+                                    // className="align-items-center"
                                       gutter={20}
-                                      style={{
-                                        marginTop: 10,
-                                        marginBottom: 20,
-                                      }}
+                                      // style={{
+                                      //   marginTop: 10,
+                                      //   marginBottom: 20,
+                                      // }}
                                     >
                                       <Col
                                         span={7}
@@ -871,9 +872,12 @@ const OrderSummary = () => {
                                         sm={{ span: 12 }}
                                         md={{ span: 7 }}
                                       >
+                                        <div class="input-wrapper w-100">
+                                  <div className="input">
                                         <Form.Item
+                                        // className="mb-0 "
                                           name={"accountNumber"}
-                                          hasFeedback
+                                          // hasFeedback
                                           rules={[
                                             {
                                               validator: (_, value) => {
@@ -912,7 +916,10 @@ const OrderSummary = () => {
                                               })
                                             }
                                           />
+                                          {/* <label htmlFor="enter-grams"> Enter Grams </label> */}
                                         </Form.Item>
+                                        </div>
+                                        </div>
                                       </Col>
                                       <Col
                                         span={7}
@@ -920,10 +927,13 @@ const OrderSummary = () => {
                                         sm={{ span: 12 }}
                                         md={{ span: 7 }}
                                       >
+                                        <div class="input-wrapper w-100">
+                                  <div className="input">
                                         <Form.Item
+                                        // className="mb-0"
                                           onKeyPress={handleKeyPressForName}
                                           name={"accountName"}
-                                          hasFeedback
+                                          // hasFeedback
                                           rules={[
                                             {
                                               required: true,
@@ -955,17 +965,24 @@ const OrderSummary = () => {
                                               })
                                             }
                                           />
+                                          {/* <label htmlFor=""> Account Holder Name </label> */}
                                         </Form.Item>
+                                        </div>
+                                        </div>
                                       </Col>
+
                                       <Col
                                         span={7}
                                         xs={{ span: 24 }}
                                         sm={{ span: 12 }}
                                         md={{ span: 7 }}
                                       >
+                                        <div class="input-wrapper w-100">
+                                  <div className="input">
                                         <Form.Item
+                                        // className="mb-0"
                                           name={"ifscCode"}
-                                          hasFeedback
+                                          // hasFeedback
                                           rules={[
                                             {
                                               validator: (_, value) => {
@@ -1015,7 +1032,10 @@ const OrderSummary = () => {
                                                 : "Please Enter Valid IFSC")}
                                           </label>
                                         </Form.Item>
+                                        </div>
+                                        </div>
                                       </Col>
+
                                       <Col
                                         span={3}
                                         sm={{ span: 12 }}

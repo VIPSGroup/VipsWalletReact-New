@@ -23,6 +23,7 @@ const Navigation = ({
         !isBottomTopNav &&
         path !== "/shopping/cart" &&
         path !== "/shopping/address" &&
+
         path !== "/shopping/checkout" &&
         isCommonTopNav && (
           <CommonTopNav

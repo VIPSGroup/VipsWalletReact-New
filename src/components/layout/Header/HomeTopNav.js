@@ -290,7 +290,7 @@ const HomeTopNav = ({ isPrime }) => {
                       <FiUser className="nav-icon" />
                       <span class="d-xl-block d-none d-md-none d-sm-none">
                         {" "}
-                        {loggedInUser.Name.substring(0, 7)}...{" "}
+                        {loggedInUser?.Name?.substring(0, 7)}...{" "}
                       </span>
                     </Link>
                     <ul class="dropdown-menu dropdown-position profile-dropdown">
@@ -300,7 +300,7 @@ const HomeTopNav = ({ isPrime }) => {
                           to="#"
                         >
                           {" "}
-                          {loggedInUser && loggedInUser.Name}
+                          {loggedInUser && loggedInUser?.Name}
                           {"  "}
                           {isPrime ? (
                             <FaCrown color="#ffbb48" size={18} />
