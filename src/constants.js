@@ -69,17 +69,13 @@ export const handleKeyDown = (event) => {
 };
 
 export const handleKeyDown2 = (event) => {
-  const maxLength = 8;
+  const maxLength = event.target.value.includes(".") ? 8 : 3;
   const key = event.key;
-  const allowedKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
+  const allowedKeys = /^\d{1,3}(?:\.\d{0,4})?$/; // allow digits and decimal point
 
-  if (key === "," || key === "-") {
-    // prevent comma and negative sign
-    event.preventDefault();
-    return;
-  }
-
-  if (key === "Backspace" || key === "Delete") {
+  if (key === "," || key === "-" || key === "Backspace" || key === "Delete") {
+    // prevent comma, negative sign, backspace and delete
+    // event.preventDefault();
     return;
   }
 
@@ -89,12 +85,76 @@ export const handleKeyDown2 = (event) => {
     return;
   }
 
-  if (!allowedKeys.includes(key)) {
+  if (!allowedKeys.test(event.target.value + key)) {
     // prevent non-digit and non-decimal-point keys
     event.preventDefault();
     return;
   }
+
+  const [beforeDec, afterDec] = event.target.value.split(".");
+
+  if (beforeDec && beforeDec.length > 3) {
+    // limit to 3 digits before decimal point
+    event.preventDefault();
+    return;
+  }
+
+  if (afterDec && afterDec.length > 4) {
+    // limit to 4 digits after decimal point
+    event.preventDefault();
+    return;
+  }
 };
+
+// export const handleKeyDown3 = (event) => {
+//   var maxLength = 3;
+//   console.log(event.target.value.split(".")[0].length, "ooo");
+//   if (event.target.value.includes(".")) {
+//     if (event.target.value.split(".")[0].length === 1) {
+//       maxLength = 5;
+//     } else if (event.target.value.split(".")[0].length === 2) {
+//       maxLength = 6;
+//     } else if (event.target.value.split(".")[0].length === 3) {
+//       maxLength = 7;
+//     }
+//   } else {
+//     maxLength = 3;
+//   }
+//   const key = event.key;
+//   const allowedKeys = /^\d{1,3}(?:\.\d{0,4})?$/; // allow digits and decimal point
+
+//   if (key === "," || key === "-" || key === "Backspace" || key === "Delete") {
+//     // prevent comma, negative sign, backspace and delete
+//     // event.preventDefault();
+//     return;
+//   }
+
+//   if (event.target.value.length >= maxLength && key !== ".") {
+//     // limit to 8 digits (excluding the decimal point)
+//     event.preventDefault();
+//     return;
+//   }
+
+//   if (!allowedKeys.test(event.target.value + key)) {
+//     // prevent non-digit and non-decimal-point keys
+//     event.preventDefault();
+//     return;
+//   }
+
+//   const [beforeDec, afterDec] = event.target.value.split(".");
+
+//   if (beforeDec && beforeDec.length > 3) {
+//     // limit to 3 digits before decimal point
+//     event.preventDefault();
+//     return;
+//   }
+
+//   if (afterDec && afterDec.length > 4) {
+//     // limit to 4 digits after decimal point
+//     event.preventDefault();
+//     return;
+//   }
+// };
 
 // RegEX
 
@@ -183,6 +243,7 @@ export const HandleGramChange = ({
   valueType,
   setFormValue,
   formvalue,
+  type,
 }) => {
   const quantity = digitPrecision(value ? value : grams, "quantity");
   setGrams(quantity);
@@ -202,15 +263,17 @@ export const HandleGramChange = ({
       const sGramResult = parseFloat(sGramStr);
       if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
         setErr(
-          ` You can sell up to ${isGold === 0 ? gGramResult : sGramResult} gm ${
-            isGold === 0 ? "Gold" : "Silver"
-          } of total  ${isGold === 0 ? gGramResult : sGramResult} gm `
+          ` You can ${type ? "Gift" : "Sell"} up to ${
+            isGold === 0 ? gGramResult : sGramResult
+          } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+            isGold === 0 ? gGramResult : sGramResult
+          } gm `
         );
       } else {
         setErr(
-          `You do not have a enough ${
-            isGold === 0 ? "Gold" : "Silver"
-          } to Sell `
+          `You do not have a enough ${isGold === 0 ? "Gold" : "Silver"} to ${
+            type ? "Gift" : "Sell"
+          } `
         );
       }
     } else {
@@ -285,7 +348,7 @@ export const HandleAmounthange = ({
     valType: "amount",
     metalType: isGold === 0 ? "gold" : "silver",
   });
-  setGrams(quantity);
+  setGrams(quantity ? quantity : "");
   if (quantity === 0) {
     setErr("");
   }
@@ -294,10 +357,10 @@ export const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/; // regula
 export const pincodeRegex = /^[1-9][0-9]{5}$/; // regular expression for Indian PIN code validation
 export const mobileRegex = /^[6-9]\d{9}$/; // regular expression for Indian mobile number validation
 // export const namePattern = /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/; // regular expression for full name validation
-// export const namePattern = /^([\w]{3,})+\s+([\w\s]{1,})+$/i;
+export const namePattern = /^([\w]{3,})+\s+([\w\s]{1,})+$/i;
 export const FirstNamePattern = /^[a-zA-Z]+$/;
 // export const namePattern = /^[a-zA-Z ]+$/;
-export const namePattern = /^[a-zA-Z]{3,}$/;
+// export const namePattern = /^[a-zA-Z]{3,}$/;
 export const validateName = (_, value) => {
   if (!value || nameRegex.test(value)) {
     return Promise.resolve();

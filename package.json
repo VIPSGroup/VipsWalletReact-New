@@ -16,6 +16,7 @@
     "collect.js": "^4.34.3",
     "country-list-with-dial-code-and-flag": "^3.0.2",
     "crypto-js": "^4.1.1",
+    "date-fns": "^2.29.3",
     "formik": "^2.2.9",
     "jquery": "^3.6.3",
     "moment": "^2.29.4",

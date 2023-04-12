@@ -7,11 +7,11 @@ import { useNavigate } from "react-router-dom";
 import MyVault, { CurrentRateSection } from "../MyVault";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  HandleAmounthange,
   HandleGramChange,
   digitPrecision,
   formatter,
   handleKeyDown,
+  handleKeyDown2,
   handleMobileKeyPress,
   parser,
 } from "../../../constants";
@@ -61,15 +61,11 @@ const Gift = ({ setIsCommonTopNav }) => {
   const { loggedInUser, loading: logLoading } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-
-  // console.log(data, "rateData.Data?.result");
-
   const handleClose = () => {
     setModal(false);
     navigate("/vipsgold-gift");
     setOtp("");
   };
-
   const handleAmountChange = (e) => {
     const value = e.target.value;
     const gGram = parseFloat(logData?.Data?.GoldGrams);
@@ -87,7 +83,7 @@ const Gift = ({ setIsCommonTopNav }) => {
         metalType: "gold",
         valueinGm: quantity,
       });
-      setGrams(quantity);
+      setGrams(quantity ? quantity : "");
       const gram = parseFloat(quantity);
 
       if (logData.Data) {
@@ -129,7 +125,7 @@ const Gift = ({ setIsCommonTopNav }) => {
         metalType: "silver",
         valueinGm: quantity,
       });
-      setGrams(quantity);
+      setGrams(quantity ? quantity : "");
       const gram = parseFloat(quantity);
 
       if (logData.Data) {
@@ -161,16 +157,32 @@ const Gift = ({ setIsCommonTopNav }) => {
       }
     }
   };
-
   const handleGramsChange = (e) => {
+    // let value =
+    //   e.target.value.split(".").length !== 2
+    //     ? e.target.value
+    //     : e.target.value.split(".")[0] +
+    //       "." +
+    //       e.target.value.split(".")[1].substring(0, 4);
+    // const quantity = digitPrecision(value, "quantity");
+    // setGrams(quantity);
     let value =
-      e.target.value.split(".").length !== 2
-        ? e.target.value
-        : e.target.value.split(".")[0] +
-          "." +
-          e.target.value.split(".")[1].substring(0, 4);
+      e.target.value.indexOf(".") === -1
+        ? e.target.value.slice(0, 4).replace(/[^\d]/g, "")
+        : e.target.value
+            .split(".")
+            .map((part, index) =>
+              index === 0
+                ? part.replace(/[^\d]/g, "")
+                : part.slice(0, 4).replace(/[^\d]/g, "")
+            )
+            .join(".");
+
+    if (e.target.value.length > value.length) {
+      e.target.value = value;
+    }
     const quantity = digitPrecision(value, "quantity");
-    setGrams(quantity);
+    setGrams(value);
     const gram = parseFloat(value);
     const gGram = parseFloat(logData?.Data?.GoldGrams);
     const sGram = parseFloat(logData?.Data?.SilverGrams);
@@ -182,7 +194,6 @@ const Gift = ({ setIsCommonTopNav }) => {
     //     const sGramRounded = Math.round(sGram * 10000) / 10000;
     //     const sGramStr = sGramRounded.toFixed(4);
     //     const sGramResult = parseFloat(sGramStr);
-    //     // console.log(gGramResult, "gGramResult")
     //     setErr(
     //       ` You can gift up to ${isGold === 0 ? gGramResult : sGramResult} gm ${
     //         isGold === 0 ? "Gold" : "Silver"
@@ -202,7 +213,7 @@ const Gift = ({ setIsCommonTopNav }) => {
         const sGramResult = parseFloat(sGramStr);
         if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
           setErr(
-            ` You can gif up to ${
+            ` You can Gift up to ${
               isGold === 0 ? gGramResult : sGramResult
             } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
               isGold === 0 ? gGramResult : sGramResult
@@ -221,11 +232,11 @@ const Gift = ({ setIsCommonTopNav }) => {
     }
 
     const TotalAmount =
-      (isGold === 0 && rateData.Data?.result?.data?.rates?.gSell * value) ||
-      (isGold === 1 && rateData.Data?.result?.data?.rates?.sSell * value);
+      (isGold === 0 && rateData.Data?.result?.data?.rates?.gSell * quantity) ||
+      (isGold === 1 && rateData.Data?.result?.data?.rates?.sSell * quantity);
     setFormValue({
       ...formvalue,
-      valueinGm: value,
+      valueinGm: quantity,
       valueinAmt: TotalAmount,
       valType: "quantity",
       metalType: isGold === 0 ? "gold" : "silver",
@@ -233,14 +244,12 @@ const Gift = ({ setIsCommonTopNav }) => {
     const totalRound = Math.round(TotalAmount * 10000) / 10000;
     const strTotal = totalRound.toFixed(2);
     const totalResult = parseFloat(strTotal);
-    // console.log(totalResult, "total");
     setAmount((totalResult === "0.00" ? 0 : totalResult) || "");
     if (totalResult === 0) {
       setErr("");
     }
     // setAmount(totalResult);
   };
-
   const renderTime2 = () => React.Fragment;
   // OTP Resend Logic
   const renderButton2 = (buttonProps) => {
@@ -306,7 +315,7 @@ const Gift = ({ setIsCommonTopNav }) => {
         if (res.Data.statusCode === 200) {
           setLoad(false);
           setStep(0);
-          setResponse(res.Data.message);
+          setResponse(res.Data);
           setModal(true);
         } else {
           setLoad(false);
@@ -317,7 +326,6 @@ const Gift = ({ setIsCommonTopNav }) => {
       }
       if (res.ResponseStatus === 0) {
         if (res.Data?.statusCode === 412) {
-          console.log("Yes");
           setLoad(false);
           setIsSnackBar(true);
           setErrorMsg(res.Data.message);
@@ -355,6 +363,7 @@ const Gift = ({ setIsCommonTopNav }) => {
     }
   };
   useEffect(() => {
+    const type = "gift";
     HandleGramChange({
       setAmount,
       setGrams,
@@ -368,12 +377,19 @@ const Gift = ({ setIsCommonTopNav }) => {
       // valueType,
       setFormValue,
       formvalue,
+      type,
     });
   }, [rateData]);
+  const handleBlur = (e) => {
+    const input = e.target;
+    const position = input.value.indexOf(".");
+    input.setSelectionRange(
+      position === -1 ? input.value.length : position,
+      position === -1 ? input.value.length : position + 1
+    );
+  };
   return (
     <>
-      {/* <CommonTopNav /> */}
-
       <section class="section-align buy-sell-form">
         <div class="container">
           <div class="digital-gold-section-head">
@@ -387,35 +403,7 @@ const Gift = ({ setIsCommonTopNav }) => {
               <MyVault setStep={setStep} />
               <Spin spinning={load}>
                 <div class="buy-sell-form-outer">
-                  {/* <div class="current-rate-outer">
-                    <div class="current-rate">
-                      <span class="current-rate-title mb-3">GOLD</span>
-                      <span class="current-rate-amt">
-                        &#x20B9;{" "}
-                        {!loading && rateData
-                          ? rateData?.Data?.result?.data?.rates?.gSell
-                          : "Loading..."}{" "}
-                        / gm
-                      </span>
-                    </div>
-                    <div class="digi-icon d-none d-md-block">
-                      <img src="/images/digigold-images/digi-icon.svg" alt="" />
-                    </div>
-                    <div className="vertical-separator d-md-none d-sm-block"></div>
-                    <div class="current-rate">
-                      <span class="current-rate-title mb-3">SILVER</span>
-                      <span class="current-rate-amt">
-                        {" "}
-                        &#x20B9;{" "}
-                        {!loading && rateData
-                          ? rateData?.Data?.result?.data?.rates?.sSell
-                          : "Loading..."}{" "}
-                        / gm
-                      </span>
-                    </div>
-                  </div> */}
                   <CurrentRateSection />
-
                   <div class="buy-sell-tab-outer">
                     <Form
                       fields={[
@@ -433,9 +421,7 @@ const Gift = ({ setIsCommonTopNav }) => {
                     >
                       <div class="gift-recipient-outer">
                         <div class="gift-recipient-input-wrapper">
-                          {/* <div class="input"> */}
                           <Form.Item
-                            // hasFeedback
                             name="mobileNumber"
                             rules={[
                               {
@@ -458,21 +444,14 @@ const Gift = ({ setIsCommonTopNav }) => {
                                 })
                               }
                               maxLength={10}
-                              // addonBefore={"+91"}
                               size="large"
                               placeholder="Enter Mobile Number"
                             />
-                            {/* <label htmlFor="">
-                                {" "}
-                                Enter the Recipient's Mobile Number
-                              </label> */}
                           </Form.Item>
-                          {/* </div> */}
                         </div>
                       </div>
 
                       <div class="buy-sell-tab-outer">
-                        {/* <!-- tab content start --> */}
                         <div className="buy-sell-tab-inner">
                           <ul class="nav nav-pills tab-pills-wrapper">
                             <li
@@ -531,73 +510,41 @@ const Gift = ({ setIsCommonTopNav }) => {
                                   class="row align-items-center"
                                 >
                                   <div class="input-wrapper">
-                                    {/* <div className="input"> */}
                                     <Form.Item
                                       className="mb-0 disabled-input"
                                       name={"grams"}
-                                      rules={
-                                        [
-                                          // {
-                                          //   required: true,
-                                          //   // message: "Please Enter Grams",
-                                          // },
-                                        ]
-                                      }
                                     >
                                       <Input
+                                        id="grams"
                                         formatter={formatter}
-                                        // onKeyDown={handleKeyDown2}
+                                        onKeyDown={handleKeyDown2}
+                                        onBlur={handleBlur}
                                         className="mb-0 disabled-input"
                                         onWheel={(e) => e.target.blur()}
                                         parser={parser}
                                         min={0.0001}
                                         precision={4}
-                                        required
-                                        // addonBefore="Grams"
                                         value={grams}
-                                        type="number"
+                                        type="text"
                                         name="grams"
                                         onChange={handleGramsChange}
                                         placeholder="Enter Grams"
                                         size="large"
-                                        // step={0.0001}
                                         step={"any"}
-                                        // style={{ padding: 15 }}
                                       />
-                                      {/* <label htmlFor="Enter Grams">
-                                          Enter Grams
-                                        </label> */}
                                     </Form.Item>
-                                    {/* </div> */}
                                   </div>
                                   <div class="exchange-arrow-outer text-center">
                                     <span class="exchange-arrow ">
                                       {" "}
                                       <img
                                         alt=""
-                                        // style={{
-                                        //   width: 40,
-                                        //   marginLeft: 10,
-                                        //   marginRight: 10,
-                                        // }}
                                         src="/images/digigold-images/two-arrows.svg"
                                       />{" "}
                                     </span>
                                   </div>
                                   <div class="input-wrapper">
-                                    {/* <div className="input"> */}
-                                    <Form.Item
-                                      name="amount"
-                                      className="mb-0 disabled-input"
-                                      rules={
-                                        [
-                                          // {
-                                          //   required: true,
-                                          //   message: "Please Enter Amount",
-                                          // },
-                                        ]
-                                      }
-                                    >
+                                    <Form.Item name="amount" className="mb-0">
                                       <Input
                                         onKeyDown={handleKeyDown}
                                         min={1}
@@ -606,25 +553,15 @@ const Gift = ({ setIsCommonTopNav }) => {
                                         value={amount}
                                         maxLength={8}
                                         max={180000}
-                                        // addonBefore="Rs."
                                         type="number"
                                         name="amount"
                                         onChange={handleAmountChange}
-                                        // disabled={active === 0 ? false : true}
                                         placeholder="Enter Amount"
                                         size="large"
                                         step={"any"}
-                                        className="mb-0 disabled-input"
-                                        // style={{
-                                        //   backgroundColor:
-                                        //     active !== 0 && "#80808052",
-                                        // }}
+                                        className="mb-0"
                                       />
-                                      {/* <label htmlFor="Enter Amount">
-                                          Enter Amount
-                                        </label> */}
                                     </Form.Item>
-                                    {/* </div> */}
                                   </div>
                                 </div>
 
@@ -655,7 +592,6 @@ const Gift = ({ setIsCommonTopNav }) => {
                             </div>
                           </div>
                         </div>
-                        {/* <!-- tab content end --> */}
                       </div>
                     </Form>
                   </div>
@@ -666,12 +602,11 @@ const Gift = ({ setIsCommonTopNav }) => {
         </div>
       </section>
       <UserNotExist />
-      {/* <Modal
+      <Modal
         footer={[]}
         maskClosable={false}
         centered
         onCancel={() => {
-          // localStorage.removeItem("valueType");
           setOtp("");
           navigate("/vipsgold-gift");
           setStep(0);
@@ -749,7 +684,11 @@ const Gift = ({ setIsCommonTopNav }) => {
             class="img img-fluid check-green-img"
           />
           <p class="digigold-success-title mt-3 ">Thank You!</p>
-          <p class="success-note">{response}</p>
+          <p class="success-note">
+            {`Successfully transferred ${response?.result?.data?.quantity?.toFixed(
+              4
+            )} grams of ${response?.result?.data?.metalType} `}
+          </p>
           <div class="digigold-success-btn">
             <button
               onClick={() => {
@@ -761,7 +700,7 @@ const Gift = ({ setIsCommonTopNav }) => {
             </button>
           </div>
         </div>
-      </Modal> */}
+      </Modal>
       <DigiGoldSignup
         setIsDigiLogin={setIsDigiLogin}
         setStep={setStep}

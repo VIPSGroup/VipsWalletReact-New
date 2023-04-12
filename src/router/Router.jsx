@@ -77,7 +77,7 @@ const Router = () => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [grams, setGrams] = useState("");
-
+  const [step, setStep] = useState("");
   return (
     <>
       <Navigation
@@ -90,6 +90,8 @@ const Router = () => {
         amount={amount}
         setGrams={setGrams}
         grams={grams}
+        setStep={setStep}
+        step={step}
       />
       <Routes>
         <Route
@@ -410,6 +412,8 @@ const Router = () => {
               amount={amount}
               setGrams={setGrams}
               grams={grams}
+              setStep={setStep}
+              step={step}
             />
           }
         />
@@ -483,10 +487,7 @@ const Router = () => {
         <Route
           path="/vipsgold-faq"
           element={
-            <AllTermsAndCondition
-              title="VIPS Gold FAQs"
-              type="DigiGold FAQs"
-            />
+            <AllTermsAndCondition title="VIPS Gold FAQs" type="DigiGold FAQs" />
           }
         />
         <Route

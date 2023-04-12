@@ -5,11 +5,11 @@ import { digiBaseUrl } from "../../../constants";
 export const registerDigiGold = createAsyncThunk(
   "registerDigiGold",
   async ({ formValue, emailId, password, username }, thunkAPI) => {
-
+// console.log(username, "formValue.mobileNumber")
     const formData = new FormData();
     formData.append("username", username);
     formData.append("password", password);
-    formData.append("mobileNumber", formValue.mobileNumber);
+    formData.append("mobileNumber", username);
     formData.append("emailId", emailId);
     formData.append("Name", formValue.Name);
     formData.append("userCityId", formValue.userCityId);

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-profile.css";
 import { MuiSnackBar } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading.jsx";
+import { differenceInYears } from "date-fns";
+
 import {
   FirstNamePattern,
   handleKeyPressForName,
@@ -17,6 +19,7 @@ import {
 import { UpdateUser } from "../../redux/slices/digiGold/userProfileSlice";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import moment from "moment";
 dayjs.extend(customParseFormat);
 const DigiProfile = () => {
   const [form] = Form.useForm();
@@ -115,7 +118,6 @@ const DigiProfile = () => {
     }
   };
 
-  // console.log(formValue.dateOfBirth.$d, "formValud");
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
   return (
     <>
@@ -246,14 +248,23 @@ const DigiProfile = () => {
                               <DatePicker
                                 style={{ width: "100%" }}
                                 size="large"
+                                // disabledDate={(current) => {
+                                //   // Disable dates that are less than 18 years ago
+                                //   const today = new Date();
+                                //   const diffInMs = Math.abs(today - current);
+                                //   const age = Math.floor(
+                                //     diffInMs / (1000 * 60 * 60 * 24 * 365)
+                                //   );
+                                //   return age < 18;
+                                // }}
                                 disabledDate={(current) => {
-                                  // Disable dates that are less than 18 years ago
-                                  const today = new Date();
-                                  const diffInMs = Math.abs(today - current);
-                                  const age = Math.floor(
-                                    diffInMs / (1000 * 60 * 60 * 24 * 365)
+                                  const eighteenYearsAgo = moment().subtract(
+                                    18,
+                                    "years"
                                   );
-                                  return age < 18;
+
+                                  // Disable dates that are after the calculated date
+                                  return current && current > eighteenYearsAgo;
                                 }}
                                 clearIcon={false}
                                 onChange={(date, dateString) => {
@@ -343,7 +354,7 @@ const DigiProfile = () => {
                                     ...formValue,
                                     userCityId: e,
                                     userCityName:
-                                      cityList.Data.result.data?.find(
+                                      cityList?.Data?.result?.data?.find(
                                         (a) => a.id === e
                                       ).name,
                                   })
@@ -359,7 +370,7 @@ const DigiProfile = () => {
                                 placeholder="Select City"
                               >
                                 {cityList.Data &&
-                                  cityList.Data.result.data.map((e) => {
+                                  cityList?.Data?.result?.data?.map((e) => {
                                     return (
                                       <Select.Option key={e.id} value={e.id}>
                                         {e.name}
@@ -471,14 +482,22 @@ const DigiProfile = () => {
                               <DatePicker
                                 style={{ width: "100%" }}
                                 size="large"
+                                // disabledDate={(current) => {
+                                //   const today = new Date();
+                                //   const diffInMs = Math.abs(today - current.$d);
+                                //   const age = Math.floor(
+                                //     diffInMs / (1000 * 60 * 60 * 24 * 365)
+                                //   );
+                                //   return age < 18;
+                                // }}
                                 disabledDate={(current) => {
-                                  // Disable dates that are less than 18 years ago
-                                  const today = new Date();
-                                  const diffInMs = Math.abs(today - current);
-                                  const age = Math.floor(
-                                    diffInMs / (1000 * 60 * 60 * 24 * 365)
+                                  const eighteenYearsAgo = moment().subtract(
+                                    18,
+                                    "years"
                                   );
-                                  return age < 18;
+
+                                  // Disable dates that are after the calculated date
+                                  return current && current > eighteenYearsAgo;
                                 }}
                                 clearIcon={false}
                                 onChange={(date, dateString) => {

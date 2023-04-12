@@ -34,6 +34,7 @@ export const BuyDigiGold = async ({
   amount,
   type,
 }) => {
+  console.log(quantity, 'quantity')
   const formData = new FormData();
   formData.append("username", username);
   formData.append("password", password);

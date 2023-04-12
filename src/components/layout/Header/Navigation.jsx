@@ -12,6 +12,8 @@ const Navigation = ({
   grams,
   setAmount,
   amount,
+  setStep,
+  step,
 }) => {
   const path = useResolvedPath().pathname;
 
@@ -21,8 +23,21 @@ const Navigation = ({
         !isBottomTopNav &&
         path !== "/shopping/cart" &&
         path !== "/shopping/address" &&
-        // path !== "/shopping/checkout" && isCommonTopNav && <CommonTopNav setActive={setActive}/>}
-        path !== "/shopping/checkout" && isCommonTopNav && <CommonTopNav title={title} />}
+
+        path !== "/shopping/checkout" &&
+        isCommonTopNav && (
+          <CommonTopNav
+            setActive={setActive}
+            title={title}
+            setAmount={setAmount}
+            amount={amount}
+            setGrams={setGrams}
+            grams={grams}
+            setStep={setStep}
+            step={step}
+          />
+        )}
+
       {isHomeTopNav && <HomeTopNav />}
       {isBottomTopNav && <BannerTopNav />}
     </>
