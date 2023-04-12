@@ -13,7 +13,7 @@ export const getPayUHash = async (user, transactionId, amount,key,string) => {
   formData.append("user_credentials",`${key}:` + user.UserName);
   formData.append("chargesAmount", 1.0);
   formData.append("transactionType", "ADD_MONEY");
-  formData.append("currentAppVersion", 10.26);
+  formData.append("currentAppVersion", 1.1);
   formData.append("AppType", appType);
 
   try {

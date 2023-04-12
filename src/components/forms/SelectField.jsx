@@ -15,17 +15,8 @@ const SelectField = ({ setGetData, getData,isClass }) => {
   };
   useEffect(() => {
     setStateList(sortState(allStateCityList?.Data));
-   
-   
-    // if(getData.stateName){
-    //   console.log("if");
-    // }else{
-    //   console.log("else");
-    //   setCityList(sortCity(allStateCityList?.Data[0].Citys));
-    // }
   }, []);
   useEffect(() => {
-  console.warn(getData.stateName);
   if(getData.stateName){
     setCityList(sortCity(allStateCityList?.Data.filter(item=>item.StateName==getData.stateName)[0].Citys));
     console.log(allStateCityList?.Data.filter(item=>item.StateName==getData.stateName)[0].Citys);

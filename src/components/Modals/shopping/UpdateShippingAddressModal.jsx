@@ -31,17 +31,17 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
     },
     validationSchema: yup.object({
       pincode: yup.string().required("Please Enter Pincode").matches(/^\d{6}$/,"Please Enter Valid Pincode"),
-      fname: yup.string().required("Please Enter first name")
+      fname: yup.string().required("Please Enter First name")
       .matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid First Name")
       ,
-      lname: yup.string().required("Please Enter last name")
+      lname: yup.string().required("Please Enter Last name")
       .matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid Last Name")
       ,
-      mobileno: yup.string().min(10).max(10).required("Please Enter mobile no").matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Number"),
+      mobileno: yup.string().min(10,"Please Enter Valid Mobile Number").max(10,"Please Enter Valid Mobile Number").required("Please Enter Mobile Number").matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Number"),
       addressType: yup.string().required("Please Enter addressType"),
       address: yup.string().required("Please Enter address").matches(/.{20,}/,"Address must be at least 20 characters")
       ,
-      landmark: yup.string().required("Please Enter landmark"),
+      landmark: yup.string().required("Please Enter Landmark"),
     }),
 
     onSubmit: (values, { resetForm }) => {
@@ -95,8 +95,8 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
       formik.values.address = addressProp.Address1;
       formik.values.landmark = addressProp.Landmark;
       formik.values.pincode = addressProp.ZipPostal;
+      console.warn( formik.values.pincode);
     }
-
     if (
       formik.values.pincode.length == 6 &&
       formik.values.pincode != addressProp.ZipPostal
@@ -126,6 +126,17 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
           });
         }
       })
+    } 
+    if(formik.values.pincode.length!=6) {
+      setGetData({
+        ...getData,
+        stateName: "",
+        stateId: "",
+        stateError: false,
+        cityId: "",
+        cityName: "",
+        cityError: false,
+      });
     }
   }, [formik.values.pincode]);
 
