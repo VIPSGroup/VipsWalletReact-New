@@ -745,7 +745,7 @@ const OrderSummary = () => {
                               </p>
                               <div class="digigold-paymet-discount-info">
                                 <div class="col-lg-8 p-0">
-                                  <div class="custom-control custom-checkbox">
+                                  <div class="custom-control custom-checkbox d-flex flex-wrap align-items-center">
                                     <input
                                       type="checkbox"
                                       checked
