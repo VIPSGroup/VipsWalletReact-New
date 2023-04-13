@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { quickServiceArr } from "../../pages/digiGold/DigiGoldHome";
 import { MuiSnackBar } from "../common";
 
-const QuickService = ({ setActive, setAmount, setGrams }) => {
+const QuickService = ({ setActive, setAmount, setGrams, setErr, setReceiverUserName }) => {
   const navigate = useNavigate();
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
@@ -36,6 +36,8 @@ const QuickService = ({ setActive, setAmount, setGrams }) => {
                             setActive(e.buy);
                             setAmount("");
                             setGrams("");
+                            setErr("");
+                            setReceiverUserName("");
                             window.scroll({ top: 0, behavior: "smooth" });
                           }
                         }}

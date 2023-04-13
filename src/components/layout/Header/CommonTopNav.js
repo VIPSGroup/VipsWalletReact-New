@@ -24,11 +24,11 @@ const CommonTopNav = ({
   setActive,
   title,
   setGrams,
-  grams,
   setAmount,
-  amount,
   setStep,
-  step,
+  setErr,
+  setReceiverUserName,
+  receiverUserName,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -610,6 +610,8 @@ const CommonTopNav = ({
                       setActive(0);
                       setGrams("");
                       setAmount("");
+                      setErr("");
+                      setReceiverUserName("");
                     }}
                     to="/vipsgold"
                   >
@@ -627,6 +629,8 @@ const CommonTopNav = ({
                       setActive(1);
                       setGrams("");
                       setAmount("");
+                      setErr("");
+                      setReceiverUserName("");
                     }}
                     to="/vipsgold"
                   >
@@ -671,11 +675,14 @@ const CommonTopNav = ({
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    to="/vipsgold-gift"
-                    // onClick={() => {
-                    //   setIsSnackBar(true);
-                    //   setErrorMsg("Service will be coming soon..");
-                    // }}
+                    to="/vipsgold"
+                    onClick={() => {
+                      setActive(2);
+                      setGrams("");
+                      setAmount("");
+                      setErr("");
+                      setReceiverUserName("");
+                    }}
                   >
                     <img
                       src="images/digigold-images/buy-white-icon.svg"

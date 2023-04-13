@@ -78,6 +78,9 @@ const Router = () => {
   const [amount, setAmount] = useState("");
   const [grams, setGrams] = useState("");
   const [step, setStep] = useState("");
+  const [err, setErr] = useState("");
+  const [receiverUserName, setReceiverUserName] = useState("");
+
   return (
     <>
       <Navigation
@@ -92,6 +95,10 @@ const Router = () => {
         grams={grams}
         setStep={setStep}
         step={step}
+        setErr={setErr}
+        err={err}
+        setReceiverUserName={setReceiverUserName}
+        receiverUserName={receiverUserName}
       />
       <Routes>
         <Route
@@ -414,6 +421,10 @@ const Router = () => {
               grams={grams}
               setStep={setStep}
               step={step}
+              setErr={setErr}
+              err={err}
+              setReceiverUserName={setReceiverUserName}
+              receiverUserName={receiverUserName}
             />
           }
         />

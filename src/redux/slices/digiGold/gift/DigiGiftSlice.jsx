@@ -11,16 +11,17 @@ export const DigiGiftSend = async ({
   senderUsername,
   Password,
   otp,
-  formvalue,
+  valueType,
+  receiverUserName,
 }) => {
   // const amount = digitPrecision(formvalue.valueinAmt, "amount");
-  console.log(formvalue.metalType, "formvalue.metalType");
+  console.log(valueType.metalType, "formvalue.metalType");
   const formData = new FormData();
   formData.append("senderUsername", senderUsername);
   formData.append("Password", Password);
-  formData.append("receiverUserName", formvalue.receiverUserName);
-  formData.append("metalType", formvalue.metalType);
-  formData.append("quantity", formvalue.valueinGm);
+  formData.append("receiverUserName", receiverUserName);
+  formData.append("metalType", valueType.metalType);
+  formData.append("quantity", valueType.valueinGm);
   formData.append("otp", otp || "");
   formData.append("AppType", appType);
   formData.append("currentAppVersion", currentAppVersion);

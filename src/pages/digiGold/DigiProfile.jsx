@@ -187,7 +187,6 @@ const DigiProfile = () => {
                     >
                       <div class="container">
                         <div class="row">
-
                           <div class="col-lg-6 col-md-6">
                             <Form.Item name={"Name"}>
                               <Input
@@ -212,34 +211,33 @@ const DigiProfile = () => {
                           <div class="col-lg-6 col-md-6">
                             <div className="input-wrapper w-100">
                               <div className="input">
-                            <Form.Item
-                              rules={[
-                                {
-                                  type: "email",
-                                  message: "Please Enter Valid Email",
-                                },
-                                {
-                                  required: true,
-                                  message: "Email is Required",
-                                },
-                              ]}
-                              name={"emailId"}
-                            >
-                              <Input
-                                required
-                                value={formValue.emailId}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formValue,
-                                    emailId: e.target.value,
-                                  })
-                                }
-                                size="large"
-                                placeholder="Email Id"
-                              />
-                            </Form.Item>
-                          </div>
-                          
+                                <Form.Item
+                                  rules={[
+                                    {
+                                      type: "email",
+                                      message: "Please Enter Valid Email",
+                                    },
+                                    {
+                                      required: true,
+                                      message: "Email is Required",
+                                    },
+                                  ]}
+                                  name={"emailId"}
+                                >
+                                  <Input
+                                    required
+                                    value={formValue.emailId}
+                                    onChange={(e) =>
+                                      setFormValue({
+                                        ...formValue,
+                                        emailId: e.target.value,
+                                      })
+                                    }
+                                    size="large"
+                                    placeholder="Email Id"
+                                  />
+                                </Form.Item>
+                              </div>
                             </div>
                           </div>
 
@@ -283,11 +281,11 @@ const DigiProfile = () => {
                                 placeholder="Select User DOB"
                                 value={formValue.dateOfBirth}
                                 format={dateFormatList[0]}
-                                mode="date"
+                                // mode="date"
                               />
                               {/* <label htmlFor="">DOB</label> */}
                             </Form.Item>
-                              </div>
+                          </div>
 
                           <div class="col-lg-6 col-md-6">
                             <Form.Item
@@ -449,24 +447,23 @@ const DigiProfile = () => {
                           </div>
 
                           <div class="col-lg-6 col-md-6">
-                          <div className="input-wrapper w-100">
+                            <div className="input-wrapper w-100">
                               <div className="input">
-                            <Form.Item
-                              
-                              rules={[
-                                // {
-                                //   type: "date",
-                                // },
-                                {
-                                  required:
-                                    formValue.nomineeName ||
-                                    formValue.nomineeRelation,
-                                  message: "This Field is Required ",
-                                },
-                              ]}
-                              name="nomineeDateOfBirth"
-                            >
-                              {/* <Input
+                                <Form.Item
+                                  rules={[
+                                    // {
+                                    //   type: "date",
+                                    // },
+                                    {
+                                      required:
+                                        formValue.nomineeName ||
+                                        formValue.nomineeRelation,
+                                      message: "This Field is Required ",
+                                    },
+                                  ]}
+                                  name="nomineeDateOfBirth"
+                                >
+                                  {/* <Input
                                 max="2999-12-31"
                                 type="date"
                                 value={formValue.nomineeDateOfBirth}
@@ -479,92 +476,91 @@ const DigiProfile = () => {
                                 size="large"
                                 placeholder="Nominee DOB"
                               /> */}
-                              <DatePicker
-                                style={{ width: "100%" }}
-                                size="large"
-                                // disabledDate={(current) => {
-                                //   const today = new Date();
-                                //   const diffInMs = Math.abs(today - current.$d);
-                                //   const age = Math.floor(
-                                //     diffInMs / (1000 * 60 * 60 * 24 * 365)
-                                //   );
-                                //   return age < 18;
-                                // }}
-                                disabledDate={(current) => {
-                                  const eighteenYearsAgo = moment().subtract(
-                                    18,
-                                    "years"
-                                  );
+                                  <DatePicker
+                                    style={{ width: "100%" }}
+                                    size="large"
+                                    // disabledDate={(current) => {
+                                    //   const today = new Date();
+                                    //   const diffInMs = Math.abs(today - current.$d);
+                                    //   const age = Math.floor(
+                                    //     diffInMs / (1000 * 60 * 60 * 24 * 365)
+                                    //   );
+                                    //   return age < 18;
+                                    // }}
+                                    disabledDate={(current) => {
+                                      const eighteenYearsAgo =
+                                        moment().subtract(18, "years");
 
-                                  // Disable dates that are after the calculated date
-                                  return current && current > eighteenYearsAgo;
-                                }}
-                                clearIcon={false}
-                                onChange={(date, dateString) => {
-                                  if (date === null || date === undefined) {
-                                    setFormValue({
-                                      ...formValue,
-                                      nomineeDateOfBirth: undefined, // or set a default value like new Date()
-                                    });
-                                  } else {
-                                    setFormValue({
-                                      ...formValue,
-                                      nomineeDateOfBirth: date,
-                                    });
-                                  }
-                                }}
-                                placeholder="Select Nominee DOB"
-                                value={formValue.nomineeDateOfBirth}
-                                format={dateFormatList[0]}
-                                mode="date"
-                              />
-                              {/* <label htmlFor="">Nominee DOB</label> */}
-                            </Form.Item>
-                            </div>
+                                      // Disable dates that are after the calculated date
+                                      return (
+                                        current && current > eighteenYearsAgo
+                                      );
+                                    }}
+                                    clearIcon={false}
+                                    onChange={(date, dateString) => {
+                                      if (date === null || date === undefined) {
+                                        setFormValue({
+                                          ...formValue,
+                                          nomineeDateOfBirth: undefined, // or set a default value like new Date()
+                                        });
+                                      } else {
+                                        setFormValue({
+                                          ...formValue,
+                                          nomineeDateOfBirth: date,
+                                        });
+                                      }
+                                    }}
+                                    placeholder="Select Nominee DOB"
+                                    value={formValue.nomineeDateOfBirth}
+                                    format={dateFormatList[0]}
+                                    // mode="date"
+                                  />
+                                  {/* <label htmlFor="">Nominee DOB</label> */}
+                                </Form.Item>
+                              </div>
                             </div>
                           </div>
 
                           <div class="col-lg-6 col-md-6">
-                          <div className="input-wrapper w-100">
+                            <div className="input-wrapper w-100">
                               <div className="input">
-                            <Form.Item
-                              
-                              name="nomineeRelation"
-                              rules={[
-                                {
-                                  required:
-                                    formValue.nomineeName ||
-                                    formValue.nomineeDateOfBirth,
-                                  message: "This Field is Required ",
-                                },
-                                {
-                                  min: 3,
-                                  message: "Min 3 Character Required",
-                                },
-                              ]}
-                            >
-                              <Input
-                                // onKeyPress={handleKeyPress}
-                                onKeyPress={handleKeyPressForName}
-                                value={formValue.nomineeRelation}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formValue,
-                                    nomineeRelation: e.target.value,
-                                  })
-                                }
-                                size="large"
-                                placeholder="Nominee Relation"
-                              />
-                              {/* <label htmlFor="">Nominee Relation</label> */}
-                            </Form.Item>
-                                </div>
-                                </div>
+                                <Form.Item
+                                  name="nomineeRelation"
+                                  rules={[
+                                    {
+                                      required:
+                                        formValue.nomineeName ||
+                                        formValue.nomineeDateOfBirth,
+                                      message: "This Field is Required ",
+                                    },
+                                    {
+                                      min: 3,
+                                      message: "Min 3 Character Required",
+                                    },
+                                  ]}
+                                >
+                                  <Input
+                                    // onKeyPress={handleKeyPress}
+                                    onKeyPress={handleKeyPressForName}
+                                    value={formValue.nomineeRelation}
+                                    onChange={(e) =>
+                                      setFormValue({
+                                        ...formValue,
+                                        nomineeRelation: e.target.value,
+                                      })
+                                    }
+                                    size="large"
+                                    placeholder="Nominee Relation"
+                                  />
+                                  {/* <label htmlFor="">Nominee Relation</label> */}
+                                </Form.Item>
+                              </div>
+                            </div>
                           </div>
-
                         </div>
                       </div>
-                      <div className="order-proceed-btn"
+                      <div
+                        className="order-proceed-btn"
                         // style={{
                         //   display: "flex",
                         //   justifyContent: "center",

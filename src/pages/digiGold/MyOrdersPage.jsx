@@ -181,6 +181,7 @@ const MyOrdersPage = () => {
       setErrorMsg("");
       setIsSnackBar(true);
       setSuccessMsg(res.payload.Remarks);
+      setModal(false);
       const linkSource = `data:application/pdf;base64,${res.payload.Data.InvoiceString}`;
       const downloadLink = document.createElement("a");
       downloadLink.href = linkSource;
@@ -559,7 +560,9 @@ const MyOrdersPage = () => {
                     <div class="col-xl-6 col-sm-6 text-sm-right">
                       <span class="digigoldorderdetails-amt">
                         {" "}
-                        {parseFloat(modalData?.TaxAmount)?.toLocaleString()}{" "}
+                        {parseFloat(
+                          modalData?.TaxAmount
+                        )?.toLocaleString()}{" "}
                       </span>
                     </div>
                   </div>
@@ -572,7 +575,9 @@ const MyOrdersPage = () => {
                   <div class="col-xl-6 col-sm-6 text-sm-right">
                     <span class="digigoldorderdetails-amt">
                       {" "}
-                      {parseFloat(modalData?.TotalAmount)?.toLocaleString()}{" "}
+                      {parseFloat(
+                        modalData?.TotalAmount
+                      )?.toLocaleString()}{" "}
                     </span>
                   </div>
                 </div>
@@ -589,7 +594,6 @@ const MyOrdersPage = () => {
                     onClick={() => {
                       tab === "Buy" &&
                         handleDownloadInvoice(modalData.TransactionId);
-                      // dispatch(downloadPdf(modalData.TransactionId));
                     }}
                   >
                     {modalData.TransactionType?.toLowerCase() === "buy" ? (

@@ -515,7 +515,7 @@ const OrderSummary = () => {
   window.onpopstate = function (event) {
     localStorage.removeItem("valueType");
   };
-
+console.log(state.valueinGm, "ye kya hai")
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">
@@ -940,11 +940,11 @@ const OrderSummary = () => {
                                               message:
                                                 "Holder Name is Required",
                                             },
-                                            {
-                                              min: 3,
-                                              message:
-                                                "Min 3 Character are Required",
-                                            },
+                                            // {
+                                            //   min: 3,
+                                            //   message:
+                                            //     "Min 3 Character are Required",
+                                            // },
                                             {
                                               pattern: namePattern,
                                               message:

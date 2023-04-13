@@ -14,6 +14,10 @@ const Navigation = ({
   amount,
   setStep,
   step,
+  setErr,
+  err,
+  setReceiverUserName,
+  receiverUserName,
 }) => {
   const path = useResolvedPath().pathname;
 
@@ -23,7 +27,6 @@ const Navigation = ({
         !isBottomTopNav &&
         path !== "/shopping/cart" &&
         path !== "/shopping/address" &&
-
         path !== "/shopping/checkout" &&
         isCommonTopNav && (
           <CommonTopNav
@@ -35,6 +38,10 @@ const Navigation = ({
             grams={grams}
             setStep={setStep}
             step={step}
+            setErr={setErr}
+            err={err}
+            setReceiverUserName={setReceiverUserName}
+            receiverUserName={receiverUserName}
           />
         )}
 

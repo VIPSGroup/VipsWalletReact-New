@@ -17,12 +17,16 @@ import {
   formatter,
   handleKeyDown,
   handleKeyDown2,
+  handleMobileKeyPress,
   parser,
 } from "../../constants";
 import { MuiSnackBar } from "../../components/common";
 import MyVault, { CurrentRateSection } from "./MyVault";
 import QuickService from "../../components/digiGold/QuickService";
 import UserNotExist from "../../components/digiGold/UserNotExist";
+import { DigiGiftSend } from "../../redux/slices/digiGold/gift/DigiGiftSlice";
+import OTPModal from "../../components/common/OTPModal";
+import SuccessModal from "../../components/digiGold/SuccessModal";
 
 export const HowItWorks = () => {
   return (
@@ -74,6 +78,10 @@ const DigiGoldHome = ({
   amount,
   setStep,
   step,
+  setErr,
+  err,
+  setReceiverUserName,
+  receiverUserName,
 }) => {
   const { state } = useLocation();
   const dispatch = useDispatch();
@@ -83,7 +91,13 @@ const DigiGoldHome = ({
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isGold, setIsGold] = useState(0); //0 for Gold 1 for Silver
-  const [err, setErr] = useState("");
+  const [load, setLoad] = useState(false);
+  const [Otp, setOtp] = useState("");
+  const [modal, setModal] = useState(false);
+  const [response, setResponse] = useState();
+  // const [receiverUserName, setReceiverUserName] = useState("");
+  // console.log(receiverUserName, "kya hai");
+  // const [err, setErr] = useState("");
   const { isServiceEnable, ServiceEnableLoading } = useSelector(
     (state) => state.coreSlice
   );
@@ -95,6 +109,7 @@ const DigiGoldHome = ({
     password: "",
     metalType: "",
     type: "",
+    // receiverUserName: "",
   });
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
@@ -105,41 +120,108 @@ const DigiGoldHome = ({
   const { rateData, loading } = useSelector(
     (state) => state.digiGoldSlice.rates
   );
-  const handleClick = () => {
+
+  const handleClick = async () => {
+    const senderUsername = loggedInUser?.UserName;
+    const Password = loggedInUser?.TRXNPassword;
+    const otp = Otp;
     valueType.uniqueId = loggedInUser?.Id;
     valueType.username = loggedInUser?.UserName;
     valueType.password = loggedInUser?.TRXNPassword;
-    valueType.type = parseFloat(active) === 0 ? "buy" : "sell";
-    if (!amount && !grams) {
-      setErr("Please Enter Amount or Grams");
-    } else {
-      if (!loggedInUser) {
-        navigate("/login");
+    valueType.type =
+      (parseFloat(active) === 0 && "buy") ||
+      (parseFloat(active) === 1 && "sell") ||
+      (parseFloat(active) === 2 && "gift");
+    if (parseFloat(active) === 2) {
+      if (!amount && !grams) {
+        setErr("Please Enter Amount or Grams");
       } else {
-        if (
-          rateData.ResponseStatus !== 0 &&
-          !loading &&
-          !err &&
-          logData.ResponseStatus !== 0
-        ) {
-          navigate("/vipsgold-order-summary", { state: valueType });
-          localStorage.setItem("valueType", JSON.stringify(valueType));
-          setAmount("");
-          setGrams("");
-
-          navigate("/vipsgold-order-summary", { state: valueType });
-        } else if (rateData.ResponseStatus === 0) {
-          setErrorMsg(rateData.Remarks);
-          setSuccessMsg("");
-          setIsSnackBar(true);
-        } else if (logData.ResponseStatus === 0) {
-          dispatch(modalOpen());
-          setStep(0);
+        if (logData.Data && !err) {
+          setLoad(true);
+          const res = await DigiGiftSend({
+            senderUsername,
+            Password,
+            otp,
+            valueType,
+            receiverUserName,
+          });
+          if (res.ResponseStatus === 2) {
+            setLoad(false);
+            setIsSnackBar(true);
+            setErrorMsg("");
+            setSuccessMsg(res.Remarks);
+            setStep(1);
+          }
+          if (res.ResponseStatus === 1) {
+            if (res.Data.statusCode === 200) {
+              setLoad(false);
+              setStep(0);
+              setResponse(res.Data);
+              setModal(true);
+            } else {
+              setLoad(false);
+              setIsSnackBar(true);
+              setErrorMsg("Something Went Wrong");
+              setSuccessMsg("");
+            }
+          }
+          if (res.ResponseStatus === 0) {
+            if (res.Data?.statusCode === 412) {
+              setLoad(false);
+              setIsSnackBar(true);
+              setErrorMsg(res.Data.message);
+              setSuccessMsg("");
+            } else {
+              setLoad(false);
+              setIsSnackBar(true);
+              setErrorMsg(res.Remarks);
+              setSuccessMsg("");
+            }
+          }
+        } else {
+          if (loggedInUser && !err) {
+            dispatch(modalOpen());
+          } else {
+            if (!err) {
+              navigate("/login");
+            }
+          }
         }
-        if (logData.ResponseStatus === 3) {
-          setErrorMsg(logData.Remarks);
-          setSuccessMsg("");
-          setIsSnackBar(true);
+      }
+    } else {
+      if (!amount && !grams) {
+        setErr("Please Enter Amount or Grams");
+      } else {
+        if (!loggedInUser) {
+          console.log("ye hai");
+
+          navigate("/login");
+        } else {
+          if (
+            rateData.ResponseStatus !== 0 &&
+            !loading &&
+            !err &&
+            logData.ResponseStatus !== 0
+          ) {
+            navigate("/vipsgold-order-summary", { state: valueType });
+            localStorage.setItem("valueType", JSON.stringify(valueType));
+            setAmount("");
+            setGrams("");
+
+            navigate("/vipsgold-order-summary", { state: valueType });
+          } else if (rateData.ResponseStatus === 0) {
+            setErrorMsg(rateData.Remarks);
+            setSuccessMsg("");
+            setIsSnackBar(true);
+          } else if (logData.ResponseStatus === 0) {
+            dispatch(modalOpen());
+            setStep(0);
+          }
+          if (logData.ResponseStatus === 3) {
+            setErrorMsg(logData.Remarks);
+            setSuccessMsg("");
+            setIsSnackBar(true);
+          }
         }
       }
     }
@@ -153,9 +235,8 @@ const DigiGoldHome = ({
       const username = loggedInUser.UserName;
       const password = loggedInUser.TRXNPassword;
       dispatch(loginDigiGold({ username, password }));
+      console.log("Kitni Baar chl rha hai");
     }
-
-   
   }, [dispatch]);
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -167,6 +248,8 @@ const DigiGoldHome = ({
     return () => clearInterval(intervalId); // Clear the interval on unmount
   }, [dispatch]);
   const handleAmountChange = (e) => {
+    const gGram = parseFloat(logData?.Data?.GoldGrams);
+    const sGram = parseFloat(logData?.Data?.SilverGrams);
     const taxRate =
       parseFloat(rateData.Data.result.data.taxes[0].taxPerc) +
       parseFloat(rateData.Data.result.data.taxes[1].taxPerc);
@@ -181,15 +264,59 @@ const DigiGoldHome = ({
 
     const inclTaxRate = digitPrecision(TaxInc, "amount");
     const qty = inclTaxAmount / inclTaxRate;
-    const quantity = digitPrecision(qty, "quantity");
+    const quantity = digitPrecision(
+      parseFloat(active) === 2
+        ? inclTaxAmount /
+            (isGold === 0
+              ? rateData.Data?.result.data.rates.gSell
+              : rateData.Data?.result.data.rates.sSell)
+        : qty,
+      "quantity"
+    );
+    console.log(quantity, "qty");
     setValueType({
       ...valueType,
       valueinAmt: e.target.value,
-      valueinGm: e.target.value / (isGold === 0 ? GoldBuyRate : SilverBuyRate),
+      valueinGm: quantity,
+      // e.target.value / (isGold === 0 ? GoldBuyRate : SilverBuyRate),
       valType: "amount",
       metalType: isGold === 0 ? "gold" : "silver",
     });
     setGrams(quantity ? quantity : "");
+    const gram = parseFloat(quantity);
+    if (logData.Data) {
+      if (gram > (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
+        const roundedNum = Math.round(gGram * 10000) / 10000;
+        const gGramStr = roundedNum.toFixed(4);
+        const gGramResult = parseFloat(gGramStr);
+        const sGramRounded = Math.round(sGram * 10000) / 10000;
+        const sGramStr = sGramRounded.toFixed(4);
+        const sGramResult = parseFloat(sGramStr);
+        if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
+          setErr(
+            ` You can gift up to ${
+              isGold === 0 ? gGramResult : sGramResult
+            } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+              isGold === 0 ? gGramResult : sGramResult
+            } gm `
+          );
+        } else {
+          if (parseFloat(active) !== 0) {
+            setErr(
+              `You do not have a enough ${
+                isGold === 0 ? "Gold" : "Silver"
+              } to Gift `
+            );
+          }
+        }
+      } else {
+        setErr("");
+      }
+    } else {
+      if (quantity) {
+        setErr("");
+      }
+    }
     if (quantity === 0) {
       setErr("");
     }
@@ -217,7 +344,7 @@ const DigiGoldHome = ({
     const sGram = parseFloat(logData?.Data?.SilverGrams);
     if (logData.Data) {
       if (
-        parseFloat(active) === 1 &&
+        (parseFloat(active) === 1 || parseFloat(active) === 2) &&
         gram > (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))
       ) {
         const roundedNum = Math.round(gGram * 10000) / 10000;
@@ -228,7 +355,7 @@ const DigiGoldHome = ({
         const sGramResult = parseFloat(sGramStr);
         if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
           setErr(
-            ` You can sell up to ${
+            ` You can ${parseFloat(active) === 1 ? "Sell" : "Gift"} up to ${
               isGold === 0 ? gGramResult : sGramResult
             } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
               isGold === 0 ? gGramResult : sGramResult
@@ -236,12 +363,16 @@ const DigiGoldHome = ({
           );
         } else {
           setErr(
-            `You do not have a enough ${
-              isGold === 0 ? "Gold" : "Silver"
-            } to Sell `
+            `You do not have a enough ${isGold === 0 ? "Gold" : "Silver"} to ${
+              parseFloat(active) === 1 ? "Sell" : "Gift"
+            } `
           );
         }
       } else {
+        setErr("");
+      }
+    } else {
+      if (value !== 0) {
         setErr("");
       }
     }
@@ -253,7 +384,11 @@ const DigiGoldHome = ({
       (parseFloat(active) === 0 && isGold === 0 && GoldBuyRates * quantity) ||
       (parseFloat(active) === 0 && isGold === 1 && SilverBuyRates * quantity) ||
       (parseFloat(active) === 1 && isGold === 0 && GoldSellRates * quantity) ||
-      (parseFloat(active) === 1 && isGold === 1 && SilverSellRates * quantity);
+      (parseFloat(active) === 1 &&
+        isGold === 1 &&
+        SilverSellRates * quantity) ||
+      (parseFloat(active) === 2 && isGold === 0 && GoldSellRates * quantity) ||
+      (parseFloat(active) === 2 && isGold === 1 && SilverSellRates * quantity);
     setValueType({
       ...valueType,
       valueinGm: quantity,
@@ -298,6 +433,7 @@ const DigiGoldHome = ({
         setGrams,
         setErr,
         amount,
+        active,
       });
     }
   }, [rateData]);
@@ -309,6 +445,39 @@ const DigiGoldHome = ({
       position === -1 ? input.value.length : position + 1
     );
   };
+  useEffect(() => {
+    setGrams("");
+    setAmount("");
+  }, []);
+  const handleCloseGiftSuccess = () => {
+    setModal(false);
+    navigate("/vipsgold");
+    setOtp("");
+  };
+  const handleResendGiftOTPSubmit = async () => {
+    setOtp("");
+    const senderUsername = loggedInUser.UserName;
+    const Password = loggedInUser.TRXNPassword;
+
+    const res = await DigiGiftSend({
+      senderUsername,
+      Password,
+      valueType,
+    });
+    if (res.ResponseStatus === 2) {
+      setIsSnackBar(true);
+      setErrorMsg("");
+      setSuccessMsg(res.Remarks);
+      setStep(1);
+    }
+  };
+
+  const handleCloseForGiftModal = () => {
+    setOtp("");
+    navigate("/vipsgold");
+    setStep("");
+  };
+
   return (
     <>
       <div className="">
@@ -334,6 +503,7 @@ const DigiGoldHome = ({
                           setAmount("");
                           setGrams("");
                           setErr("");
+                          setReceiverUserName("");
                         }}
                         style={{ cursor: "pointer" }}
                         class={parseFloat(active) === 0 && "option-active"}
@@ -347,10 +517,25 @@ const DigiGoldHome = ({
                           setAmount("");
                           setGrams("");
                           setErr("");
+                          setReceiverUserName("");
                         }}
                         class={parseFloat(active) === 1 && "option-active"}
                       >
                         <h2>Sell</h2>
+                      </div>
+                      <div
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          // navigate("/vipsgold-gift");
+                          setActive(2);
+                          setAmount("");
+                          setGrams("");
+                          setErr("");
+                          setReceiverUserName("");
+                        }}
+                        class={parseFloat(active) === 2 && "option-active"}
+                      >
+                        <h2>Gift</h2>
                       </div>
                     </div>
 
@@ -365,10 +550,47 @@ const DigiGoldHome = ({
                             name: "amount",
                             value: amount,
                           },
+                          {
+                            name: "mobileNumber",
+                            value: receiverUserName,
+                          },
                         ]}
                         onFinish={handleClick}
                         className="buy-sell-tab-inner"
                       >
+                        {/* Yaha Se Start hai Reciepent Mobile Number */}
+
+                        {active === 2 && (
+                          <div class="gift-recipient-outer">
+                            <div class="">
+                              <Form.Item
+                                name="mobileNumber"
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Mobile number is required",
+                                  },
+                                  {
+                                    pattern: /^\d{10}$/,
+                                    message: "Mobile number is not valid",
+                                  },
+                                ]}
+                              >
+                                <Input
+                                  onKeyPress={handleMobileKeyPress}
+                                  value={receiverUserName}
+                                  onChange={(e) =>
+                                    setReceiverUserName(e.target.value)
+                                  }
+                                  maxLength={10}
+                                  size="large"
+                                  placeholder="Enter Mobile Number"
+                                />
+                              </Form.Item>
+                            </div>
+                          </div>
+                        )}
+
                         <ul class="nav nav-pills tab-pills-wrapper">
                           <li
                             style={{ cursor: "pointer" }}
@@ -469,7 +691,7 @@ const DigiGoldHome = ({
                                       name="amount"
                                       onChange={handleAmountChange}
                                       disabled={
-                                        parseFloat(active) === 0 ? false : true
+                                        parseFloat(active) === 1 ? true : false
                                       }
                                       placeholder="Enter Amount"
                                       size="large"
@@ -477,7 +699,7 @@ const DigiGoldHome = ({
                                       className="mb-0 disabled-input"
                                       style={{
                                         backgroundColor:
-                                          parseFloat(active) !== 0 &&
+                                          parseFloat(active) === 1 &&
                                           "rgb(211 211 211 / 23%)",
                                       }}
                                     />
@@ -496,9 +718,10 @@ const DigiGoldHome = ({
                                       : "btn-primery quick-buy"
                                   } `}
                                 >
-                                  {parseFloat(active) === 0
-                                    ? "Quick Buy"
-                                    : "Quick Sell"}
+                                  {(parseFloat(active) === 0 && "Quick Buy") ||
+                                    (parseFloat(active) === 1 &&
+                                      "Quick Sell") ||
+                                    (parseFloat(active) === 2 && "Send Gift")}
                                 </button>
                                 <p style={{ color: "red", marginTop: 20 }}>
                                   {amount < 1 && (amount || grams)
@@ -525,6 +748,8 @@ const DigiGoldHome = ({
           setActive={setActive}
           setAmount={setAmount}
           setGrams={setGrams}
+          setErr={setErr}
+          setReceiverUserName={setReceiverUserName}
         />
         {HowItWorks(setActive)}
         <DigiGoldSignup
@@ -533,6 +758,24 @@ const DigiGoldHome = ({
           step={step}
         />
       </div>
+      {logData.Data && (
+        <OTPModal
+          load={load}
+          step={step}
+          setStep={setStep}
+          setOtp={setOtp}
+          Otp={Otp}
+          handleClick={handleClick}
+          resendOtp={handleResendGiftOTPSubmit}
+          handleClose={handleCloseForGiftModal}
+        />
+      )}
+      <SuccessModal
+        modal={modal}
+        response={response}
+        route={"/vipsgold-orders"}
+        handleCloseGiftSuccess={handleCloseGiftSuccess}
+      />
       <UserNotExist />
       <MuiSnackBar
         open={isSnackBar}
@@ -544,7 +787,7 @@ const DigiGoldHome = ({
       />
     </>
   );
-            }
+};
 
 export const quickServiceArr = [
   {
@@ -571,7 +814,9 @@ export const quickServiceArr = [
   {
     img: "buy-icon.svg",
     title: "Gift",
-    route: "/vipsgold-gift",
+    buy: 2,
+
+    route: "/vipsgold",
   },
   // {
   //   img: "my-orders-icon.svg",
