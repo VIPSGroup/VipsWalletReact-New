@@ -63,7 +63,6 @@ const DigiProfile = () => {
       event.preventDefault();
     }
   };
-  console.log(formValue, "formValue");
   useEffect(() => {
     formValue.Name = logData?.Data?.Name;
     formValue.mobileNumber = logData?.Data?.MobileNumber;

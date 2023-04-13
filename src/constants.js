@@ -131,7 +131,6 @@ export const getTermsConditionsId = (type) => {
 export const googleAnalytics = "UA-220725992-1";
 
 export function digitPrecision({ sGramResult, type }) {
-  console.log(sGramResult, type, "theek hahi");
   if (type === "amount") {
     // return  round upto 2 decimal
   } else if (type === "quantity") {
@@ -220,15 +219,3 @@ export function getFixedDecimalNumber(input, precision) {
     return input;
   }
 };
-
-// export function digitPrecision(data, type) {
-//   if (type === "amount") {
-//     const amt = parseFloat(data);
-//     return amt.toFixed(2);
-//   } else if (type === "quantity") {
-//     console.log(data, "data");
-//     return getFixedDecimalNumber(data, 4);
-//   } else {
-//     return data;
-//   }
-// };

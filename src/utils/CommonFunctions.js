@@ -3,7 +3,6 @@ export const checkInWishlist = (productId,setExistInWishlist) => {
     wishlist &&
       wishlist.map((w, i) => {
         if (w?.Id?.toString() === productId) {
-          console.error(w);
           setExistInWishlist(true);
         }
       });

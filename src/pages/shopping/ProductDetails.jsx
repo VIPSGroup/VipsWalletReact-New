@@ -225,7 +225,6 @@ const ProductDetails = () => {
     var p = {};
 setLoading(true)
     getSingleProductData(productId).then((response) => {
-      console.log(response);
       setLoading(false)
       p = response?.Data?.ProductDetails;
       setProduct(response?.Data?.ProductDetails);

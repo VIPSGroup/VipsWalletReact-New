@@ -57,18 +57,17 @@ const SignUpForm = ({ setIsSignIn }) => {
       termsCheck: false,
     },
     validationSchema: yup.object({
-      // fName:yup.string().required("Please Enter Your First Name").matches(/^([\w]{3,})+\s+([\w\s]{1,})+$/,"Please Enter Correct First Name"),
       fName: yup
         .string()
         .required("Please Enter Your First Name")
-        .matches(/^[a-zA-Z\.\s]{3,20}$/, "Please Enter Correct First Name"),
+        .matches(/^[a-zA-Z\.\s]{3,20}$/, "Please Enter Valid First Name"),
       lName: yup
         .string()
         .required("Please Enter Your Last Name")
-        .matches(/^[a-zA-Z\.\s]{3,20}$/, "Please Enter Correct Last Name"),
+        .matches(/^[a-zA-Z\.\s]{3,20}$/, "Please Enter Valid Last Name"),
       emailId: yup
         .string()
-        .email("email is not valid")
+        .email("Please Enter Valid Email")
         .required("Please Enter Your email"),
       refId: yup
         .string()
@@ -250,7 +249,6 @@ const SignUpForm = ({ setIsSignIn }) => {
   };
   const clickVerifySignupOtp = (e) => {
     e.preventDefault();
-    console.log(userDetails);
     dispatch(signUpUser({ ...userDetails, Otp: otp }));
   };
   const handleKeyPressForName = (event) => {

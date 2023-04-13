@@ -31,7 +31,6 @@ const Cart = ({ setIsHomeTopNav }) => {
 dispatch(removeCart(id))
     const allCart = JSON.parse(localStorage.getItem("cart"))
     const filteredCart= allCart.filter(item=>item.product.Id!==id)
-    console.log(filteredCart);
     setCartProducts(filteredCart);
     localStorage.setItem("cart", JSON.stringify(filteredCart));
     let price=0
@@ -75,7 +74,6 @@ dispatch(removeCart(id))
   }, []);
 
   useEffect(() => {
-    console.log("useEffect");
     const data = JSON.parse(localStorage.getItem("cart"));
     data && setCartProducts(data);
     var price = 0;
@@ -88,18 +86,6 @@ dispatch(removeCart(id))
 
     setTotalAmount(price);
   }, [dummy]);
-// useEffect(() => {
-//   let price=0
-//   console.log(cartProducts);
-//  if (cartProducts.length!==0) {
-//       cartProducts.map((d, i) => {
-//         console.warn(d);
-//         price = price + d.qty * d.product.SalePrice;
-//       });
-//     }
-
-//     // setTotalAmount(price);
-// }, [dummy])
 
   const cartSection = () => (
     <section class="inpage-section-align">

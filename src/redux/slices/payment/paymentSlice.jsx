@@ -18,7 +18,6 @@ export const getPayUHash = async (user, transactionId, amount,key,string) => {
 
   try {
     let res 
-    console.warn(string==="PAYUMONEY");
     if(string==="PAYUMONEY"){
       res= await axios.post(`${baseApiUrl}/PayUMoneyHash`, formData);
     }else{
@@ -162,7 +161,6 @@ const paymentSlice = createSlice({
       state.configBySubKey.loading = true;
     });
     builder.addCase(globalConfiguration.fulfilled, (state, action) => {
-      console.warn(action.payload);
       if(action.payload.ResponseStatus===1){
         if(action.payload.Data.Key){
           state.configBySubKey.key=action.payload.Data.Key

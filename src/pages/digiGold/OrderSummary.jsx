@@ -123,7 +123,6 @@ const OrderSummary = () => {
               const excTaxAmount =
                 quantity * res.payload.Data.result.data.rates.sBuy;
               const exclTaxRate = digitPrecision(excTaxAmount, "amount");
-              console.log(exclTaxRate, "exclTaxRate");
               const TaxTotal = (exclTaxRate * taxRate) / 100;
               const totalTax = digitPrecision(TaxTotal, "amount");
 

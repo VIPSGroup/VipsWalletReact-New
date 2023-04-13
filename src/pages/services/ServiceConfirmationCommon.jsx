@@ -52,13 +52,11 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
   );
   // const { rechargeData,reLoading, } = useSelector(state => state.fastagSlice.fastagRecharge);
   const handleClickConfirm = (e) => {
-    console.warn("called");
     e.preventDefault();
     setShowSuccess(true);
     setLoading(true);
     const paymentRefId = getRandomNumber();
     if (serviceId === gasServiceId) {
-      console.warn("$$$$$$$$$");
       dispatch(
         naturalGasBillPay({
           username: loggedInUser.Mobile,
@@ -72,7 +70,6 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
         })
       );
     } else {
-      console.warn("_____");
       dispatch(
         commonServiceConfirm({
           username: loggedInUser.Mobile,

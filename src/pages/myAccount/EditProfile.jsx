@@ -274,13 +274,13 @@ const EditProfile = () => {
                             className={ error && "is-invalid" }
                             onChange={e=>{
                               const regex=/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/
-                              console.log(e.target.value.length);
                               setAlternateNumber(e.target.value)
                               if(!regex.test(e.target.value)){
                                 setError("Please Enter Valid Mobile Number")
                               }else{
                                   setError("")
-                                }}
+                                }
+                              }
                               }
                             id="user-alternate-number"
                             placeholder="&nbsp;"

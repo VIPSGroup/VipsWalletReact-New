@@ -34,14 +34,12 @@ const BrowsePlans = ({
   const clickMplanType = (e) => {
     e.preventDefault();
     const clickedButton = e.target.value;
-    console.log(clickedButton);
     if (clickedButton == "Special Recharge") {
       setActivePlans(spPlans);
       setSelectedType(e.target.value);
     } else {
       // setActivePlans(mPlanObj)
       if (clickedButton == "TOPUP") {
-        console.warn(clickedButton == "TOPUP");
         setActivePlans(topupPlans);
         setSelectedType(e.target.value);
       } else if (clickedButton == "Romaing") {
@@ -258,7 +256,6 @@ const BrowsePlans = ({
                   <div>{error}</div>
                 ) : (
                   <div class="brows-plans-inner">
-                  {console.log(activePlans)}
                     {activePlans &&
                       activePlans.map((p, i) => (
                         <div class="brows-plans-card shadow-light" key={i}>

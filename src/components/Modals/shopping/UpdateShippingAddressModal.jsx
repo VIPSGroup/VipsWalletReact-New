@@ -95,13 +95,11 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
       formik.values.address = addressProp.Address1;
       formik.values.landmark = addressProp.Landmark;
       formik.values.pincode = addressProp.ZipPostal;
-      console.warn( formik.values.pincode);
     }
     if (
       formik.values.pincode.length == 6 &&
       formik.values.pincode != addressProp.ZipPostal
     ) {
-      // dispatch(getStateCity(formik?.values?.pincode));
       getStateCity(formik.values.pincode).then(response=>{
         if (response?.ResponseStatus === 1) {
           setGetData({

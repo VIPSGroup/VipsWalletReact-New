@@ -37,7 +37,7 @@ if(loggedInUser){
   dispatch(getRechargeHistory({userName:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,to:toDate,serviceId,type}))
 }
   }, []);
-
+console.log(rechargeHistoryList);
   return (<div class="mobile-recharge-right">
       <div class="mobile-recharge-content box-shadow-1">
         <div class="mobile-recharge-content-inner">

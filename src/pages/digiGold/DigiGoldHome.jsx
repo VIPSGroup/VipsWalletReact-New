@@ -170,11 +170,6 @@ const DigiGoldHome = ({active,setActive }) => {
     const gwithGST = gbuy + gGST;
     const swithGst = sbuy + sGST;
     const finalGrams = e.target.value / (isGold === 0 ? gwithGST : swithGst);
-
-    // const roundedNum = Math.round(finalGrams * 10000) / 10000;
-    // const str = roundedNum.toFixed(4);
-    // const ResultGrams = parseFloat(str);
-    // console.log(ResultGrams, "ffg")
     const result = finalGrams;
     const roundedNum =
       result % 1 !== 0 ? Math.trunc(result * 10000) / 10000 : result;

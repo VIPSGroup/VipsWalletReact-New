@@ -19,9 +19,7 @@ const SelectField = ({ setGetData, getData,isClass }) => {
   useEffect(() => {
   if(getData.stateName){
     setCityList(sortCity(allStateCityList?.Data.filter(item=>item.StateName==getData.stateName)[0].Citys));
-    console.log(allStateCityList?.Data.filter(item=>item.StateName==getData.stateName)[0].Citys);
   }else{
-    console.log("else");
     setCityList(sortCity(allStateCityList?.Data[0].Citys));
   }
   }, [getData])

@@ -29,7 +29,6 @@ const AddMoneyButton = ({
         const trxnId = getTransactionId();
         setTransactionId(trxnId);
         getPayUHash(user, trxnId, amount,key,string, chargesAmount).then(async (res) => {
-          console.log(res?.results?.payment_hash);
           formRef.current.txnid.value = trxnId;
           formRef.current.hash.value = res?.results?.payment_hash;
           setHash(res?.results?.payment_hash);

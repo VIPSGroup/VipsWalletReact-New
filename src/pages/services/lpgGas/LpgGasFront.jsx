@@ -73,20 +73,6 @@ const { billData,loading } = useSelector(state => state.LpgGasSlice.lpgBill );
   const callInputFields = (ourCode) => {
     setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
-    // getInputFieldsByOperator(ourCode).then((response) => {
-    //   const data = response.Data.Response;
-    //   const arr = [];
-    //   data &&
-    //     data.map((d, i) => {
-    //       arr.push({
-    //         fieldName: d.name,
-    //         fieldValue: "",
-    //         regex: d.Regex,
-    //         validate: false,
-    //       });
-    //     });
-    //   //   setInputFields(arr);
-    // });
   };
 
   const pushInArray = (searchKey, data) => {
@@ -263,23 +249,24 @@ dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TR
   };
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    if(operatorData.length===0){
+    // if(operatorData.length===0){
       dispatch(getOperatorsByServiceId("33"))
-    }
+    // }
   }, [props]);
   
   useEffect(() => {
-  if(billData){
-    if (billData?.Data?.ResponseMessage == "Successful") {
-              setShowBill(true);
-              setBillFetchData(billData.Data);
-              setBillAmount(parseFloat(billData.Data.BillAmount));
-              // setLoading(false);
-            } else {
-              setBillFetchError(billData?.Data?.ResponseMessage);
-              // setLoading(false);
-            }
-          }
+    if(billData.ResponseStatus===1){
+      if(billData.Data.ResponseMessage==="Successful"){
+     setShowBill(true);
+                   setBillFetchData(billData.Data);
+                   setBillAmount(parseFloat(billData.Data.BillAmount));
+   }else{
+     setBillFetchError(billData.Data.ResponseMessage);
+   }
+   }else if(billData.ResponseStatus===0){
+     setIsSnackBar(true)
+     setErrorMsg(billData.Remarks)
+   }
   }, [billData])
   const handleMobileNo = (e) => {
     const value = e.target.value.replace(/\D/g, "");
