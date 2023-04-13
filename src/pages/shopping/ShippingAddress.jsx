@@ -219,7 +219,7 @@ const ShippingAddress = () => {
                   <div class="shopping-cart-address-card">
                     <p class="shopping-cart-address-card-title">
                       {" "}
-                      Other Address{" "}{JSON.stringify(addressList.length)}
+                      Other Address{" "}
                     </p>
                     {addressList &&
                       addressList.map((a, i) =>
