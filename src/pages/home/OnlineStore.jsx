@@ -60,20 +60,6 @@ const OnlineStore = () => {
               infinite={true}
               className="online-store-row"
             >
-              {/* 
-                    <a href="#" class="online-stores-div">
-                    <div class="online-stores-box">
-                      <div class="online-stores-box-icon"> 
-                        <img src={`http://shopadmin.vipswallet.com` + a.Logo} alt="VIPS Services" class="img-fluid online-stores-icon" />
-                      </div> 
-                    </div>  
-                  </a>
-                  <div class="online-stores-title">
-                    <h3 class="d-none">Get upto <span>{a.Description.substring(9,12)}</span> Cashback!</h3>
-                    <h3 class="">{a.Description}</h3>
-                  </div>
-                    */}
-
               {data.Data &&
                 data.Data?.map((a, i) => (
                   <div key={i} class="online-stores-div">
@@ -88,14 +74,7 @@ const OnlineStore = () => {
                           src={`http://shopadmin.vipswallet.com` + a.Logo}
                           alt="VIPS Services"
                           class="img-fluid online-stores-icon"
-                          onClick={(e) => {
-if(loggedInUser){
-  window?.open(a.Url, "_blank")
-}else{
-  navigate("/login")
-}
-                          
-                          }}
+                          onClick={(e) => window?.open(a.Url, "_blank")}
                         />
                       </div>
 
