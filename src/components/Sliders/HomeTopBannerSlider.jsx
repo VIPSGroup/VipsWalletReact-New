@@ -48,7 +48,7 @@ const HomeTopBannerSlider = () => {
             transitionDuration={5000}
             containerClass="carousel-container"
             removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
-            showDots={true}
+            // showDots={true}
           >
             {SliderBanners ? (
               SliderBanners?.Data?.map((banner, i) =>
