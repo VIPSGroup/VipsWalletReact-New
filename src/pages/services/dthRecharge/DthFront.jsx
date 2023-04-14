@@ -26,10 +26,16 @@ const DthFront = ({ props }) => {
   const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
   const { operatorsList } = useSelector(state => state.commonSlice.operators );
+  const { loggedInUser } = useSelector(state => state.loginSlice.loggetInWithOTP);
 const dispatch= useDispatch()
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
-    dispatch(getOperators(dthServiceId))
+    if(loggedInUser){
+      ReactGA.pageview(window.location.pathname);
+      dispatch(getOperators(dthServiceId))
+    }else{
+      navigate("/login")
+    }
+   
   }, [props]);
 
   const handleMobileNo = (e) => {

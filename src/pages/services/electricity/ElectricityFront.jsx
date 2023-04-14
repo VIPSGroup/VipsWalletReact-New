@@ -49,19 +49,6 @@ const ElectricityFront = ({ props }) => {
   const { billData ,billLoading} = useSelector(state => state.fastagSlice.getBill );
   const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
   const { subDivisionData } = useSelector(state => state.electricitySlice.getSubdivisionData );
-  const getTodaysDate = () => {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    let mm = today.getMonth() + 1; // Months start at 0!
-    let dd = today.getDate();
-
-    if (dd < 10) dd = "0" + dd;
-    if (mm < 10) mm = "0" + mm;
-
-    const formatedToday = mm + "/" + dd + "/" + yyyy;
-
-    return formatedToday;
-  };
 
   const callInputFields = (ourCode) => {
     // setIsClick(true)
@@ -142,6 +129,7 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
     }
   };
   useEffect(() => {
+   if(loggedInUser){
     ReactGA.pageview(window.location.pathname);
     if(operatorData.length===0){
       dispatch(getElectricityOperators())
@@ -160,8 +148,10 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
     }
     setIsClick(true)
     setInputFields(arr);
+   }else{
+navigate("/login")
+   }
 
-    // return ()=>{setIsClick(false)}
   }, [props,operatorData]);
   useEffect(() => {
     if(billData.ResponseStatus===1){

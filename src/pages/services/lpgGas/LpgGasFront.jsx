@@ -248,10 +248,12 @@ dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TR
     }
   };
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
-    // if(operatorData.length===0){
-      dispatch(getOperatorsByServiceId("33"))
-    // }
+if(loggedInUser){
+  ReactGA.pageview(window.location.pathname);
+  dispatch(getOperatorsByServiceId("33"))
+}else{
+navigate("/login")
+}
   }, [props]);
   
   useEffect(() => {

@@ -98,9 +98,13 @@ dispatch(fetchBill({obj,username:loggedInUser?.Mobile,password: loggedInUser?.TR
     }
   }, [billData])
   useEffect(() => {
-
-    ReactGA.pageview(window.location.pathname);
-dispatch(getOperatorsByServiceId(serviceId))
+if(loggedInUser){
+  ReactGA.pageview(window.location.pathname);
+  dispatch(getOperatorsByServiceId(serviceId))
+}else{
+navigate("/login")
+}
+ 
 return ()=>{setIsClick(false)}
   }, [props]);
   useEffect(() => {

@@ -104,6 +104,7 @@ const dispatch= useDispatch()
     }
   };
   useEffect(() => {
+  if(loggedInUser){
     ReactGA.pageview(window.location.pathname);
     if(operatorData.length===0){
       dispatch(getFastagOperators())
@@ -120,7 +121,9 @@ const dispatch= useDispatch()
         setInputFields(arr);
     });
     }
-  
+  }else{
+    navigate("/login")
+  }
   }, [props,operatorData,]);
 
 useEffect(() => {
