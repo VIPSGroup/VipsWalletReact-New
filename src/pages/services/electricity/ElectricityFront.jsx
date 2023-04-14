@@ -131,9 +131,9 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
   useEffect(() => {
    if(loggedInUser){
     ReactGA.pageview(window.location.pathname);
-    if(operatorData.length===0){
+    // if(operatorData.length===0){
       dispatch(getElectricityOperators())
-    }
+    // }
     const arr = []
     if(operatorData){
       operatorData.map((d, i) => {
