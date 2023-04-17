@@ -115,8 +115,10 @@ const PaymentOptions = () => {
                           <img
                             src="/images/logos/credit-card.svg"
                             class="img-fluid img2"
-                          />{" "}
-                          Credit Card{" "}
+                          />
+                          {/* {"   "}
+                          Credit Card{" "} */}
+                          <span style={{marginLeft: "17px"}}>Credit Card</span>
                         </span>
                       </label>
 
