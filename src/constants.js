@@ -19,6 +19,21 @@ export function calculateTotalPrice(products, price) {
   return totalPrice;
 }
 
+export const handleKeyDownIFSCCheck = (e) => {
+  const value = e.target.value; // Get the input value
+  const regex = /^[A-Z]{4}[0][A-Z0-9]{6}$/; // Validation regex
+
+  // Allow backspace and delete keys
+  if (e.key === "Backspace" || e.key === "Delete") {
+    return;
+  }
+
+  // Prevent the keydown event for invalid characters
+  if (!regex.test(value + e.key)) {
+    e.preventDefault(); // Prevent the keydown event
+  }
+};
+
 export const handleKeyPressForName = (event) => {
   const charCode = event.which ? event.which : event.keyCode;
   if (charCode !== 8 && !/^[a-zA-Z ]+$/.test(String.fromCharCode(charCode))) {

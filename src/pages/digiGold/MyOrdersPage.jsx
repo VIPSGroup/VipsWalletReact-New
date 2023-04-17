@@ -34,7 +34,7 @@ const MyOrdersPage = () => {
   const { ordersList, loading: orderLoad } = useSelector(
     (state) => state.userProfileSlice.myOrders
   );
-  const { data: sellStatus } = useSelector(
+  const { data: sellStatus, loading: SellLoad } = useSelector(
     (state) => state.userProfileSlice.sellStatus
   );
   // const { pdfData } = useSelector((state) => state.userProfileSlice.invoice);
@@ -361,13 +361,6 @@ const MyOrdersPage = () => {
           ) : (
             <Button
               onClick={() => {
-                dispatch(
-                  getSellStatus({
-                    transactionId: item.TransactionId,
-                    Username: loggedInUser.UserName,
-                    Password: loggedInUser.TRXNPassword,
-                  })
-                );
                 setModal(true);
                 setModalData(item);
               }}
@@ -610,8 +603,33 @@ const MyOrdersPage = () => {
                         style={{ cursor: "pointer" }}
                         class="digigoldorderdetails-down"
                       >
-                        {modalData?.TransactionStatus?.charAt(0).toUpperCase() +
-                          modalData?.TransactionStatus?.slice(1)}{" "}
+                        {/* {modalData?.TransactionStatus?.charAt(0).toUpperCase() +
+                          modalData?.TransactionStatus?.slice(1)}{" "} */}
+                        <Button
+                          loading={SellLoad}
+                          type={
+                            modalData?.TransactionStatus ? "text" : "default"
+                          }
+                          style={{
+                            color: modalData?.TransactionStatus
+                              ? "red"
+                              : "black",
+                          }}
+                          onClick={() => {
+                            dispatch(
+                              getSellStatus({
+                                transactionId: modalData?.TransactionId,
+                                Username: loggedInUser?.UserName,
+                                Password: loggedInUser?.TRXNPassword,
+                              })
+                            );
+                          }}
+                          size="small"
+                        >
+                          {modalData?.TransactionStatus
+                            ? modalData?.TransactionStatus?.toUpperCase()
+                            : "Check Status"}
+                        </Button>
                       </span>
                     )}
                   </div>

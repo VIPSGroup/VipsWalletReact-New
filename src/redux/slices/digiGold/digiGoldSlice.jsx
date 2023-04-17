@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { appType, currentAppVersion, digiBaseUrl } from "../../../constants";
+import {
+  appType,
+  baseApiUrl,
+  currentAppVersion,
+  digiBaseUrl,
+} from "../../../constants";
 export const fetchGoldSilverRates = createAsyncThunk(
   "fetchGoldSilverRates",
   async () => {
@@ -33,8 +38,9 @@ export const BuyDigiGold = async ({
   blockid,
   amount,
   type,
+  CouponId,
+  CouponAmount,
 }) => {
-  console.log(quantity, 'quantity')
   const formData = new FormData();
   formData.append("username", username);
   formData.append("password", password);
@@ -46,6 +52,8 @@ export const BuyDigiGold = async ({
   formData.append("modeOfTransaction", type);
   formData.append("amount", amount);
   formData.append("currentAppVersion", currentAppVersion);
+  formData.append("CouponId", CouponId);
+  formData.append("CouponDiscount", CouponAmount);
 
   try {
     const res = await axios.post(`${digiBaseUrl}BuyDigiGold`, formData);
@@ -143,6 +151,42 @@ export const CheckIfscCode = createAsyncThunk(
     }
   }
 );
+export const CheckSellMetalStatus = createAsyncThunk(
+  "CheckSellMetalStatus",
+  async ({ senderUsername, Password, quantity, metalType }, thunkAPI) => {
+    const formData = new FormData();
+    formData.append("username", senderUsername);
+    formData.append("password", Password);
+    formData.append("metalType", metalType);
+    formData.append("quantity", quantity);
+    try {
+      const res = await axios.post(
+        `${digiBaseUrl}CheckSellMetalStatus`,
+        formData
+      );
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const GetCouponList = createAsyncThunk(
+  "GetCouponList",
+  async ({ username, password, ServiceId, PublishedFare }, thunkAPI) => {
+    try {
+      const res = await axios.post(`${baseApiUrl}/Coupon/GetCouponList`, {
+        Authentication: {
+          UserName: username,
+          Password: password,
+        },
+        ServiceId: ServiceId,
+        PublishedFare: PublishedFare,
+      });
+      return res.data;
+    } catch (error) {}
+  }
+);
 
 export const startFetchData = () => (dispatch) => {
   setInterval(() => {
@@ -169,6 +213,14 @@ const digiGoldSlice = createSlice({
     ifsc: {
       Verified: "",
       error: "",
+    },
+    coupon: {
+      CouponList: "",
+      CouponLoader: false,
+    },
+    SellMetalStatus: {
+      CheckSellMetStatus: "",
+      CheckSellLoader: false,
     },
   },
   reducers: {
@@ -211,8 +263,30 @@ const digiGoldSlice = createSlice({
       }
     });
     builder.addCase(CheckIfscCode.rejected, (state, action) => {
-      console.log(action.error, "error");
       state.ifsc.error = action.error;
+    });
+
+    // Coupon Promises
+    builder.addCase(GetCouponList.pending, (state, action) => {
+      state.coupon.CouponLoader = true;
+    });
+    builder.addCase(GetCouponList.fulfilled, (state, action) => {
+      state.coupon.CouponList = action.payload;
+      state.coupon.CouponLoader = false;
+    });
+    builder.addCase(GetCouponList.rejected, (state, action) => {
+      state.coupon.CouponLoader = false;
+    });
+    // Sell Metal Status Check
+    builder.addCase(CheckSellMetalStatus.pending, (state, action) => {
+      state.SellMetalStatus.CheckSellLoader = true;
+    });
+    builder.addCase(CheckSellMetalStatus.fulfilled, (state, action) => {
+      state.SellMetalStatus.CheckSellMetStatus = action.payload;
+      state.SellMetalStatus.CheckSellLoader = false;
+    });
+    builder.addCase(CheckSellMetalStatus.rejected, (state, action) => {
+      state.SellMetalStatus.CheckSellLoader = false;
     });
   },
 });

@@ -433,11 +433,11 @@ const Router = () => {
         <Route path="/vipsgold-orders" element={<MyOrdersPage />} />
 
         <Route path="/vipsgold-gift" element={<Gift />} setActive={setActive} />
-        {/* <Route
+        <Route
           path="/vipsgold-delivery"
           element={<DeliveryHome setIsCommonTopNav={setIsCommonTopNav} />}
-        /> */}
-        {/* <Route
+        />
+        <Route
           path="/vipsgold-delivery/:title"
           element={
             <DigiProductDetails
@@ -445,7 +445,7 @@ const Router = () => {
               setTitle={setTitle}
             />
           }
-        /> */}
+        />
         <Route
           path="/vipsgold-cart/"
           element={

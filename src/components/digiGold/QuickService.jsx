@@ -17,12 +17,12 @@ const QuickService = ({ setActive, setAmount, setGrams, setErr, setReceiverUserN
               return (
                 <div
                   onClick={() => {
-                    if (e.title === "DELIVERY") {
-                      setIsSnackBar(true);
-                      setErrorMsg("Service will be coming soon..");
-                    } else {
+                    // if (e.title === "DELIVERY") {
+                    //   setIsSnackBar(true);
+                    //   setErrorMsg("Service will be coming soon..");
+                    // } else {
                       navigate(e.route, { state: e.buy });
-                    }
+                    // }
 
                     // setActive(e.buy);
                   }}

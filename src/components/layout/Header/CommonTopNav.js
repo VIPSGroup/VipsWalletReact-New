@@ -659,11 +659,11 @@ const CommonTopNav = ({
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    // to="/vipsgold-delivery"
-                    onClick={() => {
-                      setIsSnackBar(true);
-                      setErrorMsg("Service will be coming soon..");
-                    }}
+                    to="/vipsgold-delivery"
+                    // onClick={() => {
+                    //   setIsSnackBar(true);
+                    //   setErrorMsg("Service will be coming soon..");
+                    // }}
                   >
                     <img
                       src="images/digigold-images/delivery-white-icon.svg"

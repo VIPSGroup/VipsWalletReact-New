@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../assets/styles/digigold/gold-home.css";
 import {
+  CheckSellMetalStatus,
   fetchGoldSilverRates,
   modalOpen,
 } from "../../redux/slices/digiGold/digiGoldSlice";
@@ -95,9 +96,6 @@ const DigiGoldHome = ({
   const [Otp, setOtp] = useState("");
   const [modal, setModal] = useState(false);
   const [response, setResponse] = useState();
-  // const [receiverUserName, setReceiverUserName] = useState("");
-  // console.log(receiverUserName, "kya hai");
-  // const [err, setErr] = useState("");
   const { isServiceEnable, ServiceEnableLoading } = useSelector(
     (state) => state.coreSlice
   );
@@ -120,7 +118,6 @@ const DigiGoldHome = ({
   const { rateData, loading } = useSelector(
     (state) => state.digiGoldSlice.rates
   );
-
   const handleClick = async () => {
     const senderUsername = loggedInUser?.UserName;
     const Password = loggedInUser?.TRXNPassword;
@@ -193,8 +190,6 @@ const DigiGoldHome = ({
         setErr("Please Enter Amount or Grams");
       } else {
         if (!loggedInUser) {
-          console.log("ye hai");
-
           navigate("/login");
         } else {
           if (
@@ -203,12 +198,33 @@ const DigiGoldHome = ({
             !err &&
             logData.ResponseStatus !== 0
           ) {
-            navigate("/vipsgold-order-summary", { state: valueType });
-            localStorage.setItem("valueType", JSON.stringify(valueType));
-            setAmount("");
-            setGrams("");
+            if (parseFloat(active) === 1) {
+              const metalType = valueType.metalType;
+              const quantity = valueType.valueinGm;
+              const res = await dispatch(
+                CheckSellMetalStatus({
+                  senderUsername,
+                  Password,
+                  metalType,
+                  quantity,
+                })
+              );
+              if (res.payload.ResponseStatus === 1) {
+                navigate("/vipsgold-order-summary", { state: valueType });
+                localStorage.setItem("valueType", JSON.stringify(valueType));
+                setAmount("");
+                setGrams("");
+              } else {
+                setErr(res.payload.Remarks);
+              }
+            } else {
+              navigate("/vipsgold-order-summary", { state: valueType });
+              localStorage.setItem("valueType", JSON.stringify(valueType));
+              setAmount("");
+              setGrams("");
+            }
 
-            navigate("/vipsgold-order-summary", { state: valueType });
+            // navigate("/vipsgold-order-summary", { state: valueType });
           } else if (rateData.ResponseStatus === 0) {
             setErrorMsg(rateData.Remarks);
             setSuccessMsg("");
@@ -235,7 +251,6 @@ const DigiGoldHome = ({
       const username = loggedInUser.UserName;
       const password = loggedInUser.TRXNPassword;
       dispatch(loginDigiGold({ username, password }));
-      console.log("Kitni Baar chl rha hai");
     }
   }, [dispatch]);
   useEffect(() => {
@@ -273,7 +288,6 @@ const DigiGoldHome = ({
         : qty,
       "quantity"
     );
-    console.log(quantity, "qty");
     setValueType({
       ...valueType,
       valueinAmt: e.target.value,
@@ -293,20 +307,26 @@ const DigiGoldHome = ({
         const sGramStr = sGramRounded.toFixed(4);
         const sGramResult = parseFloat(sGramStr);
         if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
-          setErr(
-            ` You can gift up to ${
-              isGold === 0 ? gGramResult : sGramResult
-            } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
-              isGold === 0 ? gGramResult : sGramResult
-            } gm `
-          );
+          if (parseFloat(active) !== 0) {
+            if (parseFloat(e.target.value) >= 1) {
+              setErr(
+                ` You can gift up to ${
+                  isGold === 0 ? gGramResult : sGramResult
+                } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+                  isGold === 0 ? gGramResult : sGramResult
+                } gm `
+              );
+            }
+          }
         } else {
           if (parseFloat(active) !== 0) {
-            setErr(
-              `You do not have a enough ${
-                isGold === 0 ? "Gold" : "Silver"
-              } to Gift `
-            );
+            if (parseFloat(e.target.value) >= 1) {
+              setErr(
+                `You do not have a enough ${
+                  isGold === 0 ? "Gold" : "Silver"
+                } to Gift `
+              );
+            }
           }
         }
       } else {
@@ -342,40 +362,7 @@ const DigiGoldHome = ({
     const gram = parseFloat(quantity);
     const gGram = parseFloat(logData?.Data?.GoldGrams);
     const sGram = parseFloat(logData?.Data?.SilverGrams);
-    if (logData.Data) {
-      if (
-        (parseFloat(active) === 1 || parseFloat(active) === 2) &&
-        gram > (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))
-      ) {
-        const roundedNum = Math.round(gGram * 10000) / 10000;
-        const gGramStr = roundedNum.toFixed(4);
-        const gGramResult = parseFloat(gGramStr);
-        const sGramRounded = Math.round(sGram * 10000) / 10000;
-        const sGramStr = sGramRounded.toFixed(4);
-        const sGramResult = parseFloat(sGramStr);
-        if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
-          setErr(
-            ` You can ${parseFloat(active) === 1 ? "Sell" : "Gift"} up to ${
-              isGold === 0 ? gGramResult : sGramResult
-            } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
-              isGold === 0 ? gGramResult : sGramResult
-            } gm `
-          );
-        } else {
-          setErr(
-            `You do not have a enough ${isGold === 0 ? "Gold" : "Silver"} to ${
-              parseFloat(active) === 1 ? "Sell" : "Gift"
-            } `
-          );
-        }
-      } else {
-        setErr("");
-      }
-    } else {
-      if (value !== 0) {
-        setErr("");
-      }
-    }
+
     const GoldBuyRates = rateData.Data?.result?.data?.rates?.gBuy;
     const SilverBuyRates = rateData.Data?.result?.data?.rates?.sBuy;
     const GoldSellRates = rateData.Data?.result?.data?.rates?.gSell;
@@ -399,6 +386,46 @@ const DigiGoldHome = ({
     const totalRound = Math.round(TotalAmount * 10000) / 10000;
     const strTotal = totalRound.toFixed(2);
     const totalResult = parseFloat(strTotal);
+    if (logData.Data) {
+      if (
+        (parseFloat(active) === 1 || parseFloat(active) === 2) &&
+        gram > (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))
+      ) {
+        const roundedNum = Math.round(gGram * 10000) / 10000;
+        const gGramStr = roundedNum.toFixed(4);
+        const gGramResult = parseFloat(gGramStr);
+        const sGramRounded = Math.round(sGram * 10000) / 10000;
+        const sGramStr = sGramRounded.toFixed(4);
+        const sGramResult = parseFloat(sGramStr);
+        if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
+          console.log(totalResult, "totalResult");
+          if (totalResult >= 1) {
+            setErr(
+              ` You can ${parseFloat(active) === 1 ? "Sell" : "Gift"} up to ${
+                isGold === 0 ? gGramResult : sGramResult
+              } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+                isGold === 0 ? gGramResult : sGramResult
+              } gm `
+            );
+          }
+        } else {
+          console.log(totalResult, "totalResult");
+          if (totalResult >= 1) {
+            setErr(
+              `You do not have a enough ${
+                isGold === 0 ? "Gold" : "Silver"
+              } to ${parseFloat(active) === 1 ? "Sell" : "Gift"} `
+            );
+          }
+        }
+      } else {
+        setErr("");
+      }
+    } else {
+      if (value !== 0) {
+        setErr("");
+      }
+    }
     setAmount((totalResult === "0.00" ? 0 : totalResult) || "");
     if (totalResult === 0) {
       setErr("");
@@ -481,7 +508,10 @@ const DigiGoldHome = ({
   return (
     <>
       <div className="">
-        <Spin size="large" spinning={loading || logLoading || digiLogLoading}>
+        <Spin
+          size="large"
+          spinning={loading || logLoading || digiLogLoading || load}
+        >
           <section class="digi-gold-section-wrapper  buy-sell-form">
             <div class="container">
               <div class="digital-gold-section-head">
