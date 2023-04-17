@@ -29,6 +29,7 @@ import walletSlice from "./slices/payment/walletSlice";
 import paymentSlice from "./slices/payment/paymentSlice";
 
 import DeliverySlice from "./slices/digiGold/DeliverySlice";
+import busBookingSlice from "./slices/busBooking/busBookingSlice";
 
 
 const store = configureStore({
@@ -60,6 +61,8 @@ const store = configureStore({
     userProfileSlice: userProfileSlice,
     publicSlice: publicSlice,
     DeliverySlice: DeliverySlice,
+
+    busBookingSlice: busBookingSlice,
   },
 });
 

@@ -2,10 +2,14 @@ import React, { useEffect } from 'react'
 // import "../../assets/styles/bus/bus-booking-home.css";
 import "../../assets/styles/bus/bus-booking-home.css";
 import { useNavigate } from 'react-router-dom';
+import { getBusCityList } from '../../redux/slices/busBooking/busBookingSlice';
+import { useDispatch } from 'react-redux';
 
 const BusBookingHome = ({ setIsBottomTopNav }) => {
+ const dispatch= useDispatch()
     useEffect(() => {
         setIsBottomTopNav(true);
+       dispatch( getBusCityList())
         return () => {
           setIsBottomTopNav(false);
         };
