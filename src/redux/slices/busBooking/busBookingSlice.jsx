@@ -25,7 +25,7 @@ const busBookingSlice = createSlice({
   name: "busBookingSlice",
   initialState: {
     cityList: {
-      cities: "",
+      cityData: "",
       loading: false,
       error: "",
     }
@@ -35,7 +35,7 @@ const busBookingSlice = createSlice({
       state.cityList.loading = true;
     });
     builder.addCase(getBusCityList.fulfilled, (state, action) => {
-      state.cityList.cities = action.payload;
+      state.cityList.cityData = action.payload;
       state.cityList.loading = false;
     });
     builder.addCase(getBusCityList.rejected, (state, action) => {

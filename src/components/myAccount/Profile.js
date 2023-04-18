@@ -21,8 +21,8 @@ const Profile = () => {
   );
   useEffect(() => {
     getProfileDetails({
-      username: loggedInUser.Mobile,
-      password: loggedInUser.TRXNPassword,
+      username: loggedInUser?.Mobile,
+      password: loggedInUser?.TRXNPassword,
     }).then((response) => {
       setUserDetails(response.Data[0]);
       listStateAndCity().then((res) => {
