@@ -12,14 +12,12 @@ export function calculateTotal(quantity, price) {
 }
 const DigiProductDetails = ({ setTitle }) => {
   const { items } = useSelector((state) => state.DeliverySlice);
-  console.log(items, "items");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const location = useLocation();
   const data = location.state;
   const { title } = useParams();
-  console.log(title);
   useEffect(() => {
     setTitle(title);
   }, []);

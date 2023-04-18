@@ -104,6 +104,7 @@ const dispatch= useDispatch()
     }
   };
   useEffect(() => {
+  if(loggedInUser){
     ReactGA.pageview(window.location.pathname);
     if(operatorData.length===0){
       dispatch(getFastagOperators())
@@ -120,18 +121,32 @@ const dispatch= useDispatch()
         setInputFields(arr);
     });
     }
-  
+  }else{
+    navigate("/login")
+  }
   }, [props,operatorData,]);
 
 useEffect(() => {
-  if(billData.ResponseMessage==="Successful"){
-    // setInputFields([...inputFields,inputFields.validate=true])
-    setShowBill(true);
-                  setBillFetchData(billData);
-                  setBillAmount(parseFloat(billData.BillAmount));
-  }else{
-    setBillFetchError(billData.ResponseMessage);
-  }
+  if(billData.ResponseStatus===1){
+    if(billData.Data.ResponseMessage==="Successful"){
+   setShowBill(true);
+                 setBillFetchData(billData.Data);
+                 setBillAmount(parseFloat(billData.Data.BillAmount));
+ }else{
+   setBillFetchError(billData.Data.ResponseMessage);
+ }
+ }else if(billData.ResponseStatus===0){
+   setIsSnackBar(true)
+   setErrorMsg(billData.Remarks)
+ }
+  // if(billData.ResponseMessage==="Successful"){
+  //   // setInputFields([...inputFields,inputFields.validate=true])
+  //   setShowBill(true);
+  //                 setBillFetchData(billData);
+  //                 setBillAmount(parseFloat(billData.BillAmount));
+  // }else{
+  //   setBillFetchError(billData.ResponseMessage);
+  // }
 }, [billData])
 
 

@@ -26,7 +26,6 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
   const [billFetchError, setBillFetchError] = useState("");
   const [opImgUrl, setOpImgUrl] = useState("");
  const [isClick, setIsClick] = useState(false)
-
  const dispatch= useDispatch()
   let navigate = useNavigate();
   const { loggedInUser } = useSelector(
@@ -36,7 +35,6 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
   const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
   const { billData ,billLoading} = useSelector(state => state.fastagSlice.getBill );
   const callInputFields = (ourCode) => {
-    // setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
   };
 
@@ -60,8 +58,8 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
 
     if (selectedOperator) {
       if (mobileNo && mobileNo.length === 10) {
+        console.log(inputFields);
         let validateBBPSField = inputFields.filter((o) => o.validate === false);
-
         if (validateBBPSField.length !== 0) {
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
@@ -74,7 +72,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
           obj.MobileNumber = mobileNo;
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
-dispatch(fetchBill({obj,username:loggedInUser.Mobile,password: loggedInUser.TRXNPassword}))
+dispatch(fetchBill({obj,username:loggedInUser?.Mobile,password: loggedInUser?.TRXNPassword}))
         }
       } else {
         setErrorMsg("Please enter valid mobile number");
@@ -86,18 +84,27 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password: loggedInUser.TRXN
     }
   };
   useEffect(() => {
-    if(billData.ResponseMessage==="Successful"){
+    if(billData.ResponseStatus===1){
+       if(billData.Data.BillDetails!=null){
       setShowBill(true);
-                    setBillFetchData(billData);
-                    setBillAmount(parseFloat(billData.BillAmount));
+                    setBillFetchData(billData.Data);
+                    setBillAmount(parseFloat(billData.Data.BillAmount));
     }else{
-      setBillFetchError(billData.ResponseMessage);
+      setBillFetchError(billData.Data.ResponseMessage?billData.Data.ResponseMessage:billData.Data.Remarks);
+    }
+    }else if(billData.ResponseStatus===0){
+      setIsSnackBar(true)
+      setErrorMsg(billData.Remarks)
     }
   }, [billData])
   useEffect(() => {
-
-    ReactGA.pageview(window.location.pathname);
-dispatch(getOperatorsByServiceId(serviceId))
+if(loggedInUser){
+  ReactGA.pageview(window.location.pathname);
+  dispatch(getOperatorsByServiceId(serviceId))
+}else{
+navigate("/login")
+}
+ 
 return ()=>{setIsClick(false)}
   }, [props]);
   useEffect(() => {

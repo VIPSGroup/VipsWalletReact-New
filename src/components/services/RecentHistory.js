@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { operartorsUrl } from "../../constants";
 import { getRechargeHistory } from "../../redux/slices/services/commonSlice";
 import { getCircleAndOperatorByNumber } from "../../redux/slices/services/rechargeSlice";
@@ -37,7 +35,6 @@ if(loggedInUser){
   dispatch(getRechargeHistory({userName:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,to:toDate,serviceId,type}))
 }
   }, []);
-
   return (<div class="mobile-recharge-right">
       <div class="mobile-recharge-content box-shadow-1">
         <div class="mobile-recharge-content-inner">
@@ -109,13 +106,13 @@ if(loggedInUser){
                             </span>{" "}
                           </td>
                         ) : null}
-                        {setMobileNo && (
+                        {/* {setMobileNo && (
                           <td class="align-middle">
                             <button
-onClick={()=>{setMobileNo(r.Number)
+onClick={()=>{
+  setMobileNo(r.Number)
  dispatch(getCircleAndOperatorByNumber(r.Number))
 }}
-                              // onClick={() => clickRepeat(r.Number)}
                               name="number"
                               value={r.Number}
                               type="button"
@@ -125,22 +122,12 @@ onClick={()=>{setMobileNo(r.Number)
                               Repeat{" "}
                             </button>
                           </td>
-                        )}
+                        )} */}
                       </tr>
                     ))}
                 </tbody>
               </table>}
               </div>
-
-              {/* {loading ? (
-                  <LoadingBar color="#CA3060" />
-                ) : rechargeHistory.length < 1 ? (
-                  <div class="text-center">
-                    <img src="/images/No_Data.svg" />
-                  </div>
-                ) : null} */}
-
-              
             </div>
           </div>
         </div>

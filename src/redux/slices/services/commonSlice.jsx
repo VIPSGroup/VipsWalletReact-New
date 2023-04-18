@@ -82,7 +82,6 @@ export const getOperators = createAsyncThunk(
       try {
         const res = await axios.post(
           `${baseApiUrl}/Recharge/GetAllRecharge`,formData);
-          console.log(res.data);
         return res.data
       } catch (error) {
         return error;

@@ -521,54 +521,55 @@ const Router = () => {
         <Route
           path="/shopping/:categoryName/:categoryId"
           element={
-            <ProtectedRoute>
-              {" "}
+            // <ProtectedRoute>
+              // {" "}
               <ProductListing />
-            </ProtectedRoute>
+            // </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/product/:productId/:productName"
           element={
-            <ProtectedRoute>
               <ProductDetails />
-            </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/wishlist"
           element={
-            <ProtectedRoute>
-              {" "}
-              <Wishlist />{" "}
-            </ProtectedRoute>
+            // <ProtectedRoute>
+              // {" "}
+              <Wishlist />
+              // {" "}
+            // </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/cart"
           element={
-            <ProtectedRoute>
-              {" "}
-              <Cart setIsHomeTopNav={setIsHomeTopNav} />{" "}
-            </ProtectedRoute>
+            // <ProtectedRoute>
+              // {" "}
+              <Cart setIsHomeTopNav={setIsHomeTopNav} />
+            // </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/address"
           element={
             <ProtectedRoute>
-              {" "}
-              <ShippingAddress />{" "}
-            </ProtectedRoute>
+               {" "}
+              <ShippingAddress />
+               {" "}
+             </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/checkout"
           element={
             <ProtectedRoute>
+            {" "}
+              <Checkout />
               {" "}
-              <Checkout />{" "}
-            </ProtectedRoute>
+             </ProtectedRoute>
           }
         />
 

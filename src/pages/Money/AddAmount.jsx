@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { checkGABBalance, addMoneyFromGAB, globalConfiguration } from "../../apiData/payments";
+import { checkGABBalance, addMoneyFromGAB } from "../../apiData/payments";
 import "../../assets/styles/addMoney/addMoney.css";
 import "../../assets/styles/styles.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddMoneyButton from "../../components/buttons/AddMoneyButton";
 import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
+import { globalConfiguration } from "../../redux/slices/payment/paymentSlice";
 
 const AddAmount = () => {
   const [amount, setAmount] = useState(0);
@@ -15,12 +16,24 @@ const AddAmount = () => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-    const [status, setStatus] = useState(false);
-    const [chargesPer, setChargesPer] = useState(0);
+  const [status, setStatus] = useState(false);
+  const [chargesPer, setChargesPer] = useState(0);
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+  const { data } = useSelector((state) => state.paymentSlice.configBySubKey);
+  const dispatch = useDispatch();
   let { option } = useParams();
+  useEffect(() => {
+    if(data){
+        if (data.ResponseStatus === 1) {
+          setStatus(data.Data.Status);
+          if (data.Data.Status) {
+            setChargesPer(data.Data.Value);
+          }
+        }
+    }
+  }, [data])
   const clickAddFromGAB = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -57,14 +70,7 @@ const AddAmount = () => {
       }
     );
     if (option === "CC") {
-      globalConfiguration("CreditCard").then((response) => {
-        if (response.ResponseStatus === 1) {
-          setStatus(response.Data.Status);
-          if (response.Data.Status) {
-            setChargesPer(response.Data.Value);
-          }
-        }
-      });
+      dispatch(globalConfiguration("CreditCard"));
     }
   }, []);
 
@@ -111,7 +117,9 @@ const AddAmount = () => {
                           onChange={onChange}
                           value={amount > 0 ? amount : ""}
                           minLength={1}
-                          maxLength={option === "Payu" || option === "CC" ? 4 : 7}
+                          maxLength={
+                            option === "Payu" || option === "CC" ? 4 : 7
+                          }
                           required
                           type="text"
                           autoComplete="off"
@@ -124,8 +132,10 @@ const AddAmount = () => {
                           <button
                             onClick={(e) => {
                               e.preventDefault();
+                              console.error(amount);
+                              console.log("called",parseInt(amount));
                               setAmount(
-                                parseInt(amount) + parseInt(e.target.value)
+                                parseInt(amount?amount:0) + parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"
@@ -138,7 +148,7 @@ const AddAmount = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(
-                                parseInt(amount) + parseInt(e.target.value)
+                                parseInt(amount?amount:0) + parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"
@@ -151,7 +161,7 @@ const AddAmount = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(
-                                parseInt(amount) + parseInt(e.target.value)
+                                parseInt(amount?amount:0) + parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"
@@ -164,7 +174,7 @@ const AddAmount = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(
-                                parseInt(amount) + parseInt(e.target.value)
+                                parseInt(amount?amount:0) + parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"
@@ -187,9 +197,9 @@ const AddAmount = () => {
                     </div>
                   )}
 
-                  {option === "Payu" || option === "CC"  ? (
+                  {option === "Payu" || option === "CC" ? (
                     <AddMoneyButton
-                    amount={amountWithFee()}
+                      amount={amountWithFee()}
                       setIsSnackBar={setIsSnackBar}
                       setErrorMsg={setErrorMsg}
                       isCreditCardEnable={option !== "Payu"}
@@ -209,7 +219,11 @@ const AddAmount = () => {
                           >
                             {loading ? <Loading /> : "Add Money"}
                           </button> */}
-                          <ThemeButton onClick={clickAddFromGAB} value={"Add Money"} loading={loading}/>
+                          <ThemeButton
+                            onClick={clickAddFromGAB}
+                            value={"Add Money"}
+                            loading={loading}
+                          />
                         </div>
                       </div>
                     </div>
@@ -217,7 +231,7 @@ const AddAmount = () => {
                 </div>
                 <MuiSnackBar
                   open={isSnackBar}
-                  setOpen={setIsSnackBar}  
+                  setOpen={setIsSnackBar}
                   successMsg={successMsg}
                   errorMsg={errorMsg}
                 />

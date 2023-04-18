@@ -89,17 +89,6 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
       </Link>
       <div class="promo-product-action">
         <div class="promo-quick-view">
-          {/* {showQuickModal ? <QuickViewModal/>: <button
-        onClick={() => {
-          console.error("Quick View" ,);
-          setShowQuickModal(true)
-          // product?.Quantity !== 0 && setShowModal(true);
-        }}
-        type="button"
-        class="btn-cta"
-      >
-        Quick View
-      </button>} */}
           <QuickViewModal productId={product.Id} />
         </div>
         {wishlistCard ? (

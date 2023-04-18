@@ -11,7 +11,6 @@ import { googleAnalytics } from "../../constants";
 import ReactGA from "react-ga";
 import AddToCartButton from "../../components/buttons/AddToCartButton";
 import AddWishListButton from "../../components/buttons/AddWishListButton";
-import ProductHorizontal from "../../components/shopping/ProductHorizontal";
 import { useDispatch } from "react-redux";
 import {
   getAllCategories,
@@ -511,12 +510,12 @@ setLoading(true)
               setError={setErrorMsg}
             />
           </div>
-          <ProductHorizontal
+          {/* <ProductHorizontal
             title="Similar Product"
             // subtitle="of the Day"
             products={similar?.filter(product=>product.Quantity!==0)}
             description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
-          />
+          /> */}
         </div>
       </section>
     </Spin>

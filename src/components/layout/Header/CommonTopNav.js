@@ -24,8 +24,6 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
   const dispatch = useDispatch();
   const [isDigiLogin, setIsDigiLogin] = useState("");
   const [balance, setBalance] = useState(0);
-  const [shoppingPoints, setShoppingPoints] = useState("");
-  const [primePoints, setPrimePoints] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -34,9 +32,6 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
   const { wishCount } = useSelector((state) => state.wishlistSlice);
   const { cartCount } = useSelector((state) => state?.cartSlice);
   const { pathname } = useResolvedPath();
-  const { logData, loading: logLoading } = useSelector(
-    (state) => state.registerDigiSlice.login
-  );
   useEffect(() => {}, []);
 
   const { loggedInUser } = useSelector(
@@ -71,148 +66,135 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
   };
 
 
-  const items = logData.Data
-    ? [
-        {
-          key: "1",
-          label: (
-            <Link to={"/vipsgold-profile"} style={{ fontSize: 17 }}>
-              {!logLoading && logData.Data && "My Profile"}
-            </Link>
-          ),
-        },
-        {
-          key: "2",
-          label: (
-            <Link to={"/vipsgold-orders"} style={{ fontSize: 17 }}>
-              {!logLoading && logData.Data && "My Orders"}
-            </Link>
-          ),
-        },
-        {
-          key: "3",
-          label: (
-            <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-              FAQ's
-            </Link>
-          ),
-        },
-        {
-          key: "4",
-          label: (
-            <Link
-              target={"_blank"}
-              to={"/digi-termscondtion"}
-              style={{ fontSize: 17 }}
-            >
-              Terms & Conditions
-            </Link>
-          ),
-        },
-        // {
-        //   key: "3",
-        //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-        // },
-        // {
-        //   key: "4",
-        //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-        // },
-        // {
-        //   key: "5",
-        //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-        // },
-        {
-          key: "5",
-          label: (
-            <Link
-              onClick={() => {
-                !logLoading && logData.Data
-                  ? clickLogout()
-                  : dispatch(modalOpen());
-              }}
-              style={{ fontSize: 17 }}
-            >
-              {!logLoading && logData.Data ? "Logout" : "Register"}
-            </Link>
-          ),
-        },
-      ]
-    : [
-        {
-          key: "3",
-          label: (
-            <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
-              {!logLoading && logData.Data && "My KYC"}
-            </Link>
-          ),
-        },
-        {
-          key: "4",
-          label: (
-            <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
-              FAQ's
-            </Link>
-          ),
-        },
-        {
-          key: "5",
-          label: (
-            <Link
-              target={"_blank"}
-              to={"/digi-termscondtion"}
-              style={{ fontSize: 17 }}
-            >
-              Terms & Conditions
-            </Link>
-          ),
-        },
-        // {
-        //   key: "3",
-        //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
-        // },
-        // {
-        //   key: "4",
-        //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
-        // },
-        // {
-        //   key: "5",
-        //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
-        // },
-        {
-          key: "6",
-          label: (
-            <Link
-              onClick={() => {
-                !logLoading && logData.Data
-                  ? clickLogout()
-                  : dispatch(modalOpen());
-              }}
-              style={{ fontSize: 17 }}
-            >
-              {!logLoading && logData.Data ? "Logout" : "Register"}
-            </Link>
-          ),
-        },
-      ];
+  // const items = logData.Data
+  //   ? [
+  //       {
+  //         key: "1",
+  //         label: (
+  //           <Link to={"/vipsgold-profile"} style={{ fontSize: 17 }}>
+  //             {!logLoading && logData.Data && "My Profile"}
+  //           </Link>
+  //         ),
+  //       },
+  //       {
+  //         key: "2",
+  //         label: (
+  //           <Link to={"/vipsgold-orders"} style={{ fontSize: 17 }}>
+  //             {!logLoading && logData.Data && "My Orders"}
+  //           </Link>
+  //         ),
+  //       },
+  //       {
+  //         key: "3",
+  //         label: (
+  //           <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+  //             FAQ's
+  //           </Link>
+  //         ),
+  //       },
+  //       {
+  //         key: "4",
+  //         label: (
+  //           <Link
+  //             target={"_blank"}
+  //             to={"/digi-termscondtion"}
+  //             style={{ fontSize: 17 }}
+  //           >
+  //             Terms & Conditions
+  //           </Link>
+  //         ),
+  //       },
+  //       // {
+  //       //   key: "3",
+  //       //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+  //       // },
+  //       // {
+  //       //   key: "4",
+  //       //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+  //       // },
+  //       // {
+  //       //   key: "5",
+  //       //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+  //       // },
+  //       {
+  //         key: "5",
+  //         label: (
+  //           <Link
+  //             onClick={() => {
+  //               !logLoading && logData.Data
+  //                 ? clickLogout()
+  //                 : dispatch(modalOpen());
+  //             }}
+  //             style={{ fontSize: 17 }}
+  //           >
+  //             {!logLoading && logData.Data ? "Logout" : "Register"}
+  //           </Link>
+  //         ),
+  //       },
+  //     ]
+  //   : [
+  //       {
+  //         key: "3",
+  //         label: (
+  //           <Link to={"/digi-kyc"} style={{ fontSize: 17 }}>
+  //             {!logLoading && logData.Data && "My KYC"}
+  //           </Link>
+  //         ),
+  //       },
+  //       {
+  //         key: "4",
+  //         label: (
+  //           <Link target={"_blank"} to={"/digi-faq"} style={{ fontSize: 17 }}>
+  //             FAQ's
+  //           </Link>
+  //         ),
+  //       },
+  //       {
+  //         key: "5",
+  //         label: (
+  //           <Link
+  //             target={"_blank"}
+  //             to={"/digi-termscondtion"}
+  //             style={{ fontSize: 17 }}
+  //           >
+  //             Terms & Conditions
+  //           </Link>
+  //         ),
+  //       },
+  //       // {
+  //       //   key: "3",
+  //       //   label: <Link style={{ fontSize: 17 }}>KYC</Link>,
+  //       // },
+  //       // {
+  //       //   key: "4",
+  //       //   label: <Link style={{ fontSize: 17 }}>My Bank Details</Link>,
+  //       // },
+  //       // {
+  //       //   key: "5",
+  //       //   label: <Link style={{ fontSize: 17 }}>My Address</Link>,
+  //       // },
+  //       {
+  //         key: "6",
+  //         label: (
+  //           <Link
+  //             onClick={() => {
+  //               !logLoading && logData.Data
+  //                 ? clickLogout()
+  //                 : dispatch(modalOpen());
+  //             }}
+  //             style={{ fontSize: 17 }}
+  //           >
+  //             {!logLoading && logData.Data ? "Logout" : "Register"}
+  //           </Link>
+  //         ),
+  //       },
+  //     ];
 
   const CheckWalletBalance = async () => {
     const username = loggedInUser && loggedInUser?.UserName;
     const password = loggedInUser && loggedInUser?.TRXNPassword;
     dispatch(getWalletBalance({ username, password }));
   };
-
-  // useEffect(() => {
-  //   let user = JSON.parse(localStorage.getItem("user"));
-
-  //   const userName = user && user.UserName;
-  //   const password = user && user.TRXNPassword;
-  //   user &&
-  //     getWalletBalance({ userName, password }).then((response) => {
-  //       setBalance(response?.Data?.Balance);
-  //       setShoppingPoints(response?.Data?.Shoppingpoints);
-  //       setPrimePoints(response?.Data?.PrimePoints);
-  //     });
-  // }, []);
 
   const section = () => (
     <>
@@ -223,6 +205,9 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
               type="button"
               id="sidebarCollapse"
               class="btn btn-link d-block d-xl-none"
+              onClick={(e) => {
+                document.getElementById("sidebar").classList.add("active");
+              }}
             >
               <i class="fa-solid fa-bars"></i>
             </button>
@@ -516,9 +501,9 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                     </li>
                   ) : (
                     <Dropdown
-                      menu={{
-                        items,
-                      }}
+                      // menu={{
+                      //   items,
+                      // }}
                       placement="bottomRight"
                       arrow
                     >

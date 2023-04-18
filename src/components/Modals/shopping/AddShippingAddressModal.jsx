@@ -32,11 +32,11 @@ const AddShippingAddressModal = () => {
     },
     validationSchema: yup.object({
       pincode: yup.string().required("Please Enter Pincode").matches(/^\d{6}$/,"Please Enter Valid Pincode"),
-      fname: yup.string().required("Please Enter first name").matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid First Name"),
-      lname: yup.string().required("Please Enter last name").matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid Last Name"),
-      mobileno: yup.string().min(10).max(10).matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Number").required("Please Enter mobile no"),
+      fname: yup.string().required("Please Enter First Name").matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid First Name"),
+      lname: yup.string().required("Please Enter Last Name").matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid Last Name"),
+      mobileno: yup.string().min(10,"Please Enter Valid Mobile Number").max(10,"Please Enter Valid Mobile Number").matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Mobile Number").required("Please Enter Mobile Number"),
       addressType: yup.string().required("Please Enter addressType"),
-      address: yup.string().required("Please Enter address"),
+      address: yup.string().required("Please Enter address") .matches(/.{20,}/,"Address must be at least 20 characters"),
       landmark: yup.string().required("Please Enter landmark"),
     }),
 

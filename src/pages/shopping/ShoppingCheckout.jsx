@@ -32,7 +32,6 @@ const ShoppingCheckout = () => {
   const [shippingCharges, setShippingCharges] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("");
-
   const [showModal, setShowModal] = useState(false);
   const location = useLocation();
   let navigate = useNavigate();
@@ -195,11 +194,12 @@ const ShoppingCheckout = () => {
 
       propsProductsData.products.map((d, i) => {
         price = price + d.qty * d.product.SalePrice;
-
+        
         sDiscount =
-          sDiscount + (d.product.ShoppingPoint / 100) * d.product.SalePrice;
+        sDiscount + (d.product.ShoppingPoint / 100) * d.product.SalePrice *d.qty;
         pDiscount =
-          pDiscount + (d.product.PrimePoints / 100) * d.product.SalePrice;
+        pDiscount + (d.product.PrimePoints / 100) * d.product.SalePrice *d.qty;
+      
 
         if (propsProductsData.address.State.includes("Maharashtra")) {
           shippingCost = shippingCost + d.charges[3].Amount;
@@ -214,13 +214,11 @@ const ShoppingCheckout = () => {
       if (sDiscount <= data.Data.Shoppingpoints) {
         setShoppingDiscount(sDiscount.toFixed(2));
         const amt = parseInt(price) - parseInt(sDiscount);
-
         setFinalAmount(amt);
       } else {
         setShoppingDiscount(data.Data.Shoppingpoints);
         setFinalAmount(price - data.Data.Shoppingpoints);
       }
-
       if (pDiscount <= data.Data.PrimePoints) {
         setPrimeDiscount(pDiscount);
         setFinalAmount(price - pDiscount);
@@ -412,7 +410,7 @@ const ShoppingCheckout = () => {
                 </div>
               </div>
             </div>
-
+{JSON.stringify}
             <div class="col-sm-12 col-md-12 col-lg-4 p-0">
               <div class="shopping-payment-right">
                 <div class="shopping-payment-right-sticky box-shadow-1">
@@ -448,7 +446,6 @@ const ShoppingCheckout = () => {
                             <span class="shopping-payment-summery-amt">
                               {" "}
                               -&#x20B9;{" "}
-                              {/* {JSON.stringify(shoppingDiscount)} */}
                               {parseFloat(
                                 shoppingDiscount
                               ).toLocaleString()}{" "}
@@ -555,32 +552,9 @@ const ShoppingCheckout = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* <div class="shopping-cart-payment-outer box-shadow-1 mt-3">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <h3 class="shopping-cart-payment-head">
-                        {" "}
-                        Return / Refund Policy{" "}
-                      </h3>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12 p-0">
-                    <div class="shopping-cart-refund-policy">
-                      <p>
-                        {" "}
-                        In case of return, we ensure quick refunds. Full amount
-                        will be refunded excluding Convenience Fee
-                      </p>
-                      <Link to="#">Read Policy</Link>
-                    </div>
-                  </div> */}
-                {/* </div> */}
               </div>
             </div>
 
-            {/* { <!-- shopping Payment confirmation end -->} */}
           </div>
         </div>
       </section>

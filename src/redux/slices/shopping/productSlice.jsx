@@ -30,10 +30,8 @@ export const getSingleProductData = createAsyncThunk(
         `${baseApiUrl}/EcommerceServices/Productdescription`,
         formData
       );
-      // console.warn(res.data.Data.ProductDetails);
       let imgArray=[]
       if(res.data.ResponseStatus===1){
-console.log(res.data.Data.ProductDetails);
 if (res.data.Data.ProductDetails?.ImageThumbURL1 != null && res.data.Data.ProductDetails?.ImageURL1 != null) {
   const obj = {
     original: res.data.Data.ProductDetails?.ImageURL1,
@@ -83,7 +81,6 @@ if (res.data.Data.ProductDetails?.ImageThumbURL7 != null && res.data.Data.Produc
   };
   imgArray.push(obj);
 }
-console.log(imgArray);
       }
       return {response:res.data,imgArray};
     } catch (error) {

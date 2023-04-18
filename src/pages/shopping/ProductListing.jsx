@@ -96,7 +96,6 @@ const ProductListing = () => {
       setActiveProducts(sorted);
     } else if (e === "new") {
       getNewArrivalProducts().then((response) => {
-        console.error(categoryId);
         setActiveProducts(response.Data);
       });
     }

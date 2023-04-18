@@ -135,7 +135,6 @@ const dispatch= useDispatch()
                             <div class="brows-plan-apply-btn ml-auto">
                               <button
                                 onClick={(e) => {
-                                  console.log(operatorId);
                                   e.preventDefault();
                                   navigate("/services/mobilerecharge/confirm", {
                                     state: {

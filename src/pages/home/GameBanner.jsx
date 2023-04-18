@@ -12,7 +12,7 @@ const GameBanner = () => {
             <div class="col-md-12">
               <div class="game-bgimage d-none d-sm-block">
                 <img
-                  src="/images/home/game-banner.jpg"
+                  src="/images/home/gamezop-banner.jpg"
                   class="img-fluid"
                   alt="VIPS Wallet"
                 />

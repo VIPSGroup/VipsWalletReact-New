@@ -41,12 +41,6 @@ const ShippingAddress = () => {
     const addressId = e.currentTarget.value;
     dispatch(deleteAddress({ addressId, Mobile, TRXNPassword }));
   };
-
-  // useEffect(() => {
-  //   if (deleteAddressData.ResponseStatus === "1") {
-  //     dispatch(getAddress({ Mobile, TRXNPassword }));
-  //   }
-  // }, []);
   const handleSelectAddress = (e) => {
     const clickedAddress = addressList.find(
       (item) => item.Id == e.target.value
@@ -294,11 +288,10 @@ const ShippingAddress = () => {
                   </div>
                   {/* {<!-- product card 2 end -->} */}
                 </div>
-
-                <div class="shopping-cart-add-new-address box-shadow-1">
-                  <AddShippingAddressModal />
-                  {/* {<button class="" id="newaddressmodal" data-toggle="modal" data-target="#newaddressform"> + Add New Address </button>} */}
-                </div>
+{addressList.length<3 && <div class="shopping-cart-add-new-address box-shadow-1">
+                <AddShippingAddressModal />
+                </div>}
+                
               </div>
             </div>
 

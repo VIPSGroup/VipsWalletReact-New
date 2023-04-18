@@ -12,12 +12,10 @@ const AllTermsAndCondition = ({ title, type }) => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
     let value = getTermsConditionsId(type);
-    console.warn(value);
     setLoading(true)
     getDynamicContent().then((response) => {
       setLoading(false)
       let collection = response.Data?.find((element) => element.Type === value);
-      console.log(collection);
       setData(collection);
     });
   }, []);
@@ -38,7 +36,6 @@ const AllTermsAndCondition = ({ title, type }) => {
             <h1 class="section-head-title"> {title} </h1>
           </div>
         </div>
-
         <div dangerouslySetInnerHTML={{ __html: data?.Content }}></div>
       </div>
     </section>

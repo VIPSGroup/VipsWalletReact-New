@@ -108,7 +108,6 @@ const DigiDeliveryCart = () => {
                         <div class="digigold-cart-product-price">
                           <div class="digigold-cart-product-price-inner">
                             <span>&#x20B9; {e.quantity * e.basePrice}</span>
-                            {/* {console.log(e, 'aaee')} */}
                             <span
                               style={{ cursor: "pointer" }}
                               onClick={() => dispatch(deleteItem(e))}

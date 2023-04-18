@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Footer from '../../components/layout/Footer/Footer';
 import "../../assets/styles/services/serviceIndex.css";
 import "../../assets/styles/styles.css";
 import { Link } from "react-router-dom";
+import { MuiSnackBar } from '../../components/common';
 
 const Services = () => {
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const section = () => (
     <>
       {/*<!-- service promo banner start -->*/}
@@ -316,7 +319,10 @@ const Services = () => {
                 <Link
                   to="/services"
                   class="services-div-outer"
-                  // onClick={clickSendOtp}
+                  onClick={()=>{
+                    setIsSnackBar(true)
+                    setErrorMsg("Service will be coming soon..")
+                  }}
                 >
                   <div class="services-div-box">
                     <div class="services-page-icon">
@@ -512,9 +518,12 @@ const Services = () => {
   return (
     <>
     {section()}
-    <div>
-      {/* <Footer /> */}
-    </div>
+    <MuiSnackBar
+                    open={isSnackBar}
+                    setOpen={setIsSnackBar}
+                    errorMsg={errorMsg}
+                    setErrorMsg={setErrorMsg}
+                  />
   </>
   )
 }

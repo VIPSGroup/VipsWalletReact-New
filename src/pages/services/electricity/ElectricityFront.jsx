@@ -49,19 +49,6 @@ const ElectricityFront = ({ props }) => {
   const { billData ,billLoading} = useSelector(state => state.fastagSlice.getBill );
   const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
   const { subDivisionData } = useSelector(state => state.electricitySlice.getSubdivisionData );
-  const getTodaysDate = () => {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    let mm = today.getMonth() + 1; // Months start at 0!
-    let dd = today.getDate();
-
-    if (dd < 10) dd = "0" + dd;
-    if (mm < 10) mm = "0" + mm;
-
-    const formatedToday = mm + "/" + dd + "/" + yyyy;
-
-    return formatedToday;
-  };
 
   const callInputFields = (ourCode) => {
     // setIsClick(true)
@@ -142,11 +129,11 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
     }
   };
   useEffect(() => {
+   if(loggedInUser){
     ReactGA.pageview(window.location.pathname);
-    if(operatorData.length===0){
-      console.log(operatorData);
+    // if(operatorData.length===0){
       dispatch(getElectricityOperators())
-    }
+    // }
     const arr = []
     if(operatorData){
       operatorData.map((d, i) => {
@@ -161,17 +148,31 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
     }
     setIsClick(true)
     setInputFields(arr);
+   }else{
+navigate("/login")
+   }
 
-    // return ()=>{setIsClick(false)}
   }, [props,operatorData]);
   useEffect(() => {
-    if(billData.ResponseMessage==="Successful"){
-      setShowBill(true);
-                    setBillFetchData(billData);
-                    setBillAmount(parseFloat(billData.BillAmount));
-    }else{
-      setBillFetchError(billData.ResponseMessage);
-    }
+    if(billData.ResponseStatus===1){
+      if(billData.Data.ResponseMessage==="Successful"){
+     setShowBill(true);
+                   setBillFetchData(billData.Data);
+                   setBillAmount(parseFloat(billData.Data.BillAmount));
+   }else{
+     setBillFetchError(billData.Data.ResponseMessage);
+   }
+   }else if(billData.ResponseStatus===0){
+     setIsSnackBar(true)
+     setErrorMsg(billData.Remarks)
+   }
+    // if(billData.ResponseMessage==="Successful"){
+    //   setShowBill(true);
+    //                 setBillFetchData(billData);
+    //                 setBillAmount(parseFloat(billData.BillAmount));
+    // }else{
+    //   setBillFetchError(billData.ResponseMessage);
+    // }
   }, [billData])
   useEffect(() => {
     if(subDivisionData){

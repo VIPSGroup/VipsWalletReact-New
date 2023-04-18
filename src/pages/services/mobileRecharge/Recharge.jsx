@@ -78,27 +78,32 @@ const Recharge = ({ props }) => {
   };
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
-    dispatch(getActiveApi())
-    dispatch(getRechargeCircleList())
-    getOperatorsApi(mobileServiceId);
-
-     if(circleAndOperator && circleAndOperator[0]){
-     setSelectedCircle(circleAndOperator[0].Circle);
-        setSelectedOperator(circleAndOperator[0].OperatorName.split("-")[0]);
-        setSelectedOperatorId(
-          circleAndOperator[0].OperatorId === 151
-            ? "JIO"
-            : circleAndOperator[0].OperatorId
-        );
-        setSelectedCircleId(circleAndOperator[0].CircleId);
-
-        operatorsList.forEach((o, i) => {
-          if (o.OperatorName == circleAndOperator[0].OperatorName) {
-            setOpImgUrl(o.Image);
-          }
-        });
-      }
+    if(loggedInUser){
+      ReactGA.pageview(window.location.pathname);
+      dispatch(getActiveApi())
+      dispatch(getRechargeCircleList())
+      getOperatorsApi(mobileServiceId);
+  
+       if(circleAndOperator && circleAndOperator[0]){
+       setSelectedCircle(circleAndOperator[0].Circle);
+          setSelectedOperator(circleAndOperator[0].OperatorName.split("-")[0]);
+          setSelectedOperatorId(
+            circleAndOperator[0].OperatorId === 151
+              ? "JIO"
+              : circleAndOperator[0].OperatorId
+          );
+          setSelectedCircleId(circleAndOperator[0].CircleId);
+  
+          operatorsList.forEach((o, i) => {
+            if (o.OperatorName == circleAndOperator[0].OperatorName) {
+              setOpImgUrl(o.Image);
+            }
+          });
+        }
+    }else{
+      navigate("/login")
+    }
+  
   }, [props,circleAndOperator]);
 
   const getOperatorsApi = (serviceId) => {

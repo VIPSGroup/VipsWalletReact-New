@@ -311,7 +311,7 @@ useEffect(() => {
                         <div class="col-5 col-xs-4 text-right">
                           <span class="payment-confirmation-summery-amt">
                             {" "}
-                            &#x20B9;{amt}{" "}
+                            &#x20B9; {amt}{" "}
                           </span>
                         </div>
                       </div>
