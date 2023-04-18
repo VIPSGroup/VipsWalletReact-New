@@ -173,7 +173,10 @@ export const CheckSellMetalStatus = createAsyncThunk(
 
 export const GetCouponList = createAsyncThunk(
   "GetCouponList",
-  async ({ username, password, ServiceId, PublishedFare }, thunkAPI) => {
+  async (
+    { username, password, ServiceId, PublishedFare, MetalType },
+    thunkAPI
+  ) => {
     try {
       const res = await axios.post(`${baseApiUrl}/Coupon/GetCouponList`, {
         Authentication: {
@@ -182,6 +185,7 @@ export const GetCouponList = createAsyncThunk(
         },
         ServiceId: ServiceId,
         PublishedFare: PublishedFare,
+        MetalType: MetalType,
       });
       return res.data;
     } catch (error) {}

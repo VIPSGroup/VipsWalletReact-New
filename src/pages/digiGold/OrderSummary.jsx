@@ -543,14 +543,10 @@ const OrderSummary = () => {
     dispatch(CheckServiceEnableOrNot());
     const ServiceId = digiGoldServiceId;
     let PublishedFare = parseFloat(currentRate);
-    // if (state.valType === "amount") {
-    //   PublishedFare = currentRate;
-    // } else if (state.valType === "quantity") {
-    //   PublishedFare = state.valueinAmt;
-    // }
-    // ? parseFloat(currentRate)
-    // : parseFloat(state?.valueinAmt);
-    dispatch(GetCouponList({ username, password, ServiceId, PublishedFare }));
+    let MetalType = state.metalType;
+    dispatch(
+      GetCouponList({ username, password, ServiceId, PublishedFare, MetalType })
+    );
   }, [currentRate]);
   // Bank Details Update Logic
   const updateBankDetails = () => {
@@ -832,7 +828,7 @@ const OrderSummary = () => {
                                           // style={{ width: 300 }}
                                         >
                                           <div className="">
-                                            <p>{e.Description}</p>
+                                            <p>{e?.Description?.slice(0,70)}</p>
 
                                             <div className="">
                                               <p
