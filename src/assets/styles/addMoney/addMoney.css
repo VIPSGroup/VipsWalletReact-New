@@ -66,6 +66,10 @@
     /* margin: 0 27px 0px 27px; */
     margin: 0 34px 0px 7px;
 }
+.add-money-body .img-crcard{
+  /* margin: 0 27px 0px 27px; */
+  margin: 0 31px 0px 7px;
+}
 .select-payment-method label{
   display: block;
 }
@@ -470,6 +474,10 @@
     margin: 0 18px 0px 5px;
     width: 22px;
   }
+  .add-money-body .img-crcard{
+    margin: 0 18px 0px 5px;
+    width: 22px;
+  }
   .add-money-btn button {
     font-size: 15px; 
     padding: 8px 30px;
@@ -542,6 +550,9 @@
     margin: 0 18px 0px 5px;
     width: 22px;
   }
+  .add-money-body .img-crcard{
+    margin: 0 18px 0px 5px;
+  }
   .add-money-btn button {
     font-size: 15px; 
     padding: 8px 30px;
@@ -602,6 +613,10 @@
     margin: 0 24px 0px 4px;
     width: 22px;
   }
+  .add-money-body .img-crcard{
+    margin: 0 24px 0px 4px;
+    width: 22px;
+  }
   .select-payment-method label > input[type="radio"] + * {
     display: inline-block;
     padding: 0.5rem 0.5rem;
@@ -644,6 +659,9 @@
   .add-money-body .img3{
       /* margin: 0 27px 0px 27px; */
       margin: 0 31px 0px 7px;
+  }
+  .add-money-body .img-crcard{
+    margin: 0 31px 0px 7px;
   }
       
 } 
