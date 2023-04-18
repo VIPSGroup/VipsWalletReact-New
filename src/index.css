@@ -35,39 +35,31 @@
   -moz-appearance: textfield;
 }
 
-
-
-
-
-
-
-
-.ant-form-item .ant-form-item-control-input-content .ant-input{
+.ant-form-item .ant-form-item-control-input-content .ant-input {
   min-height: 45px;
 }
-.ant-form-item .ant-form-item-control-input-content .ant-input:hover{
+.ant-form-item .ant-form-item-control-input-content .ant-input:hover {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px rgb(202 48 96 / 10%);
   outline: 0;
 }
-.ant-form-item .ant-form-item-control-input-content .ant-input:focus{
+.ant-form-item .ant-form-item-control-input-content .ant-input:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px rgb(202 48 96 / 10%);
   outline: 0;
 }
-.ant-form-item .ant-form-item-control-input-content .ant-input::placeholder{
+.ant-form-item .ant-form-item-control-input-content .ant-input::placeholder {
   color: var(--lightGray);
   font-weight: 400 !important;
 }
 
-.ant-input-affix-wrapper .ant-input{
+.ant-input-affix-wrapper .ant-input {
   box-shadow: none !important;
   min-height: auto !important;
 }
-.ant-input-affix-wrapper .ant-input:hover{
+.ant-input-affix-wrapper .ant-input:hover {
   box-shadow: none !important;
 }
-
 
 .ant-picker:hover {
   border-color: var(--primary);
@@ -79,10 +71,10 @@
   border-inline-end-width: 1px;
   outline: 0;
 }
-.ant-picker-input input::placeholder{
+.ant-picker-input input::placeholder {
   color: var(--lightGray) !important;
 }
-.ant-picker .ant-picker-input >input:placeholder-shown {
+.ant-picker .ant-picker-input > input:placeholder-shown {
   text-overflow: ellipsis;
   color: var(--lightGray);
 }
@@ -99,7 +91,8 @@
   margin: 5px 0 12px;
 }
 
-.ant-input-disabled, .ant-input[disabled]{
+.ant-input-disabled,
+.ant-input[disabled] {
   color: var(--textGray);
 }
 
@@ -108,3 +101,19 @@
   -webkit-appearance: none;
   margin: 0;
 }
+
+.ant-pagination-item {
+  border-color: "#ca3060";
+}
+
+.custom-pagination .ant-pagination {
+  border: 1px solid #ff0000; /* Specify the desired border color */
+}
+
+
+
+.my-coupon-card {
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); /* Customize the shadow values as needed */
+}
+
+

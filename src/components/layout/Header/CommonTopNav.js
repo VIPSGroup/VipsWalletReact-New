@@ -24,11 +24,11 @@ const CommonTopNav = ({
   setActive,
   title,
   setGrams,
-  grams,
   setAmount,
-  amount,
   setStep,
-  step,
+  setErr,
+  setReceiverUserName,
+  receiverUserName,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -275,6 +275,8 @@ const CommonTopNav = ({
                   pathname !== "/vipsgold-profile" &&
                   pathname !== "/vipsgold-orders" &&
                   pathname !== "/vipsgold-gift" &&
+                  pathname !== "/vipsgold-faq" &&
+                  pathname !== "/vipsgold-termscondtion" &&
                   pathname !== `/vipsgold-delivery/${title}` && (
                     <>
                       <li class="nav-item">
@@ -314,6 +316,8 @@ const CommonTopNav = ({
                   pathname !== "/vipsgold-profile" &&
                   pathname !== "/vipsgold-gift" &&
                   pathname !== "/vipsgold-orders" &&
+                  pathname !== "/vipsgold-faq" &&
+                  pathname !== "/vipsgold-termscondtion" &&
                   pathname !== `/vipsgold-delivery/${title}` && (
                     <li class="nav-item">
                       <Link
@@ -422,6 +426,8 @@ const CommonTopNav = ({
                   pathname !== "/vipsgold-gift" &&
                   pathname !== "/vipsgold-orders" &&
                   pathname !== "/vipsgold-delivery" &&
+                  pathname !== "/vipsgold-faq" &&
+                  pathname !== "/vipsgold-termscondtion" &&
                   pathname !== `/vipsgold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
                       <Link
@@ -525,6 +531,8 @@ const CommonTopNav = ({
           pathname !== "/vipsgold-orders" &&
           pathname !== "/vipsgold-gift" &&
           pathname !== "/vipsgold-delivery" &&
+          pathname !== "/vipsgold-faq" &&
+          pathname !== "/vipsgold-termscondtion" &&
           pathname !== `/vipsgold-delivery/${title}` ? (
             <div class="container-fluid">
               <div class="navbar-bottom-services-outer">
@@ -610,6 +618,8 @@ const CommonTopNav = ({
                       setActive(0);
                       setGrams("");
                       setAmount("");
+                      setErr("");
+                      setReceiverUserName("");
                     }}
                     to="/vipsgold"
                   >
@@ -627,6 +637,8 @@ const CommonTopNav = ({
                       setActive(1);
                       setGrams("");
                       setAmount("");
+                      setErr("");
+                      setReceiverUserName("");
                     }}
                     to="/vipsgold"
                   >
@@ -655,11 +667,11 @@ const CommonTopNav = ({
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    // to="/vipsgold-delivery"
-                    onClick={() => {
-                      setIsSnackBar(true);
-                      setErrorMsg("Service will be coming soon..");
-                    }}
+                    to="/vipsgold-delivery"
+                    // onClick={() => {
+                    //   setIsSnackBar(true);
+                    //   setErrorMsg("Service will be coming soon..");
+                    // }}
                   >
                     <img
                       src="images/digigold-images/delivery-white-icon.svg"
@@ -671,11 +683,14 @@ const CommonTopNav = ({
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    to="/vipsgold-gift"
-                    // onClick={() => {
-                    //   setIsSnackBar(true);
-                    //   setErrorMsg("Service will be coming soon..");
-                    // }}
+                    to="/vipsgold"
+                    onClick={() => {
+                      setActive(2);
+                      setGrams("");
+                      setAmount("");
+                      setErr("");
+                      setReceiverUserName("");
+                    }}
                   >
                     <img
                       src="images/digigold-images/buy-white-icon.svg"

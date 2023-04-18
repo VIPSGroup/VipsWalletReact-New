@@ -1,11 +1,12 @@
-import { Button, Col, Form, Input, Modal, Row, Spin } from "antd";
-import React, { useEffect, useState } from "react";
+import { Button, Card, Col, Form, Input, Modal, Row, Spin } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import {
   BuyDigiGold,
   CheckIfscCode,
   fetchGoldSilverRates,
+  GetCouponList,
   GetUserBankList,
   SellDigiGold,
   UpdateBankAccountDetails,
@@ -22,9 +23,19 @@ import {
   handleKeyPressForName,
   handleMobileKeyPress,
 } from "../../constant/Constants";
-import { digitPrecision, namePattern } from "../../constants";
-
+import {
+  digiGoldServiceId,
+  digitPrecision,
+  handleKeyDownIFSCCheck,
+  namePattern,
+} from "../../constants";
+import { CheckServiceEnableOrNot } from "../../redux/slices/coreSlice";
+import { MdClose } from "react-icons/md";
+import Lottie from "react-lottie";
+import blastAnimation from "../../components/digiGold/blast_animation.json";
 const OrderSummary = () => {
+  const animationRef = useRef(null); // Ref to hold the Lottie animation instance
+
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,13 +57,26 @@ const OrderSummary = () => {
   const [walletShow, setWalletShow] = useState(false);
   const [otp, setOtp] = useState("");
   const [sellLoad, setSellLoad] = useState(false);
+  const [couponData, setCouponData] = useState({
+    id: "",
+    CouponAmount: "",
+    CreditType: "",
+  });
+  const [showLottie, setShowLottie] = useState(0);
   const [formValue, setFormValue] = useState({
     accountNumber: "",
     accountName: "",
     ifscCode: "",
   });
+  const [error, setError] = useState("");
   const { rateData, loading } = useSelector(
     (state) => state.digiGoldSlice.rates
+  );
+  const { isServiceEnable, ServiceEnableLoading } = useSelector(
+    (state) => state.coreSlice
+  );
+  const { CouponList, CouponLoader } = useSelector(
+    (state) => state.digiGoldSlice.coupon
   );
   const { list, loading: listLoad } = useSelector(
     (state) => state.digiGoldSlice.bankList
@@ -64,6 +88,7 @@ const OrderSummary = () => {
     (state) => state.walletSlice.walletBalance
   );
   const { Verified } = useSelector((state) => state.digiGoldSlice.ifsc);
+
   // VIPS Username & Password
   const username = state?.username;
   const password = state?.password;
@@ -216,7 +241,6 @@ const OrderSummary = () => {
 
     return () => clearInterval(timer);
   }, [counter]);
-
   // Counter Logic
   // Login & GetWalletBalance Logic
   useEffect(() => {
@@ -258,6 +282,9 @@ const OrderSummary = () => {
     const blockid = blockId;
     const amount = totalAmount ? totalAmount : state.valueinAmt;
     const type = state.valType;
+    const CouponId = couponData.id;
+    const CouponAmount = couponData.CouponAmount;
+
     if (!walletShow) {
       setLoad(true);
       const res = await BuyDigiGold({
@@ -269,6 +296,8 @@ const OrderSummary = () => {
         blockid,
         amount,
         type,
+        CouponId,
+        CouponAmount,
       });
       if (res.ResponseStatus === 1) {
         if (res.Data?.statusCode === 200) {
@@ -470,11 +499,12 @@ const OrderSummary = () => {
           setSuccessMsg("");
           setIsSnackBar(true);
         }
-      } else {
-        setErrorMsg("Please Enter Valid IFSC");
-        setSuccessMsg("");
-        setIsSnackBar(true);
       }
+      //  else {
+      //   setErrorMsg("Please Enter Valid IFSC");
+      //   setSuccessMsg("");
+      //   setIsSnackBar(true);
+      // }
     } else {
       if (Verified !== 0) {
         const res = await UserbankAccountCreate({
@@ -487,11 +517,13 @@ const OrderSummary = () => {
         if (res.ResponseStatus === 1) {
           dispatch(GetUserBankList({ username, password }));
         }
-      } else {
-        setErrorMsg("Please Enter Valid IFSC");
-        setSuccessMsg("");
-        setIsSnackBar(true);
       }
+
+      // else {
+      //   setErrorMsg("Please Enter Valid IFSC");
+      //   setSuccessMsg("");
+      //   setIsSnackBar(true);
+      // }
     }
   };
   useEffect(() => {
@@ -505,6 +537,21 @@ const OrderSummary = () => {
       dispatch(CheckIfscCode({ ifsc }));
     }
   }, [formValue.ifscCode]);
+  // console.log(isServiceEnable, "isServiceEnable");
+  console.log(state, "state?.valueinAmt");
+  useEffect(() => {
+    dispatch(CheckServiceEnableOrNot());
+    const ServiceId = digiGoldServiceId;
+    let PublishedFare = parseFloat(currentRate);
+    // if (state.valType === "amount") {
+    //   PublishedFare = currentRate;
+    // } else if (state.valType === "quantity") {
+    //   PublishedFare = state.valueinAmt;
+    // }
+    // ? parseFloat(currentRate)
+    // : parseFloat(state?.valueinAmt);
+    dispatch(GetCouponList({ username, password, ServiceId, PublishedFare }));
+  }, [currentRate]);
   // Bank Details Update Logic
   const updateBankDetails = () => {
     formValue.accountName = list.Data.result[0].accountName;
@@ -516,6 +563,26 @@ const OrderSummary = () => {
     localStorage.removeItem("valueType");
   };
 
+  const validateIFSC = (value) => {
+    const regex = /^[A-Z]{4}[0][A-Z0-9]{6}$/; // IFSC code pattern
+    if (regex.test(value)) {
+      return true;
+    }
+    return false;
+  };
+  const handleComplete = () => {
+    setShowLottie(2);
+  };
+
+  const defaultOptions = {
+    loop: false,
+    autoplay: true,
+    animationData: blastAnimation, // Pass the imported JSON animation data
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  console.log(currentRate, "currentRate");
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">
@@ -667,10 +734,7 @@ const OrderSummary = () => {
                               state?.type === "buy" ? "col-lg-3" : "col-lg-3"
                             } `}
                           >
-                            <p class="digigold-insert-darktext">
-                              Total{" "}
-                              {state?.type === "buy" ? "Payable" : "Receivable"}
-                            </p>
+                            <p class="digigold-insert-darktext">Total Amount</p>
                             <p class="digigold-insert-amt">
                               &#x20B9;{" "}
                               {totalAmount
@@ -685,8 +749,8 @@ const OrderSummary = () => {
                         <div class="row digigold-payble-value">
                           <div class="col-lg-12">
                             <p class="digigold-payble-darktest">
-                              Amount{" "}
-                              {state?.type === "buy" ? "Payable" : "Receivable"}
+                              {state?.type === "buy" ? "Payable" : "Receivable"}{" "}
+                              Amount
                             </p>
                             <p class="digigold-payble-amt">
                               {" "}
@@ -699,6 +763,141 @@ const OrderSummary = () => {
                             </p>
                           </div>
                         </div>
+                        {state?.type === "buy" &&
+                          isServiceEnable?.Data?.IsCouponApplied &&
+                          CouponList.ResponseStatus !== 0 && (
+                            <div className="">
+                              <p class="digigold-payment-title">
+                                Apply Coupon Code Here
+                              </p>
+                              <Row
+                                style={{ marginTop: 20, marginBottom: 50 }}
+                                gutter={10}
+                              >
+                                {CouponList.Data &&
+                                  CouponList.Data.map((e) => {
+                                    return (
+                                      <Col sm={{ span: 12 }} md={{ span: 8 }}>
+                                        <Card
+                                          style={{ position: "relative" }}
+                                          className="my-coupon-card"
+                                          title={e.Title}
+                                          extra={
+                                            <>
+                                              <Button
+                                                style={{
+                                                  backgroundColor:
+                                                    couponData.id ===
+                                                      e.CouponId && "#ca3060",
+                                                  color:
+                                                    couponData.id === e.CouponId
+                                                      ? "white"
+                                                      : "black",
+                                                }}
+                                                onClick={() => {
+                                                  setCouponData({
+                                                    ...couponData,
+                                                    id: e.CouponId,
+                                                    CouponAmount: e.Amount,
+                                                    CreditType: e.CreditType,
+                                                  });
+                                                  setShowLottie(showLottie + 1);
+                                                }}
+                                                disabled={!e.IsApplicable}
+                                                type="dashed"
+                                              >
+                                                {couponData.id === e.CouponId
+                                                  ? "Applied"
+                                                  : "Apply"}
+                                              </Button>
+                                              {couponData.id === e.CouponId && (
+                                                <MdClose
+                                                  onClick={() =>
+                                                    setCouponData({
+                                                      ...couponData,
+                                                      id: "",
+                                                      CouponAmount: "",
+                                                      CreditType: "",
+                                                    })
+                                                  }
+                                                  style={{
+                                                    marginLeft: 10,
+                                                    cursor: "pointer",
+                                                  }}
+                                                  size={20}
+                                                />
+                                              )}
+                                            </>
+                                          }
+                                          // style={{ width: 300 }}
+                                        >
+                                          <div className="">
+                                            <p>{e.Description}</p>
+
+                                            <div className="">
+                                              <p
+                                                style={{
+                                                  // padding: 2,
+                                                  fontSize: 20,
+                                                  fontWeight: "700",
+                                                }}
+                                              >
+                                                Rs. {e.Amount}/- Off
+                                              </p>
+                                            </div>
+                                            <div
+                                              style={{
+                                                position: "absolute",
+                                                // left: 70,
+                                                bottom: 0,
+                                                left: 0,
+                                                backgroundColor: "#ca3060",
+                                                width: "100%",
+                                                textAlign: "center",
+                                                color: "white",
+                                                padding: 1,
+                                                fontWeight: "500",
+                                                borderTopRightRadius: 10,
+                                                borderTopLeftRadius: 10,
+                                              }}
+                                              className=""
+                                            >
+                                              View Terms & Conditions
+                                              {/* <p
+                                                style={{
+                                                  textAlign: "center",
+                                                  color: "white",
+                                                }}
+                                              >
+                                               
+                                              </p> */}
+                                            </div>
+                                          </div>
+                                        </Card>
+                                      </Col>
+                                    );
+                                  })}
+                              </Row>
+                            </div>
+                          )}
+                        {showLottie === 1 && (
+                          <Lottie
+                            ref={animationRef}
+                            style={{
+                              position: "absolute",
+                              top: 100,
+                              left: 350,
+                            }}
+                            width={400}
+                            options={defaultOptions}
+                            eventListeners={[
+                              {
+                                eventName: "complete",
+                                callback: handleComplete,
+                              },
+                            ]}
+                          />
+                        )}
                         {state?.type === "buy" && (
                           <div class="digigold-payment-method">
                             <p class="digigold-payment-title">
@@ -743,7 +942,10 @@ const OrderSummary = () => {
                               <p class="digigold-paymethod-title">
                                 Debit From{" "}
                               </p>
-                              <div class="digigold-paymet-discount-info">
+                              <div
+                                style={{ justifyContent: "space-between" }}
+                                class="digigold-paymet-discount-info"
+                              >
                                 <div class="col-lg-8 p-0">
                                   <div class="custom-control custom-checkbox d-flex flex-wrap align-items-center">
                                     <input
@@ -786,15 +988,98 @@ const OrderSummary = () => {
                                   </div>
                                 </div>
                                 <div class="col-lg-4 p-0">
-                                  <p class="digigold-paymet-discount-amt">
-                                    {" "}
-                                    &#x20B9;{" "}
-                                    {totalAmount
-                                      ? parseFloat(totalAmount).toLocaleString()
-                                      : parseFloat(
-                                          state?.valueinAmt
-                                        ).toLocaleString()}{" "}
-                                  </p>
+                                  <div
+                                    style={{
+                                      justifyContent: "space-between",
+                                      display: "flex",
+                                    }}
+                                  >
+                                    <p class="digigold-paymet-discount-amt">
+                                      Total Amount
+                                    </p>
+                                    <p class="digigold-paymet-discount-amt">
+                                      {" "}
+                                      &#x20B9;{" "}
+                                      {totalAmount
+                                        ? parseFloat(
+                                            totalAmount
+                                          ).toLocaleString()
+                                        : parseFloat(
+                                            state?.valueinAmt
+                                          ).toLocaleString()}{" "}
+                                    </p>
+                                  </div>
+                                  {couponData.CreditType && (
+                                    <>
+                                      <div
+                                        style={{
+                                          justifyContent: "space-between",
+                                          display: "flex",
+                                        }}
+                                      >
+                                        <p
+                                          style={{ color: "green" }}
+                                          class="digigold-paymet-discount-amt"
+                                        >
+                                          Coupon{" "}
+                                          {couponData.CreditType === 1
+                                            ? "Cashback"
+                                            : "Discount"}
+                                        </p>
+                                        <p
+                                          style={{ color: "green" }}
+                                          class="digigold-paymet-discount-amt"
+                                        >
+                                          {couponData.CreditType === 2 && "-"}
+                                          &#x20B9;{" "}
+                                          {/* {totalAmount
+                                          ? parseFloat(
+                                              totalAmount
+                                            ).toLocaleString()
+                                          : parseFloat(
+                                              state?.valueinAmt
+                                            ).toLocaleString()}{" "} */}
+                                          {couponData.CouponAmount}
+                                        </p>
+                                      </div>
+                                      <div
+                                        style={{
+                                          justifyContent: "space-between",
+                                          display: "flex",
+                                        }}
+                                      >
+                                        <p
+                                          // style={{ color: "red" }}
+                                          class="digigold-paymet-discount-amt"
+                                        >
+                                          Paybale Amount
+                                        </p>
+                                        <p
+                                          // style={{ color: "red" }}
+                                          class="digigold-paymet-discount-amt"
+                                        >
+                                          &#x20B9;{" "}
+                                          {/* {totalAmount
+                                          ? parseFloat(
+                                              totalAmount
+                                            ).toLocaleString()
+                                          : parseFloat(
+                                              state?.valueinAmt
+                                            ).toLocaleString()}{" "} */}
+                                          {couponData.CreditType === 1
+                                            ? parseFloat(
+                                                currentRate
+                                              ).toLocaleString()
+                                            : (
+                                                parseFloat(totalAmount) -
+                                                parseFloat(
+                                                  couponData.CouponAmount
+                                                )
+                                              ).toLocaleString()}
+                                        </p>
+                                      </div>
+                                    </>
+                                  )}
                                 </div>
                               </div>
 
@@ -829,6 +1114,7 @@ const OrderSummary = () => {
                             </div>
                           </div>
                         )}
+
                         {/* Digi Gold Bank Details */}
                         {state?.type === "sell" && (
                           <div class="digigold-bank-details">
@@ -859,7 +1145,7 @@ const OrderSummary = () => {
                                     ]}
                                   >
                                     <Row
-                                    // className="align-items-center"
+                                      // className="align-items-center"
                                       gutter={20}
                                       // style={{
                                       //   marginTop: 10,
@@ -873,52 +1159,52 @@ const OrderSummary = () => {
                                         md={{ span: 7 }}
                                       >
                                         <div class="input-wrapper w-100">
-                                  <div className="input">
-                                        <Form.Item
-                                        // className="mb-0 "
-                                          name={"accountNumber"}
-                                          // hasFeedback
-                                          rules={[
-                                            {
-                                              validator: (_, value) => {
-                                                const accRegex =
-                                                  /^[0-9]{9,18}$/;
-                                                if (
-                                                  !value ||
-                                                  value.match(accRegex)
-                                                ) {
-                                                  return Promise.resolve();
+                                          <div className="input">
+                                            <Form.Item
+                                              // className="mb-0 "
+                                              name={"accountNumber"}
+                                              // hasFeedback
+                                              rules={[
+                                                {
+                                                  validator: (_, value) => {
+                                                    const accRegex =
+                                                      /^[0-9]{9,18}$/;
+                                                    if (
+                                                      !value ||
+                                                      value.match(accRegex)
+                                                    ) {
+                                                      return Promise.resolve();
+                                                    }
+                                                    return Promise.reject(
+                                                      "Invalid Account Number"
+                                                    );
+                                                  },
+                                                },
+                                                {
+                                                  required: true,
+                                                  message:
+                                                    "Account Number is Required",
+                                                },
+                                              ]}
+                                            >
+                                              <Input
+                                                required
+                                                size="large"
+                                                maxLength={18}
+                                                // addonBefore={<FaHashtag />}
+                                                placeholder="Enter Account Number"
+                                                value={formValue.accountNumber}
+                                                onChange={(e) =>
+                                                  setFormValue({
+                                                    ...formValue,
+                                                    accountNumber:
+                                                      e.target.value,
+                                                  })
                                                 }
-                                                return Promise.reject(
-                                                  "Invalid Account Number"
-                                                );
-                                              },
-                                            },
-                                            {
-                                              required: true,
-                                              message:
-                                                "Account Number is Required",
-                                            },
-                                          ]}
-                                        >
-                                          <Input
-                                            required
-                                            onKeyPress={handleMobileKeyPress}
-                                            size="large"
-                                            maxLength={18}
-                                            // addonBefore={<FaHashtag />}
-                                            placeholder="Enter Account Number"
-                                            value={formValue.accountNumber}
-                                            onChange={(e) =>
-                                              setFormValue({
-                                                ...formValue,
-                                                accountNumber: e.target.value,
-                                              })
-                                            }
-                                          />
-                                          {/* <label htmlFor="enter-grams"> Enter Grams </label> */}
-                                        </Form.Item>
-                                        </div>
+                                              />
+                                              {/* <label htmlFor="enter-grams"> Enter Grams </label> */}
+                                            </Form.Item>
+                                          </div>
                                         </div>
                                       </Col>
                                       <Col
@@ -928,46 +1214,46 @@ const OrderSummary = () => {
                                         md={{ span: 7 }}
                                       >
                                         <div class="input-wrapper w-100">
-                                  <div className="input">
-                                        <Form.Item
-                                        // className="mb-0"
-                                          onKeyPress={handleKeyPressForName}
-                                          name={"accountName"}
-                                          // hasFeedback
-                                          rules={[
-                                            {
-                                              required: true,
-                                              message:
-                                                "Holder Name is Required",
-                                            },
-                                            {
-                                              min: 3,
-                                              message:
-                                                "Min 3 Character are Required",
-                                            },
-                                            {
-                                              pattern: namePattern,
-                                              message:
-                                                "Please Enter Valid Full Name",
-                                            },
-                                          ]}
-                                        >
-                                          <Input
-                                            required
-                                            size="large"
-                                            // addonBefore={<FaUser />}
-                                            placeholder="Account Holder Name"
-                                            value={formValue.accountName}
-                                            onChange={(e) =>
-                                              setFormValue({
-                                                ...formValue,
-                                                accountName: e.target.value,
-                                              })
-                                            }
-                                          />
-                                          {/* <label htmlFor=""> Account Holder Name </label> */}
-                                        </Form.Item>
-                                        </div>
+                                          <div className="input">
+                                            <Form.Item
+                                              // className="mb-0"
+                                              onKeyPress={handleKeyPressForName}
+                                              name={"accountName"}
+                                              // hasFeedback
+                                              rules={[
+                                                {
+                                                  required: true,
+                                                  message:
+                                                    "Holder Name is Required",
+                                                },
+                                                // {
+                                                //   min: 3,
+                                                //   message:
+                                                //     "Min 3 Character are Required",
+                                                // },
+                                                {
+                                                  pattern: namePattern,
+                                                  message:
+                                                    "Please Enter Valid Full Name",
+                                                },
+                                              ]}
+                                            >
+                                              <Input
+                                                required
+                                                size="large"
+                                                // addonBefore={<FaUser />}
+                                                placeholder="Account Holder Name"
+                                                value={formValue.accountName}
+                                                onChange={(e) =>
+                                                  setFormValue({
+                                                    ...formValue,
+                                                    accountName: e.target.value,
+                                                  })
+                                                }
+                                              />
+                                              {/* <label htmlFor=""> Account Holder Name </label> */}
+                                            </Form.Item>
+                                          </div>
                                         </div>
                                       </Col>
 
@@ -978,61 +1264,87 @@ const OrderSummary = () => {
                                         md={{ span: 7 }}
                                       >
                                         <div class="input-wrapper w-100">
-                                  <div className="input">
-                                        <Form.Item
-                                        // className="mb-0"
-                                          name={"ifscCode"}
-                                          // hasFeedback
-                                          rules={[
-                                            {
-                                              validator: (_, value) => {
-                                                const regex =
-                                                  /^[A-Z]{4}[0][A-Z0-9]{6}$/;
-                                                if (
-                                                  !value ||
-                                                  regex.test(value)
-                                                ) {
-                                                  return Promise.resolve();
-                                                }
-                                                return Promise.reject(
-                                                  "Please enter a valid IFSC code"
-                                                );
-                                              },
-                                            },
-                                            {
-                                              required: true,
-                                              message: "Ifsc Code is Required",
-                                            },
-                                          ]}
-                                        >
-                                          <Input
-                                            size="large"
-                                            pattern="[A-Za-z0-9 ]+"
-                                            maxLength={11}
-                                            // addonBefore={<FaHashtag />}
-                                            placeholder="Enter IFSC Code"
-                                            value={formValue.ifscCode}
-                                            onChange={(e) =>
-                                              setFormValue({
-                                                ...formValue,
-                                                ifscCode: e.target.value,
-                                              })
-                                            }
-                                          />
-                                          <label
-                                            style={{
-                                              fontSize: 12,
-                                              marginLeft: 10,
-                                            }}
-                                            htmlFor=""
-                                          >
-                                            {formValue.ifscCode.length === 11 &&
-                                              (Verified
-                                                ? Verified
-                                                : "Please Enter Valid IFSC")}
-                                          </label>
-                                        </Form.Item>
-                                        </div>
+                                          <div className="input">
+                                            <Form.Item
+                                              // className="mb-0"
+                                              name={"ifscCode"}
+                                              // hasFeedback
+                                              rules={
+                                                [
+                                                  // {
+                                                  //   validator: (_, value) => {
+                                                  //     const regex =
+                                                  //       /^[A-Z]{4}[0][A-Z0-9]{6}$/;
+                                                  //     if (
+                                                  //       !value ||
+                                                  //       regex.test(value)
+                                                  //     ) {
+                                                  //       return Promise.resolve();
+                                                  //     }
+                                                  //     return Promise.reject(
+                                                  //       "Please enter a valid IFSC code"
+                                                  //     );
+                                                  //   },
+                                                  // },
+                                                  // {
+                                                  //   required: true,
+                                                  //   message:
+                                                  //     "Ifsc Code is Required",
+                                                  // },
+                                                ]
+                                              }
+                                            >
+                                              <Input
+                                                // onKeyDown={
+                                                //   handleKeyDownIFSCCheck
+                                                // }
+                                                required
+                                                size="large"
+                                                // pattern="[A-Za-z0-9 ]+"
+                                                maxLength={11}
+                                                // addonBefore={<FaHashtag />}
+                                                placeholder="Enter IFSC Code"
+                                                value={formValue.ifscCode}
+                                                onChange={(e) => {
+                                                  setFormValue({
+                                                    ...formValue,
+                                                    ifscCode: e.target.value,
+                                                  });
+                                                  if (
+                                                    validateIFSC(e.target.value)
+                                                  ) {
+                                                    setError("");
+                                                  } else {
+                                                    setError(
+                                                      "Please Enter Valid IFSC"
+                                                    );
+                                                  }
+                                                }}
+                                              />
+                                              <label
+                                                style={{
+                                                  fontSize: 12,
+                                                  marginLeft: 10,
+                                                  color:
+                                                    error || !Verified
+                                                      ? "red"
+                                                      : "black",
+                                                }}
+                                                htmlFor=""
+                                              >
+                                                {formValue.ifscCode.length >=
+                                                  1 &&
+                                                  formValue.ifscCode.length <
+                                                    11 &&
+                                                  error}
+                                                {formValue.ifscCode.length ===
+                                                  11 &&
+                                                  (Verified
+                                                    ? Verified
+                                                    : "Please Enter Valid IFSC")}
+                                              </label>
+                                            </Form.Item>
+                                          </div>
                                         </div>
                                       </Col>
 

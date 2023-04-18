@@ -19,6 +19,21 @@ export function calculateTotalPrice(products, price) {
   return totalPrice;
 }
 
+export const handleKeyDownIFSCCheck = (e) => {
+  const value = e.target.value; // Get the input value
+  const regex = /^[A-Z]{4}[0][A-Z0-9]{6}$/; // Validation regex
+
+  // Allow backspace and delete keys
+  if (e.key === "Backspace" || e.key === "Delete") {
+    return;
+  }
+
+  // Prevent the keydown event for invalid characters
+  if (!regex.test(value + e.key)) {
+    e.preventDefault(); // Prevent the keydown event
+  }
+};
+
 export const handleKeyPressForName = (event) => {
   const charCode = event.which ? event.which : event.keyCode;
   if (charCode !== 8 && !/^[a-zA-Z ]+$/.test(String.fromCharCode(charCode))) {
@@ -252,7 +267,7 @@ export const HandleGramChange = ({
   const sGram = parseFloat(logData?.Data?.SilverGrams);
   if (logData.Data) {
     if (
-      parseFloat(active) === 1 &&
+      (parseFloat(active) === 1 || parseFloat(active) === 2) &&
       gram > (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))
     ) {
       const roundedNum = Math.round(gGram * 10000) / 10000;
@@ -263,7 +278,7 @@ export const HandleGramChange = ({
       const sGramResult = parseFloat(sGramStr);
       if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
         setErr(
-          ` You can ${type ? "Gift" : "Sell"} up to ${
+          ` You can ${parseFloat(active) === 1 ? "Sell" : "Gift"} up to ${
             isGold === 0 ? gGramResult : sGramResult
           } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
             isGold === 0 ? gGramResult : sGramResult
@@ -272,7 +287,7 @@ export const HandleGramChange = ({
       } else {
         setErr(
           `You do not have a enough ${isGold === 0 ? "Gold" : "Silver"} to ${
-            type ? "Gift" : "Sell"
+            parseFloat(active) === 1 ? "Sell" : "Gift"
           } `
         );
       }
@@ -280,15 +295,17 @@ export const HandleGramChange = ({
       setErr("");
     }
   }
-  const GoldBuyRates = rateData.Data?.result?.data?.rates?.gBuy;
-  const SilverBuyRates = rateData.Data?.result?.data?.rates?.sBuy;
-  const GoldSellRates = rateData.Data?.result?.data?.rates?.gSell;
-  const SilverSellRates = rateData.Data?.result?.data?.rates?.sSell;
+  const GoldBuyRates = rateData?.Data?.result?.data?.rates?.gBuy;
+  const SilverBuyRates = rateData?.Data?.result?.data?.rates?.sBuy;
+  const GoldSellRates = rateData?.Data?.result?.data?.rates?.gSell;
+  const SilverSellRates = rateData?.Data?.result?.data?.rates?.sSell;
   const TotalAmount =
     (parseFloat(active) === 0 && isGold === 0 && GoldBuyRates * quantity) ||
     (parseFloat(active) === 0 && isGold === 1 && SilverBuyRates * quantity) ||
     (parseFloat(active) === 1 && isGold === 0 && GoldSellRates * quantity) ||
-    (parseFloat(active) === 1 && isGold === 1 && SilverSellRates * quantity);
+    (parseFloat(active) === 1 && isGold === 1 && SilverSellRates * quantity) ||
+    (parseFloat(active) === 2 && isGold === 0 && GoldSellRates * quantity) ||
+    (parseFloat(active) === 2 && isGold === 1 && SilverSellRates * quantity);
   setValueType
     ? setValueType({
         ...valueType,
@@ -321,14 +338,15 @@ export const HandleAmounthange = ({
   setGrams,
   setErr,
   amount,
+  active,
 }) => {
   const taxRate =
-    parseFloat(rateData.Data.result.data.taxes[0].taxPerc) +
-    parseFloat(rateData.Data.result.data.taxes[1].taxPerc);
+    parseFloat(rateData?.Data?.result?.data?.taxes[0]?.taxPerc) +
+    parseFloat(rateData?.Data?.result?.data?.taxes[1]?.taxPerc);
   setAmount(amount);
   const inclTaxAmount = digitPrecision(amount, "amount");
-  const GoldBuyRate = rateData.Data.result.data.rates.gBuy;
-  const SilverBuyRate = rateData.Data.result.data.rates.sBuy;
+  const GoldBuyRate = rateData?.Data?.result?.data?.rates?.gBuy;
+  const SilverBuyRate = rateData?.Data?.result?.data?.rates?.sBuy;
   const TaxInc =
     (parseFloat(isGold === 0 ? GoldBuyRate : SilverBuyRate) * taxRate) /
       parseFloat(100) +
@@ -336,7 +354,15 @@ export const HandleAmounthange = ({
 
   const inclTaxRate = digitPrecision(TaxInc, "amount");
   const qty = inclTaxAmount / inclTaxRate;
-  const quantity = digitPrecision(qty, "quantity");
+  const quantity = digitPrecision(
+    parseFloat(active) === 2
+      ? inclTaxAmount /
+          (isGold === 0
+            ? rateData.Data?.result.data.rates.gSell
+            : rateData.Data?.result.data.rates.sSell)
+      : qty,
+    "quantity"
+  );
   console.log(
     rateData.Data.result.data.rates.gBuy,
     "rateData.Data.result.data.rates.gBuy"
@@ -344,7 +370,7 @@ export const HandleAmounthange = ({
   setValueType({
     ...valueType,
     valueinAmt: amount,
-    valueinGm: amount / (isGold === 0 ? GoldBuyRate : SilverBuyRate),
+    valueinGm: quantity,
     valType: "amount",
     metalType: isGold === 0 ? "gold" : "silver",
   });

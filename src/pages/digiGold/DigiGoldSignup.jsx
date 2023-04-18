@@ -22,6 +22,7 @@ import {
   handleMobileKeyPress,
   namePattern,
 } from "../../constants";
+import OTPModal from "../../components/common/OTPModal";
 
 const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
   const [errorMsg, setErrorMsg] = useState("");
   // const [step, setStep] = useState(0);
   // const [stateList, setStateList] = useState([]);
+  const [modal, setModal] = useState(false);
   const { modalBool } = useSelector((state) => state.digiGoldSlice.modal);
   const { loading, data } = useSelector(
     (state) => state.registerDigiSlice.register
@@ -51,20 +53,22 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
     Name: "",
     userCityId: "",
     userStateId: "",
-    otp: "",
   });
+  const [Otp, setOtp] = useState("");
   const handleClose = () => {
     setStep(0);
     dispatch(modalClose());
     setFormValue({
       mobileNumber: "",
       Name: "",
-      otp: "",
+      userStateId: "",
+      userCityId: "",
     });
+    setOtp("");
   };
 
   const handleSubmit = async () => {
-    const emailId = loggedInUser.Emailid;
+    // const emailId = loggedInUser.Emailid;
     const password = loggedInUser.TRXNPassword;
     const username = loggedInUser.UserName;
     if (formValue.userCityId === "Select City") {
@@ -73,9 +77,10 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
       setIsSnackBar(true);
     } else {
       const res = await dispatch(
-        registerDigiGold({ formValue, emailId, password, username })
+        registerDigiGold({ formValue, password, username, Otp })
       );
       if (res.payload.ResponseStatus === 2) {
+        dispatch(modalClose());
         if (step === 0) {
           setStep(step + 1);
         }
@@ -87,7 +92,8 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
           setSuccessMsg(res.payload.Data.message);
           setErrorMsg("");
           setIsSnackBar(true);
-          handleClose();
+          // handleClose();
+          setStep(0);
         } else {
           for (const key in res.payload.Data.errors) {
             for (const iterator of res.payload.Data.errors[key]) {
@@ -140,6 +146,7 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
       </div>
     );
   };
+
   // Digi Login Modal
   useEffect(() => {
     if (loggedInUser) {
@@ -182,6 +189,23 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
     setErrorMsg("");
     setIsSnackBar(false);
   }, [data]);
+
+  const handleResendSignupOTPSubmit = async () => {
+    setOtp("");
+    const username = loggedInUser.UserName;
+    const password = loggedInUser.TRXNPassword;
+    const res = await dispatch(
+      registerDigiGold({ formValue, password, username, Otp })
+    );
+    console.log(res, "res");
+    if (res.payload.ResponseStatus === 2) {
+      console.log("run kro");
+      setIsSnackBar(true);
+      setErrorMsg("");
+      setSuccessMsg(res.payload.Remarks);
+    }
+  };
+
   return (
     <>
       <Modal
@@ -191,295 +215,288 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
         maskClosable={false}
         open={modalBool}
       >
-        {step === 0 && (
-          <div className="digi-gold-loginForm">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="titleMain formText text-center">
-                  <h2>Sign up</h2>
-                  <p>Fill up Form To Sign up VIPS Gold</p>
-                </div>
+        {/* {step === 0 && ( */}
+        <div className="digi-gold-loginForm">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="titleMain formText text-center">
+                <h2>Sign up</h2>
+                <p>Fill up Form To Sign up VIPS Gold</p>
               </div>
             </div>
-            <div class="">
-              <Form
-                autoComplete="off"
-                autoCapitalize="off"
-                onFinish={handleSubmit}
-                fields={[
-                  { name: "mobileNumber", value: loggedInUser.UserName },
-                  { name: "Name", value: formValue.Name },
-                  { name: "userCityId", value: formValue.userCityId },
-                  { name: "userStateId", value: formValue.userStateId },
-                ]}
-                class="gold-signin-form buy-sell-tab-inner "
-              >
-                <div class="row">
-                  <div className="col-lg-12">
-                    <Form.Item
-                      hasFeedback
-                      name="mobileNumber"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Mobile number is required",
-                        },
-                        {
-                          pattern: /^\d{10}$/,
-                          message: "Mobile number is not valid",
-                        },
-                      ]}
-                    >
-                      <Input
-                        onKeyPress={handleMobileKeyPress}
-                        onChange={(e) =>
-                          setFormValue({
-                            ...formValue,
-                            mobileNumber: e.target.value,
-                          })
-                        }
-                        disabled
-                        value={loggedInUser.UserName}
-                        maxLength={10}
-                        addonBefore={"+91"}
-                        size="large"
-                        placeholder="Enter Mobile Number"
-                      />
-                    </Form.Item>
-                  </div>
-                  <div className="col-lg-12">
-                    <Form.Item
-                      hasFeedback
-                      name="Name"
-                      // rules={[
-                      //   { required: true, message: "Full name is required" },
-                      //   { min: 3, message: "Min 3 Character are Required" },
-                      // ]}
-                      rules={[
-                        {
-                          required: true,
-                          message: "Holder Name is Required",
-                        },
-                        {
-                          min: 3,
-                          message: "Min 3 Character are Required",
-                        },
-                        {
-                          pattern: namePattern,
-                          message: "Please Enter Valid Full Name",
-                        },
-                      ]}
-                    >
-                      <Input
-                        onKeyPress={handleKeyPressForName}
-                        onChange={(e) =>
-                          setFormValue({
-                            ...formValue,
-                            Name: e.target.value,
-                          })
-                        }
-                        size="large"
-                        placeholder="Enter Full Name"
-                      />
-                    </Form.Item>
-                  </div>
-                  <div className="col-lg-12">
-                    <Form.Item
-                      // hasFeedback
-                      name="userStateId"
-                      rules={[{ required: true, message: "State is required" }]}
-                    >
-                      <Select
-                        placeholder="Select State"
-                        showSearch
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                          option.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
-                        }
-                        onChange={(e) =>
-                          setFormValue({
-                            ...formValue,
-                            userStateId: e,
-                            // userCityName: "Select City",
-                            userCityId: "Select City",
-                          })
-                        }
-                        size="large"
-                      >
-                        {stateList?.Data &&
-                          stateList?.Data?.result?.data?.map((e) => {
-                            return (
-                              <Select.Option key={e.id} value={e.id}>
-                                {e.name}
-                              </Select.Option>
-                            );
-                          })}
-                      </Select>
-                    </Form.Item>
-                  </div>
-                  <div className="col-lg-12">
-                    <Form.Item
-                      // hasFeedback
-                      name="userCityId"
-                      rules={[{ required: true, message: "City is required" }]}
-                    >
-                      <Select
-                        value={formValue.userCityId}
-                        onChange={(e) =>
-                          setFormValue({
-                            ...formValue,
-                            userCityId: e,
-                          })
-                        }
-                        showSearch
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                          option.children
-                            .toLowerCase()
-                            .indexOf(input.toLowerCase()) >= 0
-                        }
-                        size="large"
-                        placeholder="Select City"
-                      >
-                        {cityList.Data &&
-                          cityList.Data.result.data.map((e) => {
-                            return (
-                              <Select.Option key={e.id} value={e.id}>
-                                {e.name}
-                              </Select.Option>
-                            );
-                          })}
-                      </Select>
-                    </Form.Item>
-                  </div>
-
-                  <div class="col-lg-12">
-                    <Form.Item
-                      className="digi-check-terms"
-                      name="terms"
-                      valuePropName="checked"
-                      rules={[
-                        {
-                          validator: (_, value) =>
-                            value
-                              ? Promise.resolve()
-                              : Promise.reject(
-                                  new Error("Please Accept Terms & Conditions")
-                                ),
-                        },
-                      ]}
-                    >
-                      <Checkbox className="check-term-Style">
-                        I Agree to the{" "}
-                        <Link to="/vipsgold-termscondtion" target="_blank">
-                          Terms & Conditions
-                        </Link>
-                      </Checkbox>
-                    </Form.Item>
-                    {/* </div> */}
-                  </div>
-
-                  <div class="col-lg-12">
-                    <div class="login-btnCol btnTopSpace">
-                      <Button
-                        loading={loading}
-                        htmlType="submit"
-                        type="primary"
-                        class="btn btn-primery login-btn"
-                      >
-                        Send OTP
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </Form>
-            </div>
           </div>
-        )}
-        {/* <!-- otp popup start --> */}
-        {step === 1 && (
-          <div class="align-self-center">
-            {/* <div class="otpForm-outer"> */}
-            <div class="digigoldotpForm-outer">
+          <div class="">
+            <Form
+              autoComplete="off"
+              autoCapitalize="off"
+              onFinish={handleSubmit}
+              fields={[
+                { name: "mobileNumber", value: loggedInUser?.UserName },
+                { name: "Name", value: formValue?.Name },
+                {
+                  name: "userCityId",
+                  value: formValue.userCityId || undefined,
+                },
+                {
+                  name: "userStateId",
+                  value: formValue.userStateId || undefined,
+                },
+              ]}
+              class="gold-signin-form buy-sell-tab-inner "
+            >
               <div class="row">
-                <div class="col-lg-12">
-                  <div className="digigoldotp-titleMain formText text-center">
-                    <h2>OTP Verification</h2>
-                  </div>
-                  <div class="otp-send-to">
-                    <p>
-                      Enter the OTP sent to
-                      <label for="">&nbsp; +91 {loggedInUser.UserName}</label>
-                    </p>
-                  </div>
+                <div className="col-lg-12">
+                  <Form.Item
+                    hasFeedback
+                    name="mobileNumber"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Mobile number is required",
+                      },
+                      {
+                        pattern: /^\d{10}$/,
+                        message: "Mobile number is not valid",
+                      },
+                    ]}
+                  >
+                    <Input
+                      onKeyPress={handleMobileKeyPress}
+                      onChange={(e) =>
+                        setFormValue({
+                          ...formValue,
+                          mobileNumber: e.target.value,
+                        })
+                      }
+                      disabled
+                      value={loggedInUser?.UserName}
+                      maxLength={10}
+                      addonBefore={"+91"}
+                      size="large"
+                      placeholder="Enter Mobile Number"
+                    />
+                  </Form.Item>
                 </div>
-              </div>
+                <div className="col-lg-12">
+                  <Form.Item
+                    // hasFeedback
+                    name="Name"
+                    // rules={[
+                    //   { required: true, message: "Full name is required" },
+                    //   { min: 3, message: "Min 3 Character are Required" },
+                    // ]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Holder Name is Required",
+                      },
+                      // {
+                      //   min: 3,
+                      //   message: "Min 3 Character are Required",
+                      // },
+                      {
+                        pattern: namePattern,
+                        message: "Please Enter Valid Full Name",
+                      },
+                    ]}
+                  >
+                    <Input
+                      onKeyPress={handleKeyPressForName}
+                      onChange={(e) =>
+                        setFormValue({
+                          ...formValue,
+                          Name: e.target.value,
+                        })
+                      }
+                      size="large"
+                      placeholder="Enter Full Name"
+                    />
+                  </Form.Item>
+                </div>
+                <div className="col-lg-12">
+                  <Form.Item
+                    // hasFeedback
+                    name="userStateId"
+                    rules={[{ required: true, message: "State is required" }]}
+                  >
+                    <Select
+                      placeholder="Select State"
+                      showSearch
+                      optionFilterProp="children"
+                      filterOption={(input, option) =>
+                        option.children
+                          .toLowerCase()
+                          .indexOf(input.toLowerCase()) >= 0
+                      }
+                      onChange={(e) =>
+                        setFormValue({
+                          ...formValue,
+                          userStateId: e,
+                          // userCityName: "Select City",
+                          userCityId: "Select City",
+                        })
+                      }
+                      size="large"
+                    >
+                      {stateList?.Data &&
+                        stateList?.Data?.result?.data?.map((e) => {
+                          return (
+                            <Select.Option key={e.id} value={e.id}>
+                              {e.name}
+                            </Select.Option>
+                          );
+                        })}
+                    </Select>
+                  </Form.Item>
+                </div>
+                <div className="col-lg-12">
+                  <Form.Item
+                    // hasFeedback
+                    name="userCityId"
+                    rules={[{ required: true, message: "City is required" }]}
+                  >
+                    <Select
+                      value={formValue.userCityId}
+                      onChange={(e) =>
+                        setFormValue({
+                          ...formValue,
+                          userCityId: e,
+                        })
+                      }
+                      showSearch
+                      optionFilterProp="children"
+                      filterOption={(input, option) =>
+                        option.children
+                          .toLowerCase()
+                          .indexOf(input.toLowerCase()) >= 0
+                      }
+                      size="large"
+                      placeholder="Select City"
+                    >
+                      {cityList.Data &&
+                        cityList.Data.result.data.map((e) => {
+                          return (
+                            <Select.Option key={e.id} value={e.id}>
+                              {e.name}
+                            </Select.Option>
+                          );
+                        })}
+                    </Select>
+                  </Form.Item>
+                </div>
 
-              <div className="formStyle">
-                {/* <Otp
-                  userName={formValue.mobileNumber}
-                  password={loggedInUser.TRXNPassword}
-                /> */}
-                <div
-                  id="otp"
-                  className="row row-flex justify-content-center mt-1"
-                >
-                  <div className="digisign-otp-input">
-                    <OTPInput
-                      value={formValue.otp}
-                      className="text-dark"
-                      onChange={(e) => setFormValue({ ...formValue, otp: e })}
-                      autoFocus
-                      OTPLength={6}
-                      otpType="number"
-                      disabled={false}
-                    />
-                    <ResendOTP
-                      renderButton={renderButton2}
-                      renderTime={renderTime2}
-                    />
-                  </div>
-                  <div class="col-lg-12">
-                    <div class="otp-btnCol btnTopSpace">
-                      <Button
-                        htmlType="submit"
-                        loading={loading}
-                        type="primary"
-                        size="large"
-                        // class="btn otp-btn btn-primery modal-loading-btn"
-                        // id="addmoneymodal"
-                        disabled={formValue.otp.length == 6 ? false : true}
-                        onClick={
-                          handleSubmit
-                          // () => {
-                          //   // !loading &&
-                          //   dispatch(loginWithOtp({ userName, password, ip, otp }));
-                          //   setToggle(true);
-                          //   setTimeout(() => {
-                          //     setToggle(false);
-                          //   }, 4000);
-                          // }
-                        }
-                      >
-                        Verify & Proceed
-                        {/* {loading ? (
-                                       <LoadingBar class="" />
-                                     ) : (
-                                       "Verify & Proceed"
-                                     )} */}
-                      </Button>
-                    </div>
+                <div class="col-lg-12">
+                  <Form.Item
+                    className="digi-check-terms"
+                    name="terms"
+                    valuePropName="checked"
+                    rules={[
+                      {
+                        validator: (_, value) =>
+                          value
+                            ? Promise.resolve()
+                            : Promise.reject(
+                                new Error("Please Accept Terms & Conditions")
+                              ),
+                      },
+                    ]}
+                  >
+                    <Checkbox className="check-term-Style">
+                      I Agree to the{" "}
+                      <Link to="/vipsgold-termscondtion" target="_blank">
+                        Terms & Conditions
+                      </Link>
+                    </Checkbox>
+                  </Form.Item>
+                  {/* </div> */}
+                </div>
+
+                <div class="col-lg-12">
+                  <div class="login-btnCol btnTopSpace">
+                    <Button
+                      loading={loading}
+                      htmlType="submit"
+                      type="primary"
+                      class="btn btn-primery login-btn"
+                    >
+                      Send OTP
+                    </Button>
                   </div>
                 </div>
               </div>
-            </div>
-            {/* </div> */}
+            </Form>
           </div>
-        )}
+        </div>
+        {/* // )} */}
+        {/* <!-- otp popup start --> */}
+        {/* {step === 1 && (
+          // <div class="align-self-center">
+          //   <div class="digigoldotpForm-outer">
+          //     <div class="row">
+          //       <div class="col-lg-12">
+          //         <div className="digigoldotp-titleMain formText text-center">
+          //           <h2>OTP Verification</h2>
+          //         </div>
+          //         <div class="otp-send-to">
+          //           <p>
+          //             Enter the OTP sent to
+          //             <label for="">&nbsp; +91 {loggedInUser.UserName}</label>
+          //           </p>
+          //         </div>
+          //       </div>
+          //     </div>
+
+          //     <div className="formStyle">
+          //       <div
+          //         id="otp"
+          //         className="row row-flex justify-content-center mt-1"
+          //       >
+          //         <div className="digisign-otp-input">
+          //           <OTPInput
+          //             value={formValue.otp}
+          //             className="text-dark"
+          //             onChange={(e) => setFormValue({ ...formValue, otp: e })}
+          //             autoFocus
+          //             OTPLength={6}
+          //             otpType="number"
+          //             disabled={false}
+          //           />
+          //           <ResendOTP
+          //             renderButton={renderButton2}
+          //             renderTime={renderTime2}
+          //           />
+          //         </div>
+          //         <div class="col-lg-12">
+          //           <div class="otp-btnCol btnTopSpace">
+          //             <Button
+          //               htmlType="submit"
+          //               loading={loading}
+          //               type="primary"
+          //               size="large"
+          //               disabled={formValue.otp.length == 6 ? false : true}
+          //               onClick={handleSubmit}
+          //             >
+          //               Verify & Proceed
+          //             </Button>
+          //           </div>
+          //         </div>
+          //       </div>
+          //     </div>
+          //   </div>
+          // </div>
+          
+        )} */}
         {/* <!-- otp popup end --> */}
       </Modal>
+      <OTPModal
+        Otp={Otp}
+        setOtp={setOtp}
+        setStep={setStep}
+        step={step}
+        handleClick={handleSubmit}
+        resendOtp={handleResendSignupOTPSubmit}
+        handleClose={handleClose}
+      />
       <MuiSnackBar
         open={isSnackBar}
         setOpen={setIsSnackBar}

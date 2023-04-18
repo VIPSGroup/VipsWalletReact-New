@@ -34,7 +34,7 @@ const MyOrdersPage = () => {
   const { ordersList, loading: orderLoad } = useSelector(
     (state) => state.userProfileSlice.myOrders
   );
-  const { data: sellStatus } = useSelector(
+  const { data: sellStatus, loading: SellLoad } = useSelector(
     (state) => state.userProfileSlice.sellStatus
   );
   // const { pdfData } = useSelector((state) => state.userProfileSlice.invoice);
@@ -145,6 +145,15 @@ const MyOrdersPage = () => {
       align: "right",
     },
     {
+      title: tab === "Buy" && "Cashback",
+
+      dataIndex: tab === "Buy" && "Cashback",
+
+      key: tab === "Buy" && "Cashback",
+
+      align: "right",
+    },
+    {
       title:
         (tab === "Delivery" && "Total Paid") ||
         (tab === "Gift" && "Transaction Type"),
@@ -181,6 +190,7 @@ const MyOrdersPage = () => {
       setErrorMsg("");
       setIsSnackBar(true);
       setSuccessMsg(res.payload.Remarks);
+      setModal(false);
       const linkSource = `data:application/pdf;base64,${res.payload.Data.InvoiceString}`;
       const downloadLink = document.createElement("a");
       downloadLink.href = linkSource;
@@ -192,7 +202,6 @@ const MyOrdersPage = () => {
       setErrorMsg(res.payload.Remarks);
     }
   };
-
   // This Function for Diff Color Row Sent to and Recieved From
   const FilterClass = (item) => {
     if (logData?.Data?.UniqueId === item?.SenderUniqueId) {
@@ -270,6 +279,32 @@ const MyOrdersPage = () => {
             className="text-gray-500"
           >
             ₹ {parseFloat(item?.TotalAmount)?.toLocaleString()}
+          </h2>
+        </>
+      ),
+      Cashback: (
+        <>
+          {console.log(item?.CouponModel, "item?.CouponModel")}
+          <h2
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              color: "#008000",
+            }}
+          >
+            {item.CouponModel
+              ? item?.CouponModel?.CreditType === 1
+                ? `${
+                    parseFloat(item?.CouponModel?.Amount) === 0
+                      ? null
+                      : `+ ₹${item?.CouponModel?.Amount}`
+                  }`
+                : `${
+                    parseFloat(item?.CouponModel?.Amount) === 0
+                      ? null
+                      : `₹${item?.CouponModel?.Amount}`
+                  }`
+              : ""}
           </h2>
         </>
       ),
@@ -360,13 +395,6 @@ const MyOrdersPage = () => {
           ) : (
             <Button
               onClick={() => {
-                dispatch(
-                  getSellStatus({
-                    transactionId: item.TransactionId,
-                    Username: loggedInUser.UserName,
-                    Password: loggedInUser.TRXNPassword,
-                  })
-                );
                 setModal(true);
                 setModalData(item);
               }}
@@ -559,7 +587,9 @@ const MyOrdersPage = () => {
                     <div class="col-xl-6 col-sm-6 text-sm-right">
                       <span class="digigoldorderdetails-amt">
                         {" "}
-                        {parseFloat(modalData?.TaxAmount)?.toLocaleString()}{" "}
+                        {parseFloat(
+                          modalData?.TaxAmount
+                        )?.toLocaleString()}{" "}
                       </span>
                     </div>
                   </div>
@@ -572,7 +602,9 @@ const MyOrdersPage = () => {
                   <div class="col-xl-6 col-sm-6 text-sm-right">
                     <span class="digigoldorderdetails-amt">
                       {" "}
-                      {parseFloat(modalData?.TotalAmount)?.toLocaleString()}{" "}
+                      {parseFloat(
+                        modalData?.TotalAmount
+                      )?.toLocaleString()}{" "}
                     </span>
                   </div>
                 </div>
@@ -589,7 +621,6 @@ const MyOrdersPage = () => {
                     onClick={() => {
                       tab === "Buy" &&
                         handleDownloadInvoice(modalData.TransactionId);
-                      // dispatch(downloadPdf(modalData.TransactionId));
                     }}
                   >
                     {modalData.TransactionType?.toLowerCase() === "buy" ? (
@@ -606,8 +637,33 @@ const MyOrdersPage = () => {
                         style={{ cursor: "pointer" }}
                         class="digigoldorderdetails-down"
                       >
-                        {modalData?.TransactionStatus?.charAt(0).toUpperCase() +
-                          modalData?.TransactionStatus?.slice(1)}{" "}
+                        {/* {modalData?.TransactionStatus?.charAt(0).toUpperCase() +
+                          modalData?.TransactionStatus?.slice(1)}{" "} */}
+                        <Button
+                          loading={SellLoad}
+                          type={
+                            modalData?.TransactionStatus ? "text" : "default"
+                          }
+                          style={{
+                            color: modalData?.TransactionStatus
+                              ? "red"
+                              : "black",
+                          }}
+                          onClick={() => {
+                            dispatch(
+                              getSellStatus({
+                                transactionId: modalData?.TransactionId,
+                                Username: loggedInUser?.UserName,
+                                Password: loggedInUser?.TRXNPassword,
+                              })
+                            );
+                          }}
+                          size="small"
+                        >
+                          {modalData?.TransactionStatus
+                            ? modalData?.TransactionStatus?.toUpperCase()
+                            : "Check Status"}
+                        </Button>
                       </span>
                     )}
                   </div>

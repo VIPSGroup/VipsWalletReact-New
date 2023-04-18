@@ -73,7 +73,6 @@ const Gift = ({ setIsCommonTopNav }) => {
     setAmount(value);
     if (isGold === 0) {
       const totalAmount = digitPrecision(value, "amount");
-
       const quantity = digitPrecision(
         totalAmount / rateData.Data?.result.data.rates.gSell,
         "quantity"

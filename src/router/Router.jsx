@@ -78,6 +78,9 @@ const Router = () => {
   const [amount, setAmount] = useState("");
   const [grams, setGrams] = useState("");
   const [step, setStep] = useState("");
+  const [err, setErr] = useState("");
+  const [receiverUserName, setReceiverUserName] = useState("");
+
   return (
     <>
       <Navigation
@@ -92,6 +95,10 @@ const Router = () => {
         grams={grams}
         setStep={setStep}
         step={step}
+        setErr={setErr}
+        err={err}
+        setReceiverUserName={setReceiverUserName}
+        receiverUserName={receiverUserName}
       />
       <Routes>
         <Route
@@ -414,6 +421,10 @@ const Router = () => {
               grams={grams}
               setStep={setStep}
               step={step}
+              setErr={setErr}
+              err={err}
+              setReceiverUserName={setReceiverUserName}
+              receiverUserName={receiverUserName}
             />
           }
         />
@@ -422,11 +433,11 @@ const Router = () => {
         <Route path="/vipsgold-orders" element={<MyOrdersPage />} />
 
         <Route path="/vipsgold-gift" element={<Gift />} setActive={setActive} />
-        {/* <Route
+        <Route
           path="/vipsgold-delivery"
           element={<DeliveryHome setIsCommonTopNav={setIsCommonTopNav} />}
-        /> */}
-        {/* <Route
+        />
+        <Route
           path="/vipsgold-delivery/:title"
           element={
             <DigiProductDetails
@@ -434,7 +445,7 @@ const Router = () => {
               setTitle={setTitle}
             />
           }
-        /> */}
+        />
         <Route
           path="/vipsgold-cart/"
           element={
