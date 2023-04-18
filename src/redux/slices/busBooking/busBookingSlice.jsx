@@ -4,28 +4,21 @@ import { baseApiUrl } from "../../../constants";
 
 export const getBusCityList = createAsyncThunk(
   "getBusCityList",
-  async ({ formValue, emailId, password, username }, thunkAPI) => {
+  async () => {
 
     const formData = new FormData();
-    formData.append("username", username);
-    formData.append("password", password);
-    formData.append("mobileNumber", formValue.mobileNumber);
-    formData.append("emailId", emailId);
-    formData.append("Name", formValue.Name);
-    formData.append("userCityId", formValue.userCityId);
-    formData.append("userStateId", formValue.userStateId);
-    formData.append("otp", formValue.otp);
+    // formData.append("username", username);
     try {
         return fetch(`${baseApiUrl}/ServiceApiBus/GetBusCityList`, {
             method: "POST",
-            // body: formData,
+            body: formData,
           })
             .then((data) => {
-                console.log(data);
               return data.json();
             })
             .catch((err) => {});
-    } catch (error) {}
+    } catch (error) {
+    }
   }
 );
 const busBookingSlice = createSlice({
@@ -39,15 +32,15 @@ const busBookingSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getBusCityList.pending, (state, action) => {
-      state.register.loading = true;
+      state.cityList.loading = true;
     });
     builder.addCase(getBusCityList.fulfilled, (state, action) => {
-      state.register.cities = action.payload;
-      state.register.loading = false;
+      state.cityList.cities = action.payload;
+      state.cityList.loading = false;
     });
     builder.addCase(getBusCityList.rejected, (state, action) => {
-      state.register.error = action.error;
-      state.register.loading = false;
+      state.cityList.error = action.error;
+      state.cityList.loading = false;
     });
   },
 });
