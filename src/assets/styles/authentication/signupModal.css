@@ -282,6 +282,10 @@
   background-color: var(--primary);
   color: var(--whiteColor);
 }
+.signup-select-option a:focus{
+  background-color: transparent !important;
+  color: var(--darkText) !important;
+}
 
 .signup-select-option .dropdown-menu{
   height: 200px; 

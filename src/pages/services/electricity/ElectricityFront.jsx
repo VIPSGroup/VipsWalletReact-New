@@ -575,7 +575,7 @@ navigate("/login")
                                     setSelectCity(null);
                                     setBillAmount(null);
                                   }}
-                                  type="button"
+                                  // type="button"
                                   class="dropdown-item"
                                 >
                                   {o.OperatorName}

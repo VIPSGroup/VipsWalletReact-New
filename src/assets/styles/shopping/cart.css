@@ -797,6 +797,10 @@
   background-color: var(--primary);
   color: var(--whiteColor);
 }
+.shopping-address-select .select-option a:focus{
+  background-color: transparent !important;
+  color: var(--darkText) !important;
+}
 
 .shopping-address-select .select-option .dropdown-menu{
   height: 200px; 

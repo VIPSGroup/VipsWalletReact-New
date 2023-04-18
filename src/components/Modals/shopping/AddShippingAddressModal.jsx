@@ -236,7 +236,6 @@ const AddShippingAddressModal = () => {
                         {formik.errors.mobileno}
                       </div>
                     </div>
-                    
                   </div>
 
                   <div class="textarea-field">
