@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react'
-// import "../../assets/styles/bus/bus-booking-home.css";
+import React, { useEffect, useState } from 'react'
 import "../../assets/styles/bus/bus-booking-home.css";
 import { useNavigate } from 'react-router-dom';
 import { getBusCityList } from '../../redux/slices/busBooking/busBookingSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const BusBookingHome = ({ setIsBottomTopNav }) => {
+  const [busCities, setBusCities] = useState([])
+ const {cityData}= useSelector(state=>state.busBookingSlice.cityList)
  const dispatch= useDispatch()
     useEffect(() => {
         setIsBottomTopNav(true);
@@ -15,6 +16,12 @@ const BusBookingHome = ({ setIsBottomTopNav }) => {
         };
       }, []);
    const navigate= useNavigate()
+   useEffect(() => {
+     if(cityData.ResponseStatus===1){
+setBusCities(cityData?.Data?.BusCities)
+  }
+   }, [cityData])
+   
   return (
     <>
     <section class="bus-booking-top">
@@ -43,15 +50,16 @@ const BusBookingHome = ({ setIsBottomTopNav }) => {
                                 Travelling From
                               </button>
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Maharashtra</a>
+                                {/* <a class="dropdown-item" href="#">Maharashtra</a>
                                 <a class="dropdown-item" href="#">Karmataka</a>
                                 <a class="dropdown-item" href="#">Gujrat</a>
                                 <a class="dropdown-item" href="#">Maharashtra</a>
                                 <a class="dropdown-item" href="#">Karmataka</a>
                                 <a class="dropdown-item" href="#">Gujrat</a>
                                 <a class="dropdown-item" href="#">Maharashtra</a>
-                                <a class="dropdown-item" href="#">Karmataka</a>
-                                <a class="dropdown-item" href="#">Gujrat</a>
+                                <a class="dropdown-item" href="#">Karmataka</a> */}
+                                {busCities && }
+                                <button class="dropdown-item" href="#">Gujrat</button>
                               </div>
                             </div>
                             
