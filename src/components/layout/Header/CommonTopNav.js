@@ -275,6 +275,8 @@ const CommonTopNav = ({
                   pathname !== "/vipsgold-profile" &&
                   pathname !== "/vipsgold-orders" &&
                   pathname !== "/vipsgold-gift" &&
+                  pathname !== "/vipsgold-faq" &&
+                  pathname !== "/vipsgold-termscondtion" &&
                   pathname !== `/vipsgold-delivery/${title}` && (
                     <>
                       <li class="nav-item">
@@ -314,6 +316,8 @@ const CommonTopNav = ({
                   pathname !== "/vipsgold-profile" &&
                   pathname !== "/vipsgold-gift" &&
                   pathname !== "/vipsgold-orders" &&
+                  pathname !== "/vipsgold-faq" &&
+                  pathname !== "/vipsgold-termscondtion" &&
                   pathname !== `/vipsgold-delivery/${title}` && (
                     <li class="nav-item">
                       <Link
@@ -422,6 +426,8 @@ const CommonTopNav = ({
                   pathname !== "/vipsgold-gift" &&
                   pathname !== "/vipsgold-orders" &&
                   pathname !== "/vipsgold-delivery" &&
+                  pathname !== "/vipsgold-faq" &&
+                  pathname !== "/vipsgold-termscondtion" &&
                   pathname !== `/vipsgold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
                       <Link
@@ -525,6 +531,8 @@ const CommonTopNav = ({
           pathname !== "/vipsgold-orders" &&
           pathname !== "/vipsgold-gift" &&
           pathname !== "/vipsgold-delivery" &&
+          pathname !== "/vipsgold-faq" &&
+          pathname !== "/vipsgold-termscondtion" &&
           pathname !== `/vipsgold-delivery/${title}` ? (
             <div class="container-fluid">
               <div class="navbar-bottom-services-outer">

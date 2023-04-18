@@ -538,14 +538,20 @@ const OrderSummary = () => {
     }
   }, [formValue.ifscCode]);
   // console.log(isServiceEnable, "isServiceEnable");
+  console.log(state, "state?.valueinAmt");
   useEffect(() => {
     dispatch(CheckServiceEnableOrNot());
     const ServiceId = digiGoldServiceId;
-    const PublishedFare = totalAmount
-      ? parseFloat(totalAmount)
-      : parseFloat(state?.valueinAmt);
+    let PublishedFare = parseFloat(currentRate);
+    // if (state.valType === "amount") {
+    //   PublishedFare = currentRate;
+    // } else if (state.valType === "quantity") {
+    //   PublishedFare = state.valueinAmt;
+    // }
+    // ? parseFloat(currentRate)
+    // : parseFloat(state?.valueinAmt);
     dispatch(GetCouponList({ username, password, ServiceId, PublishedFare }));
-  }, []);
+  }, [currentRate]);
   // Bank Details Update Logic
   const updateBankDetails = () => {
     formValue.accountName = list.Data.result[0].accountName;
@@ -576,7 +582,7 @@ const OrderSummary = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
+  console.log(currentRate, "currentRate");
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">
@@ -758,7 +764,8 @@ const OrderSummary = () => {
                           </div>
                         </div>
                         {state?.type === "buy" &&
-                          isServiceEnable?.Data?.IsCouponApplied && (
+                          isServiceEnable?.Data?.IsCouponApplied &&
+                          CouponList.ResponseStatus !== 0 && (
                             <div className="">
                               <p class="digigold-payment-title">
                                 Apply Coupon Code Here
@@ -770,7 +777,7 @@ const OrderSummary = () => {
                                 {CouponList.Data &&
                                   CouponList.Data.map((e) => {
                                     return (
-                                      <Col span={8}>
+                                      <Col sm={{ span: 12 }} md={{ span: 8 }}>
                                         <Card
                                           style={{ position: "relative" }}
                                           className="my-coupon-card"
@@ -1020,7 +1027,7 @@ const OrderSummary = () => {
                                             : "Discount"}
                                         </p>
                                         <p
-                                          style={{ color: "grren" }}
+                                          style={{ color: "green" }}
                                           class="digigold-paymet-discount-amt"
                                         >
                                           {couponData.CreditType === 2 && "-"}
@@ -1061,7 +1068,7 @@ const OrderSummary = () => {
                                             ).toLocaleString()}{" "} */}
                                           {couponData.CreditType === 1
                                             ? parseFloat(
-                                                totalAmount
+                                                currentRate
                                               ).toLocaleString()
                                             : (
                                                 parseFloat(totalAmount) -

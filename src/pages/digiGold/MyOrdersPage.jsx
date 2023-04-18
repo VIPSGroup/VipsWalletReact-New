@@ -145,6 +145,15 @@ const MyOrdersPage = () => {
       align: "right",
     },
     {
+      title: tab === "Buy" && "Cashback",
+
+      dataIndex: tab === "Buy" && "Cashback",
+
+      key: tab === "Buy" && "Cashback",
+
+      align: "right",
+    },
+    {
       title:
         (tab === "Delivery" && "Total Paid") ||
         (tab === "Gift" && "Transaction Type"),
@@ -193,7 +202,6 @@ const MyOrdersPage = () => {
       setErrorMsg(res.payload.Remarks);
     }
   };
-
   // This Function for Diff Color Row Sent to and Recieved From
   const FilterClass = (item) => {
     if (logData?.Data?.UniqueId === item?.SenderUniqueId) {
@@ -271,6 +279,32 @@ const MyOrdersPage = () => {
             className="text-gray-500"
           >
             ₹ {parseFloat(item?.TotalAmount)?.toLocaleString()}
+          </h2>
+        </>
+      ),
+      Cashback: (
+        <>
+          {console.log(item?.CouponModel, "item?.CouponModel")}
+          <h2
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              color: "#008000",
+            }}
+          >
+            {item.CouponModel
+              ? item?.CouponModel?.CreditType === 1
+                ? `${
+                    parseFloat(item?.CouponModel?.Amount) === 0
+                      ? null
+                      : `+ ₹${item?.CouponModel?.Amount}`
+                  }`
+                : `${
+                    parseFloat(item?.CouponModel?.Amount) === 0
+                      ? null
+                      : `₹${item?.CouponModel?.Amount}`
+                  }`
+              : ""}
           </h2>
         </>
       ),
