@@ -97,7 +97,6 @@ const ProductCard = ({ product, wishlistCard }) => {
             </div>
           ) : (
             <div class="promo-wishlist ml-auto">
-              {/* {JSON.stringify(existInWishlist)} */}
               <AddWishListButton
                 product={product}
                 inWishlist={existInWishlist}

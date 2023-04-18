@@ -71,14 +71,6 @@ const AddAmount = () => {
     );
     if (option === "CC") {
       dispatch(globalConfiguration("CreditCard"));
-      // globalConfiguration("CreditCard").then((response) => {
-      //   if (response.ResponseStatus === 1) {
-      //     setStatus(response.Data.Status);
-      //     if (response.Data.Status) {
-      //       setChargesPer(response.Data.Value);
-      //     }
-      //   }
-      // });
     }
   }, []);
 
@@ -140,8 +132,10 @@ const AddAmount = () => {
                           <button
                             onClick={(e) => {
                               e.preventDefault();
+                              console.error(amount);
+                              console.log("called",parseInt(amount));
                               setAmount(
-                                parseInt(amount) + parseInt(e.target.value)
+                                parseInt(amount?amount:0) + parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"
@@ -154,7 +148,7 @@ const AddAmount = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(
-                                parseInt(amount) + parseInt(e.target.value)
+                                parseInt(amount?amount:0) + parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"
@@ -167,7 +161,7 @@ const AddAmount = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(
-                                parseInt(amount) + parseInt(e.target.value)
+                                parseInt(amount?amount:0) + parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"
@@ -180,7 +174,7 @@ const AddAmount = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(
-                                parseInt(amount) + parseInt(e.target.value)
+                                parseInt(amount?amount:0) + parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"

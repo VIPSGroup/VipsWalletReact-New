@@ -24,8 +24,7 @@ const Passbook = () => {
   const [shoppingPointHistory, setShoppingPointHistory] = useState([]);
   const [primePointHistory, setPrimePointHistory] = useState([]);
   const [selectedTab, setSelectedTab] = useState("");
-
-  const [activeHistory, setActiveHistory] = useState([]);
+  const [activeHistory, setActiveHistory] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleTabClick = (e) => {
@@ -475,16 +474,21 @@ const Passbook = () => {
               </div>
 
               <div class="trasanction-history-inner services-page-loader">
-                {loading ? (
+                {activeHistory==="" &&  <div class="service-loader-outer m-auto">
+                    <Loading color="#CA3060" class="" />
+                  </div>}
+                {loading && activeHistory==="" ? (
                   <div class="service-loader-outer m-auto">
                     <Loading color="#CA3060" class="" />
                   </div>
-                ) : (activeHistory && activeHistory.length < 1) ||
+                ) : 
+                (activeHistory && activeHistory.length < 1) 
+                ||
                   activeHistory == null ? (
                   <div class="text-center">
                     <img src="/images/No_Data.svg" />
                   </div>
-                ) : (
+                ) : ( activeHistory &&
                   activeHistory.map((a, i) =>
                     selectedTab === "wallet" ||
                     selectedTab === "shoppingPoint" ||

@@ -196,7 +196,7 @@ const ShoppingCheckout = () => {
         price = price + d.qty * d.product.SalePrice;
         
         sDiscount =
-        sDiscount + (d.product.ShoppingPoint / 100) * d.product.SalePrice ;
+        sDiscount + (d.product.ShoppingPoint / 100) * d.product.SalePrice *d.qty;
         pDiscount =
         pDiscount + (d.product.PrimePoints / 100) * d.product.SalePrice *d.qty;
       
@@ -410,7 +410,7 @@ const ShoppingCheckout = () => {
                 </div>
               </div>
             </div>
-
+{JSON.stringify}
             <div class="col-sm-12 col-md-12 col-lg-4 p-0">
               <div class="shopping-payment-right">
                 <div class="shopping-payment-right-sticky box-shadow-1">
@@ -418,7 +418,7 @@ const ShoppingCheckout = () => {
                     <div class="col-md-12 shopping-payment-content-head">
                       <h3 class="shopping-payment-content-title">
                         {" "}
-                        Order Summary{" "}{JSON.stringify(primeDiscount)}
+                        Order Summary{" "}
                       </h3>
                     </div>
                   </div>
@@ -446,7 +446,6 @@ const ShoppingCheckout = () => {
                             <span class="shopping-payment-summery-amt">
                               {" "}
                               -&#x20B9;{" "}
-                              {/* {JSON.stringify(shoppingDiscount)} */}
                               {parseFloat(
                                 shoppingDiscount
                               ).toLocaleString()}{" "}

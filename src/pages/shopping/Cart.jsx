@@ -241,13 +241,6 @@ dispatch(removeCart(id))
                               <i class="fa fa-trash fa-danger"></i>{" "}
                             </button>
                           </div>
-
-                          {/* {<div class="shopping-cart-wishlist-btn">
-                            <button class="btn btn-cta">
-                              {" "}
-                              <i class="fa-regular fa-heart"></i>{" "}
-                            </button>
-                          </div>} */}
                         </div>
                       </div>
                     </div>

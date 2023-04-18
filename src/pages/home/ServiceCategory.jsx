@@ -84,31 +84,31 @@ const ServiceArr = [
     img: "/images/services/broadBand.svg",
     title: "BroadBand",
     route: "/services/BroadBand",
-    desc: "Get Instant 3% Shopping Points on BroadBand",
+    desc: "Get Instant 3% Shopping Points On BroadBand",
   },
   {
     img: "/images/services/electricity.svg",
     title: "Electricity",
     route: "/services/electricity",
-    desc: "Get Instant 5% Shopping points on Electricity",
+    desc: "Get Instant 5% Shopping Points On Electricity",
   },
   {
     img: "/images/services/fastag.svg",
     title: "Fastag",
     route: "/services/fastag",
-    desc: "Get Instant 5% Shopping points on Fastag",
+    desc: "Get Instant 5% Shopping Points On Fastag",
   },
   {
     img: "/images/services/landline.svg",
     title: "LandLine",
     route: "/services/landline",
-    desc: "Get Instant 3% Shopping Points on LandLine",
+    desc: "Get Instant 3% Shopping Points On LandLine",
   },
   {
     img: "/images/services/piped-gas.svg",
     title: "Gas",
     route: "/services/gas",
-    desc: "Get Instant 5% Shopping points on Gas",
+    desc: "Get Instant 5% Shopping Points On Gas",
   },
 ];
 

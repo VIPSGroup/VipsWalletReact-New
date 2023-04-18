@@ -283,7 +283,6 @@ const QuickViewModal = ({ productId }) => {
         <div class="col-lg-6">
           <div class="quick-view-product">
             <>
-  {/* {data?.imgArray?.map(item=> <p>{JSON.stringify(item.original)}</p>)} */}
  {data?.imgArray &&  <Carousel
                 responsive={responsive}
                 infinite={true}
