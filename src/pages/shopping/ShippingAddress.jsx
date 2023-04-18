@@ -146,7 +146,7 @@ const ShippingAddress = () => {
                         {" "}
                         Default Address{" "}
                       </p>
-                      <div class="shopping-cart-address-outer box-shadow-1">
+                      <div class="shopping-cart-address-outer shopping-default-address">
                         <div class="col-sm-10 col-md-10 col-lg-10 shopping-cart-address-info p-0">
                           <div>
                             <label>
