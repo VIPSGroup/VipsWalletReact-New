@@ -42,12 +42,23 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
     setBillFetchError("");
     setShowBill(false);
     let data = [...inputFields];
+    let newArray=  inputFields.slice()
     data[index].fieldValue = e.target.value;
+  
     const regex = RegExp(data[index].regex);
+   
     if (!e.target.value.match(regex)) {
-      inputFields[index].validate = false;
+      newArray[index].validate=false
+      setInputFields(newArray)
     } else {
-      inputFields[index].validate = true;
+      newArray[index].validate=true
+      setInputFields(newArray)
+    }
+    if(data[index].regex=='' && e.target.value==''){
+      console.error(newArray[index].validate);
+      newArray[index].validate=false
+      console.log(newArray[index].validate);
+      setInputFields(newArray)
     }
     setIsClick(true)
     setInputFields(data);
@@ -59,7 +70,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
     if (selectedOperator) {
       if (mobileNo && mobileNo.length === 10) {
         console.log(inputFields);
-        let validateBBPSField = inputFields.filter((o) => o.validate === false);
+        let validateBBPSField = inputFields.filter((o) => o.fieldValue === '');
         if (validateBBPSField.length !== 0) {
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
@@ -116,7 +127,7 @@ return ()=>{setIsClick(false)}
           fieldName: d.name,
           fieldValue: "",
           regex: d.Regex,
-          validate: false,
+          validate: true,
         })
       });
     }

@@ -259,7 +259,7 @@
     bottom: 0px;
     left: 0%; 
     border: none;
-    border-bottom: 1px solid var(--borderColor);
+    /* border-bottom: 1px solid var(--borderColor); */
     margin-bottom: 0;
     background: var(--whiteColor);
     text-align: left;
@@ -315,6 +315,13 @@
   /* border: 1px solid #777; */
 }
 /* selectpicker end */
+
+.signup-select-option .selected-dropdown-border{
+  border-bottom: 1px solid var(--primary);
+}
+.signup-select-option .unselected-dropdown-border{
+  border-bottom: 1px solid var(--borderColor);
+}
 
 .signupform-in input {
   width: 100%;

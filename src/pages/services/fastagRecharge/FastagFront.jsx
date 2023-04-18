@@ -44,6 +44,7 @@ const dispatch= useDispatch()
     setBillFetchError("");
     setShowBill(false);
     let data = [...inputFields];
+    let newArray=  inputFields.slice()
     let value = e.target.value.toUpperCase();
 
     data[index].fieldValue = value;
@@ -52,11 +53,18 @@ const dispatch= useDispatch()
       data[index].regex ? data[index].regex : "^[A-Z0-9]{7,10}$"
     );
     if (!value.match(regex)) {
-      inputFields[index].validate = false;
+      newArray[index].validate=false
+      setInputFields(newArray)
     } else {
-      inputFields[index].validate = true;
+      newArray[index].validate=true
+      setInputFields(newArray)
     }
-
+    if(data[index].regex=='' && e.target.value==''){
+      console.error(newArray[index].validate);
+      newArray[index].validate=false
+      console.log(newArray[index].validate);
+      setInputFields(newArray)
+    }
     setInputFields(data);
     return ()=>{setIsClick(false)}
   };
@@ -79,7 +87,7 @@ const dispatch= useDispatch()
     setBillFetchError("");
     if (selectedOperator) {
       if (mobileNo && mobileNo.length === 10) {
-        let validateBBPSField = inputFields.filter((o) => o.validate === false);
+        let validateBBPSField = inputFields.filter((o) => o.fieldValue === '');
         if (validateBBPSField.length !== 0) {
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
@@ -116,7 +124,7 @@ const dispatch= useDispatch()
           fieldName: d.name,
           fieldValue: "",
           regex: d.Regex,
-          validate: false,
+          validate: true,
         })
         setInputFields(arr);
     });

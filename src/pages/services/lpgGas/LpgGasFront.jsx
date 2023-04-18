@@ -454,7 +454,6 @@ navigate("/login")
             />
             <label for="referral-mobile">Consumer Number</label>
           </div>
-          {/* { !inputFields[i].validate ? <ErrorText error={`Please enter valid ${inputFields[i].fieldName}`} /> : null } */}
         </div>
       </div>
     </>

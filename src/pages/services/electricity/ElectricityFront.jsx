@@ -65,14 +65,24 @@ const ElectricityFront = ({ props }) => {
     setBillFetchError("");
     setShowBill(false);
     let data = [...inputFields];
-
+    let newArray=  inputFields.slice()
     data[index].fieldValue = e.target.value.toUpperCase();
 
     const regex = RegExp(data[index].regex);
     if (!e.target.value.match(regex)) {
-      inputFields[index].validate = false;
+      newArray[index].validate=false
+      setInputFields(newArray)
+      // inputFields[index].validate = false;
     } else {
-      inputFields[index].validate = true;
+      newArray[index].validate=true
+      setInputFields(newArray)
+      // inputFields[index].validate = true;
+    }
+    if(data[index].regex=='' && e.target.value==''){
+      console.error(newArray[index].validate);
+      newArray[index].validate=false
+      console.log(newArray[index].validate);
+      setInputFields(newArray)
     }
 setIsClick(true)
     setInputFields(data);
@@ -104,7 +114,7 @@ setIsClick(true)
 
     if (selectedOperator) {
       if (mobileNo && mobileNo.length === 10) {
-        let validateBBPSField = inputFields.filter((o) => o.validate === false);
+        let validateBBPSField = inputFields.filter((o) => o.fieldValue === '');
         if (validateBBPSField.length !== 0) {
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
@@ -142,7 +152,7 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
           fieldName: d.name,
           fieldValue: "",
           regex: d.Regex,
-          validate: false,
+          validate: true,
         })
       });
     }

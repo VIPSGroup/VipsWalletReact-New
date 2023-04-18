@@ -26,6 +26,7 @@ export const getInputFieldsByOperator = createAsyncThunk(
       try {
         const res = await axios.post(
             `${baseApiUrl}/Recharge/GetRegexValidationForLPG`,formData );
+            console.log(res.data.Data.Response);
         return res.data.Data.Response
       } catch (error) {
         return error;

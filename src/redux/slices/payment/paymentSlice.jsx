@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { appType, baseApiUrl } from "../../../constants";
 
-export const getPayUHash = async (user, transactionId, amount,key,string) => {
+export const getPayUHash = async (user, transactionId, amount,key,string,chargesAmount) => {
   const formData = new FormData();
   const fname = user?.Name?.split(" ")[0];
   formData.append("txnid", transactionId);
@@ -11,7 +11,7 @@ export const getPayUHash = async (user, transactionId, amount,key,string) => {
   formData.append("firstname", fname);
   formData.append("email", user.Emailid);
   formData.append("user_credentials",`${key}:` + user.UserName);
-  formData.append("chargesAmount", 1.0);
+  formData.append("chargesAmount", chargesAmount);
   formData.append("transactionType", "ADD_MONEY");
   formData.append("currentAppVersion", 1.1);
   formData.append("AppType", appType);

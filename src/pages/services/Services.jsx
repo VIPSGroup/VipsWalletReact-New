@@ -105,7 +105,7 @@ const Services = () => {
                   </div>
 
                   <div class="service-title">
-                    <h3>Mobile</h3>
+                    <h3>Recharge</h3>
                   </div>
                 </div>
               </Link>

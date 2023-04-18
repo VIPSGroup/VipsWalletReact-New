@@ -29,10 +29,10 @@ const SelectField = ({ setGetData, getData,isClass }) => {
     <div class={isClass ? "col-lg-6" : "shopping-address-select"}>
       <div class={isClass ?"dropdown signup-select-option" :"dropdown signup-select-option select-option"}>
         <button
-          class="dropdown-toggle select-toggle select-type"
+        className={getData.stateName ?"dropdown-toggle select-toggle select-type selected-dropdown-border" :"dropdown-toggle select-toggle select-type unselected-dropdown-border" }
           type="button"
           data-toggle="dropdown"
-          aria-expanded="false"
+          aria-expanded="false" 
         >
           {getData.stateName ? (
             <span style={{ color: "#212121" }}>{getData.stateName}</span>
@@ -40,7 +40,7 @@ const SelectField = ({ setGetData, getData,isClass }) => {
             "Select State"
           )}
         </button>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu" >
           {stateList &&
             stateList.map((item, i) => (
               <button
@@ -58,6 +58,7 @@ const SelectField = ({ setGetData, getData,isClass }) => {
                     cityId: '',
                   });
                 }}
+               
               >
                 {item.StateName}
               </button>
@@ -71,7 +72,7 @@ const SelectField = ({ setGetData, getData,isClass }) => {
     <div class={isClass ? "col-lg-6" : "shopping-address-select"}>
       <div class={isClass ?"dropdown signup-select-option" :"dropdown signup-select-option select-option"}>
         <button
-          class="dropdown-toggle select-toggle select-type"
+           className={getData.cityName ?"dropdown-toggle select-toggle select-type selected-dropdown-border" :"dropdown-toggle select-toggle select-type unselected-dropdown-border" }
           type="button"
           data-toggle="dropdown"
           aria-expanded="false"
