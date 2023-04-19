@@ -1,26 +1,40 @@
 import React, { useEffect, useState } from 'react'
 import "../../assets/styles/bus/bus-booking-home.css";
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 import { getBusCityList } from '../../redux/slices/busBooking/busBookingSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { Spin } from 'antd';
+import { baseApiUrl } from '../../constants';
+import { useMemo } from 'react';
 
 const BusBookingHome = ({ setIsBottomTopNav }) => {
   const [busCities, setBusCities] = useState([])
- const {cityData}= useSelector(state=>state.busBookingSlice.cityList)
+  const [selectedSource, setSelectedSource] = useState({CityName:'',cityId:''})
+  const [selectedDestination, setSelectedDestination] = useState({CityName:'',cityId:''})
+ const {cityData,loading}= useSelector(state=>state.busBookingSlice.cityList)
  const dispatch= useDispatch()
     useEffect(() => {
         setIsBottomTopNav(true);
-       dispatch( getBusCityList())
+      //  dispatch( getBusCityList())
         return () => {
           setIsBottomTopNav(false);
         };
       }, []);
+      useMemo(() => {
+        async function fetchData() {
+          const response = await fetch(`${baseApiUrl}/ServiceApiBus/GetBusCityList`,{ method: "POST"});
+          const data = await response.json();
+          console.warn(data?.Data?.BusCities);
+          setBusCities(data?.Data?.BusCities);
+        }
+        fetchData();
+      }, []);
    const navigate= useNavigate()
-   useEffect(() => {
-     if(cityData.ResponseStatus===1){
-setBusCities(cityData?.Data?.BusCities)
-  }
-   }, [cityData])
+//    useEffect(() => {
+//      if(cityData.ResponseStatus===1){
+// setBusCities(cityData?.Data?.BusCities)
+//   }
+//    }, [cityData])
    
   return (
     <>
@@ -34,7 +48,7 @@ setBusCities(cityData?.Data?.BusCities)
                 <div class="col-lg-5 col-md-6">
                     <form class="bus-booking-form">
                         <div class="travel-form-heading">
-                          <h1 class="travel-form-title"> Bus Ticket Booking </h1>
+                          <h1 class="travel-form-title"> Bus Ticket Booking {JSON.stringify(loading)}</h1>
                         </div>
                         
                         <div class="inside-wrap">
@@ -50,16 +64,9 @@ setBusCities(cityData?.Data?.BusCities)
                                 Travelling From
                               </button>
                               <div class="dropdown-menu">
-                                {/* <a class="dropdown-item" href="#">Maharashtra</a>
-                                <a class="dropdown-item" href="#">Karmataka</a>
-                                <a class="dropdown-item" href="#">Gujrat</a>
-                                <a class="dropdown-item" href="#">Maharashtra</a>
-                                <a class="dropdown-item" href="#">Karmataka</a>
-                                <a class="dropdown-item" href="#">Gujrat</a>
-                                <a class="dropdown-item" href="#">Maharashtra</a>
-                                <a class="dropdown-item" href="#">Karmataka</a> */}
-                                {busCities && }
-                                <button class="dropdown-item" href="#">Gujrat</button>
+                              {/* Source */}
+                              {console.log(busCities)}
+                                {busCities && busCities.map(bus=> <button class="dropdown-item" value={selectedSource.CityName} onChange={()=>{setSelectedSource({CityName:bus.CityName,cityId:bus.CityId})}} type='button'>{bus.CityName}</button>)}
                               </div>
                             </div>
                             
@@ -71,15 +78,8 @@ setBusCities(cityData?.Data?.BusCities)
                                 Travelling To
                               </button>
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Maharashtra</a>
-                                <a class="dropdown-item" href="#">Karmataka</a>
-                                <a class="dropdown-item" href="#">Gujrat</a>
-                                <a class="dropdown-item" href="#">Maharashtra</a>
-                                <a class="dropdown-item" href="#">Karmataka</a>
-                                <a class="dropdown-item" href="#">Gujrat</a>
-                                <a class="dropdown-item" href="#">Maharashtra</a>
-                                <a class="dropdown-item" href="#">Karmataka</a>
-                                <a class="dropdown-item" href="#">Gujrat</a>
+                              {/* Destination */}
+                              {busCities && busCities.map(bus=> <button class="dropdown-item" href="#">{bus.CityName}</button>)}
                               </div>
                             </div>
 
