@@ -333,7 +333,7 @@
   color: var(--textGray) !important;
 }
 .edit-profile-dis-field .input-field input:focus, .edit-profile-dis-field .input-field input:not(:placeholder-shown) {
-  border-bottom: 1px solid var(--borderColor) !important;
+  border-bottom: 1px solid var(--primary) !important;
   /* border-bottom: none !important; */
   /* box-shadow: 0 1px 0 0 var(--textGray) !important; */
   box-shadow: none !important;
@@ -383,7 +383,7 @@
 }
 .edit-profile-form .input-field input:focus, .edit-profile-form .input-field input:not(:placeholder-shown) {
   border-bottom: 1px solid var(--primary);
-  box-shadow: 0 1px 0 0 var(--primary);
+  /* box-shadow: 0 1px 0 0 var(--primary); */
 }
 .edit-profile-form .input-field input:not(:-moz-placeholder-shown) + label {
   transform: translateY(-14px) scale(0.85);

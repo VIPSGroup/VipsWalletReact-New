@@ -394,13 +394,16 @@
   border-bottom: 1px solid var(--lightBorder);
   padding: 20px;
   /* border-radius: 10px; */
-  margin-bottom: 9px;
+  margin-bottom: 0px;
 }
 .shopping-cart-address-outer:last-child{
   border-bottom: none;
   padding-bottom: 10px;
 }
-
+.shopping-default-address{
+  border-bottom: 1px solid var(--lightBorder) !important;
+  padding-bottom: 15px !important;
+}
 .shopping-cart-address-outer .shopping-cart-address-info{
   display: flex;
   flex-wrap: nowrap;
