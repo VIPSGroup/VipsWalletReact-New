@@ -373,7 +373,7 @@ const ShoppingCheckout = () => {
                       <div class="shopping-payment-discount">
                         <form>
                           <div class="payment-confirmation-discount-info ">
-                            <div class="col-lg-8 p-0">
+                            <div class="col-lg-8 col-sm-8 p-0">
                               <div class="custom-control custom-checkbox ">
                                 <input
                                   onChange={handlePaymentMethod}
@@ -396,7 +396,7 @@ const ShoppingCheckout = () => {
                                 </label>
                               </div>
                             </div>
-                            <div class="col-lg-4 p-0">
+                            <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
                                 &#x20B9; {amount}{" "}
@@ -411,8 +411,8 @@ const ShoppingCheckout = () => {
               </div>
             </div>
 {JSON.stringify}
-            <div class="col-sm-12 col-md-12 col-lg-4 p-0">
-              <div class="shopping-payment-right">
+            <div class="col-sm-12 col-md-12 col-lg-4 ">
+              {/* <div class="shopping-payment-right"> */}
                 <div class="shopping-payment-right-sticky box-shadow-1">
                   <div class="row">
                     <div class="col-md-12 shopping-payment-content-head">
@@ -552,7 +552,7 @@ const ShoppingCheckout = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
 
           </div>

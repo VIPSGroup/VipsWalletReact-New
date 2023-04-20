@@ -855,6 +855,15 @@ select:-webkit-autofill:focus {
 /* Digigold React overwrite styles start  */
 
 @media only screen and (min-width: 320px) and (max-width: 413px) {
+
+  
+  .productcard-arrow .react-multiple-carousel__arrow--left {
+    margin-top: -46px;
+  }
+  .productcard-arrow .react-multiple-carousel__arrow--right {
+    margin-top: -46px;
+  }
+
   .payment-head-outer {
     display: flex;
     flex-wrap: wrap;
@@ -977,6 +986,12 @@ select:-webkit-autofill:focus {
 }
 
 @media only screen and (min-width: 414px) and (max-width: 540px) {
+  .productcard-arrow .react-multiple-carousel__arrow--left {
+    margin-top: -46px;
+  }
+  .productcard-arrow .react-multiple-carousel__arrow--right {
+    margin-top: -46px;
+  }
   .dropdown-text-limit {
     display: inline;
     max-width: 280px;
@@ -1076,6 +1091,12 @@ select:-webkit-autofill:focus {
 }
 
 @media only screen and (min-width: 475px) and (max-width: 480px) {
+  .productcard-arrow .react-multiple-carousel__arrow--left {
+    margin-top: -81px;
+  }
+  .productcard-arrow .react-multiple-carousel__arrow--right {
+    margin-top: -81px;
+  }
   .sold-badge-top-left {
     top: 0px;
     left: 5px;
@@ -1204,6 +1225,14 @@ select:-webkit-autofill:focus {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
+  .productcard-arrow .react-multiple-carousel__arrow--left {
+    margin-top: -81px;
+  }
+  .productcard-arrow .react-multiple-carousel__arrow--right {
+    margin-top: -81px;
+  }
+
+
   .fixed-right-button {
     top: 12%;
   }
@@ -1313,6 +1342,13 @@ select:-webkit-autofill:focus {
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1280px) {
+  .productcard-arrow .react-multiple-carousel__arrow--left {
+    margin-top: -92px;
+  }
+  .productcard-arrow .react-multiple-carousel__arrow--right {
+    margin-top: -92px;
+  }
+  
   .top-banner-outer .react-multi-carousel-dot-list {
     bottom: 0;
     top: 51% !important;
