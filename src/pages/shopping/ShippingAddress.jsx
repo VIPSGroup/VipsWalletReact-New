@@ -295,8 +295,8 @@ const ShippingAddress = () => {
               </div>
             </div>
 
-            <div class="col-sm-12 col-md-12 col-lg-4 p-0">
-              <div class="shopping-cart-right">
+            <div class="col-sm-12 col-md-12 col-lg-4 ">
+              {/* <div class="shopping-cart-right"> */}
                 <div class="shopping-cart-payment-outer box-shadow-1">
                   <div class="row">
                     <div class="col-md-12">
@@ -397,7 +397,7 @@ const ShippingAddress = () => {
                             </div>
                         
                         </div> */}
-              </div>
+              {/* </div> */}
             </div>
             <MuiSnackBar
               open={isSnackBar}

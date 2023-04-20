@@ -831,6 +831,13 @@ padding: 0rem 0rem;
     font-size: 18px; 
     padding-left: 0;
   }
+  .mobile-payment-card {
+    padding: 20px 16px;
+  }
+  .mobile-payment-right-sticky {
+    padding: 23px 16px;
+  }
+
 
   .mobile-recharge-right-outer{
     padding-left: 0 !important;
@@ -982,7 +989,7 @@ padding: 0rem 0rem;
   }
   .mob-paymet-discount-amt {  
     font-size: 14px;
-    /* margin-left: 0; */
+    margin-left: 2px !important;
     text-align: left;
   }
   .mob-paymet-Prime-amt {  
@@ -1178,7 +1185,7 @@ padding: 0rem 0rem;
   }
   .mob-paymet-discount-amt {  
     font-size: 16px;
-    /* margin-left: 0; */
+    margin-left: 2px !important;
     text-align: left;
   }
   .mob-paymet-Prime-amt {  
@@ -1219,10 +1226,10 @@ padding: 0rem 0rem;
     padding-right: 15px !important;
   }
 
-
+  
 }
 
-@media only screen and (min-width: 640px) and (max-width: 767px){
+@media only screen and (min-width: 600px) and (max-width: 767px){
   .mob-paymet-discount-amt {  
     font-size: 14px;
     /* margin-left: 0; */
@@ -1412,6 +1419,9 @@ padding: 0rem 0rem;
   .mob-payment-debit-payu {
     margin: 0 3px 0px 11px;
     width: 36px;
+  }
+  .mobile-payment-right-sticky {
+    padding: 23px 16px;
   }
   .mobile-payment-summery { 
     font-size: 14px;
