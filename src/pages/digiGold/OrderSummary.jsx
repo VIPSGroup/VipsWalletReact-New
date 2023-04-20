@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { Button, Card, Col, Form, Input, Modal, Row, Spin } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,6 +34,10 @@ import { CheckServiceEnableOrNot } from "../../redux/slices/coreSlice";
 import { MdClose } from "react-icons/md";
 import Lottie from "react-lottie";
 import blastAnimation from "../../components/digiGold/blast_animation.json";
+import {
+  getServiceName,
+  globalConfiguration,
+} from "../../redux/slices/services/commonSlice";
 const OrderSummary = () => {
   const animationRef = useRef(null); // Ref to hold the Lottie animation instance
 
@@ -69,6 +74,8 @@ const OrderSummary = () => {
     ifscCode: "",
   });
   const [error, setError] = useState("");
+  const [shopPointLimit, setShopPointLimit] = useState();
+  const [FinalShopAmount, setFinalShopAmount] = useState();
   const { rateData, loading } = useSelector(
     (state) => state.digiGoldSlice.rates
   );
@@ -86,6 +93,9 @@ const OrderSummary = () => {
   );
   const { data, loading: walletLoad } = useSelector(
     (state) => state.walletSlice.walletBalance
+  );
+  const { ServiceData, ServiceLoader } = useSelector(
+    (state) => state.commonSlice.ServiceName
   );
   const { Verified } = useSelector((state) => state.digiGoldSlice.ifsc);
 
@@ -284,6 +294,8 @@ const OrderSummary = () => {
     const type = state.valType;
     const CouponId = couponData.id;
     const CouponAmount = couponData.CouponAmount;
+    const PointType = "SHOPPING";
+    const DiscountAmount = FinalShopAmount;
 
     if (!walletShow) {
       setLoad(true);
@@ -296,8 +308,10 @@ const OrderSummary = () => {
         blockid,
         amount,
         type,
-        CouponId,
-        CouponAmount,
+        // CouponId,
+        // CouponAmount,
+        PointType,
+        DiscountAmount,
       });
       if (res.ResponseStatus === 1) {
         if (res.Data?.statusCode === 200) {
@@ -538,16 +552,29 @@ const OrderSummary = () => {
     }
   }, [formValue.ifscCode]);
   // console.log(isServiceEnable, "isServiceEnable");
-  console.log(state, "state?.valueinAmt");
+  // useEffect(() => {
+  //   dispatch(CheckServiceEnableOrNot());
+  //   const ServiceId = digiGoldServiceId;
+  //   let PublishedFare = parseFloat(currentRate);
+  //   let MetalType = state.metalType;
+  //   dispatch(
+  //     GetCouponList({ username, password, ServiceId, PublishedFare, MetalType })
+  //   );
+  // }, [currentRate]);
+
   useEffect(() => {
-    dispatch(CheckServiceEnableOrNot());
-    const ServiceId = digiGoldServiceId;
-    let PublishedFare = parseFloat(currentRate);
-    let MetalType = state.metalType;
-    dispatch(
-      GetCouponList({ username, password, ServiceId, PublishedFare, MetalType })
-    );
-  }, [currentRate]);
+    const getConfig = async () => {
+      const res = await globalConfiguration(
+        "DigiGoldMinAmountForShoppingPoint"
+      );
+      if (res.ResponseStatus === 1) {
+        setShopPointLimit(res.Data.Value);
+      }
+    };
+    getConfig();
+    dispatch(getServiceName({ digiGoldServiceId }));
+  }, []);
+
   // Bank Details Update Logic
   const updateBankDetails = () => {
     formValue.accountName = list.Data.result[0].accountName;
@@ -578,7 +605,41 @@ const OrderSummary = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  console.log(currentRate, "currentRate");
+
+  const ShoppingPointCalculate = () => {
+    const ShoppingPercent = parseFloat(ServiceData?.ShoppingPer);
+    const WalletShopPoint = parseFloat(data?.Data?.Shoppingpoints);
+    const TotalAmount = parseFloat(
+      totalAmount ? totalAmount : state.valueinAmt
+    );
+    const ShoppingDiscount1 = (TotalAmount / 100) * ShoppingPercent;
+    const ShoppingDiscount = digitPrecision(ShoppingDiscount1, "amount");
+
+    const getConfig = async () => {
+      const res = await globalConfiguration(
+        "DigiGoldMinAmountForShoppingPoint"
+      );
+      if (res.ResponseStatus === 1) {
+        setShopPointLimit(res.Data.Value);
+        if (TotalAmount >= res.Data.Value) {
+          if (ShoppingDiscount > WalletShopPoint) {
+            setFinalShopAmount(WalletShopPoint);
+          } else {
+            setFinalShopAmount(ShoppingDiscount);
+          }
+        } else {
+          setFinalShopAmount(0);
+        }
+      }
+    };
+    getConfig();
+  };
+  useEffect(() => {
+    ShoppingPointCalculate();
+  }, [totalAmount, ServiceData, data, shopPointLimit]);
+
+  console.log(shopPointLimit, "aa gyi");
+
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">
@@ -751,11 +812,82 @@ const OrderSummary = () => {
                             <p class="digigold-payble-amt">
                               {" "}
                               &#x20B9;{" "}
-                              {totalAmount
-                                ? parseFloat(totalAmount).toLocaleString()
-                                : parseFloat(
-                                    state?.valueinAmt
-                                  ).toLocaleString()}
+                              {/* {() => {
+                                if (state.type === "buy") {
+                                  totalAmount
+                                    ? parseFloat(totalAmount) -
+                                      FinalShopAmount?.toLocaleString()
+                                    : parseFloat(state?.valueinAmt) -
+                                      FinalShopAmount?.toLocaleString();
+                                } else {
+                                  // eslint-disable-next-line no-lone-blocks
+                                  {
+                                    totalAmount
+                                      ? parseFloat(totalAmount) -
+                                        (parseFloat(totalAmount) / 100) *
+                                          parseFloat(
+                                            ServiceData?.ShoppingPer
+                                          ).toLocaleString()
+                                      : parseFloat(state?.valueinAmt) -
+                                        (parseFloat(state?.valueinAmt) / 100) *
+                                          parseFloat(
+                                            ServiceData?.ShoppingPer
+                                          ).toLocaleString();
+
+                                    // parseFloat(
+                                    //     state?.valueinAmt
+                                    //   ).toLocaleString()
+                                  }
+                                }
+                              }} */}
+                              {/* {() => {
+                                if (state.type === "buy") {
+                                 
+                                  ;
+                                } else {
+                                  console.log("Yha abhi")
+                                  totalAmount
+                                    ? parseFloat(totalAmount)?.toLocaleString()
+                                    : parseFloat(
+                                        state?.valueinAmt
+                                      )?.toLocaleString();
+                                }
+                              }} */}
+                              {(() => {
+                                if (state.type === "buy") {
+                                  if (totalAmount) {
+                                    const totalAmt =
+                                      parseFloat(totalAmount) - FinalShopAmount;
+                                    const res = digitPrecision(
+                                      totalAmt,
+                                      "amount"
+                                    );
+                                    return parseFloat(res).toLocaleString();
+                                  } else {
+                                    const totalAmt =
+                                      parseFloat(state?.valueinAmt) -
+                                      FinalShopAmount;
+                                    const res = digitPrecision(
+                                      totalAmt,
+                                      "amount"
+                                    );
+                                    return parseFloat(res).toLocaleString();
+                                  }
+                                } else {
+                                  if (totalAmount) {
+                                    return parseFloat(
+                                      digitPrecision(totalAmount, "amount")
+                                    );
+                                  } else {
+                                    return parseFloat(
+                                      digitPrecision(
+                                        state?.valueinAmt,
+                                        "amount"
+                                      )
+                                    );
+                                  }
+                                }
+                              })()}
                             </p>
                           </div>
                         </div>
@@ -828,7 +960,9 @@ const OrderSummary = () => {
                                           // style={{ width: 300 }}
                                         >
                                           <div className="">
-                                            <p>{e?.Description?.slice(0,70)}</p>
+                                            <p>
+                                              {e?.Description?.slice(0, 70)}
+                                            </p>
 
                                             <div className="">
                                               <p
@@ -901,37 +1035,52 @@ const OrderSummary = () => {
                               Payment method{" "}
                             </p>
 
-                            {/* <div class="digigold-payment-discount  box-shadow-1">
-                        <p class="digigold-paymethod-title">Debit From </p>
-                        <div class="digigold-paymet-discount-info mb-4">
-                          <div class="col-lg-8 p-0">
-                            <div class="custom-control custom-checkbox checkStyle">
-                              <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="vips-wallet"
-                              />
-                              <label
-                                class="custom-control-label"
-                                for="vips-wallet"
-                              >
-                                <img
-                                  alt=""
-                                  src="/images/digigold-images/mob-payment-discount.png"
-                                  class="img-fluid digigold-payment-discount-img"
-                                />{" "}
-                                Shopping Point (65044.62)
-                              </label>
+                            <div class="digigold-payment-discount  box-shadow-1">
+                              <p class="digigold-paymethod-title">
+                                Get Discount with Recharge{" "}
+                              </p>
+                              <div class="digigold-paymet-discount-info mb-4">
+                                <div class="col-lg-8 p-0">
+                                  <div class="custom-control custom-checkbox checkStyle">
+                                    <input
+                                      checked
+                                      type="checkbox"
+                                      class="custom-control-input"
+                                      id="vips-wallet"
+                                    />
+                                    <label
+                                      class="custom-control-label"
+                                      for="vips-wallet"
+                                    >
+                                      <img
+                                        alt=""
+                                        src="/public/images/digigold-images/"
+                                        class="img-fluid digigold-payment-discount-img"
+                                      />{" "}
+                                      Shopping Point (
+                                      {parseFloat(
+                                        data?.Data?.Shoppingpoints
+                                      )?.toLocaleString()}
+                                      )
+                                      {(totalAmount
+                                        ? totalAmount
+                                        : state.valueinAmt) <
+                                        shopPointLimit && (
+                                        <span
+                                          style={{ fontSize: 12, color: "red" }}
+                                        >{`Minimum Purchasing amount is  Rs.${shopPointLimit} to Apply Shopping Points`}</span>
+                                      )}
+                                    </label>
+                                  </div>
+                                </div>
+                                {/* <div class="col-lg-4 p-0">
+                                  <p class="digigold-paymet-discount-amt">
+                                    {" "}
+                                    &#x20B9; 5.00{" "}
+                                  </p>
+                                </div> */}
+                              </div>
                             </div>
-                          </div>
-                          <div class="col-lg-4 p-0">
-                            <p class="digigold-paymet-discount-amt">
-                              {" "}
-                              &#x20B9; 5.00{" "}
-                            </p>
-                          </div>
-                        </div>
-                      </div> */}
 
                             {/* <!-- <div class="digigold-paymet-info-outer"> --> */}
                             <div class="digigold-payment-discount box-shadow-1">
@@ -1005,6 +1154,75 @@ const OrderSummary = () => {
                                           ).toLocaleString()}{" "}
                                     </p>
                                   </div>
+                                  <div
+                                    style={{
+                                      justifyContent: "space-between",
+                                      display: "flex",
+                                    }}
+                                  >
+                                    <p
+                                      style={{ color: "green" }}
+                                      class="digigold-paymet-discount-amt"
+                                    >
+                                      Shopping Points (
+                                      {ServiceData?.ShoppingPer}%)
+                                    </p>
+                                    <p
+                                      style={{ color: "green" }}
+                                      class="digigold-paymet-discount-amt"
+                                    >
+                                      - &#x20B9; {FinalShopAmount}
+                                    </p>
+                                  </div>
+                                  <div
+                                    style={{
+                                      justifyContent: "space-between",
+                                      display: "flex",
+                                    }}
+                                  >
+                                    <p
+                                      // style={{ color: "red" }}
+                                      class="digigold-paymet-discount-amt"
+                                    >
+                                      Paybale Amount
+                                    </p>
+                                    <p
+                                      // style={{ color: "red" }}
+                                      class="digigold-paymet-discount-amt"
+                                    >
+                                      &#x20B9;{" "}
+                                      {/* {totalAmount
+                                        ? parseFloat(totalAmount) -
+                                          FinalShopAmount?.toLocaleString()
+                                        : parseFloat(state?.valueinAmt) -
+                                          FinalShopAmount?.toLocaleString()}{" "} */}
+                                      {(() => {
+                                        if (totalAmount) {
+                                          const totalAmt =
+                                            parseFloat(totalAmount) -
+                                            FinalShopAmount;
+                                          const res = digitPrecision(
+                                            totalAmt,
+                                            "amount"
+                                          );
+                                          return parseFloat(
+                                            res
+                                          ).toLocaleString();
+                                        } else {
+                                          const totalAmt =
+                                            parseFloat(state?.valueinAmt) -
+                                            FinalShopAmount?.toLocaleString();
+                                          const res = digitPrecision(
+                                            totalAmt,
+                                            "amount"
+                                          );
+                                          return parseFloat(
+                                            res
+                                          ).toLocaleString();
+                                        }
+                                      })()}
+                                    </p>
+                                  </div>
                                   {couponData.CreditType && (
                                     <>
                                       <div
@@ -1064,7 +1282,7 @@ const OrderSummary = () => {
                                             ).toLocaleString()}{" "} */}
                                           {couponData.CreditType === 1
                                             ? parseFloat(
-                                                currentRate
+                                                totalAmount
                                               ).toLocaleString()
                                             : (
                                                 parseFloat(totalAmount) -
