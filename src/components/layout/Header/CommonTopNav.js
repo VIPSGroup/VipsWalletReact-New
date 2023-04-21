@@ -27,8 +27,6 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-
-  const loggedInMember = JSON.parse(localStorage.getItem("user"));
   const { wishCount } = useSelector((state) => state.wishlistSlice);
   const { cartCount } = useSelector((state) => state?.cartSlice);
   const { pathname } = useResolvedPath();
@@ -40,7 +38,9 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
   const { data, loading } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
-
+const handleSidebar=()=>{
+  document.getElementById("sidebar").classList.remove("active");
+}
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -708,9 +708,7 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
                 type="button"
                 id="sidebarCollapseX"
                 class="btn btn-link sidebar-close"
-                onClick={(e) => {
-                  document.getElementById("sidebar").classList.remove("active");
-                }}
+                onClick={handleSidebar}
               >
                 <i class="fa-sharp fa-solid fa-xmark"></i>
               </button>
@@ -720,27 +718,27 @@ const CommonTopNav = ({ isShow = true, setActive,title }) => {
         </div>
 
         <ul class="list-unstyled components links">
-          <li class="">
+          <li class="" onClick={handleSidebar}>
             <Link to="/"> Home</Link>
           </li>
 
           {/* {<!-- with multiple submenu start -->} */}
-          <li>
+          <li onClick={handleSidebar}>
             <Link to="/shopping">Shopping </Link>
           </li>
           {/* {<!-- with multiple submenu end -->} */}
 
-          <li>
+          <li onClick={handleSidebar}>
             <Link to="/services">Services </Link>
           </li>
 
-          <li>
+          <li onClick={handleSidebar}>
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           {/* <li>
             <Link to="/vipsgold"> VIPS Gold</Link>
           </li> */}
-          <li>
+          <li onClick={handleSidebar}>
             <Link to={vendorPanelAPi} target="_blank">
               {" "}
               Become a Supplier

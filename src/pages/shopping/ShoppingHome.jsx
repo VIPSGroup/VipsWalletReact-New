@@ -60,7 +60,7 @@ const ShoppingHome = () => {
             <div class="col-md-12">
               <div class="shopping-catagory-nav-outer">
                 {data ? (
-                  <Carousel
+                  <Carousel swipeable={false} draggable={false}
                     responsive={responsive}
                     infinite={true}
                     className="container"

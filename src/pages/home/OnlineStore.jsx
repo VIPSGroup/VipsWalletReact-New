@@ -55,7 +55,7 @@ const OnlineStore = () => {
             </div>
           </div>
           {data.Data && !loading ? (
-            <Carousel
+            <Carousel swipeable={false} draggable={false}
               responsive={responsive}
               infinite={true}
               className="online-store-row"

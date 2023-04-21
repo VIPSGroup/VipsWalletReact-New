@@ -22,6 +22,9 @@ const BannerTopNav = () => {
   const { data, loading } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
+  const handleSidebar=()=>{
+    document.getElementById("sidebar").classList.remove("active");
+  }
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -416,7 +419,7 @@ const BannerTopNav = () => {
         <ul class="list-unstyled components links">
           {Nav.map((e) => {
             return (
-              <li class="">
+              <li class="" onClick={handleSidebar}>
                 <Link to={e.route} target={e.target}>
                   {" "}
                   {e.title}

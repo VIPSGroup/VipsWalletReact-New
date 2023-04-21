@@ -87,7 +87,7 @@ switch (id) {
       <div className="top-banner-outer">
         <Spin spinning={loading}>
         {SliderBanners && (
-          <Carousel
+          <Carousel swipeable={false} draggable={false}
             responsive={responsive}
             infinite={true}
             autoPlay={true}

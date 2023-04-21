@@ -25,6 +25,9 @@ const HomeTopNav = ({ isPrime }) => {
   const { data, loading } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
+  const handleSidebar=()=>{
+    document.getElementById("sidebar").classList.remove("active");
+  }
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -433,9 +436,7 @@ useEffect(() => {
                 type="button"
                 id="sidebarCollapseX"
                 class="btn btn-link sidebar-close"
-                onClick={(e) => {
-                  document.getElementById("sidebar").classList.remove("active");
-                }}
+                onClick={handleSidebar}
               >
                 <i class="fa-sharp fa-solid fa-xmark"></i>
               </button>
@@ -444,27 +445,27 @@ useEffect(() => {
         </div>
 
         <ul class="list-unstyled components links">
-          <li class="">
-            <Link to="/"> Home</Link>
+          <li class="" onClick={handleSidebar}>
+            <Link to="/" > Home</Link>
           </li>
 
           {/* {<!-- with multiple submenu start -->} */}
-          <li>
+          <li onClick={handleSidebar}>
             <Link to="/shopping">Shopping </Link>
           </li>
 
-          <li>
+          <li onClick={handleSidebar}>
             <Link to="/services">Services </Link>
           </li>
 
-          <li>
+          <li onClick={handleSidebar}>
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
           {/* <li>
 
             <Link to="/vipsgold">VIPS Gold</Link>
           </li> */}
-          <li>
+          <li onClick={handleSidebar}>
             <Link to={vendorPanelAPi} target="_blank">
               {" "}
               Become a Supplier

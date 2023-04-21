@@ -63,7 +63,7 @@ const ShopByCategory = () => {
           <div class="shopby-outer">
               <div class="row">
             <div class="container-fluid shopby-carousel">
-              <Carousel
+              <Carousel swipeable={false} draggable={false}
                 responsive={responsive}
                 infinite={true}
               >

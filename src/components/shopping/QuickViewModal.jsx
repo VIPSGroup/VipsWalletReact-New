@@ -283,7 +283,7 @@ const QuickViewModal = ({ productId }) => {
         <div class="col-lg-6">
           <div class="quick-view-product">
             <>
- {data?.imgArray &&  <Carousel
+ {data?.imgArray &&  <Carousel swipeable={false} draggable={false}
                 responsive={responsive}
                 infinite={true}
                 className="quick-view-product-img-outer"
@@ -503,5 +503,4 @@ const QuickViewModal = ({ productId }) => {
     </div>
   );
 };
-
 export default QuickViewModal;

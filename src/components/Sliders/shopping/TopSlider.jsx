@@ -32,7 +32,7 @@ const TopSlider = ({ banners, id = 1 }) => {
   return (
     <div class="shopping-home-banner">
       <div class="shopping-home-banner-inner">
-        <Carousel
+        <Carousel swipeable={false} draggable={false}
           responsive={responsive}
           infinite={true}
           autoPlay={true}

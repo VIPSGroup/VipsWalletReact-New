@@ -294,7 +294,7 @@ setLoading(true)
             <div class="col-lg-6">
               <div class="product-details-left">
                 <div class="product-details-img-outer">
-                  <Carousel
+                  <Carousel swipeable={false} draggable={false}
                     responsive={responsive}
                     infinite={true}
                     className="quick-view-product-img-outer"

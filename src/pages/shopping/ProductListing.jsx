@@ -109,7 +109,7 @@ const ProductListing = () => {
             <div class="col-md-12">
               <div class="shopping-catagory-nav-outer">
                 {subCategories && (
-                  <Carousel
+                  <Carousel swipeable={false} draggable={false}
                     responsive={responsive}
                     infinite={true}
                     slidesToSlide={2}
