@@ -905,7 +905,14 @@ const OrderSummary = () => {
                                 {CouponList.Data &&
                                   CouponList.Data.map((e) => {
                                     return (
-                                      <Col sm={{ span: 12 }} md={{ span: 8 }}>
+                                      <Col
+                                        xs={{ span: 24 }}
+                                        sm={{ span: 12 }}
+                                        md={{ span: 8 }}
+                                        style={{
+                                          padding: "0 10px",
+                                        }}
+                                      >
                                         <Card
                                           style={{ position: "relative" }}
                                           className="my-coupon-card"
@@ -914,20 +921,34 @@ const OrderSummary = () => {
                                             <>
                                               <Button
                                                 style={{
+                                                  // fontSize: 18,
+                                                  fontWeight: "600",
                                                   backgroundColor:
                                                     couponData.id ===
-                                                      e.CouponId && "#ca3060",
+                                                      e.CouponId && "#ffffff",
                                                   color:
                                                     couponData.id === e.CouponId
-                                                      ? "white"
-                                                      : "black",
+                                                      ? "#393186"
+                                                      : "#ca3060",
                                                 }}
                                                 onClick={() => {
                                                   setCouponData({
                                                     ...couponData,
-                                                    id: e.CouponId,
-                                                    CouponAmount: e.Amount,
-                                                    CreditType: e.CreditType,
+                                                    id:
+                                                      couponData.id ===
+                                                      e.CouponId
+                                                        ? ""
+                                                        : e.CouponId,
+                                                    CouponAmount:
+                                                      couponData.id ===
+                                                      e.CouponId
+                                                        ? ""
+                                                        : e.Amount,
+                                                    CreditType:
+                                                      couponData.id ===
+                                                      e.CouponId
+                                                        ? ""
+                                                        : e.CreditType,
                                                   });
                                                   setShowLottie(showLottie + 1);
                                                 }}
@@ -935,10 +956,10 @@ const OrderSummary = () => {
                                                 type="dashed"
                                               >
                                                 {couponData.id === e.CouponId
-                                                  ? "Applied"
-                                                  : "Apply"}
+                                                  ? "APPLIED" 
+                                                  : "APPLY"}
                                               </Button>
-                                              {couponData.id === e.CouponId && (
+                                              {/* {couponData.id === e.CouponId && (
                                                 <MdClose
                                                   onClick={() =>
                                                     setCouponData({
@@ -954,46 +975,61 @@ const OrderSummary = () => {
                                                   }}
                                                   size={20}
                                                 />
-                                              )}
+                                              )} */}
                                             </>
                                           }
                                           // style={{ width: 300 }}
                                         >
+
                                           <div className="">
                                             <p>
                                               {e?.Description?.slice(0, 70)}
                                             </p>
 
+
                                             <div className="">
                                               <p
                                                 style={{
+                                                  marginBottom: "10px",
+                                                }}
+                                              >
+                                                {e.Description.slice(0, 40)} ...
+                                              </p>
+                                              <p
+                                                style={{
                                                   // padding: 2,
-                                                  fontSize: 20,
+                                                  fontSize: 18,
                                                   fontWeight: "700",
+                                                  marginBottom: "0",
                                                 }}
                                               >
                                                 Rs. {e.Amount}/- Off
                                               </p>
                                             </div>
-                                            <div
-                                              style={{
-                                                position: "absolute",
-                                                // left: 70,
-                                                bottom: 0,
-                                                left: 0,
-                                                backgroundColor: "#ca3060",
-                                                width: "100%",
-                                                textAlign: "center",
-                                                color: "white",
-                                                padding: 1,
-                                                fontWeight: "500",
-                                                borderTopRightRadius: 10,
-                                                borderTopLeftRadius: 10,
-                                              }}
-                                              className=""
-                                            >
-                                              View Terms & Conditions
-                                              {/* <p
+                                            {/* <div className="digi-coupon-giftbox">
+                                              <img src="./images/digigold-images/coupon-giftbox.svg" />
+                                            </div> */}
+                                          </div>
+                                          <div
+                                            style={
+                                              {
+                                                // position: "absolute",
+                                                // bottom: 0,
+                                                // left: 0,
+                                                // backgroundColor: "#ca3060",
+                                                // width: "100%",
+                                                // textAlign: "center",
+                                                // color: "#ca3060",
+                                                // padding: 1,
+                                                // fontWeight: "500",
+                                                // borderTopRightRadius: 10,
+                                                // borderTopLeftRadius: 10,
+                                              }
+                                            }
+                                            className="digi-coupon-giftfooter"
+                                          >
+                                            View Terms & Conditions
+                                            {/* <p
                                                 style={{
                                                   textAlign: "center",
                                                   color: "white",
@@ -1001,7 +1037,6 @@ const OrderSummary = () => {
                                               >
                                                
                                               </p> */}
-                                            </div>
                                           </div>
                                         </Card>
                                       </Col>
@@ -1092,7 +1127,7 @@ const OrderSummary = () => {
                                 class="digigold-paymet-discount-info"
                               >
                                 <div class="col-lg-8 p-0">
-                                  <div class="custom-control custom-checkbox">
+                                  <div class="custom-control custom-checkbox d-flex flex-wrap align-items-center">
                                     <input
                                       type="checkbox"
                                       checked
@@ -1139,7 +1174,7 @@ const OrderSummary = () => {
                                       display: "flex",
                                     }}
                                   >
-                                    <p class="digigold-paymet-discount-amt">
+                                    <p class="digigold-paymet-amt-text">
                                       Total Amount
                                     </p>
                                     <p class="digigold-paymet-discount-amt">
@@ -1233,7 +1268,7 @@ const OrderSummary = () => {
                                       >
                                         <p
                                           style={{ color: "green" }}
-                                          class="digigold-paymet-discount-amt"
+                                          class="digigold-paymet-amt-text"
                                         >
                                           Coupon{" "}
                                           {couponData.CreditType === 1
@@ -1264,7 +1299,7 @@ const OrderSummary = () => {
                                       >
                                         <p
                                           // style={{ color: "red" }}
-                                          class="digigold-paymet-discount-amt"
+                                          class="digigold-paymet-amt-text"
                                         >
                                           Paybale Amount
                                         </p>
