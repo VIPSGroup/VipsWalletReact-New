@@ -648,7 +648,7 @@ const MyOrdersPage = () => {
                   <div class="col-xl-6 col-sm-6">
                     <span>
                       {" "}
-                      {tab === "Buy" ? "Invoice" : "Status"} (&#x20B9;):{" "}
+                      {tab === "Buy" ? "Invoice" : "Status"}:{" "}
                     </span>
                   </div>
                   <div

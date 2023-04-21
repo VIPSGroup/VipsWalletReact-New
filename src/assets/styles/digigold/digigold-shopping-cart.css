@@ -262,7 +262,7 @@
 }
 
 .digigold-cart-payment-outer {
-    padding: 23px 20px;
+    padding: 14px 17px;
     background: var(--whiteColor);
     border-radius: 10px;
     position: -webkit-sticky;
@@ -422,8 +422,8 @@
 }
 
 .digigold-checkout-coin-img{
-  width: 72px;
-  margin-right: 10px;
+  width: 92px;
+  /* margin-right: 10px; */
 }
 .digigold-cart-summery-title{
     color: var(--darkText);
@@ -460,6 +460,13 @@
   .digigold-cart-payment-summery {
     font-size: 14px;
   }
+
+  .digigold-shopping-cart-wrapper {
+    padding: 20px;
+  }
+  /* .digigold-cart-payment-outer {
+    padding: 14px 17px;
+  } */
 
 }
 
@@ -692,11 +699,15 @@
   }
 
 
+  .digigold-shopping-cart-wrapper {
+    padding: 25px 15px;
+  }
   .digigold-accordion .card-body {
-    padding: 1rem 1rem;
+    padding: 1rem 0.6rem;
   }
   #checkout-accordion .card .card-header .btn-header-link {
     font-size: 14px;
+    padding: 15px 9px;
   }
   .digigold-checkout-process {
     flex-direction: column;
