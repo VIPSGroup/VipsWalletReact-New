@@ -38,8 +38,10 @@ export const BuyDigiGold = async ({
   blockid,
   amount,
   type,
-  CouponId,
-  CouponAmount,
+  // CouponId,
+  // CouponAmount,
+  PointType,
+  DiscountAmount,
 }) => {
   const formData = new FormData();
   formData.append("username", username);
@@ -52,8 +54,11 @@ export const BuyDigiGold = async ({
   formData.append("modeOfTransaction", type);
   formData.append("amount", amount);
   formData.append("currentAppVersion", currentAppVersion);
-  formData.append("CouponId", CouponId);
-  formData.append("CouponDiscount", CouponAmount);
+  // formData.append("CouponId", CouponId);
+  // formData.append("CouponDiscount", CouponAmount);
+  formData.append("PointType", PointType);
+  formData.append("DiscountAmount", DiscountAmount);
+
 
   try {
     const res = await axios.post(`${digiBaseUrl}BuyDigiGold`, formData);
@@ -173,7 +178,10 @@ export const CheckSellMetalStatus = createAsyncThunk(
 
 export const GetCouponList = createAsyncThunk(
   "GetCouponList",
-  async ({ username, password, ServiceId, PublishedFare }, thunkAPI) => {
+  async (
+    { username, password, ServiceId, PublishedFare, MetalType },
+    thunkAPI
+  ) => {
     try {
       const res = await axios.post(`${baseApiUrl}/Coupon/GetCouponList`, {
         Authentication: {
@@ -182,6 +190,7 @@ export const GetCouponList = createAsyncThunk(
         },
         ServiceId: ServiceId,
         PublishedFare: PublishedFare,
+        MetalType: MetalType,
       });
       return res.data;
     } catch (error) {}

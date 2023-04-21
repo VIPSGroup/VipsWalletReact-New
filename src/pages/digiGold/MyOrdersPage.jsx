@@ -144,12 +144,21 @@ const MyOrdersPage = () => {
         (tab === "Sell" && "amount"),
       align: "right",
     },
+    // {
+    //   title: tab === "Buy" && "Cashback",
+
+    //   dataIndex: tab === "Buy" && "Cashback",
+
+    //   key: tab === "Buy" && "Cashback",
+
+    //   align: "right",
+    // },
     {
-      title: tab === "Buy" && "Cashback",
+      title: tab === "Buy" && "Discount",
 
-      dataIndex: tab === "Buy" && "Cashback",
+      dataIndex: tab === "Buy" && "Discount",
 
-      key: tab === "Buy" && "Cashback",
+      key: tab === "Buy" && "Discount",
 
       align: "right",
     },
@@ -303,6 +312,32 @@ const MyOrdersPage = () => {
                     parseFloat(item?.CouponModel?.Amount) === 0
                       ? null
                       : `₹${item?.CouponModel?.Amount}`
+                  }`
+              : ""}
+          </h2>
+        </>
+      ),
+      Discount: (
+        <>
+          {console.log(item, "item?.CouponModel")}
+          <h2
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              color: "#008000",
+            }}
+          >
+            {item.ShoppingAmount
+              ? item?.ShoppingAmount === 1
+                ? `${
+                    parseFloat(item?.ShoppingAmount) === 0
+                      ? null
+                      : `+ ₹${item?.ShoppingAmount}`
+                  }`
+                : `${
+                    parseFloat(item?.ShoppingAmount) === 0
+                      ? null
+                      : `₹${item?.ShoppingAmount}`
                   }`
               : ""}
           </h2>
