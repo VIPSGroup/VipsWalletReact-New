@@ -98,7 +98,6 @@ const OrderSummary = () => {
     (state) => state.commonSlice.ServiceName
   );
   const { Verified } = useSelector((state) => state.digiGoldSlice.ifsc);
-  console.log(ServiceData, "ServiceData");
   // VIPS Username & Password
   const username = state?.username;
   const password = state?.password;
@@ -244,7 +243,6 @@ const OrderSummary = () => {
     }
     const timer =
       counter > 0 &&
-      state?.type === "buy" &&
       setInterval(() => {
         setCounter(counter - 1);
       }, 1000);
@@ -583,9 +581,6 @@ const OrderSummary = () => {
     formValue.ifscCode = list.Data.result[0].ifscCode;
     setEditAddress(true);
   };
-  window.onpopstate = function (event) {
-    localStorage.removeItem("valueType");
-  };
 
   const validateIFSC = (value) => {
     const regex = /^[A-Z]{4}[0][A-Z0-9]{6}$/; // IFSC code pattern
@@ -642,6 +637,13 @@ const OrderSummary = () => {
     ShoppingPointCalculate();
   }, [ServiceData, data]);
   // console.log(state, "state");
+
+  // window.onpopstate = function (event) {
+  //   console.log("yaha to aa hi  nhi rha");
+  //   localStorage.removeItem("valueType");
+  // };
+
+  // console.log(window.location.pathname, "window.location.hash")
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">
@@ -703,14 +705,14 @@ const OrderSummary = () => {
                       {/* <Spin spinning={listLoad}> */}
                       <div class="digigold-order-summery">
                         <div class="row digigold-insert-value">
-                          {state?.type === "buy" && (
-                            <div class="col-lg-12">
-                              <p class="digigold-insert-title">
-                                This price will be valid for :{" "}
-                                <span>{formatTime(counter)}</span>{" "}
-                              </p>
-                            </div>
-                          )}
+                          {/* {state?.type === "buy" && ( */}
+                          <div class="col-lg-12">
+                            <p class="digigold-insert-title">
+                              This price will be valid for :{" "}
+                              <span>{formatTime(counter)}</span>{" "}
+                            </p>
+                          </div>
+                          {/* )} */}
                           <div
                             class={`${
                               state?.type === "buy"
@@ -1225,7 +1227,7 @@ const OrderSummary = () => {
                                       // style={{ color: "red" }}
                                       class="digigold-paymet-discount-amt"
                                     >
-                                      Paybale Amount
+                                      Payable Amount
                                     </p>
                                     <p
                                       // style={{ color: "red" }}
@@ -1307,7 +1309,7 @@ const OrderSummary = () => {
                                           // style={{ color: "red" }}
                                           class="digigold-paymet-amt-text"
                                         >
-                                          Paybale Amount
+                                          Payable Amount
                                         </p>
                                         <p
                                           // style={{ color: "red" }}

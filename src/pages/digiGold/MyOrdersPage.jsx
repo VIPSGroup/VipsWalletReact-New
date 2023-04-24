@@ -546,13 +546,13 @@ const MyOrdersPage = () => {
               <p class="digigoldorderdetails-title">Order Details</p>
               <div class="digigoldorderdetails-summery">
                 <div class="row mb-3">
-                  <div class="col-xl-6 col-sm-6">
+                  <div class="col-xl-5 col-sm-6">
                     <span> Transaction ID: </span>
                   </div>
-                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                  <div class="col-xl-7 col-sm-6 text-sm-right">
                     <span class="digigoldorderdetails-amt">
                       {" "}
-                      {modalData?.TransactionId}{" "}
+                      {modalData?.TransactionId}
                     </span>
                   </div>
                 </div>

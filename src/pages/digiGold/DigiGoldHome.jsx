@@ -749,6 +749,9 @@ const DigiGoldHome = ({
 
                               <div class="buy-btn">
                                 <button
+                                  disabled={
+                                    (amount < 1 && (amount || grams)) || err
+                                  }
                                   htmlType="submit"
                                   size="large"
                                   type="primary"
