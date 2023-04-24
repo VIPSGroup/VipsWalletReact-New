@@ -417,7 +417,7 @@ setErrorMsg("Something Went wrong, Please try again later")
                         <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
-                            &#x20B9; {discount?.finalAmount?.toFixed(2)}{" "}
+                            &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? discount?.finalAmount:  discount?.finalAmount?.toFixed(2)}{" "}
                           </span>
                         </div>
                       </div>

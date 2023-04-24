@@ -397,7 +397,8 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                         <div class="col-5 col-xs-4 text-right">
                         <span class="mobile-payment-summery-amt">
                               {" "}
-                              &#x20B9; {discount?.finalAmount?.toFixed(2)}{" "}
+                              &#x20B9; {  
+                             discount?.finalAmount?.toString().split(".").length===1 ? discount?.finalAmount:  discount?.finalAmount?.toFixed(2)}{" "}
                             </span>
                         </div>
                       </div>

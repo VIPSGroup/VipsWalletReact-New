@@ -48,6 +48,7 @@ export const getOperators = createAsyncThunk(
   }else if(Data?.PrimePoints===0){
     primePointDiscount=Data?.PrimePoints
     finalAmount=amt
+    console.log(finalAmount);
   }else{
     primePointDiscount=Data?.PrimePoints
     finalAmount=amt-Data?.PrimePoints
