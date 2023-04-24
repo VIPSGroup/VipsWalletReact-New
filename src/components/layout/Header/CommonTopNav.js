@@ -26,6 +26,7 @@ const CommonTopNav = ({
   setGrams,
   setAmount,
   setStep,
+  step,
   setErr,
   setReceiverUserName,
   receiverUserName,
@@ -762,7 +763,11 @@ const CommonTopNav = ({
   return (
     <>
       {section()}
-      <DigiGoldSignup setIsDigiLogin={setIsDigiLogin} />
+      <DigiGoldSignup
+        setIsDigiLogin={setIsDigiLogin}
+        setStep={setStep}
+        step={step}
+      />
 
       <MuiSnackBar
         open={isSnackBar}
