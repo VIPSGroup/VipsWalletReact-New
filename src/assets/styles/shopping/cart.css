@@ -1543,6 +1543,7 @@ padding: 0rem 0rem;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    margin-bottom: 5px;
   }
   .order-tracking-outer {
     display: flex;

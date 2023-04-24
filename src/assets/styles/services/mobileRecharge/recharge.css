@@ -644,18 +644,20 @@
 .mob-paymet-recharge-info{
   display: flex;
   font-size: 16px;
+
+  justify-content: space-between;
 }
 .paymet-recharge-mobno{
   font-weight: 500;
 }
 .mob-paymet-recharge-operator{
-  margin-left: auto;
+  /* margin-left: auto; */
 }
 
 .mob-paymet-recharge-text{
   color: var(--textGray);
   margin-bottom: 0;
-  margin-right: 20px;
+  margin-right: 0px;
 }
 .mob-paymet-recharge-text label{
   color: var(--darkText);
@@ -829,6 +831,13 @@ padding: 0rem 0rem;
     font-size: 18px; 
     padding-left: 0;
   }
+  .mobile-payment-card {
+    padding: 20px 16px;
+  }
+  .mobile-payment-right-sticky {
+    padding: 23px 16px;
+  }
+
 
   .mobile-recharge-right-outer{
     padding-left: 0 !important;
@@ -948,7 +957,7 @@ padding: 0rem 0rem;
     font-size: 13px;
   }
   .mob-paymet-recharge-operator {
-    margin-left: auto;
+    /* margin-left: auto; */
   }
   .paymet-recharge-mobno { 
     margin-bottom: 0px;
@@ -980,7 +989,7 @@ padding: 0rem 0rem;
   }
   .mob-paymet-discount-amt {  
     font-size: 14px;
-    /* margin-left: 0; */
+    margin-left: 2px !important;
     text-align: left;
   }
   .mob-paymet-Prime-amt {  
@@ -1176,7 +1185,7 @@ padding: 0rem 0rem;
   }
   .mob-paymet-discount-amt {  
     font-size: 16px;
-    /* margin-left: 0; */
+    margin-left: 2px !important;
     text-align: left;
   }
   .mob-paymet-Prime-amt {  
@@ -1217,8 +1226,20 @@ padding: 0rem 0rem;
     padding-right: 15px !important;
   }
 
+  
 }
 
+@media only screen and (min-width: 600px) and (max-width: 767px){
+  .mob-paymet-discount-amt {  
+    font-size: 14px;
+    /* margin-left: 0; */
+    text-align: right;
+  }
+  .mob-paymet-recharge-text {
+    margin-right: 0px;
+  }
+
+}
   
 @media only screen and (min-width: 768px) and (max-width: 991px){
   .mobile-recharge-left {
@@ -1307,9 +1328,9 @@ padding: 0rem 0rem;
   .mob-paymet-Prime-amt { 
     font-size: 16px; 
   }
-    .mob-payment-debit-vips {
-      margin: 0 7px 0px 13px;
-      width: 28px;
+  .mob-payment-debit-vips {
+    margin: 0 7px 0px 13px;
+    width: 28px;
   }
   .mob-payment-debit-payu {
     margin: 0 7px 0px 12px;
@@ -1321,6 +1342,9 @@ padding: 0rem 0rem;
   .mobile-payment-confirm-btn button {
     font-size: 14px; 
     padding: 10px 30px; 
+  }
+  .mob-paymet-recharge-text {
+    margin-right: 0px;
   }
   
 }
@@ -1395,6 +1419,9 @@ padding: 0rem 0rem;
   .mob-payment-debit-payu {
     margin: 0 3px 0px 11px;
     width: 36px;
+  }
+  .mobile-payment-right-sticky {
+    padding: 23px 16px;
   }
   .mobile-payment-summery { 
     font-size: 14px;

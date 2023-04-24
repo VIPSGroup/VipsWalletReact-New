@@ -219,7 +219,7 @@ const{loggedInUser}= useSelector(state=>state.login)
                             {b.Name} : <label>{b.Value} </label>{" "}
                           </p>
                         ))}
-                        <p class="ml-auto"> {props.operator}</p>
+                        <p class=""> {props.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
                         <p class="mob-paymet-recharge-text">

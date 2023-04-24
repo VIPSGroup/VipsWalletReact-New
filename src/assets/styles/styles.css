@@ -854,6 +854,15 @@ select:-webkit-autofill:focus {
 /* Digigold React overwrite styles start  */
 
 @media only screen and (min-width: 320px) and (max-width: 413px) {
+
+  
+  .productcard-arrow .react-multiple-carousel__arrow--left {
+    margin-top: -46px;
+  }
+  .productcard-arrow .react-multiple-carousel__arrow--right {
+    margin-top: -46px;
+  }
+
   .payment-head-outer {
     display: flex;
     flex-wrap: wrap;
@@ -861,16 +870,19 @@ select:-webkit-autofill:focus {
   }
   .payment-head {
     padding: 0px 0 18px 0;
-    display: none;
+    /* display: none; */
   }
   .payment-head-title {
-    font-size: 18px;
-    margin: auto;
+    font-size: 16px;
+    margin: 0;
     margin-top: 0;
     margin-bottom: 20px;
     /* text-align: right; */
+    padding-right: 5px;
   }
-
+  .go-back {
+    font-size: 13px;
+  }
   .dropdown-text-limit {
     display: inline-block;
     max-width: 232px;
@@ -976,9 +988,34 @@ select:-webkit-autofill:focus {
 }
 
 @media only screen and (min-width: 414px) and (max-width: 540px) {
+  .productcard-arrow .react-multiple-carousel__arrow--left {
+    margin-top: -64px;
+  }
+  .productcard-arrow .react-multiple-carousel__arrow--right {
+    margin-top: -64px;
+  }
   .dropdown-text-limit {
     display: inline;
     max-width: 280px;
+  }
+
+  .payment-head-outer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .payment-head {
+    padding: 0px 0 18px 0;
+    /* display: none; */
+  }
+  .go-back {
+    font-size: 13px;
+  }
+  .payment-head-title {
+    font-size: 16px;
+    margin: 0;
+    margin-top: 0;
+    padding-right: 5px;
   }
 
   .fixed-right-button {
@@ -1075,6 +1112,12 @@ select:-webkit-autofill:focus {
 }
 
 @media only screen and (min-width: 475px) and (max-width: 480px) {
+  .productcard-arrow .react-multiple-carousel__arrow--left {
+    margin-top: -81px;
+  }
+  .productcard-arrow .react-multiple-carousel__arrow--right {
+    margin-top: -81px;
+  }
   .sold-badge-top-left {
     top: 0px;
     left: 5px;
@@ -1082,6 +1125,26 @@ select:-webkit-autofill:focus {
 }
 
 @media only screen and (min-width: 540px) and (max-width: 768px) {
+
+  .payment-head-outer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .payment-head {
+    padding: 0px 0 18px 0;
+    /* display: none; */
+  }
+  .go-back {
+    font-size: 14px;
+  }
+  .payment-head-title {
+    font-size: 16px;
+    margin: 0;
+    margin-top: 0;
+    padding-right: 5px;
+  }
+
   .fixed-right-button {
     top: 25%;
   }
@@ -1203,6 +1266,20 @@ select:-webkit-autofill:focus {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
+  .productcard-arrow .react-multiple-carousel__arrow--left {
+    margin-top: -81px;
+  }
+  .productcard-arrow .react-multiple-carousel__arrow--right {
+    margin-top: -81px;
+  }
+
+  .payment-head-title {
+    font-size: 18px;
+    margin: auto;
+    margin-top: 0;
+    padding-right: 5px;
+  }
+
   .fixed-right-button {
     top: 12%;
   }
@@ -1260,7 +1337,7 @@ select:-webkit-autofill:focus {
   }
 
   .payment-head {
-    padding: 16px 0 25px 0;
+    padding: 0px 0 25px 0;
   }
 
   .sold-badge-top-left {
@@ -1312,6 +1389,13 @@ select:-webkit-autofill:focus {
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1280px) {
+  .productcard-arrow .react-multiple-carousel__arrow--left {
+    margin-top: -92px;
+  }
+  .productcard-arrow .react-multiple-carousel__arrow--right {
+    margin-top: -92px;
+  }
+  
   .top-banner-outer .react-multi-carousel-dot-list {
     bottom: 0;
     top: 51% !important;
