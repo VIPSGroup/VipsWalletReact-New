@@ -905,7 +905,7 @@ const OrderSummary = () => {
                                 Apply Coupon Code Here
                               </p>
                               <Row
-                                style={{ marginTop: 20, marginBottom: 50 }}
+                                style={{ marginTop: 20, marginBottom: 30 }}
                                 gutter={10}
                               >
                                 {CouponList.Data &&
@@ -1078,9 +1078,9 @@ const OrderSummary = () => {
                               <p class="digigold-paymethod-title">
                                 Get Discount with Recharge{" "}
                               </p>
-                              <div class="digigold-paymet-discount-info mb-4">
-                                <div class="col-lg-8 p-0">
-                                  <div class="custom-control custom-checkbox checkStyle">
+                              <div class="digigold-paymet-discount-info mb-1">
+                                {/* <div class="col-lg-8 p-0"> */}
+                                  <div class="custom-control custom-checkbox d-flex flex-wrap align-items-center">
                                     <input
                                       checked
                                       type="checkbox"
@@ -1093,7 +1093,7 @@ const OrderSummary = () => {
                                     >
                                       <img
                                         alt=""
-                                        src="/public/images/digigold-images/"
+                                        src="/images/digigold-images/mob-payment-discount.png"
                                         class="img-fluid digigold-payment-discount-img"
                                       />{" "}
                                       Shopping Point (
@@ -1106,14 +1106,15 @@ const OrderSummary = () => {
                                         : state.valueinAmt) <
                                         shopPointLimit?.Value && (
                                         <span
-                                          style={{ fontSize: 12, color: "red" }}
-                                        >
-                                          {shopPointLimit?.Description}
-                                        </span>
+
+                                        className="digigold-shopingpoint-errormsg"
+                                          // style={{ fontSize: 12, color: "red", marginLeft: "14px" }}
+                                        >{shopPointLimit?.Description}</span>
+
                                       )}
                                     </label>
                                   </div>
-                                </div>
+                                {/* </div> */}
                                 {/* <div class="col-lg-4 p-0">
                                   <p class="digigold-paymet-discount-amt">
                                     {" "}
@@ -1132,7 +1133,7 @@ const OrderSummary = () => {
                                 style={{ justifyContent: "space-between" }}
                                 class="digigold-paymet-discount-info"
                               >
-                                <div class="col-lg-8 p-0">
+                                <div class="col-lg-8 p-0 mb-1">
                                   <div class="custom-control custom-checkbox d-flex flex-wrap align-items-center">
                                     <input
                                       type="checkbox"
@@ -1521,7 +1522,7 @@ const OrderSummary = () => {
                                         <div class="input-wrapper w-100">
                                           <div className="input">
                                             <Form.Item
-                                              // className="mb-0"
+                                              className="mb-2"
                                               name={"ifscCode"}
                                               // hasFeedback
                                               rules={

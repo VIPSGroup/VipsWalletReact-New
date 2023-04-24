@@ -759,7 +759,7 @@ select:-webkit-autofill:focus {
 }
 .ant-input-affix-wrapper {
   min-height: 45px;
-  /* border-color: var(--lightGray); */
+  border-color: var(--lightGray);
 }
 .ant-input-affix-wrapper-focused {
   border: 1px solid var(--primary);

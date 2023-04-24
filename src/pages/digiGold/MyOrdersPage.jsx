@@ -642,7 +642,9 @@ const MyOrdersPage = () => {
 
                 <div class="row mb-3">
                   <div class="col-xl-6 col-sm-6">
+
                     <span> {tab === "Buy" ? "Invoice" : "Status"}: </span>
+
                   </div>
                   <div
                     class="col-xl-6 col-sm-6 text-sm-right"

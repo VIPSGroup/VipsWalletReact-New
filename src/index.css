@@ -35,6 +35,13 @@
   -moz-appearance: textfield;
 }
 
+.ant-input{
+  border-color: var(--lightGray);
+}
+.ant-input-affix-wrapper-disabled, .ant-input-affix-wrapper[disabled]{
+  border-color: var(--lightGray);
+}
+
 .ant-form-item .ant-form-item-control-input-content .ant-input {
   min-height: 45px;
 }
@@ -61,6 +68,9 @@
   box-shadow: none !important;
 }
 
+.ant-picker{
+  border-color: var(--lightGray);
+}
 .ant-picker:hover {
   border-color: var(--primary);
   border-inline-end-width: 1px;
@@ -94,6 +104,7 @@
 .ant-input-disabled,
 .ant-input[disabled] {
   color: var(--textGray);
+  border-color: var(--lightGray);
 }
 
 .ant-form-item-control-input input[type="number"]::-webkit-inner-spin-button,
@@ -110,11 +121,13 @@
   border: 1px solid #ff0000; /* Specify the desired border color */
 }
 
-
+.digigold-paymet-discount-info .custom-control{
+  padding-left: 1.1rem;
+}
 
 .my-coupon-card {
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); /* Customize the shadow values as needed */
-  margin-bottom: 15px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .ant-card-head{
