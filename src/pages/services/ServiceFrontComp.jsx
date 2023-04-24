@@ -55,9 +55,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
       setInputFields(newArray)
     }
     if(data[index].regex=='' && e.target.value==''){
-      console.error(newArray[index].validate);
       newArray[index].validate=false
-      console.log(newArray[index].validate);
       setInputFields(newArray)
     }
     setIsClick(true)
@@ -69,7 +67,6 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
 
     if (selectedOperator) {
       if (mobileNo && mobileNo.length === 10) {
-        console.log(inputFields);
         let validateBBPSField = inputFields.filter((o) => o.fieldValue === '');
         if (validateBBPSField.length !== 0) {
           setIsSnackBar(true);

@@ -132,8 +132,6 @@ const AddAmount = () => {
                           <button
                             onClick={(e) => {
                               e.preventDefault();
-                              console.error(amount);
-                              console.log("called",parseInt(amount));
                               setAmount(
                                 parseInt(amount?amount:0) + parseInt(e.target.value)
                               );

@@ -37,8 +37,8 @@ export const getOperators = createAsyncThunk(
             shoppingDiscount =getDouble(shoppDisocunt)
             finalAmount=amt-shoppDisocunt 
   }else{
-   shoppingDiscount =Data.Shoppingpoints;
-   finalAmount=amt-Data.Shoppingpoints;
+   shoppingDiscount =Data?.Shoppingpoints;
+   finalAmount=amt-Data?.Shoppingpoints;
   }}   
   if(discountType==="PRIME"){
     let primeDiscount=(result.PrimePointPer / 100) * amt
@@ -48,7 +48,6 @@ export const getOperators = createAsyncThunk(
   }else if(Data?.PrimePoints===0){
     primePointDiscount=Data?.PrimePoints
     finalAmount=amt
-    console.log(finalAmount);
   }else{
     primePointDiscount=Data?.PrimePoints
     finalAmount=amt-Data?.PrimePoints

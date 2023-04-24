@@ -79,9 +79,7 @@ const ElectricityFront = ({ props }) => {
       // inputFields[index].validate = true;
     }
     if(data[index].regex=='' && e.target.value==''){
-      console.error(newArray[index].validate);
       newArray[index].validate=false
-      console.log(newArray[index].validate);
       setInputFields(newArray)
     }
 setIsClick(true)
