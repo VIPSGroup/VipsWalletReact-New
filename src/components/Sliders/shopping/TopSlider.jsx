@@ -36,12 +36,12 @@ const TopSlider = ({ banners, id = 1 }) => {
           responsive={responsive}
           infinite={true}
           autoPlay={true}
-          autoPlaySpeed={1000}
-          keyBoardControl={true}
-          customTransition="transform 300ms ease-in-out"
-          transitionDuration={5000}
+          autoPlaySpeed={5000}
+          // keyBoardControl={true}
+          // customTransition="transform 300ms ease-in-out"
+          // transitionDuration={5000}
           containerClass="carousel-container"
-          removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
+          // removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
           // showDots={true}
         >
           {banners ? (
