@@ -648,7 +648,7 @@ const SignUpForm = ({ setIsSignIn }) => {
                               >
                                 {" "}
                                 By clicking signup you agree to{" "}
-                                <Link to="/termscondtion">
+                                <Link to="/termscondtion" target="_blank">
                                   Terms & Conditions
                                 </Link>{" "}
                               </label>
