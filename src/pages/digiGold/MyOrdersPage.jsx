@@ -22,9 +22,7 @@ const MyOrdersPage = () => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const { rateData, loading } = useSelector(
-    (state) => state.digiGoldSlice.rates
-  );
+
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
@@ -293,7 +291,6 @@ const MyOrdersPage = () => {
       ),
       Cashback: (
         <>
-          {console.log(item?.CouponModel, "item?.CouponModel")}
           <h2
             style={{
               fontSize: 14,
@@ -319,7 +316,6 @@ const MyOrdersPage = () => {
       ),
       Discount: (
         <>
-          {console.log(item, "item?.CouponModel")}
           <h2
             style={{
               fontSize: 14,
@@ -646,10 +642,9 @@ const MyOrdersPage = () => {
 
                 <div class="row mb-3">
                   <div class="col-xl-6 col-sm-6">
-                    <span>
-                      {" "}
-                      {tab === "Buy" ? "Invoice" : "Status"}:{" "}
-                    </span>
+
+                    <span> {tab === "Buy" ? "Invoice" : "Status"}: </span>
+
                   </div>
                   <div
                     class="col-xl-6 col-sm-6 text-sm-right"

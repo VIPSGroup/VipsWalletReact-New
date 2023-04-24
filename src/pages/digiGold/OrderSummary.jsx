@@ -44,7 +44,7 @@ const OrderSummary = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [totalAmount, setTotalAmount] = useState("");
+  const [totalAmount, setTotalAmount] = useState();
   const [step, setStep] = useState(0);
   const [editAddress, setEditAddress] = useState(false);
   const [lockprice, setLockPrice] = useState();
@@ -98,7 +98,7 @@ const OrderSummary = () => {
     (state) => state.commonSlice.ServiceName
   );
   const { Verified } = useSelector((state) => state.digiGoldSlice.ifsc);
-
+  console.log(ServiceData, "ServiceData");
   // VIPS Username & Password
   const username = state?.username;
   const password = state?.password;
@@ -137,7 +137,7 @@ const OrderSummary = () => {
               setCurrentGram(newqty);
               setTax(totalTax);
               setCurrentRate(exclTaxRate);
-              setTotalAmount(inclTaxAmount);
+              setTotalAmount(parseFloat(inclTaxAmount));
             } else {
               const amount = state?.valueinAmt;
               const inclTaxAmount = digitPrecision(amount, "amount");
@@ -156,7 +156,7 @@ const OrderSummary = () => {
               const quantity = digitPrecision(qty, "quantity");
               const newqty = parseFloat(quantity).toFixed(4);
               setCurrentGram(newqty);
-              setTotalAmount(inclTaxAmount);
+              setTotalAmount(parseFloat(inclTaxAmount));
               setCurrentRate(exclTaxAmount);
               setTax(totalTax);
             }
@@ -178,7 +178,7 @@ const OrderSummary = () => {
               setCurrentGram(newqty);
               setTax(totalTax);
               setCurrentRate(exclTaxRate);
-              setTotalAmount(inclTaxAmount);
+              setTotalAmount(parseFloat(inclTaxAmount));
             } else {
               const amount = state?.valueinAmt;
               const inclTaxAmount = digitPrecision(amount, "amount");
@@ -197,7 +197,7 @@ const OrderSummary = () => {
 
               const newqty = parseFloat(quantity).toFixed(4);
               setCurrentGram(newqty);
-              setTotalAmount(inclTaxAmount);
+              setTotalAmount(parseFloat(inclTaxAmount));
               setCurrentRate(exclTaxAmount);
               setTax(totalTax);
             }
@@ -217,14 +217,14 @@ const OrderSummary = () => {
               setBlockId(blockId);
               setCurrentRate(totalAmount);
               setCurrentGram(newqty);
-              setTotalAmount(totalAmount);
+              setTotalAmount(parseFloat(totalAmount));
             }
           } else {
             const SilverSellRates =
               res?.payload?.Data?.result?.data?.rates?.sSell;
             setBlockId(blockId);
             setLockPrice(SilverSellRates);
-            if (state.valType === "quantity") {
+            if (state?.valType === "quantity") {
               const quantity = digitPrecision(state?.valueinGm, "quantity");
               const totalAmount = digitPrecision(
                 quantity * SilverSellRates,
@@ -234,7 +234,7 @@ const OrderSummary = () => {
               setBlockId(blockId);
               setCurrentRate(totalAmount);
               setCurrentGram(newqty);
-              setTotalAmount(totalAmount);
+              setTotalAmount(parseFloat(totalAmount));
             }
           }
         }
@@ -264,7 +264,7 @@ const OrderSummary = () => {
   // Get User Bank Details logic
   useEffect(() => {
     dispatch(GetUserBankList({ username, password }));
-  }, [state]);
+  }, [state, errorMsg]);
   // If Wallet Balance is Lower Than Total Amount Logic
   useEffect(() => {
     const Balance = !walletLoad && data?.Data?.Balance;
@@ -563,15 +563,16 @@ const OrderSummary = () => {
   // }, [currentRate]);
 
   useEffect(() => {
-    const getConfig = async () => {
-      const res = await globalConfiguration(
-        "DigiGoldMinAmountForShoppingPoint"
-      );
-      if (res.ResponseStatus === 1) {
-        setShopPointLimit(res.Data.Value);
-      }
-    };
-    getConfig();
+    // const getConfig = async () => {
+    //   const res = await globalConfiguration(
+    //     "DigiGoldMinAmountForShoppingPoint"
+    //   );
+    //   if (res.ResponseStatus === 1) {
+    //     setShopPointLimit(res.Data.Value);
+    //   }
+    // };
+    // getConfig();
+
     dispatch(getServiceName({ digiGoldServiceId }));
   }, []);
 
@@ -607,12 +608,13 @@ const OrderSummary = () => {
   };
 
   const ShoppingPointCalculate = () => {
-    const ShoppingPercent = parseFloat(ServiceData?.ShoppingPer);
+    const ShoppingPercent = ServiceData?.ShoppingPer;
     const WalletShopPoint = parseFloat(data?.Data?.Shoppingpoints);
     const TotalAmount = parseFloat(
-      totalAmount ? totalAmount : state.valueinAmt
+      totalAmount ? totalAmount : parseFloat(state?.valueinAmt)
     );
     const ShoppingDiscount1 = (TotalAmount / 100) * ShoppingPercent;
+
     const ShoppingDiscount = digitPrecision(ShoppingDiscount1, "amount");
 
     const getConfig = async () => {
@@ -620,7 +622,7 @@ const OrderSummary = () => {
         "DigiGoldMinAmountForShoppingPoint"
       );
       if (res.ResponseStatus === 1) {
-        setShopPointLimit(res.Data.Value);
+        setShopPointLimit(res.Data);
         if (TotalAmount >= res.Data.Value) {
           if (ShoppingDiscount > WalletShopPoint) {
             setFinalShopAmount(WalletShopPoint);
@@ -632,14 +634,14 @@ const OrderSummary = () => {
         }
       }
     };
+    // if (TotalAmount && ShoppingPercent && WalletShopPoint) {
     getConfig();
+    // }
   };
   useEffect(() => {
     ShoppingPointCalculate();
-  }, [totalAmount, ServiceData, data, shopPointLimit]);
-
-  console.log(shopPointLimit, "aa gyi");
-
+  }, [ServiceData, data]);
+  // console.log(state, "state");
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">
@@ -650,7 +652,12 @@ const OrderSummary = () => {
             </div>
             <Spin
               spinning={
-                loading || listLoad || digiLogLoading || walletLoad || sellLoad
+                loading ||
+                listLoad ||
+                digiLogLoading ||
+                walletLoad ||
+                sellLoad ||
+                !shopPointLimit
               }
             >
               <div class="row">
@@ -854,7 +861,7 @@ const OrderSummary = () => {
                                 }
                               }} */}
                               {(() => {
-                                if (state.type === "buy") {
+                                if (state?.type === "buy") {
                                   if (totalAmount) {
                                     const totalAmt =
                                       parseFloat(totalAmount) - FinalShopAmount;
@@ -865,13 +872,12 @@ const OrderSummary = () => {
                                     return parseFloat(res).toLocaleString();
                                   } else {
                                     const totalAmt =
-                                      parseFloat(state?.valueinAmt) -
-                                      FinalShopAmount;
+                                      state?.valueinAmt - FinalShopAmount;
                                     const res = digitPrecision(
                                       totalAmt,
                                       "amount"
                                     );
-                                    return parseFloat(res).toLocaleString();
+                                    return parseFloat(res)?.toLocaleString();
                                   }
                                 } else {
                                   if (totalAmount) {
@@ -956,7 +962,7 @@ const OrderSummary = () => {
                                                 type="dashed"
                                               >
                                                 {couponData.id === e.CouponId
-                                                  ? "APPLIED" 
+                                                  ? "APPLIED"
                                                   : "APPLY"}
                                               </Button>
                                               {/* {couponData.id === e.CouponId && (
@@ -980,12 +986,10 @@ const OrderSummary = () => {
                                           }
                                           // style={{ width: 300 }}
                                         >
-
                                           <div className="">
                                             <p>
                                               {e?.Description?.slice(0, 70)}
                                             </p>
-
 
                                             <div className="">
                                               <p
@@ -1100,11 +1104,13 @@ const OrderSummary = () => {
                                       {(totalAmount
                                         ? totalAmount
                                         : state.valueinAmt) <
-                                        shopPointLimit && (
+                                        shopPointLimit?.Value && (
                                         <span
+
                                         className="digigold-shopingpoint-errormsg"
                                           // style={{ fontSize: 12, color: "red", marginLeft: "14px" }}
-                                        >{`Minimum Purchasing amount is  Rs.${shopPointLimit} to Apply Shopping Points`}</span>
+                                        >{shopPointLimit?.Description}</span>
+
                                       )}
                                     </label>
                                   </div>

@@ -155,6 +155,7 @@ export const getServiceName = createAsyncThunk(
       const res = await axios.post(
         `${baseApiUrl}/OperatorServices/GetServiceName`
       );
+      console.log(res.data, "data")
       return res.data.Data.find((a) => a.Id === digiGoldServiceId);
     } catch (error) {
       return error;

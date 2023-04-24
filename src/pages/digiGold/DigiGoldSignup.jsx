@@ -26,13 +26,10 @@ import OTPModal from "../../components/common/OTPModal";
 
 const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  // const [step, setStep] = useState(0);
-  // const [stateList, setStateList] = useState([]);
-  const [modal, setModal] = useState(false);
+
   const { modalBool } = useSelector((state) => state.digiGoldSlice.modal);
   const { loading, data } = useSelector(
     (state) => state.registerDigiSlice.register
@@ -117,34 +114,6 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
         setIsSnackBar(true);
       }
     }
-  };
-  const renderTime2 = () => React.Fragment;
-  const renderButton2 = (buttonProps) => {
-    return (
-      <div className="resendotp col-12 mx-auto pt-3">
-        <p {...buttonProps} className="col-12 d-block">
-          {buttonProps.remainingTime !== 0 ? (
-            <p>
-              {" "}
-              Please wait for{" "}
-              <span style={{ color: "#CA3060" }}>
-                {" "}
-                {`${buttonProps.remainingTime} sec`}
-              </span>
-            </p>
-          ) : (
-            <p>
-              Not received OTP?{" "}
-              <a>
-                <span style={{ color: "#CA3060" }} onClick={handleSubmit}>
-                  Resend OTP
-                </span>
-              </a>
-            </p>
-          )}
-        </p>
-      </div>
-    );
   };
 
   // Digi Login Modal

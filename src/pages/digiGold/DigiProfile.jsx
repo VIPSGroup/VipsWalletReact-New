@@ -20,8 +20,10 @@ import { UpdateUser } from "../../redux/slices/digiGold/userProfileSlice";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 dayjs.extend(customParseFormat);
 const DigiProfile = () => {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [isSnackBar, setIsSnackBar] = useState(false);
@@ -95,6 +97,9 @@ const DigiProfile = () => {
         setSuccessMsg(res.payload.Remarks);
         setErrorMsg("");
         setIsSnackBar(true);
+        setTimeout(() => {
+          navigate("/vipsgold");
+        }, 500);
       } else if (
         res.payload.ResponseStatus === 1 &&
         res.payload.Data.statusCode !== 200
