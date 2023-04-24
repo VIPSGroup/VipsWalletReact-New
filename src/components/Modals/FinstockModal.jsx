@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import OTPInput, { ResendOTP } from "otp-input-react";
-import { ThreeDots } from "react-loader-spinner";
-
 import "../../assets/styles/styles.css";
 import "../../assets/styles/addMoney/addMoney.css";
 
-import { finstockGenerateOtp, finstockAdd } from "../../apiData/payments";
 import { MdArrowBack } from "react-icons/md";
-import { IoCloseOutline } from "react-icons/io5";
 
-import { MuiSnackBar } from "../common/snackbars";
 import { useSelector } from "react-redux";
-import LoadingBar from "../common/loading";
+import LoadingBar from "../common/Loading";
+import {
+  finstockAdd,
+  finstockGenerateOtp,
+} from "../../redux/slices/payment/paymentSlice";
+import { ThemeButton } from "../common";
 
 const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
   const [show, setShow] = useState(false);
@@ -27,7 +27,9 @@ const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
   const [emailError, setEmailError] = useState("");
   const [otpError, setOtpError] = useState("");
   const [successRemark, setSuccessRemark] = useState("");
-  const { loggedInUser } = useSelector((state) => state.login);
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
   const handleShow = () => {
     setShow(true);
   };
@@ -303,13 +305,14 @@ const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
                   {formCount == 1 ? (
                     <div class="add-money-btn mt-4">
                       {/* {<button onClick={clickGetOtp} href="#" class="btn-primery "> Get OTP </button>} */}
-                      <button
+                      {/* <button
                         type="button"
                         class="btn btn-primery "
                         onClick={!loading && clickGetOtp}
                       >
                         {loading ? <LoadingBar /> : "Get OTP"}
-                      </button>
+                      </button> */}
+                      <ThemeButton value={"Get OTP"} loading={loading} onClick={clickGetOtp}/>
                     </div>
                   ) : null}
                 </div>
@@ -324,7 +327,7 @@ const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
   return (
     <>
       <div class="add-money-btn">
-        <a
+        {/* <a
           onClick={handleShow}
           type="button"
           class="btn-primery"
@@ -332,7 +335,8 @@ const FinstockModal = ({ setSnackbarShow, setSuccessMsg }) => {
         >
           {" "}
           Add Money{" "}
-        </a>
+        </a> */}
+        <ThemeButton onClick={handleShow} value={"Add Money"}/>
       </div>
 
       <Modal

@@ -1,0 +1,350 @@
+
+
+
+.recharge-success-outer{
+    border-radius: 10px;
+    background: var(--whiteColor);
+}
+.recharge-success-card {
+    padding: 12px 0 9px 0;
+    cursor: auto;
+}  
+.recharge-success-body{
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem 1rem; 
+    font-weight: 400;
+}
+
+.recharge-seccess-box{
+    /* display: inline; */
+    text-align: center;
+    margin-bottom: 45px;
+}
+.recharge-success-inner{
+    display: block;
+    margin: auto;
+}
+
+.recharge-success-amt{
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.recharge-success-msg{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.recharge-success-content-title{
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--darkText);
+    margin-bottom: 16px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--lightBorder);
+}
+.recharge-success-summery{
+    color: var(--textGray);
+    font-size: 16px;
+}
+.recharge-success-right-text{
+    color: var(--darkText);
+    font-size: 16px;
+    font-weight: 500;
+}
+.recharge-success-help a{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--primary); 
+    text-decoration: underline; 
+}
+.recharge-success-help a:hover{
+    color: var(--primary); 
+}
+.recharge-success-btn{
+    text-align: center;
+}
+.recharge-success-btn button{
+    font-size: 17px;
+    font-weight: 500;
+    background: none;  
+    padding: 7px 59px;
+}
+ 
+
+/* success animation start */
+.success-animation svg {
+    display: block;
+    height: 5vw;
+    width: 100%;
+    color: var(--lightGreen);
+    margin-bottom: 20px; 
+}
+  
+.success-animation .circle {
+    stroke-dasharray: 76;
+    stroke-dashoffset: 76;
+    -webkit-animation: draw 1s forwards;
+    animation: draw 1s forwards;
+}
+  
+.success-animation .tick {
+    stroke-dasharray: 18;
+    stroke-dashoffset: 18;
+    -webkit-animation: draw 1s forwards 1s;
+    animation: draw 1s forwards 1s;
+}
+  
+@-webkit-keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+}
+  
+@keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+}
+
+/* success animation end */
+
+/* warning animation start */
+.warning-animation .svg-box {
+    display:inline-block;
+    position: relative;
+    width:150px;
+}
+.warning-animation .yellow-stroke {
+    stroke: var(--warning);
+}
+.warning-animation .circular circle.path {
+    stroke-dasharray: 330;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    /* opacity: 0.4; */
+    animation: draw-circle 1s 1s forwards;
+}
+.warning-animation .alert-sign {
+    stroke-width:6.25;
+    stroke-linecap: round;
+    position: absolute;
+    /* top: 40px; */
+    top: 52px;
+    left: 68px;
+    width: 15px;
+    height: 70px;
+    animation: 1.5s 1.5s alert-sign-bounce cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.warning-animation .alert-sign .dot {
+    stroke:none;
+    fill: var(--warning);
+}
+
+@keyframes draw-circle {
+    0% {
+        stroke-dasharray: 0,330;
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+
+    80% {
+        stroke-dasharray: 330,330;
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+
+    100%{
+        opacity: 0.7;
+    }
+}
+
+@keyframes alert-sign-bounce {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* warning animation end */
+
+/* faild animation start */
+.faild-animation .svg-box {
+    display:inline-block;
+    position: relative;
+    width:150px;
+}
+.faild-animation .red-stroke {
+    stroke: var(--red);
+}
+.faild-animation .circular circle.path {
+    stroke-dasharray: 330;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    /* opacity: 0.4; */
+    animation: draw-circle 1.5s 1s forwards;
+}
+.faild-animation .cross {
+    stroke-width:6.25;
+    stroke-linecap: round;
+    position: absolute;
+    top: 54px;
+    left: 54px;
+    width: 40px;
+    height: 40px;
+}
+
+.faild-animation .cross .first-line {
+    animation: 1.5s 1.5s draw-first-line ease-out;
+}
+
+.faild-animation .cross .second-line {
+    animation: 1.5s 1.5s draw-second-line ease-out;
+}
+
+@keyframes draw-first-line {
+    0% {
+        stroke-dasharray: 0,56;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 0,56;
+        stroke-dashoffset: 0;
+    }
+
+    100% {
+        stroke-dasharray: 56,330;
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes draw-second-line {
+    0% {
+        stroke-dasharray: 0,55;
+        stroke-dashoffset: 1;
+    }
+
+    50% {
+        stroke-dasharray: 0,55;
+        stroke-dashoffset: 1;
+    }
+
+    100% {
+        stroke-dasharray: 55,0;
+        stroke-dashoffset: 70;
+    }
+}
+
+/* faild animation end */
+
+
+@media only screen and (min-width: 320px) and (max-width: 413px){
+    .recharge-success-body { 
+        padding: 1rem 0.3rem; 
+    }
+    .success-animation svg { 
+        height: 19vw; 
+    }
+    .recharge-success-amt {
+        font-size: 22px; 
+    }
+    .recharge-success-msg {
+        font-size: 14px; 
+    }
+    .recharge-success-content-title {
+        font-size: 16px; 
+    }
+    .recharge-success-summery { 
+        font-size: 14px;
+    }
+    .recharge-success-right-text { 
+        font-size: 14px; 
+    } 
+    .recharge-success-help a{
+        font-size: 14px; 
+    }
+
+}
+
+@media only screen and (min-width: 414px) and (max-width: 600px){
+    .recharge-success-body { 
+        padding: 1rem 0.3rem; 
+    }
+    .success-animation svg { 
+        height: 19vw; 
+    }
+    .recharge-success-amt {
+        font-size: 22px; 
+    }
+    .recharge-success-msg {
+        font-size: 14px; 
+    }
+    .recharge-success-content-title {
+        font-size: 16px; 
+    }
+    .recharge-success-summery { 
+        font-size: 14px;
+    }
+    .recharge-success-right-text { 
+        font-size: 14px; 
+    } 
+    .recharge-success-help a{
+        font-size: 14px; 
+    }
+
+}
+
+
+@media only screen and (min-width: 600px) and (max-width: 767px){
+    .success-animation svg {
+        height: 13vw;
+    }
+    .recharge-success-amt {
+        font-size: 22px; 
+    }
+    .recharge-success-msg {
+        font-size: 14px; 
+    }
+    .recharge-success-content-title {
+        font-size: 16px; 
+    }
+    .recharge-success-summery { 
+        font-size: 14px;
+    }
+    .recharge-success-right-text { 
+        font-size: 14px; 
+    } 
+    .recharge-success-help a{
+        font-size: 14px; 
+    }
+
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px){
+    .success-animation svg {
+        height: 9vw;
+    }
+    
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px) {
+    .success-animation svg { 
+        height: 6vw; 
+    }
+
+}
+

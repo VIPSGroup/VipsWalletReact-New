@@ -4,11 +4,16 @@ import "react-multi-carousel/lib/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 
 import "../../assets/styles/home/onlineStore.css";
+import { Loading } from "../../components/common";
+import { LatestLoading } from "../../components/common/Loading";
 import { getAffiliate } from "../../redux/slices/onlineStoreSlice";
+import { useNavigate } from "react-router-dom";
 
 const OnlineStore = () => {
   const dispatch = useDispatch();
+ const navigate= useNavigate()
   const { data, loading } = useSelector((state) => state.onlineStoreSlice);
+  const { loggedInUser } = useSelector( state => state.loginSlice.loggetInWithOTP );
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -49,26 +54,12 @@ const OnlineStore = () => {
               </p>
             </div>
           </div>
-          {data.Data && (
-            <Carousel
+          {data.Data && !loading ? (
+            <Carousel swipeable={false} draggable={false}
               responsive={responsive}
               infinite={true}
               className="online-store-row"
             >
-              {/* 
-                    <a href="#" class="online-stores-div">
-                    <div class="online-stores-box">
-                      <div class="online-stores-box-icon"> 
-                        <img src={`http://shopadmin.vipswallet.com` + a.Logo} alt="VIPS Services" class="img-fluid online-stores-icon" />
-                      </div> 
-                    </div>  
-                  </a>
-                  <div class="online-stores-title">
-                    <h3 class="d-none">Get upto <span>{a.Description.substring(9,12)}</span> Cashback!</h3>
-                    <h3 class="">{a.Description}</h3>
-                  </div>
-                    */}
-
               {data.Data &&
                 data.Data?.map((a, i) => (
                   <div key={i} class="online-stores-div">
@@ -94,6 +85,9 @@ const OnlineStore = () => {
                   </div>
                 ))}
             </Carousel>
+          ) : (
+            // <LatestLoading />
+            <Loading/>
           )}
         </div>
       </section>

@@ -33,6 +33,10 @@ mh-100{
 
 .otp-btnCol{
     margin-top: 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
 }
 .otp-btn{
@@ -40,6 +44,10 @@ mh-100{
     cursor: pointer;
     background-color: var(--primary);
     color: var(--whiteColor); 
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .otp-btn:hover{
     color: var(--whiteColor);

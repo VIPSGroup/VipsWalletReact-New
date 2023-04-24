@@ -43,10 +43,10 @@ export const getSubdivisionData = async (ourCode) => {
   } catch (err) {}
 };
 
-export const fetchBill = async (bodyObj, username, password) => {
+export const fetchBill = async (obj, username, password) => {
   var data = new URLSearchParams();
 
-  for (let [key, value] of Object.entries(bodyObj)) {
+  for (let [key, value] of Object.entries(obj)) {
     data.append(`${key}`, `${value}`);
   }
 

@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import { creditCardServiceId } from "../../../constants";
+import ServiceFrontCommon from "../ServiceFrontCommon";
 
 const CreditCard = () => {
   return (
-    <div>CreditCard</div>
-  )
-}
+    <ServiceFrontCommon
+      serviceId={creditCardServiceId}
+      serviceName="creditcard"
+      title="Credit card"
+    />
+  );
+};
 
-export default CreditCard
+export default CreditCard;

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { baseApiUrl, staticTocken } from "../../constants";
 
-import { baseApiUrl, staticTocken } from "../../constant/Baseurls";
 
 export const getSliderBannerImage = createAsyncThunk(
   "getSliderBannerImage",
@@ -14,7 +14,7 @@ export const getSliderBannerImage = createAsyncThunk(
         `${baseApiUrl}/EcommerceServices/AllBanners`,
         formData
       );
-      return res.data.Data;
+      return res.data;
     } catch (error) {
       return error;
     }

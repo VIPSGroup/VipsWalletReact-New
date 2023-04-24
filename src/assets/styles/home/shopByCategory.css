@@ -1,216 +1,215 @@
 .shopby-outer{
-    padding: 0px 0;
-  }
+  padding: 0px 0;
+}
+.shopby-product{
+  /* background:var(--whiteColor); */
+  border-radius:6px;
+  
+  position:relative;
+}
+.shopby-product a{
+  text-decoration: none;
+  color: var(--darkText);
+}
+.shopby-product a:hover{
+  text-decoration: none;
+  color: var(--darkText);
+}
+.shopby-img{
+  position:absolute;
+  top:0px;
+  left:50%;
+  transform:translate(-50%);
+  -webkit-transform:translate(-50%);
+  -ms-transform:translate(-50%);
+  -moz-transform:translate(-50%);
+  -o-transform:translate(-50%);
+  -khtml-transform:translate(-50%);
+  width: 100%; 
+  transition: all 0.2s ease-in-out;
+}
+.shopby-img img{
+  width:100%;
+  transition: all 0.2s ease-in-out;
+  border-radius:8px;
+}
+.shopby-product:hover .shopby-img{
+  top:-10px;
+}
+/* .shopby-product:hover .shopby-img img{
+  -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
+-moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
+box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
+} */
+.shopby-text{
+  padding-top: 150%;
+}
+
+.shopby-text .shopby-product-title{ 
+  padding-left: 10px;
+}
+.shopby-text .shopby-product-title h3{
+  font-size: 16px;
+  font-weight: 500; 
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+}
+  
+
+/* shop by shopping slider start */
+.shopby-carousel .react-multiple-carousel__arrow{
+  display: none;
+}
+/* shop by shopping slider end */
+
+@media only screen and (min-width: 320px) and (max-width: 414px){
+  
   .shopby-product{
-    /* background:var(--whiteColor); */
-    border-radius:6px;
-    
-    position:relative;
+    margin: 0px auto;
   }
-  .shopby-product a{
-    text-decoration: none;
-    color: var(--darkText);
+  .shopby-product .shopby-img{
+    top:- 10px;
   }
-  .shopby-product a:hover{
-    text-decoration: none;
-    color: var(--darkText);
+  .shopby-product .shopby-img img{
+    box-shadow: none;
   }
-  .shopby-img{
-    position:absolute;
-    top:0px;
-    left:50%;
-    transform:translate(-50%);
-    -webkit-transform:translate(-50%);
-    -ms-transform:translate(-50%);
-    -moz-transform:translate(-50%);
-    -o-transform:translate(-50%);
-    -khtml-transform:translate(-50%);
-    width: 100%; 
-    transition: all 0.2s ease-in-out;
-  }
-  .shopby-img img{
-    width:100%;
-    transition: all 0.2s ease-in-out;
-    border-radius:8px;
-  }
-  .shopby-product:hover .shopby-img{
-    top:-10px;
-  }
-  /* .shopby-product:hover .shopby-img img{
-    -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
-  -moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
-  box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
-  } */
-  .shopby-text{
-    padding-top: 150%;
-  }
-  
-  .shopby-text .shopby-product-title{ 
-    padding-left: 10px;
-  }
-  .shopby-text .shopby-product-title h3{
-    font-size: 16px;
-    font-weight: 500; 
-    overflow: hidden;
-    white-space: nowrap;
-    text-align: center;
-  }
-    
-  
-  /* shop by shopping slider start */
+ 
+
   .shopby-carousel .react-multiple-carousel__arrow{
-    display: none;
-  }
-  /* shop by shopping slider end */
-  
-  @media only screen and (min-width: 320px) and (max-width: 414px){
-    
-    .shopby-product{
-      margin: 0px auto;
-    }
-    .shopby-product .shopby-img{
-      top:- 10px;
-    }
-    .shopby-product .shopby-img img{
-      box-shadow: none;
-    }
-   
-  
-    .shopby-carousel .react-multiple-carousel__arrow{
-      display: block;
-    }
-    
-  
-  
-    .payment-app { 
-      background-position: bottom; 
-    }
-    .payment-app-banner-content { 
-      margin-bottom: 7%;
-    }
-    .payment-app-banner-content {
-      padding-top: 0%;
-    }
-    .payment-app-banner-title { 
-      font-size: 26px; 
-      margin-bottom: 20px;
-    }
-    .payment-app-banner-p { 
-      font-size: 12px; 
-    }
-    .banner-phone-image {
-      padding-left: 0;
-    }
-  
-  
-  
+    display: block;
   }
   
-  @media only screen and (min-width: 414px) and (max-width: 767px){
-    
-    .shopby-carousel .react-multiple-carousel__arrow{
-      display: block;
-    }
-  
-    .promo-product-mrp {
-      color: var(--secondary);
-      font-size: 17px;
-      font-weight: 500;
-    }
-    .promo-product-list-price s {
-      color: var(--darkText);
-      font-size: 12px;
-      font-weight: 400;
-      margin: 0 3px;
-    }
-  
-    
-  
-    .payment-app { 
-      background-position: bottom; 
-    }
-    .payment-app-banner-content { 
-      margin-bottom: 7%;
-    }
-    .payment-app-banner-content {
-      padding-top: 0%;
-    }
-    .payment-app-banner-title { 
-      font-size: 28px; 
-      margin-bottom: 20px;
-    }
-    .payment-app-banner-p { 
-      font-size: 12px; 
-    }
-    .banner-phone-image {
-      padding-left: 0;
-    }
-  
-    
-  }
-  
-  @media only screen and (min-width: 768px) and (max-width: 991px){
-    
-    .shopby-carousel .react-multiple-carousel__arrow{
-      display: block;
-    }
-  
-    
-  
-   .payment-app { 
+
+
+  .payment-app { 
     background-position: bottom; 
-    }
-    .payment-app-banner {
-      margin-bottom: 5%;
-    }
-    .payment-app-banner-content {
-      padding-top: 0%;
-    }
-    .payment-app-banner-content { 
-      margin-bottom: 11%;
-    }
-    .payment-app-banner-title { 
-      font-size: 24px; 
-    }
-    .payment-app-banner-p{
-      font-size: 12px;
-    }
-    .banner-phone-image {
-      padding-left: 6%;
-      padding-top: 13%;
-    }
-  
-    
   }
-  
-  
-  @media only screen and (min-width: 992px) and (max-width: 1279px){
-    .promo-product-action button{ 
-      padding: 10px 25px;
-    }
-    .promo-wishlist button{
-      padding: 10px 11px 4px 11px;
-    }
-    .promo-product-list-price { 
-      font-size: 12px; 
-    }
-    .promo-product-list-price s { 
-      font-size: 11px; 
-      margin: 0px 0px;
-    }
-  
-    
-  
-    .payment-app-banner-title { 
-      font-size: 28px; 
-    }
-    .payment-app-banner {
-      margin-bottom: 2%;
-    }
-    .payment-app-banner-content {
-      padding-top: 2%;
-    }
-  
-  
+  .payment-app-banner-content { 
+    margin-bottom: 7%;
   }
+  .payment-app-banner-content {
+    padding-top: 0%;
+  }
+  .payment-app-banner-title { 
+    font-size: 26px; 
+    margin-bottom: 20px;
+  }
+  .payment-app-banner-p { 
+    font-size: 12px; 
+  }
+  .banner-phone-image {
+    padding-left: 0;
+  }
+
+
+
+}
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
   
+  .shopby-carousel .react-multiple-carousel__arrow{
+    display: block;
+  }
+
+  .promo-product-mrp {
+    color: var(--secondary);
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .promo-product-list-price s {
+    color: var(--darkText);
+    font-size: 12px;
+    font-weight: 400;
+    margin: 0 3px;
+  }
+
+  
+
+  .payment-app { 
+    background-position: bottom; 
+  }
+  .payment-app-banner-content { 
+    margin-bottom: 7%;
+  }
+  .payment-app-banner-content {
+    padding-top: 0%;
+  }
+  .payment-app-banner-title { 
+    font-size: 28px; 
+    margin-bottom: 20px;
+  }
+  .payment-app-banner-p { 
+    font-size: 12px; 
+  }
+  .banner-phone-image {
+    padding-left: 0;
+  }
+
+  
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+  
+  .shopby-carousel .react-multiple-carousel__arrow{
+    display: block;
+  }
+
+  
+
+ .payment-app { 
+  background-position: bottom; 
+  }
+  .payment-app-banner {
+    margin-bottom: 5%;
+  }
+  .payment-app-banner-content {
+    padding-top: 0%;
+  }
+  .payment-app-banner-content { 
+    margin-bottom: 11%;
+  }
+  .payment-app-banner-title { 
+    font-size: 24px; 
+  }
+  .payment-app-banner-p{
+    font-size: 12px;
+  }
+  .banner-phone-image {
+    padding-left: 6%;
+    padding-top: 13%;
+  }
+
+  
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1279px){
+  .promo-product-action button{ 
+    padding: 10px 25px;
+  }
+  .promo-wishlist button{
+    padding: 10px 11px 4px 11px;
+  }
+  .promo-product-list-price { 
+    font-size: 12px; 
+  }
+  .promo-product-list-price s { 
+    font-size: 11px; 
+    margin: 0px 0px;
+  }
+
+  
+
+  .payment-app-banner-title { 
+    font-size: 28px; 
+  }
+  .payment-app-banner {
+    margin-bottom: 2%;
+  }
+  .payment-app-banner-content {
+    padding-top: 2%;
+  }
+
+
+}

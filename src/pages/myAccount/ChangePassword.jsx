@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { changePassword } from "../../apiData/user/profile";
-
+import { useDispatch, useSelector } from "react-redux";
+import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
+import { changePassword } from "../../redux/slices/profile/profileSlice";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import LoadingBar from "../common/loading";
-import { useSelector } from "react-redux";
 
 const ChangePassword = () => {
-  const [oldShow, setOldShow] = useState(false);
-  const [newShow, setNewShow] = useState(false);
-  const [confirmShow, setConfirmShow] = useState(false);
-
+  const dispatch = useDispatch();
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
-
-  const [loading, setLoading] = useState(false);
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [showPassword3, setShowPassword3] = useState(false);
+  const { success, loading } = useSelector(
+    (state) => state.profileSlice.changePass
+  );
 
   let navigate = useNavigate();
-const {loggedInUser}= useSelector(state=>state.login)
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
   const handleOldPassword = (e) => {
     setError("");
     setOldPassword(e.target.value);
@@ -35,35 +37,59 @@ const {loggedInUser}= useSelector(state=>state.login)
     setError("");
     setConfirmPassword(e.target.value);
   };
-
-  const handleOldShow = () => {
-    setOldShow(!oldShow);
-  };
-  const handleNewShow = () => {
-    setNewShow(!newShow);
-  };
-  const handleConfirmShow = () => {
-    setConfirmShow(!confirmShow);
-  };
-
-  const clickSave = (e) => {
-    e.preventDefault();
-    if (oldPassword == loggedInUser.TRXNPassword) {
-      if (newPassword == confirmPassword) {
-        setLoading(true);
-        changePassword(loggedInUser.Mobile, loggedInUser.TRXNPassword, newPassword).then(
-          (response) => {
-            setSuccess(true);
-            setLoading(false);
-            localStorage.removeItem("user");
-            navigate("/");
-          }
-        );
-      } else {
-        setError("New Password and Confirm Password dont match .");
+  useEffect(() => {
+    if (success) {
+      if(success.ResponseStatus===1){
+        setErrorMsg("")
+        setIsSnackBar(true)
+        setSuccessMsg(success.Remarks)
+ localStorage.removeItem("user");
+ navigate("/");
+ window.location.reload()
+      }else{
+        setSuccessMsg("")
+        setIsSnackBar(true)
+        setErrorMsg(success.Remarks)
       }
+    }
+  }, [success]);
+  const clickSave = (e) => {
+    const Mobile = loggedInUser.Mobile;
+    const Password = loggedInUser.TRXNPassword;
+    e.preventDefault();
+    
+  
+    if (oldPassword === loggedInUser.TRXNPassword && newPassword!=='' && confirmPassword!=='') {
+    
+      if (newPassword === confirmPassword && loggedInUser.TRXNPassword!==newPassword && loggedInUser.TRXNPassword!==confirmPassword) {
+        dispatch(changePassword({ Mobile, Password, newPassword }));
+      }else{
+        setSuccessMsg("")
+        setIsSnackBar(true)
+        setErrorMsg("New password and confirm password should not be same as old password")
+      }
+    }else if(oldPassword===''){
+      
+      setSuccessMsg("")
+      setIsSnackBar(true)
+      setErrorMsg("Enter Old Password")
+    }else if(newPassword===''){
+      setSuccessMsg("")
+      setIsSnackBar(true)
+      setErrorMsg("Enter New Password")
+    }else if(confirmPassword===''){
+      setSuccessMsg("")
+      setIsSnackBar(true)
+      setErrorMsg("Enter Confirm Password")
+    }else if(newPassword!== confirmPassword){
+      setSuccessMsg("")
+      setIsSnackBar(true)
+      
+      setErrorMsg("New Password and Confirm Password don't match .");
     } else {
-      setError("Enter correct Old password.");
+      setSuccessMsg("")
+      setIsSnackBar(true)
+      setErrorMsg("Enter All Correct Fields.")
     }
   };
 
@@ -92,14 +118,23 @@ const {loggedInUser}= useSelector(state=>state.login)
                   <div class="row">
                     <div class="col-md-12">
                       <div class="input-field">
-                        <i onClick={handleOldShow} class="" id="">
-                          {oldShow ? <BsFillEyeFill /> : <BsFillEyeSlashFill />}
-                        </i>
+                      <i
+                                      id="togglePassword"
+                                      onClick={() =>
+                                        setShowPassword1(!showPassword1)
+                                      }
+                                    >
+                                      {showPassword1 ? (
+                                        <BsFillEyeFill />
+                                      ) : (
+                                        <BsFillEyeSlashFill />
+                                      )}{" "}
+                                    </i>
                         <input
                           onChange={handleOldPassword}
                           value={oldPassword}
                           id="user-pan-number"
-                          type={oldShow ? "text" : "password"}
+                          type={showPassword1 ? "text" : "password"}
                           placeholder="&nbsp;"
                           autocomplete="off"
                         />
@@ -109,14 +144,23 @@ const {loggedInUser}= useSelector(state=>state.login)
 
                     <div class="col-md-12">
                       <div class="input-field">
-                        <i onClick={handleNewShow} class="" id="">
-                          {newShow ? <BsFillEyeFill /> : <BsFillEyeSlashFill />}
-                        </i>
+                      <i
+                                      id="togglePassword"
+                                      onClick={() =>
+                                        setShowPassword2(!showPassword2)
+                                      }
+                                    >
+                                      {showPassword2 ? (
+                                        <BsFillEyeFill />
+                                      ) : (
+                                        <BsFillEyeSlashFill />
+                                      )}{" "}
+                                    </i>
                         <input
                           onChange={handleNewPassword}
                           value={newPassword}
                           id="user-new-password"
-                          type={newShow ? "text" : "password"}
+                          type={showPassword2 ? "text" : "password"}
                           placeholder="&nbsp;"
                           autocomplete="off"
                         />
@@ -126,18 +170,23 @@ const {loggedInUser}= useSelector(state=>state.login)
 
                     <div class="col-md-12">
                       <div class="input-field">
-                        <i onClick={handleConfirmShow} class="" id="">
-                          {confirmShow ? (
-                            <BsFillEyeFill />
-                          ) : (
-                            <BsFillEyeSlashFill />
-                          )}
-                        </i>
+                      <i
+                                      id="togglePassword"
+                                      onClick={() =>
+                                        setShowPassword3(!showPassword3)
+                                      }
+                                    >
+                                      {showPassword3 ? (
+                                        <BsFillEyeFill />
+                                      ) : (
+                                        <BsFillEyeSlashFill />
+                                      )}{" "}
+                                    </i>
                         <input
                           onChange={handleConfirmPassword}
                           value={confirmPassword}
                           id="user-confirm-pw"
-                          type={confirmShow ? "text" : "password"}
+                          type={showPassword3 ? "text" : "password"}
                           placeholder="&nbsp;"
                           autocomplete="off"
                         />
@@ -147,14 +196,15 @@ const {loggedInUser}= useSelector(state=>state.login)
 
                     <div class="col-lg-12">
                       <div class="save-profile-btn text-center mt-4">
-                        <button
+                        {/* <button
                           onClick={!loading && clickSave}
                           type="button"
                           class="btn-primery"
                         >
                           {" "}
-                          {loading ? <LoadingBar /> : "Change Password"}
-                        </button>
+                          {loading ? <Loading /> : "Change Password"}
+                        </button> */}
+                        <ThemeButton onClick={clickSave} value={"Change Password"} loading={loading}/>
                       </div>
                     </div>
                   </div>
@@ -166,6 +216,14 @@ const {loggedInUser}= useSelector(state=>state.login)
           </div>
         </div>
       </div>
+      <MuiSnackBar
+             open={isSnackBar}
+             setOpen={setIsSnackBar}
+             successMsg={successMsg}
+             errorMsg={errorMsg}
+             setSuccess={setSuccessMsg}
+             setError={setErrorMsg}
+           />
     </>
   );
 

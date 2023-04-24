@@ -4,6 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import "../../assets/styles/home/promotional.css";
 import "../../assets/styles/styles.css";
 import CarouselProductCard from "../Cards/CarouselProductCard";
+import { Loading } from "../common";
 
 const ProductHorizontal = ({
   products,
@@ -33,7 +34,6 @@ const ProductHorizontal = ({
       items: 1,
     },
   };
-
   return (
     <>
       {!loading && (
@@ -50,7 +50,7 @@ const ProductHorizontal = ({
             </div>
             {!loading ? (
               <div className="deals-center productcard-arrow">
-                <Carousel responsive={responsive} infinite={true}>
+                <Carousel draggable={false} swipeable={false} responsive={responsive} infinite={true}>
                   {products && products?.length !== 0 ? (
                     products &&
                     products?.slice(0, 9)?.map((p, i) => (
@@ -61,12 +61,12 @@ const ProductHorizontal = ({
                       </>
                     ))
                   ) : (
-                    <h2></h2>
+                    <Loading />
                   )}
                 </Carousel>
               </div>
             ) : (
-              <h2>Loading......</h2>
+              <Loading />
             )}
           </div>
         </section>

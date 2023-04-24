@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {  useSelector } from "react-redux";
 
-const SelectField = ({ setGetData, getData }) => {
+const SelectField = ({ setGetData, getData,isClass }) => {
   const [stateList, setStateList] = useState([]);
   const [cityList, setCityList] = useState([]);
   const { allStateCityList } = useSelector((state) => state.signUpSlice.stateList);
   const sortState = (states) => {
-    let sortedStates =states.slice().sort((a, b) => (a.StateName > b.StateName ? 1 : -1));
+    let sortedStates =states?.slice().sort((a, b) => (a.StateName > b.StateName ? 1 : -1));
     return sortedStates;
   };
   const sortCity = (city) => {
@@ -14,27 +14,25 @@ const SelectField = ({ setGetData, getData }) => {
     return sortedCity;
   };
   useEffect(() => {
-    // console.warn(allStateCityList.Data[0].Citys);
     setStateList(sortState(allStateCityList?.Data));
-    // setCityList(allStateCityList.Data[0].Citys);
-    // if (getData.stateName) {
-    //   let cities = allStateCityList.Data.find(
-    //     (item) => item.StateName === getData.stateName
-    //   );
-    //   console.log(cities.Citys);
-    //   console.warn(cities.Citys);
-    //   // setCityList(cities.Citys[0]);
-    // }
   }, []);
+  useEffect(() => {
+  if(getData.stateName){
+    setCityList(sortCity(allStateCityList?.Data.filter(item=>item.StateName==getData.stateName)[0].Citys));
+  }else{
+    setCityList(sortCity(allStateCityList?.Data[0].Citys));
+  }
+  }, [getData])
+  
   return (
     <>
-    <div class="col-lg-6">
-      <div class="dropdown signup-select-option">
+    <div class={isClass ? "col-lg-6" : "shopping-address-select"}>
+      <div class={isClass ?"dropdown signup-select-option" :"dropdown signup-select-option select-option"}>
         <button
-          class="dropdown-toggle select-toggle select-type"
+        className={getData.stateName ?"dropdown-toggle select-toggle select-type selected-dropdown-border" :"dropdown-toggle select-toggle select-type unselected-dropdown-border" }
           type="button"
           data-toggle="dropdown"
-          aria-expanded="false"
+          aria-expanded="false" 
         >
           {getData.stateName ? (
             <span style={{ color: "#212121" }}>{getData.stateName}</span>
@@ -42,7 +40,7 @@ const SelectField = ({ setGetData, getData }) => {
             "Select State"
           )}
         </button>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu" >
           {stateList &&
             stateList.map((item, i) => (
               <button
@@ -56,24 +54,25 @@ const SelectField = ({ setGetData, getData }) => {
                     stateName: item.StateName,
                     stateError: false,
                     stateId: item.Id,
-                    cityName: item.Citys[0].CityName,
-                    cityId: item.Citys[0].Id,
+                    cityName: '',
+                    cityId: '',
                   });
                 }}
+               
               >
                 {item.StateName}
               </button>
             ))}
         </div>
         {getData.stateError && (
-          <div className="text-danger">Please Select State</div>
+          <div className="text-danger select-error-align">Please Select State</div>
         )}
       </div>
     </div>
-    <div class="col-lg-6">
-      <div class="dropdown signup-select-option">
+    <div class={isClass ? "col-lg-6" : "shopping-address-select"}>
+      <div class={isClass ?"dropdown signup-select-option" :"dropdown signup-select-option select-option"}>
         <button
-          class="dropdown-toggle select-toggle select-type"
+           className={getData.cityName ?"dropdown-toggle select-toggle select-type selected-dropdown-border" :"dropdown-toggle select-toggle select-type unselected-dropdown-border" }
           type="button"
           data-toggle="dropdown"
           aria-expanded="false"
@@ -84,7 +83,6 @@ const SelectField = ({ setGetData, getData }) => {
             "Select City"
           )}
         </button>
-
         <div class="dropdown-menu">
           {getData.stateName ? (
             cityList &&
@@ -110,7 +108,7 @@ const SelectField = ({ setGetData, getData }) => {
           )}
         </div>
         {getData.cityError && (
-          <div className="text-danger">Please Select City</div>
+          <div className="text-danger select-error-align">Please Select City</div>
         )}
       </div>
     </div>

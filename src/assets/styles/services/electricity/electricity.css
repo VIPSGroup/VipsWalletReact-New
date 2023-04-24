@@ -1,0 +1,1193 @@
+.electricity-bill-paymet-discount-info .custom-control{
+  padding-left: 1.2rem;
+}
+.electricity-bill-paymet-discount-info .custom-control-label::before{
+  top: 0.3rem;
+  border: 2px solid var(--textGray);
+}
+.electricity-bill-paymet-discount-info .custom-control-label::after{
+  top: 0.3rem;
+}
+
+/* input group start */
+.electricity-bill-field .input-group {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  .electricity-bill-field .input-field .mobile-input{
+    margin-left: -39px;
+    padding-left: 36px;
+  }
+  .electricity-bill-field .input-field .did-floating-input {
+    border-radius: 0 4px 4px 0;
+    border-left: 0;
+    padding-left: 0;
+  }
+  
+  .electricity-bill-field .input-field .input-group-append {
+    display: flex;
+    align-items: center;
+    /*   margin-left:-1px; */
+  }
+  
+  .electricity-bill-field .input-field .input-group-text {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    height: 29px;
+    /* height: 39px; */
+    color: var(--darkText) !important;
+    padding: 0 14px 0 0px;
+    font-size: 17px;
+    text-align: center;
+    white-space: nowrap;
+    border: none !important;
+    background: none !important;
+    z-index: 1;
+  }
+  /* input group end */
+  
+  
+  /* electricity bill 1 page start */
+  
+      /* electricity bill 1 left start */
+  
+      .electricity-bill-left {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+      }
+      
+      .electricity-bill-left-sticky {
+        padding: 30px 20px;
+        background: var(--whiteColor);
+        border-radius: 10px;
+        margin-right: 6px;
+      }
+    
+      .electricity-bill-content {
+        position: relative;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: var(--whiteColor);
+        background-clip: border-box;
+        border-radius: 10px;
+    }
+    .electricity-bill-content-inner{
+      padding: 30px 20px;
+      margin: auto; 
+    }
+    
+    .electricity-bill-content-head{
+        margin-bottom: 20px;
+        padding-bottom: 0px;
+    }
+    .electricity-bill-title{
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--darkText);
+     
+    }
+  
+    .electricity-bill-recent-head{
+      margin-bottom: 9px;
+      padding-bottom: 0px;
+    }
+    .electricity-bill-recent-head h3{
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--darkText);
+      padding-left: 5px;
+    }
+   
+
+.electricity-bill-right{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+    
+  /* electricity bill 1 form style start */
+  .electricity-bill-field .input-field {
+      position: relative;
+      margin: 10px 0 4px;
+      padding-left: 0px;
+      padding-top: 8px;
+      color: var(--darkText);
+    }
+    .electricity-bill-field .input-field input {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      border-radius: 0;
+      width: 100%;
+      font-size: 16px;
+      /* height: 40px; */
+      height: 28px;
+      border-bottom: 1px solid var(--borderColor);
+      color: inherit;
+      transition: 0.2s ease;
+    }
+    .electricity-bill-field .input-field input::-moz-placeholder {
+      color: transparent;
+    }
+    .electricity-bill-field .input-field input:-ms-input-placeholder {
+      color: transparent;
+    }
+    .electricity-bill-field .input-field input::placeholder {
+      color: transparent;
+    }
+    .electricity-bill-field .input-field input:not(:-moz-placeholder-shown) {
+      border-bottom: 1px solid var(--primary);
+      box-shadow: 0 1px 0 0 var(--primary);
+    }
+    .electricity-bill-field .input-field input:not(:-ms-input-placeholder) {
+      border-bottom: 1px solid var(--primary);
+      box-shadow: 0 1px 0 0 var(--primary);
+    }
+    .electricity-bill-field .input-field input:focus, .electricity-bill-field .input-field input:not(:placeholder-shown) {
+      border-bottom: 1px solid var(--primary);
+      box-shadow: 0 0px 0 0 var(--primary);
+    }
+    .electricity-bill-field .input-field input:not(:-moz-placeholder-shown) + label {
+      transform: translateY(-14px) scale(0.85);
+      color: var(--primary);
+    }
+    .electricity-bill-field .input-field input:not(:-ms-input-placeholder) + label {
+      transform: translateY(-14px) scale(0.85);
+      color: var(--primary);
+    }
+    .electricity-bill-field .input-field input:focus + label, .electricity-bill-field .input-field input:not(:placeholder-shown) + label {
+      transform: translateY(-14px) scale(0.85);
+      color: var(--primary);
+    }
+    .electricity-bill-field .input-field label {
+      color: var(--textGray);
+      position: absolute;
+      top: -4px;
+      left: 0px;
+      font-size: 15px;
+      cursor: text;
+      transform-origin: 0% 100%;
+      transform: translateY(14px);
+      transition: 0.2s ease-out;
+      background: var(--whiteColor) !important;
+      z-index: 9;
+    }
+
+    .electricity-field-note{
+        font-size: 10px;
+        color: var(--lightGreen);
+        margin-bottom: 8px;
+    }
+    /* electricity bill 1 form style end */
+  
+    .electricity-bill-btn{
+      text-align: center;
+    }
+    .electricity-bill-btn button{
+      font-size: 17px;
+      font-weight: 500;
+      background: none;  
+      padding: 9px 49px;
+      margin-top: 20px;
+      border: none;
+    }
+   
+    /* electricity bill 1 left end */
+  
+  
+    /* electricity bill 1 right start */
+
+  .electricity-bill-table tr{
+      border-bottom: 0.3px solid var(--lightBorder);
+  }
+  .electricity-bill-table tr:last-child{
+      border-bottom: none;
+  }
+  .electricity-bill-table .electricity-bill-operator-img{
+    width: 42px;
+  }
+  .electricity-bill-table .electricity-bill-mob-no{
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 4px;
+  }
+  .electricity-bill-table .electricity-bill-date{
+      font-size: 13px;
+      font-weight: 400;
+      margin-bottom: 4px;
+      color: var(--textGray);
+  }
+  .electricity-bill-table .electricity-bill-amount{
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 4px;
+  }
+  .electricity-bill-table .electricity-bill-faild{
+      font-size: 13px;
+      font-weight: 400;
+      margin-bottom: 4px;
+      color: var(--red);
+  }
+  .electricity-bill-table .electricity-bill-success{
+      font-size: 13px;
+      font-weight: 400;
+      margin-bottom: 4px;
+      color: var(--lightGreen);
+  } 
+  
+   /* electricity bill 1 right end */
+  
+    /* electricity bill 1 page end */
+    
+
+    /* electricity bill fetch start */
+    .electricity-bill-final-amount{
+        background: var(--box-bg);
+        padding: 18px 8px 8px;
+        border-radius: 10px;
+      }
+      .electricity-bill-final-amount label{
+        font-size: 11px;
+        color: var(--lightGray);
+        margin-left: 12px;
+        margin-bottom: 0;
+      }
+      .electricity-bill-final-amount input{
+        color: var(--darkText) !important;
+        font-size: 15px;
+        font-weight: 500;
+        background: var(--box-bg) !important;
+        border: none !important;
+      }
+      .electricity-bill-final-amount input::placeholder{
+        color: var(--darkText) !important;
+      }
+
+      /* electricity bill fetch end */
+
+    
+  /* selectpicker start */
+  .select-option{
+    margin-top: 20px;
+    margin-bottom: 18px;
+  }
+  .select-option .select-type{
+    font-size: 15px;
+      color: var(--textGray);
+      font-weight: normal; 
+      width: 100%;
+      height: 100%;
+      bottom: 0px;
+      left: 0%; 
+      border: none;
+      border-bottom: 1px solid var(--borderColor);
+      margin-bottom: 0;
+      background: var(--whiteColor);
+      text-align: left;
+      padding-bottom: 10px;
+  }
+  
+  .select-toggle::after { 
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+    float: right;
+    margin-top: 11px;
+  }
+  .select-option a:hover{
+    background-color: var(--primary);
+    color: var(--whiteColor);
+  }
+  .select-option a:focus{
+    background-color: transparent !important;
+    color: var(--darkText) !important;
+  }
+  
+  .select-option .dropdown-menu{
+    max-height: 200px; 
+    overflow-y: scroll;
+    width: 100%;
+  }
+  
+  .select-option .dropdown-menu {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+  }
+  
+  .select-option .dropdown-menu::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  .select-option .dropdown-menu {
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+  }
+  .select-option .dropdown-menu::-webkit-scrollbar-track {
+    background: var(--whiteColor);
+  }
+  .select-option .dropdown-menu::-webkit-scrollbar-thumb {
+    background-color: var(--borderColor) ;
+    border-radius: 6px;
+  }
+  /* selectpicker end */
+  
+  
+    /* table scroll end */
+    .electricity-bill-table-scroll{
+      height: 372px; 
+      overflow-y: scroll; 
+      overflow-x: scroll;
+    }
+    
+    .electricity-bill-table-scroll {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--blackColor);
+    }
+    
+    .electricity-bill-table-scroll::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .electricity-bill-table-scroll {
+      scrollbar-width: thin;
+      scrollbar-color: var(--blackColor);
+    }
+    .electricity-bill-table-scroll::-webkit-scrollbar-track {
+      background: none;
+    }
+    .electricity-bill-table-scroll::-webkit-scrollbar-thumb {
+      background-color: var(--borderColor) ;
+      border-radius: 6px;
+      
+    }
+    /* table scroll end */
+  
+
+/* accordian start */
+.electricity-bill-field .accordion{
+    margin: 20px 0;
+  }
+  .electricity-bill-field .accordion .item {
+      border: none;
+      margin-bottom: 20px;
+      background: none;
+  }
+  
+  .accordion-title{
+    background: var(--body-bg);
+    border-radius: 10px;
+  }
+  .electricity-bill-field .accordion-title .btn-link {
+      background: var(--box-bg);
+      color: var(--darkText);
+      border-radius: 10px; 
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 2.5;
+      text-decoration: none;
+  }
+  .electricity-bill-field .accordion .item .item-header {
+      border-bottom: none;
+      background: transparent;
+      padding: 0px; 
+  }
+  
+  .electricity-bill-field .accordion-title button {
+      color: white;
+      font-size: 20px;
+      padding: 9px 19px 5px;
+      display: block;
+      width: 100%;
+      text-align: left;
+  }
+  
+  .electricity-bill-field .accordion-title i {
+      float: right;
+      font-size: 24px;
+      color: var(--darkText);  
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 13px;
+  }
+  
+  .electricity-bill-field .btn-link.collapsed i {
+      transform: rotate(0deg);
+  }
+  
+  .electricity-bill-field .btn-link i {
+      transform: rotate(180deg);
+      transition: 0.5s;
+  }
+
+  .electricity-bill-field .accordion-content{
+    color: var(--darkText);
+    background: var(--box-bg);
+    padding: 20px 22px 20px;
+    font-size: 14px;
+    border-radius: 0 0 10px 10px;
+    margin-top: -19px;
+  }
+  .accordion-content .accordion-content-left-text{
+    color: var(--textGray);
+    margin-bottom: 12px;
+  }
+  .accordion-content .accordion-content-text{
+    text-align: right;
+  }
+  .accordion-content .accordion-content-right-text{
+    color: var(--darkText);
+    font-weight: 500; 
+    margin-bottom: 12px;
+    word-break: break-word;
+  }
+/* Accordion end */
+
+
+ /* electricity Payment confirmation start */
+
+ /* electricity-payment left start */
+ .electricity-bill-payment-content {
+    position: relative;
+    min-width: 0;
+    word-wrap: break-word;
+    
+  }
+  
+  .electricity-bill-payment-card{
+    background: var(--whiteColor);
+    border: 1px solid var(--lightBorder);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .electricity-bill-paymet-recharge-info{
+    display: flex;
+    font-size: 16px;
+  }
+  .paymet-electricity-bill-mobno{
+    color: var(--textGray);
+    margin-bottom: 0;
+  }
+  .paymet-electricity-bill-mobno label{
+    color: var(--darkText);
+    font-weight: 500;
+    margin-bottom: 0;
+  }
+  .electricity-bill-paymet-recharge-operator{
+    margin-left: auto;
+  }
+  
+  .electricity-bill-paymet-recharge-text{
+    color: var(--textGray);
+    margin-bottom: 0;
+  }
+  .electricity-bill-paymet-recharge-text label{
+    color: var(--darkText);
+    font-weight: 500;
+    margin-bottom: 0;
+  }
+  
+  
+  /* radio button start */
+  .electricity-bill-payment-discount{
+    flex: 1 1 auto;
+    min-height: 1px;
+    /* padding: 0.5rem 1rem; */
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--darkText);
+  }
+  .electricity-bill-paymet-discount-info{
+    display: flex; 
+  }
+  
+  .electricity-bill-payment-discount .electricity-bill-payment-discount-img{
+    margin: 0 28px 0px 24px;
+    width: 24px;
+  }
+  
+  .electricity-bill-payment-debit-vips{
+    margin: 0 22px 0px 29px;
+    width: 30px;
+  }
+  .electricity-bill-payment-debit-payu{
+    margin: 0 16px 0px 25px;
+    width: 40px;
+  }
+  
+  .electricity-bill-paymet-discount-amt{
+    color: var(--darkText);
+    font-weight: 600;
+    margin-bottom: 0;
+    font-size: 18px;
+    text-align: right;
+  }
+  .electricity-bill-paymet-Prime-amt{
+    color: var(--textGray);
+    font-weight: 400;
+    margin-bottom: 0;
+    font-size: 18px; 
+    text-align: right;
+  }
+  .electricity-bill-paymet-discount-info label{ 
+    margin-bottom: 0;
+  }
+  
+  .electricity-bill-payment-discount label > input[type="radio"] + *::before{
+    vertical-align: middle !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+  .electricity-bill-payment-discount label > input[type="radio"] {
+  display: none;
+  }
+  .electricity-bill-payment-discount label > input[type="radio"] + *::before {
+  content: "";
+  display: inline-block;
+  vertical-align: bottom;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.3rem;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 0.1rem;
+  border-color: var(--textGray);
+  }
+  .electricity-bill-payment-discount label > input[type="radio"]:checked + * {
+  color: var(--darkText);
+  }
+  .electricity-bill-payment-discount label > input[type="radio"]:checked + *::before {
+  background: radial-gradient(var(--primary) 0%, var(--primary) 40%, transparent 50%, transparent);
+  border-color: var(--primary);
+  }
+  
+  .electricity-bill-payment-discount label > input[type="radio"] + * {
+  display: inline-block;
+  padding: 0rem 0rem;
+  }
+  /* radio button end */
+  
+  
+   /* electricity-payment left end */
+  
+  
+  /* electricity-payment right start */
+  
+  .electricity-bill-payment-right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Position the items */
+  }
+  
+  .electricity-bill-payment-right-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    padding: 23px 20px;
+    background: var(--whiteColor);
+    border-radius: 10px; 
+  }
+  
+  .electricity-bill-payment-content-title{
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--darkText);
+    margin-bottom: 16px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--lightBorder);
+  }
+  .electricity-bill-payment-summery{
+    color: var(--textGray);
+    font-size: 15px;
+  }
+  .electricity-bill-payment-summery-amt{
+    color: var(--darkText);
+    font-size: 15px;
+    font-weight: 500;
+  }
+  
+  .electricity-bill-payment-confirm-btn{
+    text-align: center;
+  }
+  .electricity-bill-payment-confirm-btn button{
+    font-size: 16px;
+    font-weight: 500;
+    background: none;  
+    padding: 10px 36px;
+    margin-top: 33px;
+  }
+  
+  /* electricity-payment right end */
+   /* electricity Payment confirmation end */
+    
+
+  
+@media only screen and (min-width: 320px) and (max-width: 414px){
+  .electricity-bill-left-sticky {
+    margin-right: 0px;
+  }
+  .electricity-bill-left {
+      position: relative;
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+  }
+  .electricity-bill-title {
+        font-size: 16px; 
+  }
+    
+  .electricity-bill-recent-head h3 {
+    font-size: 18px; 
+    padding-left: 0;
+  }
+  .select-option {
+    margin-bottom: 13px;
+  }
+  .select-toggle::after {
+    margin-top: 13px !important;
+  }
+  .select-option .select-type {
+    font-size: 14px;
+    padding-bottom: 7px;
+  }
+  .electricity-bill-field .input-field label {
+    font-size: 15px;
+    top: 0px;
+    transform: translateY(7px);
+  }
+  .electricity-bill-field .input-field input {
+    font-size: 14px;
+  }
+  .electricity-bill-field .input-field {
+    margin: 9px 0 4px;
+  }
+  .electricity-bill-field .input-field .input-group-text {
+    font-size: 14px;
+  }
+  .electricity-bill-btn button {
+    font-size: 14px; 
+    padding: 9px 49px; 
+  }
+
+  .electricity-bill-right-outer{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .electricity-bill-content { 
+    border-radius: 0px;
+  }
+  .electricity-bill-content-inner{
+    padding: 30px 15px 15px;
+  }
+  .electricity-bill-table-outer{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .electricity-bill-table .electricity-bill-operator-img{
+    width: 28px;
+  }
+
+
+  .electricity-bill-right{
+    margin-top: 30px;
+  }
+  .electricity-bill-table .electricity-bill-mob-no {
+    font-size: 12px; 
+  }
+  .electricity-bill-table .electricity-bill-date {
+    font-size: 11px; 
+  }
+  .electricity-bill-table .electricity-bill-amount {
+    font-size: 12px; 
+  }
+  .electricity-bill-table .electricity-bill-faild{
+    font-size: 12px; 
+  }
+  .electricity-bill-table .electricity-bill-success{
+    font-size: 12px; 
+  }
+    
+
+
+  .electricity-bill-field .accordion-title .btn-link { 
+    font-size: 16px;
+    padding: 9px 14px 5px;
+  }
+  .electricity-bill-field .accordion-title i { 
+    font-size: 23px; 
+    margin-top: 11px;
+  }
+  .accordion-content .accordion-content-text{
+    text-align: left;
+  }
+  .electricity-bill-field .accordion-content { 
+    font-size: 13px;
+    padding: 20px 16px 20px;
+  }
+  .electricity-bill-final-amount input { 
+    font-size: 14px; 
+  }
+
+  
+
+  .electricity-bill-payment-content-title {
+    font-size: 16px; 
+  }
+  .electricity-bill-paymet-recharge-info {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+  }
+  .electricity-bill-paymet-recharge-operator {
+    margin-left: 0;
+  }
+  .paymet-electricity-bill-mobno { 
+    margin-bottom: 6px;
+  }
+
+  .electricity-bill-paymet-discount-info {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .electricity-bill-paymet-discount-info label {
+    margin-bottom: 10px;
+  }
+  .electricity-bill-paymet-discount-info .custom-control-label {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    line-height: 26px;
+  }
+  .electricity-bill-payment-discount label > input[type="radio"] + *::before {
+    vertical-align: middle !important;
+    width: 17px !important;
+    height: 17px !important;
+  }
+  .electricity-bill-payment-discount .electricity-bill-payment-discount-img {
+    margin: 0 7px 0px 3px;
+    width: 18px;
+  }
+  .electricity-bill-payment-discount { 
+    font-size: 14px; 
+  }
+  .electricity-bill-paymet-discount-amt {  
+    font-size: 14px;
+    /* margin-left: 0; */
+    text-align: left;
+  }
+  .electricity-bill-paymet-Prime-amt {  
+    font-size: 14px;
+    /* margin-left: 0; */
+    text-align: left;
+  }
+  .electricity-bill-payment-debit-vips {
+    margin: 0 6px 0px 0px;
+    width: 23px;
+  }
+  .electricity-bill-payment-debit-payu {
+    margin: 0 5px 0px 0px;
+    width: 30px;
+  }
+  .electricity-bill-payment-right {
+    position: relative; 
+  }
+  .electricity-bill-payment-summery {
+    color: var(--textGray);
+    font-size: 14px;
+  }
+  .electricity-bill-payment-summery-amt { 
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .electricity-bill-payment-confirm-btn button {
+    font-size: 14px; 
+    padding: 10px 30px;
+    margin-top: 33px;
+  }
+
+  
+}
+
+ 
+@media only screen and (min-width: 414px) and (max-width: 767px){
+    .electricity-bill-left-sticky {
+        margin-right: 0px;
+    }
+    .electricity-bill-left {
+      position: relative;
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+    }
+      .electricity-bill-title {
+          font-size: 16px; 
+      }
+      .electricity-bill-mode {
+          font-size: 14px; 
+      }
+      .electricity-bill-recent-head h3 {
+        font-size: 20px;
+        padding-left: 0;
+      }
+      .select-option {
+        margin-bottom: 13px;
+      }
+      .select-toggle::after {
+        margin-top: 13px !important;
+      }
+      .select-option .select-type {
+        font-size: 14px;
+        padding-bottom: 7px;
+      }
+      .electricity-bill-field .input-field label {
+        font-size: 15px;
+        top: -4px;
+      }
+      .electricity-bill-field .input-field input {
+        font-size: 14px;
+      }
+      .electricity-bill-field .input-field {
+        margin: 9px 0 4px;
+      }
+      .electricity-bill-field .input-field .input-group-text {
+        font-size: 14px;
+      }
+      .electricity-bill-btn button {
+        font-size: 14px; 
+        padding: 9px 49px; 
+      }
+  
+      .electricity-bill-right-outer{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      .electricity-bill-content { 
+        border-radius: 0px;
+      }
+      .electricity-bill-content-inner{
+        padding: 30px 15px 15px;
+      }
+      .electricity-bill-table-outer{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      .electricity-bill-table .electricity-bill-operator-img{
+        width: 28px;
+      }
+  
+      .electricity-bill-right{
+          margin-top: 30px;
+      }
+      .electricity-bill-table .electricity-bill-mob-no {
+          font-size: 12px; 
+      }
+      .electricity-bill-table .electricity-bill-date {
+          font-size: 11px; 
+      }
+      .electricity-bill-table .electricity-bill-amount {
+          font-size: 12px; 
+      }
+      .electricity-bill-table .electricity-bill-faild{
+        font-size: 12px; 
+      }
+      .electricity-bill-table .electricity-bill-success{
+        font-size: 12px; 
+      }
+      
+
+    .electricity-bill-field .accordion-title .btn-link { 
+        font-size: 16px; 
+    }
+    .electricity-bill-field .accordion-title i { 
+        font-size: 23px; 
+        margin-top: 11px;
+    }
+    .accordion-content .accordion-content-text{
+        text-align: left;
+      }
+      .electricity-bill-field .accordion-content { 
+        font-size: 13px; 
+    }
+      .electricity-bill-final-amount input { 
+        font-size: 14px; 
+    }
+
+
+
+    
+    .electricity-bill-payment-content-title {
+      font-size: 16px; 
+    }
+    .electricity-bill-paymet-recharge-info {
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+    .electricity-bill-paymet-recharge-operator {
+      margin-left: 0;
+    }
+    .paymet-electricity-bill-mobno { 
+      margin-bottom: 6px;
+    }
+
+    .electricity-bill-paymet-discount-info {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .electricity-bill-paymet-discount-info label {
+      margin-bottom: 10px;
+    }
+    .electricity-bill-payment-discount label > input[type="radio"] + *::before {
+      vertical-align: middle !important;
+      width: 18px !important;
+      height: 18px !important;
+    }
+    .electricity-bill-payment-discount .electricity-bill-payment-discount-img {
+      margin: 0 7px 0px 4px;
+      width: 20px;
+    }
+    .electricity-bill-payment-discount { 
+      font-size: 14px; 
+    }
+    .electricity-bill-paymet-discount-amt {  
+      font-size: 14px;
+      /* margin-left: 0; */
+      text-align: left;
+    }
+    .electricity-bill-paymet-Prime-amt {  
+      font-size: 14px;
+      /* margin-left: 0; */
+      text-align: left;
+    }
+    .electricity-bill-payment-debit-vips {
+      margin: 0 6px 0px 12px;
+      width: 24px;
+    }
+    .electricity-bill-payment-debit-payu {
+      margin: 0 5px 0px 10px;
+      width: 34px;
+    }
+    .electricity-bill-payment-right {
+      position: relative; 
+    }
+    .electricity-bill-payment-summery {
+      color: var(--textGray);
+      font-size: 14px;
+    }
+    .electricity-bill-payment-summery-amt { 
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .electricity-bill-payment-confirm-btn button {
+      font-size: 14px; 
+      padding: 10px 30px;
+      margin-top: 33px;
+    }
+      
+}
+
+
+
+@media only screen and (min-width: 540px) and (max-width: 767px){
+  .electricity-bill-right-outer {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+
+  .flex-position{
+    flex-wrap: nowrap !important;
+  }
+  .accordion-content .accordion-content-text {
+    text-align: right;
+  }
+
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+    .electricity-bill-left {
+      position: relative;
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+    }
+
+    .electricity-bill-content-inner {
+      padding: 30px 11px; 
+    }
+    .electricity-bill-right{
+        margin-top: 30px;
+    }
+    .electricity-bill-recent-head h3 {
+      padding-left: 10px;
+    }
+    .select-option .select-type {
+      font-size: 14px;
+    }
+    .electricity-bill-field .input-field label { 
+      font-size: 15px; 
+    }
+    .electricity-bill-table .electricity-bill-mob-no {
+      font-size: 14px;
+    }
+    .electricity-bill-table .electricity-bill-amount {
+      font-size: 14px;
+    }
+    .electricity-bill-btn button {
+      font-size: 15px;
+      font-weight: 500;
+      background: none;
+      padding: 9px 49px;
+      margin-top: 20px;
+      border: none;
+    }
+
+
+    
+  .electricity-bill-payment-content-title {
+    font-size: 16px; 
+  }
+  .electricity-bill-paymet-recharge-info { 
+    font-size: 14px;
+  }
+  .electricity-bill-payment-discount label > input[type="radio"] + *::before { 
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .electricity-bill-payment-discount .electricity-bill-payment-discount-img {
+    margin: 0 10px 0px 7px;
+    width: 20px;
+  }
+  .electricity-bill-payment-discount { 
+    font-size: 14px; 
+  }
+  .electricity-bill-paymet-discount-amt { 
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .electricity-bill-paymet-Prime-amt { 
+    font-size: 15px; 
+  }
+  .electricity-bill-payment-debit-vips {
+    margin: 0 7px 0px 13px;
+    width: 28px;
+  }
+  .electricity-bill-payment-debit-payu {
+    margin: 0 7px 0px 12px;
+    width: 33px;
+  }
+  .electricity-bill-payment-right {
+    position: relative; 
+  }
+  .electricity-bill-payment-confirm-btn button {
+    font-size: 14px;
+    padding: 10px 30px;
+  }
+
+}
+
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+    .electricity-bill-content-inner {
+        padding: 30px 15px; 
+      }
+      .electricity-bill-table-scroll {
+        height: 387px; 
+      }
+    .electricity-bill-table .electricity-bill-mob-no {
+          font-size: 14px; 
+      }
+      .electricity-bill-table .electricity-bill-date {
+        font-size: 12px; 
+      }
+      .electricity-bill-table .electricity-bill-amount {
+        font-size: 14px; 
+      } 
+      .electricity-bill-title {
+        font-size: 18px; 
+      }
+      .electricity-bill-recent-head h3 {
+        font-size: 18px;
+        padding-left: 10px;
+      }
+      .electricity-bill-mode {
+        font-size: 16px; 
+      }
+
+
+    .electricity-bill-field .accordion-title .btn-link { 
+        font-size: 16px; 
+    }
+    .electricity-bill-field .accordion-content { 
+        font-size: 13px;  
+        padding: 26px 22px 20px;
+    }
+    .electricity-bill-final-amount input { 
+        font-size: 14px; 
+    }
+
+
+
+    
+
+  .electricity-bill-payment-content-title {
+    font-size: 16px; 
+  }
+  .electricity-bill-paymet-recharge-info { 
+    font-size: 14px;
+  }
+  .electricity-bill-payment-discount label > input[type="radio"] + *::before { 
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .electricity-bill-payment-discount .electricity-bill-payment-discount-img {
+    margin: 0 14px 0px 10px;
+    width: 20px;
+  }
+  .electricity-bill-payment-discount { 
+    font-size: 14px; 
+  }
+  .electricity-bill-paymet-discount-amt { 
+    font-size: 15px; 
+  }
+  .electricity-bill-paymet-Prime-amt { 
+    font-size: 15px; 
+  }
+  .electricity-bill-payment-debit-vips {
+    margin: 0 7px 0px 13px;
+    width: 28px;
+  }
+  .electricity-bill-payment-debit-payu {
+    margin: 0 3px 0px 11px;
+    width: 36px;
+  }
+  .electricity-bill-payment-summery { 
+    font-size: 14px;
+  }
+  .electricity-bill-payment-summery-amt { 
+    font-size: 15px; 
+  }
+  .electricity-bill-payment-confirm-btn button {
+    font-size: 15px; 
+    padding: 9px 35px; 
+  }
+
+}
+
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+      
+    .electricity-bill-table-scroll {
+        height: 370px; 
+      }
+
+}

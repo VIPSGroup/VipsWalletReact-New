@@ -1,0 +1,308 @@
+/* trasanction-history plans styles start */
+
+  /* tab panel start */
+  
+  .trasanction-history{
+    /* margin-top: 50px; */
+    margin-bottom: 50px;
+  }
+  .trasanction-history-title{
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--darkText);
+  }
+  
+  
+  .trasanction-history-nav ul{
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .trasanction-history-nav ul li{
+    padding: 10px 20px;
+    list-style: none;
+  }
+  
+  .trasanction-history-nav ul li button{
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 400;
+    padding-bottom: 3px;
+  }
+  .trasanction-history-nav ul li:first-child{
+    padding-left: 0;
+  }
+  
+  .trasanction-history-card{
+    /* display: flex; */
+    flex-wrap: wrap;
+    background: var(--whiteColor);
+    border: 1px solid var(--lightBorder);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .trasanction-history-card:last-child{
+    margin-bottom: 0;
+  }
+
+    .trasanction-history-box-head{
+        border-bottom: 1px solid rgba(0,0,0,.1);
+        margin-bottom: 20px;
+        padding-bottom: 0px;
+        display: flex;
+    }
+    .trasanction-history-order-no{
+        font-size: 14px; 
+        color: var(--textGray); 
+    }
+    .trasanction-history-order-no span{ 
+        color: var(--darkText);
+        font-weight: 500;
+    }
+    .trasanction-history-order-date{
+        color: var(--textGray);
+        font-size: 14px;
+        text-align: right; 
+    }
+
+  .trasanction-history-recharg-info{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    justify-content: space-between;
+  }
+  .trasanction-history-recharg-info .electricity-bill-operator-img {
+        width: 70px;
+        margin-right: 20px;
+    }
+  .trasanction-history-recharg-info .recharge-operator-info{
+    color: var(--textGray); 
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+  
+  .trasanction-history-recharg-info .recharge-operator-info .recharge-operator-name{
+    /* display: inline-block; */
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 9px;
+    color: var(--darkText);
+  }
+  .trasanction-history-card .recharge-note .description{
+    font-size: 14px;
+    color: var(--textGray);
+    margin-bottom: 0;
+  }
+
+  .trasanction-history-amt-info{
+    text-align: right;
+    font-size: 14px;
+    color: var(--textGray);
+  }
+  .trasanction-history-amt-info .text-green{
+    color: var(--lightGreen);
+    font-weight: 500;
+    margin-left: auto;
+  }
+  .trasanction-history-amt-info .text-red{
+    color: var(--red);
+    font-weight: 500;
+  }
+  .trasanction-history-amt-info .text-yellow{
+    color: var(--warning);
+    font-weight: 500;
+  }
+  
+  /* tab panel end */
+  
+  .trasanction-history-inner{
+    height: 500px; 
+    overflow: hidden;
+    overflow-y: scroll;
+    width: 100%;
+    padding-right: 9px;
+  }
+
+  .trasanction-history-inner::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  /* .trasanction-history-inner:hover::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  } */
+
+  .trasanction-history-inner {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+  }
+  .trasanction-history-inner {
+    scrollbar-width: thin;
+    scrollbar-color: var(--blackColor);
+  }
+  .trasanction-history-inner::-webkit-scrollbar-track {
+    background: rgb(255, 255, 255);
+  }
+  .trasanction-history-inner::-webkit-scrollbar-thumb {
+    background-color: var(--borderColor) ;
+    border-radius: 6px;
+  }
+  
+  /* trasanction-history plans styles end */
+  
+
+@media only screen and (min-width: 320px) and (max-width: 414px){
+  .section-align.trasanction-history {
+    margin-top: 25px;
+    margin-bottom: 50px;
+  }
+  .trasanction-history-nav ul li {
+    padding: 0 20px;
+    list-style: none;
+  }
+  .trasanction-history-nav ul li button {
+    font-size: 15px;
+  }
+  .trasanction-history-order-no { 
+     width: 108px;
+  }
+  .trasanction-history-order-date { 
+    width: 104px;
+  }
+  .trasanction-history-recharg-info .recharge-operator-info { 
+    flex-wrap: wrap; 
+  }
+  .trasanction-history-recharg-info .electricity-bill-operator-img { 
+    margin-bottom: 10px;
+  }
+  .trasanction-history-card .recharge-note .description {
+    font-size: 12px; 
+  }
+  .trasanction-history-recharg-info .recharge-operator-info .recharge-operator-name {
+    margin-bottom: 4px;
+  }
+  .trasanction-history-amt-info {
+    text-align: left;
+    margin-top: 3px;
+  }
+  .trasanction-history-amt-info p {
+    margin-bottom: 2px;
+  }
+
+}
+
+
+@media only screen and (min-width: 414px) and (max-width: 540px){
+  .section-align.trasanction-history {
+    margin-top: 25px;
+    margin-bottom: 50px;
+  }
+  .trasanction-history-nav ul li {
+    padding: 0 20px;
+    list-style: none;
+  }
+  .trasanction-history-nav ul li button {
+    font-size: 16px;
+  }
+  .trasanction-history-order-no { 
+    width: 108px;
+  }
+  .trasanction-history-order-date { 
+    width: 104px;
+  }
+  .trasanction-history-recharg-info .recharge-operator-info { 
+    flex-wrap: nowrap; 
+  }
+  .trasanction-history-recharg-info .electricity-bill-operator-img { 
+    margin-bottom: 10px;
+  }
+  .trasanction-history-card .recharge-note .description {
+    font-size: 12px; 
+  }
+  .trasanction-history-amt-info {
+    text-align: left;
+    margin-top: 20px;
+  }
+  .trasanction-history-amt-info p {
+    margin-bottom: 10px;
+  }
+
+}
+
+@media only screen and (min-width: 540px) and (max-width: 768px){
+  .section-align.trasanction-history {
+    margin-top: 25px;
+    margin-bottom: 50px;
+  }
+  .trasanction-history-nav ul li {
+    padding: 0 20px;
+    list-style: none;
+  }
+  .trasanction-history-nav ul li button {
+    font-size: 16px;
+  }
+  .trasanction-history-recharg-info .recharge-operator-info { 
+    flex-wrap: nowrap; 
+  }
+  .trasanction-history-recharg-info .electricity-bill-operator-img { 
+    margin-bottom: 10px;
+  }
+  .trasanction-history-card .recharge-note .description {
+    font-size: 12px; 
+  }
+  .trasanction-history-amt-info {
+    display: flex;
+    margin-top: 20px;
+  }
+  .trasanction-history-amt-info p {
+    margin-bottom: 10px;
+  }
+  .trasanction-history-status{
+    margin-left: auto;
+  }
+
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+  .trasanction-history-nav ul li button {
+    font-size: 16px;
+  }
+  .trasanction-history-recharg-info .recharge-operator-info { 
+    flex-wrap: nowrap; 
+  }
+  .trasanction-history-recharg-info .electricity-bill-operator-img { 
+    margin-bottom: 10px;
+  }
+  .trasanction-history-card .recharge-note .description {
+    font-size: 13px; 
+  }
+  .trasanction-history-amt-info {
+    display: flex;
+    margin-top: 20px;
+  }
+  .trasanction-history-amt-info p {
+    margin-bottom: 10px;
+  }
+  .trasanction-history-status{
+    margin-left: auto;
+  }
+
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+
+
+}
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+
+
+}

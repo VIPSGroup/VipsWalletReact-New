@@ -1,9 +1,9 @@
 import { baseApiUrl } from "../../constants";
 
-export const getUserDetails = ({ userName, password }) => {
+export const getUserDetails = (username, password) => {
   const formData = new FormData();
 
-  formData.append("UserName", userName);
+  formData.append("UserName", username);
   formData.append("Password", password);
 
   return fetch(`${baseApiUrl}/UserServices/GetUserProfileDetails`, {
@@ -19,8 +19,8 @@ export const getUserDetails = ({ userName, password }) => {
 export const updateProfile = (userData) => {
   const formData = new FormData();
 
-  formData.append("UserName", userData.username);
-  formData.append("Password", userData.password);
+  formData.append("UserName", userData?.username);
+  formData.append("Password", userData?.password);
   formData.append("FName", userData.FName);
   formData.append("LName", userData.LName);
   formData.append("Mobile", userData.Mobile);
@@ -57,3 +57,5 @@ export const forgotPassword = ({ userName }) => {
     })
     .catch((err) => {});
 };
+
+// All Done

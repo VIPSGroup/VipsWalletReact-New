@@ -7,8 +7,11 @@ import { FiUser } from "react-icons/fi";
 import "../../../assets/styles/core/commonTopNav.css";
 import HeaderBottomService from "./HeaderBottomService";
 import "../../../assets/styles/styles.css";
+import { useSelector } from "react-redux";
 const CommonTopNav = () => {
-  const loggedInUser = true;
+  const { loggedInUser } = useSelector(
+    state => state.loginSlice.loggetInWithOTP
+  );
   return (
     <>
       <header class="header-main sticky-top">
@@ -30,7 +33,7 @@ const CommonTopNav = () => {
                 alt="VIPS Logo"
                 class="img-fluid vips-logo"
               />
-            </Link>
+            </Link>{"common"}
 
             <nav class="left-navbar sub-menu d-none d-xl-block">
               <div class="container-fluid">
@@ -177,7 +180,7 @@ const CommonTopNav = () => {
                       <FiUser className="nav-icon" />
                       <span class="d-xl-block d-none d-md-none d-sm-none">
                         {" "}
-                        {/* {loggedInUser?.Name?.substring(0, 7)}...{" "} */}
+                        {loggedInUser?.Name?.substring(0, 7)}...{" "}
                       </span>
                     </Link>
                     <ul class="dropdown-menu dropdown-position profile-dropdown">
@@ -187,7 +190,7 @@ const CommonTopNav = () => {
                           to="#"
                         >
                           {" "}
-                          {/* {loggedInUser && loggedInUser.Name} */}
+                          {loggedInUser && loggedInUser.Name}
                         </Link>
                       </li>
                       <li>

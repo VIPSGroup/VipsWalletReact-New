@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper";
+
+import Carousel from "react-multi-carousel";
 import "swiper/css";
 // import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -14,8 +14,6 @@ import "../../assets/styles/home/shopByCategory.css";
 import "../../assets/styles/styles.css";
 
 const ShopByCategory = () => {
-  const navigationPrevRef = useRef(null);
-  const navigationNextRef = useRef(null);
   const [mobileScreen, setMobileScreen] = useState();
 
   useEffect(() => {
@@ -63,12 +61,15 @@ const ShopByCategory = () => {
           </div>
 
           <div class="shopby-outer">
-            <div class="container-fluid">
-              {/* {!mobileScreen ? ( */}
               <div class="row">
-                {ShopByCat.map((e, i) => {
+            <div class="container-fluid shopby-carousel">
+              <Carousel swipeable={false} draggable={false}
+                responsive={responsive}
+                infinite={true}
+              >
+ {ShopByCat.map((e, i) => {
                   return (
-                    <div key={i} class="col-sm-6 col-md-2 p-1">
+                    <div key={i} class="m-3">
                       <div class="shopby-product">
                         <Link to={e.route}>
                           <div class="shopby-img">
@@ -84,8 +85,10 @@ const ShopByCategory = () => {
                     </div>
                   );
                 })}
+              </Carousel>
+               
 
-                <div class="col-md-11 text-center mt-4">
+                <div class="col-md-12 text-center mt-4">
                   <div class="view-all-btn">
                     <Link to="/shopping" class="btn-cta">
                       {" "}
@@ -94,147 +97,6 @@ const ShopByCategory = () => {
                   </div>
                 </div>
               </div>
-              {/* ) : (
-                <div className="row">
-                  <Swiper
-                    style={{
-                      "--swiper-navigation-color": "#CA3060",
-                      "--swiper-navigation-background": "green",
-                      ".swiper-button-prev": {
-                        background: "white",
-                      },
-                    }}
-                
-                    navigation={true}
-                  
-                    modules={[Navigation]}
-                    className="mySwiper"
-                  >
-                    <SwiperSlide>
-                      <div class="col-sm-10 col-md-2 p-1">
-                        <div class="shopby-product">
-                          <Link to="/shopping/Fashion/43">
-                            <div class="shopby-img">
-                              <img
-                                src="/images/home/fashion.jpg"
-                                alt="Product"
-                                class="img-fluid"
-                              />
-                            </div>
-                            <div class="shopby-text">
-                              <div class="shopby-product-title">
-                                <h3>Fashion</h3>
-                              </div>
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div class="col-sm-10 col-md-2 p-1">
-                        <div class="shopby-product">
-                          <Link to="/shopping/Mobiles/70">
-                            <div class="shopby-img">
-                              <img
-                                src="/images/home/mobile.jpg"
-                                alt="Product"
-                                class="img-fluid"
-                              />
-                            </div>
-                            <div class="shopby-text">
-                              <div class="shopby-product-title">
-                                <h3>Mobile</h3>
-                              </div>
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div class="col-sm-10 col-md-2 p-1">
-                        <div class="shopby-product">
-                          <Link to="/shopping/Electronics/53">
-                            <div class="shopby-img">
-                              <img
-                                src="/images/home/electronics.jpg"
-                                alt="Product"
-                                class="img-fluid"
-                              />
-                            </div>
-                            <div class="shopby-text">
-                              <div class="shopby-product-title">
-                                <h3>Electronics</h3>
-                              </div>
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div class="col-sm-10 col-md-2 p-1">
-                        <div class="shopby-product">
-                          <Link to="/shopping/Footwear/54">
-                            <div class="shopby-img">
-                              <img
-                                src="/images/home/footwear.jpg"
-                                alt="Product"
-                                class="img-fluid"
-                              />
-                            </div>
-                            <div class="shopby-text">
-                              <div class="shopby-product-title">
-                                <h3>Footwear</h3>
-                              </div>
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div class="col-sm-10 col-md-2 p-1">
-                        <div class="shopby-product">
-                          <Link to="/shopping/Grocery/50">
-                            <div class="shopby-img">
-                              <img
-                                src="/images/home/grocery.jpg"
-                                alt="Product"
-                                class="img-fluid"
-                              />
-                            </div>
-                            <div class="shopby-text">
-                              <div class="shopby-product-title">
-                                <h3>Grocery</h3>
-                              </div>
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div class="col-sm-10 col-md-2 p-1">
-                        <div class="shopby-product">
-                          <Link to="/shopping/Furniture/7">
-                            <div class="shopby-img">
-                              <img
-                                src="/images/home/furniture.jpg"
-                                alt="Product"
-                                class="img-fluid"
-                              />
-                            </div>
-                            <div class="shopby-text">
-                              <div class="shopby-product-title">
-                                <h3>Furniture</h3>
-                              </div>
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                    <div ref={navigationPrevRef} />
-                    <div ref={navigationNextRef} />
-                  </Swiper>
-                </div>
-              )} */}
             </div>
           </div>
         </div>

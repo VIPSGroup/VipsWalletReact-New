@@ -21,8 +21,6 @@ export default function SignUp() {
 const dispatch= useDispatch()
  const {isUserExist}=  useSelector(state=>state.login)
  const {response,loading,newUser,validateNo}=  useSelector(state=>state.signup)
- const {stateCityByPincode}=  useSelector(state=>state.common)
-
   const [getData, setGetData] = useState({})
   const [show, setShow] = useState(true)
   const [signupFormCount, setSignupFormCount] = useState(1);
@@ -64,8 +62,7 @@ const dispatch= useDispatch()
               setIsSnackBar(false)
               setErrorMsg("")
               if(!refError){
-                console.log("called");
-                setUserDetails({...values,cityId:getData.cityId,stateId:getData.stateId,RefId:refId,pincodeId,Ip:ip,userName:isUserExist && isUserExist[1]})
+                setUserDetails({...values,cityId:getData.cityId,stateId:getData.stateId,RefId:refId,pincodeId:getData.pincodeId,Ip:ip,userName:isUserExist && isUserExist[1]})
                 dispatch(signUpWithOtp({ userName:isUserExist && isUserExist[1], emailId:signUpFormik.values.emailId }))
               }
             }else{
@@ -92,11 +89,7 @@ if(isUserExist && isUserExist[1]){
         setIp(user.ip);
       });
   }
-  if(stateCityByPincode?.ResponseStatus==1){
-setGetData({...getData,stateName:stateCityByPincode.Data[0].StateName,cityName:stateCityByPincode.Data[0].CityName,cityId:stateCityByPincode.Data[0].CityId,stateId:stateCityByPincode.Data[0].StateId,pincodeId:stateCityByPincode.Data[0].PincodeId,stateError:false,cityError:false})
-  }else if(stateCityByPincode?.ResponseStatus==0){
-    setGetData({...getData,stateName:'',stateId:'',stateError:false,cityId:'',cityName:'',cityError:false})
-  }
+
   if(response?.ResponseStatus==1){
     setIsSnackBar(true)
     setSuccessMsg(response.Remarks)
@@ -113,7 +106,7 @@ setGetData({...getData,stateName:stateCityByPincode.Data[0].StateName,cityName:s
   }
 }, [
   signUpFormik.values.refId,
-  signUpFormik.values.password,signUpFormik.values.pincode,stateCityByPincode,response,newUser])
+  signUpFormik.values.password,signUpFormik.values.pincode,response,newUser])
 
 
       const handlePincode = (e) => {
@@ -121,8 +114,14 @@ setGetData({...getData,stateName:stateCityByPincode.Data[0].StateName,cityName:s
         setPincode(value);
     if(e.target.value.length===6){
       signUpFormik.values.pincode=e.target.value
+      getStateCity(e.target.value).then(response=>{
+        if(response?.ResponseStatus==1){
+          setGetData({...getData,stateName:response.Data[0].StateName,cityName:response.Data[0].CityName,cityId:response.Data[0].CityId,stateId:response.Data[0].StateId,pincodeId:response.Data[0].PincodeId,stateError:false,cityError:false})
+            }else if(response?.ResponseStatus==0){
+              setGetData({...getData,stateName:'',stateId:'',stateError:false,cityId:'',cityName:'',cityError:false})
+            }
+      })
     }
-    dispatch(getStateCity(e.target.value))
 
     if (e.target.value.length == 0) {
       setGetData({...getData,cityId:'',stateId:'',cityName:'',stateName:''}) }

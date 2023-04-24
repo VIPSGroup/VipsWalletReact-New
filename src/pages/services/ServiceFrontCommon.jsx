@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
+import ServiceFrontComp from "./ServiceFrontComp";
 
-const ServiceFrontCommon = () => {
+const ServiceFrontCommon = ({ title, serviceName, serviceId }) => {
   return (
-    <div>ServiceFrontCommon</div>
-  )
-}
+    <div className="color-body">
+      <ServiceFrontComp
+        title={title}
+        serviceId={serviceId}
+        serviceName={serviceName}
+      />
+    </div>
+  );
+};
 
-export default ServiceFrontCommon
+export default ServiceFrontCommon;

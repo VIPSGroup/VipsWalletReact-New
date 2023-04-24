@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { getProfileDetails, editProfile } from "../../apiData/user/profile";
-import {
-  listStateAndCity,
-  getCityState,
-} from "../../apiData/authentication/signup";
-import { updateProfile } from "../../apiData/myProfile/profile";
-// import { MuiSnackBar } from "../common/snackbars";
-import LoadingBar from "../common/loading";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import SelectField from "../shopping/SelectField";
-import { getUserDetails } from "../../redux/Actions/SignupAction";
-import { getStateCity } from "../../redux/Actions/CommonActions";
+import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
+import { SelectField } from "../../components/forms";
+import { getStateCity } from "../../redux/slices/profile/signUpSlice";
+import {
+  getProfileDetails,
+  updateProfile,
+} from "../../redux/slices/profile/profileSlice";
 
 const EditProfile = () => {
   const [userDetails, setUserDetails] = useState({});
   const [getData, setGetData] = useState({});
+  const [isClass, setIsClass] = useState(true);
+  const [error, setError] = useState("");
   const [panNo, setPanNo] = useState("");
   const [aadharNo, setAadharNo] = useState("");
   const [alternateNumber, setAlternateNumber] = useState("");
@@ -31,20 +29,31 @@ const EditProfile = () => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { loggedInUser } = useSelector((state) => state.login);
-  const { stateCityList, stateCityByPincode } = useSelector(
-    (state) => state.common
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
   );
-  const { userProfile } = useSelector((state) => state.signup);
+  const { allStateCityList } = useSelector(
+    (state) => state.signUpSlice.stateList
+  );
   const formik = useFormik({
     initialValues: {
-      AlternateMobile: "",
+      // AlternateMobile: "",
       PanCard: "",
       AadharNo: "",
       Pincode: "",
       PerAddress: "",
     },
     validationSchema: yup.object({
+      // AlternateMobile: yup
+      //   .string()
+        // .optional()
+        // .min(10)
+        // .max(10),
+        // ,
+        // .matches(
+        //   /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/,
+        //   "Please Enter Valid Number"
+        // )
       PanCard: yup
         .string()
         .required("Please Enter Your Pan Number")
@@ -59,10 +68,10 @@ const EditProfile = () => {
     }),
     onSubmit: (values, { resetForm }) => {
       if (pinCode.length == 6) {
+        if(!error){
         setLoading(true);
-        console.log(getData);
-        const userData = {
-          username: userDetails.UserName,
+        const userData =alternateNumber=='' || alternateNumber == null 
+        ? { username: userDetails.UserName,
           password: loggedInUser.TRXNPassword,
           FName: userDetails.FName,
           LName: userDetails.LName,
@@ -75,114 +84,128 @@ const EditProfile = () => {
             getData && getData.pincodeId != "" ? getData.pincodeId : pinCodeId,
           StateId: getData ? getData.stateId : stateCode,
           CityId: getData ? getData.cityId : cityCode,
-          AlternateMobile: values.AlternateMobile,
+          // AlternateMobile: null,
+        }
+        : { username: userDetails.UserName,
+          password: loggedInUser.TRXNPassword,
+          FName: userDetails.FName,
+          LName: userDetails.LName,
+          Mobile: userDetails.Mobile,
+          EmailId: userDetails.EmailId,
+          Pancard: values.PanCard,
+          Address: values.PerAddress,
+          AadharNo: values.AadharNo,
+          Pincode:
+            getData && getData.pincodeId != "" ? getData.pincodeId : pinCodeId,
+          StateId: getData ? getData.stateId : stateCode,
+          CityId: getData ? getData.cityId : cityCode,
+          AlternateMobile: alternateNumber,
         };
-        updateProfile(userData).then((response) => {
-          console.warn(response);
-          if (response.ResponseStatus == 1) {
-            setIsSnackBar(true);
-            setSuccessMsg(response.Remarks);
-          } else {
-            setIsSnackBar(true);
-          }
-          setLoading(false);
-        });
-      } else {
-        setIsSnackBar(true);
+        
+          updateProfile(userData).then((response) => {
+            if (response.ResponseStatus == 1) {
+              setIsSnackBar(true);
+              setSuccessMsg(response.Remarks);
+            } else {
+              setIsSnackBar(true);
+            }
+            setLoading(false);
+          });
+        }
+       
       }
     },
   });
 
   useEffect(() => {
-    if (formik.values.Pincode == pinCode) {
-      // dispatch(getUserDetails)
-
-      getProfileDetails(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
-        (response) => {
-          const data = response.Data[0];
-          setUserDetails(response.Data[0]);
-          setPanNo(data.PanCard);
-          setAadharNo(data.AadharNo);
-          setPinCode(data.Pincode);
-          setAddress(data.PerAddress);
-          setStateCode(data.StateId);
-          setCityCode(data.CityId);
-          setGetData({
-            ...getData,
-            stateId: data.StateId,
-            cityId: data.CityId,
-            pincodeId: data.PincodeId,
-          });
-          setAlternateNumber(data.AlternateMobile);
-          setLastUpdateAltMobile(data.LastUpdatedAltMobileEmail);
-          formik.values.Pincode = data.Pincode;
-          formik.values.AlternateMobile = data.AlternateMobile;
-          formik.values.PanCard = data.PanCard;
-          formik.values.PerAddress = data.PerAddress;
-          formik.values.AadharNo = data.AadharNo;
-
-          if (stateCityList) {
-            let selectedState = stateCityList.Data.find(
-              (item) => item.Id === getData.stateId
-            );
-            let selectedCity = selectedState?.Citys.find(
-              (item) => item.Id === getData.cityId
-            );
-            if (
-              getData.stateName != selectedState?.StateName &&
-              getData.cityName != selectedCity?.CityName
-            ) {
-              setGetData({
-                ...getData,
-                stateName: selectedState?.StateName,
-                cityName: selectedCity?.CityName,
-              });
-            }
-          }
-        }
-      );
-    }
-
-    if (formik.values.Pincode.length == 6) {
-      console.warn(formik.values.Pincode);
-      dispatch(getStateCity(formik.values.Pincode));
-
-      //     getCityState(formik.values.Pincode).then((response) => {
-      //       if (response.ResponseStatus == 1) {
-      // setGetData({...getData,stateName:response.Data[0].StateName,stateId:response.Data[0].StateId,stateError:false,cityId:response.Data[0].CityId,cityName:response.Data[0].CityName,cityError:false,pincodeId:response.Data[0].PincodeId})
-      //       } else {
-      //         setGetData({stateName:'',stateId:'',stateError:false,cityId:'',cityName:'',cityError:false})
-      //       }
-      //     });
-    }
-
-    if (formik.values.Pincode.length === 6) {
-      if (stateCityByPincode?.ResponseStatus === 1) {
-        console.warn(stateCityByPincode.Data[0]);
+    if (!userDetails.Id) {
+      getProfileDetails({
+        username: loggedInUser.Mobile,
+        password: loggedInUser.TRXNPassword,
+      }).then((response) => {
+        const data = response.Data[0];
+        setUserDetails(response.Data[0]);
+        setPanNo(data.PanCard);
+        setAadharNo(data.AadharNo);
+        setPinCode(data.Pincode);
+        setAddress(data.PerAddress);
+        setStateCode(data.StateId);
+        setCityCode(data.CityId);
         setGetData({
           ...getData,
-          stateName: stateCityByPincode.Data[0].StateName,
-          stateId: stateCityByPincode.Data[0].StateId,
-          stateError: false,
-          cityId: stateCityByPincode.Data[0].CityId,
-          cityName: stateCityByPincode.Data[0].CityName,
-          cityError: false,
-          pincodeId: stateCityByPincode.Data[0].PincodeId,
+          stateId: data.StateId,
+          cityId: data.CityId,
+          pincodeId: data.PincodeId,
         });
-      } else if (stateCityByPincode?.ResponseStatus === 0) {
+        setAlternateNumber(data.AlternateMobile);
+        setLastUpdateAltMobile(data.LastUpdatedAltMobileEmail);
+        formik.values.Pincode = data.Pincode;
+        formik.values.AlternateMobile = data.AlternateMobile;
+        formik.values.PanCard = data.PanCard;
+        formik.values.PerAddress = data.PerAddress;
+        formik.values.AadharNo = data.AadharNo;
+      });
+    }
+    if (allStateCityList) {
+      let selectedState = allStateCityList?.Data?.find(
+        (item) => item.Id === getData.stateId
+      );
+      let selectedCity = selectedState?.Citys.find(
+        (item) => item.Id === getData.cityId
+      );
+      if (
+        getData.stateName != selectedState?.StateName &&
+        getData.cityName != selectedCity?.CityName
+      ) {
         setGetData({
           ...getData,
-          stateName: "",
-          stateId: "",
-          stateError: false,
-          cityId: "",
-          cityName: "",
-          cityError: false,
+          stateName: selectedState?.StateName,
+          cityName: selectedCity?.CityName,
         });
       }
     }
-  }, [pinCode, formik.values.Pincode]);
+  }, [pinCode]);
 
+  useEffect(() => {
+    if (formik.values.Pincode.length === 6) {
+      getStateCity(formik.values.Pincode).then(response=>{
+        if (response?.ResponseStatus === 1) {
+          setGetData({
+            ...getData,
+            stateName: response.Data[0].StateName,
+            stateId: response.Data[0].StateId,
+            stateError: false,
+            cityId: response.Data[0].CityId,
+            cityName: response.Data[0].CityName,
+            cityError: false,
+            pincodeId: response.Data[0].PincodeId,
+          });
+        } else if (response?.ResponseStatus === 0) {
+          setGetData({
+            ...getData,
+            stateName: "",
+            stateId: "",
+            stateError: false,
+            cityId: "",
+            cityName: "",
+            cityError: false,
+          });
+        }
+      })
+    }else{
+      setGetData({
+        ...getData,
+        stateName: "",
+        stateId: "",
+        stateError: false,
+        cityId: "",
+        cityName: "",
+        cityError: false,
+      });
+    }
+ 
+  }, [formik.values.Pincode])
+  
   const editProfileSection = () => (
     <>
       <div class="my-account-right">
@@ -199,7 +222,6 @@ const EditProfile = () => {
                 <div class="formStyle">
                   <form
                     class="edit-profile-form"
-                    // onSubmit={!loading && clickSave}
                     onSubmit={!loading ? formik.handleSubmit : undefined}
                   >
                     <div class="row">
@@ -249,26 +271,30 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="AlternateMobile"
-                            onChange={
-                              formik.handleChange
-                              // handlerAlternateNumber
-                            }
+                            className={ error && "is-invalid" }
+                            onChange={e=>{
+                              const regex=/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/
+                              setAlternateNumber(e.target.value)
+                              if(!regex.test(e.target.value)){
+                                setError("Please Enter Valid Mobile Number")
+                              }else{
+                                  setError("")
+                                }
+                              }
+                              }
                             id="user-alternate-number"
                             placeholder="&nbsp;"
-                            value={
-                              formik.values.AlternateMobile != "null"
-                                ? formik.values.AlternateMobile
-                                : ""
-                            }
+                            type="number"
+                            value={alternateNumber}
                             autocomplete="off"
                             maxLength={10}
                             minLength={10}
-                            // required
                             readOnly={lastUpdateAltMobile && true}
                           />
                           <label for="user-alternate-number">
                             Alternate Number
                           </label>
+                          <div className="invalid-feedback text-danger">{error}</div>
                         </div>
                       </div>
                     </div>
@@ -280,7 +306,6 @@ const EditProfile = () => {
                             name="PanCard"
                             onChange={
                               formik.handleChange
-                              // handlePanChange
                             }
                             onBlur={formik.handleBlur}
                             className={
@@ -310,6 +335,7 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="AadharNo"
+                            type="number"
                             id="user-adhar-number"
                             placeholder="&nbsp;"
                             value={
@@ -319,7 +345,6 @@ const EditProfile = () => {
                             }
                             onChange={
                               formik.handleChange
-                              // handleAadharChange
                             }
                             onBlur={formik.handleBlur}
                             className={
@@ -345,7 +370,6 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="Pincode"
-                            // onChange={ handlePincodeChange  }
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             className={
@@ -362,7 +386,6 @@ const EditProfile = () => {
                                 : ""
                             }
                             autocomplete="off"
-                            // required
                             maxLength={6}
                             minLength={6}
                           />
@@ -377,15 +400,11 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="PerAddress"
-                            // onChange={handleAddressChange}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             className={
                               formik.errors.PerAddress &&
-                              formik.touched.PerAddress
-                                ? " is-invalid"
-                                : ""
-                            }
+                              formik.touched.PerAddress ? " is-invalid" : ""}
                             id="user-address"
                             type="text"
                             placeholder="&nbsp;"
@@ -395,7 +414,6 @@ const EditProfile = () => {
                                 : ""
                             }
                             autocomplete="off"
-                            // required
                           />
                           <label for="user-address">Address *</label>
                           <div className="invalid-feedback text-danger">
@@ -407,13 +425,14 @@ const EditProfile = () => {
                         pincode={formik.values.Pincode}
                         setGetData={setGetData}
                         getData={getData}
+                        isClass={isClass}
                       />
-
                       <div class="col-lg-12">
                         <div class="save-profile-btn text-center mt-4">
-                          <button type="submit" class="btn-primery">
-                            {loading ? <LoadingBar /> : "Save Profile"}
-                          </button>
+                          {/* <button type="submit" class="btn-primery">
+                            {loading ? <Loading /> : "Save Profile"}
+                          </button> */}
+                          <ThemeButton loading={loading} value={"Save Profile"}/>
                         </div>
                       </div>
                     </div>
@@ -421,14 +440,14 @@ const EditProfile = () => {
                 </div>
               </div>
             </div>
-            {/* <MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}
               // errorMsg={errorMsg}
               setSuccess={setSuccessMsg}
               // setError={setErrorMsg}
-            /> */}
+            />
           </div>
         </div>
       </div>

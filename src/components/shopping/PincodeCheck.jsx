@@ -6,9 +6,7 @@ const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
   const dispatch = useDispatch();
   const [pincode, setPincode] = useState("");
   const [apiResponse, setApiResponse] = useState("");
-
-  const { data, loading } = useSelector((state) => state.pincodeSlice);
-
+  const { data } = useSelector((state) => state.pincodeSlice.pinCode);
   const handlePincode = (e) => {
     setApiResponse("");
     const value = e.target.value.replace(/\D/g, "");
@@ -20,26 +18,17 @@ const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
   const clickCheckPincode = (e) => {
     e.preventDefault();
     setApiResponse("");
-    dispatch(checkPinCode(productId, pincode));
-
-    if (!loading && data) {
-      if (data.ResponseStatus === 1) {
-        setApiResponse(data.Remarks);
-      } else {
-        setIsSnackBar(true);
-        setErrorMsg(data.Remarks);
-      }
-    }
-
-    // .then((response) => {
-    //   if (response.ResponseStatus === 1) {
-    //     setApiResponse(response.Remarks);
-    //   } else {
-    //     setIsSnackBar(true);
-    //     setErrorMsg(response.Remarks);
-    //   }
-    // });
+    dispatch(checkPinCode({ pincode, productId }));
+  
   };
+useEffect(() => {
+  if (data.ResponseStatus === 1) {
+    setApiResponse(data?.Remarks);
+  } else if(data.ResponseStatus===0){
+    setIsSnackBar(true);
+    setErrorMsg(data?.Remarks);
+  }
+}, [data])
 
   return (
     <div class="quick-view-info-box">

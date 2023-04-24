@@ -1,0 +1,577 @@
+
+.digigold-order-content{
+    margin-bottom: 30px;
+}
+.digigold-order-nav{
+    margin-top: 30px;
+}
+.digigold-order-table table th{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--secondary);
+}
+.digigold-order-table table td{
+    font-size: 14px;
+}
+.digigold-order-nav ul{
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+.digigold-order-nav ul li{
+    padding: 20px 20px 10px;
+    list-style: none;
+}
+  
+.digigold-order-nav ul li button{
+    background: none;
+    border: none;
+    font-size: 20px;
+    font-weight: 500;
+    padding-bottom: 13px;
+}
+.digigold-order-nav ul li:first-child{
+    padding-left: 0;
+}
+.pdf-down-btn{
+    border: none;
+    background: none;
+}
+.pdf-down-btn img{
+    width: 20px;
+}
+
+.sell-status-btn{
+    border: none;
+    background: var(--primary);
+    padding: 3px 7px;
+    color: var(--whiteColor);
+    border-radius: 4px;
+}
+
+.delivery-view-btn{
+    border: none;
+    background: none;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+
+
+/* order summery popup start */
+.digigoldorderdetails-modal .modal-dialog {
+    max-width: 450px !important;
+    /* margin: 4.75rem auto; */
+}
+
+.digigoldorderdetails-modal .modal-content{
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+    -moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
+}
+
+.digigoldorderdetails-outer{
+    padding: 15px 20px 20px;
+}
+.digigoldorderdetails-title{
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: 1px solid var(--borderColor);
+    padding-bottom: 10px;
+    text-align: center;
+    color: var(--secondary);
+}
+.digigoldorderdetails-summery{
+    color: var(--darkText);
+    font-size: 14px;
+}
+.digigoldorderdetails-amt{
+    color: var(--darkText);
+    font-size: 14px;
+    font-weight: 500;
+}
+.digigoldorderdetails-down{
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* order summery popup end */
+
+
+
+/* delivery order details start */
+.delivery-reorder-btn{
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--borderColor);
+    text-align: right;
+}
+.delivery-reorder-btn button{
+    background: none;
+    border: none;
+    color: var(--textGray);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.digigold-delivery-order-wrapper{
+    background: var(--whiteColor);
+    padding: 25px;
+    border: 1px solid var(--borderColor);
+    border-radius: 10px;
+}
+.digigold-delivery-details{
+    padding: 0px 30px;
+    margin-bottom: 35px;
+}
+.delivery-order-details-title{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--secondary);
+    margin-bottom: 5px;
+}
+.delivery-order-details-name{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--darkText);
+    margin-bottom: 5px;
+}
+.delivery-order-details-normaltext{
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--textGray);
+    margin-bottom: 5px;
+}
+
+.digigold-cart-delivery-image {
+    float: left;
+    width: 28%;
+    margin-right: 8px;
+}
+  
+.digigold-cart-delivery-details {
+    float: left;
+    width: 50%;
+}
+
+.digigold-delivery-column-labels label{
+  font-weight: 500;
+  color: var(--secondary);
+}
+
+.digigold-cart-delivery-quantity {
+    float: left;
+    width: 22%;
+}
+
+.digigold-cart-delivery-price {
+    float: left;
+    width: 22%;
+    text-align: right;
+}
+  
+/* This is used as the traditional .clearfix class */
+.digigold-delivery-order-cart:before, .digigold-delivery-column-labels:before, .digigold-delivery-cart-product:before,
+.digigold-delivery-order-cart:after,
+.digigold-delivery-column-labels:after,
+.digigold-delivery-cart-product:after {
+    content: '';
+    display: table;
+}
+  
+.digigold-delivery-order-cart:after, .digigold-delivery-column-labels:after, .digigold-delivery-cart-product:after {
+    clear: both;
+}
+  
+.digigold-delivery-order-cart, .digigold-delivery-column-labels, .digigold-delivery-cart-product {
+    zoom: 1;
+}
+  
+.digigold-delivery-order-cart {
+    /* margin-top: -45px; */
+    font-size: 16px;
+}
+  
+/* Column headers */
+.digigold-delivery-column-labels {
+    zoom: 1;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+  
+/* Product entries */
+.digigold-delivery-cart-product {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.digigold-delivery-cart-product .digigold-cart-delivery-image img {
+    width: 100px;
+}
+.digigold-delivery-cart-product .digigold-cart-delivery-details .digigold-cart-delivery-title {
+    margin-right: 20px;
+}
+.digigold-delivery-cart-product .digigold-cart-delivery-details .digigold-cart-delivery-description {
+    font-size: 14px;
+    color: var(--textGray);
+    margin-bottom: 0;
+}
+
+.digigold-cart-delivery-name{
+  font-weight: 500;
+  margin-bottom: 7px;
+}
+
+/* delivery order details right start */
+
+.digigold-delivery-cart-right {
+    width: 100%;
+    height: 100%;
+    padding-top: 0%;
+}
+
+.digigold-delivery-cart-payment-outer {
+    padding: 23px 20px;
+    background: var(--whiteColor);
+    border-radius: 10px;
+    border: 1px solid var(--borderColor);
+}
+
+.digigold-delivery-cart-payment-head{
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--secondary);
+    margin-bottom: 16px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--lightBorder);
+}
+  
+.digigold-delivery-cart-payment-summery{
+    color: var(--textGray);
+    font-size: 16px;
+}
+.digigold-cart-summery-dark-text{
+  color: var(--darkText);
+  font-weight: 500;
+}
+
+.digigold-cart-payment-confirm-btn button{
+    font-size: 17px;
+    font-weight: 500;
+    background: none;  
+    padding: 10px 20px;
+    margin-top: 0px;
+}
+
+/* delivery order details right end */
+
+/* delivery order details end */
+
+
+
+
+@media only screen and (min-width: 320px) and (max-width: 414px){
+
+  .digigold-order-table .table th:first-child,
+  .digigold-order-table .table td:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--whiteColor);
+  }
+
+
+  .digigold-delivery-details {
+    padding: 0px 0px;
+    margin-bottom: 20px;
+  }
+  .delivery-details-box{
+    border-bottom: 1px solid var(--borderColor);
+    margin-bottom: 10px;
+      padding-bottom: 10px;
+  }
+  .delivery-details-box:last-child{
+    margin-bottom: 0;
+  }
+
+  .delivery-order-details-title {
+    font-size: 15px;
+  }
+  .delivery-order-details-name {
+    font-size: 15px;
+  }
+  .digigold-delivery-cart-payment-head {
+    font-size: 16px;
+  }
+
+}
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+
+  .digigold-order-table .table th:first-child,
+  .digigold-order-table .table td:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--whiteColor);
+  }
+
+
+  .digigold-delivery-details {
+    padding: 0px 0px;
+    margin-bottom: 20px;
+  }
+  .delivery-details-box {
+    border-bottom: 1px solid var(--borderColor);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+  .delivery-order-details-title {
+    font-size: 15px;
+  }
+  .delivery-order-details-name {
+    font-size: 15px;
+  }
+  .digigold-delivery-cart-payment-head {
+    font-size: 16px;
+  }
+
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+
+  .digigold-order-table .table th:first-child,
+  .digigold-order-table .table td:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--whiteColor);
+  }
+
+
+  .digigold-delivery-details {
+    padding: 0px 0px;
+    margin-bottom: 35px;
+  }
+  .delivery-order-details-title {
+    font-size: 15px;
+  }
+  .delivery-order-details-name {
+    font-size: 15px;
+  }
+  .digigold-delivery-cart-payment-head {
+    font-size: 16px;
+  }
+
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+
+  .digigold-order-table .table th:first-child,
+  .digigold-order-table .table td:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--whiteColor);
+  }
+
+  .digigold-delivery-details {
+    padding: 0px 0px;
+    margin-bottom: 35px;
+  }
+  .delivery-order-details-title {
+    font-size: 15px;
+  }
+  .delivery-order-details-name {
+    font-size: 15px;
+  }
+  .digigold-delivery-cart-payment-head {
+    font-size: 16px;
+  }
+
+}
+
+
+@media screen and (max-width: 1280px) {
+  .digigold-delivery-order-cart {
+    /* margin-top: -45px; */
+    font-size: 14px;
+  }
+  .digigold-cart-delivery-image {
+    float: left;
+    width: 30%;
+    margin-right: 8px;
+  }
+  .digigold-delivery-cart-product .digigold-cart-delivery-image img {
+    width: 76px;
+  }
+  
+  .digigold-cart-payment-confirm-btn button {
+    font-size: 14px;
+  }
+  
+  .digigold-delivery-cart-right {
+    padding-top: 0%;
+  }
+  .digigold-cart-payment-head {
+    font-size: 16px;
+  }
+  .digigold-delivery-cart-payment-summery {
+    font-size: 14px;
+  }
+  
+}
+  
+
+@media screen and (max-width: 992px) {
+  .digigold-delivery-order-cart {
+    /* margin-top: -45px; */
+    font-size: 14px;
+  }
+  .digigold-cart-delivery-image {
+    float: left;
+    width: 22%;
+    margin-right: 8px;
+  }
+  .digigold-delivery-cart-product .digigold-cart-delivery-image img {
+    width: 84px;
+  }
+  .digigold-cart-payment-confirm-btn{
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  .digigold-cart-payment-confirm-btn button {
+    font-size: 14px;
+  }
+  
+  .digigold-cart-payment-head {
+    font-size: 16px;
+  }
+  .digigold-delivery-cart-payment-summery {
+    font-size: 14px;
+  }
+  
+}
+  
+@media screen and (max-width: 767px) {
+  .digigold-delivery-order-cart {
+    margin: 0;
+    padding-top: 0px;
+    /* border-top: 1px solid #eee; */
+  }
+  .digigold-delivery-order-cart {
+    /* margin-top: -45px; */
+    font-size: 14px;
+  }
+    
+  .digigold-delivery-column-labels {
+    display: none;
+  }
+    
+  .digigold-cart-delivery-image {
+    float: right;
+    width: auto;
+  }
+  .digigold-cart-delivery-image img {
+    margin: 0 0 10px 10px;
+  }
+  .digigold-delivery-cart-product .digigold-cart-delivery-image img {
+    width: 80px;
+  }
+    
+  .digigold-cart-delivery-details {
+    float: none;
+    margin-bottom: 10px;
+    width: auto;
+  }
+    
+  .digigold-cart-delivery-quantity {
+    float: right;
+    width: 40%;
+  }
+      
+  .digigold-cart-delivery-quantity input {
+    margin-left: 20px;
+  }
+    
+  .digigold-cart-delivery-price {
+    /* float: right;
+    width: 70px; */
+    float: left;
+    width: 100%;
+    text-align: left;
+  }
+  
+  
+  .digigold-cart-payment-confirm-btn{
+    text-align: center;
+  }
+  .digigold-cart-payment-confirm-btn button {
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 30px;
+  }
+  
+  .digigold-delivery-cart-right {
+    padding-top: 0%;
+  }
+  .digigold-cart-payment-head {
+    font-size: 16px;
+  }
+  .digigold-delivery-cart-payment-summery {
+    font-size: 14px;
+  }
+  
+}
+
+  
+@media screen and (max-width: 712px) {
+  .digigold-cart-delivery-quantity {
+    float: left;
+    width: 40%;
+    margin-bottom: 5px;
+  }
+  .digigold-cart-payment-confirm-btn button {
+    margin-bottom: 0px;
+  }
+}
+  
+@media screen and (max-width: 350px) {
+  .digigold-cart-delivery-quantity {
+    float: left;
+    width: 40%;
+  }
+  .digigold-cart-delivery-price {
+    float: left;
+    clear: left;
+    width: auto;
+    margin-top: 10px;
+  }
+  .digigold-delivery-cart-product .digigold-cart-delivery-image img {
+    width: 68px;
+  }
+      
+  .digigold-cart-payment-confirm-btn{
+    text-align: center;
+  }
+  .digigold-cart-payment-confirm-btn button {
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 30px;
+  }
+  
+  .digigold-delivery-cart-right {
+    padding-top: 0%;
+  }
+  .digigold-cart-payment-head {
+    font-size: 16px;
+  }
+  .digigold-delivery-cart-payment-summery {
+    font-size: 14px;
+  }
+  
+}

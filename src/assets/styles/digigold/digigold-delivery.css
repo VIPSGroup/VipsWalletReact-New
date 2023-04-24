@@ -1,0 +1,109 @@
+
+.delivery-section-head{
+    margin-bottom: 3.6rem;
+}
+.digigold-section-subtitle{
+    font-size: 14px;
+    color: var(--secondary);
+    font-weight: 500;
+}
+.delivery-charges-outer{
+    border: 1px solid var(--borderColor);
+    background: var(--whiteColor);
+    padding: 35px 15px 15px;
+    border-radius: 6px;
+    margin: auto;
+}
+
+.digigold-product-select{
+    margin: 0 0 20px;
+    padding: 0 20px;
+    grid-column-gap: 20px;
+    align-items: center;
+}
+.delivery-product-select-btn{
+    background: var(--whiteColor) !important;
+    color: var(--secondary) !important;
+    border: 1px solid var(--borderColor) !important;
+    padding: 4px 15px !important;
+}
+.delivery-product-select-btn.dropdown-toggle::after{
+    margin-left: 2.255em;
+}
+
+.digigold-cart-badge-icon {
+    font-size: 24px;
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+  
+.digigold-cart-badge {
+    background-color: var(--secondary);
+    font-size: 12px;
+    color: white;
+    text-align: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: -5px;
+    right: 26px;
+}
+
+.digi-coin-wrapper{
+    border: 1px solid var(--borderColor);
+    background: var(--whiteColor);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    text-align: center;
+    color: var(--secondary);
+}
+.digi-coin-img{
+    margin: 0px 0 20px 0;
+}
+.digi-gram{
+    font-size: 16px;
+    font-weight: 500;
+}
+.digi-coin-product-name{
+    font-size: 14px;
+}
+.digi-coin-amt{
+    font-size: 16px;
+    font-weight: 500;
+}
+.digi-coin-small-text{
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--textGray);
+}
+
+
+@media only screen and (min-width: 320px) and (max-width: 413px){
+    .digigold-product-select {
+        margin: 20px 0 20px;
+        padding: 0 20px;
+    }
+    .digigold-cart-badge{
+        top: 15px;
+    }
+    .delivery-charges-outer{
+        padding: 15px 15px 15px;
+    }
+
+}
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+    .digigold-product-select {
+        margin: 20px 0 20px;
+        padding: 0 20px;
+    }
+    .digigold-cart-badge{
+        top: 15px;
+    }
+    .delivery-charges-outer{
+        padding: 15px 15px 15px;
+    }
+}

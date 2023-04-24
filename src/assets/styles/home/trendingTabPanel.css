@@ -1,0 +1,278 @@
+.react-multi-carousel-list{
+  position: unset !important;
+}
+.tab-panel-card .nav-item .nav-link,
+.tab-panel-card .nav-tabs .nav-link {
+    -webkit-transition: all 300ms ease 0s;
+    -moz-transition: all 300ms ease 0s;
+    -o-transition: all 300ms ease 0s;
+    -ms-transition: all 300ms ease 0s;
+    transition: all 300ms ease 0s;
+}
+
+.tab-panel-card a {
+    -webkit-transition: all 150ms ease 0s;
+    -moz-transition: all 150ms ease 0s;
+    -o-transition: all 150ms ease 0s;
+    -ms-transition: all 150ms ease 0s;
+    transition: all 150ms ease 0s;
+}
+
+.tab-panel-card .nav-tabs {
+    border: 0;
+    padding: 0px 0px 18px;
+}
+
+.nav-tabs:not(.nav-tabs-neutral)>.nav-item>.nav-link.active {
+    /* box-shadow: 0px 5px 35px 0px rgba(0, 0, 0, 0.3); */
+    border-bottom: 3px solid var(--primary);
+}
+
+.tab-panel-card .nav-tabs {
+    /* border-top-right-radius: 0.1875rem;
+    border-top-left-radius: 0.1875rem; */
+    border: none;
+}
+ 
+.tab-panel-card {
+    /* border: 0;
+    border-radius: 0.1875rem; */
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    /* margin-bottom: 30px;
+    box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2); */
+}
+
+.tab-panel-card .tab-panel-card-header {
+    background-color: transparent;
+    border-bottom: 0;
+    background-color: transparent;
+    border-radius: 0;
+    padding: 0;
+}
+
+.tab-panel-card-body {
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1.25rem 0.25rem 0;
+}
+
+.tab-panel-card .nav-tabs>.nav-item>.nav-link {
+  color: var(--darkText);
+  margin: 0;
+  margin: 0 25px;
+  background-color: transparent;
+  /* border: 1px solid transparent; */
+  border: none;
+  /* border-radius: 30px; */
+  font-size: 16px;
+  padding: 5px 0px 11px;
+  line-height: 1.5;
+}
+
+.tab-panel-card .nav-tabs>.nav-item>.nav-link:hover {
+  background-color: transparent;
+}
+
+.tab-panel-card .tab-panel-card .nav-tabs>.nav-item>.nav-link.active {
+  background-color: var(--whiteColor);
+  /* border-radius: 30px; */
+  color: var(--darkText);
+  font-weight: 500;
+}
+
+
+.tab-panel-card .nav-tabs.nav-tabs-neutral>.nav-item>.nav-link {
+  color: var(--whiteColor);
+}
+
+.tab-panel-card .nav-tabs.nav-tabs-neutral>.nav-item>.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--whiteColor);
+}
+
+
+@media only screen and (min-width: 320px) and (max-width: 414px){
+  
+  .online-store-modal .titleMain {
+    font-size: 16px;
+    margin-left: 2px;
+  }
+  .online-store-modal-close {
+      display: contents;
+  }
+  .online-stores-terms {
+      padding: 0 2px;
+      font-size: 12px;
+  }
+  .online-store-btn button {
+      font-size: 15px;
+  }
+
+
+  .tab-panel-card .nav-tabs {
+    border: none;
+    flex-wrap: nowrap;
+  }
+  .tab-panel-card .nav-tabs>.nav-item>.nav-link {
+    margin: 0 15px;
+    font-size: 15px;
+  }
+
+ 
+
+  .payment-app { 
+    background-position: bottom; 
+  }
+  .payment-app-banner-content { 
+    margin-bottom: 7%;
+  }
+  .payment-app-banner-content {
+    padding-top: 0%;
+  }
+  .payment-app-banner-title { 
+    font-size: 26px; 
+    margin-bottom: 20px;
+  }
+  .payment-app-banner-p { 
+    font-size: 12px; 
+  }
+  .banner-phone-image {
+    padding-left: 0;
+  }
+
+
+}
+
+@media only screen and (min-width: 414px) and (max-width: 767px){
+  
+  .online-store-modal .titleMain {
+    font-size: 16px;
+    margin-left: 2px;
+  }
+  .online-store-modal-close {
+      display: contents;
+  }
+  .online-stores-terms {
+      padding: 0 2px;
+      font-size: 12px;
+  }
+  .online-store-btn button {
+      font-size: 15px;
+  }
+
+
+  .tab-panel-card .nav-tabs>.nav-item>.nav-link {
+    font-size: 15px;
+  }
+
+  
+
+  .payment-app { 
+    background-position: bottom; 
+  }
+  .payment-app-banner-content { 
+    margin-bottom: 7%;
+  }
+  .payment-app-banner-content {
+    padding-top: 0%;
+  }
+  .payment-app-banner-title { 
+    font-size: 28px; 
+    margin-bottom: 20px;
+  }
+  .payment-app-banner-p { 
+    font-size: 12px; 
+  }
+  .banner-phone-image {
+    padding-left: 0;
+  }
+
+  
+}
+
+@media only screen and (min-width: 540px) and (max-width: 767px){
+  .online-store-modal .modal-dialog {
+    max-width: 430px !important;
+    margin: 4.75rem auto;
+  }
+  .online-store-modal .titleMain {
+      font-size: 16px;
+  }
+  .online-store-btn button {
+      font-size: 15px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+  .online-store-modal .modal-dialog {
+    max-width: 531px !important;
+  }
+  .online-store-modal .titleMain {
+      font-size: 18px;
+  }
+  
+  
+
+ .payment-app { 
+  background-position: bottom; 
+  }
+  .payment-app-banner {
+    margin-bottom: 5%;
+  }
+  .payment-app-banner-content {
+    padding-top: 0%;
+}
+  .payment-app-banner-content { 
+    margin-bottom: 11%;
+  }
+  .payment-app-banner-title { 
+    font-size: 24px; 
+  }
+  .payment-app-banner-p{
+    font-size: 12px;
+  }
+  .banner-phone-image {
+    padding-left: 6%;
+    padding-top: 13%;
+  }
+
+  
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1279px){
+  .promo-product-action button{ 
+    padding: 9px 25px;
+  }
+  .promo-wishlist button{
+    padding: 10px 11px 4px 11px;
+  }
+  .promo-product-list-price { 
+    font-size: 12px; 
+  }
+  .promo-product-list-price s { 
+    font-size: 11px; 
+    margin: 0px 0px;
+  }
+
+  
+
+  .payment-app-banner-title { 
+    font-size: 28px; 
+  }
+  .payment-app-banner {
+    margin-bottom: 2%;
+  }
+  .payment-app-banner-content {
+    padding-top: 2%;
+}
+
+}
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+   
+}

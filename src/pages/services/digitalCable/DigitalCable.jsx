@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import { digitalCableServiceId } from "../../../constants";
+import ServiceFrontCommon from "../ServiceFrontCommon";
 
 const DigitalCable = () => {
   return (
-    <div>DigitalCable</div>
-  )
-}
+    <ServiceFrontCommon
+      serviceId={digitalCableServiceId}
+      serviceName="digitalCable"
+      title="Digital Cable"
+    />
+  );
+};
 
-export default DigitalCable
+export default DigitalCable;

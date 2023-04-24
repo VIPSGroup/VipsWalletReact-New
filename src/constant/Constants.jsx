@@ -1,9 +1,13 @@
 const themeColor = "#393186";
-export const baseApiUrl = "https://api.vipswallet.com/api";
-// export const baseApiUrl = "http://webplat.vipswallet.com/api/";
+// export const baseApiUrl = "https://api.vipswallet.com/api";
+export const digiBaseUrl = "http://devtest.vipswallet.com/api/DigiGold/";
+export const baseApiUrl = "http://devtest.vipswallet.com/api";
+
 export const shopadminUrl = "http://shopadmin.vipswallet.com";
 export const vendorPanelAPi = "http://vendor.vipswallet.com/Login/Vendor";
+
 export const staticTocken = "XMCNBVGDTE734BCU65DW"; //used for getting banners , affiliate etc while calling apis.
+export const appType = "WebSite";
 
 //Service IDS
 export const mobileServiceId = 1;
@@ -58,8 +62,8 @@ const travelTerms = "Travel";
 const faq = "FAQ";
 const privacypolicy = "Privacy Policy";
 const termsAndConditions = "Terms And Conditions";
-
-export const appType = "WebSite";
+const VIPSGoldtermsAndConditions = "VIPS Gold Terms And Conditions";
+const VIPSGoldfaq = "VIPS Gold FAQs";
 
 export const electronicCategoryId = 53;
 export const fashionCategoryId = 43;
@@ -83,8 +87,26 @@ export const getTermsConditionsId = (type) => {
     return faq;
   } else if (type && type.includes("termscondtion")) {
     return termsAndConditions;
+  } else if (type && type.includes("VIPS Gold Terms And Conditions")) {
+    return VIPSGoldtermsAndConditions;
+  } else if (type && type.includes("VIPS Gold FAQs")) {
+    return VIPSGoldfaq;
   }
 };
+
+export const handleKeyPressForName = (event) => {
+  const charCode = event.which ? event.which : event.keyCode;
+  if (charCode !== 8 && !/^[a-zA-Z ]+$/.test(String.fromCharCode(charCode))) {
+    event.preventDefault();
+  }
+};
+
+export function handleMobileKeyPress(event) {
+  const charCode = event.which || event.keyCode;
+  if (charCode < 48 || charCode > 57) {
+    event.preventDefault();
+  }
+}
 
 export const googleAnalytics = "UA-220725992-1";
 

@@ -18,7 +18,7 @@ const Profile = () => {
 const {loggedInUser}=  useSelector(state=>state.login)
 
   useEffect(() => {
-    getProfileDetails(loggedInUser.Mobile, loggedInUser.TRXNPassword).then((response) => {
+    getProfileDetails({username:loggedInUser.Mobile, password:loggedInUser.TRXNPassword}).then((response) => {
       setUserDetails(response.Data[0]);
       listStateAndCity().then((res) => {
         let obj = res.Data.find((o) => o.Id === response.Data[0].StateId);

@@ -4,6 +4,7 @@ import "../../assets/styles/shopping/quickViewModal.css";
 import { Link } from "react-router-dom";
 import AddWishListButton from "../buttons/AddWishListButton";
 import { getReplaceSpace } from "../../constant/Constants";
+import { MuiSnackBar } from "../common";
 
 const CarouselProductCard = ({ product, wishlistCard }) => {
   const [existInWishlist, setExistInWishlist] = useState(false);
@@ -35,7 +36,6 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
       <div class="modal-dialog" role="document"></div>
     </div>
   );
-
   const productCardSection = () => (
     <div class="promo-product-card">
       <Link
@@ -65,16 +65,21 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
               <span class="promo-product-mrp">
                 {" "}
                 &#x20B9;{" "}
-                {product.SalePrice && product.SalePrice.toLocaleString()}
+                {product?.SalePrice.toLocaleString().split(".").length!==2 ?product?.SalePrice && product?.SalePrice.toLocaleString() :product?.SalePrice.toLocaleString().split(".")[0] }
               </span>
-              <span class="promo-product-list-price">
+              {
+                product.CostPrice!==0 &&<>
+                  <span class="promo-product-list-price">
                 <s>
                   {" "}
                   &#x20B9;{" "}
-                  {product.RetailPrice && product.RetailPrice.toLocaleString()}
+                  {product?.RetailPrice &&
+                    product?.RetailPrice.toLocaleString()}
                 </s>
                 ({product.CostPrice}% Off)
-              </span>
+              </span></>
+              }
+            
             </div>
             <div class="promo-product-delivery">
               <p>Delivery by {product.DeliveryEnd}</p>
@@ -94,7 +99,7 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
           </div>
         ) : (
           <div class="promo-wishlist ml-auto">
-            <AddWishListButton
+            <AddWishListButton 
               product={product}
               inWishlist={existInWishlist}
               inWishlistStateChanger={setExistInWishlist}

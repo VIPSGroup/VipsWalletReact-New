@@ -11,7 +11,7 @@ export const getTransactionId = () => {
 
 export const getPayUHash = (user, transactionId, amount) => {
   const formData = new FormData();
-  const fname = user.Name.split(" ")[0];
+  const fname = user?.Name?.split(" ")[0];
   formData.append("txnid", transactionId);
   formData.append("amount", amount);
   formData.append("productinfo", "AddMoney");
@@ -19,6 +19,7 @@ export const getPayUHash = (user, transactionId, amount) => {
   formData.append("email", user.Emailid);
   formData.append("user_credentials", "e9ZmdY:" + user.UserName);
   formData.append("transactionType", "ADD_MONEY");
+  formData.append("currentAppVersion", "currentVersion");
   formData.append("AppType", appType);
   return fetch(`${baseApiUrl}/payuhash`, {
     method: "POST",
@@ -29,6 +30,8 @@ export const getPayUHash = (user, transactionId, amount) => {
     })
     .catch((err) => {});
 };
+
+// Done in Slice
 
 export const checkGABBalance = (username, password) => {
   const formData = new FormData();
@@ -94,7 +97,22 @@ export const finstockGenerateOtp = (username, password, email, vipsCoin) => {
     })
     .catch((err) => {});
 };
-
+export const globalConfiguration = (type) => {
+  return fetch(`${baseApiUrl}/GlobalConfiguration/GetConfigBySubKey`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Basic " + btoa("VipsWallet:vips@@1029"),
+    },
+    body: JSON.stringify({
+      key: type,
+    }),
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .catch((err) => {});
+};
 export const finstockAdd = (
   username,
   password,
@@ -156,3 +174,6 @@ export const finstocTradePriceCheck = (username, password) => {
     })
     .catch((err) => {});
 };
+
+
+// All Done

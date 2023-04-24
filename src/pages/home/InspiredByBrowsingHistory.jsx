@@ -39,12 +39,13 @@ const InspiredByBrowsingHistory = () => {
 
   return (
     <>
-      <ProductHorizontal
+    {products && <ProductHorizontal
         title="Inspired "
         subtitle="By Browsing History"
         products={products}
         description=""
-      />
+      />}
+      
     </>
   );
 };

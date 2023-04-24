@@ -1,398 +1,398 @@
 .deals-center .react-multi-carousel-list{
-    /* justify-content: space-around; */
+  /* justify-content: space-around; */
+}
+.promo-product{
+  text-decoration: none;
+  color: var(--darkText);
+}
+.promo-product:hover{
+  text-decoration: none;
+  color: var(--darkText);
+}
+.promo-product-card{
+  overflow: hidden;
+  background-color: var(--whiteColor);
+  height: 100%;
+  width: 100%;
+  padding-bottom: 8px;
+  border-radius: 10px; 
+  position: relative;
+  -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  -moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
+
+.promo-product-card .promo-product-image img{
+  height: 250px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.product-badge-outer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -31px;
+}
+
+.promo-offer{
+  /* position: absolute;
+  margin-top: -31px;
+  left: 0px; */
+  /* top: 10px; */
+  background-color:var(--primary);
+  color: var(--whiteColor); 
+  padding: 4px 16px;
+  border-radius: 0px 10px 0px 0;
+  /* display: flex;
+  justify-content: center;
+  align-items: center;  */
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.cb-badge{
+  background: var(--badge);
+  padding: 0px 7px;
+  color: var(--whiteColor);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.promo-product-card .promo-product-details h3{
+  /* padding: 10px; */
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.promo-product-details{
+  padding: 18px 13px 18px 13px;
+  text-align: center;
+}
+
+.promo-product-price-detail{
+
+  justify-content: space-between;
+  align-items: center; 
+  /* padding: 0 10px; */
+}
+.promo-product-mrp{
+  color: var(--secondary);
+  font-size: 18px;
+  font-weight: 500;
+}
+.promo-product-list-price s{
+  color: var(--darkText);
+  font-size: 13px;
+  font-weight: 400;
+  margin: 0 5px;
+}
+.promo-product-list-price{
+  color: var(--secondary);
+  font-size: 13px;
+  font-weight: 500;
+  vertical-align: text-bottom;
+}
+.promo-product-delivery{
+  color: var(--darkText);
+  font-size: 13px;
+  font-weight: 500;
+}
+.promo-product-delivery p{
+  margin-bottom: 0;
+}
+.promo-product-action{
+  display: flex;
+  padding: 0 10px 10px;
+}
+.promo-product-action button{
+  background: none;
+  border: none;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 44px;
+}
+.promo-wishlist button{
+  padding: 12px 12px 4px 12px !important;
+}
+.promo-wishlist button i{ 
+  font-size: 20px;
+}
+
+
+
+@media only screen and (min-width: 275px) and (max-width: 319px){
+  .promo-product-action button {
+    padding: 9px 32px;
   }
-  .promo-product{
-    text-decoration: none;
-    color: var(--darkText);
-  }
-  .promo-product:hover{
-    text-decoration: none;
-    color: var(--darkText);
-  }
-  .promo-product-card{
-    overflow: hidden;
-    background-color: var(--whiteColor);
-    height: 100%;
-    width: 100%;
-    padding-bottom: 8px;
-    border-radius: 10px; 
-    position: relative;
-    -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
-    -moz-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
-    box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 12%);
-  }
+
+}
+
+
+@media only screen and (min-width: 320px) and (max-width: 414px){
   
-  .promo-product-card .promo-product-image img{
-    height: 250px;
-    width: 100%;
-    object-fit: contain;
-  }
-  
-  .product-badge-outer{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: -31px;
-  }
-  
-  .promo-offer{
-    /* position: absolute;
-    margin-top: -31px;
-    left: 0px; */
-    /* top: 10px; */
-    background-color:var(--primary);
-    color: var(--whiteColor); 
-    padding: 4px 16px;
-    border-radius: 0px 10px 0px 0;
-    /* display: flex;
-    justify-content: center;
-    align-items: center;  */
-    font-size: 16px;
-    font-weight: 500;
-  }
-  
-  .cb-badge{
-    background: var(--badge);
-    padding: 0px 7px;
-    color: var(--whiteColor);
-    font-size: 12px;
-    font-weight: 500;
-  }
-  
-  .promo-product-card .promo-product-details h3{
-    /* padding: 10px; */
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 10px;
-  }
-  
-  .promo-product-details{
-    padding: 18px 13px 18px 13px;
+  .promo-product-details {
     text-align: center;
   }
+ 
   
-  .promo-product-price-detail{
   
-    justify-content: space-between;
-    align-items: center; 
-    /* padding: 0 10px; */
+  .payment-app { 
+    background-position: bottom; 
   }
-  .promo-product-mrp{
-    color: var(--secondary);
-    font-size: 18px;
-    font-weight: 500;
+  .payment-app-banner-content { 
+    margin-bottom: 7%;
   }
-  .promo-product-list-price s{
-    color: var(--darkText);
-    font-size: 13px;
-    font-weight: 400;
-    margin: 0 5px;
+  .payment-app-banner-content {
+    padding-top: 0%;
   }
-  .promo-product-list-price{
-    color: var(--secondary);
-    font-size: 13px;
-    font-weight: 500;
-    vertical-align: text-bottom;
+  .payment-app-banner-title { 
+    font-size: 26px; 
+    margin-bottom: 20px;
   }
-  .promo-product-delivery{
-    color: var(--darkText);
-    font-size: 13px;
-    font-weight: 500;
+  .payment-app-banner-p { 
+    font-size: 12px; 
   }
-  .promo-product-delivery p{
+  .banner-phone-image {
+    padding-left: 0;
+  }
+  
+  .footer-outer {
+    padding: 7% 7% 1% 7%;
+  }
+  .footer-box:last-child {
     margin-bottom: 0;
   }
-  .promo-product-action{
-    display: flex;
-    padding: 0 10px 10px;
+  .footer-box{
+    display: inline-block;
+    width: 100%;
   }
-  .promo-product-action button{
-    background: none;
-    border: none;
-    text-transform: uppercase;
-    font-size: 13px;
+  .footer-box:first-child{
+    display: inline-block;
+    width: 100%;
+  }
+  .footer-box{
+    margin-bottom: 20px;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 20px;
+  }
+
+  
+  .footer-bottom .policy{
+    display: flex;
+    float: none;
+  }
+  .footer-bottom .policy > div {
+    padding: 0px 3px 0px 3px;
+    margin-top: 19px;
+  }
+  .footer-bottom .policy > div:first-child {
+    padding-left: 0px;
+  }
+
+}
+  
+@media only screen and (min-width: 414px) and (max-width: 767px){
+  .promo-product-details {
+    text-align: center;
+  }
+  .promo-product-mrp {
+    color: #393186;
+    font-size: 17px;
     font-weight: 500;
-    padding: 9px 44px;
+  }
+  .promo-product-list-price s {
+    color: #212121;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 0 3px;
+  }
+  
+  
+  
+  .payment-app { 
+    background-position: bottom; 
+  }
+  .payment-app-banner-content { 
+    margin-bottom: 7%;
+  }
+  .payment-app-banner-content {
+    padding-top: 0%;
+  }
+  .payment-app-banner-title { 
+    font-size: 28px; 
+    margin-bottom: 20px;
+  }
+  .payment-app-banner-p { 
+    font-size: 12px; 
+  }
+  .banner-phone-image {
+    padding-left: 0;
+  }
+  
+  .footer-outer {
+    padding: 7% 7% 1% 7%;
+  }
+  .footer-box:last-child {
+    margin-bottom: 0;
+  }
+  .footer-box{
+    display: inline-block;
+    width: 100%;
+  }
+  .footer-box:first-child{
+    display: inline-block;
+    width: 100%;
+  }
+  .footer-box{
+    margin-bottom: 20px;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 20px;
+  }
+  .footer-bottom .policy{
+    display: flex;
+    float: none;
+  }
+  .footer-bottom .policy > div {
+    padding: 0px 8px 0px 8px;
+    margin-top: 19px;
+  }
+  .footer-bottom .policy > div:first-child {
+    padding-left: 0px;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px){
+  .promo-product-action button{
+    padding: 9px 20px;
+  }
+
+  .promo-product-mrp {
+    display: block;
+  }
+  .promo-product-list-price {
+    display: block;
+  }
+  .promo-product-delivery {
+    display: block;
+  }
+
+}
+
+@media only screen and (min-width: 540px) and (max-width: 767px){
+  .promo-product-action button{
+    padding: 9px 33px;
+  }
+
+}
+  
+@media only screen and (min-width: 768px) and (max-width: 991px){
+    
+  .promo-product-details {
+    text-align: center;
+  }
+  .promo-product-action button {
+    padding: 9px 24px;
+  }
+  .promo-product-mrp {
+    display: block;
+  }
+  .promo-product-list-price {
+    display: block;
+  }
+  .promo-product-delivery{
+    display: block;
+  }
+  .promo-offer {
+    font-size: 14px;
+  }
+  
+  
+  .payment-app { 
+    background-position: bottom; 
+  }
+  .payment-app-banner {
+    margin-bottom: 5%;
+  }
+  .payment-app-banner-content {
+    padding-top: 0%;
+  }
+  .payment-app-banner-content { 
+    margin-bottom: 11%;
+  }
+  .payment-app-banner-title { 
+    font-size: 24px; 
+  }
+  .payment-app-banner-p{
+    font-size: 12px;
+  }
+  .banner-phone-image {
+    padding-left: 6%;
+    padding-top: 13%;
+  }
+  
+  .footer-box:first-child {
+    display: inline-block;
+    width: 34%;
+  }
+  .footer-box {
+    display: inline-block;
+    width: 33%;
+  }
+  .footer-box{
+    margin-bottom: 20px;
+    border-bottom: none;
+    padding-bottom: 20px;
+  }
+  .footer-bottom .policy{
+    display: flex;
+    float: none;
+  }
+  .footer-bottom .policy > div {
+    padding: 0px 17px 0px 12px;
+    margin-top: 19px;
+  }
+  .footer-bottom .policy > div:first-child {
+    padding-left: 0px;
+  }
+}
+  
+  
+@media only screen and (min-width: 992px) and (max-width: 1279px){
+  .promo-product-action button{ 
+    padding: 10px 25px;
   }
   .promo-wishlist button{
-    padding: 12px 12px 4px 12px !important;
+    padding: 10px 11px 4px 11px;
   }
-  .promo-wishlist button i{ 
-    font-size: 20px;
+  .promo-product-mrp {
+    font-size: 15px;
   }
-  
-  
-  
-  @media only screen and (min-width: 275px) and (max-width: 319px){
-    .promo-product-action button {
-      padding: 9px 32px;
-    }
-  
+  .promo-product-list-price { 
+    font-size: 12px; 
+  }
+  .promo-product-list-price s { 
+    font-size: 11px; 
+    margin: 0px 0px;
   }
   
+    
   
-  @media only screen and (min-width: 320px) and (max-width: 414px){
-    
-    .promo-product-details {
-      text-align: center;
-    }
-   
-    
-    
-    .payment-app { 
-      background-position: bottom; 
-    }
-    .payment-app-banner-content { 
-      margin-bottom: 7%;
-    }
-    .payment-app-banner-content {
-      padding-top: 0%;
-    }
-    .payment-app-banner-title { 
-      font-size: 26px; 
-      margin-bottom: 20px;
-    }
-    .payment-app-banner-p { 
-      font-size: 12px; 
-    }
-    .banner-phone-image {
-      padding-left: 0;
-    }
-    
-    .footer-outer {
-      padding: 7% 7% 1% 7%;
-    }
-    .footer-box:last-child {
-      margin-bottom: 0;
-    }
-    .footer-box{
-      display: inline-block;
-      width: 100%;
-    }
-    .footer-box:first-child{
-      display: inline-block;
-      width: 100%;
-    }
-    .footer-box{
-      margin-bottom: 20px;
-      border-bottom: 1px solid #fff;
-      padding-bottom: 20px;
-    }
-  
-    
-    .footer-bottom .policy{
-      display: flex;
-      float: none;
-    }
-    .footer-bottom .policy > div {
-      padding: 0px 3px 0px 3px;
-      margin-top: 19px;
-    }
-    .footer-bottom .policy > div:first-child {
-      padding-left: 0px;
-    }
-  
+  .payment-app-banner-title { 
+    font-size: 28px; 
   }
-    
-  @media only screen and (min-width: 414px) and (max-width: 767px){
-    .promo-product-details {
-      text-align: center;
-    }
-    .promo-product-mrp {
-      color: #393186;
-      font-size: 17px;
-      font-weight: 500;
-    }
-    .promo-product-list-price s {
-      color: #212121;
-      font-size: 12px;
-      font-weight: 400;
-      margin: 0 3px;
-    }
-    
-    
-    
-    .payment-app { 
-      background-position: bottom; 
-    }
-    .payment-app-banner-content { 
-      margin-bottom: 7%;
-    }
-    .payment-app-banner-content {
-      padding-top: 0%;
-    }
-    .payment-app-banner-title { 
-      font-size: 28px; 
-      margin-bottom: 20px;
-    }
-    .payment-app-banner-p { 
-      font-size: 12px; 
-    }
-    .banner-phone-image {
-      padding-left: 0;
-    }
-    
-    .footer-outer {
-      padding: 7% 7% 1% 7%;
-    }
-    .footer-box:last-child {
-      margin-bottom: 0;
-    }
-    .footer-box{
-      display: inline-block;
-      width: 100%;
-    }
-    .footer-box:first-child{
-      display: inline-block;
-      width: 100%;
-    }
-    .footer-box{
-      margin-bottom: 20px;
-      border-bottom: 1px solid #fff;
-      padding-bottom: 20px;
-    }
-    .footer-bottom .policy{
-      display: flex;
-      float: none;
-    }
-    .footer-bottom .policy > div {
-      padding: 0px 8px 0px 8px;
-      margin-top: 19px;
-    }
-    .footer-bottom .policy > div:first-child {
-      padding-left: 0px;
-    }
+  .payment-app-banner {
+    margin-bottom: 2%;
+  }
+  .payment-app-banner-content {
+    padding-top: 2%;
   }
   
-  @media only screen and (min-width: 480px) and (max-width: 767px){
-    .promo-product-action button{
-      padding: 9px 20px;
-    }
+}
   
-    .promo-product-mrp {
-      display: block;
-    }
-    .promo-product-list-price {
-      display: block;
-    }
-    .promo-product-delivery {
-      display: block;
-    }
   
-  }
-  
-  @media only screen and (min-width: 540px) and (max-width: 767px){
-    .promo-product-action button{
-      padding: 9px 33px;
-    }
-  
-  }
-    
-  @media only screen and (min-width: 768px) and (max-width: 991px){
-      
-    .promo-product-details {
-      text-align: center;
-    }
-    .promo-product-action button {
-      padding: 9px 24px;
-    }
-    .promo-product-mrp {
-      display: block;
-    }
-    .promo-product-list-price {
-      display: block;
-    }
-    .promo-product-delivery{
-      display: block;
-    }
-    .promo-offer {
-      font-size: 14px;
-    }
-    
-    
-    .payment-app { 
-      background-position: bottom; 
-    }
-    .payment-app-banner {
-      margin-bottom: 5%;
-    }
-    .payment-app-banner-content {
-      padding-top: 0%;
-    }
-    .payment-app-banner-content { 
-      margin-bottom: 11%;
-    }
-    .payment-app-banner-title { 
-      font-size: 24px; 
-    }
-    .payment-app-banner-p{
-      font-size: 12px;
-    }
-    .banner-phone-image {
-      padding-left: 6%;
-      padding-top: 13%;
-    }
-    
-    .footer-box:first-child {
-      display: inline-block;
-      width: 34%;
-    }
-    .footer-box {
-      display: inline-block;
-      width: 33%;
-    }
-    .footer-box{
-      margin-bottom: 20px;
-      border-bottom: none;
-      padding-bottom: 20px;
-    }
-    .footer-bottom .policy{
-      display: flex;
-      float: none;
-    }
-    .footer-bottom .policy > div {
-      padding: 0px 17px 0px 12px;
-      margin-top: 19px;
-    }
-    .footer-bottom .policy > div:first-child {
-      padding-left: 0px;
-    }
-  }
-    
-    
-  @media only screen and (min-width: 992px) and (max-width: 1279px){
-    .promo-product-action button{ 
-      padding: 10px 25px;
-    }
-    .promo-wishlist button{
-      padding: 10px 11px 4px 11px;
-    }
-    .promo-product-mrp {
-      font-size: 15px;
-    }
-    .promo-product-list-price { 
-      font-size: 12px; 
-    }
-    .promo-product-list-price s { 
-      font-size: 11px; 
-      margin: 0px 0px;
-    }
-    
-      
-    
-    .payment-app-banner-title { 
-      font-size: 28px; 
-    }
-    .payment-app-banner {
-      margin-bottom: 2%;
-    }
-    .payment-app-banner-content {
-      padding-top: 2%;
-    }
-    
-  }
-    
-    
-  @media only screen and (min-width: 1280px) and (max-width: 1440px){
-       
-  }
+@media only screen and (min-width: 1280px) and (max-width: 1440px){
+     
+}

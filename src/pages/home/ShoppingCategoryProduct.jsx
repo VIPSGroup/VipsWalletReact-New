@@ -1,31 +1,33 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import ProductHorizontal from "../../components/shopping/ProductHorizontal";
-import { baseApiUrl } from "../../constant/Baseurls";
-import { getPromotionalProduct } from "../../redux/slices/productSlice";
+import { getProductsByCategory } from "../../redux/slices/shopping/productSlice";
 
-const ShoppingCategoryProduct = () => {
-  const dispatch = useDispatch();
-  const { promotionProduct, loading } = useSelector(
-    (state) => state.productSlice.promotionData
-  );
+export const ShoppingCategoryProduct = ({
+  title,
+  categoryId,
+  subtitle = "",
+  description = "",
+}) => {
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
-    dispatch(getPromotionalProduct(11));
+    setLoading(true)
+    getProductsByCategory(categoryId).then(response=>{
+      setLoading(false)
+      setProducts(response.Data.filter(product=>product.Quantity!==0))
+    })
   }, []);
-
+  
   return (
     <>
-      {
         <ProductHorizontal
-          title="VIPS"
-          products={promotionProduct.Data}
-          subtitle=" Promotional"
-          description="Discover all the VIPS merchandise here!"
+          title={title}
+          subtitle={subtitle}
+          products={products?.filter(product=>product.Quantity!==0)}
+          loading={loading}
+          description={description}
         />
-      }
     </>
   );
 };
-
-export default ShoppingCategoryProduct;
