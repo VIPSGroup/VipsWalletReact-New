@@ -11,7 +11,10 @@ import { postpaidServiceId } from "../../../constants";
 import { googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
-import {finalRecharge, getServiceDiscounts} from "../../../redux/slices/services/commonSlice";
+import {
+  finalRecharge,
+  getServiceDiscounts,
+} from "../../../redux/slices/services/commonSlice";
 import { MuiSnackBar, ThemeButton } from "../../../components/common";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
@@ -44,8 +47,12 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.walletSlice.walletBalance);
-  const { discount } = useSelector((state) => state.commonSlice.serviceDiscount);
-  const { rechargeData ,loading} = useSelector((state) => state.commonSlice.finalRecharge);
+  const { discount } = useSelector(
+    (state) => state.commonSlice.serviceDiscount
+  );
+  const { rechargeData, loading } = useSelector(
+    (state) => state.commonSlice.finalRecharge
+  );
   const handleClickConfirm = (e) => {
     setShowSuccess(true);
     e.preventDefault();
@@ -73,10 +80,10 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
       if (data?.Data?.length !== 0 || !data) {
         dispatch(getWalletBalance({ username, password }));
       }
-    };
+    }
     return () => {
       setShowSuccess(false);
-      setIsCommonTopNav(true)
+      setIsCommonTopNav(true);
     };
   }, []);
   useEffect(() => {
@@ -174,7 +181,12 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
           <div class="payment-head-outer">
             <div class="payment-head">
               <div class="go-back">
-                <Link to="/services/mobileRecharge" onClick={()=>{location.state=null}}>
+                <Link
+                  to="/services/mobileRecharge"
+                  onClick={() => {
+                    location.state = null;
+                  }}
+                >
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
                 </Link>
               </div>
@@ -454,14 +466,18 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
                             "Confirm Payment"
                           )}{" "}
                         </button> */}
-                        <ThemeButton loading={loading} onClick={handleClickConfirm} value={"Confirm Payment"}/>
+                        <ThemeButton
+                          loading={loading}
+                          onClick={handleClickConfirm}
+                          value={"Confirm Payment"}
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-<MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}

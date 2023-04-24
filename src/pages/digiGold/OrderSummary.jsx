@@ -224,7 +224,7 @@ const OrderSummary = () => {
               res?.payload?.Data?.result?.data?.rates?.sSell;
             setBlockId(blockId);
             setLockPrice(SilverSellRates);
-            if (state.valType === "quantity") {
+            if (state?.valType === "quantity") {
               const quantity = digitPrecision(state?.valueinGm, "quantity");
               const totalAmount = digitPrecision(
                 quantity * SilverSellRates,
@@ -264,7 +264,7 @@ const OrderSummary = () => {
   // Get User Bank Details logic
   useEffect(() => {
     dispatch(GetUserBankList({ username, password }));
-  }, [state]);
+  }, [state, errorMsg]);
   // If Wallet Balance is Lower Than Total Amount Logic
   useEffect(() => {
     const Balance = !walletLoad && data?.Data?.Balance;
@@ -563,15 +563,15 @@ const OrderSummary = () => {
   // }, [currentRate]);
 
   useEffect(() => {
-    const getConfig = async () => {
-      const res = await globalConfiguration(
-        "DigiGoldMinAmountForShoppingPoint"
-      );
-      if (res.ResponseStatus === 1) {
-        setShopPointLimit(res.Data.Value);
-      }
-    };
-    getConfig();
+    // const getConfig = async () => {
+    //   const res = await globalConfiguration(
+    //     "DigiGoldMinAmountForShoppingPoint"
+    //   );
+    //   if (res.ResponseStatus === 1) {
+    //     setShopPointLimit(res.Data.Value);
+    //   }
+    // };
+    // getConfig();
     dispatch(getServiceName({ digiGoldServiceId }));
   }, []);
 
@@ -610,7 +610,7 @@ const OrderSummary = () => {
     const ShoppingPercent = parseFloat(ServiceData?.ShoppingPer);
     const WalletShopPoint = parseFloat(data?.Data?.Shoppingpoints);
     const TotalAmount = parseFloat(
-      totalAmount ? totalAmount : state.valueinAmt
+      totalAmount ? totalAmount : parseFloat(state?.valueinAmt)
     );
     const ShoppingDiscount1 = (TotalAmount / 100) * ShoppingPercent;
     const ShoppingDiscount = digitPrecision(ShoppingDiscount1, "amount");
@@ -620,7 +620,7 @@ const OrderSummary = () => {
         "DigiGoldMinAmountForShoppingPoint"
       );
       if (res.ResponseStatus === 1) {
-        setShopPointLimit(res.Data.Value);
+        setShopPointLimit(res.Data);
         if (TotalAmount >= res.Data.Value) {
           if (ShoppingDiscount > WalletShopPoint) {
             setFinalShopAmount(WalletShopPoint);
@@ -632,13 +632,13 @@ const OrderSummary = () => {
         }
       }
     };
-    getConfig();
+    if (TotalAmount && ShoppingPercent && WalletShopPoint) {
+      getConfig();
+    }
   };
   useEffect(() => {
     ShoppingPointCalculate();
-  }, [totalAmount, ServiceData, data, shopPointLimit]);
-
-  console.log(shopPointLimit, "aa gyi");
+  }, [ServiceData, data]);
 
   return localStorage.getItem("valueType") ? (
     <>
@@ -650,7 +650,12 @@ const OrderSummary = () => {
             </div>
             <Spin
               spinning={
-                loading || listLoad || digiLogLoading || walletLoad || sellLoad
+                loading ||
+                listLoad ||
+                digiLogLoading ||
+                walletLoad ||
+                sellLoad ||
+                !shopPointLimit
               }
             >
               <div class="row">
@@ -854,7 +859,7 @@ const OrderSummary = () => {
                                 }
                               }} */}
                               {(() => {
-                                if (state.type === "buy") {
+                                if (state?.type === "buy") {
                                   if (totalAmount) {
                                     const totalAmt =
                                       parseFloat(totalAmount) - FinalShopAmount;
@@ -865,13 +870,12 @@ const OrderSummary = () => {
                                     return parseFloat(res).toLocaleString();
                                   } else {
                                     const totalAmt =
-                                      parseFloat(state?.valueinAmt) -
-                                      FinalShopAmount;
+                                      state?.valueinAmt - FinalShopAmount;
                                     const res = digitPrecision(
                                       totalAmt,
                                       "amount"
                                     );
-                                    return parseFloat(res).toLocaleString();
+                                    return parseFloat(res)?.toLocaleString();
                                   }
                                 } else {
                                   if (totalAmount) {
@@ -956,7 +960,7 @@ const OrderSummary = () => {
                                                 type="dashed"
                                               >
                                                 {couponData.id === e.CouponId
-                                                  ? "APPLIED" 
+                                                  ? "APPLIED"
                                                   : "APPLY"}
                                               </Button>
                                               {/* {couponData.id === e.CouponId && (
@@ -980,12 +984,10 @@ const OrderSummary = () => {
                                           }
                                           // style={{ width: 300 }}
                                         >
-
                                           <div className="">
                                             <p>
                                               {e?.Description?.slice(0, 70)}
                                             </p>
-
 
                                             <div className="">
                                               <p
@@ -1100,10 +1102,12 @@ const OrderSummary = () => {
                                       {(totalAmount
                                         ? totalAmount
                                         : state.valueinAmt) <
-                                        shopPointLimit && (
+                                        shopPointLimit?.Value && (
                                         <span
                                           style={{ fontSize: 12, color: "red" }}
-                                        >{`Minimum Purchasing amount is  Rs.${shopPointLimit} to Apply Shopping Points`}</span>
+                                        >
+                                          {shopPointLimit?.Description}
+                                        </span>
                                       )}
                                     </label>
                                   </div>

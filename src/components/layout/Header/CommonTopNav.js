@@ -651,7 +651,25 @@ const CommonTopNav = ({
                 </div>
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    href="#"
+                    to="/vipsgold"
+                    onClick={() => {
+                      setActive(2);
+                      setGrams("");
+                      setAmount("");
+                      setErr("");
+                      setReceiverUserName("");
+                    }}
+                  >
+                    <img
+                      src="images/digigold-images/gold_gift_icon _white.svg"
+                      alt=""
+                    />
+                    <span class="navbar-bottom-serv-box-title">Gift</span>
+                  </Link>
+                </div>
+                <div class="navbar-bottom-serv-box">
+                  <Link
+                    // href="#"
                     onClick={() => {
                       setIsSnackBar(true);
                       setErrorMsg("Service will be coming soon..");
@@ -667,36 +685,17 @@ const CommonTopNav = ({
 
                 <div class="navbar-bottom-serv-box">
                   <Link
-                    to="/vipsgold-delivery"
-                    // onClick={() => {
-                    //   setIsSnackBar(true);
-                    //   setErrorMsg("Service will be coming soon..");
-                    // }}
+                    // to="/vipsgold-delivery"
+                    onClick={() => {
+                      setIsSnackBar(true);
+                      setErrorMsg("Service will be coming soon..");
+                    }}
                   >
                     <img
                       src="images/digigold-images/delivery-white-icon.svg"
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">Delivery</span>
-                  </Link>
-                </div>
-
-                <div class="navbar-bottom-serv-box">
-                  <Link
-                    to="/vipsgold"
-                    onClick={() => {
-                      setActive(2);
-                      setGrams("");
-                      setAmount("");
-                      setErr("");
-                      setReceiverUserName("");
-                    }}
-                  >
-                    <img
-                      src="images/digigold-images/buy-white-icon.svg"
-                      alt=""
-                    />
-                    <span class="navbar-bottom-serv-box-title">Gift</span>
                   </Link>
                 </div>
               </div>

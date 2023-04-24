@@ -290,8 +290,8 @@ const DigiGoldHome = ({
     );
     setValueType({
       ...valueType,
-      valueinAmt: e.target.value,
-      valueinGm: quantity,
+      valueinAmt: parseFloat(e.target.value),
+      valueinGm: parseFloat(quantity),
       // e.target.value / (isGold === 0 ? GoldBuyRate : SilverBuyRate),
       valType: "amount",
       metalType: isGold === 0 ? "gold" : "silver",
@@ -309,12 +309,17 @@ const DigiGoldHome = ({
         if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
           if (parseFloat(active) !== 0) {
             if (parseFloat(e.target.value) >= 1) {
+              // setErr(
+              //   ` You can gift up to ${
+              //     isGold === 0 ? gGramResult : sGramResult
+              //   } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+              //     isGold === 0 ? gGramResult : sGramResult
+              //   } gm `
+              // );
               setErr(
-                ` You can gift up to ${
-                  isGold === 0 ? gGramResult : sGramResult
-                } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
-                  isGold === 0 ? gGramResult : sGramResult
-                } gm `
+                `You Don't have a Sufficient ${
+                  isGold === 0 ? "Gold" : "Silver"
+                } to Gift `
               );
             }
           }
@@ -378,8 +383,8 @@ const DigiGoldHome = ({
       (parseFloat(active) === 2 && isGold === 1 && SilverSellRates * quantity);
     setValueType({
       ...valueType,
-      valueinGm: quantity,
-      valueinAmt: TotalAmount,
+      valueinGm: parseFloat(quantity),
+      valueinAmt: parseFloat(TotalAmount),
       valType: "quantity",
       metalType: isGold === 0 ? "gold" : "silver",
     });
@@ -398,14 +403,19 @@ const DigiGoldHome = ({
         const sGramStr = sGramRounded.toFixed(4);
         const sGramResult = parseFloat(sGramStr);
         if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
-          console.log(totalResult, "totalResult");
+          // console.log(totalResult, "totalResult");
           if (totalResult >= 1) {
+            // setErr(
+            //   ` You can ${parseFloat(active) === 1 ? "Sell" : "Gift"} up to ${
+            //     isGold === 0 ? gGramResult : sGramResult
+            //   } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
+            //     isGold === 0 ? gGramResult : sGramResult
+            //   } gm `
+            // );
             setErr(
-              ` You can ${parseFloat(active) === 1 ? "Sell" : "Gift"} up to ${
-                isGold === 0 ? gGramResult : sGramResult
-              } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
-                isGold === 0 ? gGramResult : sGramResult
-              } gm `
+              `You Don't have a Sufficient ${
+                isGold === 0 ? "Gold" : "Silver"
+              } to ${parseFloat(active) === 1 ? "Sell" : "Gift"}`
             );
           }
         } else {
@@ -836,13 +846,13 @@ export const quickServiceArr = [
   //   img: "sip-icon.svg",
   //   title: "SIP",
   // },
+  // {
+  //   img: "delivery-icon.svg",
+  //   title: "DELIVERY",
+  //   route: "/vipsgold-delivery",
+  // },
   {
-    img: "delivery-icon.svg",
-    title: "DELIVERY",
-    route: "/vipsgold-delivery",
-  },
-  {
-    img: "buy-icon.svg",
+    img: "gold_gift_icon.svg",
     title: "Gift",
     buy: 2,
 
