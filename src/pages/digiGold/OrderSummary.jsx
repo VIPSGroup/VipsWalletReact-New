@@ -44,7 +44,7 @@ const OrderSummary = () => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [totalAmount, setTotalAmount] = useState("");
+  const [totalAmount, setTotalAmount] = useState();
   const [step, setStep] = useState(0);
   const [editAddress, setEditAddress] = useState(false);
   const [lockprice, setLockPrice] = useState();
@@ -98,7 +98,7 @@ const OrderSummary = () => {
     (state) => state.commonSlice.ServiceName
   );
   const { Verified } = useSelector((state) => state.digiGoldSlice.ifsc);
-
+  console.log(ServiceData, "ServiceData");
   // VIPS Username & Password
   const username = state?.username;
   const password = state?.password;
@@ -137,7 +137,7 @@ const OrderSummary = () => {
               setCurrentGram(newqty);
               setTax(totalTax);
               setCurrentRate(exclTaxRate);
-              setTotalAmount(inclTaxAmount);
+              setTotalAmount(parseFloat(inclTaxAmount));
             } else {
               const amount = state?.valueinAmt;
               const inclTaxAmount = digitPrecision(amount, "amount");
@@ -156,7 +156,7 @@ const OrderSummary = () => {
               const quantity = digitPrecision(qty, "quantity");
               const newqty = parseFloat(quantity).toFixed(4);
               setCurrentGram(newqty);
-              setTotalAmount(inclTaxAmount);
+              setTotalAmount(parseFloat(inclTaxAmount));
               setCurrentRate(exclTaxAmount);
               setTax(totalTax);
             }
@@ -178,7 +178,7 @@ const OrderSummary = () => {
               setCurrentGram(newqty);
               setTax(totalTax);
               setCurrentRate(exclTaxRate);
-              setTotalAmount(inclTaxAmount);
+              setTotalAmount(parseFloat(inclTaxAmount));
             } else {
               const amount = state?.valueinAmt;
               const inclTaxAmount = digitPrecision(amount, "amount");
@@ -197,7 +197,7 @@ const OrderSummary = () => {
 
               const newqty = parseFloat(quantity).toFixed(4);
               setCurrentGram(newqty);
-              setTotalAmount(inclTaxAmount);
+              setTotalAmount(parseFloat(inclTaxAmount));
               setCurrentRate(exclTaxAmount);
               setTax(totalTax);
             }
@@ -217,7 +217,7 @@ const OrderSummary = () => {
               setBlockId(blockId);
               setCurrentRate(totalAmount);
               setCurrentGram(newqty);
-              setTotalAmount(totalAmount);
+              setTotalAmount(parseFloat(totalAmount));
             }
           } else {
             const SilverSellRates =
@@ -234,7 +234,7 @@ const OrderSummary = () => {
               setBlockId(blockId);
               setCurrentRate(totalAmount);
               setCurrentGram(newqty);
-              setTotalAmount(totalAmount);
+              setTotalAmount(parseFloat(totalAmount));
             }
           }
         }
@@ -572,6 +572,7 @@ const OrderSummary = () => {
     //   }
     // };
     // getConfig();
+
     dispatch(getServiceName({ digiGoldServiceId }));
   }, []);
 
@@ -607,12 +608,13 @@ const OrderSummary = () => {
   };
 
   const ShoppingPointCalculate = () => {
-    const ShoppingPercent = parseFloat(ServiceData?.ShoppingPer);
+    const ShoppingPercent = ServiceData?.ShoppingPer;
     const WalletShopPoint = parseFloat(data?.Data?.Shoppingpoints);
     const TotalAmount = parseFloat(
       totalAmount ? totalAmount : parseFloat(state?.valueinAmt)
     );
     const ShoppingDiscount1 = (TotalAmount / 100) * ShoppingPercent;
+
     const ShoppingDiscount = digitPrecision(ShoppingDiscount1, "amount");
 
     const getConfig = async () => {
@@ -632,14 +634,14 @@ const OrderSummary = () => {
         }
       }
     };
-    if (TotalAmount && ShoppingPercent && WalletShopPoint) {
-      getConfig();
-    }
+    // if (TotalAmount && ShoppingPercent && WalletShopPoint) {
+    getConfig();
+    // }
   };
   useEffect(() => {
     ShoppingPointCalculate();
   }, [ServiceData, data]);
-
+  // console.log(state, "state");
   return localStorage.getItem("valueType") ? (
     <>
       <div className="">
