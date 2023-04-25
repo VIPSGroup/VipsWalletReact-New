@@ -40,6 +40,7 @@ const CommonTopNav = ({
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  // const [isOpen, setIsOpen] = useState("");
 
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
   const { wishCount } = useSelector((state) => state.wishlistSlice);
@@ -488,6 +489,7 @@ const CommonTopNav = ({
                     </li>
                   ) : (
                     <Dropdown
+                      // className="close"
                       menu={{
                         items,
                       }}
@@ -495,7 +497,7 @@ const CommonTopNav = ({
                       arrow
                     >
                       <Avatar
-                        className="digigold-user-icon"
+                        className="digigold-user-icon open"
                         // style={{
                         //   backgroundColor: "#393186",
                         //   fontWeight: "boldF",

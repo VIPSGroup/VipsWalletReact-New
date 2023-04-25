@@ -56,7 +56,7 @@ const Otp = ({ userName, password, setFormCount }) => {
               <a   {...buttonProps}>
                 <span
                 
-                  style={{ color: "#CA3060" }}
+                  style={{ color: "#CA3060", cursor : 'pointer' }}
                   onClick={(e) => {
                     e.preventDefault();
                     setOtp("");
