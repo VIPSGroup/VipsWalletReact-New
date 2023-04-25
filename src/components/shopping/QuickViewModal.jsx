@@ -283,20 +283,27 @@ const QuickViewModal = ({ productId }) => {
         <div class="col-lg-6">
           <div class="quick-view-product">
             <>
- {data?.imgArray &&  <Carousel swipeable={false} draggable={false}
-                responsive={responsive}
-                infinite={true}
-                className="quick-view-product-img-outer"
-              >{ data?.imgArray?.map((image, i) => (
-                    <div class="quick-view-product-img">
-                      <img
-                        class="img-thumbnail "
-                        src={shopadminUrl + image?.original}
-                        alt="Slide Image"
-                      />
-                    </div>
-                  ))}
-              </Carousel>}
+            <Carousel swipeable={false} draggable={false}
+                    responsive={responsive}
+                    infinite={true}
+                    className="quick-view-product-img-outer"
+                  >
+                    {productImages &&
+                      productImages.map((image, i) => (
+                        <div class="quick-view-product-img">
+                          <img 
+                          onError={(e)=>{
+                            productImages.splice(i,1)
+                            setProductImages([...productImages])
+                           
+                          }}
+                            class="img-thumbnail "
+                            src={shopadminUrl + image.original}
+                            alt="Slide Image"
+                          />
+                        </div>
+                      ))}
+                  </Carousel>
             </>
           </div>
         </div>
