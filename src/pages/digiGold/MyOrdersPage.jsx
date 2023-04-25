@@ -1,4 +1,5 @@
 import { Button, Modal, Table } from "antd";
+// import Table from "ant-responsive-table";
 import React, { memo, useEffect, useState } from "react";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
@@ -516,11 +517,12 @@ const MyOrdersPage = () => {
                         <div class="row"></div>
                         {/* <Card> */}
                         <Table
-                          className="text-nowrap"
+                          className="text-nowrap responsive-table digigold-order-table"
                           scroll={{ x: true }}
                           loading={orderLoad}
                           columns={columns}
                           dataSource={data}
+                          
                         />
                         {/* </Card> */}
                       </div>
@@ -539,17 +541,17 @@ const MyOrdersPage = () => {
         maskClosable={false}
         open={modal}
       >
-        <section class="mbTopSpace">
+        <section class="">
           {/* <!-- <div class="row no-gutters1"> --> */}
           <div class="digigoldorderdetails-outer">
             <div class="">
               <p class="digigoldorderdetails-title">Order Details</p>
               <div class="digigoldorderdetails-summery">
                 <div class="row mb-3">
-                  <div class="col-xl-6 col-sm-6">
+                  <div class="col-xl-6 col-sm-4">
                     <span> Transaction ID: </span>
                   </div>
-                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                  <div class="col-xl-6 col-sm-8 text-sm-right">
                     <span class="digigoldorderdetails-amt">
                       {" "}
                       {modalData?.TransactionId}{" "}
@@ -558,10 +560,10 @@ const MyOrdersPage = () => {
                 </div>
 
                 <div class="row mb-3">
-                  <div class="col-xl-6 col-sm-6">
+                  <div class="col-xl-6 col-sm-4">
                     <span> Date: </span>
                   </div>
-                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                  <div class="col-xl-6 col-sm-8 text-sm-right">
                     <span class="digigoldorderdetails-amt">
                       <Moment format="DD-MM-YYYY">{modalData?.AddDate}</Moment>{" "}
                     </span>
@@ -569,10 +571,10 @@ const MyOrdersPage = () => {
                 </div>
 
                 <div class="row mb-3">
-                  <div class="col-xl-6 col-sm-6">
+                  <div class="col-xl-6 col-sm-4">
                     <span> Narration : </span>
                   </div>
-                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                  <div class="col-xl-6 col-sm-8 text-sm-right">
                     <span class="digigoldorderdetails-amt">
                       {`${
                         modalData?.TransactionType?.toLowerCase() === "buy"
@@ -588,10 +590,10 @@ const MyOrdersPage = () => {
                 </div>
 
                 <div class="row mb-3">
-                  <div class="col-xl-6 col-sm-6">
+                  <div class="col-xl-6 col-sm-4">
                     <span> Rate per 1 gm (&#x20B9;): </span>
                   </div>
-                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                  <div class="col-xl-6 col-sm-8 text-sm-right">
                     <span class="digigoldorderdetails-amt">
                       {" "}
                       {modalData?.Rate}{" "}
@@ -600,10 +602,10 @@ const MyOrdersPage = () => {
                 </div>
 
                 <div class="row mb-3">
-                  <div class="col-xl-6 col-sm-6">
+                  <div class="col-xl-6 col-sm-4">
                     <span> Amount (&#x20B9;): </span>
                   </div>
-                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                  <div class="col-xl-6 col-sm-8 text-sm-right">
                     <span class="digigoldorderdetails-amt">
                       {parseFloat(modalData?.PreTaxAmount)?.toLocaleString()}{" "}
                     </span>
@@ -612,10 +614,10 @@ const MyOrdersPage = () => {
 
                 {tab === "Buy" && (
                   <div class="row mb-3">
-                    <div class="col-xl-6 col-sm-6">
+                    <div class="col-xl-6 col-sm-4">
                       <span> Tax (&#x20B9;): </span>
                     </div>
-                    <div class="col-xl-6 col-sm-6 text-sm-right">
+                    <div class="col-xl-6 col-sm-8 text-sm-right">
                       <span class="digigoldorderdetails-amt">
                         {" "}
                         {parseFloat(
@@ -627,10 +629,10 @@ const MyOrdersPage = () => {
                 )}
 
                 <div class="row mb-3">
-                  <div class="col-xl-6 col-sm-6">
+                  <div class="col-xl-6 col-sm-4">
                     <span> Total Amount (&#x20B9;): </span>
                   </div>
-                  <div class="col-xl-6 col-sm-6 text-sm-right">
+                  <div class="col-xl-6 col-sm-8 text-sm-right">
                     <span class="digigoldorderdetails-amt">
                       {" "}
                       {parseFloat(
@@ -641,13 +643,13 @@ const MyOrdersPage = () => {
                 </div>
 
                 <div class="row mb-3">
-                  <div class="col-xl-6 col-sm-6">
+                  <div class="col-xl-6 col-sm-4">
 
                     <span> {tab === "Buy" ? "Invoice" : "Status"}: </span>
 
                   </div>
                   <div
-                    class="col-xl-6 col-sm-6 text-sm-right"
+                    class="col-xl-6 col-sm-8 text-sm-right"
                     onClick={() => {
                       tab === "Buy" &&
                         handleDownloadInvoice(modalData.TransactionId);
