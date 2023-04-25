@@ -451,7 +451,7 @@ const QuickViewModal = ({ productId }) => {
                   Delivery By <span> {product?.DeliveryEnd} </span>{" "}
                 </p>
                 <p class="mb-0">
-                  Sold By <span> Soumik Variety Store </span>{" "}
+                  Sold By <span>{product?.Soldby} </span>{" "}
                 </p>
               </div>
             </div>
