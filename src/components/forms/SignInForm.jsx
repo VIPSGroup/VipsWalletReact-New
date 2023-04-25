@@ -46,7 +46,7 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
         .string()
         .min(10,"Please Enter Valid Mobile Number")
         .max(10,"Please Enter Valid Mobile Number")
-        .required("Please Enter Your Mobile Number").matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/ ,"Please Enter Valid Mobile Number"),
+        .required("Please Enter Your Mobile Number").matches("^[0-9]" ,"Please Enter Valid Mobile Number"),
     }),
     onSubmit: (values, { resetForm }) => {
       clickLogin();
@@ -245,7 +245,7 @@ dispatch(forgotPassword({ userName: forgotPasswordUserName }))
                                 <input
                                   onChange={(e) => {
                                     // setForgotPasswordUsername(e.target.value);
-                                    const regex=/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/
+                                    const regex=/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/
                                     setForgotPasswordUsername(e.target.value)
                                     if(!regex.test(e.target.value) && e.target.value){
                                       setError("Please Enter Valid Mobile Number")
