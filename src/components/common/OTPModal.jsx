@@ -28,7 +28,8 @@ const OTPModal = ({
   const renderButton2 = (buttonProps) => {
     return (
       <div className="resendotp col-12 mx-auto pt-3">
-        <p {...buttonProps} className="col-12 d-block">
+        <p className="col-12 d-block">
+          {/* {console.log(buttonProps.remainingTime, "buttonProps.remainingTime")} */}
           {buttonProps.remainingTime !== 0 ? (
             <p>
               {" "}
@@ -39,10 +40,31 @@ const OTPModal = ({
               </span>
             </p>
           ) : (
+            // <span>
+            //   Not received OTP?{" "}
+            //   <span>
+            //     <a
+            //       {...buttonProps}
+            //       style={{ color: "#CA3060" }}
+            //       onClick={resendOtp}
+            //     >
+            //       Resend OTP
+            //     </a>
+            //   </span>
+            // </span>
             <p>
               Not received OTP?{" "}
-              <a>
-                <span style={{ color: "#CA3060" }} onClick={resendOtp}>
+              <a {...buttonProps}>
+                <span
+                  style={{ color: "#CA3060" }}
+                  // onClick={(e) => {
+                  //   e.preventDefault();
+                  //   setOtp("");
+                  //   dispatch(loginUser({ userName, password }));
+                  // }}
+                  onClick={resendOtp}
+                >
+                  {" "}
                   Resend OTP
                 </span>
               </a>
