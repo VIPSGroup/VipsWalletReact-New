@@ -501,17 +501,7 @@ export const getTermsConditionsId = (type) => {
 };
 
 export const googleAnalytics = "UA-220725992-1";
-export function getFixedDecimalNumber(input, precision) {
-  if (input.toString().split(".").pop().length > precision) {
-    return parseFloat(
-      input
-        .toString()
-        .substring(0, input.toString().indexOf(".") + precision + 1)
-    );
-  } else {
-    return input;
-  }
-}
+
 // Amount Round
 export function digitPrecision(data, type) {
   if (type === "amount") {

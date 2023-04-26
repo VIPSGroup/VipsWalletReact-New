@@ -132,11 +132,11 @@ const HomeTopNav = ({ isPrime }) => {
                         Become a Supplier{" "}
                       </Link>
                     </li>
-                    {/* <li class="nav-item">
+                    <li class="nav-item">
                       <Link class="nav-link" to="/vipsgold">
                         VIPS Gold
                       </Link>
-                    </li> */}
+                    </li>
                   </ul>
                 </div>
               </div>

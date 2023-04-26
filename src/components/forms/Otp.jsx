@@ -5,7 +5,7 @@ import OTPInput, { ResendOTP } from "otp-input-react";
 import { loginUser, loginWithOtp } from "../../redux/slices/profile/loginSlice";
 import { Loading, MuiSnackBar, ThemeButton } from "../common";
 
-const Otp = ({ userName, password, setFormCount }) => {
+const Otp = ({ userName, password,setFormCount }) => {
   const [otp, setOtp] = useState("");
   const [ip, setIp] = useState("");
   // const [toggle, setToggle] = useState(false);
@@ -15,8 +15,8 @@ const Otp = ({ userName, password, setFormCount }) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { loggedInUser, loading } = useSelector(
-    (state) => state.loginSlice.loggetInWithOTP
+  const { loggedInUser,loading ,toggle} = useSelector(
+ (state) => state.loginSlice.loggetInWithOTP
   );
   useEffect(() => {
     if (loggedInUser === false && toggle ) {
@@ -27,11 +27,11 @@ const Otp = ({ userName, password, setFormCount }) => {
       }
     }
     if (loggedInUser?.Id) {
-      setToggle(false);
-      setFormCount(1);
+      // setToggle(false);
+      setFormCount(1)
       setErrorMessage("");
       setIsSnackBar(true);
-      setsuccessMessage("Login Successful");
+      setsuccessMessage("Login Successful")
       navigate("/");
     }
   }, [loggedInUser,toggle]);
@@ -40,10 +40,10 @@ const Otp = ({ userName, password, setFormCount }) => {
   const renderButton2 = (buttonProps) => {
     return (
       <div className="resendotp col-12 mx-auto pt-3">
-        <p className="col-12 d-block">
-          {/* {console.log(buttonProps, "buttonProps")} */}
+        <p {...buttonProps} className="col-12 d-block" onClick={()=>{console.log("out")}}>
           {buttonProps.remainingTime !== 0 ? (
             <p>
+              {" "}
               Please wait for{" "}
               <span style={{ color: "#CA3060" }}>
                 {" "}
@@ -51,21 +51,17 @@ const Otp = ({ userName, password, setFormCount }) => {
               </span>
             </p>
           ) : (
-            <p onClick={()=>{}}>
+            <p onClick={()=>{console.log("in")}}> 
               Not received OTP?{" "}
-              <a   {...buttonProps}>
+              <a>
                 <span
-                
-                  style={{ color: "#CA3060", cursor : 'pointer' }}
+                  style={{ color: "#CA3060" }}
                   onClick={(e) => {
-                    e.preventDefault();
-                    setOtp("");
+                    e.preventDefault()
+                    setOtp("")
                     dispatch(loginUser({ userName, password }));
                   }}
-                >
-                  {" "}
-                  Resend OTP
-                </span>
+                > Resend OTP</span>
               </a>
             </p>
           )}
@@ -100,19 +96,14 @@ const Otp = ({ userName, password, setFormCount }) => {
                 />
                 <div class="col-lg-12">
                   <div class="otp-btnCol btnTopSpace">
-                    <ThemeButton
-                      disabled={otp.length == 6 ? false : true}
-                      onClick={(e) => {
-                        e.preventDefault();
+                    <ThemeButton disabled={otp.length == 6 ? false : true} onClick={(e) => {
+                      e.preventDefault()
                         dispatch(loginWithOtp({ userName, password, ip, otp }));
-                        setToggle(true);
-                        setTimeout(() => {
-                          setToggle(false);
-                        }, 4000);
-                      }}
-                      loading={loading}
-                      value={"Verify & Proceed"}
-                    />
+                        // setToggle(true);
+                        // setTimeout(() => {
+                        //   setToggle(false);
+                        // }, 100);
+                      }} loading={loading} value={"Verify & Proceed"}/>
                     {/* <button
                       type="button"
                       class="btn otp-btn btn-primery modal-loading-btn"
@@ -137,13 +128,13 @@ const Otp = ({ userName, password, setFormCount }) => {
         </div>
       </form>
       <MuiSnackBar
-        open={isSnackBar}
-        setOpen={setIsSnackBar}
-        successMsg={showSuccessMessage}
-        errorMsg={showErrorMessage}
-        setSuccess={setsuccessMessage}
-        setError={setErrorMessage}
-      />
+             open={isSnackBar}
+             setOpen={setIsSnackBar}
+             successMsg={showSuccessMessage}
+             errorMsg={showErrorMessage}
+             setSuccess={setsuccessMessage}
+             setError={setErrorMessage}
+           />
     </>
   );
 };
