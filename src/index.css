@@ -168,10 +168,12 @@
   border-style: none !important;
 }
 
-.ant-table-wrapper .ant-table-thead >tr>th, .ant-table-wrapper .ant-table-thead >tr>td{
+.ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table-thead > tr > td {
   text-align: center;
+}
 
-:where(.css-dev-only-do-not-override-1km3mtt).ant-pagination .ant-pagination-item-active{
+:where(.css-dev-only-do-not-override-1km3mtt).ant-pagination
+  .ant-pagination-item-active {
   border-color: var(--primary);
-
 }
