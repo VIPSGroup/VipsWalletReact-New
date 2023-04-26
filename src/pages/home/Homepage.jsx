@@ -58,7 +58,7 @@ const Homepage = ({ setIsHomeTopNav }) => {
       <GameBanner/>
       <ShoppingCategoryProduct title="VIPS" subtitle=" Promotional"  description="Discover all the VIPS merchandise here!" categoryId={11}/>
       <OnlineStore />
-      <PrimeMembership />
+      {!isPrime && loggedInUser && <PrimeMembership />}
       <DealsofTheDay />
       <DiscountBanner />
       <PaymentApp />
