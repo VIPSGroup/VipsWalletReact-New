@@ -73,6 +73,7 @@ const BrowsePlans = ({
       setRateCutterPlans(rechargePlans["RATE CUTTER"]);
       setComboPlans(rechargePlans.COMBO);
       setNetPlans(rechargePlans["3G/4G"]);
+      setError('')
     }else{
       setError("Data Not Found")
     }
@@ -104,7 +105,7 @@ const BrowsePlans = ({
                   <p class="brows-plans-user-title">
                     {" "}
                     +91 {number}{" "}
-                    <a onClick={() => setSection(1)} className="" style={{ cursor: "pointer" }}>
+                    <a onClick={() => setSection(1)} className="mx-2" style={{ cursor: "pointer" }}>
                       {" "}
                       Edit{" "}
                     </a>{" "}
@@ -122,18 +123,6 @@ const BrowsePlans = ({
               <h3 class="brows-plans-title">
                 Browse plans of {operator} - {circle}
               </h3>
-              {/* <div class="input-group search-brows-plan shadow-light ">
-                <input
-                  class="form-control search-input"
-                  type="search"
-                  placeholder="Search for plan, eg. 299"
-                />
-                <span class="input-group-append">
-                  <button class="btn search-btn" type="button">
-                    <i class="fa fa-search"></i>
-                  </button>
-                </span>
-              </div> */}
             </div>
 
             <div class="col-md-12">

@@ -50,7 +50,7 @@ const ProductHorizontal = ({
             </div>
             {!loading ? (
               <div className="deals-center productcard-arrow">
-                <Carousel responsive={responsive} infinite={true}>
+                <Carousel draggable={false} swipeable={false} responsive={responsive} infinite={true}>
                   {products && products?.length !== 0 ? (
                     products &&
                     products?.slice(0, 9)?.map((p, i) => (

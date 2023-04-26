@@ -146,7 +146,7 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
           });
         }
         // setLoading(false);
-      } else {
+      } else  if (rechargeData.ResponseCode === 0 || rechargeData.ResponseStatus === 0){
         // setLoading(false);
         setIsSnackBar(true);
         setErrorMsg(rechargeData.Remarks);
@@ -290,7 +290,7 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
                       <div class="mob-payment-discount">
                         <form>
                           <div class="payment-confirmation-discount-info ">
-                            <div class="col-lg-8 p-0">
+                            <div class="col-lg-8 col-sm-8 p-0">
                               <div class="custom-control custom-checkbox ">
                                 <input
                                   onChange={handlePaymentMethod}
@@ -313,7 +313,7 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
                                 </label>
                               </div>
                             </div>
-                            <div class="col-lg-4 p-0">
+                            <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
                                 &#x20B9; {amt}{" "}
@@ -329,7 +329,7 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4">
-              <div class="mobile-payment-right">
+              {/* <div class="mobile-payment-right"> */}
                 <div class="mobile-payment-right-sticky box-shadow-1">
                   <div class="row">
                     <div class="col-md-12 mobile-payment-content-head">
@@ -399,7 +399,7 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
                         <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
-                            &#x20B9; {discount?.finalAmount}{" "}
+                            &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? discount?.finalAmount:  discount?.finalAmount?.toFixed(2)}{" "}
                           </span>
                         </div>
                       </div>
@@ -438,7 +438,7 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
 {/* {isSnackBar && <SnackBar errorMsg={errorMsg}/>} */}
             {/**  <!-- Payment confirmation end -->*/}

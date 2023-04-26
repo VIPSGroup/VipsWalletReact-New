@@ -4,6 +4,7 @@ import "../../assets/styles/shopping/quickViewModal.css";
 import { Link } from "react-router-dom";
 import AddWishListButton from "../buttons/AddWishListButton";
 import { getReplaceSpace } from "../../constant/Constants";
+import { MuiSnackBar } from "../common";
 
 const CarouselProductCard = ({ product, wishlistCard }) => {
   const [existInWishlist, setExistInWishlist] = useState(false);
@@ -88,17 +89,6 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
       </Link>
       <div class="promo-product-action">
         <div class="promo-quick-view">
-          {/* {showQuickModal ? <QuickViewModal/>: <button
-        onClick={() => {
-          console.error("Quick View" ,);
-          setShowQuickModal(true)
-          // product?.Quantity !== 0 && setShowModal(true);
-        }}
-        type="button"
-        class="btn-cta"
-      >
-        Quick View
-      </button>} */}
           <QuickViewModal productId={product.Id} />
         </div>
         {wishlistCard ? (
@@ -109,7 +99,7 @@ const CarouselProductCard = ({ product, wishlistCard }) => {
           </div>
         ) : (
           <div class="promo-wishlist ml-auto">
-            <AddWishListButton
+            <AddWishListButton 
               product={product}
               inWishlist={existInWishlist}
               inWishlistStateChanger={setExistInWishlist}

@@ -69,7 +69,6 @@ const DigiProfile = () => {
       dispatch(getCityList(formValue.userStateId));
     }
   }, [formValue.userStateId]);
-
   useEffect(() => {
     formValue.Name = logData?.Data?.Name;
     formValue.mobileNumber = logData?.Data?.MobileNumber;

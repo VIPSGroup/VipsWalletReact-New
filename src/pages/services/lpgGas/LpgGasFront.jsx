@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchBill } from "../../../apiData/services/electricity";
-import {
-  // getLpgGasOperators,
-  // getInputFieldsByOperator,
-  // fetchLPGBill,
-} from "../../../apiData/services/lpgGas";
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
 import {
   indaneGasOpCode,
@@ -13,7 +7,6 @@ import {
   bharatGasOpCode,
   hpGasOpCode,
 } from "../../../constants";
-import { getRechargeHistory } from "../../../apiData/services/mobileRecharge";
 import RecentHistory from "../../../components/services/RecentHistory";
 import { lpgGasServiceId, googleAnalytics } from "../../../constants";
 
@@ -80,20 +73,6 @@ const { billData,loading } = useSelector(state => state.LpgGasSlice.lpgBill );
   const callInputFields = (ourCode) => {
     setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
-    // getInputFieldsByOperator(ourCode).then((response) => {
-    //   const data = response.Data.Response;
-    //   const arr = [];
-    //   data &&
-    //     data.map((d, i) => {
-    //       arr.push({
-    //         fieldName: d.name,
-    //         fieldValue: "",
-    //         regex: d.Regex,
-    //         validate: false,
-    //       });
-    //     });
-    //   //   setInputFields(arr);
-    // });
   };
 
   const pushInArray = (searchKey, data) => {
@@ -260,17 +239,6 @@ const { billData,loading } = useSelector(state => state.LpgGasSlice.lpgBill );
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
 dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword}))
-          // fetchLPGBill(obj, user.Mobile, user.TRXNPassword).then((response) => {
-          //   if (response.Data.ResponseMessage == "Successful") {
-          //     setShowBill(true);
-          //     setBillFetchData(response.Data);
-          //     setBillAmount(parseFloat(response.Data.BillAmount));
-          //     setLoading(false);
-          //   } else {
-          //     setBillFetchError(response.Data.ResponseMessage);
-          //     setLoading(false);
-          //   }
-          // });
         }
       } else {
         setErrorSnackBar("Enter Valid Mobile Number");
@@ -280,24 +248,27 @@ dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TR
     }
   };
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
-    if(operatorData.length===0){
-      dispatch(getOperatorsByServiceId("33"))
-    }
+if(loggedInUser){
+  ReactGA.pageview(window.location.pathname);
+  dispatch(getOperatorsByServiceId("33"))
+}else{
+navigate("/login")
+}
   }, [props]);
   
   useEffect(() => {
-  if(billData){
-    if (billData?.Data?.ResponseMessage == "Successful") {
-              setShowBill(true);
-              setBillFetchData(billData.Data);
-              setBillAmount(parseFloat(billData.Data.BillAmount));
-              // setLoading(false);
-            } else {
-              setBillFetchError(billData?.Data?.ResponseMessage);
-              // setLoading(false);
-            }
-          }
+    if(billData.ResponseStatus===1){
+      if(billData.Data.ResponseMessage==="Successful"){
+     setShowBill(true);
+                   setBillFetchData(billData.Data);
+                   setBillAmount(parseFloat(billData.Data.BillAmount));
+   }else{
+     setBillFetchError(billData.Data.ResponseMessage);
+   }
+   }else if(billData.ResponseStatus===0){
+     setIsSnackBar(true)
+     setErrorMsg(billData.Remarks)
+   }
   }, [billData])
   const handleMobileNo = (e) => {
     const value = e.target.value.replace(/\D/g, "");
@@ -483,7 +454,6 @@ dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TR
             />
             <label for="referral-mobile">Consumer Number</label>
           </div>
-          {/* { !inputFields[i].validate ? <ErrorText error={`Please enter valid ${inputFields[i].fieldName}`} /> : null } */}
         </div>
       </div>
     </>

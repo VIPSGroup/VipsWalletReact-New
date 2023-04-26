@@ -44,6 +44,7 @@ const dispatch= useDispatch()
     setBillFetchError("");
     setShowBill(false);
     let data = [...inputFields];
+    let newArray=  inputFields.slice()
     let value = e.target.value.toUpperCase();
 
     data[index].fieldValue = value;
@@ -52,11 +53,16 @@ const dispatch= useDispatch()
       data[index].regex ? data[index].regex : "^[A-Z0-9]{7,10}$"
     );
     if (!value.match(regex)) {
-      inputFields[index].validate = false;
+      newArray[index].validate=false
+      setInputFields(newArray)
     } else {
-      inputFields[index].validate = true;
+      newArray[index].validate=true
+      setInputFields(newArray)
     }
-
+    if(data[index].regex=='' && e.target.value==''){
+      newArray[index].validate=false
+      setInputFields(newArray)
+    }
     setInputFields(data);
     return ()=>{setIsClick(false)}
   };
@@ -79,7 +85,7 @@ const dispatch= useDispatch()
     setBillFetchError("");
     if (selectedOperator) {
       if (mobileNo && mobileNo.length === 10) {
-        let validateBBPSField = inputFields.filter((o) => o.validate === false);
+        let validateBBPSField = inputFields.filter((o) => o.fieldValue === '');
         if (validateBBPSField.length !== 0) {
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
@@ -104,6 +110,7 @@ const dispatch= useDispatch()
     }
   };
   useEffect(() => {
+  if(loggedInUser){
     ReactGA.pageview(window.location.pathname);
     if(operatorData.length===0){
       dispatch(getFastagOperators())
@@ -115,23 +122,37 @@ const dispatch= useDispatch()
           fieldName: d.name,
           fieldValue: "",
           regex: d.Regex,
-          validate: false,
+          validate: true,
         })
         setInputFields(arr);
     });
     }
-  
+  }else{
+    navigate("/login")
+  }
   }, [props,operatorData,]);
 
 useEffect(() => {
-  if(billData.ResponseMessage==="Successful"){
-    // setInputFields([...inputFields,inputFields.validate=true])
-    setShowBill(true);
-                  setBillFetchData(billData);
-                  setBillAmount(parseFloat(billData.BillAmount));
-  }else{
-    setBillFetchError(billData.ResponseMessage);
-  }
+  if(billData.ResponseStatus===1){
+    if(billData.Data.ResponseMessage==="Successful"){
+   setShowBill(true);
+                 setBillFetchData(billData.Data);
+                 setBillAmount(parseFloat(billData.Data.BillAmount));
+ }else{
+   setBillFetchError(billData.Data.ResponseMessage);
+ }
+ }else if(billData.ResponseStatus===0){
+   setIsSnackBar(true)
+   setErrorMsg(billData.Remarks)
+ }
+  // if(billData.ResponseMessage==="Successful"){
+  //   // setInputFields([...inputFields,inputFields.validate=true])
+  //   setShowBill(true);
+  //                 setBillFetchData(billData);
+  //                 setBillAmount(parseFloat(billData.BillAmount));
+  // }else{
+  //   setBillFetchError(billData.ResponseMessage);
+  // }
 }, [billData])
 
 

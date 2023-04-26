@@ -65,7 +65,6 @@ const DeliverySlice = createSlice({
     },
     deleteItem: (state, action) => {
       const products = JSON.parse(localStorage.getItem("digiCart"));
-      console.log(action.payload, "products");
       const updatedProducts = products.filter(
         (product) => product.Id !== action.payload.Id
       );

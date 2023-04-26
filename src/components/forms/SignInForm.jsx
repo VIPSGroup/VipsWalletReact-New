@@ -18,7 +18,8 @@ import "../../assets/styles/authentication/loginModal.css";
 import "../../assets/styles/authentication/loginOtp.css";
 import "../../assets/styles/authentication/signupModal.css";
 
-const SignInForm = ({ setIsSignIn, isSignIn, Username }) => {
+const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
+  const [error, setError] = useState("");
   const [otp, setOtp] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [formCount, setFormCount] = useState(1);
@@ -51,9 +52,9 @@ const SignInForm = ({ setIsSignIn, isSignIn, Username }) => {
     validationSchema: yup.object({
       username: yup
         .string()
-        .min(10)
-        .max(10)
-        .required("Please Enter Your Mobile Number"),
+        .min(10,"Please Enter Valid Mobile Number")
+        .max(10,"Please Enter Valid Mobile Number")
+        .required("Please Enter Your Mobile Number").matches("^[0-9]" ,"Please Enter Valid Mobile Number"),
     }),
     onSubmit: (values, { resetForm }) => {
       clickLogin();
@@ -158,7 +159,9 @@ const SignInForm = ({ setIsSignIn, isSignIn, Username }) => {
   };
   const onForgotPasswordSubmit = (e) => {
     e.preventDefault();
-    dispatch(forgotPassword({ userName: forgotPasswordUserName }));
+    if(!error){
+dispatch(forgotPassword({ userName: forgotPasswordUserName }))
+}
   };
   const clickLogin = (e) => {
     if (
@@ -212,11 +215,12 @@ const SignInForm = ({ setIsSignIn, isSignIn, Username }) => {
               <MdArrowBack />
             </button>
           )}
-          {JSON.stringify(loginPasswordFormik.error)}
-          {formCount === 3 ? (
+          {formCount === 3   ? (
             <>
               <button
-                onClick={() => setFormCount(1)}
+                onClick={() => {
+                  setFormCount(1)
+                }}
                 className="close login-close mt-3"
               >
                 <MdArrowBack />
@@ -250,8 +254,16 @@ const SignInForm = ({ setIsSignIn, isSignIn, Username }) => {
                               <div className="input-field">
                                 <input
                                   onChange={(e) => {
-                                    setForgotPasswordUsername(e.target.value);
+                                    // setForgotPasswordUsername(e.target.value);
+                                    const regex=/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/
+                                    setForgotPasswordUsername(e.target.value)
+                                    if(!regex.test(e.target.value) && e.target.value){
+                                      setError("Please Enter Valid Mobile Number")
+                                    }else{
+                                        setError("")
+                                      }
                                   }}
+                                  className={error && "is-invalid"}
                                   type="tel"
                                   name="email"
                                   maxlength="10"
@@ -268,6 +280,9 @@ const SignInForm = ({ setIsSignIn, isSignIn, Username }) => {
                                     Enter Mobile Number
                                   </span>
                                 </label>
+                                <div className="invalid-feedback text-danger">
+                                  {error}
+                                </div>
                               </div>
                             </div>
 
@@ -330,7 +345,6 @@ const SignInForm = ({ setIsSignIn, isSignIn, Username }) => {
                         </div>
                       </div>
                       <div className="formStyle">
-                        {/* { response?.ErrorCode=="Ex401" && <div className='alert alert-danger '>{response?.Remarks} </div>} */}
                         <form
                           onSubmit={loginUsernameFormik.handleSubmit}
                           class="signup-form"
@@ -339,7 +353,6 @@ const SignInForm = ({ setIsSignIn, isSignIn, Username }) => {
                             <div className="col-lg-12">
                               <div className="input-field">
                                 <input
-                                  // onChange={handleUserName}
                                   type="tel"
                                   name="username"
                                   maxlength="10"
@@ -377,9 +390,7 @@ const SignInForm = ({ setIsSignIn, isSignIn, Username }) => {
                                   <div className="input-field">
                                     <i
                                       id="togglePassword"
-                                      onClick={() =>
-                                        setShowPassword(!showPassword)
-                                      }
+                                      onClick={() => setShowPassword(!showPassword)}
                                     >
                                       {showPassword ? (
                                         <BsFillEyeFill />
@@ -468,7 +479,11 @@ const SignInForm = ({ setIsSignIn, isSignIn, Username }) => {
           ) : (
             <>
               <button
-                onClick={() => setFormCount(1)}
+                onClick={() => {
+                  setFormCount(1)
+                  loginPasswordFormik.values.password=''
+                  dispatch(resetState())
+                }}
                 className="close login-close mt-3"
               >
                 <MdArrowBack />

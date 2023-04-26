@@ -66,16 +66,16 @@ const AccountWireframe = () => {
   };
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
-    const username = loggedInUser.Mobile;
-    const password = loggedInUser.TRXNPassword;
-    dispatch(getWalletBalance({ username, password }));
-    dispatch(checkGABBalance({ username, password }));
-    // checkGABBalance(loggedInUser.Mobile, loggedInUser.TRXNPassword).then(
-    //   (response) => {
-    //     setAffiliateBalance(response.Data);
-    //   }
-    // );
+    if(loggedInUser){
+      ReactGA.pageview(window.location.pathname);
+      const username = loggedInUser?.Mobile;
+      const password = loggedInUser?.TRXNPassword;
+      dispatch(getWalletBalance({ username, password }));
+      dispatch(checkGABBalance({ username, password }));
+    }else{
+      navigate("/login")
+    }
+  
   }, []);
   const accountSection = () => (
     <>

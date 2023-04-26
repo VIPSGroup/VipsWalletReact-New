@@ -68,6 +68,7 @@ import DigiKYC from "../pages/digiGold/DigiKYC";
 import DigiDeliveryCart from "../pages/digiGold/Delivery/DigiDeliveryCart";
 import DeliveryCheckout from "../pages/digiGold/Delivery/DeliveryCheckout";
 import DeliveryOrderDetails from "../pages/digiGold/Delivery/DeliveryOrderDetails";
+import SuccessPage from "../pages/home/SuccessPage";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
@@ -525,7 +526,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <PrimeConfirmation setIsHomeTopNav={setIsHomeTopNav} />{" "}
+              <PrimeConfirmation   setIsCommonTopNav={setIsCommonTopNav} />{" "}
             </ProtectedRoute>
           }
         />
@@ -574,54 +575,55 @@ const Router = () => {
         <Route
           path="/shopping/:categoryName/:categoryId"
           element={
-            <ProtectedRoute>
-              {" "}
+            // <ProtectedRoute>
+              // {" "}
               <ProductListing />
-            </ProtectedRoute>
+            // </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/product/:productId/:productName"
           element={
-            <ProtectedRoute>
               <ProductDetails />
-            </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/wishlist"
           element={
-            <ProtectedRoute>
-              {" "}
-              <Wishlist />{" "}
-            </ProtectedRoute>
+            // <ProtectedRoute>
+              // {" "}
+              <Wishlist />
+              // {" "}
+            // </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/cart"
           element={
-            <ProtectedRoute>
-              {" "}
-              <Cart setIsHomeTopNav={setIsHomeTopNav} />{" "}
-            </ProtectedRoute>
+            // <ProtectedRoute>
+              // {" "}
+              <Cart setIsHomeTopNav={setIsHomeTopNav} />
+            // </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/address"
           element={
             <ProtectedRoute>
-              {" "}
-              <ShippingAddress />{" "}
-            </ProtectedRoute>
+               {" "}
+              <ShippingAddress />
+               {" "}
+             </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/checkout"
           element={
             <ProtectedRoute>
+            {" "}
+              <Checkout />
               {" "}
-              <Checkout />{" "}
-            </ProtectedRoute>
+             </ProtectedRoute>
           }
         />
 
@@ -669,7 +671,9 @@ const Router = () => {
         <Route
           path="/payment"
           element={
-            <ProtectedRoute> {/* <SuccessPage />{" "} */}</ProtectedRoute>
+            <ProtectedRoute>
+               <SuccessPage />{" "}
+               </ProtectedRoute>
           }
         />
       </Routes>

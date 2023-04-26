@@ -36,26 +36,17 @@ const ShippingAddress = () => {
 
   const location = useLocation();
   const propsProductsData = location.state;
-
   const clickDeleteAddress = async (e) => {
     e.preventDefault();
     const addressId = e.currentTarget.value;
     dispatch(deleteAddress({ addressId, Mobile, TRXNPassword }));
   };
-
-  // useEffect(() => {
-  //   if (deleteAddressData.ResponseStatus === "1") {
-  //     dispatch(getAddress({ Mobile, TRXNPassword }));
-  //   }
-  // }, []);
   const handleSelectAddress = (e) => {
     const clickedAddress = addressList.find(
       (item) => item.Id == e.target.value
     );
-
     setSelectedAddress(clickedAddress);
   };
-
   useEffect(() => {
     ReactGA.pageview(window?.location?.pathname);
     dispatch(getAddress({ Mobile, TRXNPassword }));
@@ -72,7 +63,8 @@ const ShippingAddress = () => {
       ) {
         setSelectedAddress(addressGetData.Data[0]);
       }
-    } else {
+    } else if(addressGetData.ResponseStatus === 0) {
+      setSelectedAddress({})
       setAddressList("");
       setLastShippingAddress("");
     }
@@ -122,25 +114,17 @@ const ShippingAddress = () => {
             <div class="order-tracking-wrapper">
               <div class="order-tracking-outer">
                 <div class="order-tracking order-tracking-cart">
-                  <Link class=""> Cart </Link>
+                  <span class=""> Cart </span>
                 </div>
                 <div class="order-tracking order-tracking-address completed">
-                  <Link class=""> Address </Link>
+                  <span class=""> Address </span>
                 </div>
                 <div class="order-tracking order-tracking-payment">
-                  <Link class=""> Payment </Link>
+                  <span class=""> Payment </span>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* <div class="container">
-                
-                            <div class="col-12">
-                                
-                            </div>
-                        
-                    </div> */}
 
           <div class="row">
             {/* {<!-- shopping-cart start --> } */}
@@ -162,7 +146,7 @@ const ShippingAddress = () => {
                         {" "}
                         Default Address{" "}
                       </p>
-                      <div class="shopping-cart-address-outer box-shadow-1">
+                      <div class="shopping-cart-address-outer shopping-default-address">
                         <div class="col-sm-10 col-md-10 col-lg-10 shopping-cart-address-info p-0">
                           <div>
                             <label>
@@ -304,16 +288,15 @@ const ShippingAddress = () => {
                   </div>
                   {/* {<!-- product card 2 end -->} */}
                 </div>
-
-                <div class="shopping-cart-add-new-address box-shadow-1">
-                  <AddShippingAddressModal />
-                  {/* {<button class="" id="newaddressmodal" data-toggle="modal" data-target="#newaddressform"> + Add New Address </button>} */}
-                </div>
+{addressList.length<3 && <div class="shopping-cart-add-new-address box-shadow-1">
+                <AddShippingAddressModal />
+                </div>}
+                
               </div>
             </div>
 
-            <div class="col-sm-12 col-md-12 col-lg-4 p-0">
-              <div class="shopping-cart-right">
+            <div class="col-sm-12 col-md-12 col-lg-4 ">
+              {/* <div class="shopping-cart-right"> */}
                 <div class="shopping-cart-payment-outer box-shadow-1">
                   <div class="row">
                     <div class="col-md-12">
@@ -414,7 +397,7 @@ const ShippingAddress = () => {
                             </div>
                         
                         </div> */}
-              </div>
+              {/* </div> */}
             </div>
             <MuiSnackBar
               open={isSnackBar}

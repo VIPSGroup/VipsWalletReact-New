@@ -58,45 +58,6 @@ const LpgGasConfirmation = ({setIsCommonTopNav}) => {
 
     const paymentRefId = getRandomNumber();
 dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,billAmount:amt,inputObj: inputFields,paymentRef:paymentRefId,refId: props.billData.TransactionId,operatorCode: props.operatorId,mobNo:props.number,pointType:selectedDiscount}))
-    // LPGBillPay(
-    //   loggedInUser.Mobile,
-    //   loggedInUser.TRXNPassword,
-    //   amt,
-    //   inputFields,
-    //   paymentRefId,
-    //   props.billData.TransactionId,
-    //   props.operatorId,
-    //   props.number,
-    //   dType
-    // ).then((response) => {
-    //   setLoading(false);
-
-    //   if (response.ResponseStatus === 1) {
-    //     if (response.Data != null) {
-    //       var data = response.Data;
-    //       var time = getTodayDate();
-    //       navigate("/services/success", {
-    //         state: {
-    //           amount: data.BillAmount,
-    //           status: response.Status,
-    //           mobileNo: inputFields[0].fieldValue,
-    //           operator: props.operator,
-    //           circle: "",
-    //           date: time,
-    //           transactionId: data.TransactionId,
-    //         },
-    //       });
-    //     } else {
-    //       setIsSnackBar(true);
-    //       setErrorMsg(response.Data.ResponseMessage);
-    //     }
-    //   } else {
-    //     setIsSnackBar(true);
-    //     setErrorMsg(
-    //       response.Data ? response.Data.ResponseMessage : response.Remarks
-    //     );
-    //   }
-    // });
   };
 
   const handlePaymentMethod = (e) => {
@@ -146,8 +107,10 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
         dispatch(getWalletBalance({username,password}))
       }
     }
-    return ()=>{setShowSuccess(false)
-      setIsCommonTopNav(true)}
+    return ()=>{
+      setShowSuccess(false)
+      setIsCommonTopNav(true)
+    }
   }, []);
   useEffect(() => {
     dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
@@ -175,11 +138,9 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
           setIsSnackBar(true);
           setErrorMsg(rechargeData?.Data?.ResponseMessage);
         }
-      } else {
+      } else if(rechargeData?.ResponseCode === 0 || rechargeData?.ResponseStatus === 0){
         setIsSnackBar(true);
-        setErrorMsg(
-          rechargeData?.Data ? rechargeData?.Data?.ResponseMessage : rechargeData?.Remarks
-        );
+        setErrorMsg( rechargeData?.Remarks);
       }
     }
       }, [data.Data, selectedDiscount,rechargeData])
@@ -235,7 +196,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                                 {b.fieldName} : <label>{b.fieldValue} </label>{" "}
                               </p>
                             ))}
-                        <p class="ml-auto"> {props.operator}</p>
+                        <p class=""> {props.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
                         <p class="mob-paymet-recharge-text">
@@ -329,7 +290,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                       <div class="mob-payment-discount">
                         <form>
                           <div class="payment-confirmation-discount-info ">
-                            <div class="col-lg-8 p-0">
+                            <div class="col-lg-8 col-sm-8 p-0">
                               <div class="custom-control custom-checkbox ">
                                 <input
                                   onChange={handlePaymentMethod}
@@ -352,7 +313,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                                 </label>
                               </div>
                             </div>
-                            <div class="col-lg-4 p-0">
+                            <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
                                 &#x20B9; {amt}{" "}
@@ -368,7 +329,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4">
-              <div class="mobile-payment-right">
+              {/* <div class="mobile-payment-right"> */}
                 <div class="mobile-payment-right-sticky box-shadow-1">
                   <div class="row">
                     <div class="col-md-12 mobile-payment-content-head">
@@ -436,11 +397,25 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                         <div class="col-5 col-xs-4 text-right">
                         <span class="mobile-payment-summery-amt">
                               {" "}
-                              &#x20B9; {discount?.finalAmount}{" "}
+                              &#x20B9; {  
+                             discount?.finalAmount?.toString().split(".").length===1 ? discount?.finalAmount:  discount?.finalAmount?.toFixed(2)}{" "}
                             </span>
                         </div>
                       </div>
                     </div>
+
+                    {amt > data?.Data?.Balance ? (
+                      <div className="alert alert-danger d-block mt-4">
+                        Wallet Balance less than the Amount.{" "}
+                        <Link
+                          to="/addMoney/options"
+                          className="text-decoration-none text-primery"
+                          style={{ textDecoration: "none" }}
+                        >
+                          Add Money
+                        </Link>
+                      </div>
+                    ) : null}
 
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
@@ -472,7 +447,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                     </div>
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
 
             <MuiSnackBar

@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
-// import { getWalletBalance } from "../../apiData/user/userDetails";
-// import { becomePrime } from "../../apiData/user/primeMembership";
 import "../../assets/styles/prime/primeConfirmation.css";
 import { needHelpUrl, googleAnalytics } from "../../constants";
 import Modal from "react-bootstrap/Modal";
 import ReactGA from "react-ga";
 import { Loading, MuiSnackBar, ThemeButton } from "../../components/common";
 import { useDispatch, useSelector } from "react-redux";
-import {  becomePrime, getWalletBalance } from "../../redux/slices/payment/walletSlice";
+import {   getWalletBalance } from "../../redux/slices/payment/walletSlice";
+import { becomePrime } from "../../redux/slices/primeUserSlice";
 ReactGA.initialize(googleAnalytics);
 
-const PrimeConfirmation = ({setIsHomeTopNav}) => {
+const PrimeConfirmation = ({setIsCommonTopNav}) => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
@@ -51,7 +49,7 @@ const PrimeConfirmation = ({setIsHomeTopNav}) => {
       setLoading(false);
       if (response.ResponseStatus == 1) {
         setShowSuccessModal(true);
-      } else {
+      } else if (response.ResponseStatus == 0){
         setIsSnackBar(true);
         setErrorMsg(response.Remarks);
       }
@@ -94,7 +92,7 @@ const PrimeConfirmation = ({setIsHomeTopNav}) => {
   };
 
   useEffect(() => {
-    setIsHomeTopNav(false)
+    setIsCommonTopNav(false);
     ReactGA.pageview(window.location.pathname);
     setLoading(false);
     const username = loggedInUser && loggedInUser.UserName;
@@ -102,6 +100,9 @@ const PrimeConfirmation = ({setIsHomeTopNav}) => {
     if (loggedInUser) {
         dispatch(getWalletBalance({ username, password }));
     }
+    return () => {
+      setIsCommonTopNav(true)
+    };
   }, []);
 useEffect(() => {
   if (data.Data) {
@@ -200,7 +201,7 @@ useEffect(() => {
 
   const primeConfirmSection = () => (
     <div>
-      <section class="section-align payment-confirmation">
+      <section class="inpage-section-align payment-confirmation">
         <div class="container">
           <div class="payment-head">
             <a class="" href="/">
@@ -276,7 +277,7 @@ useEffect(() => {
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4">
-              <div class="payment-confirmation-right">
+              {/* <div class="payment-confirmation-right"> */}
                 <div class="payment-confirmation-right-sticky shadow-light">
                   <div class="row">
                     <div class="col-md-12 payment-confirmation-content-head">
@@ -310,7 +311,7 @@ useEffect(() => {
                         <div class="col-5 col-xs-4 text-right">
                           <span class="payment-confirmation-summery-amt">
                             {" "}
-                            &#x20B9;{amt}{" "}
+                            &#x20B9; {amt}{" "}
                           </span>
                         </div>
                       </div>
@@ -344,7 +345,7 @@ useEffect(() => {
                     </div>
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
 
             {/* {   <!-- payment confirmation end -->} */}

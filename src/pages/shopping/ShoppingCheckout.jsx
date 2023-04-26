@@ -32,7 +32,6 @@ const ShoppingCheckout = () => {
   const [shippingCharges, setShippingCharges] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("");
-
   const [showModal, setShowModal] = useState(false);
   const location = useLocation();
   let navigate = useNavigate();
@@ -154,69 +153,17 @@ const ShoppingCheckout = () => {
       if (response.ResponseStatus === 1) {
         setLoading(false);
         setShowModal(true);
-      } else {
+        setErrorMsg('');
+        setIsSnackBar(true)
+        setSuccessMsg(response.Remarks)
+      } else if(response.ResponseStatus === 0){
         setLoading(false);
-        setError(response.Remark);
+        setSuccessMsg("")
+        setIsSnackBar(true)
+        setErrorMsg(response.Remarks);
       }
     });
   };
-
-  // useEffect(() => {
-  //   ReactGA.pageview(window.location.pathname);
-  //   const userName = loggedInUser && loggedInUser.UserName;
-  //   const password = loggedInUser && loggedInUser.TRXNPassword;
-  //   const propsProductsData = location.state;
-
-  //   setSelectedDiscount("shoppingPoint");
-
-  //   loggedInUser &&
-  //     getWalletBalance({ userName, password }).then((response) => {
-  //       setBalance(response.Data.Balance);
-  //       setShoppingPoints(response.Data.Shoppingpoints);
-  //       setPrimePoints(response.Data.PrimePoints);
-
-  //       var price = 0;
-  //       var sDiscount = 0;
-  //       var pDiscount = 0;
-  //       var shippingCost = 0;
-
-  //       propsProductsData.products.map((d, i) => {
-  //         price = price + d.qty * d.product.SalePrice;
-
-  //         sDiscount =
-  //           sDiscount + (d.product.ShoppingPoint / 100) * d.product.SalePrice;
-  //         pDiscount =
-  //           pDiscount + (d.product.PrimePoints / 100) * d.product.SalePrice;
-
-  //         if (propsProductsData.address.State.includes("Maharashtra")) {
-  //           shippingCost = shippingCost + d.charges[3].Amount;
-  //         } else {
-  //           shippingCost = shippingCost + d.charges[4].Amount;
-  //         }
-  //         setShippingCharges(shippingCost);
-  //       });
-  //       setAmount(price);
-  //       manageInitialPaymentMethod(response.Data.Balance, price);
-
-  //       if (sDiscount <= response.Data.Shoppingpoints) {
-  //         setShoppingDiscount(sDiscount.toFixed(2));
-  //         const amt = parseInt(price) - parseInt(sDiscount);
-
-  //         setFinalAmount(amt);
-  //       } else {
-  //         setShoppingDiscount(response.Data.Shoppingpoints);
-  //         setFinalAmount(price - response.Data.Shoppingpoints);
-  //       }
-
-  //       if (pDiscount <= response.Data.PrimePoints) {
-  //         setPrimeDiscount(pDiscount);
-  //         setFinalAmount(price - pDiscount);
-  //       } else {
-  //         setPrimeDiscount(response.Data.PrimePoints);
-  //         setFinalAmount(price - response.Data.PrimePoints);
-  //       }
-  //     });
-  // }, []);
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
@@ -247,11 +194,12 @@ const ShoppingCheckout = () => {
 
       propsProductsData.products.map((d, i) => {
         price = price + d.qty * d.product.SalePrice;
-
+        
         sDiscount =
-          sDiscount + (d.product.ShoppingPoint / 100) * d.product.SalePrice;
+        sDiscount + (d.product.ShoppingPoint / 100) * d.product.SalePrice *d.qty;
         pDiscount =
-          pDiscount + (d.product.PrimePoints / 100) * d.product.SalePrice;
+        pDiscount + (d.product.PrimePoints / 100) * d.product.SalePrice *d.qty;
+      
 
         if (propsProductsData.address.State.includes("Maharashtra")) {
           shippingCost = shippingCost + d.charges[3].Amount;
@@ -266,13 +214,11 @@ const ShoppingCheckout = () => {
       if (sDiscount <= data.Data.Shoppingpoints) {
         setShoppingDiscount(sDiscount.toFixed(2));
         const amt = parseInt(price) - parseInt(sDiscount);
-
         setFinalAmount(amt);
       } else {
         setShoppingDiscount(data.Data.Shoppingpoints);
         setFinalAmount(price - data.Data.Shoppingpoints);
       }
-
       if (pDiscount <= data.Data.PrimePoints) {
         setPrimeDiscount(pDiscount);
         setFinalAmount(price - pDiscount);
@@ -317,13 +263,13 @@ const ShoppingCheckout = () => {
             <div class="order-tracking-wrapper">
               <div class="order-tracking-outer">
                 <div class="order-tracking order-tracking-cart">
-                  <Link class=""> Cart </Link>
+                  <span class=""> Cart </span>
                 </div>
                 <div class="order-tracking order-tracking-address">
-                  <Link class=""> Address </Link>
+                  <span class=""> Address </span>
                 </div>
                 <div class="order-tracking order-tracking-payment completed">
-                  <Link class=""> Payment </Link>
+                  <span class=""> Payment </span>
                 </div>
               </div>
             </div>
@@ -427,7 +373,7 @@ const ShoppingCheckout = () => {
                       <div class="shopping-payment-discount">
                         <form>
                           <div class="payment-confirmation-discount-info ">
-                            <div class="col-lg-8 p-0">
+                            <div class="col-lg-8 col-sm-8 p-0">
                               <div class="custom-control custom-checkbox ">
                                 <input
                                   onChange={handlePaymentMethod}
@@ -450,7 +396,7 @@ const ShoppingCheckout = () => {
                                 </label>
                               </div>
                             </div>
-                            <div class="col-lg-4 p-0">
+                            <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
                                 &#x20B9; {amount}{" "}
@@ -458,200 +404,15 @@ const ShoppingCheckout = () => {
                             </div>
                           </div>
                         </form>
-                        {/* {{selectedPaymentMethod == "both" ? (
-                          <form>
-                            <div class="mob-paymet-discount-info mb-4">
-                              <label>
-                                <input
-                                  onChange={handlePaymentMethod}
-                                  type="checkbox"
-                                  name="radio-button"
-                                  value="wallet"
-                                  checked={
-                                    selectedPaymentMethod == "wallet" ||
-                                    selectedPaymentMethod == "both"
-                                      ? true
-                                      : false
-                                  }
-                                />
-                                <span>
-                                  {" "}
-                                  <img
-                                    src="/images/logos/vips-logo-small.png"
-                                    class="img-fluid mob-payment-debit-vips"
-                                  />{" "}
-                                  VIPS Wallet (₹ {balance}){" "}
-                                </span>
-                              </label>
-                              <p class="mob-paymet-discount-amt ml-auto">
-                                {" "}
-                                &#x20B9; {balance}{" "}
-                              </p>
-                            </div>
-
-                            <div class="mob-paymet-discount-info">
-                              <label>
-                                <input
-                                  onChange={handlePaymentMethod}
-                                  type="checkbox"
-                                  name="radio-button"
-                                  value="payu"
-                                  checked={
-                                    selectedPaymentMethod == "payu" ||
-                                    selectedPaymentMethod == "both"
-                                      ? true
-                                      : false
-                                  }
-                                />
-                                <span>
-                                  {" "}
-                                  <img
-                                    src="/images/logos/payu-logo.png"
-                                    class="img-fluid mob-payment-debit-payu"
-                                  />{" "}
-                                  Payu (card / UPI){" "}
-                                </span>
-                              </label>
-                              <p class="mob-paymet-Prime-amt ml-auto">
-                                {" "}
-                                &#x20B9; {amount - balance}
-                              </p>
-                            </div>
-                          </form>
-                        ) : null}
-
-                        {selectedPaymentMethod == "wallet" ? (
-                          <form>
-                            <div class="mob-paymet-discount-info mb-4">
-                              <label>
-                                <input
-                                  onChange={handlePaymentMethod}
-                                  type="checkbox"
-                                  name="radio-button"
-                                  value="wallet"
-                                  checked={
-                                    selectedPaymentMethod == "wallet" ||
-                                    selectedPaymentMethod == "both"
-                                      ? true
-                                      : false
-                                  }
-                                />
-                                <span>
-                                  {" "}
-                                  <img
-                                    src="/images/logos/vips-logo-small.png"
-                                    class="img-fluid mob-payment-debit-vips"
-                                  />{" "}
-                                  VIPS Wallet (₹ {balance}){" "}
-                                </span>
-                              </label>
-                              <p class="mob-paymet-discount-amt ml-auto">
-                                {" "}
-                                &#x20B9; {amount}{" "}
-                              </p>
-                            </div>
-
-                            <div class="mob-paymet-discount-info">
-                              <label>
-                                <input
-                                  onChange={handlePaymentMethod}
-                                  type="checkbox"
-                                  name="radio-button"
-                                  value="payu"
-                                  checked={
-                                    selectedPaymentMethod == "payu" ||
-                                    selectedPaymentMethod == "both"
-                                      ? true
-                                      : false
-                                  }
-                                />
-                                <span>
-                                  {" "}
-                                  <img
-                                    src="/images/logos/payu-logo.png"
-                                    class="img-fluid mob-payment-debit-payu"
-                                  />{" "}
-                                  Payu (card / UPI){" "}
-                                </span>
-                              </label>
-                              <p class="mob-paymet-Prime-amt ml-auto">
-                                {" "}
-                                &#x20B9; 0.0
-                              </p>
-                            </div>
-                          </form>
-                        ) : null}
-
-                        {selectedPaymentMethod == "payu" ? (
-                          <form>
-                            <div class="mob-paymet-discount-info mb-4">
-                              <label>
-                                <input
-                                  onChange={handlePaymentMethod}
-                                  type="checkbox"
-                                  name="radio-button"
-                                  value="wallet"
-                                  checked={
-                                    selectedPaymentMethod == "wallet" ||
-                                    selectedPaymentMethod == "both"
-                                      ? true
-                                      : false
-                                  }
-                                />
-                                <span>
-                                  {" "}
-                                  <img
-                                    src="/images/logos/vips-logo-small.png"
-                                    class="img-fluid mob-payment-debit-vips"
-                                  />{" "}
-                                  VIPS Wallet (₹ {balance}){" "}
-                                </span>
-                              </label>
-                              <p class="mob-paymet-discount-amt ml-auto">
-                                {" "}
-                                &#x20B9; 0.0{" "}
-                              </p>
-                            </div>
-
-                            <div class="mob-paymet-discount-info">
-                              <label>
-                                <input
-                                  onChange={handlePaymentMethod}
-                                  type="checkbox"
-                                  name="radio-button"
-                                  value="payu"
-                                  checked={
-                                    selectedPaymentMethod == "payu" ||
-                                    selectedPaymentMethod == "both"
-                                      ? true
-                                      : false
-                                  }
-                                />
-                                <span>
-                                  {" "}
-                                  <img
-                                    src="/images/logos/payu-logo.png"
-                                    class="img-fluid mob-payment-debit-payu"
-                                  />{" "}
-                                  Payu (card / UPI){" "}
-                                </span>
-                              </label>
-                              <p class="mob-paymet-Prime-amt ml-auto">
-                                {" "}
-                                &#x20B9; {amount}
-                              </p>
-                            </div>
-                          </form>
-                        ) : null}} */}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div class="col-sm-12 col-md-12 col-lg-4 p-0">
-              <div class="shopping-payment-right">
+{JSON.stringify}
+            <div class="col-sm-12 col-md-12 col-lg-4 ">
+              {/* <div class="shopping-payment-right"> */}
                 <div class="shopping-payment-right-sticky box-shadow-1">
                   <div class="row">
                     <div class="col-md-12 shopping-payment-content-head">
@@ -685,7 +446,6 @@ const ShoppingCheckout = () => {
                             <span class="shopping-payment-summery-amt">
                               {" "}
                               -&#x20B9;{" "}
-                              {/* {JSON.stringify(shoppingDiscount)} */}
                               {parseFloat(
                                 shoppingDiscount
                               ).toLocaleString()}{" "}
@@ -792,32 +552,9 @@ const ShoppingCheckout = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* <div class="shopping-cart-payment-outer box-shadow-1 mt-3">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <h3 class="shopping-cart-payment-head">
-                        {" "}
-                        Return / Refund Policy{" "}
-                      </h3>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12 p-0">
-                    <div class="shopping-cart-refund-policy">
-                      <p>
-                        {" "}
-                        In case of return, we ensure quick refunds. Full amount
-                        will be refunded excluding Convenience Fee
-                      </p>
-                      <Link to="#">Read Policy</Link>
-                    </div>
-                  </div> */}
-                {/* </div> */}
-              </div>
+              {/* </div> */}
             </div>
 
-            {/* { <!-- shopping Payment confirmation end -->} */}
           </div>
         </div>
       </section>

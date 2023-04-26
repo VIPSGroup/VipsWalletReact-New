@@ -30,7 +30,59 @@ export const getSingleProductData = createAsyncThunk(
         `${baseApiUrl}/EcommerceServices/Productdescription`,
         formData
       );
-      return res.data;
+      let imgArray=[]
+      if(res.data.ResponseStatus===1){
+if (res.data.Data.ProductDetails?.ImageThumbURL1 != null && res.data.Data.ProductDetails?.ImageURL1 != null) {
+  const obj = {
+    original: res.data.Data.ProductDetails?.ImageURL1,
+    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL1,
+  };
+  imgArray.push(obj);
+}
+if (res.data.Data.ProductDetails?.ImageThumbURL2 != null && res.data.Data.ProductDetails?.ImageURL2 != null) {
+  const obj = {
+    original: res.data.Data.ProductDetails?.ImageURL2,
+    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL2,
+  };
+  imgArray.push(obj);
+}
+if (res.data.Data.ProductDetails?.ImageThumbURL3 != null && res.data.Data.ProductDetails?.ImageURL3 != null) {
+  const obj = {
+    original: res.data.Data.ProductDetails?.ImageURL3,
+    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL3,
+  };
+  imgArray.push(obj);
+}
+if (res.data.Data.ProductDetails?.ImageThumbURL4 != null && res.data.Data.ProductDetails?.ImageURL4 != null) {
+  const obj = {
+    original: res.data.Data.ProductDetails?.ImageURL4,
+    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL4,
+  };
+  imgArray.push(obj);
+}
+if (res.data.Data.ProductDetails?.ImageThumbURL5 != null && res.data.Data.ProductDetails?.ImageURL5 != null) {
+  const obj = {
+    original: res.data.Data.ProductDetails?.ImageURL5,
+    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL5,
+  };
+  imgArray.push(obj);
+}
+if (res.data.Data.ProductDetails?.ImageThumbURL6 != null && res.data.Data.ProductDetails?.ImageURL6 != null) {
+  const obj = {
+    original: res.data.Data.ProductDetails?.ImageURL6,
+    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL6,
+  };
+  imgArray.push(obj);
+}
+if (res.data.Data.ProductDetails?.ImageThumbURL7 != null && res.data.Data.ProductDetails?.ImageURL7 != null) {
+  const obj = {
+    original: res.data.Data.ProductDetails?.ImageURL7,
+    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL7,
+  };
+  imgArray.push(obj);
+}
+      }
+      return {response:res.data,imgArray};
     } catch (error) {
       return error;
     }
@@ -133,7 +185,7 @@ const productSlice = createSlice({
       error: "",
     },
     singleProduct: {
-      data: [],
+      data: {},
       loading: false,
       error: "",
     },
@@ -180,6 +232,7 @@ const productSlice = createSlice({
     // Get Single Product
     builder.addCase(getSingleProductData.pending, (state, action) => {
       state.singleProduct.loading = true;
+      state.singleProduct.data = [];
     });
     builder.addCase(getSingleProductData.fulfilled, (state, action) => {
       state.singleProduct.data = action.payload;

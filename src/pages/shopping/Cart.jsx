@@ -7,8 +7,9 @@ import "../../assets/styles/shopping/cart.css";
 // import { MuiSnackBar } from "../../components/common/snackbars";
 import ReactGA from "react-ga";
 import { googleAnalytics } from "../../constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MuiSnackBar, ThemeButton } from "../../components/common";
+import { removeCart } from "../../redux/slices/shopping/cartSlice";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -21,18 +22,22 @@ const Cart = ({ setIsHomeTopNav }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   let navigate = useNavigate();
+ const dispatch= useDispatch()
+ const { cartCount } = useSelector((state) => state.cartSlice);
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const clickRemove = (e) => {
-    e.preventDefault();
-
-    const data = cartProducts.splice(e.currentTarget.value, 1);
-
-    const newCart = [...cartProducts];
-    setCartProducts(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart));
-    setDummy(!dummy);
+  const clickRemove = (id) => {
+dispatch(removeCart(id))
+    const allCart = JSON.parse(localStorage.getItem("cart"))
+    const filteredCart= allCart.filter(item=>item.product.Id!==id)
+    setCartProducts(filteredCart);
+    localStorage.setItem("cart", JSON.stringify(filteredCart));
+    let price=0
+    filteredCart.map((d, i) => {
+      price = price + d.qty * d.product.SalePrice;
+    })
+    setTotalAmount(price)
   };
 
   const handleQuantityChange = (e, i, curretQty) => {
@@ -111,13 +116,13 @@ const Cart = ({ setIsHomeTopNav }) => {
           <div class="order-tracking-wrapper">
             <div class="order-tracking-outer">
               <div class="order-tracking order-tracking-cart completed">
-                <Link class=""> Cart </Link>
+                <span class=""> Cart </span>
               </div>
               <div class="order-tracking order-tracking-address ">
-                <Link class=""> Address </Link>
+                <span class=""> Address </span>
               </div>
               <div class="order-tracking order-tracking-payment">
-                <Link class=""> Payment </Link>
+                <span class=""> Payment </span>
               </div>
             </div>
           </div>
@@ -131,7 +136,6 @@ const Cart = ({ setIsHomeTopNav }) => {
 
         <div class="row">
           {/* { <!-- shopping-cart start --> } */}
-{console.warn(cartProducts)}
           <div class="col-sm-12 col-md-12 col-lg-8">
             <div class="shopping-cart-left">
               <div class="shopping-cart-box-outer">
@@ -228,7 +232,7 @@ const Cart = ({ setIsHomeTopNav }) => {
                           <div class="shopping-cart-remove-product-btn">
                             <button
                               type="button"
-                              onClick={clickRemove}
+                              onClick={()=>clickRemove(pro.product.Id)}
                               name="remove"
                               class="btn btn-cta"
                               value={i}
@@ -237,13 +241,6 @@ const Cart = ({ setIsHomeTopNav }) => {
                               <i class="fa fa-trash fa-danger"></i>{" "}
                             </button>
                           </div>
-
-                          {/* {<div class="shopping-cart-wishlist-btn">
-                            <button class="btn btn-cta">
-                              {" "}
-                              <i class="fa-regular fa-heart"></i>{" "}
-                            </button>
-                          </div>} */}
                         </div>
                       </div>
                     </div>
@@ -254,8 +251,8 @@ const Cart = ({ setIsHomeTopNav }) => {
           </div>
 
           {cartProducts.length >= 1 && (
-            <div class="col-sm-12 col-md-12 col-lg-4 p-0">
-              <div class="shopping-cart-right">
+            <div class="col-sm-12 col-md-12 col-lg-4 ">
+              {/* <div class="shopping-cart-right"> */}
                 <div class="for-sticky">
                   <div class="shopping-cart-payment-outer box-shadow-1">
                     <div class="row">
@@ -363,7 +360,7 @@ const Cart = ({ setIsHomeTopNav }) => {
                   </div> */}
                   {/* </div> */}
                 </div>
-              </div>
+              {/* </div> */}
             </div>
           )}
 

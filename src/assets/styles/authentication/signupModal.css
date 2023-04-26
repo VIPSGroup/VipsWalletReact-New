@@ -77,7 +77,7 @@
   cursor: pointer;
   position: absolute;
   right: 0;
-  bottom: 10px;
+  /* bottom: 10px; */
   font-size: 16px;
   color: var(--lightGray);
 }
@@ -259,7 +259,7 @@
     bottom: 0px;
     left: 0%; 
     border: none;
-    border-bottom: 1px solid var(--borderColor);
+    /* border-bottom: 1px solid var(--borderColor); */
     margin-bottom: 0;
     background: var(--whiteColor);
     text-align: left;
@@ -281,6 +281,10 @@
 .signup-select-option a:hover{
   background-color: var(--primary);
   color: var(--whiteColor);
+}
+.signup-select-option a:focus{
+  background-color: transparent !important;
+  color: var(--darkText) !important;
 }
 
 .signup-select-option .dropdown-menu{
@@ -311,6 +315,13 @@
   /* border: 1px solid #777; */
 }
 /* selectpicker end */
+
+.signup-select-option .selected-dropdown-border{
+  border-bottom: 1px solid var(--primary);
+}
+.signup-select-option .unselected-dropdown-border{
+  border-bottom: 1px solid var(--borderColor);
+}
 
 .signupform-in input {
   width: 100%;

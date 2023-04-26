@@ -75,51 +75,39 @@ export const getServiceDiscounts = createAsyncThunk(
       return error;
     }
   }
-);
-export const finalRecharge = createAsyncThunk(
-  "finalRecharge",
-  async ({
-    rechargeType,
-    userName,
-    password,
-    amount,
-    number,
-    operatorId,
-    circleId,
-    pointType,
-    operator,
-    circle,
-  }) => {
-    const formData = new FormData();
-    formData.append("username", userName);
-    formData.append("password", password);
-    formData.append("amount", amount);
-    formData.append("mobileNumber", number);
-    formData.append("optid", operatorId);
-    if (rechargeType === "Mobile") {
-      formData.append("circle", circleId);
-      formData.append("type", "");
+  );
+  
+  
+  export const finalRecharge = createAsyncThunk(
+    "finalRecharge",
+    async ({rechargeType, userName, password, amount, number, operatorId,circleId,pointType,operator,circle}) => {
+      const formData = new FormData();
+      formData.append("username", userName);
+      formData.append("password", password);
+      formData.append("amount", amount);
+      formData.append("mobileNumber", number);
+      formData.append("optid", operatorId);
+      if(rechargeType==="Mobile"){
+        formData.append("circle", circleId);
+        formData.append("type", "");
+      }
+      if(rechargeType==="dth"){
+          formData.append("circle","0");
+          formData.append("type", "DTH Number");
+      }
+      formData.append("accountNo", "");
+      formData.append("isShop", true);
+      formData.append("pointType", pointType);
+      formData.append("AppType", appType);
+      try {
+        const res = await axios.post(
+          `${baseApiUrl}/Recharge/GetAllRecharge,formData`);
+        return res.data
+      } catch (error) {
+        return error;
+      }
     }
-    if (rechargeType === "dth") {
-      formData.append("circle", "0");
-      formData.append("type", "DTH Number");
-    }
-    formData.append("accountNo", "");
-    formData.append("isShop", true);
-    formData.append("pointType", pointType);
-    formData.append("AppType", appType);
-    try {
-      const res = await axios.post(
-        `${baseApiUrl}/Recharge/GetAllRecharge`,
-        formData
-      );
-      console.log(res.data);
-      return res.data;
-    } catch (error) {
-      return error;
-    }
-  }
-);
+  );
 export const getRechargeHistory = createAsyncThunk(
   "getRechargeHistory",
   async ({ userName, password, to, serviceId, type }) => {

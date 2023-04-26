@@ -13,6 +13,8 @@ import {
 const EditProfile = () => {
   const [userDetails, setUserDetails] = useState({});
   const [getData, setGetData] = useState({});
+  const [isClass, setIsClass] = useState(true);
+  const [error, setError] = useState("");
   const [panNo, setPanNo] = useState("");
   const [aadharNo, setAadharNo] = useState("");
   const [alternateNumber, setAlternateNumber] = useState("");
@@ -35,16 +37,23 @@ const EditProfile = () => {
   );
   const formik = useFormik({
     initialValues: {
-      AlternateMobile: "",
+      // AlternateMobile: "",
       PanCard: "",
       AadharNo: "",
       Pincode: "",
       PerAddress: "",
     },
     validationSchema: yup.object({
-      AlternateMobile: yup.string().optional(),
-      // .min(10)
-      // .max(10),
+      // AlternateMobile: yup
+      //   .string()
+        // .optional()
+        // .min(10)
+        // .max(10),
+        // ,
+        // .matches(
+        //   /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/,
+        //   "Please Enter Valid Number"
+        // )
       PanCard: yup
         .string()
         .required("Please Enter Your Pan Number")
@@ -59,9 +68,10 @@ const EditProfile = () => {
     }),
     onSubmit: (values, { resetForm }) => {
       if (pinCode.length == 6) {
+        if(!error){
         setLoading(true);
-        const userData = {
-          username: userDetails.UserName,
+        const userData =alternateNumber=='' || alternateNumber == null 
+        ? { username: userDetails.UserName,
           password: loggedInUser.TRXNPassword,
           FName: userDetails.FName,
           LName: userDetails.LName,
@@ -74,25 +84,41 @@ const EditProfile = () => {
             getData && getData.pincodeId != "" ? getData.pincodeId : pinCodeId,
           StateId: getData ? getData.stateId : stateCode,
           CityId: getData ? getData.cityId : cityCode,
-          AlternateMobile: values.AlternateMobile,
+          // AlternateMobile: null,
+        }
+        : { username: userDetails.UserName,
+          password: loggedInUser.TRXNPassword,
+          FName: userDetails.FName,
+          LName: userDetails.LName,
+          Mobile: userDetails.Mobile,
+          EmailId: userDetails.EmailId,
+          Pancard: values.PanCard,
+          Address: values.PerAddress,
+          AadharNo: values.AadharNo,
+          Pincode:
+            getData && getData.pincodeId != "" ? getData.pincodeId : pinCodeId,
+          StateId: getData ? getData.stateId : stateCode,
+          CityId: getData ? getData.cityId : cityCode,
+          AlternateMobile: alternateNumber,
         };
-        updateProfile(userData).then((response) => {
-          if (response.ResponseStatus == 1) {
-            setIsSnackBar(true);
-            setSuccessMsg(response.Remarks);
-          } else {
-            setIsSnackBar(true);
-          }
-          setLoading(false);
-        });
-      } else {
-        setIsSnackBar(true);
+        
+          updateProfile(userData).then((response) => {
+            if (response.ResponseStatus == 1) {
+              setIsSnackBar(true);
+              setSuccessMsg(response.Remarks);
+            } else {
+              setIsSnackBar(true);
+            }
+            setLoading(false);
+          });
+        }
+       
       }
     },
   });
 
   useEffect(() => {
-    if (!pinCode) {
+    if (!userDetails.Id) {
       getProfileDetails({
         username: loggedInUser.Mobile,
         password: loggedInUser.TRXNPassword,
@@ -138,10 +164,11 @@ const EditProfile = () => {
         });
       }
     }
+  }, [pinCode]);
 
+  useEffect(() => {
     if (formik.values.Pincode.length === 6) {
-      // dispatch(getStateCity(formik.values.Pincode));
-      getStateCity(formik.values.Pincode).then((response) => {
+      getStateCity(formik.values.Pincode).then(response=>{
         if (response?.ResponseStatus === 1) {
           setGetData({
             ...getData,
@@ -164,10 +191,21 @@ const EditProfile = () => {
             cityError: false,
           });
         }
+      })
+    }else{
+      setGetData({
+        ...getData,
+        stateName: "",
+        stateId: "",
+        stateError: false,
+        cityId: "",
+        cityName: "",
+        cityError: false,
       });
     }
-  }, [pinCode, formik.values.Pincode, getData]);
-
+ 
+  }, [formik.values.Pincode])
+  
   const editProfileSection = () => (
     <>
       <div class="my-account-right">
@@ -233,20 +271,21 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="AlternateMobile"
-                            className={
-                              formik.errors.AlternateMobile ||
-                              formik.touched.AlternateMobile
-                                ? "is-invalid"
-                                : ""
-                            }
-                            onChange={formik.handleChange}
+                            className={ error && "is-invalid" }
+                            onChange={e=>{
+                              const regex=/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/
+                              setAlternateNumber(e.target.value)
+                              if(!regex.test(e.target.value)){
+                                setError("Please Enter Valid Mobile Number")
+                              }else{
+                                  setError("")
+                                }
+                              }
+                              }
                             id="user-alternate-number"
                             placeholder="&nbsp;"
-                            value={
-                              formik.values.AlternateMobile != "null"
-                                ? formik.values.AlternateMobile
-                                : ""
-                            }
+                            type="number"
+                            value={alternateNumber}
                             autocomplete="off"
                             maxLength={10}
                             minLength={10}
@@ -255,9 +294,7 @@ const EditProfile = () => {
                           <label for="user-alternate-number">
                             Alternate Number
                           </label>
-                          <div className="invalid-feedback text-danger">
-                            {formik.errors.AlternateMobile}
-                          </div>
+                          <div className="invalid-feedback text-danger">{error}</div>
                         </div>
                       </div>
                     </div>
@@ -296,6 +333,7 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="AadharNo"
+                            type="number"
                             id="user-adhar-number"
                             placeholder="&nbsp;"
                             value={
@@ -386,6 +424,7 @@ const EditProfile = () => {
                         pincode={formik.values.Pincode}
                         setGetData={setGetData}
                         getData={getData}
+                        isClass={isClass}
                       />
                       <div class="col-lg-12">
                         <div class="save-profile-btn text-center mt-4">

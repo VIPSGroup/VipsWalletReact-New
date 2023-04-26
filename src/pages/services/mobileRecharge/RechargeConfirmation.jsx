@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { ThreeDots } from "react-loader-spinner";
-
 import "../../../assets/styles/services/mobileRecharge/recharge.css";
 import "../../../assets/styles/prime/primeConfirmation.css";
 import { mobileServiceId } from "../../../constants";
@@ -56,20 +54,27 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
   const handleClickConfirm = (e) => {
     setShowSuccess(true);
     e.preventDefault();
-    dispatch(
+    if(data?.Data?.length){
+      setSuccessMsg('')
+setIsSnackBar(true)
+setErrorMsg("Something Went wrong, Please try again later")
+    }else{
+       dispatch(
       finalRecharge({
         rechargeType: "Mobile",
         userName: loggedInUser.UserName,
         password: loggedInUser.TRXNPassword,
         amount: amt,
         number: props?.number,
-        operatorId: props?.operatorId,
+        operatorId: props?.operatorId===151 ?"JIO" :props?.operatorId,
         circleId: props?.circleId,
         pointType: selectedDiscount,
         operator: props?.operator,
         circle: props?.circle,
       })
     );
+    }
+   
   };
   useEffect(() => {
     setIsCommonTopNav(false);
@@ -99,12 +104,12 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
         const resp = rechargeData.Data;
 
         const str = resp && resp.split(";");
-        const status = str[0].split("=")[1];
+        const status = str[0]?.split("=")[1];
 
-        const amount = str[3].split("=")[1] || amt;
-        const mobileNumber = str[2].split("=")[1];
-        const time = str[1].split("=")[1] || "--";
-        const txId = str.length > 6 ? str[6].split("=")[1] : "--";
+        const amount = str[3]?.split("=")[1] || amt;
+        const mobileNumber = str[2]?.split("=")[1];
+        const time = str[1]?.split("=")[1] || "--";
+        const txId = str?.length > 6 ? str[6]?.split("=")[1] : "--";
 
         navigate("/services/status", {
           state: {
@@ -133,7 +138,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
             },
           });
         }
-      } else {
+      } else if (rechargeData.ResponseCode== 0 || rechargeData.ResponseStatus == 0) {
         setIsSnackBar(true);
         setErrorMsg(rechargeData.Remarks);
       }
@@ -316,7 +321,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
                       <div class="mob-payment-discount">
                         <form>
                           <div class="payment-confirmation-discount-info ">
-                            <div class="col-lg-8 p-0">
+                            <div class="col-lg-8 col-sm-8 p-0">
                               <div class="custom-control custom-checkbox ">
                                 <input
                                   onChange={handlePaymentMethod}
@@ -339,7 +344,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
                                 </label>
                               </div>
                             </div>
-                            <div class="col-lg-4 p-0">
+                            <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
                                 &#x20B9; {amt}{" "}
@@ -355,7 +360,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4">
-              <div class="mobile-payment-right">
+              {/* <div class="mobile-payment-right"> */}
                 <div class="mobile-payment-right-sticky box-shadow-1">
                   <div class="row">
                     <div class="col-md-12 mobile-payment-content-head">
@@ -424,7 +429,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
                         <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
-                            &#x20B9; {discount?.finalAmount}{" "}
+                            &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? discount?.finalAmount:  discount?.finalAmount?.toFixed(2)}{" "}
                           </span>
                         </div>
                       </div>
@@ -475,7 +480,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
                     </div>
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
             <MuiSnackBar
               open={isSnackBar}

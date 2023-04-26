@@ -25,11 +25,11 @@
   color: var(--darkText);
   text-decoration: none;
 }
-.completed a{
+.completed span{
   color: var(--primary);
   text-decoration: underline;
 }
-.completed a:hover{
+.completed span:hover{
   color: var(--primary);
   text-decoration: underline;
 }
@@ -394,13 +394,16 @@
   border-bottom: 1px solid var(--lightBorder);
   padding: 20px;
   /* border-radius: 10px; */
-  margin-bottom: 9px;
+  margin-bottom: 0px;
 }
 .shopping-cart-address-outer:last-child{
   border-bottom: none;
   padding-bottom: 10px;
 }
-
+.shopping-default-address{
+  border-bottom: 1px solid var(--lightBorder) !important;
+  padding-bottom: 15px !important;
+}
 .shopping-cart-address-outer .shopping-cart-address-info{
   display: flex;
   flex-wrap: nowrap;
@@ -542,7 +545,7 @@
 /* input group start */
 .shopping-address-field .input-group {
   display: flex;
-  flex-wrap: nowrap;
+  /* flex-wrap: nowrap; */
 }
 .shopping-address-field .input-field .mobile-input{
   margin-left: -39px;
@@ -796,6 +799,10 @@
 .shopping-address-select .select-option a:hover{
   background-color: var(--primary);
   color: var(--whiteColor);
+}
+.shopping-address-select .select-option a:focus{
+  background-color: transparent !important;
+  color: var(--darkText) !important;
 }
 
 .shopping-address-select .select-option .dropdown-menu{
@@ -1536,6 +1543,7 @@ padding: 0rem 0rem;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    margin-bottom: 5px;
   }
   .order-tracking-outer {
     display: flex;

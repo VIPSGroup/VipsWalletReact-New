@@ -1,26 +1,39 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { needHelpUrl } from "../../constants";
 import { useEffect } from "react";
 
-import "../../assets/styles/services/serviceSuccess.css";
-import "../../assets/styles/styles.css";
-import { needHelpUrl, googleAnalytics } from "../../constants";
-import ReactGA from "react-ga";
-import { ThemeButton } from "../../components/common";
-ReactGA.initialize(googleAnalytics);
-
-const ServiceSuccess = () => {
-  let navigate = useNavigate();
-  const location = useLocation();
-  const props = location.state;
-  useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
-  }, []);
+const SuccessPage = () => {
+    const [searchParams] = useSearchParams();
+    const [status, setStatus] = useState("");
+    const [txid, setTxid] = useState("");
+    const [amount, setAmount] = useState("");
+    const [phone, setPhone] = useState("");
+    const [date, setDate] = useState("");
+  
+    useEffect(() => {
+      const data = searchParams.get("q");
+      const encryptData = window.atob(data);
+  
+      let output = {};
+      encryptData.split("&").forEach((i) => {
+        let k = i.split("=")[0];
+        let v = i.split("=")[1];
+        output[k] = v;
+      });
+  
+      setStatus(output["status"]);
+      setTxid(output["txid"]);
+      setAmount(output["amount"]);
+      setPhone(output["phone"]);
+      setDate(output["date"]);
+    });
+  
+    const navigate = useNavigate();
   return (
     <div className="color-body">
-    <section class="section-align recharge-success">
+    <section class="inpage-section-align recharge-success">
       <div class="container">
         <div class="container">
           <div class="section-head">
@@ -35,6 +48,7 @@ const ServiceSuccess = () => {
             </h1>
           </div>
         </div>
+
         <div class="container">
           <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12 recharge-success-outer box-shadow-1 border-0 mx-auto">
@@ -42,8 +56,7 @@ const ServiceSuccess = () => {
                 <div class="recharge-success-body">
                   {/** <!-- success animation start --> */}
                   <div class="col-md-12">
-                    {props?.status?.includes("Success") ||
-                    props?.status?.includes("Reversal") ? (
+                    {status.includes("success") ? (
                       <div class="recharge-seccess-box">
                         <div class="recharge-success-inner success-animation">
                           <svg
@@ -71,10 +84,13 @@ const ServiceSuccess = () => {
 
                           <p class="recharge-success-amt">
                             {" "}
-                            &#x20B9; {props?.amount}
+                            &#x20B9; {amount}
                           </p>
                           <br />
-                          <p class="recharge-success-msg"> {props?.status} </p>
+                          <p class="recharge-success-msg">
+                            {" "}
+                            Your transaction has been Successful{" "}
+                          </p>
                         </div>
                       </div>
                     ) : null}
@@ -82,8 +98,7 @@ const ServiceSuccess = () => {
                     {/** <!-- success animation end --> */}
 
                     {/** <!-- warning animation start --> */}
-                    {props?.status?.includes("Recharge under process") ||
-                    props?.status?.includes("Pending") ? (
+                    {status.includes("pending") ? (
                       <div class="recharge-seccess-box">
                         <div class="recharge-success-inner warning-animation">
                           <div class="svg-box">
@@ -118,11 +133,12 @@ const ServiceSuccess = () => {
                               </g>
                             </svg>
                           </div>
-                          <p class="recharge-success-amt">
+                          <p class="recharge-success-amt"> ₹ {amount}</p>
+                          <br />
+                          <p class="recharge-success-msg">
                             {" "}
-                            ₹ {props?.amount}
+                            Your transaction is Pending{" "}
                           </p>
-                          <p class="recharge-success-msg"> {props?.status} </p>
                         </div>
                       </div>
                     ) : null}
@@ -132,8 +148,8 @@ const ServiceSuccess = () => {
                     {/** <!-- warning animation end -->*/}
                     {/** <!-- faild animation start --> */}
 
-                    {props?.status?.includes("Failure") ||
-                    props?.status?.includes("Failed") ? (
+                    {status.includes("failure") ||
+                    status.includes("failed") ? (
                       <div class="recharge-seccess-box">
                         <div class="recharge-success-inner faild-animation">
                           <div class="svg-box">
@@ -166,9 +182,13 @@ const ServiceSuccess = () => {
                           </div>
                           <p class="recharge-success-amt">
                             {" "}
-                            &#x20B9; {props?.amount}
+                            &#x20B9; {amount}
                           </p>
-                          <p class="recharge-success-msg"> {props?.status} </p>
+                          <br />
+                          <p class="recharge-success-msg">
+                            {" "}
+                            Your transaction is Failed{" "}
+                          </p>
                         </div>
                       </div>
                     ) : null}
@@ -190,38 +210,20 @@ const ServiceSuccess = () => {
                   <div class="recharge-success-summery">
                     <div class="row mb-3">
                       <div class="col-12 col-xs-12">
-                        <span>
-                          {" "}
-                          {props?.type === "Mobile"
-                            ? "Mobile Number"
-                            : "Number"}{" "}
-                          :{" "}
-                        </span>
+                        <span> Mobile Number : </span>
                         <span class="recharge-success-right-text">
                           {" "}
-                          {props?.type === "Mobile" ? "+91" : ""}{" "}
-                          {props?.mobileNo}{" "}
+                          +91 {phone}{" "}
                         </span>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <div class="col-12 col-xs-12">
-                        <span> Operator : </span>
+                        <span> Payment Date : </span>
                         <span class="recharge-success-right-text">
                           {" "}
-                          {props?.operator}{" "}
-                          {props?.circle ? `| ${props?.circle}` : ""}{" "}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <div class="col-12 col-xs-12">
-                        <span> Paid On : </span>
-                        <span class="recharge-success-right-text">
-                          {" "}
-                          {props?.date}{" "}
+                          {date}{" "}
                         </span>
                       </div>
                     </div>
@@ -231,7 +233,7 @@ const ServiceSuccess = () => {
                         <span> Transaction Id : </span>
                         <span class="recharge-success-right-text">
                           {" "}
-                          {props?.transactionId}{" "}
+                          {txid}{" "}
                         </span>
                       </div>
                     </div>
@@ -245,11 +247,10 @@ const ServiceSuccess = () => {
                   </div>
 
                   <div class="recharge-success-btn">
-                    <ThemeButton onClick={() => {navigate("/")}} value={"Done"}/>
-                    {/* <button onClick={() => navigate("/")} class="btn-primery">
+                    <button onClick={() => navigate("/")} class="btn-primery">
                       {" "}
-                      Done{" "}
-                    </button> */}
+                      Continue{" "}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -259,7 +260,7 @@ const ServiceSuccess = () => {
       </div>
     </section>
   </div>
-  );
-};
+  )
+}
 
-export default ServiceSuccess;
+export default SuccessPage

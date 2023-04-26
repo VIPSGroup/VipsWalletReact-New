@@ -148,9 +148,9 @@ const QuickViewModal = ({ productId }) => {
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
     cartProducts &&
-      cartProducts.map((c, i) => {
-        if (c?.product?.Id == pro?.ProductDetails?.Id) {
-          setExistInCart(true);
+    cartProducts.map((c, i) => {
+      if (c?.product?.Id == pro?.ProductDetails?.Id) {
+        setExistInCart(true);
         }
       });
   };
@@ -187,20 +187,20 @@ const QuickViewModal = ({ productId }) => {
 
   useEffect(() => {
     var p = {};
-    p = data?.Data?.ProductDetails;
-    setProduct(data?.Data?.ProductDetails);
-    setProductObj(data?.Data);
-    checkInCart(data?.Data);
+    p = data?.response?.Data?.ProductDetails;
+    setProduct(data?.response?.Data?.ProductDetails);
+    setProductObj(data?.response?.Data);
+    checkInCart(data?.response?.Data);
     if (p?.Size) {
-      getSizes(data?.Data?.ProductDetails?.Size);
+      getSizes(data?.response?.Data?.ProductDetails?.Size);
     }
     if (p?.Color) {
-      getColors(data.Data.ProductDetails.Color);
+      getColors(data.response?.Data.ProductDetails.Color);
     }
-    getProductImages(data?.Data?.ProductDetails);
+    getProductImages(data?.response?.Data?.ProductDetails);
     const buyNowProductDeatils = {
-      product: data.Data?.ProductDetails,
-      charges: data.Data?.ProductTax,
+      product: data.response?.Data?.ProductDetails,
+      charges: data.response?.Data?.ProductTax,
       selectedColor: selectedColor,
       selectedSize: selectedSize,
       qty: qty,
@@ -210,6 +210,9 @@ const QuickViewModal = ({ productId }) => {
 
     setProducts(buyNowProductsArray);
     checkInWishlist();
+    return ()=>{
+      setExistInCart(false);
+    }
   }, [data]);
   useEffect(() => {
     checkInWishlist();
@@ -280,24 +283,27 @@ const QuickViewModal = ({ productId }) => {
         <div class="col-lg-6">
           <div class="quick-view-product">
             <>
-<Spin spinning={loading}>
-              <Carousel
-                responsive={responsive}
-                infinite={true}
-                className="quick-view-product-img-outer"
-              >
-                {productImages &&
-                  productImages.map((image, i) => (
-                    <div class="quick-view-product-img">
-                      <img
-                        class="img-thumbnail "
-                        src={shopadminUrl + image?.original}
-                        alt="Slide Image"
-                      />
-                    </div>
-                  ))}
-              </Carousel>
-              </Spin>
+            <Carousel swipeable={false} draggable={false}
+                    responsive={responsive}
+                    infinite={true}
+                    className="quick-view-product-img-outer"
+                  >
+                    {productImages &&
+                      productImages.map((image, i) => (
+                        <div class="quick-view-product-img">
+                          <img 
+                          onError={(e)=>{
+                            productImages.splice(i,1)
+                            setProductImages([...productImages])
+                           
+                          }}
+                            class="img-thumbnail "
+                            src={shopadminUrl + image.original}
+                            alt="Slide Image"
+                          />
+                        </div>
+                      ))}
+                  </Carousel>
             </>
           </div>
         </div>
@@ -445,7 +451,7 @@ const QuickViewModal = ({ productId }) => {
                   Delivery By <span> {product?.DeliveryEnd} </span>{" "}
                 </p>
                 <p class="mb-0">
-                  Sold By <span> Soumik Variety Store </span>{" "}
+                  Sold By <span>{product?.Soldby} </span>{" "}
                 </p>
               </div>
             </div>
@@ -492,7 +498,6 @@ const QuickViewModal = ({ productId }) => {
     <div>
       <button
         onClick={() => {
-          console.error("Quick View" ,  product);
           product?.Quantity !== 0 && setShowModal(true);
           dispatch(getSingleProductData({productId}));
         }}
@@ -505,5 +510,4 @@ const QuickViewModal = ({ productId }) => {
     </div>
   );
 };
-
 export default QuickViewModal;

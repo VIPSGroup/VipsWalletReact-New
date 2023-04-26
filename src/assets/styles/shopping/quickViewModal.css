@@ -346,12 +346,12 @@
 .quick-view-pincode .input-group input{
     font-size: 14px;
     border-right:none;
-    padding: 25px 15px;
+    padding: 24px 15px;
     border-radius: 8px;
     border-color: var(--borderColor);
 }
 .quick-view-pincode .input-group button{
-    font-size: 16px;
+    font-size: 14px;
     background: var(--whiteColor); 
     border-left:none;
     border-color: var(--borderColor);
@@ -408,8 +408,8 @@
         margin-left: 15px;
     }
     .quick-view-info-box { 
-        margin-right: 15px;
-        margin-left: 15px;
+        margin-right: 5px;
+        margin-left: 5px;
     }
     .price span {
         font-size: 18px; 

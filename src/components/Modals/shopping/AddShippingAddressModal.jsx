@@ -31,12 +31,12 @@ const AddShippingAddressModal = () => {
       landmark: "",
     },
     validationSchema: yup.object({
-      pincode: yup.string().min(6).max(6).required("Please Enter Pincode"),
-      fname: yup.string().required("Please Enter first name"),
-      lname: yup.string().required("Please Enter last name"),
-      mobileno: yup.string().min(10).max(10).required("Please Enter mobileno"),
+      pincode: yup.string().required("Please Enter Pincode").matches(/^\d{6}$/,"Please Enter Valid Pincode"),
+      fname: yup.string().required("Please Enter First Name").matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid First Name"),
+      lname: yup.string().required("Please Enter Last Name").matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid Last Name"),
+      mobileno: yup.string().min(10,"Please Enter Valid Mobile Number").max(10,"Please Enter Valid Mobile Number").matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/ ,"Please Enter Valid Mobile Number").required("Please Enter Mobile Number"),
       addressType: yup.string().required("Please Enter addressType"),
-      address: yup.string().required("Please Enter address"),
+      address: yup.string().required("Please Enter address") .matches(/.{20,}/,"Address must be at least 20 characters"),
       landmark: yup.string().required("Please Enter landmark"),
     }),
 
@@ -71,7 +71,7 @@ const AddShippingAddressModal = () => {
   };
 
   useEffect(() => {
-    if (formik.values.pincode.length == 6) {
+    if (formik.values.pincode.toString().length == 6) {
       getStateCity(formik.values.pincode).then(response=>{
         if (response?.ResponseStatus === 1) {
           setGetData({
@@ -152,7 +152,7 @@ const AddShippingAddressModal = () => {
                       }
                       value={formik.values.pincode}
                       id="pincode"
-                      type="text"
+                      type="number"
                       placeholder="&nbsp;"
                       autoComplete="off"
                       minLength={6}
@@ -220,11 +220,11 @@ const AddShippingAddressModal = () => {
                         onBlur={formik.handleBlur}
                         className={
                           formik.errors.mobileno && formik.touched.mobileno
-                            ? " is-invalid"
-                            : ""
+                            ? "mobile-input is-invalid w-100"
+                            : "mobile-input"
                         }
                         value={formik.values.mobileno}
-                        class="mobile-input"
+                        // class="mobile-input"
                         type="text"
                         placeholder="&nbsp;"
                         autoComplete="off"
@@ -232,7 +232,7 @@ const AddShippingAddressModal = () => {
                         minLength="10"
                       />
                       <label for="user-mobile"> Mobile Number </label>
-                      <div className="invalid-feedback text-danger">
+                      <div className="invalid-feedback text-danger w-100">
                         {formik.errors.mobileno}
                       </div>
                     </div>
@@ -281,17 +281,17 @@ const AddShippingAddressModal = () => {
                     </div>
                   </div>
 
-                  <div class="shopping-address-select">
+                  {/* <div class="shopping-address-select"> */}
                     <SelectField
                       pincode={formik.values.pincode}
                       setGetData={setGetData}
-                      getData={getData}
+                      getData={getData} isClass={false}
                     />
-                  </div>
+                  {/* </div> */}
 
                   <div class="shopping-address-select"></div>
 
-                  <div>
+                  <div className="mt-3">
                     <p class="select-address-type-title"> Address Type </p>
                     <div class="select-address-type">
                       <label>

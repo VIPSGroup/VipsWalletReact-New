@@ -219,7 +219,7 @@ const{loggedInUser}= useSelector(state=>state.login)
                             {b.Name} : <label>{b.Value} </label>{" "}
                           </p>
                         ))}
-                        <p class="ml-auto"> {props.operator}</p>
+                        <p class=""> {props.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
                         <p class="mob-paymet-recharge-text">
@@ -455,7 +455,7 @@ const{loggedInUser}= useSelector(state=>state.login)
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4">
-              <div class="mobile-payment-right">
+              {/* <div class="mobile-payment-right"> */}
                 <div class="mobile-payment-right-sticky box-shadow-1">
                   <div class="row">
                     <div class="col-md-12 mobile-payment-content-head">
@@ -572,7 +572,7 @@ const{loggedInUser}= useSelector(state=>state.login)
                             </div> */}
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
 
             <MuiSnackBar

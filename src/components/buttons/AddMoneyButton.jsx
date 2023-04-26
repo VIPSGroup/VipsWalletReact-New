@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { getTransactionId } from "../../constants";
 import { getPayUHash } from "../../redux/slices/payment/paymentSlice";
 import { ThemeButton } from "../common";
+import { useEffect } from "react";
 
 const AddMoneyButton = ({
   amount,
@@ -11,9 +12,12 @@ const AddMoneyButton = ({
   isCreditCardEnable = false,
   chargesAmount,
 }) => {
+  const {data,key,string}= useSelector(state=>state.paymentSlice.configBySubKey)
+
   const formRef = useRef(null);
-  // const hashInputRef=useRef(null)
   const [hash, setHash] = useState("");
+  // const [value, setValue] = useState("");
+  // const [stringValue, setStringValue] = useState("");
   const [transactionId, setTransactionId] = useState("");
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -24,11 +28,15 @@ const AddMoneyButton = ({
       if (amount <= 5000) {
         const trxnId = getTransactionId();
         setTransactionId(trxnId);
-        getPayUHash(user, trxnId, amount, chargesAmount).then(async (res) => {
+        getPayUHash(user, trxnId, amount,key,string, chargesAmount).then(async (res) => {
           formRef.current.txnid.value = trxnId;
-          formRef.current.hash.value = res.results.payment_hash;
-          setHash(res.results.payment_hash);
+          formRef.current.hash.value = res?.results?.payment_hash;
+          setHash(res?.results?.payment_hash);
           const resp = await formRef.current.submit();
+          if(res.status==='Failed'){
+            setIsSnackBar(true)
+            setErrorMsg(res.errormsg)
+          }
         });
       } else {
         setIsSnackBar(true);
@@ -39,7 +47,14 @@ const AddMoneyButton = ({
       setErrorMsg("Please enter valid amount");
     }
   };
-
+  useEffect(() => {
+    // if(data){
+    //  if(data.ResponseStatus === 1){
+    //   setValue(data.Data.Key)
+    //   setStringValue(data.Data.String)
+    //  }
+    // }
+   }, [data])
   const getTranId = () => {
     return transactionId;
   };
@@ -66,21 +81,20 @@ const AddMoneyButton = ({
         <input
           name="furl"
           type="hidden"
-          value={`http://webplat.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
+          value={`https://api.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
         />
-        <input name="key" type="hidden" value="e9ZmdY" />
+        <input name="key" type="hidden" value={key} />
         <input name="hash" type="hidden" value={callHash()} />
         <input name="email" type="hidden" value={user && user.Emailid} />
-        {isCreditCardEnable ? (
-          <input name="enforce_paymethod" type="hidden" value="creditcard" />
-        ) : (
-          <input name="drop_category" type="hidden" value="CC" />
-        )}
+        <input name="enforce_paymethod" type="hidden" value="CC" />
+        {isCreditCardEnable ? <input name="drop_category" type="hidden" value="CC" />
+        :<input name="enforce_paymethod" type="hidden" value="creditcard" />
 
+           }
         <input
           name="surl"
           type="hidden"
-          value={`http://webplat.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
+          value={`https://api.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
         />
         <input name="amount" type="hidden" value={amount} />
       </form>

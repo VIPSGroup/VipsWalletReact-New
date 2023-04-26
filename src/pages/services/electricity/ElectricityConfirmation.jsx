@@ -64,35 +64,6 @@ const ElectricityConfirmation = ({setIsCommonTopNav}) => {
 
     const paymentRefId = getRandomNumber();
 dispatch(OnlinefinalElecticity({username: loggedInUser.Mobile,password:loggedInUser.TRXNPassword,billAmount:amt,inputObj:inputFields,paymentRef:paymentRefId,refId: props.billData.TransactionId,operatorCode: props.operatorId,mobNo:props.number,paymentMode: props.paymentMode,pointType:selectedDiscount}))
-
- 
-
-      // if (response.ResponseStatus === 1) {
-      //   if (response.Data != null) {
-      //     var data = response.Data;
-      //     var time = getTodayDate();
-      //     navigate("/services/success", {
-      //       state: {
-      //         amount: data.BillAmount,
-      //         status: response.Status,
-      //         mobileNo: inputFields[0].fieldValue,
-      //         operator: props.operator,
-      //         circle: "",
-      //         date: time,
-      //         transactionId: data.TransactionId,
-      //       },
-      //     });
-      //   } 
-      // else {
-      //     setIsSnackBar(true);
-      //     setErrorMsg(response.Data.ResponseMessage);
-      //   }
-      // } else {
-      //   setIsSnackBar(true);
-      //   setErrorMsg(
-      //     response.Data ? response.Data.ResponseMessage : response.Remarks
-      //   );
-      // }
   };
 
   const handlePaymentMethod = (e) => {
@@ -171,7 +142,7 @@ return ()=>{setShowSuccess(false)
           setIsSnackBar(true);
           setErrorMsg(rechargeData.Data.ResponseMessage);
         }
-      } else {
+      } else if (rechargeData.ResponseCode === 0 || rechargeData.ResponseStatus === 0){
         setIsSnackBar(true);
         setErrorMsg(rechargeData.Remarks);
       }
@@ -228,7 +199,7 @@ return ()=>{setShowSuccess(false)
                                 {b.fieldName} : <label>{b.fieldValue} </label>{" "}
                               </p>
                             ))}
-                        <p class="ml-auto"> {props.operator}</p>
+                        <p class=""> {props.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
                         <p class="mob-paymet-recharge-text">
@@ -323,7 +294,7 @@ return ()=>{setShowSuccess(false)
                       <div class="mob-payment-discount">
                         <form>
                           <div class="payment-confirmation-discount-info ">
-                            <div class="col-lg-8 p-0">
+                            <div class="col-lg-8 col-sm-8 p-0">
                               <div class="custom-control custom-checkbox ">
                                 <input
                                   onChange={handlePaymentMethod}
@@ -346,7 +317,7 @@ return ()=>{setShowSuccess(false)
                                 </label>
                               </div>
                             </div>
-                            <div class="col-lg-4 p-0">
+                            <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
                                 &#x20B9; {amt}{" "}
@@ -362,7 +333,7 @@ return ()=>{setShowSuccess(false)
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4">
-              <div class="mobile-payment-right">
+              {/* <div class="mobile-payment-right"> */}
                 <div class="mobile-payment-right-sticky box-shadow-1">
                   <div class="row">
                     <div class="col-md-12 mobile-payment-content-head">
@@ -430,11 +401,24 @@ return ()=>{setShowSuccess(false)
                         <div class="col-4 col-xs-4 text-right">
                         <span class="mobile-payment-summery-amt">
                               {" "}
-                              &#x20B9; {discount?.finalAmount}{" "}
+                              &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? discount?.finalAmount:  discount?.finalAmount?.toFixed(2)}{" "}
                             </span>
                         </div>
                       </div>
                     </div>
+
+                    {amt > data?.Data?.Balance ? (
+                      <div className="alert alert-danger d-block mt-4">
+                        Wallet Balance less than the Amount.{" "}
+                        <Link
+                          to="/addMoney/options"
+                          className="text-decoration-none text-primery"
+                          style={{ textDecoration: "none" }}
+                        >
+                          Add Money
+                        </Link>
+                      </div>
+                    ) : null}
 
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
@@ -472,7 +456,7 @@ return ()=>{setShowSuccess(false)
                             </div> */}
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
 
             <MuiSnackBar

@@ -26,10 +26,16 @@ const DthFront = ({ props }) => {
   const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
   const { operatorsList } = useSelector(state => state.commonSlice.operators );
+  const { loggedInUser } = useSelector(state => state.loginSlice.loggetInWithOTP);
 const dispatch= useDispatch()
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
-    dispatch(getOperators(dthServiceId))
+    if(loggedInUser){
+      ReactGA.pageview(window.location.pathname);
+      dispatch(getOperators(dthServiceId))
+    }else{
+      navigate("/login")
+    }
+   
   }, [props]);
 
   const handleMobileNo = (e) => {
@@ -91,7 +97,7 @@ const dispatch= useDispatch()
                   <div class="col-md-12 mobile-recharge-content-head">
                     <h3 class="mobile-recharge-title">
                       {" "}
-                      Recharge or Pay DTH Bill{" "}
+                      Pay DTH Bill{" "}
                     </h3>
                   </div>
                 </div>
@@ -197,7 +203,6 @@ const dispatch= useDispatch()
               <RecentHistory
                 serviceId={"1"}
                 fetchServiceId={mobileServiceId}
-                setMobileNo={setMobileNo}
                 type={"dth"}
               />
             </div>

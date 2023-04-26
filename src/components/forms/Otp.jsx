@@ -8,7 +8,7 @@ import { Loading, MuiSnackBar, ThemeButton } from "../common";
 const Otp = ({ userName, password, setFormCount }) => {
   const [otp, setOtp] = useState("");
   const [ip, setIp] = useState("");
-  const [toggle, setToggle] = useState(false);
+  // const [toggle, setToggle] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [showSuccessMessage, setsuccessMessage] = useState("");
   const [showErrorMessage, setErrorMessage] = useState("");
@@ -19,7 +19,7 @@ const Otp = ({ userName, password, setFormCount }) => {
     (state) => state.loginSlice.loggetInWithOTP
   );
   useEffect(() => {
-    if (loggedInUser === false && toggle && !loading) {
+    if (loggedInUser === false && toggle ) {
       if (!loggedInUser.Id) {
         setIsSnackBar(true);
         setErrorMessage("Invalid OTP");
@@ -34,7 +34,7 @@ const Otp = ({ userName, password, setFormCount }) => {
       setsuccessMessage("Login Successful");
       navigate("/");
     }
-  }, [loggedInUser, toggle]);
+  }, [loggedInUser,toggle]);
 
   const renderTime2 = () => React.Fragment;
   const renderButton2 = (buttonProps) => {
@@ -51,7 +51,7 @@ const Otp = ({ userName, password, setFormCount }) => {
               </span>
             </p>
           ) : (
-            <p>
+            <p onClick={()=>{}}>
               Not received OTP?{" "}
               <a   {...buttonProps}>
                 <span

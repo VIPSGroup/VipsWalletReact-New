@@ -25,6 +25,9 @@ const HomeTopNav = ({ isPrime }) => {
   const { data, loading } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
+  const handleSidebar = () => {
+    document.getElementById("sidebar").classList.remove("active");
+  };
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -84,9 +87,9 @@ const HomeTopNav = ({ isPrime }) => {
                     {/* <Link to='/' className="nav-link">ss</Link> */}
                     <li class="nav-item active">
                       <Link
-                          style={{
-                            borderBottom: pathname === "/" && "2px solid #CA3060",
-                          }}
+                        style={{
+                          borderBottom: pathname === "/" && "2px solid #CA3060",
+                        }}
                         class="nav-link"
                         to="/"
                       >
@@ -129,11 +132,11 @@ const HomeTopNav = ({ isPrime }) => {
                         Become a Supplier{" "}
                       </Link>
                     </li>
-                    <li class="nav-item">
+                    {/* <li class="nav-item">
                       <Link class="nav-link" to="/vipsgold">
                         VIPS Gold
                       </Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
@@ -149,7 +152,7 @@ const HomeTopNav = ({ isPrime }) => {
                   >
                     {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
                     <Badge count={cartCount && cartCount.length}>
-                    <AiOutlineShoppingCart className="nav-icon" />
+                      <AiOutlineShoppingCart className="nav-icon" />
                     </Badge>
                     <span class="d-xl-block d-none d-md-none d-sm-none">
                       {" "}
@@ -432,9 +435,7 @@ const HomeTopNav = ({ isPrime }) => {
                 type="button"
                 id="sidebarCollapseX"
                 class="btn btn-link sidebar-close"
-                onClick={(e) => {
-                  document.getElementById("sidebar").classList.remove("active");
-                }}
+                onClick={handleSidebar}
               >
                 <i class="fa-sharp fa-solid fa-xmark"></i>
               </button>
@@ -443,27 +444,27 @@ const HomeTopNav = ({ isPrime }) => {
         </div>
 
         <ul class="list-unstyled components links">
-          <li class="">
+          <li class="" onClick={handleSidebar}>
             <Link to="/"> Home</Link>
           </li>
 
           {/* {<!-- with multiple submenu start -->} */}
-          <li>
+          <li onClick={handleSidebar}>
             <Link to="/shopping">Shopping </Link>
           </li>
 
-          <li>
+          <li onClick={handleSidebar}>
             <Link to="/services">Services </Link>
           </li>
 
-          <li>
+          <li onClick={handleSidebar}>
             <Link to="/onlinestores"> Online Stores</Link>
           </li>
-          <li>
+          {/* <li>
 
             <Link to="/vipsgold">VIPS Gold</Link>
-          </li>
-          <li>
+          </li> */}
+          <li onClick={handleSidebar}>
             <Link to={vendorPanelAPi} target="_blank">
               {" "}
               Become a Supplier

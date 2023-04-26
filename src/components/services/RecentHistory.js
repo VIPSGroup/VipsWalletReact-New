@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { operartorsUrl } from "../../constants";
 import { getRechargeHistory } from "../../redux/slices/services/commonSlice";
 import { getCircleAndOperatorByNumber } from "../../redux/slices/services/rechargeSlice";
@@ -37,7 +35,6 @@ if(loggedInUser){
   dispatch(getRechargeHistory({userName:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,to:toDate,serviceId,type}))
 }
   }, []);
-
   return (<div class="mobile-recharge-right">
       <div class="mobile-recharge-content box-shadow-1">
         <div class="mobile-recharge-content-inner">
@@ -50,6 +47,7 @@ if(loggedInUser){
           <div class="row">
             <div class="col-md-12 recharge-table-scroll mobile-recharge-table-outer services-page-loader">
               <div class="service-loader-outer">
+                
                 {loading ? (
                   <Loading color="#CA3060" class="" />
                 ) : rechargeHistoryList?.length===0 ? (
@@ -62,7 +60,7 @@ if(loggedInUser){
                   {rechargeHistoryList &&
                     rechargeHistoryList.map((r, i) => (
                       <tr>
-                        <td class="align-middle">
+                        <td class="align-middle text-left">
                           {" "}
                           <img
                             alt=""
@@ -111,10 +109,10 @@ if(loggedInUser){
                         {setMobileNo && (
                           <td class="align-middle">
                             <button
-onClick={()=>{setMobileNo(r.Number)
+onClick={()=>{
+  setMobileNo(r.Number)
  dispatch(getCircleAndOperatorByNumber(r.Number))
 }}
-                              // onClick={() => clickRepeat(r.Number)}
                               name="number"
                               value={r.Number}
                               type="button"
@@ -130,16 +128,6 @@ onClick={()=>{setMobileNo(r.Number)
                 </tbody>
               </table>}
               </div>
-
-              {/* {loading ? (
-                  <LoadingBar color="#CA3060" />
-                ) : rechargeHistory.length < 1 ? (
-                  <div class="text-center">
-                    <img src="/images/No_Data.svg" />
-                  </div>
-                ) : null} */}
-
-              
             </div>
           </div>
         </div>

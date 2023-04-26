@@ -130,7 +130,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
           setIsSnackBar(true);
           setErrorMsg(fastagRecharge?.Data?.ResponseMessage);
         }
-      } else if(fastagRecharge?.ResponseCode === 0){
+      } else if(fastagRecharge?.ResponseCode === 0 || fastagRecharge?.ResponseStatus === 0){
         setSuccessMsg("")
         setIsSnackBar(true);
         setErrorMsg(fastagRecharge?.Remarks
@@ -183,7 +183,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                             {b.Name} : <label>{b.Value} </label>{" "}
                           </p>
                         ))}
-                        <p class="ml-auto"> {props?.operator}</p>
+                        <p class=""> {props?.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
                         <p class="mob-paymet-recharge-text">
@@ -278,7 +278,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                       <div class="mob-payment-discount">
                         <form>
                           <div class="payment-confirmation-discount-info ">
-                            <div class="col-lg-8 p-0">
+                            <div class="col-lg-8 col-sm-8 p-0">
                               <div class="custom-control custom-checkbox ">
                                 <input
                                   onChange={handlePaymentMethod}
@@ -301,7 +301,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                                 </label>
                               </div>
                             </div>
-                            <div class="col-lg-4 p-0">
+                            <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
                                 &#x20B9; {amt}{" "}
@@ -317,7 +317,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4">
-              <div class="mobile-payment-right">
+              {/* <div class="mobile-payment-right"> */}
                 <div class="mobile-payment-right-sticky box-shadow-1">
                   <div class="row">
                     <div class="col-md-12 mobile-payment-content-head">
@@ -384,11 +384,24 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                         <div class="col-4 col-xs-4 text-right">
                         <span class="mobile-payment-summery-amt">
                               {" "}
-                              &#x20B9; {discount?.finalAmount}{" "}
+                              &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? discount?.finalAmount:  discount?.finalAmount?.toFixed(2)}{" "}
                             </span>
                         </div>
                       </div>
                     </div>
+
+                    {amt > data?.Data?.Balance ? (
+                      <div className="alert alert-danger d-block mt-4">
+                        Wallet Balance less than the Amount.{" "}
+                        <Link
+                          to="/addMoney/options"
+                          className="text-decoration-none text-primery"
+                          style={{ textDecoration: "none" }}
+                        >
+                          Add Money
+                        </Link>
+                      </div>
+                    ) : null}
 
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
@@ -420,7 +433,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                     </div>
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
 
             <MuiSnackBar

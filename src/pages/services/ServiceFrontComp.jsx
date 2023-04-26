@@ -26,7 +26,6 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
   const [billFetchError, setBillFetchError] = useState("");
   const [opImgUrl, setOpImgUrl] = useState("");
  const [isClick, setIsClick] = useState(false)
-
  const dispatch= useDispatch()
   let navigate = useNavigate();
   const { loggedInUser } = useSelector(
@@ -36,7 +35,6 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
   const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
   const { billData ,billLoading} = useSelector(state => state.fastagSlice.getBill );
   const callInputFields = (ourCode) => {
-    // setIsClick(true)
     dispatch(getInputFieldsByOperator(ourCode))
   };
 
@@ -44,12 +42,21 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
     setBillFetchError("");
     setShowBill(false);
     let data = [...inputFields];
+    let newArray=  inputFields.slice()
     data[index].fieldValue = e.target.value;
+  
     const regex = RegExp(data[index].regex);
+   
     if (!e.target.value.match(regex)) {
-      inputFields[index].validate = false;
+      newArray[index].validate=false
+      setInputFields(newArray)
     } else {
-      inputFields[index].validate = true;
+      newArray[index].validate=true
+      setInputFields(newArray)
+    }
+    if(data[index].regex=='' && e.target.value==''){
+      newArray[index].validate=false
+      setInputFields(newArray)
     }
     setIsClick(true)
     setInputFields(data);
@@ -60,8 +67,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
 
     if (selectedOperator) {
       if (mobileNo && mobileNo.length === 10) {
-        let validateBBPSField = inputFields.filter((o) => o.validate === false);
-
+        let validateBBPSField = inputFields.filter((o) => o.fieldValue === '');
         if (validateBBPSField.length !== 0) {
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
@@ -74,7 +80,7 @@ const ServiceFrontComp = ({ props, title, serviceId, serviceName }) => {
           obj.MobileNumber = mobileNo;
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
-dispatch(fetchBill({obj,username:loggedInUser.Mobile,password: loggedInUser.TRXNPassword}))
+dispatch(fetchBill({obj,username:loggedInUser?.Mobile,password: loggedInUser?.TRXNPassword}))
         }
       } else {
         setErrorMsg("Please enter valid mobile number");
@@ -86,18 +92,27 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password: loggedInUser.TRXN
     }
   };
   useEffect(() => {
-    if(billData.ResponseMessage==="Successful"){
+    if(billData.ResponseStatus===1){
+       if(billData.Data.BillDetails!=null){
       setShowBill(true);
-                    setBillFetchData(billData);
-                    setBillAmount(parseFloat(billData.BillAmount));
+                    setBillFetchData(billData.Data);
+                    setBillAmount(parseFloat(billData.Data.BillAmount));
     }else{
-      setBillFetchError(billData.ResponseMessage);
+      setBillFetchError(billData.Data.ResponseMessage?billData.Data.ResponseMessage:billData.Data.Remarks);
+    }
+    }else if(billData.ResponseStatus===0){
+      setIsSnackBar(true)
+      setErrorMsg(billData.Remarks)
     }
   }, [billData])
   useEffect(() => {
-
-    ReactGA.pageview(window.location.pathname);
-dispatch(getOperatorsByServiceId(serviceId))
+if(loggedInUser){
+  ReactGA.pageview(window.location.pathname);
+  dispatch(getOperatorsByServiceId(serviceId))
+}else{
+navigate("/login")
+}
+ 
 return ()=>{setIsClick(false)}
   }, [props]);
   useEffect(() => {
@@ -109,7 +124,7 @@ return ()=>{setIsClick(false)}
           fieldName: d.name,
           fieldValue: "",
           regex: d.Regex,
-          validate: false,
+          validate: true,
         })
       });
     }
@@ -400,7 +415,7 @@ return ()=>{setIsClick(false)}
 
                     <div class="row">
                       <div class="col-lg-12 electricity-bill-field p-0">
-                        <div class="form-group input-group input-field">
+                        <div class="form-group input-group input-field mt-3">
                           <span class="input-group-prepend">
                             <div class="input-group-text">+91</div>
                           </span>

@@ -109,7 +109,7 @@ const ProductListing = () => {
             <div class="col-md-12">
               <div class="shopping-catagory-nav-outer">
                 {subCategories && (
-                  <Carousel
+                  <Carousel swipeable={false} draggable={false}
                     responsive={responsive}
                     infinite={true}
                     slidesToSlide={2}
@@ -160,7 +160,7 @@ const ProductListing = () => {
                 options={[
                   { value: "lowtohigh", label: "Price : Low to High" },
                   { value: "hightolow", label: "Price : High to Low" },
-                  { value: "new", label: "Newest Arrivals" },
+                  // { value: "new", label: "Newest Arrivals" },
                 ]}
               />
             </Row>
@@ -206,7 +206,7 @@ const ProductListing = () => {
         <div class="container">
           <div class="row">
             {activeProducts &&
-              activeProducts?.map((product, i) => (
+              activeProducts?.filter(product=>product.Quantity!==0).map((product, i) => (
                 <ProductCard product={product} />
               ))}
           </div>

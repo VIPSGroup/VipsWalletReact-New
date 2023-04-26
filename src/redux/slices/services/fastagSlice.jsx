@@ -47,7 +47,7 @@ export const fetchBill = createAsyncThunk(
   try {
     const res = await axios.post(
       `${baseApiUrl}/Recharge/GetCommonFBBPSBillFetch`,data ,{ headers: headers});
-    return res.data.Data
+    return res.data
   } catch (error) {
     return error;
   }

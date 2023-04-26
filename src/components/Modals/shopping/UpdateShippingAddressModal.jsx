@@ -9,11 +9,8 @@ import { SelectField } from "../../forms";
 import { MuiSnackBar, ThemeButton } from "../../common";
 
 const UpdateShippingAddressModal = ({ addressProp }) => {
-  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [pincode, setPincode] = useState("");
-  // const [success, setSuccess] = useState(false);
-  // const [error, setError] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -33,13 +30,18 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
       landmark: "",
     },
     validationSchema: yup.object({
-      pincode: yup.string().min(6).max(6).required("Please Enter Pincode"),
-      fname: yup.string().required("Please Enter first name"),
-      lname: yup.string().required("Please Enter last name"),
-      mobileno: yup.string().min(10).max(10).required("Please Enter mobileno"),
+      pincode: yup.string().required("Please Enter Pincode").matches(/^\d{6}$/,"Please Enter Valid Pincode"),
+      fname: yup.string().required("Please Enter First name")
+      .matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid First Name")
+      ,
+      lname: yup.string().required("Please Enter Last name")
+      .matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid Last Name")
+      ,
+      mobileno: yup.string().min(10,"Please Enter Valid Mobile Number").max(10,"Please Enter Valid Mobile Number").required("Please Enter Mobile Number").matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/ ,"Please Enter Valid Number"),
       addressType: yup.string().required("Please Enter addressType"),
-      address: yup.string().required("Please Enter address"),
-      landmark: yup.string().required("Please Enter landmark"),
+      address: yup.string().required("Please Enter address").matches(/.{20,}/,"Address must be at least 20 characters")
+      ,
+      landmark: yup.string().required("Please Enter Landmark"),
     }),
 
     onSubmit: (values, { resetForm }) => {
@@ -94,12 +96,10 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
       formik.values.landmark = addressProp.Landmark;
       formik.values.pincode = addressProp.ZipPostal;
     }
-
     if (
       formik.values.pincode.length == 6 &&
       formik.values.pincode != addressProp.ZipPostal
     ) {
-      // dispatch(getStateCity(formik?.values?.pincode));
       getStateCity(formik.values.pincode).then(response=>{
         if (response?.ResponseStatus === 1) {
           setGetData({
@@ -124,6 +124,17 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
           });
         }
       })
+    } 
+    if(formik.values.pincode.length!=6) {
+      setGetData({
+        ...getData,
+        stateName: "",
+        stateId: "",
+        stateError: false,
+        cityId: "",
+        cityName: "",
+        cityError: false,
+      });
     }
   }, [formik.values.pincode]);
 
@@ -256,6 +267,7 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
                         {formik.errors.mobileno}
                       </div>
                     </div>
+                    
                   </div>
 
                   <div class="textarea-field">
@@ -305,11 +317,11 @@ const UpdateShippingAddressModal = ({ addressProp }) => {
                     <SelectField
                       pincode={formik.values.pincode}
                       setGetData={setGetData}
-                      getData={getData}
+                      getData={getData} isClass={false}
                     />
                   </div>
 
-                  <div>
+                  <div className="mt-3">
                     <p class="select-address-type-title"> Address Type </p>
                     <div class="select-address-type">
                       <label>

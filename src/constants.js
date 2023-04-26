@@ -4,7 +4,6 @@ import pakcage from "../package.json";
 const themeColor = "#393186";
 // export const baseApiUrl = "https://api.vipswallet.com/api";
 
-
 export const baseApiUrl = "http://api.vipswallet.com/api";
 export const digiBaseUrl = "http://api.vipswallet.com/api/DigiGold/";
 
@@ -592,3 +591,15 @@ export const getTransactionId = () => {
   const finalHash = SHA512(randomString).toString().substring(0, 20);
   return finalHash;
 };
+
+export function getFixedDecimalNumber(input, precision) {
+  if (input.toString().split(".").pop().length > precision) {
+    return parseFloat(
+      input
+        .toString()
+        .substring(0, input.toString().indexOf(".") + precision + 1)
+    );
+  } else {
+    return input;
+  }
+}
