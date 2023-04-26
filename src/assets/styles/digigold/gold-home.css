@@ -823,7 +823,10 @@
   }
 
 
-
+  .digigold-paymethod-title {
+    font-size: 15px;
+    font-weight: 500;
+  }
   .digigold-paymet-discount-info {
     display: flex;
     flex-wrap: wrap;
@@ -856,8 +859,11 @@
     color: var(--darkText);
     flex-wrap: wrap;
   }
+  .digigold-paymet-amt-text {
+    font-size: 14px;
+  }
   .digigold-paymet-discount-amt {
-    font-size: 15px;
+    font-size: 14px;
     text-align: left;
   }
   .digigold-shopingpoint-errormsg{
@@ -1032,6 +1038,10 @@
   }
 
 
+  .digigold-paymethod-title {
+    font-size: 16px;
+    font-weight: 500;
+  }
   .digigold-paymet-discount-info {
     display: flex;
     flex-wrap: wrap;
@@ -1127,12 +1137,19 @@
 
 
 @media only screen and (min-width: 768px) and (max-width: 991px){
-  .digigold-paymet-discount-info label {
-   
+  .digigold-paymet-discount-info {
+    display: flex;
     flex-wrap: wrap;
   }
+  .digigold-paymet-discount-info label {
+    flex-wrap: wrap;
+    margin-bottom: 9px;
+  }
+  .digigold-addmoney {
+    margin-left: 10px;
+  }
   .digigold-shopingpoint-errormsg {
-    margin-left: -17px;
+    margin-left: 10px;
     margin-top: 10px;
     line-height: 18px;
   }

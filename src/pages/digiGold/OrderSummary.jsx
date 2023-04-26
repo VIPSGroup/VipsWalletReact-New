@@ -1206,7 +1206,7 @@ const OrderSummary = () => {
                                   >
                                     <p
                                       style={{ color: "green" }}
-                                      class="digigold-paymet-discount-amt"
+                                      class="digigold-paymet-amt-text"
                                     >
                                       Shopping Points (
                                       {ServiceData?.ShoppingPer}%)
@@ -1226,7 +1226,7 @@ const OrderSummary = () => {
                                   >
                                     <p
                                       // style={{ color: "red" }}
-                                      class="digigold-paymet-discount-amt"
+                                      class="digigold-paymet-amt-text"
                                     >
                                       Payable Amount
                                     </p>

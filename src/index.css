@@ -1,4 +1,4 @@
-:where(.css-dev-only-do-not-override-1km3mtt).ant-spin .ant-spin-dot-item {
+.ant-spin .ant-spin-dot-item {
   background-color: #ca3060;
 }
 
@@ -167,6 +167,11 @@
   box-shadow: none !important;
   border-style: none !important;
 }
+
+.ant-table-wrapper .ant-table-thead >tr>th, .ant-table-wrapper .ant-table-thead >tr>td{
+  text-align: center;
+
 :where(.css-dev-only-do-not-override-1km3mtt).ant-pagination .ant-pagination-item-active{
   border-color: var(--primary);
+
 }
