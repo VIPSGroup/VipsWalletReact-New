@@ -1,4 +1,6 @@
-import { baseApiUrl } from "../../constant/Baseurls";
+// import { baseApiUrl } from "../../constant/Baseurls";
+
+import { baseApiUrl } from "../../constants";
 
 export const getProductsByCategory = (categoryId) => {
   const formData = new FormData();

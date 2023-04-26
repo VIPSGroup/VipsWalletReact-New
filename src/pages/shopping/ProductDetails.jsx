@@ -138,7 +138,7 @@ const ProductDetails = () => {
     const recentProducts = JSON.parse(localStorage.getItem("recent"));
     recentProducts &&
       recentProducts.map((p, i) => {
-        if (productParam.Id == p.Id) {
+        if (productParam?.Id == p?.Id) {
           return true;
         }
         return false;
@@ -160,7 +160,7 @@ const ProductDetails = () => {
   const clearRecentlyViewed = () => {
     const recentProducts = JSON.parse(localStorage.getItem("recent"));
     const unique2 = recentProducts.filter((obj, index) => {
-      return index === recentProducts.findIndex((o) => obj.Id === o.Id);
+      return index === recentProducts.findIndex((o) => obj?.Id === o?.Id);
     });
 
     localStorage.setItem("recent", JSON.stringify(unique2));
@@ -225,6 +225,7 @@ const ProductDetails = () => {
     var p = {};
 setLoading(true)
     getSingleProductData(productId).then((response) => {
+      console.log(response);
       setLoading(false)
       p = response?.Data?.ProductDetails;
       setProduct(response?.Data?.ProductDetails);
@@ -320,7 +321,7 @@ setLoading(true)
 
             <div class="col-lg-6">
               <div class="product-details-info-outer">
-                <h1 class="product-details-title">{product.Name}</h1>
+                <h1 class="product-details-title">{product?.Name}</h1>
                 <div class="product-details-info-box">
                   <div class="product-details-price">
                     <span class="mr-2">
@@ -340,7 +341,7 @@ setLoading(true)
                       ({product?.CostPrice}% Off){" "}
                     </span></>}
                    
-                    {product.ShoppingAmt > 0 && (
+                    {product?.ShoppingAmt > 0 && (
                       <span class="product-details-cb-badge">
                         {" "}
                         CB &#x20B9;{product?.ShoppingAmt}{" "}
@@ -473,10 +474,10 @@ setLoading(true)
                         src="/images/shopping/delivery-icon.svg"
                         class="img-fluid"
                       />{" "}
-                      Delivery By <span> {product.DeliveryEnd} </span>{" "}
+                      Delivery By <span> {product?.DeliveryEnd} </span>{" "}
                     </p>
                     <p class="mb-0">
-                      Sold By <span>{product.Soldby} </span>{" "}
+                      Sold By <span>{product?.Soldby} </span>{" "}
                     </p>
                   </div>
                 </div>
