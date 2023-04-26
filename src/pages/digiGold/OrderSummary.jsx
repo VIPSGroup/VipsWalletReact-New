@@ -1078,44 +1078,44 @@ const OrderSummary = () => {
 
                             <div class="digigold-payment-discount  box-shadow-1">
                               <p class="digigold-paymethod-title">
-                                Get Discount with Recharge{" "}
+                                Get Discount with VIPS Gold{" "}
                               </p>
                               <div class="digigold-paymet-discount-info mb-1">
                                 {/* <div class="col-lg-8 p-0"> */}
-                                  <div class="custom-control custom-checkbox d-flex flex-wrap align-items-center">
-                                    <input
-                                      checked
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="vips-wallet"
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="vips-wallet"
-                                    >
-                                      <img
-                                        alt=""
-                                        src="/images/digigold-images/mob-payment-discount.png"
-                                        class="img-fluid digigold-payment-discount-img"
-                                      />{" "}
-                                      Shopping Point (
-                                      {parseFloat(
-                                        data?.Data?.Shoppingpoints
-                                      )?.toLocaleString()}
-                                      )
-                                      {(totalAmount
-                                        ? totalAmount
-                                        : state.valueinAmt) <
-                                        shopPointLimit?.Value && (
-                                        <span
-
+                                <div class="custom-control custom-checkbox d-flex flex-wrap align-items-center">
+                                  <input
+                                    checked
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="vips-wallet"
+                                  />
+                                  <label
+                                    class="custom-control-label"
+                                    for="vips-wallet"
+                                  >
+                                    <img
+                                      alt=""
+                                      src="/images/digigold-images/mob-payment-discount.png"
+                                      class="img-fluid digigold-payment-discount-img"
+                                    />{" "}
+                                    Shopping Point (
+                                    {parseFloat(
+                                      data?.Data?.Shoppingpoints
+                                    )?.toLocaleString()}
+                                    )
+                                    {(totalAmount
+                                      ? totalAmount
+                                      : state.valueinAmt) <
+                                      shopPointLimit?.Value && (
+                                      <span
                                         className="digigold-shopingpoint-errormsg"
-                                          // style={{ fontSize: 12, color: "red", marginLeft: "14px" }}
-                                        >{shopPointLimit?.Description}</span>
-
-                                      )}
-                                    </label>
-                                  </div>
+                                        // style={{ fontSize: 12, color: "red", marginLeft: "14px" }}
+                                      >
+                                        {shopPointLimit?.Description}
+                                      </span>
+                                    )}
+                                  </label>
+                                </div>
                                 {/* </div> */}
                                 {/* <div class="col-lg-4 p-0">
                                   <p class="digigold-paymet-discount-amt">

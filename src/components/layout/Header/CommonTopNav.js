@@ -631,7 +631,7 @@ const CommonTopNav = ({
                       src="/images/digigold-images/buy-white-icon.svg"
                       alt=""
                     />
-                    <span class="navbar-bottom-serv-box-title">Buy Gold</span>
+                    <span class="navbar-bottom-serv-box-title">Buy</span>
                   </Link>
                 </div>
 
@@ -651,7 +651,7 @@ const CommonTopNav = ({
                       src="images/digigold-images/sell-white-icon.svg"
                       alt=""
                     />
-                    <span class="navbar-bottom-serv-box-title">Sell Gold</span>
+                    <span class="navbar-bottom-serv-box-title">Sell</span>
                   </Link>
                 </div>
                 <div class="navbar-bottom-serv-box">
@@ -674,11 +674,12 @@ const CommonTopNav = ({
                   </Link>
                 </div>
                 <div class="navbar-bottom-serv-box">
-                  <Link
+                  <div
                     // href="#"
                     onClick={() => {
                       setIsSnackBar(true);
                       setErrorMsg("Service will be coming soon..");
+                      setSuccessMsg("");
                     }}
                   >
                     <img
@@ -686,15 +687,16 @@ const CommonTopNav = ({
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">SIP</span>
-                  </Link>
+                  </div>
                 </div>
 
                 <div class="navbar-bottom-serv-box">
-                  <Link
+                  <div
                     // to="/vipsgold-delivery"
                     onClick={() => {
                       setIsSnackBar(true);
                       setErrorMsg("Service will be coming soon..");
+                      setSuccessMsg("");
                     }}
                   >
                     <img
@@ -702,7 +704,7 @@ const CommonTopNav = ({
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">Delivery</span>
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
