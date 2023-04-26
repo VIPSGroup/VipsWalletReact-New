@@ -1,4 +1,179 @@
-:where(.css-dev-only-do-not-override-1km3mtt).ant-spin .ant-spin-dot-item {
-    background-color:#ca3060;
-  }
+.ant-spin .ant-spin-dot-item {
+  background-color: #ca3060;
+}
 
+.sendTo {
+  color: green;
+}
+.recieveTo {
+  color: red;
+}
+
+.disabled-input input[type="number"]::-webkit-inner-spin-button,
+.disabled-input input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.disabled-input input[type="number"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.ant-select-selection-placeholder {
+  opacity: 1;
+}
+
+/* CSS to hide the arrows */
+
+#amount::-webkit-outer-spin-button,
+#amount::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#amount {
+  -moz-appearance: textfield;
+}
+
+.ant-input {
+  border-color: var(--lightGray);
+}
+.ant-input-affix-wrapper-disabled,
+.ant-input-affix-wrapper[disabled] {
+  border-color: var(--lightGray);
+}
+
+.ant-form-item .ant-form-item-control-input-content .ant-input {
+  min-height: 45px;
+}
+.ant-form-item .ant-form-item-control-input-content .ant-input:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgb(202 48 96 / 10%);
+  outline: 0;
+}
+.ant-form-item .ant-form-item-control-input-content .ant-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgb(202 48 96 / 10%);
+  outline: 0;
+}
+.ant-form-item .ant-form-item-control-input-content .ant-input::placeholder {
+  color: var(--lightGray);
+  font-weight: 400 !important;
+}
+
+.ant-input-affix-wrapper .ant-input {
+  box-shadow: none !important;
+  min-height: auto !important;
+}
+.ant-input-affix-wrapper .ant-input:hover {
+  box-shadow: none !important;
+}
+
+.ant-picker {
+  border-color: var(--lightGray);
+}
+.ant-picker:hover {
+  border-color: var(--primary);
+  border-inline-end-width: 1px;
+}
+.ant-picker-focused {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgb(202 48 96 / 10%);
+  border-inline-end-width: 1px;
+  outline: 0;
+}
+.ant-picker-input input::placeholder {
+  color: var(--lightGray) !important;
+}
+.ant-picker .ant-picker-input > input:placeholder-shown {
+  text-overflow: ellipsis;
+  color: var(--lightGray);
+}
+
+.ant-form-item .ant-form-item-explain-error {
+  color: #ff4d4f;
+  text-align: left;
+  margin: 5px 0 12px;
+}
+
+.digi-check-terms.ant-form-item .ant-form-item-explain-error {
+  color: #ff4d4f;
+  text-align: center;
+  margin: 5px 0 12px;
+}
+
+.ant-input-disabled,
+.ant-input[disabled] {
+  color: var(--textGray);
+  border-color: var(--lightGray);
+}
+
+.ant-form-item-control-input input[type="number"]::-webkit-inner-spin-button,
+.ant-form-item-control-input input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.ant-pagination-item {
+  border-color: "#ca3060";
+}
+
+.custom-pagination .ant-pagination {
+  border: 1px solid #ff0000; /* Specify the desired border color */
+}
+
+.digigold-paymet-discount-info .custom-control {
+  padding-left: 1.1rem;
+}
+
+.my-coupon-card {
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.ant-card-head {
+  color: var(--darktext) !important;
+}
+
+/* .digi-coupon-offerbox{
+  display: flex;
+}
+.digi-coupon-giftbox{
+  margin-left: auto;
+  padding-left: 20px;
+}
+.digi-coupon-giftbox img{
+  width: 70px;
+} */
+.digi-coupon-giftfooter {
+  color: var(--primary);
+  font-weight: 500;
+  /* border-top: 1px solid var(--borderColor); */
+  padding-top: 10px;
+  /* margin-top: 15px; */
+  cursor: pointer;
+}
+.ant-card .ant-card-body {
+  padding: 0 15px 15px !important;
+}
+.ant-card .ant-card-head {
+  padding: 8px 15px 5px;
+}
+.ant-card .ant-card-head {
+  border-bottom: none !important;
+  min-height: auto !important;
+}
+.ant-btn-dashed {
+  border: none !important;
+  box-shadow: none !important;
+  border-style: none !important;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table-thead > tr > td {
+  text-align: center;
+}
+
+:where(.css-dev-only-do-not-override-1km3mtt).ant-pagination
+  .ant-pagination-item-active {
+  border-color: var(--primary);
+}

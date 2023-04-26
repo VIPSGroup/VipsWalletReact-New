@@ -26,7 +26,6 @@ const Passbook = () => {
   const [selectedTab, setSelectedTab] = useState("");
   const [activeHistory, setActiveHistory] = useState('');
   const [loading, setLoading] = useState(false);
-
   const handleTabClick = (e) => {
     e.preventDefault();
     setSelectedTab(e.target.value);

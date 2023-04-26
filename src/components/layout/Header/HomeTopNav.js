@@ -15,8 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 const HomeTopNav = ({ isPrime }) => {
-  const dispatch = useDispatch();
   const { pathname } = useResolvedPath();
+  const dispatch = useDispatch();
   const { wishCount } = useSelector((state) => state?.wishlistSlice);
   const { cartCount } = useSelector((state) => state?.cartSlice);
   const { loggedInUser } = useSelector(
@@ -25,9 +25,9 @@ const HomeTopNav = ({ isPrime }) => {
   const { data, loading } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
-  const handleSidebar=()=>{
+  const handleSidebar = () => {
     document.getElementById("sidebar").classList.remove("active");
-  }
+  };
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -55,8 +55,7 @@ const HomeTopNav = ({ isPrime }) => {
     const password = loggedInUser && loggedInUser?.TRXNPassword;
     dispatch(getWalletBalance({ username, password }));
   };
-useEffect(() => {
-}, [loggedInUser])
+  useEffect(() => {}, [loggedInUser]);
 
   const navSection = () => (
     <>
@@ -87,11 +86,13 @@ useEffect(() => {
                   <ul class="navbar-nav mx-auto">
                     {/* <Link to='/' className="nav-link">ss</Link> */}
                     <li class="nav-item active">
-                      <Link class="nav-link" to="/"  style={{
-                          borderBottomWidth: pathname === "/" && 2,
-                          borderBottomColor: pathname === "/" && "#CA3060",
-                          borderBottomStyle: pathname === "/" && "solid",
-                        }}>
+                      <Link
+                        style={{
+                          borderBottom: pathname === "/" && "2px solid #CA3060",
+                        }}
+                        class="nav-link"
+                        to="/"
+                      >
                         Home <span class="sr-only">(current)</span>
                       </Link>
                     </li>
@@ -151,7 +152,7 @@ useEffect(() => {
                   >
                     {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
                     <Badge count={cartCount && cartCount.length}>
-                    <AiOutlineShoppingCart className="nav-icon" />
+                      <AiOutlineShoppingCart className="nav-icon" />
                     </Badge>
                     <span class="d-xl-block d-none d-md-none d-sm-none">
                       {" "}
@@ -209,9 +210,7 @@ useEffect(() => {
                           <span class="nav-wallet-amt">
                             {" "}
                             &#x20B9;{" "}
-                            {!loading && data
-                              ? data?.Data?.Balance
-                              : "..."}
+                            {!loading && data ? data?.Data?.Balance : "..."}
                           </span>
                         </div>
                         <div class="dropdown-divider"></div>
@@ -446,7 +445,7 @@ useEffect(() => {
 
         <ul class="list-unstyled components links">
           <li class="" onClick={handleSidebar}>
-            <Link to="/" > Home</Link>
+            <Link to="/"> Home</Link>
           </li>
 
           {/* {<!-- with multiple submenu start -->} */}

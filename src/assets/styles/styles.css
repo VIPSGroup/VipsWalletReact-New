@@ -90,6 +90,22 @@ select:-webkit-autofill:focus {
   clear: both;
 }
 
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  background-color: #fff !important;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+
 .react-multi-carousel-list {
   position: unset !important;
 }
@@ -129,7 +145,7 @@ select:-webkit-autofill:focus {
 }
 
 .btn-primery {
-  padding: 10px 24px;
+  padding: 7px 24px;
   font-size: 16px;
   font-weight: 500;
   color: var(--whiteColor) !important;
@@ -142,7 +158,7 @@ select:-webkit-autofill:focus {
   box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
 }
 .btn-secondary {
-  padding: 10px 24px;
+  padding: 7px 24px;
   font-size: 14px;
   font-weight: 500;
   color: var(--whiteColor) !important;
@@ -155,12 +171,13 @@ select:-webkit-autofill:focus {
   box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 5%);
 }
 .btn-disable {
-  padding: 10px 24px;
+  padding: 7px 24px;
   font-size: 16px;
   font-weight: 400;
   background: var(--primary) !important;
   opacity: 0.4 !important;
   color: var(--whiteColor) !important;
+  border-color: var(--primary) !important;
   border-radius: 8px;
   cursor: pointer;
   -webkit-box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 8%);
@@ -169,7 +186,7 @@ select:-webkit-autofill:focus {
 }
 
 .btn-cta {
-  padding: 10px 24px;
+  padding: 7px 24px;
   font-size: 14px;
   font-weight: 600;
   color: var(--primary) !important;
@@ -780,6 +797,7 @@ select:-webkit-autofill:focus {
   z-index: 1050;
 }
 
+
 .ant-input-group {
   min-height: 45px;
 }
@@ -798,6 +816,7 @@ select:-webkit-autofill:focus {
 .ant-input-group-wrapper-disabled .ant-input-group-addon {
   color: var(--darkText);
 }
+
 .ant-select-single.ant-select-lg:not(.ant-select-customize-input)
   .ant-select-selector {
   height: 45px;
@@ -806,22 +825,39 @@ select:-webkit-autofill:focus {
 .ant-select-single.ant-select-lg {
   text-align: left;
 }
-/* .ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagignation-size-changer) .ant-select-selector{
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgb(202 48 96 / 10%);
-  outline: 0;
-} */
-.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(
-    .ant-pagignation-size-changer
-  ):hover
+.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagignation-size-changer):hover
   .ant-select-selector {
-  border-color: var(--primary);
+  border-color: var(--primary) !important;
   box-shadow: 0 0 0 2px rgb(202 48 96 / 10%);
   outline: 0;
 }
-/* .ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector{
-  border: 1px solid var(--borderColor);
+.ant-select-focused.ant-select-single:not(.ant-select-customize-input) .ant-select-selector,
+.ant-select:hover.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+  border-color: var(--primary) !important;
+}
+.ant-select-focused .ant-select-selector {
+  border-color: var(--primary) !important;
+}
+.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagignation-size-changer)
+  .ant-select-selector {
+  border-color: var(--lightGray) !important;
+  box-shadow: none !important;
+}
+.ant-select-selection-placeholder {
+  color: var(--lightGray) !important;
+}
+
+/* .ant-select-single.ant-select-lg.ant-select-show-arrow .ant-select-selection-item, .ant-select-single.ant-select-lg.ant-select-show-arrow .ant-select-selection-placeholder{
+  color: var(--lightGray);
+}
+.ant-select-single.ant-select-lg.ant-select-open .ant-select-selection-item{
+  color: var(--darkText);
 } */
+
+.ant-picker-input input::placeholder {
+  color: var(--lightGray) !important;
+}
+
 
 .ant-checkbox .ant-checkbox-inner {
   border-color: var(--lightGray);
@@ -843,13 +879,13 @@ select:-webkit-autofill:focus {
 .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
   .ant-checkbox-inner,
 .ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
-  /* background-color: var(--primary); */
   border-color: var(--primary);
 }
 .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
   .ant-checkbox-checked:not(.ant-checkbox-disabled):after {
   border-color: var(--primary);
 }
+
 /* -- digi gold sign in page end-- */
 /* Digigold React overwrite styles start  */
 

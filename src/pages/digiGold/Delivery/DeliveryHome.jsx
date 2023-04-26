@@ -1,11 +1,14 @@
 import { Select } from "antd";
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../../../assets/styles/digigold/digigold-delivery.css";
 import "../../../assets/styles/digigold/gold-home.css";
 import MyVault from "../MyVault";
 const DeliveryHome = () => {
   const navigate = useNavigate();
+  const { items } = useSelector((state) => state.DeliverySlice);
+
   return (
     <>
       <section class="section-align buy-sell-form">
@@ -43,16 +46,19 @@ const DeliveryHome = () => {
                     <Select.Option value="Bar">Bar</Select.Option>
                   </Select>
 
-                  <div class="digi-delivery-cart-badge">
-
+                  <div
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate("/vipsgold-cart")}
+                    class="digi-delivery-cart-badge"
+                  >
                     <img
                       alt=""
                       src="/images/digigold-images/cart-icon.svg"
                       class="digigold-cart-badge-icon"
                     />
 
-                    <div class="digigold-cart-badge">6</div>
-                  </div> 
+                    <div class="digigold-cart-badge">{items?.length}</div>
+                  </div>
                 </div>
               </div>
               {cards.map((e) => {

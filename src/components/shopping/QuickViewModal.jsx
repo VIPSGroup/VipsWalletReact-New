@@ -62,7 +62,7 @@ const QuickViewModal = ({ productId }) => {
   };
 
   const getSizes = (sizeString) => {
-    const sizeSplit = sizeString.split(",").filter(function (str) {
+    const sizeSplit = sizeString?.split(",").filter(function (str) {
       return /\S/.test(str);
     });
 
@@ -70,7 +70,7 @@ const QuickViewModal = ({ productId }) => {
     setSelectedSize(sizeSplit[0]);
   };
   const getColors = (colorString) => {
-    const colorSplit = colorString.split(",");
+    const colorSplit = colorString?.split(",");
 
     setColors(colorSplit);
     setSelectedColor(colorSplit[0]);
@@ -82,7 +82,7 @@ const QuickViewModal = ({ productId }) => {
         original: productData?.ImageURL1,
         thumbnail: productData?.ImageThumbURL1,
       };
-      imgArray.push(obj);
+      imgArray?.push(obj);
     }
     if (productData?.ImageThumbURL2 != null && productData?.ImageURL2 != null) {
       const obj = {

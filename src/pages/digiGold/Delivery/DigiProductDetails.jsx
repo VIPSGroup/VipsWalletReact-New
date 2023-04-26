@@ -25,7 +25,7 @@ const DigiProductDetails = ({ setTitle }) => {
   const handleClick = () => {
     const TotalAmount = calculateTotal(qty, data.basePrice);
     // dispatch(addItem(data));
-    navigate("/digigold-cart");
+    navigate("/vipsgold-cart");
     // let prevCart = JSON.parse(localStorage.getItem("digi-cart"));
     // let cartToBe = [];
     // if (prevCart) {

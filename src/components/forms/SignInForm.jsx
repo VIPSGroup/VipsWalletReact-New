@@ -32,10 +32,18 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
   const [ip, setIp] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { forgotLoading, forgotPassData } = useSelector(state=>state.loginSlice.forgotPass);
-  const { loggedInUser } = useSelector(state => state.loginSlice.loggetInWithOTP);
-  const { isUserExist ,loading} = useSelector((state) => state.loginSlice.checkUser);
-  const { response , logLoading } = useSelector((state) => state.loginSlice.loginUser);
+  const { forgotLoading, forgotPassData } = useSelector(
+    (state) => state.loginSlice.forgotPass
+  );
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
+  const { isUserExist, loading } = useSelector(
+    (state) => state.loginSlice.checkUser
+  );
+  const { response, logLoading } = useSelector(
+    (state) => state.loginSlice.loginUser
+  );
 
   const loginUsernameFormik = useFormik({
     initialValues: {
@@ -57,24 +65,21 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
       password: "",
     },
     validationSchema: yup.object({
-      password: yup
-        .string()
-        .min(8)
-        .max(16)
-        .required("Please Enter Password"),
+      password: yup.string().min(8).max(16).required("Please Enter Password"),
     }),
     onSubmit: (values, { resetForm }) => {
       clickLogin();
     },
   });
   useEffect(() => {
-    setIsSignIn(true)
+    setIsSignIn(true);
     if (
       isUserExist &&
       isUserExist[0]?.ResponseStatus === 0 &&
-      isUserExist[0]?.ErrorCode === "Ex402" && !isSignIn
+      isUserExist[0]?.ErrorCode === "Ex402" &&
+      !isSignIn
     ) {
-      setIsSignIn(false)
+      setIsSignIn(false);
     }
 
     if (forgotPassData?.ResponseStatus === 0 && forgotPasswordUserName) {
@@ -91,10 +96,10 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
       setErrorMsg("");
       setIsSnackBar(true);
       setSuccessMsg(forgotPassData.Remarks);
-      setForgotPasswordUsername("")
+      setForgotPasswordUsername("");
     }
 
-    if (response?.ResponseStatus === 2 ) {
+    if (response?.ResponseStatus === 2) {
       setFormCount(2);
       setErrorMsg("");
       setIsSnackBar(true);
@@ -108,20 +113,20 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
           setIp(user.ip);
         });
     }
-    if (loggedInUser?.Id ) {
+    if (loggedInUser?.Id) {
       navigate("/");
       setFormCount(1);
       setErrorMsg("");
       setIsSnackBar(true);
       setSuccessMsg("Login Successful");
     }
-    if (response?.ResponseStatus ===0) {
+    if (response?.ResponseStatus === 0) {
       setSuccessMsg("");
       setIsSnackBar(true);
       setErrorMsg(response.Remarks);
     }
     if (response?.ResponseStatus === 1) {
-      setSuccessMsg("")
+      setSuccessMsg("");
       setIsSnackBar(true);
       setSuccessMsg(response.Remarks);
     }
@@ -130,7 +135,12 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
         setShowSignUp(false);
       }, 1000);
     };
-  }, [response, isUserExist, forgotPassData, loginUsernameFormik.values.username]);
+  }, [
+    response,
+    isUserExist,
+    forgotPassData,
+    loginUsernameFormik.values.username,
+  ]);
 
   const onForgotPassword = (e) => {
     e.preventDefault();
@@ -139,7 +149,7 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
   const handleClose = () => {
     setShow(false);
     setFormCount(1);
-    dispatch(resetState())
+    dispatch(resetState());
     loginUsernameFormik.values.username = "";
   };
   const handleModalClose = () => {
@@ -278,7 +288,11 @@ dispatch(forgotPassword({ userName: forgotPasswordUserName }))
 
                             <div className="col-lg-12">
                               <div className="login-btnCol btnTopSpace">
-                                <ThemeButton onClick={onForgotPasswordSubmit} loading={forgotLoading} value={"SUBMIT"}/>
+                                <ThemeButton
+                                  onClick={onForgotPasswordSubmit}
+                                  loading={forgotLoading}
+                                  value={"SUBMIT"}
+                                />
                                 {/* <button
                                   onClick={!forgotLoading && onForgotPasswordSubmit}
                                   class="btn-primery"
@@ -432,10 +446,14 @@ dispatch(forgotPassword({ userName: forgotPasswordUserName }))
 
                             <div className="col-lg-12">
                               <div className="login-btnCol btnTopSpace">
-                                <ThemeButton value={"SIGN IN"} onClick={() => {
+                                <ThemeButton
+                                  value={"SIGN IN"}
+                                  onClick={() => {
                                     !loginPasswordFormik.values.password &&
                                       setShowSignUp(true);
-                                  }} loading={logLoading ?logLoading:loading}/>
+                                  }}
+                                  loading={logLoading ? logLoading : loading}
+                                />
                                 {/* <button
                                   type="submit"
           class="btn-primery modal-loading-btn"
@@ -519,14 +537,13 @@ dispatch(forgotPassword({ userName: forgotPasswordUserName }))
           )}
         </Modal>
         <MuiSnackBar
-        open={isSnackBar}
-        setOpen={setIsSnackBar}
-        successMsg={successMsg}
-        setSuccess={setSuccessMsg}
-        errorMsg={errorMsg}
-        setError={setErrorMsg}
-      />
-      
+          open={isSnackBar}
+          setOpen={setIsSnackBar}
+          successMsg={successMsg}
+          setSuccess={setSuccessMsg}
+          errorMsg={errorMsg}
+          setError={setErrorMsg}
+        />
       </>
     </>
   );

@@ -2,17 +2,29 @@ import { Button, DatePicker, Form, Input, Select } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-profile.css";
-import "../../assets/styles/digigold/gold-home.css";
 import { MuiSnackBar } from "../../components/common";
-import { LatestLoading } from "../../components/common/Loading";
+import { LatestLoading } from "../../components/common/Loading.jsx";
+import { differenceInYears } from "date-fns";
+
+import {
+  FirstNamePattern,
+  handleKeyPressForName,
+  namePattern,
+} from "../../constants";
 import {
   getCityList,
   getStateList,
   loginDigiGold,
 } from "../../redux/slices/digiGold/registerDigiSlice";
 import { UpdateUser } from "../../redux/slices/digiGold/userProfileSlice";
-
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
+dayjs.extend(customParseFormat);
 const DigiProfile = () => {
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
@@ -57,12 +69,6 @@ const DigiProfile = () => {
       dispatch(getCityList(formValue.userStateId));
     }
   }, [formValue.userStateId]);
-  const handleKeyPress = (event) => {
-    const charCode = event.which ? event.which : event.keyCode;
-    if (charCode !== 8 && !/^[a-zA-Z ]+$/.test(String.fromCharCode(charCode))) {
-      event.preventDefault();
-    }
-  };
   useEffect(() => {
     formValue.Name = logData?.Data?.Name;
     formValue.mobileNumber = logData?.Data?.MobileNumber;
@@ -71,7 +77,6 @@ const DigiProfile = () => {
     formValue.userStateId = logData?.Data?.StateId || "";
     formValue.userStateName = logData?.Data?.StateName || "";
     formValue.userCityName = logData?.Data?.CityName || "";
-    // formValue.userPincode = logData?.Data?.Pincode || "";
     formValue.dateOfBirth = logData?.Data?.DateOfBirth || "";
     formValue.nomineeName = logData?.Data?.Nominee || "";
     formValue.nomineeDateOfBirth = logData?.Data?.NomineeDateOfBirth || "";
@@ -81,27 +86,46 @@ const DigiProfile = () => {
   const handleSubmit = async () => {
     const username = loggedInUser.UserName;
     const password = loggedInUser.TRXNPassword;
-    const res = await dispatch(UpdateUser({ formValue, username, password }));
-    if (res.payload.ResponseStatus === 1 && res.payload.ErrorCode === 200) {
-      setSuccessMsg(res.payload.Remarks);
-      setErrorMsg("");
-      setIsSnackBar(true);
-    } else if (
-      res.payload.ResponseStatus === 1 &&
-      res.payload.Data.statusCode !== 200
-    ) {
+    if (formValue.userCityId === "Select City") {
       setSuccessMsg("");
-      setErrorMsg(res.payload.Data.errors.nomineeDateOfBirth[0].message);
+      setErrorMsg("Please Select City");
       setIsSnackBar(true);
     } else {
-      setSuccessMsg("");
-      setErrorMsg(res.payload.Remarks);
-      setIsSnackBar(true);
+      const res = await dispatch(UpdateUser({ formValue, username, password }));
+      if (res.payload.ResponseStatus === 1 && res.payload.ErrorCode === 200) {
+        setSuccessMsg(res.payload.Remarks);
+        setErrorMsg("");
+        setIsSnackBar(true);
+        setTimeout(() => {
+          navigate("/vipsgold");
+        }, 500);
+      } else if (
+        res.payload.ResponseStatus === 1 &&
+        res.payload.Data.statusCode !== 200
+      ) {
+        let obj = res.payload.Data.errors;
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            const errorArr = obj[key];
+            errorArr.forEach((errorObj) => {
+              setErrorMsg(errorObj.message);
+              setIsSnackBar(true);
+              setSuccessMsg("");
+            });
+          }
+        }
+      } else {
+        setSuccessMsg("");
+        setErrorMsg(res.payload.Remarks);
+        setIsSnackBar(true);
+      }
     }
   };
 
+  const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
   return (
     <>
+      {/* <CommonTopNav /> */}
       <section class="digi-gold-section-wrapper buy-sell-form">
         <div class="container">
           <div class="digital-gold-section-head">
@@ -114,9 +138,9 @@ const DigiProfile = () => {
                 <div class="buy-sell-form-outer">
                   <div class="digigold-profile-wrapper">
                     <Form
+                      form={form}
                       autoComplete="off"
                       onFinish={handleSubmit}
-                      className="buy-sell-tab-inner"
                       fields={[
                         {
                           name: "Name",
@@ -141,7 +165,9 @@ const DigiProfile = () => {
 
                         {
                           name: "dateOfBirth",
-                          value: formValue.dateOfBirth,
+                          value: formValue.dateOfBirth
+                            ? dayjs(formValue.dateOfBirth)
+                            : null,
                         },
                         {
                           name: "nomineeName",
@@ -149,7 +175,9 @@ const DigiProfile = () => {
                         },
                         {
                           name: "nomineeDateOfBirth",
-                          value: formValue.nomineeDateOfBirth,
+                          value: formValue.nomineeDateOfBirth
+                            ? dayjs(formValue.nomineeDateOfBirth)
+                            : null,
                         },
                         {
                           name: "nomineeRelation",
@@ -164,36 +192,28 @@ const DigiProfile = () => {
                       <div class="container">
                         <div class="row">
                           <div class="col-lg-6 col-md-6">
-                            <div className="input-wrapper">
-                              <div className="input">
-                                <Form.Item name={"Name"}>
-                                  <Input
-                                    disabled
-                                    size="large"
-                                    placeholder="Full Name"
-                                  />
-                                  <label htmlFor="">Full Name</label>
-                                </Form.Item>
-                              </div>
-                            </div>
+                            <Form.Item name={"Name"}>
+                              <Input
+                                disabled
+                                size="large"
+                                placeholder="Full Name"
+                              />
+                            </Form.Item>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
-                            <div className="input-wrapper">
-                              <div className="input">
-                                <Form.Item name={"mobileNumber"}>
-                                  <Input
-                                    value={formValue.mobileNumber}
-                                    disabled
-                                    size="large"
-                                    placeholder="Mobile Number"
-                                  />
-                                  <label htmlFor="">Mobile Number</label>
-                                </Form.Item>
-                              </div>
-                            </div>
+                            <Form.Item name={"mobileNumber"}>
+                              <Input
+                                value={formValue.mobileNumber}
+                                disabled
+                                size="large"
+                                placeholder="Mobile Number"
+                              />
+                            </Form.Item>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
-                            <div className="input-wrapper">
+                            <div className="input-wrapper w-100">
                               <div className="input">
                                 <Form.Item
                                   rules={[
@@ -220,36 +240,57 @@ const DigiProfile = () => {
                                     size="large"
                                     placeholder="Email Id"
                                   />
-                                  <label htmlFor="">Email </label>
                                 </Form.Item>
                               </div>
                             </div>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item
-                              rules={[
-                                {
-                                  type: "date",
-                                },
-                              ]}
-                              name={"dateOfBirth"}
-                            >
-                              <Input
-                                max="2999-12-31"
-                                addonBefore="DOB"
-                                type="date"
-                                value={formValue.dateOfBirth}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formValue,
-                                    dateOfBirth: e.target.value,
-                                  })
-                                }
+                            <Form.Item name={"dateOfBirth"}>
+                              <DatePicker
+                                style={{ width: "100%" }}
                                 size="large"
-                                placeholder="Date of Birth"
+                                // disabledDate={(current) => {
+                                //   // Disable dates that are less than 18 years ago
+                                //   const today = new Date();
+                                //   const diffInMs = Math.abs(today - current);
+                                //   const age = Math.floor(
+                                //     diffInMs / (1000 * 60 * 60 * 24 * 365)
+                                //   );
+                                //   return age < 18;
+                                // }}
+                                disabledDate={(current) => {
+                                  const eighteenYearsAgo = moment().subtract(
+                                    18,
+                                    "years"
+                                  );
+
+                                  // Disable dates that are after the calculated date
+                                  return current && current > eighteenYearsAgo;
+                                }}
+                                clearIcon={false}
+                                onChange={(date, dateString) => {
+                                  if (date === null || date === undefined) {
+                                    setFormValue({
+                                      ...formValue,
+                                      dateOfBirth: undefined, // or set a default value like new Date()
+                                    });
+                                  } else {
+                                    setFormValue({
+                                      ...formValue,
+                                      dateOfBirth: date,
+                                    });
+                                  }
+                                }}
+                                placeholder="Select User DOB"
+                                value={formValue.dateOfBirth}
+                                format={dateFormatList[0]}
+                                // mode="date"
                               />
+                              {/* <label htmlFor="">DOB</label> */}
                             </Form.Item>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
                             <Form.Item
                               hasFeedback
@@ -278,6 +319,8 @@ const DigiProfile = () => {
                                       stateList?.Data?.result?.data?.find(
                                         (a) => a.id === e
                                       ).name,
+                                    userCityName: "Select City",
+                                    userCityId: "Select City",
                                   });
                                 }}
                                 size="large"
@@ -294,6 +337,7 @@ const DigiProfile = () => {
                               </Select>
                             </Form.Item>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
                             <Form.Item
                               hasFeedback
@@ -312,7 +356,7 @@ const DigiProfile = () => {
                                     ...formValue,
                                     userCityId: e,
                                     userCityName:
-                                      cityList.Data.result.data?.find(
+                                      cityList?.Data?.result?.data?.find(
                                         (a) => a.id === e
                                       ).name,
                                   })
@@ -328,7 +372,7 @@ const DigiProfile = () => {
                                 placeholder="Select City"
                               >
                                 {cityList.Data &&
-                                  cityList.Data.result.data.map((e) => {
+                                  cityList?.Data?.result?.data?.map((e) => {
                                     return (
                                       <Select.Option key={e.id} value={e.id}>
                                         {e.name}
@@ -385,10 +429,14 @@ const DigiProfile = () => {
                                     formValue.nomineeDateOfBirth,
                                   message: "This Field is Required ",
                                 },
+                                {
+                                  min: 3,
+                                  message: "Min 3 Character Required",
+                                },
                               ]}
                             >
                               <Input
-                                onKeyPress={handleKeyPress}
+                                onKeyPress={handleKeyPressForName}
                                 value={formValue.nomineeName}
                                 onChange={(e) =>
                                   setFormValue({
@@ -401,25 +449,26 @@ const DigiProfile = () => {
                               />
                             </Form.Item>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item
-                              hasFeedback
-                              rules={[
-                                {
-                                  type: "date",
-                                },
-                                {
-                                  required:
-                                    formValue.nomineeName ||
-                                    formValue.nomineeRelation,
-                                  message: "This Field is Required ",
-                                },
-                              ]}
-                              name="nomineeDateOfBirth"
-                            >
-                              <Input
+                            <div className="input-wrapper w-100">
+                              <div className="input">
+                                <Form.Item
+                                  rules={[
+                                    // {
+                                    //   type: "date",
+                                    // },
+                                    {
+                                      required:
+                                        formValue.nomineeName ||
+                                        formValue.nomineeRelation,
+                                      message: "This Field is Required ",
+                                    },
+                                  ]}
+                                  name="nomineeDateOfBirth"
+                                >
+                                  {/* <Input
                                 max="2999-12-31"
-                                addonBefore="Nominee DOB"
                                 type="date"
                                 value={formValue.nomineeDateOfBirth}
                                 onChange={(e) =>
@@ -430,52 +479,105 @@ const DigiProfile = () => {
                                 }
                                 size="large"
                                 placeholder="Nominee DOB"
-                              />
-                            </Form.Item>
+                              /> */}
+                                  <DatePicker
+                                    style={{ width: "100%" }}
+                                    size="large"
+                                    // disabledDate={(current) => {
+                                    //   const today = new Date();
+                                    //   const diffInMs = Math.abs(today - current.$d);
+                                    //   const age = Math.floor(
+                                    //     diffInMs / (1000 * 60 * 60 * 24 * 365)
+                                    //   );
+                                    //   return age < 18;
+                                    // }}
+                                    disabledDate={(current) => {
+                                      const eighteenYearsAgo =
+                                        moment().subtract(18, "years");
+
+                                      // Disable dates that are after the calculated date
+                                      return (
+                                        current && current > eighteenYearsAgo
+                                      );
+                                    }}
+                                    clearIcon={false}
+                                    onChange={(date, dateString) => {
+                                      if (date === null || date === undefined) {
+                                        setFormValue({
+                                          ...formValue,
+                                          nomineeDateOfBirth: undefined, // or set a default value like new Date()
+                                        });
+                                      } else {
+                                        setFormValue({
+                                          ...formValue,
+                                          nomineeDateOfBirth: date,
+                                        });
+                                      }
+                                    }}
+                                    placeholder="Select Nominee DOB"
+                                    value={formValue.nomineeDateOfBirth}
+                                    format={dateFormatList[0]}
+                                    // mode="date"
+                                  />
+                                  {/* <label htmlFor="">Nominee DOB</label> */}
+                                </Form.Item>
+                              </div>
+                            </div>
                           </div>
+
                           <div class="col-lg-6 col-md-6">
-                            <Form.Item
-                              hasFeedback
-                              name="nomineeRelation"
-                              rules={[
-                                {
-                                  required:
-                                    formValue.nomineeName ||
-                                    formValue.nomineeDateOfBirth,
-                                  message: "This Field is Required ",
-                                },
-                              ]}
-                            >
-                              <Input
-                                onKeyPress={handleKeyPress}
-                                value={formValue.nomineeRelation}
-                                onChange={(e) =>
-                                  setFormValue({
-                                    ...formValue,
-                                    nomineeRelation: e.target.value,
-                                  })
-                                }
-                                size="large"
-                                placeholder="Nominee Relation"
-                              />
-                            </Form.Item>
+                            <div className="input-wrapper w-100">
+                              <div className="input">
+                                <Form.Item
+                                  name="nomineeRelation"
+                                  rules={[
+                                    {
+                                      required:
+                                        formValue.nomineeName ||
+                                        formValue.nomineeDateOfBirth,
+                                      message: "This Field is Required ",
+                                    },
+                                    {
+                                      min: 3,
+                                      message: "Min 3 Character Required",
+                                    },
+                                  ]}
+                                >
+                                  <Input
+                                    // onKeyPress={handleKeyPress}
+                                    onKeyPress={handleKeyPressForName}
+                                    value={formValue.nomineeRelation}
+                                    onChange={(e) =>
+                                      setFormValue({
+                                        ...formValue,
+                                        nomineeRelation: e.target.value,
+                                      })
+                                    }
+                                    size="large"
+                                    placeholder="Nominee Relation"
+                                  />
+                                  {/* <label htmlFor="">Nominee Relation</label> */}
+                                </Form.Item>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                       <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          marginBottom: 50,
-                          marginTop: 30,
-                        }}
+                        className="order-proceed-btn"
+                        // style={{
+                        //   display: "flex",
+                        //   justifyContent: "center",
+                        //   marginBottom: 50,
+                        //   marginTop: 30,
+                        // }}
                       >
                         <Button
                           loading={updateLoading}
                           htmlType="submit"
                           size="large"
-                          style={{ backgroundColor: "#CA3060", color: "white" }}
-                          class="btn-primary"
+                          // style={{ backgroundColor: "#CA3060", color: "white" }}
+                          className="btn btn-primery"
                         >
                           {" "}
                           Update{" "}

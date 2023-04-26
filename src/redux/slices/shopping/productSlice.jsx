@@ -21,7 +21,7 @@ export const getPromotionalProduct = createAsyncThunk(
 );
 export const getSingleProductData = createAsyncThunk(
   "getSingleProductData",
-  async ({productId}, thunkAPI) => {
+  async ({ productId }, thunkAPI) => {
     const formData = new FormData();
     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
     formData.append("Productid", productId);
@@ -105,7 +105,6 @@ export const getProductsBySubCategory = createAsyncThunk(
     }
   }
 );
-
 export const getProductsByCategory = (categoryId) => {
   const formData = new FormData();
   formData.append("tocken", "XMCNBVGDTE734BCU65DW");
@@ -120,14 +119,12 @@ export const getProductsByCategory = (categoryId) => {
     })
     .catch((err) => {});
 };
-
 // export const getProductsByCategory = createAsyncThunk(
 //   "getProductsByCategory",
 //   async (categoryId) => {
 //     const formData = new FormData();
 //     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
 //     formData.append("Categoryid", categoryId);
-
 //     try {
 //       const res = await axios.post(
 //         `${baseApiUrl}/EcommerceServices/ProductViaCategory`,
@@ -153,7 +150,6 @@ export const getNewArrivalProducts = createAsyncThunk(
     }
   }
 );
-
 export const getAllCategories = createAsyncThunk(
   "getAllCategories",
   async () => {
@@ -180,7 +176,6 @@ export const getSubCategory = createAsyncThunk(
     }
   }
 );
-
 const productSlice = createSlice({
   name: "productSlice",
   initialState: {
@@ -306,5 +301,4 @@ const productSlice = createSlice({
     });
   },
 });
-
 export default productSlice.reducer;

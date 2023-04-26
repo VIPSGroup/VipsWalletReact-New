@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const DeliveryOrderDetails = () => {
   const navigate = useNavigate();
+  // console.log("""first""")
   return (
     <>
       <section class="section-align buy-sell-form">
