@@ -83,20 +83,14 @@ const DigiGoldHome = ({
   err,
   setReceiverUserName,
   receiverUserName,
-  isSnackBar,
-  setIsSnackBar,
-  successMsg,
-  setSuccessMsg,
-  errorMsg,
-  setErrorMsg,
 }) => {
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isDigiLogin, setIsDigiLogin] = useState("");
-  // const [isSnackBar, setIsSnackBar] = useState(false);
-  // const [successMsg, setSuccessMsg] = useState("");
-  // const [errorMsg, setErrorMsg] = useState("");
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const [isGold, setIsGold] = useState(0); //0 for Gold 1 for Silver
   const [load, setLoad] = useState(false);
   const [Otp, setOtp] = useState("");
