@@ -23,7 +23,6 @@
   opacity: 1;
 }
 
- 
 /* CSS to hide the arrows */
 
 #amount::-webkit-outer-spin-button,
@@ -35,10 +34,11 @@
   -moz-appearance: textfield;
 }
 
-.ant-input{
+.ant-input {
   border-color: var(--lightGray);
 }
-.ant-input-affix-wrapper-disabled, .ant-input-affix-wrapper[disabled]{
+.ant-input-affix-wrapper-disabled,
+.ant-input-affix-wrapper[disabled] {
   border-color: var(--lightGray);
 }
 
@@ -68,7 +68,7 @@
   box-shadow: none !important;
 }
 
-.ant-picker{
+.ant-picker {
   border-color: var(--lightGray);
 }
 .ant-picker:hover {
@@ -121,7 +121,7 @@
   border: 1px solid #ff0000; /* Specify the desired border color */
 }
 
-.digigold-paymet-discount-info .custom-control{
+.digigold-paymet-discount-info .custom-control {
   padding-left: 1.1rem;
 }
 
@@ -130,7 +130,7 @@
   margin-bottom: 20px;
 }
 
-.ant-card-head{
+.ant-card-head {
   color: var(--darktext) !important;
 }
 
@@ -144,7 +144,7 @@
 .digi-coupon-giftbox img{
   width: 70px;
 } */
-.digi-coupon-giftfooter{
+.digi-coupon-giftfooter {
   color: var(--primary);
   font-weight: 500;
   /* border-top: 1px solid var(--borderColor); */
@@ -152,17 +152,17 @@
   /* margin-top: 15px; */
   cursor: pointer;
 }
-.ant-card .ant-card-body{
+.ant-card .ant-card-body {
   padding: 0 15px 15px !important;
 }
-.ant-card .ant-card-head{
+.ant-card .ant-card-head {
   padding: 8px 15px 5px;
 }
-.ant-card .ant-card-head{
+.ant-card .ant-card-head {
   border-bottom: none !important;
   min-height: auto !important;
 }
-.ant-btn-dashed{
+.ant-btn-dashed {
   border: none !important;
   box-shadow: none !important;
   border-style: none !important;
@@ -170,4 +170,8 @@
 
 .ant-table-wrapper .ant-table-thead >tr>th, .ant-table-wrapper .ant-table-thead >tr>td{
   text-align: center;
+
+:where(.css-dev-only-do-not-override-1km3mtt).ant-pagination .ant-pagination-item-active{
+  border-color: var(--primary);
+
 }

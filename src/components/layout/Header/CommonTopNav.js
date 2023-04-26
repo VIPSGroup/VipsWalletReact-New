@@ -26,6 +26,7 @@ const CommonTopNav = ({
   setGrams,
   setAmount,
   setStep,
+  step,
   setErr,
   setReceiverUserName,
   receiverUserName,
@@ -39,6 +40,7 @@ const CommonTopNav = ({
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  // const [isOpen, setIsOpen] = useState("");
 
   const loggedInMember = JSON.parse(localStorage.getItem("user"));
   const { wishCount } = useSelector((state) => state.wishlistSlice);
@@ -487,6 +489,7 @@ const CommonTopNav = ({
                     </li>
                   ) : (
                     <Dropdown
+                      // className="close"
                       menu={{
                         items,
                       }}
@@ -494,7 +497,7 @@ const CommonTopNav = ({
                       arrow
                     >
                       <Avatar
-                        className="digigold-user-icon"
+                        className="digigold-user-icon open"
                         // style={{
                         //   backgroundColor: "#393186",
                         //   fontWeight: "boldF",
@@ -620,6 +623,7 @@ const CommonTopNav = ({
                       setAmount("");
                       setErr("");
                       setReceiverUserName("");
+                      window.scroll({ top: 0, behavior: "smooth" });
                     }}
                     to="/vipsgold"
                   >
@@ -639,6 +643,7 @@ const CommonTopNav = ({
                       setAmount("");
                       setErr("");
                       setReceiverUserName("");
+                      window.scroll({ top: 0, behavior: "smooth" });
                     }}
                     to="/vipsgold"
                   >
@@ -658,6 +663,7 @@ const CommonTopNav = ({
                       setAmount("");
                       setErr("");
                       setReceiverUserName("");
+                      window.scroll({ top: 0, behavior: "smooth" });
                     }}
                   >
                     <img
@@ -762,7 +768,11 @@ const CommonTopNav = ({
   return (
     <>
       {section()}
-      <DigiGoldSignup setIsDigiLogin={setIsDigiLogin} />
+      <DigiGoldSignup
+        setIsDigiLogin={setIsDigiLogin}
+        setStep={setStep}
+        step={step}
+      />
 
       <MuiSnackBar
         open={isSnackBar}

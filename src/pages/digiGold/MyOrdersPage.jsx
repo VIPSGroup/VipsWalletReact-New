@@ -54,28 +54,31 @@ const MyOrdersPage = () => {
   useEffect(() => {
     setDataSource(ordersList?.Data);
   }, [ordersList]);
-  useEffect(() => {
-    if (sellStatus.ResponseStatus === 1 && sellStatus.Data.statusCode === 200) {
-      // setErrorMsg("");
-      // setIsSnackBar(true);
-      // setSuccessMsg(sellStatus.Data.message);
-      setModalData({
-        ...modalData,
-        TransactionStatus: sellStatus.Data.result.data.status,
-      });
-    } else if (
-      sellStatus.ResponseStatus === 1 &&
-      sellStatus.Data.statusCode !== 200
-    ) {
-      setErrorMsg(sellStatus.Data.message);
-      setIsSnackBar(true);
-      setSuccessMsg("");
-    } else if (sellStatus.ResponseStatus === 0) {
-      setSuccessMsg("");
-      setIsSnackBar(true);
-      setErrorMsg(sellStatus.Remarks);
-    }
-  }, [sellStatus]);
+  // console.log(sellStatus, "sell");
+  // useEffect(() => {
+  //   if (sellStatus.ResponseStatus === 1 && sellStatus.Data.statusCode === 200) {
+  //     setErrorMsg("");
+  //     setIsSnackBar(true);
+  //     setSuccessMsg(sellStatus.Data.message);
+  //     setModalData({
+  //       ...modalData,
+  //       TransactionStatus: sellStatus.Data.result.data.status,
+  //     });
+  //   } else if (
+  //     sellStatus.ResponseStatus === 1 &&
+  //     sellStatus.Data.statusCode !== 200
+  //   ) {
+  //     console.log("yha kaise");
+  //     setErrorMsg(sellStatus.Data.message);
+  //     setIsSnackBar(true);
+  //     setSuccessMsg("");
+  //   } else if (sellStatus.ResponseStatus === 0) {
+  //     console.log("yha kaise 2");
+  //     setSuccessMsg("");
+  //     setIsSnackBar(true);
+  //     setErrorMsg(sellStatus.Remarks);
+  //   }
+  // }, []);
 
   // const convertBase64ToPDF = (base64String) => {
   //   const binaryData = atob(base64String);
@@ -96,101 +99,188 @@ const MyOrdersPage = () => {
   //   URL.revokeObjectURL(url);
   // };
 
-  const columns = [
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-    },
-    {
-      title: "Transaction ID",
-      dataIndex: "transactionID",
-      key: "transactionID",
-    },
-    {
-      title:
-        (tab === "Delivery" && "Invoice No") ||
-        (tab === "Gift" && "Metal Type") ||
-        (tab === "Buy" && "Narration") ||
-        (tab === "Sell" && "Narration"),
-      dataIndex:
-        (tab === "Delivery" && "invoiceno") ||
-        (tab === "Gift" && "metaltype") ||
-        (tab === "Buy" && "narration") ||
-        (tab === "Sell" && "narration"),
-      key:
-        (tab === "Delivery" && "invoiceno") ||
-        (tab === "Gift" && "metaltype") ||
-        (tab === "Buy" && "narration") ||
-        (tab === "Sell" && "narration"),
-    },
-    {
-      title:
-        (tab === "Delivery" && "Ship To") ||
-        (tab === "Gift" && "Quantity (gms)") ||
-        (tab === "Buy" && "Amount (₹)") ||
-        (tab === "Sell" && "Amount (₹)"),
+  // const columns = [
+  //   {
+  //     title: "Date",
+  //     dataIndex: "date",
+  //     key: "date",
+  //   },
+  //   {
+  //     title: "Transaction ID",
+  //     dataIndex: "transactionID",
+  //     key: "transactionID",
+  //   },
+  //   {
+  //     title:
+  //       (tab === "Delivery" && "Invoice No") ||
+  //       (tab === "Gift" && "Metal Type") ||
+  //       (tab === "Buy" && "Narration") ||
+  //       (tab === "Sell" && "Narration"),
+  //     dataIndex:
+  //       (tab === "Delivery" && "invoiceno") ||
+  //       (tab === "Gift" && "metaltype") ||
+  //       (tab === "Buy" && "narration") ||
+  //       (tab === "Sell" && "narration"),
+  //     key:
+  //       (tab === "Delivery" && "invoiceno") ||
+  //       (tab === "Gift" && "metaltype") ||
+  //       (tab === "Buy" && "narration") ||
+  //       (tab === "Sell" && "narration"),
+  //   },
+  //   {
+  //     title:
+  //       (tab === "Delivery" && "Ship To") ||
+  //       (tab === "Gift" && "Quantity (gms)") ||
+  //       (tab === "Buy" && "Amount (₹)") ||
+  //       (tab === "Sell" && "Amount (₹)"),
 
-      dataIndex:
-        (tab === "Delivery" && "shipto") ||
-        (tab === "Gift" && "qty") ||
-        (tab === "Buy" && "amount") ||
-        (tab === "Sell" && "amount"),
-      key:
-        (tab === "Delivery" && "shipto") ||
-        (tab === "Gift" && "qty") ||
-        (tab === "Buy" && "amount") ||
-        (tab === "Sell" && "amount"),
-      align: "right",
-    },
-    // {
-    //   title: tab === "Buy" && "Cashback",
+  //     dataIndex:
+  //       (tab === "Delivery" && "shipto") ||
+  //       (tab === "Gift" && "qty") ||
+  //       (tab === "Buy" && "amount") ||
+  //       (tab === "Sell" && "amount"),
+  //     key:
+  //       (tab === "Delivery" && "shipto") ||
+  //       (tab === "Gift" && "qty") ||
+  //       (tab === "Buy" && "amount") ||
+  //       (tab === "Sell" && "amount"),
+  //     align: "right",
+  //   },
+  //   {
+  //     title: tab === "Buy" && "Discount",
 
-    //   dataIndex: tab === "Buy" && "Cashback",
+  //     dataIndex: tab === "Buy" && "Discount",
 
-    //   key: tab === "Buy" && "Cashback",
+  //     key: tab === "Buy" && "Discount",
 
-    //   align: "right",
-    // },
-    {
-      title: tab === "Buy" && "Discount",
+  //     align: "right",
+  //   },
+  //   tab !== "Buy"
+  //     ? [
+  //         {
+  //           title:
+  //             (tab === "Delivery" && "Total Paid") ||
+  //             (tab === "Gift" && "Transaction Type"),
 
-      dataIndex: tab === "Buy" && "Discount",
+  //           dataIndex:
+  //             (tab === "Delivery" && "totalpaid") ||
+  //             (tab === "Gift" && "transactiontype"),
+  //           key:
+  //             (tab === "Delivery" && "totalpaid") ||
+  //             (tab === "Gift" && "transactiontype"),
+  //         },
+  //         {
+  //           title:
+  //             (tab === "Delivery" && "Order Status") ||
+  //             (tab === "Gift" && "Customer Name"),
 
-      key: tab === "Buy" && "Discount",
+  //           dataIndex:
+  //             (tab === "Delivery" && "orderstatus") ||
+  //             (tab === "Gift" && "customername"),
+  //           key:
+  //             (tab === "Delivery" && "orderstatus") ||
+  //             (tab === "Gift" && "customername"),
+  //         },
+  //       ]
+  //     : [],
+  //   {
+  //     title: tab !== "Gift" && "Action",
+  //     dataIndex: tab !== "Gift" && "invoice",
+  //     key: "invoice",
+  //   },
+  // ];
 
-      align: "right",
-    },
-    {
-      title:
-        (tab === "Delivery" && "Total Paid") ||
-        (tab === "Gift" && "Transaction Type"),
+  var columns;
+  if (tab === "Buy") {
+    columns = [
+      {
+        title: "Date",
+        dataIndex: "date",
+        key: "date",
+      },
+      {
+        title: "Transaction ID",
+        dataIndex: "transactionID",
+        key: "transactionID",
+      },
+      {
+        title: "Narration",
+        dataIndex: "narration",
+        key: "narration",
+      },
+      {
+        title: "Amount (₹)",
+        dataIndex: "amount",
+        key: "amount",
+        align: "right",
+      },
+      {
+        title: "Discount",
+        dataIndex: "Discount",
+        key: "Discount",
+        align: "right",
+      },
+      {
+        title: "Action",
+        dataIndex: "invoice",
+        key: "invoice",
+      },
+    ];
+  } else if (tab === "Sell") {
+    columns = [
+      {
+        title: "Date",
+        dataIndex: "date",
+        key: "date",
+      },
+      {
+        title: "Transaction ID",
+        dataIndex: "transactionID",
+        key: "transactionID",
+      },
+      {
+        title: "Narration",
+        dataIndex: "narration",
+        key: "narration",
+      },
+      {
+        title: "Amount (₹)",
+        dataIndex: "amount",
+        key: "amount",
+        align: "right",
+      },
 
-      dataIndex:
-        (tab === "Delivery" && "totalpaid") ||
-        (tab === "Gift" && "transactiontype"),
-      key:
-        (tab === "Delivery" && "totalpaid") ||
-        (tab === "Gift" && "transactiontype"),
-    },
-    {
-      title:
-        (tab === "Delivery" && "Order Status") ||
-        (tab === "Gift" && "Customer Name"),
-
-      dataIndex:
-        (tab === "Delivery" && "orderstatus") ||
-        (tab === "Gift" && "customername"),
-      key:
-        (tab === "Delivery" && "orderstatus") ||
-        (tab === "Gift" && "customername"),
-    },
-    {
-      title: tab !== "Gift" && "Action",
-      dataIndex: tab !== "Gift" && "invoice",
-      key: "invoice",
-    },
-  ];
+      {
+        title: "Action",
+        dataIndex: "invoice",
+        key: "invoice",
+      },
+    ];
+  } else if (tab === "Gift") {
+    columns = [
+      {
+        title: "Date",
+        dataIndex: "date",
+        key: "date",
+      },
+      {
+        title: "Transaction ID",
+        dataIndex: "transactionID",
+        key: "transactionID",
+      },
+      {
+        title: "Metal Type",
+        dataIndex: "metaltype",
+        key: "metaltype",
+      },
+      {
+        title: tab === "Gift" && "Quantity (gms)",
+        dataIndex: tab === "Gift" && "qty",
+        key: tab === "Gift" && "qty",
+        align: "right",
+      },
+    ];
+  }
 
   const handleDownloadInvoice = async (TrxnID) => {
     const res = await dispatch(downloadPdf(TrxnID));
@@ -322,6 +412,7 @@ const MyOrdersPage = () => {
               fontSize: 14,
               fontWeight: "400",
               color: "#008000",
+              textAlign: "center",
             }}
           >
             {item.ShoppingAmount
@@ -336,7 +427,7 @@ const MyOrdersPage = () => {
                       ? null
                       : `₹${item?.ShoppingAmount}`
                   }`
-              : ""}
+              : "--"}
           </h2>
         </>
       ),
@@ -548,13 +639,15 @@ const MyOrdersPage = () => {
               <p class="digigoldorderdetails-title">Order Details</p>
               <div class="digigoldorderdetails-summery">
                 <div class="row mb-3">
-                  <div class="col-xl-6 col-sm-4">
+
+                  <div class="col-xl-5 col-sm-6">
                     <span> Transaction ID: </span>
                   </div>
-                  <div class="col-xl-6 col-sm-8 text-sm-right">
+                  <div class="col-xl-7 col-sm-6 text-sm-right">
+
                     <span class="digigoldorderdetails-amt">
                       {" "}
-                      {modalData?.TransactionId}{" "}
+                      {modalData?.TransactionId}
                     </span>
                   </div>
                 </div>
@@ -643,10 +736,10 @@ const MyOrdersPage = () => {
                 </div>
 
                 <div class="row mb-3">
-                  <div class="col-xl-6 col-sm-4">
+
+                  <div class="col-xl-6 col-sm-6">
 
                     <span> {tab === "Buy" ? "Invoice" : "Status"}: </span>
-
                   </div>
                   <div
                     class="col-xl-6 col-sm-8 text-sm-right"
@@ -681,14 +774,30 @@ const MyOrdersPage = () => {
                               ? "red"
                               : "black",
                           }}
-                          onClick={() => {
-                            dispatch(
+                          onClick={async () => {
+                            const res = await dispatch(
                               getSellStatus({
                                 transactionId: modalData?.TransactionId,
                                 Username: loggedInUser?.UserName,
                                 Password: loggedInUser?.TRXNPassword,
                               })
                             );
+                            if (
+                              res.payload.ResponseStatus === 0 &&
+                              res.payload.Data.statusCode !== 200
+                            ) {
+                              setIsSnackBar(true);
+                              setErrorMsg(res.payload.Data.message);
+                              setSuccessMsg("");
+                            } else if (
+                              res.payload.ResponseStatus === 0 &&
+                              !res.payload.Data
+                            ) {
+                              setIsSnackBar(true);
+                              setErrorMsg(res.payload.Remarks);
+                              setSuccessMsg("");
+                            }
+                            // console.log(res.payload, "res");
                           }}
                           size="small"
                         >
