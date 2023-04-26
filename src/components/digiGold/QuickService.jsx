@@ -3,7 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { quickServiceArr } from "../../pages/digiGold/DigiGoldHome";
 import { MuiSnackBar } from "../common";
 
-const QuickService = ({ setActive, setAmount, setGrams, setErr, setReceiverUserName }) => {
+const QuickService = ({
+  setActive,
+  setAmount,
+  setGrams,
+  setErr,
+  setReceiverUserName,
+}) => {
   const navigate = useNavigate();
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
@@ -21,7 +27,7 @@ const QuickService = ({ setActive, setAmount, setGrams, setErr, setReceiverUserN
                     //   setIsSnackBar(true);
                     //   setErrorMsg("Service will be coming soon..");
                     // } else {
-                      navigate(e.route, { state: e.buy });
+                    navigate(e.route, { state: e.buy });
                     // }
 
                     // setActive(e.buy);

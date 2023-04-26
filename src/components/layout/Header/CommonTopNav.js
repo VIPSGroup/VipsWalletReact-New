@@ -623,6 +623,7 @@ const CommonTopNav = ({
                       setAmount("");
                       setErr("");
                       setReceiverUserName("");
+                      window.scroll({ top: 0, behavior: "smooth" });
                     }}
                     to="/vipsgold"
                   >
@@ -642,6 +643,7 @@ const CommonTopNav = ({
                       setAmount("");
                       setErr("");
                       setReceiverUserName("");
+                      window.scroll({ top: 0, behavior: "smooth" });
                     }}
                     to="/vipsgold"
                   >
@@ -661,6 +663,7 @@ const CommonTopNav = ({
                       setAmount("");
                       setErr("");
                       setReceiverUserName("");
+                      window.scroll({ top: 0, behavior: "smooth" });
                     }}
                   >
                     <img
