@@ -72,7 +72,7 @@ const SignUpForm = ({ setIsSignIn }) => {
       refId: yup
         .string()
         .matches(
-          /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/,
+          /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/,
           "Please Enter Valid Number"
         ),
       password: yup

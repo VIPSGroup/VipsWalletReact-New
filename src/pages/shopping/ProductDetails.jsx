@@ -302,7 +302,11 @@ setLoading(true)
                     {productImages &&
                       productImages.map((image, i) => (
                         <div class="quick-view-product-img">
-                          <img
+                          <img 
+                          onError={(e)=>{
+                            productImages.splice(i,1)
+                            setProductImages([...productImages])
+                          }}
                             class="img-thumbnail "
                             src={shopadminUrl + image.original}
                             alt="Slide Image"

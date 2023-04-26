@@ -203,7 +203,6 @@ const dispatch= useDispatch()
               <RecentHistory
                 serviceId={"1"}
                 fetchServiceId={mobileServiceId}
-                setMobileNo={setMobileNo}
                 type={"dth"}
               />
             </div>

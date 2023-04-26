@@ -40,7 +40,7 @@ const Otp = ({ userName, password,setFormCount }) => {
   const renderButton2 = (buttonProps) => {
     return (
       <div className="resendotp col-12 mx-auto pt-3">
-        <p {...buttonProps} className="col-12 d-block">
+        <p {...buttonProps} className="col-12 d-block" onClick={()=>{}}>
           {buttonProps.remainingTime !== 0 ? (
             <p>
               {" "}
@@ -51,7 +51,7 @@ const Otp = ({ userName, password,setFormCount }) => {
               </span>
             </p>
           ) : (
-            <p>
+            <p onClick={()=>{}}>
               Not received OTP?{" "}
               <a>
                 <span

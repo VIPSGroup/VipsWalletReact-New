@@ -273,7 +273,7 @@ const EditProfile = () => {
                             name="AlternateMobile"
                             className={ error && "is-invalid" }
                             onChange={e=>{
-                              const regex=/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/
+                              const regex=/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/
                               setAlternateNumber(e.target.value)
                               if(!regex.test(e.target.value)){
                                 setError("Please Enter Valid Mobile Number")

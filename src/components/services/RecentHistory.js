@@ -106,7 +106,7 @@ if(loggedInUser){
                             </span>{" "}
                           </td>
                         ) : null}
-                        {/* {setMobileNo && (
+                        {setMobileNo && (
                           <td class="align-middle">
                             <button
 onClick={()=>{
@@ -122,7 +122,7 @@ onClick={()=>{
                               Repeat{" "}
                             </button>
                           </td>
-                        )} */}
+                        )}
                       </tr>
                     ))}
                 </tbody>
