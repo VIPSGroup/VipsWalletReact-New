@@ -469,7 +469,7 @@ const termsAndConditions = "Terms And Conditions";
 const DigitermsAndConditions = "DigiGold Terms And Conditions";
 const Digifaq = "DigiGold FAQs";
 
-export const appType = "Website";
+export const appType = "WebSite";
 
 export const electronicCategoryId = 53;
 export const fashionCategoryId = 43;

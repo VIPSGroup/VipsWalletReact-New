@@ -138,7 +138,7 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
   }, []);
 
   useEffect(() => {
-    dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount }));
+    dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount,serviceId :serviceId}));
     if (data?.Data) {
       manageInitialPaymentMethod(data?.Data?.Balance);
     }
@@ -200,6 +200,9 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
         <div class="container">
           <div class="payment-head-outer">
             <div class="payment-head">
+            <Link to='/'>
+              <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
+            </Link>
               <div class="go-back">
                 <Link
                   onClick={() => {

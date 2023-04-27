@@ -62,7 +62,7 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
   });
   const loginPasswordFormik = useFormik({
     initialValues: {
-      password: "",
+      password:"",
     },
     validationSchema: yup.object({
       password: yup.string().min(8).max(16).required("Please Enter Password"),
@@ -129,6 +129,10 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
       setSuccessMsg("");
       setIsSnackBar(true);
       setSuccessMsg(response.Remarks);
+    }
+    if(loginUsernameFormik.values.username?.length!==10){
+      loginPasswordFormik.values.password=''
+      dispatch(resetState());
     }
     return () => {
       setTimeout(() => {
@@ -384,8 +388,9 @@ dispatch(forgotPassword({ userName: forgotPasswordUserName }))
                                 </div>
                               </div>
                             </div>
+                           
                             {isUserExist &&
-                              isUserExist[0]?.ResponseStatus === 1 && (
+                              isUserExist[0]?.ResponseStatus === 1 && loginUsernameFormik.values.username.length===10 && (
                                 <div className="col-lg-12">
                                   <div className="input-field">
                                     <i
@@ -401,7 +406,7 @@ dispatch(forgotPassword({ userName: forgotPasswordUserName }))
                                     <input
                                       // onChange={handlePassword}
                                       type={showPassword ? "text" : "password"}
-                                      value={
+                                      value={ loginUsernameFormik.values.username.length!==10 ?"" :
                                         loginPasswordFormik.values.password
                                       }
                                       className={

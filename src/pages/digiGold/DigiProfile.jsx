@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../assets/styles/digigold/digi-gold-profile.css";
 import { MuiSnackBar } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading.jsx";
-import { differenceInYears } from "date-fns";
 
 import {
   FirstNamePattern,

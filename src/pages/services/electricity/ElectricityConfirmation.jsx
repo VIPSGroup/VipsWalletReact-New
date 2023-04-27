@@ -117,7 +117,7 @@ return ()=>{setShowSuccess(false)
   }, []);
 
   useEffect(() => {
-    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
+    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount,serviceId:electricityServiceId}))
     if(data?.Data){
       manageInitialPaymentMethod(data?.Data?.Balance);
     }
@@ -154,9 +154,9 @@ return ()=>{setShowSuccess(false)
         <div class="container">
           <div class="payment-head-outer">
             <div class="payment-head">
-              {/* <Link class="" to="#">
+              <Link class="" to="/">
               <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
-            </Link> */}
+            </Link>
               <div class="go-back">
                 <Link to="/services/electricity">
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
