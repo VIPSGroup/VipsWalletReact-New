@@ -592,14 +592,14 @@ export const getTransactionId = () => {
   return finalHash;
 };
 
-export function getFixedDecimalNumber(input, precision) {
-  if (input.toString().split(".").pop().length > precision) {
-    return parseFloat(
-      input
-        .toString()
-        .substring(0, input.toString().indexOf(".") + precision + 1)
-    );
-  } else {
-    return input;
-  }
-}
+// export function getFixedDecimalNumber(input, precision) {
+//   if (input.toString().split(".").pop().length > precision) {
+//     return parseFloat(
+//       input
+//         .toString()
+//         .substring(0, input.toString().indexOf(".") + precision + 1)
+//     );
+//   } else {
+//     return input;
+//   }
+// }
