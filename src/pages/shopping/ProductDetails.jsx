@@ -275,8 +275,8 @@ const ProductDetails = () => {
         setSubProducts("");
       } else if (state === "fashion") {
         const fetchFashion = async () => {
-          const res = await dispatch(getProductsByCategory(43));
-          setSimilar(res.payload.Data);
+          const res = await getProductsByCategory(43);
+          setSimilar(res.Data?.slice(0, 15));
         };
         fetchFashion();
         setSubProducts("");
@@ -290,7 +290,7 @@ const ProductDetails = () => {
       }
     }
   };
-
+  console.log(state, "state");
   useEffect(() => {
     getSRecommendedProduct();
     ReactGA.pageview(window.location.pathname);
