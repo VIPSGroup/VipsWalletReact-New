@@ -24,7 +24,7 @@ import { Loading } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 const ProductListing = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
@@ -58,12 +58,12 @@ const ProductListing = () => {
 
   let { categoryName, categoryId } = useParams();
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     ReactGA.pageview(window.location.pathname);
     dispatch(getSubCategory(categoryId));
 
     getProductsByCategory(categoryId).then((response) => {
-      // setLoading(false)
+      setLoading(false);
 
       setCategoryProducts(response.Data);
       setActiveProducts(response.Data);
@@ -185,7 +185,12 @@ const ProductListing = () => {
                   <div class="shopping-catagory-nav-outer catagory-nav-scroller">
                     {subCategories &&
                       subCategories.map((c, i) => (
-                        <div class="shopping-catagory-box" onClick={()=>{console.log(c.CategoryID)}}>
+                        <div
+                          class="shopping-catagory-box"
+                          onClick={() => {
+                            console.log(c.CategoryID);
+                          }}
+                        >
                           <button
                             onClick={handleSubCategoryClick}
                             value={c.Id}
@@ -235,14 +240,12 @@ const ProductListing = () => {
     <div className="color-body">
       {shoppingSubCategoryBar()}
       <Spin spinning={loading}>
-      {activeProducts?.length !== 0 && activeProducts !== undefined && (
-        productsDisplay()
-
-      ) : (
-        // <LatestLoading />
-        <Loading />
-
-      )}
+        {activeProducts?.length !== 0 && activeProducts !== undefined ? (
+          productsDisplay()
+        ) : (
+          // <LatestLoading />
+          <Loading />
+        )}
       </Spin>
     </div>
   );
