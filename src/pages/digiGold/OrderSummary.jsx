@@ -396,7 +396,7 @@ const OrderSummary = () => {
       setIsSnackBar(true);
     }
   };
-
+  console.log(Verified, "Verified");
   const handleResendSellOTPSubmit = async () => {
     setOtp("");
     // const username = state.username;
@@ -1552,33 +1552,37 @@ const OrderSummary = () => {
                                                 ]
                                               }
                                             >
-                                              <Input
-                                                // onKeyDown={
-                                                //   handleKeyDownIFSCCheck
-                                                // }
-                                                required
-                                                size="large"
-                                                // pattern="[A-Za-z0-9 ]+"
-                                                maxLength={11}
-                                                // addonBefore={<FaHashtag />}
-                                                placeholder="Enter IFSC Code"
-                                                value={formValue.ifscCode}
-                                                onChange={(e) => {
-                                                  setFormValue({
-                                                    ...formValue,
-                                                    ifscCode: e.target.value,
-                                                  });
-                                                  if (
-                                                    validateIFSC(e.target.value)
-                                                  ) {
-                                                    setError("");
-                                                  } else {
-                                                    setError(
-                                                      "Please Enter Valid IFSC"
-                                                    );
-                                                  }
-                                                }}
-                                              />
+                                              <Spin spinning={!Verified}>
+                                                <Input
+                                                  // onKeyDown={
+                                                  //   handleKeyDownIFSCCheck
+                                                  // }
+                                                  required
+                                                  size="large"
+                                                  // pattern="[A-Za-z0-9 ]+"
+                                                  maxLength={11}
+                                                  // addonBefore={<FaHashtag />}
+                                                  placeholder="Enter IFSC Code"
+                                                  value={formValue.ifscCode}
+                                                  onChange={(e) => {
+                                                    setFormValue({
+                                                      ...formValue,
+                                                      ifscCode: e.target.value,
+                                                    });
+                                                    if (
+                                                      validateIFSC(
+                                                        e.target.value
+                                                      )
+                                                    ) {
+                                                      setError("");
+                                                    } else {
+                                                      setError(
+                                                        "Please Enter Valid IFSC"
+                                                      );
+                                                    }
+                                                  }}
+                                                />
+                                              </Spin>
                                               <label
                                                 style={{
                                                   fontSize: 12,
@@ -1599,7 +1603,8 @@ const OrderSummary = () => {
                                                   11 &&
                                                   (Verified
                                                     ? Verified
-                                                    : "Please Enter Valid IFSC")}
+                                                    : Verified === 0 &&
+                                                      "Please Enter Valid IFSC")}
                                               </label>
                                             </Form.Item>
                                           </div>

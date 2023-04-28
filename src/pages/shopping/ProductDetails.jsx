@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PincodeCheck from "../../components/shopping/PincodeCheck";
 import Carousel from "react-multi-carousel";
@@ -11,19 +11,26 @@ import { googleAnalytics } from "../../constants";
 import ReactGA from "react-ga";
 import AddToCartButton from "../../components/buttons/AddToCartButton";
 import AddWishListButton from "../../components/buttons/AddWishListButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getAllCategories,
+  getNewArrivalProducts,
   getProductsByCategory,
+  getProductsBySubCategory,
+  getPromotionalProduct,
+  removeId,
 } from "../../redux/slices/shopping/productSlice";
 import { MuiSnackBar } from "../../components/common";
 import { Spin } from "antd";
+import ProductHorizontal from "../../components/shopping/ProductHorizontal";
+import { getDealsOfTheDay } from "../../redux/slices/dealsSlice";
 // import { getAllCategories } from "../../apiData/shopping/category";
 
 ReactGA.initialize(googleAnalytics);
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
+  const { state } = useLocation();
   const [product, setProduct] = useState({});
   const [products, setProducts] = useState([]);
   const [productObj, setProductObj] = useState();
@@ -43,11 +50,17 @@ const ProductDetails = () => {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [similar, setSimilar] = useState([]);
+  const [subProducts, setSubProducts] = useState();
+  const { recommendedCatId } = useSelector((state) => state.productSlice);
+  const { activeProducts } = useSelector(
+    (state) => state.productSlice.subCategoryByProduct
+  );
 
+  // console.log(activeProducts, "activeProducts");
+  // console.log(recommendedCatId, "recommneded");
   let navigate = useNavigate();
   let { productId, productName } = useParams();
   var imgArray = [];
-
   const getProductImages = (productData) => {
     if (productData.ImageThumbURL1 != null && productData.ImageURL1 != null) {
       const obj = {
@@ -189,7 +202,6 @@ const ProductDetails = () => {
     };
     let buyNowProductsArray = [];
     buyNowProductsArray.push(buyNowProductDeatils);
-
     setProducts(buyNowProductsArray);
     if (loggedInUser) {
       navigate("/shopping/address", {
@@ -203,29 +215,89 @@ const ProductDetails = () => {
     }
   };
 
-  const getSimilarProduct = async (catNam) => {
-    let catId;
-    const res = await dispatch(getAllCategories());
-    const Allcategories =
-      res.payload.Data.Categories && res.payload.Data.Categories;
-    for (let index = 0; index < Allcategories.length; index++) {
-      const element = Allcategories[index];
-      if (catNam === element.Name) {
-        catId = element.Id;
+  // const getSimilarProduct = async (catNam) => {
+  //   console.log(catNam, "catNam");
+  //   let catId;
+  //   const res = await dispatch(getAllCategories());
+  //   const Allcategories =
+  //     res.payload.Data.Categories && res.payload.Data.Categories;
+  //   for (let index = 0; index < Allcategories.length; index++) {
+  //     const element = Allcategories[index];
+  //     if (catNam === element.Name) {
+  //       catId = element.Id;
+  //     }
+  //   }
+  //   getProductsByCategory(catId).then((response) => {
+  //     // setLoading(false)
+  //     // console.log(catId, 'catId')
+  //     setSimilar(response.Data);
+  //   });
+  // };
+
+  const getSRecommendedProduct = () => {
+    if (!state) {
+      if (recommendedCatId.type === "category") {
+        getProductsByCategory(recommendedCatId.id).then((response) => {
+          setSimilar(response.Data);
+        });
+      } else if (recommendedCatId.type === "subcategory") {
+        const getSubProducts = async () => {
+          const res = await dispatch(
+            getProductsBySubCategory(recommendedCatId.id)
+          );
+          setSubProducts(res.payload.Data);
+        };
+        getSubProducts();
+        setSimilar("");
+      }
+    } else {
+      if (state === "dod") {
+        const fetchDOD = async () => {
+          const res = await dispatch(getDealsOfTheDay());
+          setSimilar(res.payload.Data);
+          console.log(res.payload, "loadpay");
+        };
+        fetchDOD();
+        setSubProducts("");
+      } else if (state === "promotional") {
+        const fetchPromotional = async () => {
+          const res = await dispatch(getPromotionalProduct(11));
+          setSimilar(res.payload.Data);
+        };
+        fetchPromotional();
+        setSubProducts("");
+      } else if (state === "newArrival") {
+        const newArrival = async () => {
+          const res = await dispatch(getNewArrivalProducts());
+          setSimilar(res.payload.Data);
+        };
+        newArrival();
+        setSubProducts("");
+      } else if (state === "fashion") {
+        const fetchFashion = async () => {
+          const res = await dispatch(getProductsByCategory(43));
+          setSimilar(res.payload.Data);
+        };
+        fetchFashion();
+        setSubProducts("");
+      } else if (state === "electronics") {
+        const fetchelectronics = async () => {
+          const res = await dispatch(getPromotionalProduct(53));
+          setSimilar(res.payload.Data);
+        };
+        fetchelectronics();
+        setSubProducts("");
       }
     }
-    getProductsByCategory(catId).then(response=>{
-      // setLoading(false)
-      setSimilar(response.Data)
-    })
   };
 
   useEffect(() => {
+    getSRecommendedProduct();
     ReactGA.pageview(window.location.pathname);
     var p = {};
-setLoading(true)
+    setLoading(true);
     getSingleProductData(productId).then((response) => {
-      setLoading(false)
+      setLoading(false);
       p = response?.Data?.ProductDetails;
       setProduct(response?.Data?.ProductDetails);
       manageRecentlyViewed(response?.Data?.ProductDetails);
@@ -240,9 +312,8 @@ setLoading(true)
       }
       getProductImages(response?.Data?.ProductDetails);
       checkInCart(response?.Data);
-      getSimilarProduct(response?.Data?.ProductDetails?.Category);
+      // getSimilarProduct(response?.Data?.ProductDetails?.Category);
     });
-
 
     checkInWishlist();
     window.scrollTo({
@@ -286,7 +357,7 @@ setLoading(true)
   };
 
   const ProductDetailsSection = () => (
-    <Spin spinning={loading} >
+    <Spin spinning={loading}>
       <section class="section-align">
         <div class="container">
           <div class="row">
@@ -294,7 +365,9 @@ setLoading(true)
             <div class="col-lg-6">
               <div class="product-details-left">
                 <div class="product-details-img-outer">
-                  <Carousel swipeable={false} draggable={false}
+                  <Carousel
+                    swipeable={false}
+                    draggable={false}
                     responsive={responsive}
                     infinite={true}
                     className="quick-view-product-img-outer"
@@ -302,11 +375,11 @@ setLoading(true)
                     {productImages &&
                       productImages.map((image, i) => (
                         <div class="quick-view-product-img">
-                          <img 
-                          onError={(e)=>{
-                            productImages.splice(i,1)
-                            setProductImages([...productImages])
-                          }}
+                          <img
+                            onError={(e) => {
+                              productImages.splice(i, 1);
+                              setProductImages([...productImages]);
+                            }}
                             class="img-thumbnail "
                             src={shopadminUrl + image.original}
                             alt="Slide Image"
@@ -329,17 +402,23 @@ setLoading(true)
                       {product?.SalePrice &&
                         product?.SalePrice.toLocaleString()}
                     </span>
-                   
-                    {product?.CostPrice!==0 &&  <> <span class="mr-2 cut">
-                      {" "}
-                      &#x20B9;{" "}
-                      {product?.RetailPrice &&
-                        product?.RetailPrice.toLocaleString()}
-                    </span><span class="product-details-discount">
-                      {" "}
-                      ({product?.CostPrice}% Off){" "}
-                    </span></>}
-                   
+
+                    {product?.CostPrice !== 0 && (
+                      <>
+                        {" "}
+                        <span class="mr-2 cut">
+                          {" "}
+                          &#x20B9;{" "}
+                          {product?.RetailPrice &&
+                            product?.RetailPrice.toLocaleString()}
+                        </span>
+                        <span class="product-details-discount">
+                          {" "}
+                          ({product?.CostPrice}% Off){" "}
+                        </span>
+                      </>
+                    )}
+
                     {product.ShoppingAmt > 0 && (
                       <span class="product-details-cb-badge">
                         {" "}
@@ -429,12 +508,15 @@ setLoading(true)
                     </div>
 
                     <div class="d-flex ml-auto">
-                      <div class="product-details-wishlist" onClick={()=>{
-                        // setErrorMsg('')
-                        // setIsSnackBar(true)
-                        // setSuccessMsg("Product Added Successfully")
-                      }}>
-                        <AddWishListButton 
+                      <div
+                        class="product-details-wishlist"
+                        onClick={() => {
+                          // setErrorMsg('')
+                          // setIsSnackBar(true)
+                          // setSuccessMsg("Product Added Successfully")
+                        }}
+                      >
+                        <AddWishListButton
                           product={product}
                           inWishlistStateChanger={setExistInWishlist}
                           inWishlist={existInWishlist}
@@ -514,12 +596,12 @@ setLoading(true)
               setError={setErrorMsg}
             />
           </div>
-          {/* <ProductHorizontal
+          <ProductHorizontal
             title="Similar Product"
             // subtitle="of the Day"
-            products={similar?.filter(product=>product.Quantity!==0)}
+            products={similar || subProducts}
             description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
-          /> */}
+          />
         </div>
       </section>
     </Spin>

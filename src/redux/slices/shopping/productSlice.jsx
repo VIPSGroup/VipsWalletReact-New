@@ -30,59 +30,80 @@ export const getSingleProductData = createAsyncThunk(
         `${baseApiUrl}/EcommerceServices/Productdescription`,
         formData
       );
-      let imgArray=[]
-      if(res.data.ResponseStatus===1){
-if (res.data.Data.ProductDetails?.ImageThumbURL1 != null && res.data.Data.ProductDetails?.ImageURL1 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL1,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL1,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL2 != null && res.data.Data.ProductDetails?.ImageURL2 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL2,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL2,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL3 != null && res.data.Data.ProductDetails?.ImageURL3 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL3,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL3,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL4 != null && res.data.Data.ProductDetails?.ImageURL4 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL4,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL4,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL5 != null && res.data.Data.ProductDetails?.ImageURL5 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL5,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL5,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL6 != null && res.data.Data.ProductDetails?.ImageURL6 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL6,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL6,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL7 != null && res.data.Data.ProductDetails?.ImageURL7 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL7,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL7,
-  };
-  imgArray.push(obj);
-}
+      let imgArray = [];
+      if (res.data.ResponseStatus === 1) {
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL1 != null &&
+          res.data.Data.ProductDetails?.ImageURL1 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL1,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL1,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL2 != null &&
+          res.data.Data.ProductDetails?.ImageURL2 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL2,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL2,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL3 != null &&
+          res.data.Data.ProductDetails?.ImageURL3 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL3,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL3,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL4 != null &&
+          res.data.Data.ProductDetails?.ImageURL4 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL4,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL4,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL5 != null &&
+          res.data.Data.ProductDetails?.ImageURL5 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL5,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL5,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL6 != null &&
+          res.data.Data.ProductDetails?.ImageURL6 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL6,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL6,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL7 != null &&
+          res.data.Data.ProductDetails?.ImageURL7 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL7,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL7,
+          };
+          imgArray.push(obj);
+        }
       }
-      return {response:res.data,imgArray};
+      return { response: res.data, imgArray };
     } catch (error) {
       return error;
     }
@@ -94,6 +115,7 @@ export const getProductsBySubCategory = createAsyncThunk(
     const formData = new FormData();
     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
     formData.append("SubCategoryid", subCategoryId);
+
     try {
       const res = await axios.post(
         `${baseApiUrl}/EcommerceServices/ProductViaSubCategory`,
@@ -109,7 +131,6 @@ export const getProductsByCategory = (categoryId) => {
   const formData = new FormData();
   formData.append("tocken", "XMCNBVGDTE734BCU65DW");
   formData.append("Categoryid", categoryId);
-
   return fetch(`${baseApiUrl}/EcommerceServices/ProductViaCategory`, {
     method: "POST",
     body: formData,
@@ -214,8 +235,16 @@ const productSlice = createSlice({
       loading: false,
       error: "",
     },
+    recommendedCatId: "",
   },
-  reducers: {},
+  reducers: {
+    getRecomId: (state, action) => {
+      state.recommendedCatId = action.payload;
+    },
+    removeId: (state, action) => {
+      state.recommendedCatId = "";
+    },
+  },
   extraReducers: (builder) => {
     // Get Promotional Data
     builder.addCase(getPromotionalProduct.pending, (state, action) => {
@@ -301,4 +330,5 @@ const productSlice = createSlice({
     });
   },
 });
+export const { getRecomId, removeId } = productSlice.actions;
 export default productSlice.reducer;
