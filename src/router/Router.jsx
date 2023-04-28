@@ -633,12 +633,12 @@ const Router = () => {
         <Route
           path="/privacypolicy"
           element={
-            <TermsAndConditions title="Privacy Policy" type="privacypolicy" />
+            <TermsAndConditions title="Privacy Policy" type="Privacy Policy" />
           }
         />
         <Route
           path="/aboutus"
-          element={<TermsAndConditions title="About Us" type="aboutus" />}
+          element={<TermsAndConditions title="About Us" type="About" />}
         />
         <Route
           path="/termscondition"
@@ -651,7 +651,7 @@ const Router = () => {
         />
         <Route
           path="/faq"
-          element={<TermsAndConditions title="FAQ" type="faq" />}
+          element={<TermsAndConditions title="FAQ" type="FAQ"/>}
         />
 
         <Route
