@@ -716,7 +716,7 @@ const OrderSummary = () => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? "col-lg-2 col-sm-6"
+                                ? "col-lg-3 col-sm-6"
                                 : "col-lg-3 col-sm-4"
                             } `}
                           >
@@ -730,7 +730,7 @@ const OrderSummary = () => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? "col-lg-2 col-sm-6"
+                                ? "col-lg-3 col-sm-6"
                                 : "col-lg-3 col-sm-4"
                             } `}
                           >
@@ -784,7 +784,7 @@ const OrderSummary = () => {
                             <div
                               class={`${
                                 state?.type === "buy"
-                                  ? "col-lg-2 col-sm-6"
+                                  ? "col-lg-3 col-sm-6"
                                   : "col-lg-3  col-sm-4"
                               } `}
                             >
@@ -795,7 +795,7 @@ const OrderSummary = () => {
                               </p>
                             </div>
                           )}
-                          <div
+                          {/* <div
                             class={`${
                               state?.type === "buy" ? "col-lg-3" : "col-lg-3"
                             } `}
@@ -809,7 +809,7 @@ const OrderSummary = () => {
                                     state?.valueinAmt
                                   )?.toLocaleString()}
                             </p>
-                          </div>
+                          </div> */}
                         </div>
 
                         {/* -- debit amount section start --  */}
