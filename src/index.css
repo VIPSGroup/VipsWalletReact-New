@@ -183,3 +183,12 @@
   border-color: var(--primary) !important;
   background-color: var(--whiteColor) !important;
 }
+
+.ant-pagination .ant-pagination-prev, .ant-pagination .ant-pagination-next, .ant-pagination .ant-pagination-jump-prev, .ant-pagination .ant-pagination-jump-next{
+  line-height: initial;
+}
+
+.ant-modal .ant-modal-close-x{
+  line-height: 11px;
+}
+

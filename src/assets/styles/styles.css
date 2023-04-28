@@ -798,9 +798,9 @@ select:-webkit-autofill:focus {
 }
 
 
-.ant-input-group {
+/* .ant-input-group {
   min-height: 45px;
-}
+} */
 .ant-input-affix-wrapper {
   min-height: 45px;
   border-color: var(--lightGray);
@@ -1425,6 +1425,12 @@ select:-webkit-autofill:focus {
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1280px) {
+  .section-align {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  
   .productcard-arrow .react-multiple-carousel__arrow--left {
     margin-top: -92px;
   }

@@ -374,6 +374,31 @@
 }
 
 
+.check-deliverypin{
+    display: flex;
+}
+.deliverypin-input{
+    height: 49px;
+    font-size: 14px;
+    border-right:none;
+    /* padding: 24px 15px; */
+    border-radius: 8px 0px 0px 8px;
+    border-color: var(--borderColor);
+}
+.pincode-checkbtn{
+    font-size: 14px;
+    background: var(--whiteColor); 
+    border-left:none;
+    border-color: var(--borderColor);
+    border-radius: 0px 8px 8px 0px;
+    color: var(--primary);
+    text-decoration: underline;
+    /* padding: 13.6px 15px; */
+    height: 49px;
+    box-shadow: none;
+}
+
+
 @media only screen and (min-width: 320px) and (max-width: 413px){
     /* .quick-view-modal .modal-dialog {
         max-width: 310px !important;
