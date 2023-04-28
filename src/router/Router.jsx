@@ -65,6 +65,7 @@ import DigiKYC from "../pages/digiGold/DigiKYC";
 import DigiDeliveryCart from "../pages/digiGold/Delivery/DigiDeliveryCart";
 import DeliveryCheckout from "../pages/digiGold/Delivery/DeliveryCheckout";
 import DeliveryOrderDetails from "../pages/digiGold/Delivery/DeliveryOrderDetails";
+import SuccessPage from "../pages/home/SuccessPage";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
@@ -617,7 +618,9 @@ const Router = () => {
         <Route
           path="/payment"
           element={
-            <ProtectedRoute> {/* <SuccessPage />{" "} */}</ProtectedRoute>
+            <ProtectedRoute> 
+              <SuccessPage />{" "}
+              </ProtectedRoute>
           }
         />
       </Routes>
