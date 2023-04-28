@@ -173,7 +173,13 @@
   text-align: center;
 }
 
-:where(.css-dev-only-do-not-override-1km3mtt).ant-pagination
-  .ant-pagination-item-active {
+.ant-pagination .ant-pagination-item-active {
   border-color: var(--primary);
+}
+.ant-pagination-item:hover,
+.ant-pagination-item:focus,
+.ant-pagination-item-active:hover,
+.ant-pagination-item-active:focus {
+  border-color: var(--primary) !important;
+  background-color: var(--whiteColor) !important;
 }

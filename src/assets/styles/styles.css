@@ -1031,8 +1031,8 @@ select:-webkit-autofill:focus {
     margin-top: -64px;
   }
   .dropdown-text-limit {
-    display: inline;
-    max-width: 280px;
+    display: inline-block;
+    max-width: 298px;
   }
 
   .payment-head-outer {
@@ -1461,6 +1461,11 @@ select:-webkit-autofill:focus {
 
   .sold-badge-top-left {
     top: -6px;
+  }
+
+  .dropdown-text-limit {
+    display: inline-block;
+    max-width: 298px;
   }
 }
 

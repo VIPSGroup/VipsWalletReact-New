@@ -224,10 +224,10 @@ setErrorMsg("Something Went wrong, Please try again later")
                         </p>
                       </div>
                       <div class="mob-paymet-recharge-info">
-                        <p class="mob-paymet-recharge-text">
+                        <p class="mob-paymet-recharge-text mb-0">
                           Amount : <label> &#x20B9; {amt} </label>{" "}
                         </p>
-                        <p class="mob-paymet-recharge-text ml-auto ">
+                        <p class="mob-paymet-recharge-text ml-auto mb-0">
                           Validity :{" "}
                           <label> {props?.plan && props?.plan.validity} </label>{" "}
                         </p>
