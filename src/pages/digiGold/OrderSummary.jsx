@@ -37,6 +37,7 @@ import {
   getServiceName,
   globalConfiguration,
 } from "../../redux/slices/services/commonSlice";
+import OTPModal from "../../components/common/OTPModal";
 const OrderSummary = () => {
   const animationRef = useRef(null); // Ref to hold the Lottie animation instance
 
@@ -451,7 +452,7 @@ const OrderSummary = () => {
   const renderButton2 = (buttonProps) => {
     return (
       <div className="resendotp col-12 mx-auto pt-3">
-        <p {...buttonProps} className="col-12 d-block">
+        <p className="col-12 d-block">
           {buttonProps.remainingTime !== 0 ? (
             <p>
               {" "}
@@ -464,11 +465,17 @@ const OrderSummary = () => {
           ) : (
             <p>
               Not received OTP?{" "}
-              <a>
+              <a {...buttonProps}>
                 <span
                   style={{ color: "#CA3060" }}
+                  // onClick={(e) => {
+                  //   e.preventDefault();
+                  //   setOtp("");
+                  //   dispatch(loginUser({ userName, password }));
+                  // }}
                   onClick={handleResendSellOTPSubmit}
                 >
+                  {" "}
                   Resend OTP
                 </span>
               </a>
@@ -648,6 +655,7 @@ const OrderSummary = () => {
       window.history.replaceState({}, state);
     };
   }, []);
+
   return state ? (
     <>
       <div className="">
@@ -1787,7 +1795,7 @@ const OrderSummary = () => {
           )}
         </div>
       </Modal>
-      <Modal
+      {/* <Modal
         footer={[]}
         maskClosable={false}
         centered
@@ -1853,7 +1861,16 @@ const OrderSummary = () => {
             </div>
           </div>
         )}
-      </Modal>
+      </Modal> */}
+      <OTPModal
+        handleClose={handleClose}
+        resendOtp={handleResendSellOTPSubmit}
+        Otp={otp}
+        setOtp={setOtp}
+        step={step}
+        handleClick={handleSellSubmit}
+        load={loading || sellLoad}
+      />
       <MuiSnackBar
         open={isSnackBar}
         setOpen={setIsSnackBar}

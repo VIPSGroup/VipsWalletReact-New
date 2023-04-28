@@ -4,8 +4,8 @@ import pakcage from "../package.json";
 const themeColor = "#393186";
 // export const baseApiUrl = "https://api.vipswallet.com/api";
 
-export const baseApiUrl = "http://api.vipswallet.com/api";
-export const digiBaseUrl = "http://api.vipswallet.com/api/DigiGold/";
+export const baseApiUrl = "http://test.vipswallet.com/api";
+export const digiBaseUrl = "http://test.vipswallet.com/api/DigiGold/";
 
 // export const baseApiUrl = "http://webplat.vipswallet.com/api/";
 export const shopadminUrl = "http://shopadmin.vipswallet.com";
@@ -432,7 +432,8 @@ export const subscriptionServiceId = 48;
 export const clubAndAssociationServiceId = 50;
 export const municipalTaxServiceId = 44;
 export const municipalServicesServiceId = 45;
-export const digiGoldServiceId = 54;
+export const digiGoldServiceId = 54; //For Live DigiID
+// export const digiGoldServiceId = 57; //For Staging DigiID
 export const currentAppVersion = pakcage.version;
 
 export const jharkandOpCode = "JBVNL0000JHA01";
