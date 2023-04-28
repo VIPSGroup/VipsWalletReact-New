@@ -7,7 +7,6 @@ import {
   BuyDigiGold,
   CheckIfscCode,
   fetchGoldSilverRates,
-  GetCouponList,
   GetUserBankList,
   SellDigiGold,
   UpdateBankAccountDetails,
@@ -644,7 +643,12 @@ const OrderSummary = () => {
   // };
 
   // console.log(window.location.pathname, "window.location.hash")
-  return localStorage.getItem("valueType") ? (
+  useEffect(() => {
+    return () => {
+      window.history.replaceState({}, state);
+    };
+  }, []);
+  return state ? (
     <>
       <div className="">
         <section class="digi-gold-section-wrapper buy-sell-form">

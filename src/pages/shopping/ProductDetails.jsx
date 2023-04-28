@@ -151,7 +151,7 @@ const ProductDetails = () => {
     const recentProducts = JSON.parse(localStorage.getItem("recent"));
     recentProducts &&
       recentProducts.map((p, i) => {
-        if (productParam.Id == p.Id) {
+        if (productParam?.Id == p?.Id) {
           return true;
         }
         return false;
@@ -173,7 +173,7 @@ const ProductDetails = () => {
   const clearRecentlyViewed = () => {
     const recentProducts = JSON.parse(localStorage.getItem("recent"));
     const unique2 = recentProducts.filter((obj, index) => {
-      return index === recentProducts.findIndex((o) => obj.Id === o.Id);
+      return index === recentProducts.findIndex((o) => obj?.Id === o?.Id);
     });
 
     localStorage.setItem("recent", JSON.stringify(unique2));
@@ -290,7 +290,6 @@ const ProductDetails = () => {
       }
     }
   };
-  console.log(state, "state");
   useEffect(() => {
     getSRecommendedProduct();
     ReactGA.pageview(window.location.pathname);
@@ -304,10 +303,10 @@ const ProductDetails = () => {
       clearRecentlyViewed();
       setProductObj(response?.Data);
 
-      if (p.Size) {
+      if (p?.Size) {
         getSizes(response?.Data?.ProductDetails?.Size);
       }
-      if (p.Color) {
+      if (p?.Color) {
         getColors(response?.Data?.ProductDetails?.Color);
       }
       getProductImages(response?.Data?.ProductDetails);
