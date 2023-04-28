@@ -470,7 +470,7 @@ if(isUserExist && isUserExist[1]){
                         <label class="custom-control-label " for="customCheck1">
                           {" "}
                           By clicking signup you agree to{" "}
-                          <Link to="/termscondtion">Terms & Conditions</Link>{" "}
+                          <Link to="/termscondition" target='_blank'>Terms & Conditions</Link>{" "}
                         </label>
                       </div>
                     </div>

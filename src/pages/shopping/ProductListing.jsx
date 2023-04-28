@@ -13,7 +13,7 @@ import "react-multi-carousel/lib/styles.css";
 import ProductCard from "../../components/Cards/ProductCard";
 import Footer from "../../components/layout/Footer/Footer";
 import { LatestLoading } from "../../components/common/Loading";
-import { Card, Row, Select } from "antd";
+import { Card, Row, Select, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getProductsByCategory,
@@ -24,6 +24,7 @@ import { Loading } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 const ProductListing = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false)
   const [subCategories, setSubCategories] = useState([]);
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
@@ -57,10 +58,13 @@ const ProductListing = () => {
 
   let { categoryName, categoryId } = useParams();
   useEffect(() => {
+    setLoading(true)
     ReactGA.pageview(window.location.pathname);
     dispatch(getSubCategory(categoryId));
+
     getProductsByCategory(categoryId).then((response) => {
       // setLoading(false)
+
       setCategoryProducts(response.Data);
       setActiveProducts(response.Data);
     });
@@ -181,7 +185,7 @@ const ProductListing = () => {
                   <div class="shopping-catagory-nav-outer catagory-nav-scroller">
                     {subCategories &&
                       subCategories.map((c, i) => (
-                        <div class="shopping-catagory-box">
+                        <div class="shopping-catagory-box" onClick={()=>{console.log(c.CategoryID)}}>
                           <button
                             onClick={handleSubCategoryClick}
                             value={c.Id}
@@ -230,12 +234,16 @@ const ProductListing = () => {
   return (
     <div className="color-body">
       {shoppingSubCategoryBar()}
-      {activeProducts?.length !== 0 && activeProducts !== undefined ? (
+      <Spin spinning={loading}>
+      {activeProducts?.length !== 0 && activeProducts !== undefined && (
         productsDisplay()
+
       ) : (
         // <LatestLoading />
         <Loading />
+
       )}
+      </Spin>
     </div>
   );
 };

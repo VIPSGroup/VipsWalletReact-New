@@ -121,7 +121,7 @@ const rechargeSlice = createSlice({
     },
     mobileRechargePlans:{
       loading: false,
-      rechargePlans: {},
+      rechargePlans: [],
       error: "",
     },
     specialRechargePlans:{

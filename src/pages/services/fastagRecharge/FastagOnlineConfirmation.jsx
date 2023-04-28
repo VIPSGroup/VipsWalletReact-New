@@ -53,7 +53,7 @@ const FastagOnlineConfirmation = ({setIsCommonTopNav}) => {
     const paymentRefId = getRandomNumber();
 dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,billAmount:amt,inputObj:inputFields,paymentRef:paymentRefId,refId:props?.billData.TransactionId,operatorCode:props?.operatorId,mobNo:props?.number,pointType:selectedDiscount}))
   };
-
+console.error(discount);
   const handlePaymentMethod = (e) => {
     if (balance < amt) {
       if (selectedPaymentMethod == "both" && e.target.value == "wallet") {
@@ -105,7 +105,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
         setIsCommonTopNav(true)}
   }, []);
   useEffect(() => {
-    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
+    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount,serviceId:fastagServiceId}))
     if(data?.Data){
       manageInitialPaymentMethod(data?.Data?.Balance);
     }
@@ -144,9 +144,9 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
         <div class="container">
           <div class="payment-head-outer">
             <div class="payment-head">
-              {/* <Link class="" to="#">
+              <Link class="" to="/">
               <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
-            </Link> */}
+            </Link>
               <div class="go-back">
                 <Link to="/services/fastag">
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
@@ -427,7 +427,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                             "Confirm Payment"
                           )}{" "}
                         </button> */}
-                        <ThemeButton onClick={handleClickConfirm} loading={reLoading} value={"Confirm Payment"}/>
+                        <ThemeButton  disabled={amt > data?.Data?.Balance} onClick={handleClickConfirm} loading={reLoading} value={"Confirm Payment"}/>
                       </div>
                       {showError()}
                     </div>

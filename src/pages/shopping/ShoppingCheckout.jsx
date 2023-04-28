@@ -84,7 +84,7 @@ const ShoppingCheckout = () => {
 
   const clickConfirmPayment = (e) => {
     e.preventDefault();
-
+console.log("______________________");
     setLoading(true);
     const orderDetailsArray = [];
     var chargesIndex = 3;
@@ -410,7 +410,6 @@ const ShoppingCheckout = () => {
                 </div>
               </div>
             </div>
-{JSON.stringify}
             <div class="col-sm-12 col-md-12 col-lg-4 ">
               {/* <div class="shopping-payment-right"> */}
                 <div class="shopping-payment-right-sticky box-shadow-1">
@@ -547,7 +546,7 @@ const ShoppingCheckout = () => {
                         >
                           {loading ? <LoadingBar /> : "Confirm Payment"}
                         </button> */}
-                        <ThemeButton onClick={clickConfirmPayment} loading={loading} value={"Confirm Payment"}/>
+                        <ThemeButton onClick={clickConfirmPayment} loading={loading} disabled={amount>balance} value={"Confirm Payment"}/>
                       </div>
                     </div>
                   </div>

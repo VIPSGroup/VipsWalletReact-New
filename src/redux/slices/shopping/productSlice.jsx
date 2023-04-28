@@ -116,6 +116,7 @@ export const getProductsBySubCategory = createAsyncThunk(
     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
     formData.append("SubCategoryid", subCategoryId);
 
+
     try {
       const res = await axios.post(
         `${baseApiUrl}/EcommerceServices/ProductViaSubCategory`,
@@ -125,6 +126,7 @@ export const getProductsBySubCategory = createAsyncThunk(
     } catch (error) {
       return error;
     }
+
   }
 );
 export const getProductsByCategory = (categoryId) => {

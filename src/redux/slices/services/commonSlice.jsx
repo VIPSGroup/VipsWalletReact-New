@@ -40,16 +40,15 @@ export const getServiceDiscounts = createAsyncThunk(
       let shoppingDiscount;
       let finalAmount;
       let primePointDiscount;
-
-      let result = res.data.Data.filter((r) => r.Id === 1)[0];
+      let result = res?.data?.Data?.filter((r) => r.Id === serviceId)[0];
       if (discountType === "SHOPPING") {
         const shoppDisocunt = (result.ShoppingPer / 100) * amt;
         if (shoppDisocunt <= Data?.Shoppingpoints) {
           shoppingDiscount = getDouble(shoppDisocunt);
           finalAmount = amt - shoppDisocunt;
         } else {
-          shoppingDiscount = Data.Shoppingpoints;
-          finalAmount = amt - Data.Shoppingpoints;
+          shoppingDiscount = Data?.Shoppingpoints;
+          finalAmount = amt - Data?.Shoppingpoints;
         }
       }
       if (discountType === "PRIME") {
@@ -101,7 +100,7 @@ export const getServiceDiscounts = createAsyncThunk(
       formData.append("AppType", appType);
       try {
         const res = await axios.post(
-          `${baseApiUrl}/Recharge/GetAllRecharge,formData`);
+          `${baseApiUrl}/Recharge/GetAllRecharge`,formData);
         return res.data
       } catch (error) {
         return error;
@@ -143,7 +142,6 @@ export const getServiceName = createAsyncThunk(
       const res = await axios.post(
         `${baseApiUrl}/OperatorServices/GetServiceName`
       );
-      console.log(res.data, "data")
       return res.data.Data.find((a) => a.Id === digiGoldServiceId);
     } catch (error) {
       return error;

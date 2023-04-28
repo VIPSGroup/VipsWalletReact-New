@@ -54,7 +54,7 @@ const AddShippingAddressModal = () => {
             setErrorMsg("")
             setIsSnackBar(true);
             setSuccessMsg(response.Remarks);
-            window.location.reload();
+            // window.location.reload();
           } else {
             setSuccessMsg("")
             setIsSnackBar(true);

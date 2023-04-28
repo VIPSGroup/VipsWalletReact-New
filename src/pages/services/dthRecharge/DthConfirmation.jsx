@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getDouble, googleAnalytics } from "../../../constants";
+import { dthServiceId, getDouble, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import { Loading, MuiSnackBar, ThemeButton } from "../../../components/common";
@@ -107,7 +107,7 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
   useEffect(() => {
     if (data.Data) {
       manageInitialPaymentMethod(data?.Data?.Balance);
-      dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount }));
+      dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount ,serviceId:dthServiceId}));
     }
     if (rechargeData && showSuccess) {
       if (rechargeData.ResponseStatus == 1) {
@@ -159,9 +159,9 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
         <div class="container">
           <div class="payment-head-outer">
             <div class="payment-head">
-              {/* <Link class="" to="#">
+              <Link class="" to="/">
               <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
-            </Link> */}
+            </Link>
               <div class="go-back">
                 <Link to="/services/dth">
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
@@ -433,7 +433,7 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
                             "Confirm Payment"
                           )}{" "}
                         </button> */}
-                        <ThemeButton onClick={handleClickConfirm} loading={loading} value={"Confirm Payment"}/>
+                        <ThemeButton  disabled={amt > data?.Data?.Balance} onClick={handleClickConfirm} loading={loading} value={"Confirm Payment"}/>
                       </div>
                     </div>
                   </div>
