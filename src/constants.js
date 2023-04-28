@@ -469,7 +469,7 @@ const termsAndConditions = "Terms And Conditions";
 const DigitermsAndConditions = "DigiGold Terms And Conditions";
 const Digifaq = "DigiGold FAQs";
 
-export const appType = "Website";
+export const appType = "WebSite";
 
 export const electronicCategoryId = 53;
 export const fashionCategoryId = 43;
@@ -501,17 +501,7 @@ export const getTermsConditionsId = (type) => {
 };
 
 export const googleAnalytics = "UA-220725992-1";
-export function getFixedDecimalNumber(input, precision) {
-  if (input.toString().split(".").pop().length > precision) {
-    return parseFloat(
-      input
-        .toString()
-        .substring(0, input.toString().indexOf(".") + precision + 1)
-    );
-  } else {
-    return input;
-  }
-}
+
 // Amount Round
 export function digitPrecision(data, type) {
   if (type === "amount") {

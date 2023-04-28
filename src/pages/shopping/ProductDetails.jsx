@@ -296,7 +296,9 @@ const ProductDetails = () => {
     var p = {};
     setLoading(true);
     getSingleProductData(productId).then((response) => {
+
       setLoading(false);
+
       p = response?.Data?.ProductDetails;
       setProduct(response?.Data?.ProductDetails);
       manageRecentlyViewed(response?.Data?.ProductDetails);
@@ -392,7 +394,7 @@ const ProductDetails = () => {
 
             <div class="col-lg-6">
               <div class="product-details-info-outer">
-                <h1 class="product-details-title">{product.Name}</h1>
+                <h1 class="product-details-title">{product?.Name}</h1>
                 <div class="product-details-info-box">
                   <div class="product-details-price">
                     <span class="mr-2">
@@ -401,6 +403,7 @@ const ProductDetails = () => {
                       {product?.SalePrice &&
                         product?.SalePrice.toLocaleString()}
                     </span>
+
 
                     {product?.CostPrice !== 0 && (
                       <>
@@ -419,6 +422,7 @@ const ProductDetails = () => {
                     )}
 
                     {product.ShoppingAmt > 0 && (
+
                       <span class="product-details-cb-badge">
                         {" "}
                         CB &#x20B9;{product?.ShoppingAmt}{" "}
@@ -554,10 +558,10 @@ const ProductDetails = () => {
                         src="/images/shopping/delivery-icon.svg"
                         class="img-fluid"
                       />{" "}
-                      Delivery By <span> {product.DeliveryEnd} </span>{" "}
+                      Delivery By <span> {product?.DeliveryEnd} </span>{" "}
                     </p>
                     <p class="mb-0">
-                      Sold By <span>{product.Soldby} </span>{" "}
+                      Sold By <span>{product?.Soldby} </span>{" "}
                     </p>
                   </div>
                 </div>
