@@ -433,7 +433,7 @@ const DthConfirmation = ({setIsCommonTopNav}) => {
                             "Confirm Payment"
                           )}{" "}
                         </button> */}
-                        <ThemeButton onClick={handleClickConfirm} loading={loading} value={"Confirm Payment"}/>
+                        <ThemeButton  disabled={amt > data?.Data?.Balance} onClick={handleClickConfirm} loading={loading} value={"Confirm Payment"}/>
                       </div>
                     </div>
                   </div>

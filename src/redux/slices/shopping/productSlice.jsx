@@ -94,15 +94,23 @@ export const getProductsBySubCategory = createAsyncThunk(
     const formData = new FormData();
     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
     formData.append("SubCategoryid", subCategoryId);
-    try {
-      const res = await axios.post(
-        `${baseApiUrl}/EcommerceServices/ProductViaSubCategory`,
-        formData
-      );
-      return res.data;
-    } catch (error) {
-      return error;
-    }
+    // try {
+    //   const res = await axios.post(
+    //     `${baseApiUrl}/EcommerceServices/ProductViaSubCategory`,
+    //     formData
+    //   );
+    //   return res.data;
+    // } catch (error) {
+    //   return error;
+    // }
+    return fetch(`${baseApiUrl}/EcommerceServices/ProductViaSubCategory`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .catch((err) => {});
   }
 );
 export const getProductsByCategory = (categoryId) => {

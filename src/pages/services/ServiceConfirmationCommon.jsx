@@ -458,7 +458,7 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
 
                     <div class="col-md-12">
                       <div class="mobile-payment-confirm-btn">
-                        <ThemeButton loading={gasLoading || commonLoading} value={"Confirm Payment"} onClick={handleClickConfirm}/>
+                        <ThemeButton  disabled={amt > data?.Data?.Balance} loading={gasLoading || commonLoading} value={"Confirm Payment"} onClick={handleClickConfirm}/>
                         {/* <button
                           onClick={!gasLoading && handleClickConfirm}
                           type="button"

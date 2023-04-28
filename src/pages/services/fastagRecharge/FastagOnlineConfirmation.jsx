@@ -341,7 +341,6 @@ console.error(discount);
                           </span>
                         </div>
                       </div>
-                      {JSON.stringify(discount)}
                       {selectedDiscount === "SHOPPING" ? (
                         <div class="row mb-3">
                           <div class="col-8 col-xs-4">
@@ -428,7 +427,7 @@ console.error(discount);
                             "Confirm Payment"
                           )}{" "}
                         </button> */}
-                        <ThemeButton onClick={handleClickConfirm} loading={reLoading} value={"Confirm Payment"}/>
+                        <ThemeButton  disabled={amt > data?.Data?.Balance} onClick={handleClickConfirm} loading={reLoading} value={"Confirm Payment"}/>
                       </div>
                       {showError()}
                     </div>

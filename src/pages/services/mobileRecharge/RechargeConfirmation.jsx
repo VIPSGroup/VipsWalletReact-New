@@ -476,6 +476,7 @@ setErrorMsg("Something Went wrong, Please try again later")
                           )}{" "}
                         </button> */}
                         <ThemeButton
+                        disabled={amt > data?.Data?.Balance}
                           loading={loading}
                           onClick={handleClickConfirm}
                           value={"Confirm Payment"}

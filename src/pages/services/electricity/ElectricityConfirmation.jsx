@@ -444,7 +444,7 @@ return ()=>{setShowSuccess(false)
                             "Confirm Payment"
                           )}{" "}
                         </button> */}
-                        <ThemeButton loading={reLoading} value={'Confirm Payment'} onClick={handleClickConfirm}/>
+                        <ThemeButton loading={reLoading} value={'Confirm Payment'} onClick={handleClickConfirm}  disabled={amt > data?.Data?.Balance}/>
                       </div>
                       {showError()}
                     </div>

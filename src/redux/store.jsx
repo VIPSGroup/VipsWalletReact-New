@@ -63,6 +63,7 @@ const store = configureStore({
     DeliverySlice: DeliverySlice,
     DigiGiftSlice: DigiGiftSlice,
     coreSlice: coreSlice,
+    getCategoryIdSlice:getCategoryIdSlice
   },
 });
 

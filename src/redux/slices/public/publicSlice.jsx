@@ -5,11 +5,11 @@ import { baseApiUrl } from "../../../constants";
 export const getDynamicContent = createAsyncThunk(
   "getDynamicContent",
   async (value) => {
-    console.log(value, "value");
     try {
       const res = await axios.post(
         `${baseApiUrl}/EcommerceServices/AllTermsAndCondition`
       );
+      console.error(res.data);
       return [res.data, value];
     } catch (error) {}
   }
@@ -28,7 +28,7 @@ const publicSlice = createSlice({
       state.termscondition.loading = true;
     });
     builder.addCase(getDynamicContent.fulfilled, (state, action) => {
-      console.log(action.payload, "action Payload")
+    console.error(action.payload[0].Data.find(item=>item.Type==="Terms And Conditions"));
       let collection = action.payload[0].Data.find(
         (element) => element.Type === action.payload[1]
       );

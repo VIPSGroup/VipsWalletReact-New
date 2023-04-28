@@ -130,7 +130,7 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
       setIsSnackBar(true);
       setSuccessMsg(response.Remarks);
     }
-    if(loginUsernameFormik.values.username?.length!==10){
+    if(loginUsernameFormik.values.username?.length==9){
       loginPasswordFormik.values.password=''
       dispatch(resetState());
     }

@@ -641,11 +641,11 @@ const Router = () => {
           element={<TermsAndConditions title="About Us" type="aboutus" />}
         />
         <Route
-          path="/termscondtion"
+          path="/termscondition"
           element={
             <TermsAndConditions
               title="Terms & Conditions"
-              type="termscondtion"
+              type="Terms And Conditions"
             />
           }
         />

@@ -100,7 +100,7 @@ export const getServiceDiscounts = createAsyncThunk(
       formData.append("AppType", appType);
       try {
         const res = await axios.post(
-          `${baseApiUrl}/Recharge/GetAllRecharge,formData`);
+          `${baseApiUrl}/Recharge/GetAllRecharge`,formData);
         return res.data
       } catch (error) {
         return error;
