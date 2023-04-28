@@ -5,7 +5,9 @@ import OTPInput, { ResendOTP } from "otp-input-react";
 import { loginUser, loginWithOtp } from "../../redux/slices/profile/loginSlice";
 import { Loading, MuiSnackBar, ThemeButton } from "../common";
 
+
 const Otp = ({ userName, password,setFormCount }) => {
+
   const [otp, setOtp] = useState("");
   const [ip, setIp] = useState("");
   // const [toggle, setToggle] = useState(false);
@@ -19,7 +21,7 @@ const Otp = ({ userName, password,setFormCount }) => {
  (state) => state.loginSlice.loggetInWithOTP
   );
   useEffect(() => {
-    if (loggedInUser === false && toggle ) {
+    if (loggedInUser === false && toggle) {
       if (!loggedInUser.Id) {
         setIsSnackBar(true);
         setErrorMessage("Invalid OTP");
@@ -34,7 +36,7 @@ const Otp = ({ userName, password,setFormCount }) => {
       setsuccessMessage("Login Successful")
       navigate("/");
     }
-  }, [loggedInUser,toggle]);
+  }, [loggedInUser, toggle]);
 
   const renderTime2 = () => React.Fragment;
   const renderButton2 = (buttonProps) => {
@@ -51,11 +53,13 @@ const Otp = ({ userName, password,setFormCount }) => {
               </span>
             </p>
           ) : (
-            <p onClick={()=>{console.log("in")}}> 
+
+            <p onClick={() => {}}>
               Not received OTP?{" "}
-              <a>
+              <a {...buttonProps}>
                 <span
-                  style={{ color: "#CA3060" }}
+                  style={{ color: "#CA3060", cursor: "pointer" }}
+
                   onClick={(e) => {
                     e.preventDefault()
                     setOtp("")

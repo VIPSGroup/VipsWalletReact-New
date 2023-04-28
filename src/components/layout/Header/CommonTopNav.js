@@ -255,7 +255,7 @@ const CommonTopNav = ({
                       <Link
                         style={{
                           borderBottom:
-                            pathname === "/vipsgold" && "2px solid #CA3060",
+                            (pathname === "/vipsgold" || pathname === '/vipsgold-order-summary') && "2px solid #CA3060",
                         }}
                         class="nav-link"
                         to="/vipsgold"

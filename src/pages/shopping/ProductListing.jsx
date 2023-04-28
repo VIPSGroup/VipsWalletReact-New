@@ -17,6 +17,7 @@ import { Card, Row, Select, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getProductsByCategory,
+  getRecomId,
   getSubCategory,
 } from "../../redux/slices/shopping/productSlice";
 import { Loading } from "../../components/common";
@@ -41,6 +42,11 @@ const ProductListing = () => {
       setSelectedSubCategoryId(e.currentTarget.value);
       const pro = loadSubCategoryProducts(e.currentTarget.value);
       setActiveProducts(pro);
+      const data = {
+        type: "subcategory",
+        id: parseFloat(e.currentTarget.value),
+      };
+      dispatch(getRecomId(data));
     }
   };
 
@@ -55,11 +61,13 @@ const ProductListing = () => {
     setLoading(true)
     ReactGA.pageview(window.location.pathname);
     dispatch(getSubCategory(categoryId));
-    getProductsByCategory(categoryId).then(response=>{
-      setLoading(false)
+
+    getProductsByCategory(categoryId).then((response) => {
+      // setLoading(false)
+
       setCategoryProducts(response.Data);
       setActiveProducts(response.Data);
-    })
+    });
   }, []);
   useEffect(() => {
     setSubCategories(data.Data);
@@ -102,21 +110,26 @@ const ProductListing = () => {
     }
   };
 
-  const shoppingSubCategoryBar = () => (
-    <>
-      <div class="section shopping-catagory-nav">
-        <div class="container-fluid">
-          <div class="row d-none d-sm-block">
-            <div class="col-md-12">
-              <div class="shopping-catagory-nav-outer">
-                {subCategories && (
-                  <Carousel swipeable={false} draggable={false}
-                    responsive={responsive}
-                    infinite={true}
-                    slidesToSlide={2}
-                    className="container"
-                  >
-                    {/* { <div class="shopping-catagory-box" >
+  const shoppingSubCategoryBar = () => {
+    console.log("subcategory");
+    return (
+      <>
+        <>
+          <div class="section shopping-catagory-nav">
+            <div class="container-fluid">
+              <div class="row d-none d-sm-block">
+                <div class="col-md-12">
+                  <div class="shopping-catagory-nav-outer">
+                    {subCategories && (
+                      <Carousel
+                        swipeable={false}
+                        draggable={false}
+                        responsive={responsive}
+                        infinite={true}
+                        slidesToSlide={2}
+                        className="container"
+                      >
+                        {/* { <div class="shopping-catagory-box" >
                             <button onClick={handleSubCategoryClick} value="all"  type="button" >
                               <div>
                               <img  src={`/images/logos/vips-logo-small.png`} />
@@ -124,6 +137,52 @@ const ProductListing = () => {
                               </div>
                             </button>
                           </div>} */}
+                        {subCategories &&
+                          subCategories.map((c, i) => (
+                            <div class="shopping-catagory-box">
+                              <button
+                                onClick={handleSubCategoryClick}
+                                value={c.Id}
+                                type="button"
+                              >
+                                <div>
+                                  <img
+                                    src={
+                                      ` http://shopadmin.vipswallet.com/Content/Images/subcategories/` +
+                                      c.ImageUrl
+                                    }
+                                  />
+                                  <span class="shopping-catagory-box-title">
+                                    {c.Name}
+                                  </span>
+                                </div>
+                              </button>
+                            </div>
+                          ))}
+                      </Carousel>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="container">
+                <Row align={"middle"}>
+                  <Select
+                    size="middle"
+                    defaultValue="Recommended"
+                    style={{ width: 160 }}
+                    onChange={handleChange}
+                    options={[
+                      { value: "lowtohigh", label: "Price : Low to High" },
+                      { value: "hightolow", label: "Price : High to Low" },
+                      // { value: "new", label: "Newest Arrivals" },
+                    ]}
+                  />
+                </Row>
+              </div>
+              {/* -- catagorie nav for mobile view start -- */}
+              <div class="row d-block d-sm-none">
+                <div class="col-md-12">
+                  <div class="shopping-catagory-nav-outer catagory-nav-scroller">
                     {subCategories &&
                       subCategories.map((c, i) => (
                         <div class="shopping-catagory-box" onClick={()=>{console.log(c.CategoryID)}}>
@@ -146,60 +205,16 @@ const ProductListing = () => {
                           </button>
                         </div>
                       ))}
-                  </Carousel>
-                )}
+                  </div>
+                </div>
               </div>
+              {/* -- catagorie nav for mobile view end -- */}
             </div>
           </div>
-          <div className="container">
-            <Row align={"middle"}>
-              <Select
-                size="middle"
-                defaultValue="Recommended"
-                style={{ width: 160 }}
-                onChange={handleChange}
-                options={[
-                  { value: "lowtohigh", label: "Price : Low to High" },
-                  { value: "hightolow", label: "Price : High to Low" },
-                  // { value: "new", label: "Newest Arrivals" },
-                ]}
-              />
-            </Row>
-          </div>
-          {/* -- catagorie nav for mobile view start -- */}
-          <div class="row d-block d-sm-none">
-            <div class="col-md-12">
-              <div class="shopping-catagory-nav-outer catagory-nav-scroller">
-                {subCategories &&
-                  subCategories.map((c, i) => (
-                    <div class="shopping-catagory-box">
-                      <button
-                        onClick={handleSubCategoryClick}
-                        value={c.Id}
-                        type="button"
-                      >
-                        <div>
-                          <img
-                            src={
-                              ` http://shopadmin.vipswallet.com/Content/Images/subcategories/` +
-                              c.ImageUrl
-                            }
-                          />
-                          <span class="shopping-catagory-box-title">
-                            {c.Name}
-                          </span>
-                        </div>
-                      </button>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div>
-          {/* -- catagorie nav for mobile view end -- */}
-        </div>
-      </div>
-    </>
-  );
+        </>
+      </>
+    );
+  };
 
   const productsDisplay = () => (
     <>
@@ -207,9 +222,9 @@ const ProductListing = () => {
         <div class="container">
           <div class="row">
             {activeProducts &&
-              activeProducts?.filter(product=>product.Quantity!==0).map((product, i) => (
-                <ProductCard product={product} />
-              ))}
+              activeProducts
+                ?.filter((product) => product.Quantity !== 0)
+                .map((product, i) => <ProductCard product={product} />)}
           </div>
         </div>
       </section>
@@ -222,6 +237,11 @@ const ProductListing = () => {
       <Spin spinning={loading}>
       {activeProducts?.length !== 0 && activeProducts !== undefined && (
         productsDisplay()
+
+      ) : (
+        // <LatestLoading />
+        <Loading />
+
       )}
       </Spin>
     </div>
