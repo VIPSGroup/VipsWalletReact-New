@@ -115,50 +115,47 @@ export const getProductsBySubCategory = createAsyncThunk(
     const formData = new FormData();
     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
     formData.append("SubCategoryid", subCategoryId);
-
-
-    try {
-      const res = await axios.post(
-        `${baseApiUrl}/EcommerceServices/ProductViaSubCategory`,
-        formData
-      );
-      return res.data;
-    } catch (error) {
-      return error;
-    }
+    return fetch(`${baseApiUrl}/EcommerceServices/ProductViaSubCategory`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .catch((err) => {});
 
   }
 );
-export const getProductsByCategory = (categoryId) => {
-  const formData = new FormData();
+export const getProductsByCategory = createAsyncThunk(
+  "getProductsByCategory",
+  async (categoryId) => {
+    const formData = new FormData();
   formData.append("tocken", "XMCNBVGDTE734BCU65DW");
   formData.append("Categoryid", categoryId);
-  return fetch(`${baseApiUrl}/EcommerceServices/ProductViaCategory`, {
-    method: "POST",
-    body: formData,
-  })
-    .then((data) => {
-      return data.json();
+    return fetch(`${baseApiUrl}/EcommerceServices/ProductViaCategory`, {
+      method: "POST",
+      body: formData,
     })
-    .catch((err) => {});
-};
-// export const getProductsByCategory = createAsyncThunk(
-//   "getProductsByCategory",
-//   async (categoryId) => {
-//     const formData = new FormData();
-//     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
-//     formData.append("Categoryid", categoryId);
-//     try {
-//       const res = await axios.post(
-//         `${baseApiUrl}/EcommerceServices/ProductViaCategory`,
-//         formData
-//       );
-//       return res.data;
-//     } catch (error) {
-//       return error;
-//     }
-//   }
-// );
+      .then((data) => {
+        return data.json();
+      })
+      .catch((err) => {});
+
+  }
+);
+// export const getProductsByCategory = (categoryId) => {
+//   const formData = new FormData();
+//   formData.append("tocken", "XMCNBVGDTE734BCU65DW");
+//   formData.append("Categoryid", categoryId);
+//   return fetch(`${baseApiUrl}/EcommerceServices/ProductViaCategory`, {
+//     method: "POST",
+//     body: formData,
+//   })
+//     .then((data) => {
+//       return data.json();
+//     })
+//     .catch((err) => {});
+// };
 
 export const getNewArrivalProducts = createAsyncThunk(
   "getNewArrivalProducts",
@@ -213,13 +210,13 @@ const productSlice = createSlice({
       error: "",
     },
     subCategoryByProduct: {
-      activeProducts: [],
-      loading: false,
+      subCategoryProducts: {},
+      subLoading: false,
       error: "",
     },
     categoryByProduct: {
-      data: [],
-      loading: false,
+      catProducts: [],
+      catLoading: false,
       error: "",
     },
     newArrivalProduct: {
@@ -245,7 +242,7 @@ const productSlice = createSlice({
     },
     removeId: (state, action) => {
       state.recommendedCatId = "";
-    },
+    }
   },
   extraReducers: (builder) => {
     // Get Promotional Data
@@ -275,27 +272,29 @@ const productSlice = createSlice({
 
     // Get Product By Sub Category
     builder.addCase(getProductsBySubCategory.pending, (state, action) => {
-      state.subCategoryByProduct.loading = true;
+      state.subCategoryByProduct.subLoading = true;
     });
     builder.addCase(getProductsBySubCategory.fulfilled, (state, action) => {
-      state.subCategoryByProduct.activeProducts = action.payload;
-      state.subCategoryByProduct.loading = false;
+      state.subCategoryByProduct.subCategoryProducts = action.payload;
+      state.subCategoryByProduct.subLoading = false;
     });
     builder.addCase(getProductsBySubCategory.rejected, (state, action) => {
+      state.subCategoryByProduct.subLoading = false;
       state.subCategoryByProduct.error = action.error;
     });
 
     // Get Product By Category
-    // builder.addCase(getProductsByCategory.pending, (state, action) => {
-    //   state.categoryByProduct.loading = true;
-    // });
-    // builder.addCase(getProductsByCategory.fulfilled, (state, action) => {
-    //   state.categoryByProduct.data = action.payload;
-    //   state.categoryByProduct.loading = false;
-    // });
-    // builder.addCase(getProductsByCategory.rejected, (state, action) => {
-    //   state.categoryByProduct.error = action.error;
-    // });
+    builder.addCase(getProductsByCategory.pending, (state, action) => {
+      state.categoryByProduct.loading = true;
+    });
+    builder.addCase(getProductsByCategory.fulfilled, (state, action) => {
+      state.categoryByProduct.catProducts = action.payload;
+      state.categoryByProduct.loading = false;
+    });
+    builder.addCase(getProductsByCategory.rejected, (state, action) => {
+      state.categoryByProduct.error = action.error;
+      state.categoryByProduct.loading = false;
+    });
 
     // Get new Arrival Product
     builder.addCase(getNewArrivalProducts.pending, (state, action) => {
@@ -332,5 +331,5 @@ const productSlice = createSlice({
     });
   },
 });
-export const { getRecomId, removeId } = productSlice.actions;
+export const { getRecomId, removeId} = productSlice.actions;
 export default productSlice.reducer;

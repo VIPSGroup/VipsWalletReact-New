@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-// import { getSubCategory } from "../../apiData/shopping/category";
 import {
   getNewArrivalProducts,
-  getProductsBySubCategory,
+  // getProductsBySubCategory,
 } from "../../apiData/shopping/product";
 
 import ReactGA from "react-ga";
@@ -11,12 +10,11 @@ import { googleAnalytics } from "../../constants";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ProductCard from "../../components/Cards/ProductCard";
-import Footer from "../../components/layout/Footer/Footer";
-import { LatestLoading } from "../../components/common/Loading";
 import { Card, Row, Select, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getProductsByCategory,
+  getProductsBySubCategory,
   getRecomId,
   getSubCategory,
 } from "../../redux/slices/shopping/productSlice";
@@ -24,15 +22,18 @@ import { Loading } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 const ProductListing = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const [subCategories, setSubCategories] = useState([]);
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState("");
   const { data } = useSelector((state) => state.productSlice.GetSubCat);
-  // const { data: getproByCat } = useSelector(
-  //   (state) => state.productSlice.categoryByProduct
-  // );
+  const { subCategoryProducts,subLoading } = useSelector(
+    (state) => state.productSlice.subCategoryByProduct
+  );
+  const { catProducts,loading } = useSelector(
+    (state) => state.productSlice.categoryByProduct
+  );
   const handleSubCategoryClick = (e) => {
     e.preventDefault();
     if (e.currentTarget.value == "all") {
@@ -51,24 +52,36 @@ const ProductListing = () => {
   };
 
   const loadSubCategoryProducts = (subCategoryId) => {
-    getProductsBySubCategory(subCategoryId).then((response) => {
-      setActiveProducts(response.Data);
-    });
+    dispatch(getProductsBySubCategory(subCategoryId))
   };
 
   let { categoryName, categoryId } = useParams();
   useEffect(() => {
-    setLoading(true)
+    console.warn("___________");
+    // setLoading(true)
     ReactGA.pageview(window.location.pathname);
     dispatch(getSubCategory(categoryId));
-
-    getProductsByCategory(categoryId).then((response) => {
-      // setLoading(false)
-
-      setCategoryProducts(response.Data);
-      setActiveProducts(response.Data);
-    });
+    setActiveProducts([])
+    dispatch(getProductsByCategory(categoryId))
+    // getProductsByCategory(categoryId).then((response) => {
+    //   setLoading(false)
+    //   setCategoryProducts(response.Data);
+    //   setActiveProducts(response.Data);
+    // });
   }, []);
+  console.log(activeProducts);
+  useEffect(() => {
+    if(subCategoryProducts?.ResponseStatus===1){
+      setActiveProducts(subCategoryProducts?.Data)
+    }
+  }, [subCategoryProducts])
+  useEffect(() => {
+    if(catProducts?.ResponseStatus===1){
+      setCategoryProducts(catProducts?.Data);
+      setActiveProducts(catProducts?.Data);
+    }
+  }, [catProducts])
+  
   useEffect(() => {
     setSubCategories(data.Data);
   }, [data]);
@@ -111,7 +124,6 @@ const ProductListing = () => {
   };
 
   const shoppingSubCategoryBar = () => {
-    console.log("subcategory");
     return (
       <>
         <>
@@ -185,7 +197,7 @@ const ProductListing = () => {
                   <div class="shopping-catagory-nav-outer catagory-nav-scroller">
                     {subCategories &&
                       subCategories.map((c, i) => (
-                        <div class="shopping-catagory-box" onClick={()=>{console.log(c.CategoryID)}}>
+                        <div class="shopping-catagory-box">
                           <button
                             onClick={handleSubCategoryClick}
                             value={c.Id}
@@ -233,16 +245,14 @@ const ProductListing = () => {
 
   return (
     <div className="color-body">
-      {shoppingSubCategoryBar()}
       <Spin spinning={loading}>
-      {activeProducts?.length !== 0 && activeProducts !== undefined && (
+      {shoppingSubCategoryBar()}
+      <Spin spinning={subLoading}>
+      {activeProducts?.length !== 0 && activeProducts !== undefined ? (
         productsDisplay()
 
-      ) : (
-        // <LatestLoading />
-        <Loading />
-
-      )}
+      ) : ( <Loading /> )}
+      </Spin>
       </Spin>
     </div>
   );
