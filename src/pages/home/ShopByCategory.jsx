@@ -12,8 +12,11 @@ import { Link } from "react-router-dom";
 
 import "../../assets/styles/home/shopByCategory.css";
 import "../../assets/styles/styles.css";
+import { getRecomId } from "../../redux/slices/shopping/productSlice";
+import { useDispatch } from "react-redux";
 
 const ShopByCategory = () => {
+  const dispatch = useDispatch();
   const [mobileScreen, setMobileScreen] = useState();
 
   useEffect(() => {
@@ -61,32 +64,47 @@ const ShopByCategory = () => {
           </div>
 
           <div class="shopby-outer">
-              <div class="row">
-            <div class="container-fluid shopby-carousel">
-              <Carousel swipeable={false} draggable={false}
-                responsive={responsive}
-                infinite={true}
-              >
- {ShopByCat.map((e, i) => {
-                  return (
-                    <div key={i} class="m-3">
-                      <div class="shopby-product">
-                        <Link to={e.route}>
-                          <div class="shopby-img">
-                            <img src={e.img} alt="Product" class="img-fluid" />
-                          </div>
-                          <div class="shopby-text">
-                            <div class="shopby-product-title">
-                              <h3>{e.title}</h3>
+            <div class="row">
+              <div class="container-fluid shopby-carousel">
+                <Carousel
+                  swipeable={false}
+                  draggable={false}
+                  responsive={responsive}
+                  infinite={true}
+                >
+                  {ShopByCat.map((e, i) => {
+                    return (
+                      <div
+                        onClick={() => {
+                          const data = {
+                            type: "category",
+                            id: parseFloat(e.route.split("/")[3]),
+                          };
+                          dispatch(getRecomId(data));
+                        }}
+                        key={i}
+                        class="m-3"
+                      >
+                        <div class="shopby-product">
+                          <Link to={e.route}>
+                            <div class="shopby-img">
+                              <img
+                                src={e.img}
+                                alt="Product"
+                                class="img-fluid"
+                              />
                             </div>
-                          </div>
-                        </Link>
+                            <div class="shopby-text">
+                              <div class="shopby-product-title">
+                                <h3>{e.title}</h3>
+                              </div>
+                            </div>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </Carousel>
-               
+                    );
+                  })}
+                </Carousel>
 
                 <div class="col-md-12 text-center mt-4">
                   <div class="view-all-btn">

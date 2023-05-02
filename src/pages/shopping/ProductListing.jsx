@@ -22,7 +22,7 @@ import { Loading } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 const ProductListing = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [subCategories, setSubCategories] = useState([]);
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
@@ -57,13 +57,14 @@ const ProductListing = () => {
 
   let { categoryName, categoryId } = useParams();
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     ReactGA.pageview(window.location.pathname);
     dispatch(getSubCategory(categoryId));
     setActiveProducts([])
     // dispatch(getProductsByCategory(categoryId))
     getProductsByCategory(categoryId).then((response) => {
       setLoading(false)
+
       setCategoryProducts(response.Data);
       setActiveProducts(response.Data);
     });
@@ -245,6 +246,7 @@ const ProductListing = () => {
         <div className="col-lg-2 offset-1 my-3"><h5>No Data Found</h5></div>
       </div>)}
       </Spin>
+
       </Spin>
     </div>
   );

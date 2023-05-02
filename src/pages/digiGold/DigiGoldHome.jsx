@@ -28,6 +28,7 @@ import UserNotExist from "../../components/digiGold/UserNotExist";
 import { DigiGiftSend } from "../../redux/slices/digiGold/gift/DigiGiftSlice";
 import OTPModal from "../../components/common/OTPModal";
 import SuccessModal from "../../components/digiGold/SuccessModal";
+import { CheckServiceEnableOrNot } from "../../redux/slices/coreSlice";
 
 export const HowItWorks = () => {
   return (
@@ -520,6 +521,10 @@ const DigiGoldHome = ({
     navigate("/vipsgold");
     setStep("");
   };
+
+  useEffect(() => {
+    dispatch(CheckServiceEnableOrNot());
+  }, []);
 
   return (
     <>

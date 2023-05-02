@@ -55,6 +55,7 @@ const Otp = ({ userName, password,setFormCount }) => {
           ) : (
 
             <p onClick={() => {}}>
+              
               Not received OTP?{" "}
               <a {...buttonProps}>
                 <span

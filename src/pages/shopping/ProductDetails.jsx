@@ -272,11 +272,8 @@ const ProductDetails = () => {
       }
     }
   };
-  useEffect(() => {
-    if(catProducts?.ResponseStatus===1){
-      setSimilar(catProducts?.Data)
-    }
-  }, [catProducts])
+
+
   useEffect(() => {
     getSRecommendedProduct();
     ReactGA.pageview(window.location.pathname);
@@ -292,10 +289,10 @@ const ProductDetails = () => {
       clearRecentlyViewed();
       setProductObj(response?.Data);
 
-      if (p.Size) {
+      if (p?.Size) {
         getSizes(response?.Data?.ProductDetails?.Size);
       }
-      if (p.Color) {
+      if (p?.Color) {
         getColors(response?.Data?.ProductDetails?.Color);
       }
       getProductImages(response?.Data?.ProductDetails);
