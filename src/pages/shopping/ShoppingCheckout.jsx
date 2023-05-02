@@ -399,7 +399,7 @@ console.log("______________________");
                             <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
-                                &#x20B9; {amount}{" "}
+                                &#x20B9; {amount.toLocaleString()}{" "}
                               </p>
                             </div>
                           </div>

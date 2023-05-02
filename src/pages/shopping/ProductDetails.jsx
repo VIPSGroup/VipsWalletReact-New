@@ -55,9 +55,9 @@ const ProductDetails = () => {
   const { activeProducts } = useSelector(
     (state) => state.productSlice.subCategoryByProduct
   );
-
-  // console.log(activeProducts, "activeProducts");
-  // console.log(recommendedCatId, "recommneded");
+  const { catProducts } = useSelector(
+    (state) => state.productSlice.categoryByProduct
+  );
   let navigate = useNavigate();
   let { productId, productName } = useParams();
   var imgArray = [];
@@ -215,28 +215,10 @@ const ProductDetails = () => {
     }
   };
 
-  // const getSimilarProduct = async (catNam) => {
-  //   console.log(catNam, "catNam");
-  //   let catId;
-  //   const res = await dispatch(getAllCategories());
-  //   const Allcategories =
-  //     res.payload.Data.Categories && res.payload.Data.Categories;
-  //   for (let index = 0; index < Allcategories.length; index++) {
-  //     const element = Allcategories[index];
-  //     if (catNam === element.Name) {
-  //       catId = element.Id;
-  //     }
-  //   }
-  //   getProductsByCategory(catId).then((response) => {
-  //     // setLoading(false)
-  //     // console.log(catId, 'catId')
-  //     setSimilar(response.Data);
-  //   });
-  // };
-
   const getSRecommendedProduct = () => {
     if (!state) {
       if (recommendedCatId.type === "category") {
+        // dispatch(getProductsByCategory(recommendedCatId.id))
         getProductsByCategory(recommendedCatId.id).then((response) => {
           setSimilar(response.Data);
         });
@@ -290,6 +272,8 @@ const ProductDetails = () => {
       }
     }
   };
+
+
   useEffect(() => {
     getSRecommendedProduct();
     ReactGA.pageview(window.location.pathname);

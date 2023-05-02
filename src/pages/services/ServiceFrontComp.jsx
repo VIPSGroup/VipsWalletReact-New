@@ -464,34 +464,13 @@ return ()=>{setIsClick(false)}
                     <div class="col-md-12">
                       {!showBill && (
                         <div class="mobile-recharge-btn">
-                          {/* <button
-                            onClick={clickFetchBill}
-                            class="btn-primery service-loading-btn"
-                            id="addmoneymodal"
-                          >
-                            {billLoading ? (
-                              
-                              <Loading />
-                              
-                            ) : (
-                              `Fetch Bill`
-                            )}
-                          </button> */}
-                          <ThemeButton onClick={clickFetchBill} value={"Fetch Bill"} loading={billLoading}/>
+                          <ThemeButton onClick={clickFetchBill} value={"Fetch Bill"} loading={mobileNo.length===10 ? billLoading :false}/>
                         </div>
                       )}
 
                       {showBill && (
                         <div class="mobile-recharge-btn">
                           <ThemeButton value={"Continue"} onClick={onClick}/>
-                          {/* <button
-                            onClick={onClick}
-                            class="btn-primery"
-                            id="addmoneymodal"
-                          >
-                            {" "}
-                            Continue{" "}
-                          </button> */}
                         </div>
                       )}
                     </div>

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-// import { getSubCategory } from "../../apiData/shopping/category";
 import {
   getNewArrivalProducts,
-  getProductsBySubCategory,
+  // getProductsBySubCategory,
 } from "../../apiData/shopping/product";
 
 import ReactGA from "react-ga";
@@ -11,12 +10,11 @@ import { googleAnalytics } from "../../constants";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ProductCard from "../../components/Cards/ProductCard";
-import Footer from "../../components/layout/Footer/Footer";
-import { LatestLoading } from "../../components/common/Loading";
 import { Card, Row, Select, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getProductsByCategory,
+  getProductsBySubCategory,
   getRecomId,
   getSubCategory,
 } from "../../redux/slices/shopping/productSlice";
@@ -30,7 +28,10 @@ const ProductListing = () => {
   const [activeProducts, setActiveProducts] = useState([]);
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState("");
   const { data } = useSelector((state) => state.productSlice.GetSubCat);
-  // const { data: getproByCat } = useSelector(
+  const { subCategoryProducts,subLoading } = useSelector(
+    (state) => state.productSlice.subCategoryByProduct
+  );
+  // const { catProducts,loading } = useSelector(
   //   (state) => state.productSlice.categoryByProduct
   // );
   const handleSubCategoryClick = (e) => {
@@ -51,9 +52,7 @@ const ProductListing = () => {
   };
 
   const loadSubCategoryProducts = (subCategoryId) => {
-    getProductsBySubCategory(subCategoryId).then((response) => {
-      setActiveProducts(response.Data);
-    });
+    dispatch(getProductsBySubCategory(subCategoryId))
   };
 
   let { categoryName, categoryId } = useParams();
@@ -61,14 +60,27 @@ const ProductListing = () => {
     setLoading(true);
     ReactGA.pageview(window.location.pathname);
     dispatch(getSubCategory(categoryId));
-
+    setActiveProducts([])
+    // dispatch(getProductsByCategory(categoryId))
     getProductsByCategory(categoryId).then((response) => {
-      setLoading(false);
+      setLoading(false)
 
       setCategoryProducts(response.Data);
       setActiveProducts(response.Data);
     });
   }, []);
+  useEffect(() => {
+    if(subCategoryProducts?.ResponseStatus===1){
+      setActiveProducts(subCategoryProducts?.Data)
+    }
+  }, [subCategoryProducts])
+  // useEffect(() => {
+  //   if(catProducts?.ResponseStatus===1){
+  //     setCategoryProducts(catProducts?.Data);
+  //     setActiveProducts(catProducts?.Data);
+  //   }
+  // }, [catProducts])
+  
   useEffect(() => {
     setSubCategories(data.Data);
   }, [data]);
@@ -111,7 +123,6 @@ const ProductListing = () => {
   };
 
   const shoppingSubCategoryBar = () => {
-    console.log("subcategory");
     return (
       <>
         <>
@@ -129,14 +140,6 @@ const ProductListing = () => {
                         slidesToSlide={2}
                         className="container"
                       >
-                        {/* { <div class="shopping-catagory-box" >
-                            <button onClick={handleSubCategoryClick} value="all"  type="button" >
-                              <div>
-                              <img  src={`/images/logos/vips-logo-small.png`} />
-                              <span class="shopping-catagory-box-title">All Products</span>
-                              </div>
-                            </button>
-                          </div>} */}
                         {subCategories &&
                           subCategories.map((c, i) => (
                             <div class="shopping-catagory-box">
@@ -185,12 +188,7 @@ const ProductListing = () => {
                   <div class="shopping-catagory-nav-outer catagory-nav-scroller">
                     {subCategories &&
                       subCategories.map((c, i) => (
-                        <div
-                          class="shopping-catagory-box"
-                          onClick={() => {
-                            console.log(c.CategoryID);
-                          }}
-                        >
+                        <div class="shopping-catagory-box">
                           <button
                             onClick={handleSubCategoryClick}
                             value={c.Id}
@@ -238,14 +236,17 @@ const ProductListing = () => {
 
   return (
     <div className="color-body">
-      {shoppingSubCategoryBar()}
       <Spin spinning={loading}>
-        {activeProducts?.length !== 0 && activeProducts !== undefined ? (
-          productsDisplay()
-        ) : (
-          // <LatestLoading />
-          <Loading />
-        )}
+      {shoppingSubCategoryBar()}
+      <Spin spinning={subLoading}>
+      {activeProducts?.length !== 0 && activeProducts?.filter((product) => product.Quantity !== 0).length!==0 && activeProducts !== undefined ? (
+        productsDisplay()
+
+      ) : (<div className="row">
+        <div className="col-lg-2 offset-1 my-3"><h5>No Data Found</h5></div>
+      </div>)}
+      </Spin>
+
       </Spin>
     </div>
   );
