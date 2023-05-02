@@ -243,7 +243,7 @@ const ProductListing = () => {
         productsDisplay()
 
       ) : (<div className="row">
-        <div className="col-lg-2 offset-1 my-3"><h5>No Data Found</h5></div>
+        <div className="col-lg-2 offset-1 my-3">{!loading && !subLoading && <h5>No Data Found</h5>} </div>
       </div>)}
       </Spin>
 
