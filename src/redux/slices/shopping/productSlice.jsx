@@ -126,8 +126,7 @@ export const getProductsBySubCategory = createAsyncThunk(
 
   }
 );
-export const getProductsByCategory = createAsyncThunk(
-  "getProductsByCategory",
+export const getProductsByCategory =
   async (categoryId) => {
     const formData = new FormData();
   formData.append("tocken", "XMCNBVGDTE734BCU65DW");
@@ -141,21 +140,7 @@ export const getProductsByCategory = createAsyncThunk(
       })
       .catch((err) => {});
 
-  }
-);
-// export const getProductsByCategory = (categoryId) => {
-//   const formData = new FormData();
-//   formData.append("tocken", "XMCNBVGDTE734BCU65DW");
-//   formData.append("Categoryid", categoryId);
-//   return fetch(`${baseApiUrl}/EcommerceServices/ProductViaCategory`, {
-//     method: "POST",
-//     body: formData,
-//   })
-//     .then((data) => {
-//       return data.json();
-//     })
-//     .catch((err) => {});
-// };
+  };
 
 export const getNewArrivalProducts = createAsyncThunk(
   "getNewArrivalProducts",
@@ -237,6 +222,10 @@ const productSlice = createSlice({
     recommendedCatId: "",
   },
   reducers: {
+// resetData:(state, action)=>{
+//   // console.log("resetData");
+//   state.categoryByProduct.catProducts=[]
+// },
     getRecomId: (state, action) => {
       state.recommendedCatId = action.payload;
     },
@@ -284,17 +273,17 @@ const productSlice = createSlice({
     });
 
     // Get Product By Category
-    builder.addCase(getProductsByCategory.pending, (state, action) => {
-      state.categoryByProduct.loading = true;
-    });
-    builder.addCase(getProductsByCategory.fulfilled, (state, action) => {
-      state.categoryByProduct.catProducts = action.payload;
-      state.categoryByProduct.loading = false;
-    });
-    builder.addCase(getProductsByCategory.rejected, (state, action) => {
-      state.categoryByProduct.error = action.error;
-      state.categoryByProduct.loading = false;
-    });
+    // builder.addCase(getProductsByCategory.pending, (state, action) => {
+    //   state.categoryByProduct.loading = true;
+    // });
+    // builder.addCase(getProductsByCategory.fulfilled, (state, action) => {
+    //   state.categoryByProduct.catProducts = action.payload;
+    //   state.categoryByProduct.loading = false;
+    // });
+    // builder.addCase(getProductsByCategory.rejected, (state, action) => {
+    //   state.categoryByProduct.error = action.error;
+    //   state.categoryByProduct.loading = false;
+    // });
 
     // Get new Arrival Product
     builder.addCase(getNewArrivalProducts.pending, (state, action) => {
@@ -331,5 +320,5 @@ const productSlice = createSlice({
     });
   },
 });
-export const { getRecomId, removeId} = productSlice.actions;
+export const { getRecomId, removeId,resetData} = productSlice.actions;
 export default productSlice.reducer;

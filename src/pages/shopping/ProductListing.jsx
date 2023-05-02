@@ -22,7 +22,7 @@ import { Loading } from "../../components/common";
 ReactGA.initialize(googleAnalytics);
 const ProductListing = () => {
   const dispatch = useDispatch();
-  // const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [subCategories, setSubCategories] = useState([]);
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
@@ -31,9 +31,9 @@ const ProductListing = () => {
   const { subCategoryProducts,subLoading } = useSelector(
     (state) => state.productSlice.subCategoryByProduct
   );
-  const { catProducts,loading } = useSelector(
-    (state) => state.productSlice.categoryByProduct
-  );
+  // const { catProducts,loading } = useSelector(
+  //   (state) => state.productSlice.categoryByProduct
+  // );
   const handleSubCategoryClick = (e) => {
     e.preventDefault();
     if (e.currentTarget.value == "all") {
@@ -57,30 +57,28 @@ const ProductListing = () => {
 
   let { categoryName, categoryId } = useParams();
   useEffect(() => {
-    console.warn("___________");
-    // setLoading(true)
+    setLoading(true)
     ReactGA.pageview(window.location.pathname);
     dispatch(getSubCategory(categoryId));
     setActiveProducts([])
-    dispatch(getProductsByCategory(categoryId))
-    // getProductsByCategory(categoryId).then((response) => {
-    //   setLoading(false)
-    //   setCategoryProducts(response.Data);
-    //   setActiveProducts(response.Data);
-    // });
+    // dispatch(getProductsByCategory(categoryId))
+    getProductsByCategory(categoryId).then((response) => {
+      setLoading(false)
+      setCategoryProducts(response.Data);
+      setActiveProducts(response.Data);
+    });
   }, []);
-  console.log(activeProducts);
   useEffect(() => {
     if(subCategoryProducts?.ResponseStatus===1){
       setActiveProducts(subCategoryProducts?.Data)
     }
   }, [subCategoryProducts])
-  useEffect(() => {
-    if(catProducts?.ResponseStatus===1){
-      setCategoryProducts(catProducts?.Data);
-      setActiveProducts(catProducts?.Data);
-    }
-  }, [catProducts])
+  // useEffect(() => {
+  //   if(catProducts?.ResponseStatus===1){
+  //     setCategoryProducts(catProducts?.Data);
+  //     setActiveProducts(catProducts?.Data);
+  //   }
+  // }, [catProducts])
   
   useEffect(() => {
     setSubCategories(data.Data);
@@ -141,14 +139,6 @@ const ProductListing = () => {
                         slidesToSlide={2}
                         className="container"
                       >
-                        {/* { <div class="shopping-catagory-box" >
-                            <button onClick={handleSubCategoryClick} value="all"  type="button" >
-                              <div>
-                              <img  src={`/images/logos/vips-logo-small.png`} />
-                              <span class="shopping-catagory-box-title">All Products</span>
-                              </div>
-                            </button>
-                          </div>} */}
                         {subCategories &&
                           subCategories.map((c, i) => (
                             <div class="shopping-catagory-box">
@@ -248,10 +238,12 @@ const ProductListing = () => {
       <Spin spinning={loading}>
       {shoppingSubCategoryBar()}
       <Spin spinning={subLoading}>
-      {activeProducts?.length !== 0 && activeProducts !== undefined ? (
+      {activeProducts?.length !== 0 && activeProducts?.filter((product) => product.Quantity !== 0).length!==0 && activeProducts !== undefined ? (
         productsDisplay()
 
-      ) : ( <Loading /> )}
+      ) : (<div className="row">
+        <div className="col-lg-2 offset-1 my-3"><h5>No Data Found</h5></div>
+      </div>)}
       </Spin>
       </Spin>
     </div>

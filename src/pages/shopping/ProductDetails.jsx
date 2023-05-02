@@ -215,33 +215,13 @@ const ProductDetails = () => {
     }
   };
 
-  // const getSimilarProduct = async (catNam) => {
-  //   console.log(catNam, "catNam");
-  //   let catId;
-  //   const res = await dispatch(getAllCategories());
-  //   const Allcategories =
-  //     res.payload.Data.Categories && res.payload.Data.Categories;
-  //   for (let index = 0; index < Allcategories.length; index++) {
-  //     const element = Allcategories[index];
-  //     if (catNam === element.Name) {
-  //       catId = element.Id;
-  //     }
-  //   }
-  //   getProductsByCategory(catId).then((response) => {
-  //     // setLoading(false)
-  //     // console.log(catId, 'catId')
-  //     setSimilar(response.Data);
-  //   });
-  // };
-
   const getSRecommendedProduct = () => {
     if (!state) {
       if (recommendedCatId.type === "category") {
-        dispatch(getProductsByCategory(recommendedCatId.id))
-        // getProductsByCategory(recommendedCatId.id).then((response) => {
-        //   console.warn("*************");
-        //   setSimilar(response.Data);
-        // });
+        // dispatch(getProductsByCategory(recommendedCatId.id))
+        getProductsByCategory(recommendedCatId.id).then((response) => {
+          setSimilar(response.Data);
+        });
       } else if (recommendedCatId.type === "subcategory") {
         const getSubProducts = async () => {
           const res = await dispatch(
