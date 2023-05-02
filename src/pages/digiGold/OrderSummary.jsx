@@ -644,11 +644,6 @@ const OrderSummary = () => {
   }, [ServiceData, data]);
   // console.log(state, "state");
 
-  // window.onpopstate = function (event) {
-  //   console.log("yaha to aa hi  nhi rha");
-  //   localStorage.removeItem("valueType");
-  // };
-
   // console.log(window.location.pathname, "window.location.hash")
   useEffect(() => {
     return () => {

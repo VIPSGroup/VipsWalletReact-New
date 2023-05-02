@@ -220,14 +220,14 @@ const ProductDetails = () => {
       if (recommendedCatId.type === "category") {
         // dispatch(getProductsByCategory(recommendedCatId.id))
         getProductsByCategory(recommendedCatId.id).then((response) => {
-          setSimilar(response.Data);
+          setSimilar(response.Data.filter((a) => a.Quantity >= 1));
         });
       } else if (recommendedCatId.type === "subcategory") {
         const getSubProducts = async () => {
           const res = await dispatch(
             getProductsBySubCategory(recommendedCatId.id)
           );
-          setSubProducts(res.payload.Data);
+          setSubProducts(res.payload.Data.filter((a) => a.Quantity >= 1));
         };
         getSubProducts();
         setSimilar("");
@@ -236,7 +236,7 @@ const ProductDetails = () => {
       if (state === "dod") {
         const fetchDOD = async () => {
           const res = await dispatch(getDealsOfTheDay());
-          setSimilar(res.payload.Data);
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
           console.log(res.payload, "loadpay");
         };
         fetchDOD();
@@ -244,28 +244,28 @@ const ProductDetails = () => {
       } else if (state === "promotional") {
         const fetchPromotional = async () => {
           const res = await dispatch(getPromotionalProduct(11));
-          setSimilar(res.payload.Data);
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
         };
         fetchPromotional();
         setSubProducts("");
       } else if (state === "newArrival") {
         const newArrival = async () => {
           const res = await dispatch(getNewArrivalProducts());
-          setSimilar(res.payload.Data);
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
         };
         newArrival();
         setSubProducts("");
       } else if (state === "fashion") {
         const fetchFashion = async () => {
           const res = await getProductsByCategory(43);
-          setSimilar(res.Data?.slice(0, 15));
+          setSimilar(res.Data?.filter((a) => a.Quantity >= 1).slice(0, 15));
         };
         fetchFashion();
         setSubProducts("");
       } else if (state === "electronics") {
         const fetchelectronics = async () => {
           const res = await dispatch(getPromotionalProduct(53));
-          setSimilar(res.payload.Data);
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
         };
         fetchelectronics();
         setSubProducts("");
@@ -273,14 +273,12 @@ const ProductDetails = () => {
     }
   };
 
-
   useEffect(() => {
     getSRecommendedProduct();
     ReactGA.pageview(window.location.pathname);
     var p = {};
     setLoading(true);
     getSingleProductData(productId).then((response) => {
-
       setLoading(false);
 
       p = response?.Data?.ProductDetails;
@@ -388,7 +386,6 @@ const ProductDetails = () => {
                         product?.SalePrice.toLocaleString()}
                     </span>
 
-
                     {product?.CostPrice !== 0 && (
                       <>
                         {" "}
@@ -406,7 +403,6 @@ const ProductDetails = () => {
                     )}
 
                     {product.ShoppingAmt > 0 && (
-
                       <span class="product-details-cb-badge">
                         {" "}
                         CB &#x20B9;{product?.ShoppingAmt}{" "}
