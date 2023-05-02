@@ -1,3 +1,27 @@
+
+.ant-btn-default {
+  color: var(--darkText);
+  border-color: var(--primary);
+}
+.ant-btn-default:not(:disabled):hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+button.ant-btn:focus:not(:active) span.ant-btn-label {
+  box-shadow: none;
+}
+
+button.ant-btn:focus:not(:active) {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.ant-btn:hover,
+.ant-btn:focus,
+.ant-btn:active {
+  box-shadow: none !important;
+}
+
 .ant-spin .ant-spin-dot-item {
   background-color: #ca3060;
 }

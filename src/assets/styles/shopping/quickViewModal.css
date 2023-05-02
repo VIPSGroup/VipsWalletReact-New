@@ -377,7 +377,8 @@
 .check-deliverypin{
     display: flex;
 }
-.deliverypin-input{
+
+.check-deliverypin .deliverypin-input{
     height: 49px;
     font-size: 14px;
     border-right:none;
@@ -385,18 +386,40 @@
     border-radius: 8px 0px 0px 8px;
     border-color: var(--borderColor);
 }
-.pincode-checkbtn{
+.check-deliverypin .ant-input:hover, .check-deliverypin .ant-input:focus{
+    box-shadow: none;
+}
+.check-deliverypin .ant-input::placeholder{
+    color: var(--textGray) !important;
+}
+.check-deliverypin .pincode-checkbtn{
     font-size: 14px;
     background: var(--whiteColor); 
     border-left:none;
     border-color: var(--borderColor);
     border-radius: 0px 8px 8px 0px;
     color: var(--primary);
-    text-decoration: underline;
     /* padding: 13.6px 15px; */
     height: 49px;
-    box-shadow: none;
+    box-shadow: none !important;
 }
+
+.check-deliverypin .ant-btn-default span{
+    text-decoration: underline;
+}
+
+.check-deliverypin .ant-btn-default:not(:disabled):hover {
+    border-color: var(--borderColor);
+    color: var(--primary);
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+.check-deliverypin .ant-btn:hover,
+.check-deliverypin .ant-btn:focus,
+.check-deliverypin .ant-btn:active {
+  box-shadow: none !important;
+}
+
 
 
 @media only screen and (min-width: 320px) and (max-width: 413px){

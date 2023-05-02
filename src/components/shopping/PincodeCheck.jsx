@@ -63,10 +63,10 @@ useEffect(() => {
 
 
 
-        <div className="check-deliverypin">
-          <Input placeholder="Enter a pin code" className="deliverypin-input" />
-          <Button className="pincode-checkbtn">Check</Button>
-        </div>
+          <div className="check-deliverypin">
+            <Input placeholder="Enter a pin code" className="deliverypin-input" />
+            <Button className="pincode-checkbtn">Check</Button>
+          </div>
 
 
         </form>
