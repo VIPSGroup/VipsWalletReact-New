@@ -65,7 +65,7 @@ const SendMoney = () => {
   const renderButton2 = (buttonProps) => {
     return (
       <div className="resendotp col-12 mx-auto pt-3">
-        <p {...buttonProps} className="col-12 d-block">
+        <p  className="col-12 d-block">
           {buttonProps.remainingTime !== 0 ? (
             <p>
               {" "}
@@ -77,11 +77,37 @@ const SendMoney = () => {
             </p>
           ) : (
             <p>
-              Dont Receive the OTP ?{" "}
-              <Link>
-                {" "}
-                <span style={{ color: "#CA3060" }}>Resend OTP</span>
-              </Link>
+              
+              Not received OTP?{" "}
+              <a {...buttonProps}>
+                <span
+                  style={{ color: "#CA3060", cursor: "pointer" }}
+
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setLoading(true);
+                    setOtpError("")
+                    setOtp("")
+                    sendMoneyOtp(
+                      loggedInUser.Mobile,
+                      loggedInUser.TRXNPassword,
+                      recieverNo,
+                      amount
+                    )
+                    .then((response) => {
+                      if (response.ResponseStatus == 2) {
+                        setFormCount(2);
+                        handleShow();
+                        setLoading(false);
+                      } else {
+                        setError(response.Remarks);
+                        setLoading(false);
+                      }
+                    });
+                    // dispatch(loginUser({ userName, password }));
+                  }}
+                > Resend OTP</span>
+              </a>
             </p>
           )}
         </p>
@@ -191,7 +217,7 @@ const SendMoney = () => {
 
   const displayOtpError = () => (
     <div>
-      {otpError && <div className="alert alert-danger">{otpError}</div>}
+      {otpError && <div className="alert alert-danger"> {otpError}</div>}
     </div>
   );
 

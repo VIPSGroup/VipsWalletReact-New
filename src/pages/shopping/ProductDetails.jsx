@@ -24,6 +24,7 @@ import { MuiSnackBar } from "../../components/common";
 import { Spin } from "antd";
 import ProductHorizontal from "../../components/shopping/ProductHorizontal";
 import { getDealsOfTheDay } from "../../redux/slices/dealsSlice";
+import { checkInWishlist, getProductImages } from "../../utils/CommonFunctions";
 // import { getAllCategories } from "../../apiData/shopping/category";
 
 ReactGA.initialize(googleAnalytics);
@@ -60,6 +61,7 @@ const ProductDetails = () => {
   );
   let navigate = useNavigate();
   let { productId, productName } = useParams();
+
   var imgArray = [];
   const getProductImages = (productData) => {
     if (productData.ImageThumbURL1 != null && productData.ImageURL1 != null) {
@@ -291,12 +293,9 @@ const ProductDetails = () => {
       if (p?.Color) {
         getColors(response?.Data?.ProductDetails?.Color);
       }
-      getProductImages(response?.Data?.ProductDetails);
+      getProductImages(response?.Data?.ProductDetails,setProductImages);
       checkInCart(response?.Data);
-      // getSimilarProduct(response?.Data?.ProductDetails?.Category);
     });
-
-    checkInWishlist();
     window.scrollTo({
       top: 0,
       left: 0,
@@ -305,7 +304,7 @@ const ProductDetails = () => {
   }, [productId]);
 
   useEffect(() => {
-    checkInWishlist();
+    checkInWishlist(productId,setExistInWishlist);
   }, [wishlistChange]);
 
   const onQtyIncrease = () => {

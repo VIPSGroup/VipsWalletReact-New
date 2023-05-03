@@ -194,13 +194,12 @@ const ShoppingCheckout = () => {
 
       propsProductsData.products.map((d, i) => {
         price = price + d.qty * d.product.SalePrice;
-
         sDiscount =
           sDiscount +
           (d.product.ShoppingPoint / 100) * d.product.SalePrice * d.qty;
         pDiscount =
-          pDiscount +
-          (d.product.PrimePoints / 100) * d.product.SalePrice * d.qty;
+        pDiscount + (d.product.PrimePoints / 100) * d.product.SalePrice *d.qty;
+
 
         if (propsProductsData.address.State.includes("Maharashtra")) {
           shippingCost = shippingCost + d.charges[3].Amount;
