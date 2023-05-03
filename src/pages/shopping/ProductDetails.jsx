@@ -113,7 +113,7 @@ const ProductDetails = () => {
     }
     setProductImages(imgArray);
   };
-
+  console.log(state, "state");
   const checkInWishlist = () => {
     let wishlist = JSON.parse(localStorage.getItem("wishlist"));
     wishlist &&
@@ -579,12 +579,14 @@ const ProductDetails = () => {
               setError={setErrorMsg}
             />
           </div>
-          <ProductHorizontal
-            title="Similar Product"
-            // subtitle="of the Day"
-            products={similar || subProducts}
-            description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
-          />
+          {state !== "wishlist" && state && (
+            <ProductHorizontal
+              title="Similar Product"
+              // subtitle="of the Day"
+              products={similar || subProducts}
+              description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
+            />
+          )}
         </div>
       </section>
     </Spin>
