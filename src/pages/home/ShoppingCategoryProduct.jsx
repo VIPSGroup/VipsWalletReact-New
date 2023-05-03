@@ -13,6 +13,7 @@ export const ShoppingCategoryProduct = ({
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true)
+
     getProductsByCategory(categoryId).then((response) => {
       setLoading(false);
       setProducts(response.Data.filter((product) => product.Quantity !== 0));

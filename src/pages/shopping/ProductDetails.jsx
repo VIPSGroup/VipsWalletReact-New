@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useResolvedPath } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PincodeCheck from "../../components/shopping/PincodeCheck";
 import Carousel from "react-multi-carousel";
@@ -61,6 +61,70 @@ const ProductDetails = () => {
   );
   let navigate = useNavigate();
   let { productId, productName } = useParams();
+
+  var imgArray = [];
+  const getProductImages = (productData) => {
+    if (productData.ImageThumbURL1 != null && productData.ImageURL1 != null) {
+      const obj = {
+        original: productData.ImageURL1,
+        thumbnail: productData.ImageThumbURL1,
+      };
+      imgArray.push(obj);
+    }
+    if (productData.ImageThumbURL2 != null && productData.ImageURL2 != null) {
+      const obj = {
+        original: productData.ImageURL2,
+        thumbnail: productData.ImageThumbURL2,
+      };
+      imgArray.push(obj);
+    }
+    if (productData.ImageThumbURL3 != null && productData.ImageURL3 != null) {
+      const obj = {
+        original: productData.ImageURL3,
+        thumbnail: productData.ImageThumbURL3,
+      };
+      imgArray.push(obj);
+    }
+    if (productData.ImageThumbURL4 != null && productData.ImageURL4 != null) {
+      const obj = {
+        original: productData.ImageURL4,
+        thumbnail: productData.ImageThumbURL4,
+      };
+      imgArray.push(obj);
+    }
+    if (productData.ImageThumbURL5 != null && productData.ImageURL5 != null) {
+      const obj = {
+        original: productData.ImageURL5,
+        thumbnail: productData.ImageThumbURL5,
+      };
+      imgArray.push(obj);
+    }
+    if (productData.ImageThumbURL6 != null && productData.ImageURL6 != null) {
+      const obj = {
+        original: productData.ImageURL6,
+        thumbnail: productData.ImageThumbURL6,
+      };
+      imgArray.push(obj);
+    }
+    if (productData.ImageThumbURL7 != null && productData.ImageURL7 != null) {
+      const obj = {
+        original: productData.ImageURL7,
+        thumbnail: productData.ImageThumbURL7,
+      };
+      imgArray.push(obj);
+    }
+    setProductImages(imgArray);
+  };
+  const checkInWishlist = () => {
+    let wishlist = JSON.parse(localStorage.getItem("wishlist"));
+    wishlist &&
+      wishlist.map((w, i) => {
+        if (w?.Id?.toString() === productId) {
+          setExistInWishlist(true);
+        }
+      });
+  };
+
   const getSizes = (sizeString) => {
     const sizeSplit = sizeString.split(",").filter(function (str) {
       return /\S/.test(str);
@@ -157,14 +221,14 @@ const ProductDetails = () => {
       if (recommendedCatId.type === "category") {
         // dispatch(getProductsByCategory(recommendedCatId.id))
         getProductsByCategory(recommendedCatId.id).then((response) => {
-          setSimilar(response.Data);
+          setSimilar(response.Data.filter((a) => a.Quantity >= 1));
         });
       } else if (recommendedCatId.type === "subcategory") {
         const getSubProducts = async () => {
           const res = await dispatch(
             getProductsBySubCategory(recommendedCatId.id)
           );
-          setSubProducts(res.payload.Data);
+          setSubProducts(res.payload.Data.filter((a) => a.Quantity >= 1));
         };
         getSubProducts();
         setSimilar("");
@@ -173,36 +237,35 @@ const ProductDetails = () => {
       if (state === "dod") {
         const fetchDOD = async () => {
           const res = await dispatch(getDealsOfTheDay());
-          setSimilar(res.payload.Data);
-          console.log(res.payload, "loadpay");
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
         };
         fetchDOD();
         setSubProducts("");
       } else if (state === "promotional") {
         const fetchPromotional = async () => {
           const res = await dispatch(getPromotionalProduct(11));
-          setSimilar(res.payload.Data);
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
         };
         fetchPromotional();
         setSubProducts("");
       } else if (state === "newArrival") {
         const newArrival = async () => {
           const res = await dispatch(getNewArrivalProducts());
-          setSimilar(res.payload.Data);
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
         };
         newArrival();
         setSubProducts("");
       } else if (state === "fashion") {
         const fetchFashion = async () => {
           const res = await getProductsByCategory(43);
-          setSimilar(res.Data?.slice(0, 15));
+          setSimilar(res.Data?.filter((a) => a.Quantity >= 1).slice(0, 15));
         };
         fetchFashion();
         setSubProducts("");
       } else if (state === "electronics") {
         const fetchelectronics = async () => {
           const res = await dispatch(getPromotionalProduct(53));
-          setSimilar(res.payload.Data);
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
         };
         fetchelectronics();
         setSubProducts("");
@@ -210,14 +273,12 @@ const ProductDetails = () => {
     }
   };
 
-
   useEffect(() => {
     getSRecommendedProduct();
     ReactGA.pageview(window.location.pathname);
     var p = {};
     setLoading(true);
     getSingleProductData(productId).then((response) => {
-console.error(response?.Data);
       setLoading(false);
 
       p = response?.Data?.ProductDetails;
@@ -275,6 +336,7 @@ console.error(response?.Data);
     },
   };
 
+
   const ProductDetailsSection = () => (
     <Spin spinning={loading}>
       <section class="section-align">
@@ -322,7 +384,6 @@ console.error(response?.Data);
                         product?.SalePrice.toLocaleString()}
                     </span>
 
-
                     {product?.CostPrice !== 0 && (
                       <>
                         {" "}
@@ -340,7 +401,6 @@ console.error(response?.Data);
                     )}
 
                     {product.ShoppingAmt > 0 && (
-
                       <span class="product-details-cb-badge">
                         {" "}
                         CB &#x20B9;{product?.ShoppingAmt}{" "}
@@ -517,12 +577,37 @@ console.error(response?.Data);
               setError={setErrorMsg}
             />
           </div>
-          <ProductHorizontal
+          {(() => {
+            if (state) {
+              if (state === "wishlist") {
+                return null;
+              } else {
+                return (
+                  <ProductHorizontal
+                    title="Similar Product"
+                    // subtitle="of the Day"
+                    products={similar || subProducts}
+                    description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
+                  />
+                );
+              }
+            } else {
+              return (
+                <ProductHorizontal
+                  title="Similar Product"
+                  // subtitle="of the Day"
+                  products={similar || subProducts}
+                  description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
+                />
+              );
+            }
+          })()}
+          {/* <ProductHorizontal
             title="Similar Product"
             // subtitle="of the Day"
             products={similar || subProducts}
             description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
-          />
+          /> */}
         </div>
       </section>
     </Spin>

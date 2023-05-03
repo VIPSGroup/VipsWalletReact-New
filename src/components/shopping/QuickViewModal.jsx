@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useResolvedPath } from "react-router-dom";
 
 import "../../assets/styles/shopping/quickViewModal.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +17,8 @@ import { MuiSnackBar, ThemeButton } from "../common";
 import { Spin } from "antd";
 import { getProductImages } from "../../utils/CommonFunctions";
 
-const QuickViewModal = ({ productId }) => {
+const QuickViewModal = ({ productId, recomType }) => {
+  const { pathname } = useResolvedPath();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [sizes, setSizes] = useState([]);
@@ -82,9 +83,9 @@ const QuickViewModal = ({ productId }) => {
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
     cartProducts &&
-    cartProducts.map((c, i) => {
-      if (c?.product?.Id == pro?.ProductDetails?.Id) {
-        setExistInCart(true);
+      cartProducts.map((c, i) => {
+        if (c?.product?.Id == pro?.ProductDetails?.Id) {
+          setExistInCart(true);
         }
       });
   };
@@ -143,12 +144,16 @@ const QuickViewModal = ({ productId }) => {
     buyNowProductsArray.push(buyNowProductDeatils);
 
     setProducts(buyNowProductsArray);
-    return ()=>{
+
+    checkInWishlist();
+    return () => {
       setExistInCart(false);
-    }
+    };
   }, [data]);
   useEffect(() => {
   }, [wishlistChange]);
+
+  let wish = "wishlist";
 
   const quickModal = () => (
     <>
@@ -215,27 +220,28 @@ const QuickViewModal = ({ productId }) => {
         <div class="col-lg-6">
           <div class="quick-view-product">
             <>
-            <Carousel swipeable={false} draggable={false}
-                    responsive={responsive}
-                    infinite={true}
-                    className="quick-view-product-img-outer"
-                  >
-                    {productImages &&
-                      productImages.map((image, i) => (
-                        <div class="quick-view-product-img">
-                          <img 
-                          onError={(e)=>{
-                            productImages.splice(i,1)
-                            setProductImages([...productImages])
-                           
-                          }}
-                            class="img-thumbnail "
-                            src={shopadminUrl + image.original}
-                            alt="Slide Image"
-                          />
-                        </div>
-                      ))}
-                  </Carousel>
+              <Carousel
+                swipeable={false}
+                draggable={false}
+                responsive={responsive}
+                infinite={true}
+                className="quick-view-product-img-outer"
+              >
+                {productImages &&
+                  productImages.map((image, i) => (
+                    <div class="quick-view-product-img">
+                      <img
+                        onError={(e) => {
+                          productImages.splice(i, 1);
+                          setProductImages([...productImages]);
+                        }}
+                        class="img-thumbnail "
+                        src={shopadminUrl + image.original}
+                        alt="Slide Image"
+                      />
+                    </div>
+                  ))}
+              </Carousel>
             </>
           </div>
         </div>
@@ -401,7 +407,13 @@ const QuickViewModal = ({ productId }) => {
                       navigate(
                         `/shopping/product/${product?.Id}/${getReplaceSpace(
                           product?.Name
-                        )}`
+                        )}`,
+                        {
+                          state:
+                            pathname === "/shopping/wishlist"
+                              ? wish
+                              : recomType,
+                        }
                       );
                   } else {
                     navigateToLogin();
@@ -431,7 +443,7 @@ const QuickViewModal = ({ productId }) => {
       <button
         onClick={() => {
           product?.Quantity !== 0 && setShowModal(true);
-          dispatch(getSingleProductData({productId}));
+          dispatch(getSingleProductData({ productId }));
         }}
         type="button"
         class="btn-cta"

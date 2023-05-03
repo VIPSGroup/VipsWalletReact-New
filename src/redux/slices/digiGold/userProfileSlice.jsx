@@ -56,7 +56,6 @@ export const getSellStatus = createAsyncThunk(
 export const downloadPdf = createAsyncThunk(
   "downloadPdf",
   async (transactionId, thunkAPI) => {
-    console.log("Chl rha hai");
     const formData = new FormData();
     formData.append("transactionid", transactionId);
     try {
@@ -83,8 +82,6 @@ export const UpdateUser = createAsyncThunk(
     const formattedDOB = momentDate.format("YYYY-MM-DD");
     const formattedDOBNominee = momentDateNominee.format("YYYY-MM-DD");
     const formData = new FormData();
-    console.log(formattedDOB, "formValue.dateOfBirth.$d");
-    console.log(formattedDOBNominee, "formattedDOBNominee");
     formData.append("username", username);
     formData.append("password", password);
     formData.append("userStateId", formValue.userStateId);

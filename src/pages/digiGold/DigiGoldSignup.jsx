@@ -166,9 +166,7 @@ const DigiGoldSignup = ({ setIsDigiLogin, step, setStep }) => {
     const res = await dispatch(
       registerDigiGold({ formValue, password, username, Otp })
     );
-    console.log(res, "res");
     if (res.payload.ResponseStatus === 2) {
-      console.log("run kro");
       setIsSnackBar(true);
       setErrorMsg("");
       setSuccessMsg(res.payload.Remarks);

@@ -6,6 +6,7 @@ const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
   const dispatch = useDispatch();
   const [pincode, setPincode] = useState("");
   const [apiResponse, setApiResponse] = useState("");
+
   const { data } = useSelector((state) => state.pincodeSlice.pinCode);
   const handlePincode = (e) => {
     setApiResponse("");
@@ -14,21 +15,31 @@ const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
       setPincode(value);
     }
   };
-
-  const clickCheckPincode = (e) => {
-    e.preventDefault();
-    setApiResponse("");
-    dispatch(checkPinCode({ pincode, productId }));
-  
+  const clickCheckPincode = async (e) => {
+    if (pincode) {
+      console.log("lol");
+      setApiResponse("");
+      const res = await dispatch(checkPinCode({ pincode, productId }));
+      if (res.payload.ResponseStatus === 1) {
+        setApiResponse(res.payload.Remarks);
+      } else if (res.payload.ResponseStatus === 0) {
+        setIsSnackBar(true);
+        setErrorMsg(res.payload?.Remarks);
+      }
+    } else {
+      setIsSnackBar(true);
+      setErrorMsg("Please Enter Pin Code");
+    }
   };
-useEffect(() => {
-  if (data.ResponseStatus === 1) {
-    setApiResponse(data?.Remarks);
-  } else if(data.ResponseStatus===0){
-    setIsSnackBar(true);
-    setErrorMsg(data?.Remarks);
-  }
-}, [data])
+
+  // useEffect(() => {
+  //   if (data.ResponseStatus === 1) {
+  //     setApiResponse(data?.Remarks);
+  //   } else if (data.ResponseStatus === 0) {
+  //     setIsSnackBar(true);
+  //     setErrorMsg(data?.Remarks);
+  //   }
+  // }, [data]);
 
   return (
     <div class="quick-view-info-box">
@@ -39,7 +50,7 @@ useEffect(() => {
           available or not for delivery to your door steps.
         </p>
 
-        <form>
+        <div>
           <div class="input-group">
             <input
               onChange={handlePincode}
@@ -50,7 +61,7 @@ useEffect(() => {
               value={pincode}
               minLength={6}
               maxLength={6}
-              required
+              // required
             />
             <div class="input-group-append">
               <button onClick={clickCheckPincode} class="input-group-text">
@@ -58,7 +69,7 @@ useEffect(() => {
               </button>
             </div>
           </div>
-        </form>
+        </div>
         <p class="text-success mb-0">{apiResponse}</p>
       </div>
     </div>

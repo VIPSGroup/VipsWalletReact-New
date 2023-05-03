@@ -82,7 +82,7 @@ const CarouselProductCard = ({ product, wishlistCard, recomType }) => {
       </Link>
       <div class="promo-product-action">
         <div class="promo-quick-view">
-          <QuickViewModal productId={product.Id} />
+          <QuickViewModal recomType={recomType} productId={product.Id} />
         </div>
         {wishlistCard ? (
           <div class="promo-wishlist ml-auto">

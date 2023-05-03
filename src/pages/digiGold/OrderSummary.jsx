@@ -290,10 +290,10 @@ const OrderSummary = () => {
     const blockid = blockId;
     const amount = totalAmount ? totalAmount : state.valueinAmt;
     const type = state.valType;
-    // const CouponId = couponData.id;
-    // const CouponAmount = couponData.CouponAmount;
-    const PointType = "SHOPPING";
-    const DiscountAmount = FinalShopAmount;
+    const CouponId = couponData.id;
+    const CouponAmount = couponData.CouponAmount;
+    const PointType = shopPointLimit ? "SHOPPING" : "";
+    const DiscountAmount = shopPointLimit ? FinalShopAmount : 0.0;
 
     if (!walletShow) {
       setLoad(true);
@@ -396,7 +396,6 @@ const OrderSummary = () => {
       setIsSnackBar(true);
     }
   };
-  console.log(Verified, "Verified");
   const handleResendSellOTPSubmit = async () => {
     setOtp("");
     // const username = state.username;
@@ -644,17 +643,14 @@ const OrderSummary = () => {
   }, [ServiceData, data]);
   // console.log(state, "state");
 
-  // window.onpopstate = function (event) {
-  //   console.log("yaha to aa hi  nhi rha");
-  //   localStorage.removeItem("valueType");
-  // };
-
   // console.log(window.location.pathname, "window.location.hash")
   useEffect(() => {
     return () => {
       window.history.replaceState({}, state);
     };
   }, []);
+
+  console.log(!Verified, "Verified");
 
   return state ? (
     <>
@@ -861,8 +857,7 @@ const OrderSummary = () => {
                                  
                                   ;
                                 } else {
-                                  console.log("Yha abhi")
-                                  totalAmount
+=                                  totalAmount
                                     ? parseFloat(totalAmount)?.toLocaleString()
                                     : parseFloat(
                                         state?.valueinAmt
@@ -891,7 +886,6 @@ const OrderSummary = () => {
                                       return parseFloat(res)?.toLocaleString();
                                     }
                                   } else {
-                                    console.log(totalAmount, "totalAmount");
                                     return totalAmount
                                       ? totalAmount.toLocaleString()
                                       : parseFloat(
@@ -1574,7 +1568,14 @@ const OrderSummary = () => {
                                                 ]
                                               }
                                             >
-                                              <Spin spinning={!Verified}>
+                                              <Spin
+                                                spinning={
+                                                  list?.Data?.result?.length ===
+                                                  0
+                                                    ? false
+                                                    : !Verified
+                                                }
+                                              >
                                                 <Input
                                                   // onKeyDown={
                                                   //   handleKeyDownIFSCCheck
