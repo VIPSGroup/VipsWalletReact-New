@@ -84,7 +84,6 @@ const ShoppingCheckout = () => {
 
   const clickConfirmPayment = (e) => {
     e.preventDefault();
-console.log("______________________");
     setLoading(true);
     const orderDetailsArray = [];
     var chargesIndex = 3;

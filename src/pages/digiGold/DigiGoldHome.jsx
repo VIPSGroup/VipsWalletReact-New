@@ -426,7 +426,6 @@ const DigiGoldHome = ({
             );
           }
         } else {
-          console.log(totalResult, "totalResult");
           if (totalResult >= 1) {
             setErr(
               `You do not have a enough ${

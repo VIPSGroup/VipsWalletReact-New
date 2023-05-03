@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useResolvedPath } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PincodeCheck from "../../components/shopping/PincodeCheck";
 import Carousel from "react-multi-carousel";
@@ -113,7 +113,6 @@ const ProductDetails = () => {
     }
     setProductImages(imgArray);
   };
-  console.log(state, "state");
   const checkInWishlist = () => {
     let wishlist = JSON.parse(localStorage.getItem("wishlist"));
     wishlist &&
@@ -237,7 +236,6 @@ const ProductDetails = () => {
         const fetchDOD = async () => {
           const res = await dispatch(getDealsOfTheDay());
           setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
-          console.log(res.payload, "loadpay");
         };
         fetchDOD();
         setSubProducts("");
@@ -338,6 +336,7 @@ const ProductDetails = () => {
       items: 1,
     },
   };
+
 
   const ProductDetailsSection = () => (
     <Spin spinning={loading}>
@@ -579,14 +578,37 @@ const ProductDetails = () => {
               setError={setErrorMsg}
             />
           </div>
-          {state !== "wishlist" && state && (
-            <ProductHorizontal
-              title="Similar Product"
-              // subtitle="of the Day"
-              products={similar || subProducts}
-              description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
-            />
-          )}
+          {(() => {
+            if (state) {
+              if (state === "wishlist") {
+                return null;
+              } else {
+                return (
+                  <ProductHorizontal
+                    title="Similar Product"
+                    // subtitle="of the Day"
+                    products={similar || subProducts}
+                    description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
+                  />
+                );
+              }
+            } else {
+              return (
+                <ProductHorizontal
+                  title="Similar Product"
+                  // subtitle="of the Day"
+                  products={similar || subProducts}
+                  description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
+                />
+              );
+            }
+          })()}
+          {/* <ProductHorizontal
+            title="Similar Product"
+            // subtitle="of the Day"
+            products={similar || subProducts}
+            description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
+          /> */}
         </div>
       </section>
     </Spin>

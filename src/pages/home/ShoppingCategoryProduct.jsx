@@ -17,7 +17,6 @@ export const ShoppingCategoryProduct = ({
   // );
 const dispatch= useDispatch()
   useEffect(() => {
-    console.log("calee");
     setLoading(true);
     // dispatch(getProductsByCategory(categoryId))
     getProductsByCategory(categoryId).then((response) => {

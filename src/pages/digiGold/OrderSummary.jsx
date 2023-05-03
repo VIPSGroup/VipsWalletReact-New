@@ -396,7 +396,6 @@ const OrderSummary = () => {
       setIsSnackBar(true);
     }
   };
-  console.log(Verified, "Verified");
   const handleResendSellOTPSubmit = async () => {
     setOtp("");
     // const username = state.username;
@@ -856,8 +855,7 @@ const OrderSummary = () => {
                                  
                                   ;
                                 } else {
-                                  console.log("Yha abhi")
-                                  totalAmount
+=                                  totalAmount
                                     ? parseFloat(totalAmount)?.toLocaleString()
                                     : parseFloat(
                                         state?.valueinAmt
@@ -886,7 +884,6 @@ const OrderSummary = () => {
                                       return parseFloat(res)?.toLocaleString();
                                     }
                                   } else {
-                                    console.log(totalAmount, "totalAmount");
                                     return totalAmount
                                       ? totalAmount.toLocaleString()
                                       : parseFloat(

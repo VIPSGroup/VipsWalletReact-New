@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useResolvedPath } from "react-router-dom";
 
 import "../../assets/styles/shopping/quickViewModal.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +17,7 @@ import { MuiSnackBar, ThemeButton } from "../common";
 import { Spin } from "antd";
 
 const QuickViewModal = ({ productId, recomType }) => {
+  const { pathname } = useResolvedPath();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [sizes, setSizes] = useState([]);
@@ -217,6 +218,8 @@ const QuickViewModal = ({ productId, recomType }) => {
   useEffect(() => {
     checkInWishlist();
   }, [wishlistChange]);
+
+  let wish = "wishlist";
 
   const quickModal = () => (
     <>
@@ -471,7 +474,12 @@ const QuickViewModal = ({ productId, recomType }) => {
                         `/shopping/product/${product?.Id}/${getReplaceSpace(
                           product?.Name
                         )}`,
-                        { state: recomType }
+                        {
+                          state:
+                            pathname === "/shopping/wishlist"
+                              ? wish
+                              : recomType,
+                        }
                       );
                   } else {
                     navigateToLogin();

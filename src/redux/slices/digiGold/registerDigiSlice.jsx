@@ -6,7 +6,6 @@ export const registerDigiGold = createAsyncThunk(
   "registerDigiGold",
   async ({ formValue, emailId, password, username, Otp }, thunkAPI) => {
     // console.log(username, "formValue.mobileNumber")
-    console.log(Otp, "OTP")
     const formData = new FormData();
     formData.append("username", username);
     formData.append("password", password);
