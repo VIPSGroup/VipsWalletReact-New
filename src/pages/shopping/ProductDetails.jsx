@@ -24,6 +24,7 @@ import { MuiSnackBar } from "../../components/common";
 import { Spin } from "antd";
 import ProductHorizontal from "../../components/shopping/ProductHorizontal";
 import { getDealsOfTheDay } from "../../redux/slices/dealsSlice";
+import { checkInWishlist, getProductImages } from "../../utils/CommonFunctions";
 // import { getAllCategories } from "../../apiData/shopping/category";
 
 ReactGA.initialize(googleAnalytics);
@@ -60,70 +61,6 @@ const ProductDetails = () => {
   );
   let navigate = useNavigate();
   let { productId, productName } = useParams();
-  var imgArray = [];
-  const getProductImages = (productData) => {
-    if (productData.ImageThumbURL1 != null && productData.ImageURL1 != null) {
-      const obj = {
-        original: productData.ImageURL1,
-        thumbnail: productData.ImageThumbURL1,
-      };
-      imgArray.push(obj);
-    }
-    if (productData.ImageThumbURL2 != null && productData.ImageURL2 != null) {
-      const obj = {
-        original: productData.ImageURL2,
-        thumbnail: productData.ImageThumbURL2,
-      };
-      imgArray.push(obj);
-    }
-    if (productData.ImageThumbURL3 != null && productData.ImageURL3 != null) {
-      const obj = {
-        original: productData.ImageURL3,
-        thumbnail: productData.ImageThumbURL3,
-      };
-      imgArray.push(obj);
-    }
-    if (productData.ImageThumbURL4 != null && productData.ImageURL4 != null) {
-      const obj = {
-        original: productData.ImageURL4,
-        thumbnail: productData.ImageThumbURL4,
-      };
-      imgArray.push(obj);
-    }
-    if (productData.ImageThumbURL5 != null && productData.ImageURL5 != null) {
-      const obj = {
-        original: productData.ImageURL5,
-        thumbnail: productData.ImageThumbURL5,
-      };
-      imgArray.push(obj);
-    }
-    if (productData.ImageThumbURL6 != null && productData.ImageURL6 != null) {
-      const obj = {
-        original: productData.ImageURL6,
-        thumbnail: productData.ImageThumbURL6,
-      };
-      imgArray.push(obj);
-    }
-    if (productData.ImageThumbURL7 != null && productData.ImageURL7 != null) {
-      const obj = {
-        original: productData.ImageURL7,
-        thumbnail: productData.ImageThumbURL7,
-      };
-      imgArray.push(obj);
-    }
-    setProductImages(imgArray);
-  };
-
-  const checkInWishlist = () => {
-    let wishlist = JSON.parse(localStorage.getItem("wishlist"));
-    wishlist &&
-      wishlist.map((w, i) => {
-        if (w?.Id?.toString() === productId) {
-          setExistInWishlist(true);
-        }
-      });
-  };
-
   const getSizes = (sizeString) => {
     const sizeSplit = sizeString.split(",").filter(function (str) {
       return /\S/.test(str);
@@ -295,12 +232,9 @@ const ProductDetails = () => {
       if (p?.Color) {
         getColors(response?.Data?.ProductDetails?.Color);
       }
-      getProductImages(response?.Data?.ProductDetails);
+      getProductImages(response?.Data?.ProductDetails,setProductImages);
       checkInCart(response?.Data);
-      // getSimilarProduct(response?.Data?.ProductDetails?.Category);
     });
-
-    checkInWishlist();
     window.scrollTo({
       top: 0,
       left: 0,
@@ -309,7 +243,7 @@ const ProductDetails = () => {
   }, [productId]);
 
   useEffect(() => {
-    checkInWishlist();
+    checkInWishlist(productId,setExistInWishlist);
   }, [wishlistChange]);
 
   const onQtyIncrease = () => {

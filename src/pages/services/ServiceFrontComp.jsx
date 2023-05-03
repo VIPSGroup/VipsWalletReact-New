@@ -437,27 +437,7 @@ return ()=>{setIsClick(false)}
                         </div>
                       </div>
                     </div>
-
-                    {/*
-                                        <div class="row">
-                                            <div class="col-lg-12 mobile-recharge-field p-0">
-                                                <div class="input-field">
-                                                    <input id="referral-mobile" type="text" placeholder="&nbsp;" autocomplete="off" />
-                                                    <label for="referral-mobile"> Operator </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12 mobile-recharge-field p-0">
-                                                <div class="input-field">
-                                                    <input id="referral-mobile" type="text" placeholder="&nbsp;" autocomplete="off" />
-                                                    <label for="referral-mobile"> Circle </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        */}
-
-                    {showBill && mobileNo && fetchBillSection()}
+ {showBill && mobileNo && fetchBillSection()}
 
                     {mobileNo.length===10 && showBillFetchError()}
 
@@ -477,7 +457,6 @@ return ()=>{setIsClick(false)}
                   </div>
                 </form>
               </div>
-              {/* {</div>} */}
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-7 mobile-recharge-right-outer">

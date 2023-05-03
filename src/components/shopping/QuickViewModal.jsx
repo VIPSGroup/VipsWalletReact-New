@@ -15,6 +15,7 @@ import { getReplaceSpace } from "../../constant/Constants";
 import { getSingleProductData } from "../../redux/slices/shopping/productSlice";
 import { MuiSnackBar, ThemeButton } from "../common";
 import { Spin } from "antd";
+import { getProductImages } from "../../utils/CommonFunctions";
 
 const QuickViewModal = ({ productId }) => {
   const dispatch = useDispatch();
@@ -30,12 +31,10 @@ const QuickViewModal = ({ productId }) => {
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [existInCart, setExistInCart] = useState(false);
-  const [existInWishlist, setExistInWishlist] = useState(false);
   const [wishlistChange, setWishlistChange] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  // const [loggedInUser, setLoggedInUser] = useState();
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
@@ -46,16 +45,6 @@ const QuickViewModal = ({ productId }) => {
 
   const imgArray = [];
   let navigate = useNavigate();
-
-  const checkInWishlist = () => {
-    let wishlist = JSON.parse(localStorage.getItem("wishlist"));
-    wishlist &&
-      wishlist.map((w, i) => {
-        if (w?.Id?.toString() === productId) {
-          setExistInWishlist(true);
-        }
-      });
-  };
 
   const handleClose = () => {
     setShowModal(false);
@@ -75,61 +64,6 @@ const QuickViewModal = ({ productId }) => {
     setColors(colorSplit);
     setSelectedColor(colorSplit[0]);
   };
-
-  const getProductImages = (productData) => {
-    if (productData?.ImageThumbURL1 != null && productData?.ImageURL1 != null) {
-      const obj = {
-        original: productData?.ImageURL1,
-        thumbnail: productData?.ImageThumbURL1,
-      };
-      imgArray?.push(obj);
-    }
-    if (productData?.ImageThumbURL2 != null && productData?.ImageURL2 != null) {
-      const obj = {
-        original: productData?.ImageURL2,
-        thumbnail: productData?.ImageThumbURL2,
-      };
-      imgArray.push(obj);
-    }
-    if (productData?.ImageThumbURL3 != null && productData?.ImageURL3 != null) {
-      const obj = {
-        original: productData?.ImageURL3,
-        thumbnail: productData?.ImageThumbURL3,
-      };
-      imgArray.push(obj);
-    }
-    if (productData?.ImageThumbURL4 != null && productData?.ImageURL4 != null) {
-      const obj = {
-        original: productData?.ImageURL4,
-        thumbnail: productData?.ImageThumbURL4,
-      };
-      imgArray.push(obj);
-    }
-    if (productData?.ImageThumbURL5 != null && productData?.ImageURL5 != null) {
-      const obj = {
-        original: productData?.ImageURL5,
-        thumbnail: productData?.ImageThumbURL5,
-      };
-      imgArray.push(obj);
-    }
-    if (productData?.ImageThumbURL6 != null && productData?.ImageURL6 != null) {
-      const obj = {
-        original: productData?.ImageURL6,
-        thumbnail: productData?.ImageThumbURL6,
-      };
-      imgArray.push(obj);
-    }
-    if (productData?.ImageThumbURL7 != null && productData?.ImageURL7 != null) {
-      const obj = {
-        original: productData?.ImageURL7,
-        thumbnail: productData?.ImageThumbURL7,
-      };
-      imgArray.push(obj);
-    }
-
-    setProductImages(imgArray);
-  };
-
   const handleColorChange = (e) => {
     setSelectedColor(e.target.value);
   };
@@ -197,7 +131,7 @@ const QuickViewModal = ({ productId }) => {
     if (p?.Color) {
       getColors(data.response?.Data.ProductDetails.Color);
     }
-    getProductImages(data?.response?.Data?.ProductDetails);
+    getProductImages(data?.response?.Data?.ProductDetails,setProductImages);
     const buyNowProductDeatils = {
       product: data.response?.Data?.ProductDetails,
       charges: data.response?.Data?.ProductTax,
@@ -209,13 +143,11 @@ const QuickViewModal = ({ productId }) => {
     buyNowProductsArray.push(buyNowProductDeatils);
 
     setProducts(buyNowProductsArray);
-    checkInWishlist();
     return ()=>{
       setExistInCart(false);
     }
   }, [data]);
   useEffect(() => {
-    checkInWishlist();
   }, [wishlistChange]);
 
   const quickModal = () => (

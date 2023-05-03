@@ -132,8 +132,11 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
       } else if(fastagRecharge?.ResponseCode === 0 || fastagRecharge?.ResponseStatus === 0){
         setSuccessMsg("")
         setIsSnackBar(true);
-        setErrorMsg(fastagRecharge?.Remarks
-        );
+        if(fastagRecharge.Data){
+          setErrorMsg(fastagRecharge?.Data?.ResponseMessage );
+        }else{
+          setErrorMsg(fastagRecharge?.Remarks);
+        }
       }
     }
       }, [data.Data, selectedDiscount,fastagRecharge])

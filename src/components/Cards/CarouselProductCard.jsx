@@ -5,24 +5,14 @@ import { Link } from "react-router-dom";
 import AddWishListButton from "../buttons/AddWishListButton";
 import { getReplaceSpace } from "../../constant/Constants";
 import { MuiSnackBar } from "../common";
+import { checkInWishlist } from "../../utils/CommonFunctions";
 
 const CarouselProductCard = ({ product, wishlistCard, recomType }) => {
   const [existInWishlist, setExistInWishlist] = useState(false);
   const [wishlistChange, setWishlistChange] = useState(false);
 
-  const checkInWishlist = () => {
-    let wishlist = JSON.parse(localStorage.getItem("wishlist"));
-
-    wishlist &&
-      wishlist.map((w, i) => {
-        if (w?.Id === product?.Id) {
-          setExistInWishlist(true);
-        }
-      });
-  };
-
   useEffect(() => {
-    checkInWishlist();
+    checkInWishlist(product.Id,setExistInWishlist);
   }, [wishlistChange]);
 
   const quickViewModal = () => (

@@ -65,7 +65,7 @@ const SendMoney = () => {
   const renderButton2 = (buttonProps) => {
     return (
       <div className="resendotp col-12 mx-auto pt-3">
-        <p {...buttonProps} className="col-12 d-block">
+        <p  className="col-12 d-block">
           {buttonProps.remainingTime !== 0 ? (
             <p>
               {" "}

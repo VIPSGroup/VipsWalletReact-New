@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../../assets/styles/shopping/shoppingHome.css";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-
-// import { getSliderBannerImages } from "../../apiData/media/home";
-// import { getAllCategories } from "../../apiData/shopping/category";
 import { fashionCategoryId, electronicCategoryId } from "../../constants";
 import { Link } from "react-router-dom";
 import TopSlider from "../../components/Sliders/shopping/TopSlider";
@@ -22,9 +19,6 @@ import { Loading } from "../../components/common";
 
 const ShoppingHome = () => {
   const dispatch = useDispatch();
-  const [bannerImages, setBannerImages] = useState([]);
-  const [categories, setCategories] = useState([]);
-
   const { data, loading } = useSelector((state) => state.productSlice.AllCat);
   const { SliderBanners } = useSelector((state) => state.bannerSlice);
 
@@ -107,33 +101,6 @@ const ShoppingHome = () => {
                 </div>
               </div>
             </div>
-
-            {/* -- catagorie nav for mobile view start -- */}
-            <div class="row d-block d-sm-none">
-              <div class="col-md-12">
-                <div class="shopping-catagory-nav-outer catagory-nav-scroller">
-                  {/* {data &&
-                  data.Data.Categories.map((c, i) =>
-                    c.Name == "Exclusive/Membership" ? null : (
-                      <div class="shopping-catagory-box">
-                        <Link to={`/shopping/${c.Name}/${c.Id}`}>
-                          <img
-                            src={
-                              `http://shopadmin.vipswallet.com/Content/Images/categories/` +
-                              c.ImageUrl
-                            }
-                          />
-                          <span class="shopping-catagory-box-title">
-                            {c.Name}
-                          </span>
-                        </Link>
-                      </div>
-                    )
-                  )} */}
-                </div>
-              </div>
-            </div>
-            {/* -- catagorie nav for mobile view end -- */}
           </div>
         </div>
       </>
@@ -146,7 +113,6 @@ const ShoppingHome = () => {
 
       <TopSlider banners={SliderBanners.Data} id={5} />
       <DealsofTheDay />
-      {/* <TopDeals /> */}
       <ShoppingCategoryProduct
         title="VIPS"
         subtitle=" Promotional"
@@ -154,7 +120,6 @@ const ShoppingHome = () => {
         categoryId={11}
         description="Discover all the VIPS merchandise here!"
       />
-      {/* <Trending /> */}
       <NewArrivalProducts />
       <DiscountBanner />
       <ShoppingCategoryProduct
@@ -169,8 +134,6 @@ const ShoppingHome = () => {
         categoryId={electronicCategoryId}
         description="Best electronic devices at affordable prices with great offers."
       />
-      {/* <InspiredByBrowsingHistory />  */}
-      {/* <Footer /> */}
     </>
   );
 };

@@ -19,6 +19,7 @@ import {
   getSubCategory,
 } from "../../redux/slices/shopping/productSlice";
 import { Loading } from "../../components/common";
+import CarouselProductCard from "../../components/Cards/CarouselProductCard";
 ReactGA.initialize(googleAnalytics);
 const ProductListing = () => {
   const dispatch = useDispatch();
@@ -246,7 +247,6 @@ const ProductListing = () => {
         <div className="col-lg-2 offset-1 my-3">{!loading && !subLoading && <h5>No Data Found</h5>} </div>
       </div>)}
       </Spin>
-
       </Spin>
     </div>
   );
