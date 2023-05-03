@@ -41,7 +41,8 @@ const ShoppingCheckout = () => {
   );
   const { data } = useSelector((state) => state.walletSlice.walletBalance);
   const { data: orderData } = useSelector(
-    (state) => state.orderSlice.orderPlace );
+    (state) => state.orderSlice.orderPlace
+  );
 
   const handleClose = () => {
     setShowModal(false);
@@ -152,13 +153,13 @@ const ShoppingCheckout = () => {
       if (response.ResponseStatus === 1) {
         setLoading(false);
         setShowModal(true);
-        setErrorMsg('');
-        setIsSnackBar(true)
-        setSuccessMsg(response.Remarks)
-      } else if(response.ResponseStatus === 0){
+        setErrorMsg("");
+        setIsSnackBar(true);
+        setSuccessMsg(response.Remarks);
+      } else if (response.ResponseStatus === 0) {
         setLoading(false);
-        setSuccessMsg("")
-        setIsSnackBar(true)
+        setSuccessMsg("");
+        setIsSnackBar(true);
         setErrorMsg(response.Remarks);
       }
     });
@@ -174,9 +175,9 @@ const ShoppingCheckout = () => {
     //   await dispatch(getWalletBalance({ userName, password }));
     // };
     // fetchWalletBalance();
-    if(loggedInUser){
-      if(data?.Data?.length!==0 || !data){
-        dispatch(getWalletBalance({username,password}))
+    if (loggedInUser) {
+      if (data?.Data?.length !== 0 || !data) {
+        dispatch(getWalletBalance({ username, password }));
       }
     }
   }, [dispatch]);
@@ -193,12 +194,13 @@ const ShoppingCheckout = () => {
 
       propsProductsData.products.map((d, i) => {
         price = price + d.qty * d.product.SalePrice;
-        
+
         sDiscount =
-        sDiscount + (d.product.ShoppingPoint / 100) * d.product.SalePrice *d.qty;
+          sDiscount +
+          (d.product.ShoppingPoint / 100) * d.product.SalePrice * d.qty;
         pDiscount =
-        pDiscount + (d.product.PrimePoints / 100) * d.product.SalePrice *d.qty;
-      
+          pDiscount +
+          (d.product.PrimePoints / 100) * d.product.SalePrice * d.qty;
 
         if (propsProductsData.address.State.includes("Maharashtra")) {
           shippingCost = shippingCost + d.charges[3].Amount;
@@ -225,11 +227,11 @@ const ShoppingCheckout = () => {
         setPrimeDiscount(data.Data.PrimePoints);
         setFinalAmount(price - data.Data.PrimePoints);
       }
-    }else if(data.ResponseStatus==0){
-        setSuccessMsg("")
-       setIsSnackBar(true)
-       setErrorMsg( data.Remarks)
-       }
+    } else if (data.ResponseStatus == 0) {
+      setSuccessMsg("");
+      setIsSnackBar(true);
+      setErrorMsg(data.Remarks);
+    }
   }, [data.Data]);
 
   const checkoutSection = () => (
@@ -411,131 +413,129 @@ const ShoppingCheckout = () => {
             </div>
             <div class="col-sm-12 col-md-12 col-lg-4 ">
               {/* <div class="shopping-payment-right"> */}
-                <div class="shopping-payment-right-sticky box-shadow-1">
-                  <div class="row">
-                    <div class="col-md-12 shopping-payment-content-head">
-                      <h3 class="shopping-payment-content-title">
-                        {" "}
-                        Order Summary{" "}
-                      </h3>
-                    </div>
+              <div class="shopping-payment-right-sticky box-shadow-1">
+                <div class="row">
+                  <div class="col-md-12 shopping-payment-content-head">
+                    <h3 class="shopping-payment-content-title">
+                      {" "}
+                      Order Summary{" "}
+                    </h3>
                   </div>
+                </div>
 
-                  <div class="col-md-12 p-0">
-                    <div class="shopping-payment-summery">
-                      <div class="row mb-3">
-                        <div class="col-7 col-xs-4">
-                          <span> Amount : </span>
-                        </div>
-                        <div class="col-5 col-xs-4 text-right">
-                          <span class="shopping-payment-summery-amt">
-                            {" "}
-                            &#x20B9; {parseFloat(amount).toLocaleString()}{" "}
-                          </span>
-                        </div>
+                <div class="col-md-12 p-0">
+                  <div class="shopping-payment-summery">
+                    <div class="row mb-3">
+                      <div class="col-7 col-xs-4">
+                        <span> Amount : </span>
                       </div>
-
-                      {selectedDiscount == "shoppingPoint" ? (
-                        <div class="row mb-3">
-                          <div class="col-7 col-xs-4">
-                            <span> Shopping Points : </span>
-                          </div>
-                          <div class="col-5 col-xs-4 text-right">
-                            <span class="shopping-payment-summery-amt">
-                              {" "}
-                              -&#x20B9;{" "}
-                              {parseFloat(
-                                shoppingDiscount
-                              ).toLocaleString()}{" "}
-                            </span>
-                          </div>
-                        </div>
-                      ) : null}
-
-                      {selectedDiscount == "primePoint" ? (
-                        <div class="row mb-3">
-                          <div class="col-7 col-xs-4">
-                            <span> Prime Points : </span>
-                          </div>
-                          <div class="col-5 col-xs-4 text-right">
-                            <span class="mobile-payment-summery-amt">
-                              {" "}
-                              -&#x20B9; {primeDiscount}{" "}
-                            </span>
-                          </div>
-                        </div>
-                      ) : null}
-
-                      <div class="row mb-3">
-                        <div class="col-7 col-xs-4">
-                          <span> Shipping Cost : </span>
-                        </div>
-                        <div class="col-5 col-xs-4 text-right">
-                          <span class="shopping-payment-summery-amt">
-                            {" "}
-                            &#x20B9; {shippingCharges}{" "}
-                          </span>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <div class="col-7 col-xs-4">
-                          <span> Total Discount : </span>
-                        </div>
-                        <div class="col-5 col-xs-4 text-right">
-                          <span class="shopping-payment-summery-amt total-discount-text">
-                            {" "}
-                            &#x20B9;{" "}
-                            {selectedDiscount == "shoppingPoint"
-                              ? parseFloat(shoppingDiscount)
-                              : parseFloat(primeDiscount)}{" "}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div class="dropdown-divider"></div>
-                      <div class="row mt-3">
-                        <div class="col-7 col-xs-4">
-                          <span> Total Amount : </span>
-                        </div>
-                        <div class="col-5 col-xs-4 text-right">
-                          {selectedDiscount == "shoppingPoint" ? (
-                            <span class="mobile-payment-summery-amt">
-                              {" "}
-                              &#x20B9;{" "}
-                              {parseFloat(
-                                getDouble(
-                                  amount - shoppingDiscount + shippingCharges
-                                )
-                              ).toLocaleString()}
-                            </span>
-                          ) : (
-                            <span class="mobile-payment-summery-amt">
-                              {" "}
-                              &#x20B9;{" "}
-                              {getDouble(
-                                amount - primeDiscount + shippingCharges
-                              )}{" "}
-                            </span>
-                          )}
-                        </div>
+                      <div class="col-5 col-xs-4 text-right">
+                        <span class="shopping-payment-summery-amt">
+                          {" "}
+                          &#x20B9; {parseFloat(amount).toLocaleString()}{" "}
+                        </span>
                       </div>
                     </div>
-                    {amount > balance ? (
-                      <div className="alert alert-danger d-block mt-4">
-                        Wallet Balance less than the Amount.{" "}
-                        <Link
-                          to="/addMoney/options"
-                          className="text-decoration-none text-primery"
-                          style={{ textDecoration: "none" }}
-                        >
-                          Add Money
-                        </Link>
+
+                    {selectedDiscount == "shoppingPoint" ? (
+                      <div class="row mb-3">
+                        <div class="col-7 col-xs-4">
+                          <span> Shopping Points : </span>
+                        </div>
+                        <div class="col-5 col-xs-4 text-right">
+                          <span class="shopping-payment-summery-amt">
+                            {" "}
+                            -&#x20B9;{" "}
+                            {parseFloat(shoppingDiscount).toLocaleString()}{" "}
+                          </span>
+                        </div>
                       </div>
                     ) : null}
 
-                    <div class="col-md-12">
-                      <div class="shopping-payment-confirm-btn">
-                        {/* <button
+                    {selectedDiscount == "primePoint" ? (
+                      <div class="row mb-3">
+                        <div class="col-7 col-xs-4">
+                          <span> Prime Points : </span>
+                        </div>
+                        <div class="col-5 col-xs-4 text-right">
+                          <span class="mobile-payment-summery-amt">
+                            {" "}
+                            -&#x20B9; {primeDiscount}{" "}
+                          </span>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    <div class="row mb-3">
+                      <div class="col-7 col-xs-4">
+                        <span> Shipping Cost : </span>
+                      </div>
+                      <div class="col-5 col-xs-4 text-right">
+                        <span class="shopping-payment-summery-amt">
+                          {" "}
+                          &#x20B9; {shippingCharges}{" "}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-7 col-xs-4">
+                        <span> Total Discount : </span>
+                      </div>
+                      <div class="col-5 col-xs-4 text-right">
+                        <span class="shopping-payment-summery-amt total-discount-text">
+                          {" "}
+                          &#x20B9;{" "}
+                          {selectedDiscount == "shoppingPoint"
+                            ? parseFloat(shoppingDiscount)
+                            : parseFloat(primeDiscount)}{" "}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="dropdown-divider"></div>
+                    <div class="row mt-3">
+                      <div class="col-7 col-xs-4">
+                        <span> Total Amount : </span>
+                      </div>
+                      <div class="col-5 col-xs-4 text-right">
+                        {selectedDiscount == "shoppingPoint" ? (
+                          <span class="mobile-payment-summery-amt">
+                            {" "}
+                            &#x20B9;{" "}
+                            {parseFloat(
+                              getDouble(
+                                amount - shoppingDiscount + shippingCharges
+                              )
+                            ).toLocaleString()}
+                          </span>
+                        ) : (
+                          <span class="mobile-payment-summery-amt">
+                            {" "}
+                            &#x20B9;{" "}
+                            {getDouble(
+                              amount - primeDiscount + shippingCharges
+                            )}{" "}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  {amount > balance ? (
+                    <div className="alert alert-danger d-block mt-4">
+                      Wallet Balance less than the Amount.{" "}
+                      <Link
+                        to="/addMoney/options"
+                        className="text-decoration-none text-primery"
+                        style={{ textDecoration: "none" }}
+                      >
+                        Add Money
+                      </Link>
+                    </div>
+                  ) : null}
+
+                  <div class="col-md-12">
+                    <div class="shopping-payment-confirm-btn">
+                      {/* <button
                           onClick={!loading && clickConfirmPayment}
                           class="btn-primery"
                           id="ordersuccessmmodal"
@@ -545,14 +545,18 @@ const ShoppingCheckout = () => {
                         >
                           {loading ? <LoadingBar /> : "Confirm Payment"}
                         </button> */}
-                        <ThemeButton onClick={clickConfirmPayment} loading={loading} disabled={amount>balance} value={"Confirm Payment"}/>
-                      </div>
+                      <ThemeButton
+                        onClick={clickConfirmPayment}
+                        loading={loading}
+                        disabled={amount > balance}
+                        value={"Confirm Payment"}
+                      />
                     </div>
                   </div>
                 </div>
+              </div>
               {/* </div> */}
             </div>
-
           </div>
         </div>
       </section>
@@ -642,13 +646,13 @@ const ShoppingCheckout = () => {
       {checkoutSection()}
       {SuccessModal()}
       <MuiSnackBar
-              open={isSnackBar}
-              setOpen={setIsSnackBar}
-              successMsg={successMsg}
-              errorMsg={errorMsg}
-              setSuccess={setSuccessMsg}
-              setError={setErrorMsg}
-            />
+        open={isSnackBar}
+        setOpen={setIsSnackBar}
+        successMsg={successMsg}
+        errorMsg={errorMsg}
+        setSuccess={setSuccessMsg}
+        setError={setErrorMsg}
+      />
     </div>
   );
 };

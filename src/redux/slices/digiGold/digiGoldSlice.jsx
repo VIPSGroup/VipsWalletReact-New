@@ -38,8 +38,8 @@ export const BuyDigiGold = async ({
   blockid,
   amount,
   type,
-  // CouponId,
-  // CouponAmount,
+  CouponId,
+  CouponAmount,
   PointType,
   DiscountAmount,
 }) => {
@@ -54,11 +54,10 @@ export const BuyDigiGold = async ({
   formData.append("modeOfTransaction", type);
   formData.append("amount", amount);
   formData.append("currentAppVersion", currentAppVersion);
-  // formData.append("CouponId", CouponId);
-  // formData.append("CouponDiscount", CouponAmount);
+  formData.append("CouponId", CouponId ? CouponId : 0);
+  formData.append("CouponDiscount", CouponAmount ? CouponAmount : 0.00);
   formData.append("PointType", PointType);
   formData.append("DiscountAmount", DiscountAmount);
-
 
   try {
     const res = await axios.post(`${digiBaseUrl}BuyDigiGold`, formData);

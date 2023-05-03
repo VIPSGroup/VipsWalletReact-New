@@ -28,7 +28,11 @@ const publicSlice = createSlice({
       state.termscondition.loading = true;
     });
     builder.addCase(getDynamicContent.fulfilled, (state, action) => {
-    console.error(action.payload[0].Data.find(item=>item.Type==="Terms And Conditions"));
+      console.error(
+        action.payload[0].Data.find(
+          (item) => item.Type === "Terms And Conditions"
+        )
+      );
       let collection = action.payload[0].Data.find(
         (element) => element.Type === action.payload[1]
       );
