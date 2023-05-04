@@ -349,6 +349,7 @@ const OrderSummary = () => {
     const accountNumber = list.Data && list.Data.result[0]?.accountNumber;
     const ifscCode = list.Data && list.Data.result[0]?.ifscCode;
     const OTP = otp;
+    
 
     if (!editAddress) {
       const res = await SellDigiGold({
