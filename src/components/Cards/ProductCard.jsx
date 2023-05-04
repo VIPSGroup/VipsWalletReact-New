@@ -5,22 +5,11 @@ import "../../assets/styles/shopping/quickViewModal.css";
 import { getReplaceSpace } from "../../constants";
 import AddWishListButton from "../buttons/AddWishListButton";
 import QuickViewModal from "../shopping/QuickViewModal";
-// import { checkInWishlist } from "../../utils/CommonFunctions";
+import { checkInWishlist } from "../../utils/CommonFunctions";
 
 const ProductCard = ({ product, wishlistCard }) => {
   const [existInWishlist, setExistInWishlist] = useState(false);
   const [wishlistChange, setWishlistChange] = useState(false);
-
-  const checkInWishlist = () => {
-    let wishlist = JSON.parse(localStorage.getItem("wishlist"));
-
-    wishlist &&
-      wishlist.map((w, i) => {
-        if (w.Id == product.Id) {
-          setExistInWishlist(true);
-        }
-      });
-  };
 
   useEffect(() => {
     checkInWishlist(product.Id,setExistInWishlist);
@@ -67,7 +56,9 @@ const ProductCard = ({ product, wishlistCard }) => {
                 <span class="promo-product-mrp">
                   {" "}
                   &#x20B9;{" "}
-                  {product.SalePrice && product.SalePrice.toLocaleString()}
+                  {product?.SalePrice.toLocaleString().split(".").length !== 2
+                  ? product?.SalePrice && product?.SalePrice.toLocaleString()
+                  : product?.SalePrice.toLocaleString().split(".")[0]}
                 </span>
                 {product.CostPrice!==0 && <><span class="promo-product-list-price">
                   <s>

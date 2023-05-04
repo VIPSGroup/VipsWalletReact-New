@@ -40,18 +40,6 @@ const OTPModal = ({
               </span>
             </p>
           ) : (
-            // <span>
-            //   Not received OTP?{" "}
-            //   <span>
-            //     <a
-            //       {...buttonProps}
-            //       style={{ color: "#CA3060" }}
-            //       onClick={resendOtp}
-            //     >
-            //       Resend OTP
-            //     </a>
-            //   </span>
-            // </span>
             <p>
               Not received OTP?{" "}
               <a {...buttonProps}>

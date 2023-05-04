@@ -15,7 +15,6 @@ const AllTermsAndCondition = ({ title, type }) => {
   const { data, loading } = useSelector(
     (state) => state.publicSlice.termscondition
   );
-  console.log(data, "data");
 
   // useEffect(() => {
   //   ReactGA.pageview(window.location.pathname);

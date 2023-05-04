@@ -51,6 +51,7 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
   const { rechargeData, loading } = useSelector(
     (state) => state.commonSlice.finalRecharge
   );
+  console.error(discount);
   const handleClickConfirm = (e) => {
     setShowSuccess(true);
     e.preventDefault();
@@ -97,7 +98,7 @@ setErrorMsg("Something Went wrong, Please try again later")
       const serviceId =
         props?.circleId === 0 ? postpaidServiceId : mobileServiceId;
       setServiceId(serviceId);
-      dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount }));
+      dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount,serviceId: mobileServiceId}));
     }
     if (rechargeData && showSuccess) {
       if (rechargeData.ResponseStatus == 1) {
@@ -185,6 +186,9 @@ setErrorMsg("Something Went wrong, Please try again later")
         <div class="container">
           <div class="payment-head-outer">
             <div class="payment-head">
+               <Link to='/'>
+              <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
+            </Link>
               <div class="go-back">
                 <Link
                   to="/services/mobileRecharge"
@@ -347,7 +351,7 @@ setErrorMsg("Something Went wrong, Please try again later")
                             <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
-                                &#x20B9; {amt}{" "}
+                                &#x20B9; {Number(amt).toLocaleString()}{" "}
                               </p>
                             </div>
                           </div>
@@ -380,7 +384,7 @@ setErrorMsg("Something Went wrong, Please try again later")
                         <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
-                            &#x20B9; {amt}{" "}
+                            &#x20B9; {Number(amt).toLocaleString()}{" "}
                           </span>
                         </div>
                       </div>
@@ -429,7 +433,7 @@ setErrorMsg("Something Went wrong, Please try again later")
                         <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
-                            &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? discount?.finalAmount:  discount?.finalAmount?.toFixed(2)}{" "}
+                            &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? Number(discount?.finalAmount).toLocaleString():  Number(discount?.finalAmount?.toFixed(2)).toLocaleString()}{" "}
                           </span>
                         </div>
                       </div>
@@ -472,6 +476,7 @@ setErrorMsg("Something Went wrong, Please try again later")
                           )}{" "}
                         </button> */}
                         <ThemeButton
+                        disabled={amt > data?.Data?.Balance}
                           loading={loading}
                           onClick={handleClickConfirm}
                           value={"Confirm Payment"}

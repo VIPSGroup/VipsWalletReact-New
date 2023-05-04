@@ -23,6 +23,7 @@ const MyOrdersPage = () => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [sellStatus, setSellStatus] = useState("");
 
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
@@ -33,7 +34,7 @@ const MyOrdersPage = () => {
   const { ordersList, loading: orderLoad } = useSelector(
     (state) => state.userProfileSlice.myOrders
   );
-  const { data: sellStatus, loading: SellLoad } = useSelector(
+  const { loading: SellLoad } = useSelector(
     (state) => state.userProfileSlice.sellStatus
   );
   // const { pdfData } = useSelector((state) => state.userProfileSlice.invoice);
@@ -613,7 +614,6 @@ const MyOrdersPage = () => {
                           loading={orderLoad}
                           columns={columns}
                           dataSource={data}
-                          
                         />
                         {/* </Card> */}
                       </div>
@@ -627,7 +627,10 @@ const MyOrdersPage = () => {
       </section>
       <Modal
         footer={[]}
-        onCancel={() => setModal(false)}
+        onCancel={() => {
+          setModal(false);
+          setSellStatus("");
+        }}
         centered
         maskClosable={false}
         open={modal}
@@ -639,12 +642,10 @@ const MyOrdersPage = () => {
               <p class="digigoldorderdetails-title">Order Details</p>
               <div class="digigoldorderdetails-summery">
                 <div class="row mb-3">
-
                   <div class="col-xl-5 col-sm-6">
                     <span> Transaction ID: </span>
                   </div>
                   <div class="col-xl-7 col-sm-6 text-sm-right">
-
                     <span class="digigoldorderdetails-amt">
                       {" "}
                       {modalData?.TransactionId}
@@ -736,9 +737,7 @@ const MyOrdersPage = () => {
                 </div>
 
                 <div class="row mb-3">
-
                   <div class="col-xl-6 col-sm-6">
-
                     <span> {tab === "Buy" ? "Invoice" : "Status"}: </span>
                   </div>
                   <div
@@ -766,43 +765,47 @@ const MyOrdersPage = () => {
                           modalData?.TransactionStatus?.slice(1)}{" "} */}
                         <Button
                           loading={SellLoad}
-                          type={
-                            modalData?.TransactionStatus ? "text" : "default"
-                          }
+                          type={sellStatus ? "text" : "default"}
                           style={{
-                            color: modalData?.TransactionStatus
-                              ? "red"
-                              : "black",
+                            color: sellStatus ? "red" : "black",
                           }}
                           onClick={async () => {
-                            const res = await dispatch(
-                              getSellStatus({
-                                transactionId: modalData?.TransactionId,
-                                Username: loggedInUser?.UserName,
-                                Password: loggedInUser?.TRXNPassword,
-                              })
-                            );
-                            if (
-                              res.payload.ResponseStatus === 0 &&
-                              res.payload.Data.statusCode !== 200
-                            ) {
-                              setIsSnackBar(true);
-                              setErrorMsg(res.payload.Data.message);
-                              setSuccessMsg("");
-                            } else if (
-                              res.payload.ResponseStatus === 0 &&
-                              !res.payload.Data
-                            ) {
-                              setIsSnackBar(true);
-                              setErrorMsg(res.payload.Remarks);
-                              setSuccessMsg("");
+                            if (!sellStatus) {
+                              const res = await dispatch(
+                                getSellStatus({
+                                  transactionId: modalData?.TransactionId,
+                                  Username: loggedInUser?.UserName,
+                                  Password: loggedInUser?.TRXNPassword,
+                                })
+                              );
+                              if (
+                                res.payload.ResponseStatus === 0 &&
+                                res.payload.Data.statusCode !== 200
+                              ) {
+                                setIsSnackBar(true);
+                                setErrorMsg(res.payload.Data.message);
+                                setSuccessMsg("");
+                              } else if (
+                                res.payload.ResponseStatus === 0 &&
+                                !res.payload.Data
+                              ) {
+                                setIsSnackBar(true);
+                                setErrorMsg(res.payload.Remarks);
+                                setSuccessMsg("");
+                              } else if (
+                                res.payload.ResponseStatus === 1 &&
+                                res.payload.Data.statusCode === 200
+                              ) {
+                                setSellStatus(
+                                  res.payload.Data.result.data.status
+                                );
+                              }
                             }
-                            // console.log(res.payload, "res");
                           }}
                           size="small"
                         >
-                          {modalData?.TransactionStatus
-                            ? modalData?.TransactionStatus?.toUpperCase()
+                          {sellStatus
+                            ? sellStatus?.toUpperCase()
                             : "Check Status"}
                         </Button>
                       </span>

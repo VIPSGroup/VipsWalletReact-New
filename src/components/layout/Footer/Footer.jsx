@@ -95,7 +95,7 @@ const Footer = () => {
 
                   <li>
                     {" "}
-                    <Link to="/termscondtion" target="_blank">
+                    <Link to="/termscondition" target="_blank">
                       {" "}
                       Terms & Conditions{" "}
                     </Link>{" "}
@@ -157,7 +157,7 @@ const Footer = () => {
                 <div class="policy">
                   <div>
                     {" "}
-                    <Link to="/termscondtion" target="_blank">
+                    <Link to="/termscondition" target="_blank">
                       {" "}
                       Terms & Conditions{" "}
                     </Link>{" "}

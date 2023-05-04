@@ -437,68 +437,26 @@ return ()=>{setIsClick(false)}
                         </div>
                       </div>
                     </div>
-
-                    {/*
-                                        <div class="row">
-                                            <div class="col-lg-12 mobile-recharge-field p-0">
-                                                <div class="input-field">
-                                                    <input id="referral-mobile" type="text" placeholder="&nbsp;" autocomplete="off" />
-                                                    <label for="referral-mobile"> Operator </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12 mobile-recharge-field p-0">
-                                                <div class="input-field">
-                                                    <input id="referral-mobile" type="text" placeholder="&nbsp;" autocomplete="off" />
-                                                    <label for="referral-mobile"> Circle </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        */}
-
-                    {showBill && mobileNo && fetchBillSection()}
+ {showBill && mobileNo && fetchBillSection()}
 
                     {mobileNo.length===10 && showBillFetchError()}
 
                     <div class="col-md-12">
                       {!showBill && (
                         <div class="mobile-recharge-btn">
-                          {/* <button
-                            onClick={clickFetchBill}
-                            class="btn-primery service-loading-btn"
-                            id="addmoneymodal"
-                          >
-                            {billLoading ? (
-                              
-                              <Loading />
-                              
-                            ) : (
-                              `Fetch Bill`
-                            )}
-                          </button> */}
-                          <ThemeButton onClick={clickFetchBill} value={"Fetch Bill"} loading={billLoading}/>
+                          <ThemeButton onClick={clickFetchBill} value={"Fetch Bill"} loading={mobileNo.length===10 ? billLoading :false}/>
                         </div>
                       )}
 
                       {showBill && (
                         <div class="mobile-recharge-btn">
                           <ThemeButton value={"Continue"} onClick={onClick}/>
-                          {/* <button
-                            onClick={onClick}
-                            class="btn-primery"
-                            id="addmoneymodal"
-                          >
-                            {" "}
-                            Continue{" "}
-                          </button> */}
                         </div>
                       )}
                     </div>
                   </div>
                 </form>
               </div>
-              {/* {</div>} */}
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-7 mobile-recharge-right-outer">

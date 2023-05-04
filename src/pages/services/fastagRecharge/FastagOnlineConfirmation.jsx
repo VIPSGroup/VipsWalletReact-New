@@ -53,7 +53,6 @@ const FastagOnlineConfirmation = ({setIsCommonTopNav}) => {
     const paymentRefId = getRandomNumber();
 dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,billAmount:amt,inputObj:inputFields,paymentRef:paymentRefId,refId:props?.billData.TransactionId,operatorCode:props?.operatorId,mobNo:props?.number,pointType:selectedDiscount}))
   };
-
   const handlePaymentMethod = (e) => {
     if (balance < amt) {
       if (selectedPaymentMethod == "both" && e.target.value == "wallet") {
@@ -105,7 +104,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
         setIsCommonTopNav(true)}
   }, []);
   useEffect(() => {
-    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
+    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount,serviceId:fastagServiceId}))
     if(data?.Data){
       manageInitialPaymentMethod(data?.Data?.Balance);
     }
@@ -133,8 +132,11 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
       } else if(fastagRecharge?.ResponseCode === 0 || fastagRecharge?.ResponseStatus === 0){
         setSuccessMsg("")
         setIsSnackBar(true);
-        setErrorMsg(fastagRecharge?.Remarks
-        );
+        if(fastagRecharge.Data){
+          setErrorMsg(fastagRecharge?.Data?.ResponseMessage );
+        }else{
+          setErrorMsg(fastagRecharge?.Remarks);
+        }
       }
     }
       }, [data.Data, selectedDiscount,fastagRecharge])
@@ -144,9 +146,9 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
         <div class="container">
           <div class="payment-head-outer">
             <div class="payment-head">
-              {/* <Link class="" to="#">
+              <Link class="" to="/">
               <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
-            </Link> */}
+            </Link>
               <div class="go-back">
                 <Link to="/services/fastag">
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
@@ -304,7 +306,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                             <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
-                                &#x20B9; {amt}{" "}
+                                &#x20B9; {Number(amt).toLocaleString()}{" "}
                               </p>
                             </div>
                           </div>
@@ -337,7 +339,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                         <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
-                            &#x20B9; {amt}{" "}
+                            &#x20B9; {Number(amt).toLocaleString()}{" "}
                           </span>
                         </div>
                       </div>
@@ -384,7 +386,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                         <div class="col-4 col-xs-4 text-right">
                         <span class="mobile-payment-summery-amt">
                               {" "}
-                              &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? discount?.finalAmount:  discount?.finalAmount?.toFixed(2)}{" "}
+                              &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? Number(discount?.finalAmount).toLocaleString(): Number(discount?.finalAmount?.toFixed(2)).toLocaleString()}{" "}
                             </span>
                         </div>
                       </div>
@@ -427,7 +429,7 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                             "Confirm Payment"
                           )}{" "}
                         </button> */}
-                        <ThemeButton onClick={handleClickConfirm} loading={reLoading} value={"Confirm Payment"}/>
+                        <ThemeButton  disabled={amt > data?.Data?.Balance} onClick={handleClickConfirm} loading={reLoading} value={"Confirm Payment"}/>
                       </div>
                       {showError()}
                     </div>
