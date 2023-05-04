@@ -410,15 +410,7 @@ const DigiGoldHome = ({
         const sGramStr = sGramRounded.toFixed(4);
         const sGramResult = parseFloat(sGramStr);
         if (0 < (isGold === 0 ? gGram?.toFixed(4) : sGram?.toFixed(4))) {
-          // console.log(totalResult, "totalResult");
           if (totalResult >= 1) {
-            // setErr(
-            //   ` You can ${parseFloat(active) === 1 ? "Sell" : "Gift"} up to ${
-            //     isGold === 0 ? gGramResult : sGramResult
-            //   } gm ${isGold === 0 ? "Gold" : "Silver"} of total  ${
-            //     isGold === 0 ? gGramResult : sGramResult
-            //   } gm `
-            // );
             setErr(
               `You Don't have a Sufficient ${
                 isGold === 0 ? "Gold" : "Silver"

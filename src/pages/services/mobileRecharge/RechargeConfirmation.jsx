@@ -51,7 +51,6 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
   const { rechargeData, loading } = useSelector(
     (state) => state.commonSlice.finalRecharge
   );
-  console.error(discount);
   const handleClickConfirm = (e) => {
     setShowSuccess(true);
     e.preventDefault();

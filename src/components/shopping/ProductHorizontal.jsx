@@ -35,7 +35,6 @@ const ProductHorizontal = ({
       items: 1,
     },
   };
-  // console.log(recomType, 'recomType')
   return (
     <>
       {!loading && (

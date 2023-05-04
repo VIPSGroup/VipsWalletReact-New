@@ -177,7 +177,6 @@ const SendMoney = () => {
     if (recieverNo.length == 10) {
       if (referName) {
         if (amount) {
-          console.log("called");
           sendMoneyOtp(
             loggedInUser.Mobile,
             loggedInUser.TRXNPassword,

@@ -112,8 +112,7 @@ const loginSlice = createSlice({
  initialState,
   reducers: {
     resetState:(state)=>{return initialState},
-    getLoggedInUser:(state)=>{console.log(JSON.stringify(state.loggetInWithOTP.loggedInUser))
-      // ...state,
+    getLoggedInUser:(state)=>{
       state.loggetInWithOTP.loggedInUser=localStorage.getItem("user")
     }
   },

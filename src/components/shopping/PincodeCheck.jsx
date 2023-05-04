@@ -17,7 +17,6 @@ const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
   };
   const clickCheckPincode = async (e) => {
     if (pincode) {
-      console.log("lol");
       setApiResponse("");
       const res = await dispatch(checkPinCode({ pincode, productId }));
       if (res.payload.ResponseStatus === 1) {
