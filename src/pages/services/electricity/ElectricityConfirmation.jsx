@@ -202,7 +202,7 @@ return ()=>{setShowSuccess(false)
                         <p class=""> {props.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
-                        <p class="mob-paymet-recharge-text">
+                        <p class="mob-paymet-recharge-text mb-0">
                           Price : <label> &#x20B9; {amt} </label>{" "}
                         </p>
                       </div>

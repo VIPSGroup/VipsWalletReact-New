@@ -115,14 +115,6 @@ select.floating-select-wraper::-ms-expand {
   border: none;
 }
 
-.ant-btn-default {
-  color: var(--darkText);
-  border-color: var(--primary);
-}
-.ant-btn-default:not(:disabled):hover {
-  border-color: var(--primary);
-  color: var(--primary);
-}
 
 @media (max-width: 575px) {
   .order-proceed-btn {

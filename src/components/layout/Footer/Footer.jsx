@@ -38,7 +38,7 @@ const Footer = () => {
                           key={i}
                           to={e.link}
                           target="_blank"
-                          class="footer-twitter"
+                          class={e.hoverClass}
                         >
                           <i class={e.icon}></i>
                         </Link>
@@ -56,7 +56,7 @@ const Footer = () => {
                           key={i}
                           to={e.link}
                           target="_blank"
-                          class="footer-apple"
+                          class={e.hoverClass}
                         >
                           <i class={e.icon}></i>
                         </Link>
@@ -185,32 +185,39 @@ const Socialicons = [
   {
     link: twitterUrl,
     icon: "fa fa-twitter fa-lg",
+    hoverClass:"footer-twitter"
   },
   {
     link: youtubeUrl,
     icon: "fa-brands fa-youtube",
+    hoverClass:"footer-youtube"
   },
   {
     link: linkedinUrl,
     icon: "fa fa-linkedin-square fa-lg",
+    hoverClass:"footer-linkedin"
   },
   {
     link: instaUrl,
     icon: "fa fa-instagram fa-lg",
+    hoverClass:"footer-instagram"
   },
   {
     link: facebookUrl,
     icon: "fa-brands fa-facebook",
+    hoverClass:"footer-facebook"
   },
 ];
 const Downloadurl = [
   {
     link: appStoreUrl,
     icon: "fa-brands fa-apple fa-lg",
+    hoverClass:"footer-apple"
   },
   {
     link: playStoreUrl,
     icon: "fa fa-android fa-lg",
+    hoverClass:"footer-android"
   },
 ];
 const UsefullLinks = [

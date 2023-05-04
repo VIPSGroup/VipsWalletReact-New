@@ -692,7 +692,7 @@ const OrderSummary = () => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? "col-lg-2 col-sm-6"
+                                ? shopPointLimit ?  "col-lg-3 col-sm-6" :   "col-lg-3 col-sm-6"
                                 : "col-lg-3 col-sm-4"
                             } `}
                           >
@@ -706,20 +706,13 @@ const OrderSummary = () => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? "col-lg-2 col-sm-6"
+                                ? shopPointLimit ?  "col-lg-3 col-sm-6" : "col-lg-2 col-sm-6"
                                 : "col-lg-3 col-sm-4"
                             } `}
                           >
                             <p class="digigold-insert-darktext">Rate</p>
                             <p class="digigold-insert-amt">
                               &#x20B9;{" "}
-                              {/* {state.metalType === "gold"
-                            ? goldRate && state.valType !== "Amount"
-                              ? goldRate
-                              : state?.valueinAmt
-                            : silverRate && state.valType !== "Amount"
-                            ? silverRate
-                            : state?.valueinAmt} */}
                               {!loading && rateData
                                 ? state?.type === "buy"
                                   ? state?.metalType === "gold"
@@ -738,20 +731,13 @@ const OrderSummary = () => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? "col-lg-3 col-sm-6"
+                                ? shopPointLimit ?  "col-lg-3 col-sm-6" : "col-lg-2 col-sm-6"
                                 : "col-lg-3 col-sm-4"
                             } `}
                           >
                             <p class="digigold-insert-darktext">Amount</p>
                             <p class="digigold-insert-amt">
                               &#x20B9;{" "}
-                              {/* {state.metalType === "gold"
-                            ? goldRate && state.valType !== "Amount"
-                              ? goldRate
-                              : state?.valueinAmt
-                            : silverRate && state.valType !== "Amount"
-                            ? silverRate
-                            : state?.valueinAmt} */}
                               {currentRate &&
                                 parseFloat(currentRate)?.toLocaleString()}
                             </p>
@@ -760,7 +746,7 @@ const OrderSummary = () => {
                             <div
                               class={`${
                                 state?.type === "buy"
-                                  ? "col-lg-2 col-sm-6"
+                                  ?shopPointLimit ?  "col-lg-3 col-sm-6" :  "col-lg-2 col-sm-6"
                                   : "col-lg-3  col-sm-4"
                               } `}
                             >
@@ -771,9 +757,10 @@ const OrderSummary = () => {
                               </p>
                             </div>
                           )}
+
                           <div
                             class={`${
-                              state?.type === "buy" ? "col-lg-3" : "col-lg-3"
+                              state?.type === "buy" ? shopPointLimit ?  "col-lg-6" :  "col-lg-3" : "col-lg-3"
                             } `}
                           >
                             <p class="digigold-insert-darktext">Total Amount</p>
@@ -786,6 +773,20 @@ const OrderSummary = () => {
                                   )?.toLocaleString()}
                             </p>
                           </div>
+                          {state?.type === "buy" && shopPointLimit && (
+                            <div
+                              class={`${
+                                state?.type === "buy" ? "col-lg-6" : "col-lg-3"
+                              } `}
+                            >
+                              <p class="digigold-insert-darktext">
+                                Shopping Points ({ServiceData?.ShoppingPer}%)
+                              </p>
+                              <p class="digigold-insert-amt">
+                                - &#x20B9; {FinalShopAmount}
+                              </p>
+                            </div>
+                          )}
                         </div>
 
                         <div class="row digigold-payble-value">
@@ -797,46 +798,6 @@ const OrderSummary = () => {
                             <p class="digigold-payble-amt">
                               {" "}
                               &#x20B9;{" "}
-                              {/* {() => {
-                                if (state.type === "buy") {
-                                  totalAmount
-                                    ? parseFloat(totalAmount) -
-                                      FinalShopAmount?.toLocaleString()
-                                    : parseFloat(state?.valueinAmt) -
-                                      FinalShopAmount?.toLocaleString();
-                                } else {
-                                  // eslint-disable-next-line no-lone-blocks
-                                  {
-                                    totalAmount
-                                      ? parseFloat(totalAmount) -
-                                        (parseFloat(totalAmount) / 100) *
-                                          parseFloat(
-                                            ServiceData?.ShoppingPer
-                                          ).toLocaleString()
-                                      : parseFloat(state?.valueinAmt) -
-                                        (parseFloat(state?.valueinAmt) / 100) *
-                                          parseFloat(
-                                            ServiceData?.ShoppingPer
-                                          ).toLocaleString();
-
-                                    // parseFloat(
-                                    //     state?.valueinAmt
-                                    //   ).toLocaleString()
-                                  }
-                                }
-                              }} */}
-                              {/* {() => {
-                                if (state.type === "buy") {
-                                 
-                                  ;
-                                } else {
-=                                  totalAmount
-                                    ? parseFloat(totalAmount)?.toLocaleString()
-                                    : parseFloat(
-                                        state?.valueinAmt
-                                      )?.toLocaleString();
-                                }
-                              }} */}
                               {(() => {
                                 if (state?.type === "buy") {
                                   if (shopPointLimit) {
@@ -1000,24 +961,7 @@ const OrderSummary = () => {
                                               <img src="./images/digigold-images/coupon-giftbox.svg" />
                                             </div> */}
                                           </div>
-                                          <div
-                                            style={
-                                              {
-                                                // position: "absolute",
-                                                // bottom: 0,
-                                                // left: 0,
-                                                // backgroundColor: "#ca3060",
-                                                // width: "100%",
-                                                // textAlign: "center",
-                                                // color: "#ca3060",
-                                                // padding: 1,
-                                                // fontWeight: "500",
-                                                // borderTopRightRadius: 10,
-                                                // borderTopLeftRadius: 10,
-                                              }
-                                            }
-                                            className="digi-coupon-giftfooter"
-                                          >
+                                          <div className="digi-coupon-giftfooter">
                                             View Terms & Conditions
                                             {/* <p
                                                 style={{
@@ -1100,13 +1044,6 @@ const OrderSummary = () => {
                                       )}
                                     </label>
                                   </div>
-                                  {/* </div> */}
-                                  {/* <div class="col-lg-4 p-0">
-                                  <p class="digigold-paymet-discount-amt">
-                                    {" "}
-                                    &#x20B9; 5.00{" "}
-                                  </p>
-                                </div> */}
                                 </div>
                               </div>
                             )}
@@ -1145,11 +1082,6 @@ const OrderSummary = () => {
                                         : "Loading..."}
                                       )
                                     </label>
-                                    {/* {data.Data &&
-                                  !walletLoad &&
-                                  data.Data.Balance < totalAmount && (
-                                   
-                                  )} */}
 
                                     {walletShow && (
                                       <Link
@@ -1161,7 +1093,7 @@ const OrderSummary = () => {
                                     )}
                                   </div>
                                 </div>
-                                <div class="col-lg-4 p-0">
+                                {/* <div class="col-lg-4 p-0">
                                   <div
                                     style={{
                                       justifyContent: "space-between",
@@ -1223,11 +1155,6 @@ const OrderSummary = () => {
                                         class="digigold-paymet-discount-amt"
                                       >
                                         &#x20B9;{" "}
-                                        {/* {totalAmount
-                                        ? parseFloat(totalAmount) -
-                                          FinalShopAmount?.toLocaleString()
-                                        : parseFloat(state?.valueinAmt) -
-                                          FinalShopAmount?.toLocaleString()}{" "} */}
                                         {(() => {
                                           if (totalAmount) {
                                             const totalAmt =
@@ -1278,15 +1205,7 @@ const OrderSummary = () => {
                                           class="digigold-paymet-discount-amt"
                                         >
                                           {couponData.CreditType === 2 && "-"}
-                                          &#x20B9;{" "}
-                                          {/* {totalAmount
-                                          ? parseFloat(
-                                              totalAmount
-                                            ).toLocaleString()
-                                          : parseFloat(
-                                              state?.valueinAmt
-                                            ).toLocaleString()}{" "} */}
-                                          {couponData.CouponAmount}
+                                          &#x20B9; {couponData.CouponAmount}
                                         </p>
                                       </div>
                                       <div
@@ -1306,13 +1225,6 @@ const OrderSummary = () => {
                                           class="digigold-paymet-discount-amt"
                                         >
                                           &#x20B9;{" "}
-                                          {/* {totalAmount
-                                          ? parseFloat(
-                                              totalAmount
-                                            ).toLocaleString()
-                                          : parseFloat(
-                                              state?.valueinAmt
-                                            ).toLocaleString()}{" "} */}
                                           {couponData.CreditType === 1
                                             ? parseFloat(
                                                 totalAmount
@@ -1327,7 +1239,7 @@ const OrderSummary = () => {
                                       </div>
                                     </>
                                   )}
-                                </div>
+                                </div> */}
                               </div>
 
                               {/* <div class="digigold-paymet-discount-info">
@@ -1473,11 +1385,7 @@ const OrderSummary = () => {
                                                   message:
                                                     "Holder Name is Required",
                                                 },
-                                                // {
-                                                //   min: 3,
-                                                //   message:
-                                                //     "Min 3 Character are Required",
-                                                // },
+
                                                 {
                                                   pattern: namePattern,
                                                   message:
@@ -1516,30 +1424,6 @@ const OrderSummary = () => {
                                               className="mb-2"
                                               name={"ifscCode"}
                                               // hasFeedback
-                                              rules={
-                                                [
-                                                  // {
-                                                  //   validator: (_, value) => {
-                                                  //     const regex =
-                                                  //       /^[A-Z]{4}[0][A-Z0-9]{6}$/;
-                                                  //     if (
-                                                  //       !value ||
-                                                  //       regex.test(value)
-                                                  //     ) {
-                                                  //       return Promise.resolve();
-                                                  //     }
-                                                  //     return Promise.reject(
-                                                  //       "Please enter a valid IFSC code"
-                                                  //     );
-                                                  //   },
-                                                  // },
-                                                  // {
-                                                  //   required: true,
-                                                  //   message:
-                                                  //     "Ifsc Code is Required",
-                                                  // },
-                                                ]
-                                              }
                                             >
                                               <Spin
                                                 spinning={
@@ -1686,10 +1570,6 @@ const OrderSummary = () => {
                         )}
                         <div class="order-proceed-btn">
                           <button
-                            // disabled={
-                            //   state?.type === "sell" &&
-                            //   list?.Data?.result?.length === 0
-                            // }
                             style={{ marginTop: 10 }}
                             onClick={
                               state?.type === "buy"
@@ -1779,73 +1659,7 @@ const OrderSummary = () => {
           )}
         </div>
       </Modal>
-      {/* <Modal
-        footer={[]}
-        maskClosable={false}
-        centered
-        onCancel={() => {
-          localStorage.removeItem("valueType");
-          navigate("/vipsgold");
-        }}
-        open={step === 1 && true}
-      >
-        {step === 1 && (
-          <div class="align-self-center">
-            <div class="digigoldotpForm-outer">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div className="digigoldotp-titleMain formText text-center">
-                    <h2>OTP Verification</h2>
-                  </div>
-                  <div class="otp-send-to">
-                    <p>
-                      Enter the OTP sent to {logData.Data.MobileNumber}
-                      <label for=""></label>
-                    </p>
-                  </div>
-                </div>
-              </div>
 
-              <div className="formStyle">
-                <div
-                  id="otp"
-                  className="row row-flex justify-content-center mt-1"
-                >
-                  <div className="">
-                    <OTPInput
-                      value={otp}
-                      className="text-dark Ordersummery-otp-input"
-                      onChange={(e) => setOtp(e)}
-                      autoFocus
-                      OTPLength={6}
-                      otpType="number"
-                      disabled={false}
-                    />
-                    <ResendOTP
-                      renderButton={renderButton2}
-                      renderTime={renderTime2}
-                    />
-                  </div>
-                  <div class="col-lg-12">
-                    <div class="otp-btnCol btnTopSpace">
-                      <Button
-                        htmlType="submit"
-                        disabled={otp.length !== 6}
-                        loading={loading || sellLoad}
-                        type="primary"
-                        size="large"
-                        onClick={handleSellSubmit}
-                      >
-                        Verify & Proceed
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </Modal> */}
       <OTPModal
         handleClose={handleClose}
         resendOtp={handleResendSellOTPSubmit}
