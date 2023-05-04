@@ -20,6 +20,7 @@ import {
   sendMoneyOtp,
 } from "../../redux/slices/payment/walletSlice";
 import { MuiSnackBar, ThemeButton } from "../../components/common";
+import Otp from "../../components/forms/Otp";
 ReactGA.initialize(googleAnalytics);
 
 const SendMoney = () => {
@@ -53,6 +54,28 @@ const SendMoney = () => {
     setOtp("");
     setOtpError("");
   };
+  const resendOtp=(e)=>{
+    e.preventDefault()
+    setLoading(true);
+    setOtpError("")
+    setOtp("")
+    sendMoneyOtp(
+      loggedInUser.Mobile,
+      loggedInUser.TRXNPassword,
+      recieverNo,
+      amount
+    )
+    .then((response) => {
+      if (response.ResponseStatus == 2) {
+        setFormCount(2);
+        handleShow();
+        setLoading(false);
+      } else {
+        setError(response.Remarks);
+        setLoading(false);
+      }
+    });
+  }
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
@@ -154,6 +177,7 @@ const SendMoney = () => {
     if (recieverNo.length == 10) {
       if (referName) {
         if (amount) {
+          console.log("called");
           sendMoneyOtp(
             loggedInUser.Mobile,
             loggedInUser.TRXNPassword,
@@ -199,7 +223,8 @@ const SendMoney = () => {
         setSuccessMessage(response.Remarks);
         handleSuccessClose();
       } else {
-        setOtpError(response.Remarks);
+        setIsSnackBar(true);
+        setErrorMsg(response.Remarks);
         setLoading(false);
       }
     });
@@ -367,17 +392,7 @@ const SendMoney = () => {
                       backdrop="static"
                       data-backdrop="false"
                     >
-                      <button
-                        onClick={handleClose}
-                        type="button"
-                        class="close login-close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-
-                      {otpForm()}
+                      <Otp otp={otp} setOtp={setOtp} mobileno={loggedInUser.Mobile} onArrowBack={handleClose} handleClick={clickSendMoney} loading={loading} resendOtp={resendOtp} setFormCount={setFormCount}/>
                     </Modal>
                   ) : null}
 
@@ -385,15 +400,6 @@ const SendMoney = () => {
                     <div class="col-md-12">
                       <div class="send-money-btn">
                         <ThemeButton onClick={clickSendOtp} value={"Continue"} loading={loading}/>
-                        {/* <button
-                          type="button"
-                          onClick={!loading && clickSendOtp}
-                          href="#"
-                          class="btn-primery"
-                        >
-                          {" "}
-                          {loading ? <LoadingBar /> : "Continue"}{" "}
-                        </button> */}
                       </div>
                     </div>
                   </div>

@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { loginUser, loginWithOtp } from "../../redux/slices/profile/loginSlice";
 import { Loading, MuiSnackBar, ThemeButton } from "../common";
+import { MdArrowBack } from "react-icons/md";
 
 
-const Otp = ({ userName, password,setFormCount }) => {
+const Otp = ({mobileno, otp,setOtp,setFormCount ,handleClick,resendOtp,loading,onArrowBack, isLogin=false}) => {
 
-  const [otp, setOtp] = useState("");
-  const [ip, setIp] = useState("");
+  // const [otp, setOtp] = useState("");
+  // const [ip, setIp] = useState("");
   // const [toggle, setToggle] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [showSuccessMessage, setsuccessMessage] = useState("");
@@ -17,7 +18,7 @@ const Otp = ({ userName, password,setFormCount }) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { loggedInUser,loading ,toggle} = useSelector(
+  const { loggedInUser ,toggle} = useSelector(
  (state) => state.loginSlice.loggetInWithOTP
   );
   useEffect(() => {
@@ -28,7 +29,7 @@ const Otp = ({ userName, password,setFormCount }) => {
         setsuccessMessage("");
       }
     }
-    if (loggedInUser?.Id) {
+    if (loggedInUser?.Id && isLogin) {
       // setToggle(false);
       setFormCount(1)
       setErrorMessage("");
@@ -53,20 +54,14 @@ const Otp = ({ userName, password,setFormCount }) => {
               </span>
             </p>
           ) : (
-
             <p>
-              
               Not received OTP?{" "}
               <a {...buttonProps}>
                 <span
                   style={{ color: "#CA3060", cursor: "pointer" }}
 
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setOtp("")
-                    dispatch(loginUser({ userName, password }));
-                  }}
-                > Resend OTP</span>
+                  onClick={resendOtp}
+> Resend OTP</span>
               </a>
             </p>
           )}
@@ -76,7 +71,44 @@ const Otp = ({ userName, password,setFormCount }) => {
   };
   return (
     <>
-      <form>
+            <button
+              className="close otp-close mt-3"
+              onClick={onArrowBack}
+            >
+              <MdArrowBack />
+            </button>
+            <section class="loginPage mbTopSpace">
+              <div class="row ">
+                <div class="col-lg-6 otpBgCol order-lg-last d-none d-lg-block">
+                  <div class="row no-gutters1 align-items-center">
+                    <div class="col-12">
+                      <div class="otpLogoCol"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-6 align-self-center">
+                  <div class="otpForm-outer">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="otp-titleMain formText text-center">
+                          <img src="/images/VipsLogoMain.png" alt="VIPS Logo" />
+                          <h2>OTP Verification</h2>
+                          <div class="otp-send-to">
+                            <p>
+                              Enter the OTP sent to
+                              <label for="">
+                                {" "}
+                                &nbsp; +91 {mobileno}
+                                {/* {isUserExist && isUserExist[1]} */}
+                              </label>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="formStyle">
+                    <form>
         <div className="row">
           <div className="col-lg-12  mx-auto p-0">
             <div className="otpform-in">
@@ -101,30 +133,7 @@ const Otp = ({ userName, password,setFormCount }) => {
                 />
                 <div class="col-lg-12">
                   <div class="otp-btnCol btnTopSpace">
-                    <ThemeButton disabled={otp.length == 6 ? false : true} onClick={(e) => {
-                      e.preventDefault()
-                        dispatch(loginWithOtp({ userName, password, ip, otp }));
-                        // setToggle(true);
-                        // setTimeout(() => {
-                        //   setToggle(false);
-                        // }, 100);
-                      }} loading={loading} value={"Verify & Proceed"}/>
-                    {/* <button
-                      type="button"
-                      class="btn otp-btn btn-primery modal-loading-btn"
-                      id="addmoneymodal"
-                      disabled={otp.length == 6 ? false : true}
-                      onClick={() => {
-                        // !loading &&
-                        dispatch(loginWithOtp({ userName, password, ip, otp }));
-                        setToggle(true);
-                        setTimeout(() => {
-                          setToggle(false);
-                        }, 4000);
-                      }}
-                    >
-                     {loading ? <Loading />: "Verify & Proceed"}
-                    </button> */}
+                    <ThemeButton disabled={otp.length == 6 ? false : true} onClick={handleClick} loading={loading} value={"Verify & Proceed"}/>
                   </div>
                 </div>
               </div>
@@ -132,7 +141,12 @@ const Otp = ({ userName, password,setFormCount }) => {
           </div>
         </div>
       </form>
-      <MuiSnackBar
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <MuiSnackBar
              open={isSnackBar}
              setOpen={setIsSnackBar}
              successMsg={showSuccessMessage}
@@ -140,7 +154,7 @@ const Otp = ({ userName, password,setFormCount }) => {
              setSuccess={setsuccessMessage}
              setError={setErrorMessage}
            />
-    </>
+          </>
   );
 };
 

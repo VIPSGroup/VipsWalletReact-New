@@ -102,7 +102,7 @@ const initialState= {
   },
   loggetInWithOTP: {
     loggedInUser: JSON.parse(user),
-    loading: false,
+    loggedLoading: false,
     toggle: "",
     error: "",
   },
@@ -160,18 +160,18 @@ const loginSlice = createSlice({
 
     // Login With OTP
     builder.addCase(loginWithOtp.pending, (state, action) => {
-      state.loggetInWithOTP.loading = true;
+      state.loggetInWithOTP.loggedLoading = true;
       state.loggetInWithOTP.loggedInUser = false;
       state.loggetInWithOTP.toggle = false;
     });
     builder.addCase(loginWithOtp.fulfilled, (state, action) => {
       state.loggetInWithOTP.loggedInUser = action.payload;
-      state.loggetInWithOTP.loading = false;
+      state.loggetInWithOTP.loggedLoading = false;
       state.loggetInWithOTP.toggle = true;
     });
     builder.addCase(loginWithOtp.rejected, (state, action) => {
       state.loggetInWithOTP.error = action.error;
-      state.loggetInWithOTP.loading = false;
+      state.loggetInWithOTP.loggedLoading = false;
     });
   },
 });
