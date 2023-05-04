@@ -181,14 +181,14 @@ dispatch(fastagOnlineConfirmation({username:loggedInUser.Mobile,password:loggedI
                     <div class="mob-paymet-info-outer">
                       <div class="mob-paymet-recharge-info">
                         {props?.billData.CustomerParamsDetails.map((b, i) => (
-                          <p class="mob-paymet-recharge-text">
+                          <p class="mob-paymet-recharge-text w-90">
                             {b.Name} : <label>{b.Value} </label>{" "}
                           </p>
                         ))}
                         <p class=""> {props?.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
-                        <p class="mob-paymet-recharge-text">
+                        <p class="mob-paymet-recharge-text mb-0">
                           Price : <label> &#x20B9; {amt} </label>{" "}
                         </p>
                       </div>

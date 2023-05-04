@@ -452,13 +452,14 @@
 /* digital gold order summery page end */
 .digigold-insert-value{
   text-align: center;
-  margin-top: 30px;
+  margin-top: 16px;
+  padding-bottom: 5px;
   border-bottom: 1px solid var(--borderColor);
 }
 .digigold-insert-title{
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 27px;
+  margin-bottom: 35px;
 }
 .digigold-insert-title span{
   color: var(--primary);
@@ -475,8 +476,9 @@
 }
 .digigold-payble-value{
   text-align: center;
-  margin-top: 15px;
+  margin-top: 18px;
   margin-bottom: 25px;
+  padding-bottom: 5px;
   border-bottom: 1px solid var(--borderColor);
 }
 .digigold-payble-darktest{

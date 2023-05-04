@@ -643,9 +643,10 @@
 }
 .mob-paymet-recharge-info{
   display: flex;
-  font-size: 16px;
-
+  flex-wrap: wrap;
   justify-content: space-between;
+  font-size: 16px;
+  grid-column-gap: 12px;
 }
 .paymet-recharge-mobno{
   font-weight: 500;
@@ -656,7 +657,7 @@
 
 .mob-paymet-recharge-text{
   color: var(--textGray);
-  margin-bottom: 0;
+  /* margin-bottom: 0; */
   margin-right: 0px;
 }
 .mob-paymet-recharge-text label{
@@ -1155,6 +1156,7 @@ padding: 0rem 0rem;
   .mob-paymet-recharge-info {
     display: flex;
     flex-wrap: wrap;
+    grid-column-gap: 10px;
     font-size: 13px;
   }
   .mob-paymet-recharge-operator {
