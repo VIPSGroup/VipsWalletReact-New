@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkPinCode } from "../../redux/slices/pincodeSlice";
 
+import { Input, Button } from 'antd';
+
 const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
   const dispatch = useDispatch();
   const [pincode, setPincode] = useState("");
@@ -50,8 +52,9 @@ const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
           available or not for delivery to your door steps.
         </p>
 
-        <div>
-          <div class="input-group">
+        <form>
+          {/* <div class="input-group">
+
             <input
               onChange={handlePincode}
               type="text"
@@ -68,8 +71,18 @@ const PincodeCheck = ({ productId, setIsSnackBar, setErrorMsg }) => {
                 Check
               </button>
             </div>
+          </div> */}
+
+
+
+          <div className="check-deliverypin">
+            <Input placeholder="Enter a pin code" className="deliverypin-input" />
+            <Button className="pincode-checkbtn">Check</Button>
           </div>
-        </div>
+
+
+        </form>
+
         <p class="text-success mb-0">{apiResponse}</p>
       </div>
     </div>

@@ -240,7 +240,7 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
                         <p class=""> {props?.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
-                        <p class="mob-paymet-recharge-text">
+                        <p class="mob-paymet-recharge-text mb-0">
                           Price : <label> &#x20B9; {amt} </label>{" "}
                         </p>
                       </div>
@@ -259,7 +259,7 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
                     <div class="mob-paymet-info-outer">
                       <div class="mob-payment-discount">
                         <form>
-                          <div class="mob-paymet-discount-info mb-4">
+                          <div class="mob-paymet-discount-info mb-3">
                             <label>
                               <input
                                 onChange={(e) => {
@@ -366,7 +366,7 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
               </div>
             </div>
 
-            <div class="col-sm-12 col-md-12 col-lg-4">
+            <div class="col-sm-12 col-md-12 col-lg-4 p-lg-0">
               {/* <div class="mobile-payment-right"> */}
                 <div class="mobile-payment-right-sticky box-shadow-1">
                   <div class="row">
@@ -384,7 +384,7 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
                         <div class="col-8 col-xs-4">
                           <span> Amount : </span>
                         </div>
-                        <div class="col-4 col-xs-4 text-right">
+                        <div class="col-4 col-xs-4 text-right pl-0">
                           <span class="mobile-payment-summery-amt">
                             {" "}
                             &#x20B9; {Number(amt).toLocaleString()}{" "}
@@ -401,7 +401,7 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
                               {discount?.discountData?.ShoppingPer} %) :{" "}
                             </span>
                           </div>
-                          <div class="col-4 col-xs-4 text-right">
+                          <div class="col-4 col-xs-4 text-right pl-0">
                             <span class="mobile-payment-summery-amt">
                               {" "}
                               -&#x20B9; {discount?.shoppingDiscount}{" "}
@@ -419,7 +419,7 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
                               {discount?.discountData?.PrimePointPer} %) :{" "}
                             </span>
                           </div>
-                          <div class="col-4 col-xs-4 text-right">
+                          <div class="col-4 col-xs-4 text-right pl-0">
                             <span class="mobile-payment-summery-amt">
                               {" "}
                               -&#x20B9; {discount.primePointDiscount}{" "}
@@ -434,7 +434,7 @@ const ServiceConfirmationCommon = ({setIsCommonTopNav}) => {
                         <div class="col-8 col-xs-4">
                           <span> Total Amount : </span>
                         </div>
-                        <div class="col-4 col-xs-4 text-right">
+                        <div class="col-4 col-xs-4 text-right pl-0">
                           <span class="mobile-payment-summery-amt">
                             {" "}
                             &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ?Number( discount?.finalAmount).toLocaleString(): Number( discount?.finalAmount?.toFixed(2)).toLocaleString()}{" "}

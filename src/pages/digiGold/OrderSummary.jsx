@@ -719,7 +719,7 @@ const OrderSummary = () => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? "col-lg-2 col-sm-6"
+                                ? "col-lg-3 col-sm-6"
                                 : "col-lg-3 col-sm-4"
                             } `}
                           >
@@ -733,7 +733,7 @@ const OrderSummary = () => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? "col-lg-2 col-sm-6"
+                                ? "col-lg-3 col-sm-6"
                                 : "col-lg-3 col-sm-4"
                             } `}
                           >
@@ -787,7 +787,7 @@ const OrderSummary = () => {
                             <div
                               class={`${
                                 state?.type === "buy"
-                                  ? "col-lg-2 col-sm-6"
+                                  ? "col-lg-3 col-sm-6"
                                   : "col-lg-3  col-sm-4"
                               } `}
                             >
@@ -798,7 +798,7 @@ const OrderSummary = () => {
                               </p>
                             </div>
                           )}
-                          <div
+                          {/* <div
                             class={`${
                               state?.type === "buy" ? "col-lg-3" : "col-lg-3"
                             } `}
@@ -812,8 +812,112 @@ const OrderSummary = () => {
                                     state?.valueinAmt
                                   )?.toLocaleString()}
                             </p>
-                          </div>
+                          </div> */}
                         </div>
+
+                        {/* -- debit amount section start --  */}
+                        <div className="row digigold-insert-value">
+
+                          <div className="col-lg-4 col-sm-6">
+                            {/* <div
+                              style={{
+                                justifyContent: "space-between",
+                                display: "flex",
+                              }}
+                            > */}
+                              <p class="digigold-insert-darktext">
+                                Total Amount
+                              </p>
+                              <p class="digigold-insert-amt">
+                                {" "}
+                                &#x20B9;{" "}
+                                {totalAmount
+                                  ? parseFloat(
+                                      totalAmount
+                                    ).toLocaleString()
+                                  : parseFloat(
+                                      state?.valueinAmt
+                                    ).toLocaleString()}{" "}
+                              </p>
+                            {/* </div> */}
+                          </div>
+                          <div className="col-lg-4 col-sm-6">
+                            {/* <div
+                              style={{
+                                justifyContent: "space-between",
+                                display: "flex",
+                              }}
+                            > */}
+                              <p
+                                // style={{ color: "green" }}
+                                class="digigold-insert-darktext"
+                              >
+                                Shopping Points (
+                                {ServiceData?.ShoppingPer}%)
+                              </p>
+                              <p
+                                style={{ color: "green" }}
+                                class="digigold-insert-amt"
+                              >
+                                - &#x20B9; {FinalShopAmount}
+                              </p>
+                            {/* </div> */}
+                          </div>
+                          <div className="col-lg-4 col-sm-6">
+                            {/* <div
+                              style={{
+                                justifyContent: "space-between",
+                                display: "flex",
+                              }}
+                            > */}
+                              <p
+                                // style={{ color: "red" }}
+                                class="digigold-insert-darktext"
+                              >
+                                Payable Amount
+                              </p>
+                              <p
+                                // style={{ color: "red" }}
+                                class="digigold-insert-amt"
+                              >
+                                &#x20B9;{" "}
+                                {/* {totalAmount
+                                  ? parseFloat(totalAmount) -
+                                    FinalShopAmount?.toLocaleString()
+                                  : parseFloat(state?.valueinAmt) -
+                                    FinalShopAmount?.toLocaleString()}{" "} */}
+                                {(() => {
+                                  if (totalAmount) {
+                                    const totalAmt =
+                                      parseFloat(totalAmount) -
+                                      FinalShopAmount;
+                                    const res = digitPrecision(
+                                      totalAmt,
+                                      "amount"
+                                    );
+                                    return parseFloat(
+                                      res
+                                    ).toLocaleString();
+                                  } else {
+                                    const totalAmt =
+                                      parseFloat(state?.valueinAmt) -
+                                      FinalShopAmount?.toLocaleString();
+                                    const res = digitPrecision(
+                                      totalAmt,
+                                      "amount"
+                                    );
+                                    return parseFloat(
+                                      res
+                                    ).toLocaleString();
+                                  }
+                                })()}
+                              </p>
+                            {/* </div> */}
+                          </div>
+
+                        </div>
+                        {/* -- debit amount section end --  */}
+
 
                         <div class="row digigold-payble-value">
                           <div class="col-lg-12">
@@ -1082,7 +1186,7 @@ const OrderSummary = () => {
                         )}
                         {state?.type === "buy" && (
                           <div class="digigold-payment-method">
-                            <p class="digigold-payment-title">
+                            <p class="digigold-payment-title mb-4">
                               {" "}
                               Payment method{" "}
                             </p>
@@ -1188,7 +1292,10 @@ const OrderSummary = () => {
                                     )}
                                   </div>
                                 </div>
+
+
                                 <div class="col-lg-4 p-0">
+                                  
                                   <div
                                     style={{
                                       justifyContent: "space-between",

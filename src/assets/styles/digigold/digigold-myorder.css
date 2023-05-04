@@ -122,6 +122,8 @@
     color: var(--primary);
     font-size: 14px;
     font-weight: 500;
+    display: inline-flex;
+    grid-column-gap: 5px;
 }
 
 /* order summery popup end */

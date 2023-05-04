@@ -520,8 +520,10 @@
 }
 
 
-@media only screen and (min-width: 992px) and (max-width: 1280px){
-
+@media only screen and (min-width: 1024px) and (max-width: 1280px){
+    .product-details-left{
+        top: calc(var(--header-offset, 90px) + 5em);
+    }
 
 }
 
