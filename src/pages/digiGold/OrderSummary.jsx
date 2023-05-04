@@ -554,28 +554,8 @@ const OrderSummary = () => {
       dispatch(CheckIfscCode({ ifsc }));
     }
   }, [formValue.ifscCode]);
-  // console.log(isServiceEnable, "isServiceEnable");
-  // useEffect(() => {
-  //   dispatch(CheckServiceEnableOrNot());
-  //   const ServiceId = digiGoldServiceId;
-  //   let PublishedFare = parseFloat(currentRate);
-  //   let MetalType = state.metalType;
-  //   dispatch(
-  //     GetCouponList({ username, password, ServiceId, PublishedFare, MetalType })
-  //   );
-  // }, [currentRate]);
 
   useEffect(() => {
-    // const getConfig = async () => {
-    //   const res = await globalConfiguration(
-    //     "DigiGoldMinAmountForShoppingPoint"
-    //   );
-    //   if (res.ResponseStatus === 1) {
-    //     setShopPointLimit(res.Data.Value);
-    //   }
-    // };
-    // getConfig();
-
     dispatch(getServiceName({ digiGoldServiceId }));
   }, []);
 
@@ -634,23 +614,16 @@ const OrderSummary = () => {
         }
       }
     };
-    // if (TotalAmount && ShoppingPercent && WalletShopPoint) {
     getConfig();
-    // }
   };
   useEffect(() => {
     ShoppingPointCalculate();
   }, [ServiceData, data]);
-  // console.log(state, "state");
-
-  // console.log(window.location.pathname, "window.location.hash")
   useEffect(() => {
     return () => {
       window.history.replaceState({}, state);
     };
   }, []);
-
-  console.log(!Verified, "Verified");
 
   return state ? (
     <>

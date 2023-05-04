@@ -29,7 +29,6 @@ const OTPModal = ({
     return (
       <div className="resendotp col-12 mx-auto pt-3">
         <p className="col-12 d-block">
-          {/* {console.log(buttonProps.remainingTime, "buttonProps.remainingTime")} */}
           {buttonProps.remainingTime !== 0 ? (
             <p>
               {" "}

@@ -222,10 +222,6 @@ const productSlice = createSlice({
     recommendedCatId: "",
   },
   reducers: {
-// resetData:(state, action)=>{
-//   // console.log("resetData");
-//   state.categoryByProduct.catProducts=[]
-// },
     getRecomId: (state, action) => {
       state.recommendedCatId = action.payload;
     },
@@ -271,20 +267,6 @@ const productSlice = createSlice({
       state.subCategoryByProduct.subLoading = false;
       state.subCategoryByProduct.error = action.error;
     });
-
-    // Get Product By Category
-    // builder.addCase(getProductsByCategory.pending, (state, action) => {
-    //   state.categoryByProduct.loading = true;
-    // });
-    // builder.addCase(getProductsByCategory.fulfilled, (state, action) => {
-    //   state.categoryByProduct.catProducts = action.payload;
-    //   state.categoryByProduct.loading = false;
-    // });
-    // builder.addCase(getProductsByCategory.rejected, (state, action) => {
-    //   state.categoryByProduct.error = action.error;
-    //   state.categoryByProduct.loading = false;
-    // });
-
     // Get new Arrival Product
     builder.addCase(getNewArrivalProducts.pending, (state, action) => {
       state.newArrivalProduct.loading = true;

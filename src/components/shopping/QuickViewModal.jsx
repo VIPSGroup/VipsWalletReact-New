@@ -145,7 +145,6 @@ const QuickViewModal = ({ productId, recomType }) => {
 
     setProducts(buyNowProductsArray);
 
-    // checkInWishlist();
     return () => {
       setExistInCart(false);
     };

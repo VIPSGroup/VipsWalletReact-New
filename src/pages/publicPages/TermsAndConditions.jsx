@@ -9,44 +9,20 @@ import { getTermsConditionsId, googleAnalytics } from "../../constants";
 ReactGA.initialize(googleAnalytics);
 
 const AllTermsAndCondition = ({ title, type }) => {
-  // const [data, setData] = useState([]);
-  // const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { data, loading } = useSelector(
     (state) => state.publicSlice.termscondition
   );
-
-  // useEffect(() => {
-  //   ReactGA.pageview(window.location.pathname);
-  //   let value = getTermsConditionsId(type);
-  //   console.warn(value);
-  //   setLoading(true)
-  //   getDynamicContent().then((response) => {
-  //     setLoading(false)
-  //     let collection = response.Data?.find((element) => element.Type === value);
-  //     console.log(response.Data);
-  //     setData(collection);
-  //   });
-  // }, []);
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
     dispatch(getDynamicContent(type));
   }, []);
-
-  // function htmlDecode(input) {
-  //   const parser = new DOMParser();
-
-  //   var doc = parser.parseFromString(input, "text/html");
-  //   const errorNode = doc.querySelector("parsererror");
-  //   return doc.documentElement.textContent;
-  // }
   function htmlDecode(input) {
     const parser = new DOMParser();
 
     var doc = parser.parseFromString(input, "text/html");
     const errorNode = doc.querySelector("parsererror");
     if (!errorNode) {
-      console.error(errorNode);
     }
     return doc.documentElement.textContent;
   }
