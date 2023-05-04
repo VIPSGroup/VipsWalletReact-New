@@ -144,6 +144,7 @@ const QuickViewModal = ({ productId, recomType }) => {
     buyNowProductsArray.push(buyNowProductDeatils);
 
     setProducts(buyNowProductsArray);
+
     return () => {
       setExistInCart(false);
     };

@@ -55,7 +55,7 @@ export const BuyDigiGold = async ({
   formData.append("amount", amount);
   formData.append("currentAppVersion", currentAppVersion);
   formData.append("CouponId", CouponId ? CouponId : 0);
-  formData.append("CouponDiscount", CouponAmount ? CouponAmount : 0.00);
+  formData.append("CouponDiscount", CouponAmount ? CouponAmount : 0.0);
   formData.append("PointType", PointType);
   formData.append("DiscountAmount", DiscountAmount);
 
@@ -73,6 +73,7 @@ export const SellDigiGold = async ({
   blockid,
   userBankId,
   accountName,
+  accountNumber,
   ifscCode,
   OTP,
 }) => {
@@ -86,9 +87,9 @@ export const SellDigiGold = async ({
   formData.append("userBankId", userBankId);
   formData.append("AppType", appType);
   formData.append("currentAppVersion", currentAppVersion);
-
-  // formData.append("accountName", accountName);
-  // formData.append("ifscCode", ifscCode);
+  formData.append("accountNumber", accountNumber);
+  formData.append("accountName", accountName);
+  formData.append("ifscCode", ifscCode);
   formData.append("otp", OTP || "");
 
   try {
