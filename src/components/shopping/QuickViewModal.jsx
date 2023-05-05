@@ -27,7 +27,7 @@ const QuickViewModal = ({ productId, recomType }) => {
 
   const [productObj, setProductObj] = useState();
   const [productImages, setProductImages] = useState([]);
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(product?.Quantity>=0 ?1 :0);
   const [products, setProducts] = useState([]);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");

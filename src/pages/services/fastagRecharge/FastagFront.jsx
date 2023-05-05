@@ -499,7 +499,7 @@ useEffect(() => {
                     <div class="col-md-12">
                       {!showBill && (
                         <div class="mobile-recharge-btn">
-                          <ThemeButton loading={billLoading} onClick={clickFetchBill} value={"Fetch Bill"}/>
+                          <ThemeButton loading={mobileNo.length===10 ? billLoading :false} onClick={clickFetchBill} value={"Fetch Bill"}/>
                           {/* <button
                             onClick={!loading && clickFetchBill}
                             class="btn-primery"

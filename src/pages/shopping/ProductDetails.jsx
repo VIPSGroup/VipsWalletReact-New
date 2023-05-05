@@ -41,7 +41,7 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState([]);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(product.Quantity>=0 ?1 :0);
 
   const [existInCart, setExistInCart] = useState(false);
   const [existInWishlist, setExistInWishlist] = useState(false);
@@ -408,7 +408,7 @@ const ProductDetails = () => {
                     )}
                   </div>
                   <div class="product-details-status">
-                    <span> In stock </span>
+                    <span> In stock</span>
                   </div>
                 </div>
 
