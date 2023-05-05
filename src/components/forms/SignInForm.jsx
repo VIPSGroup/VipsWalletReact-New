@@ -215,6 +215,7 @@ dispatch(forgotPassword({ userName: forgotPasswordUserName }))
           onHide={() => {
             setShow(false);
             navigate("/");
+            dispatch(resetState());
           }}
           centered
           keyboard={false}
@@ -483,8 +484,8 @@ dispatch(forgotPassword({ userName: forgotPasswordUserName }))
                 </div>
               </section>
             </>
-          ) : (
-            <Otp isLogin={true} otp={otp} setOtp={setOtp} onArrowBack={onArrowBack} mobileno={loginUsernameFormik.values.username} handleClick={handleClick} setFormCount={setFormCount} resendOtp={resendOtp} loading={loggedLoading}/>       
+          ) : (  
+            <Otp isLogin={true} otp={otp} setOtp={setOtp} onArrowBack={onArrowBack} mobileno={loginUsernameFormik.values.username} handleClick={handleClick} setFormCount={setFormCount} resendOtp={resendOtp} loading={loggedLoading}/>      
           )}
         </Modal>
         <MuiSnackBar

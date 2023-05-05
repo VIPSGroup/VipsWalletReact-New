@@ -235,6 +235,8 @@ const SignUpForm = ({ setIsSignIn }) => {
         show={show}
         onHide={() => {
           setShow(false);
+          navigate("/");
+          dispatch(resetState());
         }}
         centered
         keyboard={false}
@@ -250,6 +252,8 @@ const SignUpForm = ({ setIsSignIn }) => {
  <Spin spinning={loading}>
    <Otp otp={otp} setOtp={setOtp} setFormCount={setSignupFormCount} onArrowBack={onArrowBack} mobileno={isUserExist && isUserExist[1]} handleClick={clickVerifySignupOtp} loading={otploading} resendOtp={resendOtp}/>
  </Spin>
+
+          // <Otp otp={otp} setOtp={setOtp} setFormCount={setSignupFormCount} onArrowBack={onArrowBack} mobileno={isUserExist && isUserExist[1]} handleClick={clickVerifySignupOtp} loading={otploading} resendOtp={resendOtp}/>
 
         ) : (
           <>

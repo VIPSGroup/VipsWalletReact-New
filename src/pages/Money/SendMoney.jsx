@@ -77,7 +77,6 @@ const SendMoney = () => {
   const { data } = useSelector((state) => state.walletSlice.walletBalance);
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
-    console.log(data);
   }, []);
 
   const handleShow = () => setShow(true);
@@ -251,10 +250,10 @@ const SendMoney = () => {
                       onHide={handleClose}
                       centered
                       keyboard={false}
-                      className="modal fade add-money-modal"
+                      className="modal fade otp-modal"
                       id="exampleModal"
-                      backdrop="static"
-                      data-backdrop="false"
+                      data-keyboard="false" data-backdrop="static"
+                      onExit={() => setShow(false)}
                     >
                       <Otp
                         otp={otp}
