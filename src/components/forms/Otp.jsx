@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import OTPInput, { ResendOTP } from "otp-input-react";
-import { loginUser, loginWithOtp } from "../../redux/slices/profile/loginSlice";
-import { Loading, MuiSnackBar, ThemeButton } from "../common";
+import {  MuiSnackBar, ThemeButton } from "../common";
 import { MdArrowBack } from "react-icons/md";
 
 
 const Otp = ({mobileno, otp,setOtp,setFormCount ,handleClick,resendOtp,loading,onArrowBack, isLogin=false}) => {
-
-  // const [otp, setOtp] = useState("");
-  // const [ip, setIp] = useState("");
-  // const [toggle, setToggle] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [showSuccessMessage, setsuccessMessage] = useState("");
   const [showErrorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-
-  const dispatch = useDispatch();
   const { loggedInUser ,toggle} = useSelector(
  (state) => state.loginSlice.loggetInWithOTP
   );

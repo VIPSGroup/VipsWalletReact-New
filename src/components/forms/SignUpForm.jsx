@@ -18,6 +18,7 @@ import {
 } from "../../redux/slices/profile/signUpSlice";
 import { resetState } from "../../redux/slices/profile/loginSlice";
 import Otp from "./Otp";
+import { Spin } from "antd";
 
 const SignUpForm = ({ setIsSignIn }) => {
   const navigate = useNavigate();
@@ -234,6 +235,8 @@ const SignUpForm = ({ setIsSignIn }) => {
         show={show}
         onHide={() => {
           setShow(false);
+          navigate("/");
+          dispatch(resetState());
         }}
         centered
         keyboard={false}
@@ -245,8 +248,13 @@ const SignUpForm = ({ setIsSignIn }) => {
         id="exampleModal"
         onExit={() => setShow(false)}
       >
-        {response?.ResponseStatus == 1 && signupFormCount == 2 && !loading ? (
-          <Otp otp={otp} setOtp={setOtp} setFormCount={setSignupFormCount} onArrowBack={onArrowBack} mobileno={isUserExist && isUserExist[1]} handleClick={clickVerifySignupOtp} loading={otploading} resendOtp={resendOtp}/>
+        {response?.ResponseStatus == 1 && signupFormCount == 2 ? (
+ <Spin spinning={loading}>
+   <Otp otp={otp} setOtp={setOtp} setFormCount={setSignupFormCount} onArrowBack={onArrowBack} mobileno={isUserExist && isUserExist[1]} handleClick={clickVerifySignupOtp} loading={otploading} resendOtp={resendOtp}/>
+ </Spin>
+
+          // <Otp otp={otp} setOtp={setOtp} setFormCount={setSignupFormCount} onArrowBack={onArrowBack} mobileno={isUserExist && isUserExist[1]} handleClick={clickVerifySignupOtp} loading={otploading} resendOtp={resendOtp}/>
+
         ) : (
           <>
             <button

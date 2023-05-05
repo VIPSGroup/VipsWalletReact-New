@@ -1,30 +1,26 @@
 import React, { useState, useEffect } from "react";
-
-import OTPInput, { ResendOTP } from "otp-input-react";
-import { ThreeDots } from "react-loader-spinner";
 import Modal from "react-bootstrap/Modal";
 
-import { getReceiverDetail, validateReference } from "../../apiData/authentication/signup";
+import {
+  getReceiverDetail,
+} from "../../apiData/authentication/signup";
 
 import "../../assets/styles/addMoney/addMoney.css";
 import "../../assets/styles/styles.css";
-
-import { MdArrowBack } from "react-icons/md";
 import ReactGA from "react-ga";
 import { googleAnalytics } from "../../constants";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import LoadingBar from "../../components/common/Loading";
 import {
   sendMoney,
   sendMoneyOtp,
 } from "../../redux/slices/payment/walletSlice";
 import { MuiSnackBar, ThemeButton } from "../../components/common";
 import Otp from "../../components/forms/Otp";
+import { Link } from "react-router-dom";
 ReactGA.initialize(googleAnalytics);
 
 const SendMoney = () => {
-  const [recieverNo, setRecieverNo] = useState('');
+  const [recieverNo, setRecieverNo] = useState("");
   const [show, setShow] = useState(false);
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState("");
@@ -54,18 +50,17 @@ const SendMoney = () => {
     setOtp("");
     setOtpError("");
   };
-  const resendOtp=(e)=>{
-    e.preventDefault()
+  const resendOtp = (e) => {
+    e.preventDefault();
     setLoading(true);
-    setOtpError("")
-    setOtp("")
+    setOtpError("");
+    setOtp("");
     sendMoneyOtp(
       loggedInUser.Mobile,
       loggedInUser.TRXNPassword,
       recieverNo,
       amount
-    )
-    .then((response) => {
+    ).then((response) => {
       if (response.ResponseStatus == 2) {
         setFormCount(2);
         handleShow();
@@ -75,81 +70,32 @@ const SendMoney = () => {
         setLoading(false);
       }
     });
-  }
+  };
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+  const { data } = useSelector((state) => state.walletSlice.walletBalance);
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
   }, []);
 
   const handleShow = () => setShow(true);
 
-  const renderButton2 = (buttonProps) => {
-    return (
-      <div className="resendotp col-12 mx-auto pt-3">
-        <p  className="col-12 d-block">
-          {buttonProps.remainingTime !== 0 ? (
-            <p>
-              {" "}
-              Please wait for{" "}
-              <span style={{ color: "#CA3060" }}>
-                {" "}
-                {`${buttonProps.remainingTime} sec`}
-              </span>
-            </p>
-          ) : (
-            <p>
-              
-              Not received OTP?{" "}
-              <a {...buttonProps}>
-                <span
-                  style={{ color: "#CA3060", cursor: "pointer" }}
-
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setLoading(true);
-                    setOtpError("")
-                    setOtp("")
-                    sendMoneyOtp(
-                      loggedInUser.Mobile,
-                      loggedInUser.TRXNPassword,
-                      recieverNo,
-                      amount
-                    )
-                    .then((response) => {
-                      if (response.ResponseStatus == 2) {
-                        setFormCount(2);
-                        handleShow();
-                        setLoading(false);
-                      } else {
-                        setError(response.Remarks);
-                        setLoading(false);
-                      }
-                    });
-                    // dispatch(loginUser({ userName, password }));
-                  }}
-                > Resend OTP</span>
-              </a>
-            </p>
-          )}
-        </p>
-      </div>
-    );
-  };
-  const renderTime2 = () => React.Fragment;
-
   const handleRecieverNo = (e) => {
     const value = e.target.value.replace(/\D/g, "");
     setError("");
     if (e.target.value.length === 10) {
-      getReceiverDetail({password:loggedInUser.TRXNPassword, username:loggedInUser.UserName,currentUsername:value}).then(response=>{
+      getReceiverDetail({
+        password: loggedInUser.TRXNPassword,
+        username: loggedInUser.UserName,
+        currentUsername: value,
+      }).then((response) => {
         if (response.ResponseStatus == 1) {
-              setReferName(response.Data[0].FName+" "+response.Data[0].LName);
-            } else if (response.ResponseStatus == 0) {
-              setError(response.Remarks);
-            }
-      })
+          setReferName(response.Data[0].FName + " " + response.Data[0].LName);
+        } else if (response.ResponseStatus == 0) {
+          setError(response.Remarks);
+        }
+      });
     } else if (e.target.value.length != 10 && e.target.value.length > 0) {
       setReferName("");
       setError("It should be 10 digit valid Mobile No.");
@@ -239,88 +185,6 @@ const SendMoney = () => {
     </div>
   );
 
-  const displayOtpError = () => (
-    <div>
-      {otpError && <div className="alert alert-danger"> {otpError}</div>}
-    </div>
-  );
-
-  const otpForm = () => (
-    <>
-      <section class="loginPage mbTopSpace">
-        <div class="row ">
-          <div class="col-12 col-lg-12 align-self-center">
-            <div class="otpForm-outer">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="otp-titleMain formText text-center">
-                    {/* {<img src="/images/VipsLogoMain.png" alt="VIPS Logo" />} */}
-                    {/* {<h2>OTP Verification</h2>} */}
-                    {displayOtpError()}
-                    <div class="otp-send-to">
-                      <p>
-                        Enter the OTP sent to
-                        <label for=""> &nbsp; +91 {loggedInUser.Mobile}</label>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* { <div>{displayLoginError()}</div>} */}
-
-              <div className="formStyle">
-                <form>
-                  <div className="row">
-                    <div className="col-lg-12  mx-auto p-0">
-                      <div className="otpform-in">
-                        <div
-                          id="otp"
-                          className="row row-flex justify-content-center mt-1"
-                        >
-                          <OTPInput
-                            className="text-dark"
-                            value={otp}
-                            onChange={setOtp}
-                            autoFocus
-                            OTPLength={6}
-                            otpType="number"
-                            disabled={false}
-                          />
-
-                          <ResendOTP
-                            renderButton={renderButton2}
-                            renderTime={renderTime2}
-                          />
-                          <div class="col-lg-12">
-                            <div class="otp-btnCol btnTopSpace">
-                              <button
-                                type="button"
-                                class="btn otp-btn"
-                                disabled={otp.length == 6 ? false : true}
-                                onClick={!loading && clickSendMoney}
-                              >
-                                {loading ? (
-                                  <LoadingBar />
-                                ) : (
-                                  "Verify & Send Money"
-                                )}
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
-  );
-
   const sendMoneyUI = () => (
     <>
       <section class="inpage-section-align inset-shadow-top-light addmoney ">
@@ -386,19 +250,32 @@ const SendMoney = () => {
                       onHide={handleClose}
                       centered
                       keyboard={false}
-                      className="modal fade add-money-modal"
+                      className="modal fade otp-modal"
                       id="exampleModal"
-                      backdrop="static"
-                      data-backdrop="false"
+                      data-keyboard="false" data-backdrop="static"
+                      onExit={() => setShow(false)}
                     >
-                      <Otp otp={otp} setOtp={setOtp} mobileno={loggedInUser.Mobile} onArrowBack={handleClose} handleClick={clickSendMoney} loading={loading} resendOtp={resendOtp} setFormCount={setFormCount}/>
+                      <Otp
+                        otp={otp}
+                        setOtp={setOtp}
+                        mobileno={loggedInUser.Mobile}
+                        onArrowBack={handleClose}
+                        handleClick={clickSendMoney}
+                        loading={loading}
+                        resendOtp={resendOtp}
+                        setFormCount={setFormCount}
+                      />
                     </Modal>
                   ) : null}
 
                   <div class="send-money-body">
                     <div class="col-md-12">
                       <div class="send-money-btn">
-                        <ThemeButton onClick={clickSendOtp} value={"Continue"} loading={loading}/>
+                        <ThemeButton
+                          onClick={clickSendOtp}
+                          value={"Continue"}
+                          loading={loading}
+                        />
                       </div>
                     </div>
                   </div>
@@ -417,11 +294,7 @@ const SendMoney = () => {
     </>
   );
 
-  return (
-    <div className="color-body">
-      {sendMoneyUI()}
-    </div>
-  );
+  return <div className="color-body">{sendMoneyUI()}</div>;
 };
 
 export default SendMoney;
