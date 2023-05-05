@@ -27,7 +27,7 @@ import userProfileSlice from "./slices/digiGold/userProfileSlice";
 import registerDigiSlice from "./slices/digiGold/registerDigiSlice";
 import walletSlice from "./slices/payment/walletSlice";
 
-import DeliverySlice from "./slices/digiGold/DeliverySlice";
+import DeliverySlice from "./slices/digiGold/delivery/DeliverySlice";
 import paymentSlice from "./slices/payment/paymentSlice";
 
 import DigiGiftSlice from "./slices/digiGold/gift/DigiGiftSlice";

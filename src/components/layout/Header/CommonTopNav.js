@@ -255,7 +255,9 @@ const CommonTopNav = ({
                       <Link
                         style={{
                           borderBottom:
-                            (pathname === "/vipsgold" || pathname === '/vipsgold-order-summary') && "2px solid #CA3060",
+                            (pathname === "/vipsgold" ||
+                              pathname === "/vipsgold-order-summary") &&
+                            "2px solid #CA3060",
                         }}
                         class="nav-link"
                         to="/vipsgold"
@@ -689,12 +691,19 @@ const CommonTopNav = ({
                 </div>
 
                 <div class="navbar-bottom-serv-box">
-                  <div
-                    // to="/vipsgold-delivery"
+                  <Link
+                    to="/vipsgold-delivery"
+                    // onClick={() => {
+                    //   setIsSnackBar(true);
+                    //   setErrorMsg("Service will be coming soon..");
+                    //   setSuccessMsg("");
+                    // }}
                     onClick={() => {
-                      setIsSnackBar(true);
-                      setErrorMsg("Service will be coming soon..");
-                      setSuccessMsg("");
+                      setGrams("");
+                      setAmount("");
+                      setErr("");
+                      setReceiverUserName("");
+                      window.scroll({ top: 0, behavior: "smooth" });
                     }}
                   >
                     <img
@@ -702,7 +711,7 @@ const CommonTopNav = ({
                       alt=""
                     />
                     <span class="navbar-bottom-serv-box-title">Delivery</span>
-                  </div>
+                  </Link>
                 </div>
               </div>
             </div>

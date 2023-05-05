@@ -4,14 +4,19 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../../../assets/styles/digigold/digigold-delivery-product-details.css";
 import {
   addItem,
+  getMetalProductDetails,
   removeItem,
-} from "../../../redux/slices/digiGold/DeliverySlice";
+} from "../../../redux/slices/digiGold/delivery/DeliverySlice";
 import MyVault from "../MyVault";
+import Carousel from "react-multi-carousel";
 export function calculateTotal(quantity, price) {
   return quantity * price;
 }
 const DigiProductDetails = ({ setTitle }) => {
   const { items } = useSelector((state) => state.DeliverySlice);
+  const { proDetails, qtyMessage } = useSelector(
+    (state) => state.DeliverySlice.coinDetails
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
@@ -21,10 +26,37 @@ const DigiProductDetails = ({ setTitle }) => {
   useEffect(() => {
     setTitle(title);
   }, []);
-
   const handleClick = () => {
-    const TotalAmount = calculateTotal(qty, data.basePrice);
+    const res = items.find((a) => a.sku === data.sku);
+    if (!res) {
+      const Product = proDetails.Data.result.data;
+      dispatch(addItem(Product));
+    }
     navigate("/vipsgold-cart");
+  };
+  useEffect(() => {
+    const sku = data.sku;
+    dispatch(getMetalProductDetails({ sku }));
+  }, [data]);
+
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 1,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 993 },
+      items: 1,
+    },
+    tablet: {
+      breakpoint: { max: 992, min: 414 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 414, min: 0 },
+      items: 1,
+    },
   };
   return (
     <>
@@ -46,11 +78,33 @@ const DigiProductDetails = ({ setTitle }) => {
                 <div class="digigold-product-details-left">
                   <div class="digigold-product-details-img-outer">
                     <div class="digigold-product-details-img">
-                      <img
+                      {/* <img
                         class="img-thumbnail"
                         src={data.productImages}
                         alt="VIPS Product"
-                      />
+                      /> */}
+                      <Carousel
+                        swipeable={false}
+                        draggable={false}
+                        responsive={responsive}
+                        infinite={true}
+                        className="quick-view-product-img-outer"
+                      >
+                        {data &&
+                          data.productImages.map((image, i) => (
+                            <div class="quick-view-product-img">
+                              <img
+                                // onError={(e) => {
+                                //   productImages.splice(i, 1);
+                                //   setProductImages([...productImages]);
+                                // }}
+                                class="img-thumbnail "
+                                src={image.url}
+                                alt="DigiGold Coin"
+                              />
+                            </div>
+                          ))}
+                      </Carousel>
                     </div>
                     {/* 
                         <!-- <div class="digigold-product-details-img">
@@ -118,8 +172,9 @@ const DigiProductDetails = ({ setTitle }) => {
                             }}
                           >
                             {items &&
-                              (items?.find((a) => a.Id === data.Id)?.quantity ??
-                                1)}
+                              (items?.find((a) => a.sku === data.sku)
+                                ?.quantity ??
+                                0)}
                           </h2>
                           {/* <input
                             type="number"
@@ -131,11 +186,14 @@ const DigiProductDetails = ({ setTitle }) => {
                             // onClick={() => {
                             //   setQty(qty + 1);
                             // }}
-                            onClick={() => dispatch(addItem(data))}
+                            onClick={() => {
+                              const Product = proDetails.Data.result.data;
+                              dispatch(addItem(Product));
+                            }}
                             class="value-button increase-sign"
                             id="increase"
                           >
-                            {" "}
+                            {console.log(items, "items")}{" "}
                             <i class="fa-solid fa-plus"></i>{" "}
                           </div>
                         </div>

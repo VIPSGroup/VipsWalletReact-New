@@ -1,41 +1,132 @@
-import { Card, Checkbox, Form, Input, Row, Select } from "antd";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Spin,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "../../../assets/styles/digigold/digigold-shopping-cart.css";
 import {
   calculateTotalPrice,
+  handleKeyPressForName,
+  handleMobileKeyPress,
+  namePattern,
   validateMobile,
   validateName,
   validatePincode,
 } from "../../../constants";
+import {
+  checkDigiPinCode,
+  createDigiAddress,
+  deleteDigiAddress,
+  getDigiAddressList,
+  removePinData,
+} from "../../../redux/slices/digiGold/delivery/DeliverySlice";
 
+const { Item } = Form;
 const DeliveryCheckout = () => {
+  const dispatch = useDispatch();
   const { items } = useSelector((state) => state.DeliverySlice);
-  const [addCheck, setAddCheck] = useState(false);
-  const [billingForm, setBillingForm] = useState({
-    fName: "",
-    fAdd: "",
-    city: "",
-    state: "",
-    zip: "",
-    mob: "",
+  const [postName, setPostName] = useState("");
+  const [selectAdd, setSelectAdd] = useState();
+  const { pinCode, pinLoading } = useSelector(
+    (state) => state.DeliverySlice.pinCodeCheck
+  );
+  const [modalOpen, setModalOpen] = useState(false);
+  const [formData, setFormdata] = useState({
+    name: "",
+    mobileNumber: "",
+    email: "",
+    address: "",
+    pincode: "",
   });
-  const [shippingForm, setShippingForm] = useState({
-    fName: "",
-    fAdd: "",
-    city: "",
-    state: "",
-    zip: "",
-    mob: "",
-  });
+  const { address, addLoading } = useSelector(
+    (state) => state.DeliverySlice.addressList
+  );
+  const { AddRes, AddLoading } = useSelector(
+    (state) => state.DeliverySlice.createAdd
+  );
+  const { AddDelete, AddDelLoading } = useSelector(
+    (state) => state.DeliverySlice.deleteAdd
+  );
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
+  const Username = loggedInUser.UserName;
+  const Password = loggedInUser.TRXNPassword;
 
+  useEffect(() => {
+    dispatch(getDigiAddressList({ Username, Password }));
+    setFormdata({ ...formData, mobileNumber: loggedInUser.Mobile });
+    setSelectAdd(address.Data?.result[0]?.userAddressId);
+  }, []);
+  console.log(selectAdd, "address");
+  const handleFinish = async () => {
+    const name = formData.name;
+    const mobileNumber = formData.mobileNumber;
+    const email = formData.email;
+    const address = formData.address;
+    const pincode = formData.pincode;
+    const res = await dispatch(
+      createDigiAddress({
+        Username,
+        Password,
+        name,
+        mobileNumber,
+        email,
+        address,
+        pincode,
+      })
+    );
+    if (
+      res.payload.ResponseStatus === 1 &&
+      res.payload.Data.statusCode === 200
+    ) {
+      setModalOpen(false);
+      setFormdata({
+        name: "",
+        email: "",
+        address: "",
+        mobileNumber: "",
+        pincode: "",
+      });
+      dispatch(getDigiAddressList({ Username, Password }));
+    }
+  };
+  useEffect(() => {
+    if (formData.pincode.length === 6) {
+      const pincode = formData.pincode;
+      dispatch(checkDigiPinCode({ pincode }));
+    } else if (formData.pincode.length < 6) {
+      dispatch(removePinData());
+    }
+  }, [formData.pincode]);
+
+  const clickDeleteAddress = async (id) => {
+    const Useraddressid = id;
+    const res = await dispatch(
+      deleteDigiAddress({ Username, Password, Useraddressid })
+    );
+    if (
+      res.payload.ResponseStatus === 1 &&
+      res.payload.Data.statusCode === 200
+    ) {
+      dispatch(getDigiAddressList({ Username, Password }));
+    }
+  };
   return (
     <>
       <section class="section-align buy-sell-form">
         <div class="container-fluid">
           <div class="digigold-work-section-head delivery-section-head">
-            <h1 class="section-head-title py-2">Shopping Cart</h1>
+            <h1 class="section-head-title py-2">VIPS Gold Checkout</h1>
           </div>
 
           <div class="col-lg-10 m-auto digigold-shopping-cart-wrapper">
@@ -46,583 +137,91 @@ const DeliveryCheckout = () => {
                     class="accordion digigold-accordion"
                     id="checkout-accordion"
                   >
-                    <div class="card">
-                      <div class="card-header" id="checkouthead1">
-                        <a
-                          href="#"
-                          class="btn btn-header-link"
-                          data-toggle="collapse"
-                          data-target="#checkout-box1"
-                          aria-expanded="true"
-                          aria-controls="checkout-box1"
-                        >
-                          1. Billing Information
-                        </a>
-                      </div>
+                    <Spin spinning={addLoading || AddDelLoading}>
+                      <div style={{ marginBottom: 20 }} class="box-shadow-1">
+                        <div class="shopping-cart-left">
+                          <div class="shopping-cart-box-outer shopping-cart-address-bg ">
+                            <div class="d-flex justify-content-between">
+                              <p class="shopping-cart-address-title">
+                                {address?.Data?.result?.length === 0
+                                  ? "You don't have a Address."
+                                  : "Select Delivery Address"}
+                              </p>
+                              {address?.Data?.result.length < 3 && (
+                                <Button
+                                  onClick={() => setModalOpen(true)}
+                                  style={{ marginRight: 16 }}
+                                >
+                                  Add Address
+                                </Button>
+                              )}
+                            </div>
 
-                      <div
-                        id="checkout-box1"
-                        class="collapse show"
-                        aria-labelledby="checkouthead1"
-                        data-parent="#checkout-accordion"
-                      >
-                        <Form
-                          fields={[
-                            {
-                              name: "fName",
-                              value: billingForm.fName,
-                            },
-                            {
-                              name: "fAdd",
-                              value: billingForm.fAdd,
-                            },
-                            {
-                              name: "city",
-                              value: billingForm.city,
-                            },
-                            {
-                              name: "state",
-                              value: billingForm.state,
-                            },
-                            {
-                              name: "zip",
-                              value: billingForm.zip,
-                            },
-                            {
-                              name: "mob",
-                              value: billingForm.mob,
-                            },
-                          ]}
-                          class="card-body"
-                        >
-                          <Card>
-                            <Row>
-                              <div class="col-lg-12">
-                                <Form.Item
-                                  rules={[
-                                    {
-                                      validator: validateName,
-                                    },
-                                  ]}
-                                  name={"fName"}
-                                >
-                                  <Input
-                                    onChange={(e) =>
-                                      setBillingForm({
-                                        ...billingForm,
-                                        fName: e.target.value,
-                                      })
-                                    }
-                                    name="fName"
-                                    placeholder="Enter Full Name"
-                                  />
-                                </Form.Item>
-                              </div>
-                              <div class="col-lg-12">
-                                <Form.Item name={"fAdd"}>
-                                  <TextArea
-                                    onChange={(e) =>
-                                      setBillingForm({
-                                        ...billingForm,
-                                        fAdd: e.target.value,
-                                      })
-                                    }
-                                    name="fAdd"
-                                    placeholder="Enter Full Address"
-                                    rows={5}
-                                  />
-                                </Form.Item>
-                              </div>
-                              <div class="col-lg-6 col-md-6">
-                                <Form.Item name={"city"}>
-                                  <Select
-                                    value={billingForm.city}
-                                    onChange={(e) =>
-                                      setBillingForm({
-                                        ...billingForm,
-                                        city: e,
-                                      })
-                                    }
-                                    placeholder="Select City"
-                                    size="large"
-                                  >
-                                    <Select.Option value="city">
-                                      Select City
-                                    </Select.Option>
-                                  </Select>
-                                </Form.Item>
-                              </div>
-                              <div class="col-lg-6 col-md-6">
-                                <Form.Item name={"state"}>
-                                  <Select
-                                    value={billingForm.state}
-                                    onChange={(e) =>
-                                      setBillingForm({
-                                        ...billingForm,
-                                        state: e,
-                                      })
-                                    }
-                                    placeholder="Select State"
-                                    size="large"
-                                  >
-                                    <Select.Option value="state">
-                                      Select State
-                                    </Select.Option>
-                                  </Select>
-                                </Form.Item>
-                              </div>
-                              <div class="col-lg-6 col-md-6">
-                                <Form.Item
-                                  rules={[
-                                    {
-                                      validator: validatePincode,
-                                    },
-                                  ]}
-                                  name={"zip"}
-                                >
-                                  <Input
-                                    maxLength={6}
-                                    onChange={(e) =>
-                                      setBillingForm({
-                                        ...billingForm,
-                                        zip: e.target.value,
-                                      })
-                                    }
-                                    name="zip"
-                                    placeholder="Enter ZIP Code"
-                                  />
-                                </Form.Item>
-                              </div>
-                              <div class="col-lg-6 col-md-6">
-                                <Form.Item
-                                  rules={[
-                                    {
-                                      validator: validateMobile,
-                                    },
-                                  ]}
-                                  name={"mob"}
-                                >
-                                  <Input
-                                    maxLength={10}
-                                    onChange={(e) =>
-                                      setBillingForm({
-                                        ...billingForm,
-                                        mob: e.target.value,
-                                      })
-                                    }
-                                    name="mob"
-                                    placeholder="Enter Mobile Number"
-                                  />
-                                </Form.Item>
-                              </div>
+                            <div class="shopping-cart-address-card">
+                              <p class="shopping-cart-address-card-title">
+                                {" "}
+                                Default Address{" "}
+                              </p>
+                              {address?.Data?.result?.map((e) => {
+                                return (
+                                  <div class="shopping-cart-address-outer ">
+                                    <div class="col-sm-10 col-md-10 col-lg-10 shopping-cart-address-info p-0">
+                                      <div>
+                                        <label>
+                                          <input
+                                            onChange={() =>
+                                              setSelectAdd(e.userAddressId)
+                                            }
+                                            type="radio"
+                                            name="radio-button"
+                                            value={selectAdd}
+                                            checked={
+                                              selectAdd === e.userAddressId
+                                            }
+                                          />
+                                          <span></span>
+                                        </label>
+                                      </div>
+                                      <div class="address-info-inner">
+                                        <p class="shopping-cart-user-name">
+                                          Deepak Rathor{" "}
+                                          {/* <span class="location-badge">
+                                            {" "}
+                                            Home
+                                          </span>{" "} */}
+                                        </p>
+                                        <p class="shopping-cart-user-address">
+                                          Shanthi Layout, Rammurthi Nagar,
+                                          Bangalore, 560016
+                                        </p>
+                                        <p class="shopping-cart-user-mobno">
+                                          Mobile : +91 7723970629
+                                        </p>
+                                      </div>
+                                    </div>
 
-                              <div class="col-lg-12 ">
-                                <div class="row digigold-checkout-process justify-content-between">
-                                  <div class="custom-control custom-checkbox digigold-check-Style">
-                                    <input
-                                      type="checkbox"
-                                      class="custom-control-input"
-                                      id="customCheck1"
-                                      checked
-                                    />
-                                    <label
-                                      class="custom-control-label"
-                                      for="customCheck1"
-                                    >
-                                      Ship to this address
-                                    </label>
+                                    <div class="shopping-cart-address-btns">
+                                      <div class="shopping-cart-remove-address p-0">
+                                        <button
+                                          onClick={() =>
+                                            clickDeleteAddress(e.userAddressId)
+                                          }
+                                          // value={lastShippingAddress.Id}
+                                          class=" remove-address-btn"
+                                        >
+                                          {" "}
+                                          <i class="fa-sharp fa-solid fa-xmark"></i>{" "}
+                                        </button>
+                                      </div>
+                                    </div>
                                   </div>
-
-                                  <div class="digigold-checkout-btn">
-                                    <button class="btn btn-primery">
-                                      Continue
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </Row>
-                          </Card>
-                        </Form>
-                      </div>
-                    </div>
-                    <div class="card">
-                      <div class="card-header" id="checkouthead2">
-                        <a
-                          href="#"
-                          class="btn btn-header-link collapsed"
-                          data-toggle="collapse"
-                          data-target="#checkout-box2"
-                          aria-expanded="true"
-                          aria-controls="checkout-box2"
-                        >
-                          2. Shipping Information
-                        </a>
-                      </div>
-
-                      <div
-                        id="checkout-box2"
-                        class="collapse"
-                        aria-labelledby="checkouthead2"
-                        data-parent="#checkout-accordion"
-                      >
-                        {/* <div class="card-body">
-                          <div class="row">
-                            <div class="col-lg-12 ">
-                              <div class="custom-control custom-checkbox digigold-check-Style justify-content-end mb-3">
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input"
-                                  id="customCheck1"
-                                />
-                                <label
-                                  class="custom-control-label"
-                                  for="customCheck1"
-                                >
-                                  Ship to billing address
-                                </label>
-                              </div>
-                            </div>
-
-                            <div class="col-lg-12 col-md-12">
-                              <div class="floating-input-wrapper">
-                                <input
-                                  class="floating-input-box"
-                                  type="text"
-                                  placeholder=" "
-                                />
-                                <label class="floating-label-name">
-                                  Full Name *
-                                </label>
-                              </div>
-                            </div>
-
-                            <div class="col-lg-12">
-                              <div class="floating-input-wrapper">
-                                <textarea
-                                  class="floating-input-box floating-textarea-box"
-                                  type="textarea"
-                                  rows="2"
-                                  placeholder=" "
-                                ></textarea>
-                                <label class="floating-label-name">
-                                  Address *
-                                </label>
-                              </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                              <div class="floating-input-wrapper">
-                                <select
-                                  class="floating-select-wraper"
-                                  onclick="this.setAttribute('value', this.value);"
-                                  onchange="this.setAttribute('value', this.value);"
-                                  value=""
-                                >
-                                  <option value=""></option>
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
-                                </select>
-                                <label class="floating-label-name">
-                                  Country *
-                                </label>
-                              </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                              <div class="floating-input-wrapper">
-                                <select
-                                  class="floating-select-wraper"
-                                  onclick="this.setAttribute('value', this.value);"
-                                  onchange="this.setAttribute('value', this.value);"
-                                  value=""
-                                >
-                                  <option value=""></option>
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
-                                </select>
-                                <label class="floating-label-name">
-                                  State *
-                                </label>
-                              </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                              <div class="floating-input-wrapper">
-                                <select
-                                  class="floating-select-wraper"
-                                  onclick="this.setAttribute('value', this.value);"
-                                  onchange="this.setAttribute('value', this.value);"
-                                  value=""
-                                >
-                                  <option value=""></option>
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
-                                </select>
-                                <label class="floating-label-name">
-                                  City *
-                                </label>
-                              </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                              <div class="floating-input-wrapper">
-                                <input
-                                  class="floating-input-box"
-                                  type="text"
-                                  placeholder=" "
-                                />
-                                <label class="floating-label-name">
-                                  Zip Code *
-                                </label>
-                              </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                              <div class="floating-input-wrapper">
-                                <input
-                                  class="floating-input-box"
-                                  type="text"
-                                  placeholder=" "
-                                />
-                                <label class="floating-label-name">
-                                  Mobile Number *
-                                </label>
-                              </div>
-                            </div>
-
-                            <div class="col-lg-12 ">
-                              <div class="row digigold-checkout-process justify-content-end">
-                                <div class="digigold-checkout-btn mt-0">
-                                  <button class="btn btn-primery">
-                                    Continue
-                                  </button>
-                                </div>
-                              </div>
+                                );
+                              })}
                             </div>
                           </div>
-                        </div> */}
-                        <Form
-                          fields={[
-                            {
-                              name: "fName",
-                              value: addCheck
-                                ? billingForm.fName
-                                : shippingForm.fName,
-                            },
-                            {
-                              name: "fAdd",
-                              value: addCheck
-                                ? billingForm.fAdd
-                                : shippingForm.fAdd,
-                            },
-                            {
-                              name: "city",
-                              value: addCheck
-                                ? billingForm.city
-                                : shippingForm.city,
-                            },
-                            {
-                              name: "state",
-                              value: addCheck
-                                ? billingForm.state
-                                : shippingForm.state,
-                            },
-                            {
-                              name: "zip",
-                              value: addCheck
-                                ? billingForm.zip
-                                : shippingForm.zip,
-                            },
-                            {
-                              name: "mob",
-                              value: addCheck
-                                ? billingForm.mob
-                                : shippingForm.mob,
-                            },
-                          ]}
-                          class="card-body"
-                        >
-                          <Card>
-                            <Row>
-                              <div class="col-lg-12">
-                                <Form.Item
-                                  rules={[
-                                    {
-                                      validator: validateName,
-                                    },
-                                  ]}
-                                  name={"fName"}
-                                >
-                                  <Input
-                                    value={
-                                      addCheck
-                                        ? billingForm.fName
-                                        : shippingForm.fName
-                                    }
-                                    onChange={(e) =>
-                                      setShippingForm({
-                                        ...shippingForm,
-                                        fName: e.target.value,
-                                      })
-                                    }
-                                    name="fName"
-                                    placeholder="Enter Full Name"
-                                  />
-                                </Form.Item>
-                              </div>
-                              <div class="col-lg-12">
-                                <Form.Item name={"fAdd"}>
-                                  <TextArea
-                                    value={
-                                      addCheck
-                                        ? billingForm.fAdd
-                                        : shippingForm.fAdd
-                                    }
-                                    onChange={(e) =>
-                                      setShippingForm({
-                                        ...shippingForm,
-                                        fAdd: e.target.value,
-                                      })
-                                    }
-                                    name="fAdd"
-                                    placeholder="Enter Full Address"
-                                    rows={5}
-                                  />
-                                </Form.Item>
-                              </div>
-                              <div class="col-lg-6 col-md-6">
-                                <Form.Item name={"city"}>
-                                  <Select
-                                    onChange={(e) =>
-                                      setShippingForm({
-                                        ...shippingForm,
-                                        city: e,
-                                      })
-                                    }
-                                    value={
-                                      addCheck
-                                        ? billingForm.city
-                                        : shippingForm.city
-                                    }
-                                    placeholder="Select City"
-                                    size="large"
-                                  >
-                                    <Select.Option>Select City</Select.Option>
-                                  </Select>
-                                </Form.Item>
-                              </div>
-                              <div class="col-lg-6 col-md-6">
-                                <Form.Item name={"state"}>
-                                  <Select
-                                    onChange={(e) =>
-                                      setShippingForm({
-                                        ...shippingForm,
-                                        state: e,
-                                      })
-                                    }
-                                    value={
-                                      addCheck
-                                        ? billingForm.state
-                                        : shippingForm.state
-                                    }
-                                    placeholder="Select State"
-                                    size="large"
-                                  >
-                                    <Select.Option>Select State</Select.Option>
-                                  </Select>
-                                </Form.Item>
-                              </div>
-                              <div class="col-lg-6 col-md-6">
-                                <Form.Item
-                                  rules={[
-                                    {
-                                      validator: validatePincode,
-                                    },
-                                  ]}
-                                  name={"zip"}
-                                >
-                                  <Input
-                                    maxLength={6}
-                                    onChange={(e) =>
-                                      setShippingForm({
-                                        ...shippingForm,
-                                        zip: e.target.value,
-                                      })
-                                    }
-                                    value={
-                                      addCheck
-                                        ? billingForm.zip
-                                        : shippingForm.zip
-                                    }
-                                    name="zip"
-                                    placeholder="Enter ZIP Code"
-                                  />
-                                </Form.Item>
-                              </div>
-                              <div class="col-lg-6 col-md-6">
-                                <Form.Item
-                                  rules={[
-                                    {
-                                      validator: validateMobile,
-                                    },
-                                  ]}
-                                  name={"mob"}
-                                >
-                                  <Input
-                                    maxLength={10}
-                                    onChange={(e) =>
-                                      setShippingForm({
-                                        ...shippingForm,
-                                        mob: e.target.value,
-                                      })
-                                    }
-                                    value={
-                                      addCheck
-                                        ? billingForm.mob
-                                        : shippingForm.mob
-                                    }
-                                    name="mob"
-                                    placeholder="Enter Mobile Number"
-                                  />
-                                </Form.Item>
-                              </div>
-
-                              <div class="col-lg-12 ">
-                                <div class="row digigold-checkout-process justify-content-between">
-                                  <div class="custom-control">
-                                    <Checkbox
-                                      checked={addCheck}
-                                      onChange={() => setAddCheck(!addCheck)}
-                                    />
-                                    <label
-                                      //   class="custom-control-label"
-                                      for="customCheck1"
-                                    >
-                                      Ship to billing address
-                                    </label>
-                                  </div>
-
-                                  <div class="digigold-checkout-btn">
-                                    <button class="btn btn-primery">
-                                      Continue
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </Row>
-                          </Card>
-                        </Form>
+                        </div>
                       </div>
-                    </div>
+                    </Spin>
                     <div class="card">
                       <div class="card-header" id="checkouthead3">
                         <a
@@ -728,7 +327,7 @@ const DeliveryCheckout = () => {
                                 <span>
                                   {" "}
                                   <img
-                                    src={e.productImages}
+                                    src={e.productImages[0].url}
                                     class="img img-fluid digigold-checkout-coin-img"
                                   />{" "}
                                 </span>
@@ -768,6 +367,152 @@ const DeliveryCheckout = () => {
           </div>
         </div>
       </section>
+      <Modal
+        onCancel={() => {
+          setModalOpen(false);
+          setFormdata({
+            name: "",
+            email: "",
+            address: "",
+            mobileNumber: "",
+            pincode: "",
+          });
+          dispatch(removePinData());
+        }}
+        footer={[]}
+        width={500}
+        open={modalOpen}
+      >
+        <h5>Add Address</h5>
+        <Form
+          onFinish={handleFinish}
+          fields={[
+            {
+              name: "name",
+              value: formData.name,
+            },
+            {
+              name: "mobileNumber",
+              value: formData.mobileNumber,
+            },
+            {
+              name: "email",
+              value: formData.email,
+            },
+            {
+              name: "address",
+              value: formData.address,
+            },
+            {
+              name: "pincode",
+              value: formData.pincode,
+            },
+          ]}
+          style={{ marginTop: 20 }}
+        >
+          <Item
+            onKeyPress={handleKeyPressForName}
+            name="name"
+            rules={[
+              { required: true, message: "Please enter your name!" },
+              {
+                pattern: namePattern,
+                message: "Please Enter Valid Full Name",
+              },
+            ]}
+          >
+            <Input
+              onChange={(e) =>
+                setFormdata({ ...formData, name: e.target.value })
+              }
+              value={formData.name}
+              placeholder="Enter Your Name"
+            />
+          </Item>
+          <Item
+            name="mobileNumber"
+            rules={[
+              { required: true, message: "Please enter your mobile number!" },
+              {
+                pattern: /^[0-9]{10}$/,
+                message: "Please enter a valid mobile number!",
+              },
+            ]}
+          >
+            <Input
+              onKeyPress={handleMobileKeyPress}
+              maxLength={10}
+              onChange={(e) =>
+                setFormdata({ ...formData, mobileNumber: e.target.value })
+              }
+              value={formData.mobileNumber}
+              placeholder="Enter Mobile Number"
+            />
+          </Item>
+          <Item
+            name="email"
+            rules={[
+              // { required: true, message: "Please enter your email address!" },
+              { type: "email", message: "Please enter a valid email address!" },
+            ]}
+          >
+            <Input
+              onChange={(e) =>
+                setFormdata({ ...formData, email: e.target.value })
+              }
+              value={formData.email}
+              placeholder="Enter Email Address"
+            />
+          </Item>
+          <Item
+            name="address"
+            rules={[{ required: true, message: "Please enter your address!" }]}
+          >
+            <Input.TextArea
+              onChange={(e) =>
+                setFormdata({ ...formData, address: e.target.value })
+              }
+              value={formData.address}
+              placeholder="Enter Address"
+            />
+          </Item>
+          <Spin spinning={pinLoading}>
+            <Item
+              name="pincode"
+              rules={[
+                { required: true, message: "Please enter your pincode!" },
+                {
+                  pattern: /^[0-9]{6}$/,
+                  message: "Please enter a valid pincode!",
+                },
+              ]}
+            >
+              <Input
+                maxLength={6}
+                onChange={(e) =>
+                  setFormdata({ ...formData, pincode: e.target.value })
+                }
+                value={formData.pincode}
+                placeholder="Enter Pincode"
+              />
+              {pinCode[0]?.Status === "Success"
+                ? pinCode[0]?.PostOffice?.map((e) => {
+                    return (
+                      <span style={{ marginRight: 10, fontSize: 12 }}>
+                        {e.Name},
+                      </span>
+                    );
+                  })
+                : pinCode[0]?.Message}
+            </Item>
+          </Spin>
+          <Item>
+            <Button loading={AddLoading} htmlType="submit" type="primary">
+              Submit
+            </Button>
+          </Item>
+        </Form>
+      </Modal>
     </>
   );
 };
