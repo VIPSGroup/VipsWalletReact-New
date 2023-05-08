@@ -4,14 +4,14 @@ import pakcage from "../package.json";
 const themeColor = "#393186";
 // export const baseApiUrl = "https://api.vipswallet.com/api";
 
-export const baseApiUrl = "http://api.vipswallet.com/api";
-export const digiBaseUrl = "http://api.vipswallet.com/api/DigiGold/";
+export const baseApiUrl = "https://api.vipswallet.com/api";
+export const digiBaseUrl = "https://api.vipswallet.com/api/DigiGold/";
 
 // export const baseApiUrl = "http://webplat.vipswallet.com/api/";
-export const shopadminUrl = "http://shopadmin.vipswallet.com";
+export const shopadminUrl = "https://shopadmin.vipswallet.com";
 export const vendorPanelAPi = "http://vendor.vipswallet.com/Login/Vendor";
 export const staticTocken = "XMCNBVGDTE734BCU65DW"; //used for getting banners , affiliate etc while calling apis.
-export const currAppVersion = 1.1;
+export const currAppVersion = 1.3;
 // Digi Gold Cart Price Calculation
 export function calculateTotalPrice(products, price) {
   let totalPrice = 0;
