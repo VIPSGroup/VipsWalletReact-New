@@ -149,8 +149,6 @@ const DeliverySlice = createSlice({
       } else {
         if (action.payload.stock > state.items[index].quantity) {
           state.items[index].quantity += 1;
-        } else {
-          state.coinDetails.qtyMessage = "Sorry You Can't add more item";
         }
       }
     },

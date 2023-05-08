@@ -10,12 +10,16 @@ import {
 import MyVault from "../MyVault";
 import Carousel from "react-multi-carousel";
 import { loginDigiGold } from "../../../redux/slices/digiGold/registerDigiSlice";
+import { MuiSnackBar } from "../../../components/common";
 export function calculateTotal(quantity, price) {
   return quantity * price;
 }
 const DigiProductDetails = ({ setTitle }) => {
   // const [goldQty, setGoldQty] = useState();
   // const [silverQty, setSilverQty] = useState();
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const { items } = useSelector((state) => state.DeliverySlice);
   const { proDetails, qtyMessage } = useSelector(
     (state) => state.DeliverySlice.coinDetails
@@ -75,13 +79,11 @@ const DigiProductDetails = ({ setTitle }) => {
     const Product = proDetails.Data.result.data;
     const GoldBalance = logData.Data.GoldGrams;
     const SilverBalance = logData.Data.SilverGrams;
-
     let goldQty = 0;
     let silverQty = 0;
     items.forEach((item) => {
       const productWeight = parseFloat(item.productWeight);
       const quantity = parseInt(item.quantity);
-
       if (item.metalType === "gold") {
         goldQty += quantity * productWeight;
       } else if (item.metalType === "silver") {
@@ -89,34 +91,26 @@ const DigiProductDetails = ({ setTitle }) => {
       }
     });
     if (Product.metalType === "silver") {
+      console.log(silverQty, "silverQty");
       if (SilverBalance > silverQty) {
         dispatch(addItem(Product));
+      } else {
+        setIsSnackBar(true);
+        setErrorMsg("You don't have a enough silver to add more qty");
       }
     } else if (Product.metalType === "gold") {
       if (GoldBalance > goldQty) {
-        console.log(goldQty, "goldQty")
-        console.log(goldQty, "yha aa rha hai");
+        console.log(goldQty, "goldQty");
+
         dispatch(addItem(Product));
+      } else {
+        setIsSnackBar(true);
+        setErrorMsg("You don't have a enough Gold to add more qty");
       }
     }
   };
 
-  // useEffect(() => {
-  //   let goldQty = 0;
-  //   let silverQty = 0;
-  //   items.forEach((item) => {
-  //     const productWeight = parseFloat(item.productWeight);
-  //     const quantity = parseInt(item.quantity);
-
-  //     if (item.metalType === "gold") {
-  //       goldQty += quantity * productWeight;
-  //     } else if (item.metalType === "silver") {
-  //       silverQty += quantity * productWeight;
-  //     }
-  //   });
-  //   setGoldQty(goldQty);
-  //   setSilverQty(silverQty);
-  // }, [items]);
+  console.log(items, "items");
 
   return (
     <>
@@ -361,6 +355,14 @@ const DigiProductDetails = ({ setTitle }) => {
             </div>
           </div>
         </div>
+        <MuiSnackBar
+          open={isSnackBar}
+          setOpen={setIsSnackBar}
+          successMsg={successMsg}
+          errorMsg={errorMsg}
+          setSuccess={setSuccessMsg}
+          setError={setErrorMsg}
+        />
       </section>
     </>
   );
