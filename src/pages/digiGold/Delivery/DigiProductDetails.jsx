@@ -9,13 +9,22 @@ import {
 } from "../../../redux/slices/digiGold/delivery/DeliverySlice";
 import MyVault from "../MyVault";
 import Carousel from "react-multi-carousel";
+import { loginDigiGold } from "../../../redux/slices/digiGold/registerDigiSlice";
 export function calculateTotal(quantity, price) {
   return quantity * price;
 }
 const DigiProductDetails = ({ setTitle }) => {
+  // const [goldQty, setGoldQty] = useState();
+  // const [silverQty, setSilverQty] = useState();
   const { items } = useSelector((state) => state.DeliverySlice);
   const { proDetails, qtyMessage } = useSelector(
     (state) => state.DeliverySlice.coinDetails
+  );
+  const { logData, loading: digiLogLoading } = useSelector(
+    (state) => state.registerDigiSlice.login
+  );
+  const { loggedInUser, loading: logLoading } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,6 +34,9 @@ const DigiProductDetails = ({ setTitle }) => {
   const { title } = useParams();
   useEffect(() => {
     setTitle(title);
+    const username = loggedInUser.UserName;
+    const password = loggedInUser.TRXNPassword;
+    dispatch(loginDigiGold({ username, password }));
   }, []);
   const handleClick = () => {
     const res = items.find((a) => a.sku === data.sku);
@@ -58,6 +70,54 @@ const DigiProductDetails = ({ setTitle }) => {
       items: 1,
     },
   };
+
+  const addItemCart = () => {
+    const Product = proDetails.Data.result.data;
+    const GoldBalance = logData.Data.GoldGrams;
+    const SilverBalance = logData.Data.SilverGrams;
+
+    let goldQty = 0;
+    let silverQty = 0;
+    items.forEach((item) => {
+      const productWeight = parseFloat(item.productWeight);
+      const quantity = parseInt(item.quantity);
+
+      if (item.metalType === "gold") {
+        goldQty += quantity * productWeight;
+      } else if (item.metalType === "silver") {
+        silverQty += quantity * productWeight;
+      }
+    });
+    if (Product.metalType === "silver") {
+      if (SilverBalance > silverQty) {
+        dispatch(addItem(Product));
+      }
+    } else if (Product.metalType === "gold") {
+      if (GoldBalance > goldQty) {
+        console.log(goldQty, "goldQty")
+        console.log(goldQty, "yha aa rha hai");
+        dispatch(addItem(Product));
+      }
+    }
+  };
+
+  // useEffect(() => {
+  //   let goldQty = 0;
+  //   let silverQty = 0;
+  //   items.forEach((item) => {
+  //     const productWeight = parseFloat(item.productWeight);
+  //     const quantity = parseInt(item.quantity);
+
+  //     if (item.metalType === "gold") {
+  //       goldQty += quantity * productWeight;
+  //     } else if (item.metalType === "silver") {
+  //       silverQty += quantity * productWeight;
+  //     }
+  //   });
+  //   setGoldQty(goldQty);
+  //   setSilverQty(silverQty);
+  // }, [items]);
+
   return (
     <>
       <section class="section-align buy-sell-form">
@@ -186,14 +246,10 @@ const DigiProductDetails = ({ setTitle }) => {
                             // onClick={() => {
                             //   setQty(qty + 1);
                             // }}
-                            onClick={() => {
-                              const Product = proDetails.Data.result.data;
-                              dispatch(addItem(Product));
-                            }}
+                            onClick={addItemCart}
                             class="value-button increase-sign"
                             id="increase"
                           >
-                            {console.log(items, "items")}{" "}
                             <i class="fa-solid fa-plus"></i>{" "}
                           </div>
                         </div>

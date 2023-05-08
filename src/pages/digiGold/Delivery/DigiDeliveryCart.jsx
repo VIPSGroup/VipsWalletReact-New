@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "../../../assets/styles/digigold/digigold-shopping-cart.css";
@@ -13,7 +13,18 @@ const DigiDeliveryCart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { items } = useSelector((state) => state.DeliverySlice);
+
+  const calculateBasePrice = () => {
+    const totalBasePrice = items.reduce(
+      (acc, product) => acc + parseFloat(product.basePrice),
+      0
+    );
+    console.log(totalBasePrice, "total");
+  };
   console.log(items, "items");
+  useEffect(() => {
+    calculateBasePrice();
+  }, []);
   return (
     <>
       <section class="section-align buy-sell-form">
@@ -60,26 +71,28 @@ const DigiDeliveryCart = () => {
                         <div class="digigold-cart-product">
                           <div class="digigold-cart-product-details">
                             <div class="digigold-cart-product-image">
-                              <img alt="" src={e.productImages[0].url} />
+                              {/* <img alt="" src={e?.productImages[0].url} /> */}
                             </div>
                             <div class="digigold-cart-product-title">
-                              <p class="digigold-cart-product-name">{e.name}</p>
+                              <p class="digigold-cart-product-name">
+                                {e?.name}
+                              </p>
                               <p class="digigold-cart-product-description">
-                                SKU : {e.sku}
+                                SKU : {e?.sku}
                               </p>
                             </div>
                           </div>
 
                           <div class="digigold-cart-product-weight">
                             {/* <!-- <p class="d-md-none d-sm-block">Weight (gms)</p> --> */}
-                            <span>{e.productWeight} gms</span>
+                            <span>{e?.productWeight} gms</span>
                           </div>
 
                           <div class="digigold-cart-product-quantity">
                             <div class="digigold-cart-product-choose-quantity">
                               <div
                                 onClick={() => {
-                                  if (e.quantity > 1) {
+                                  if (e?.quantity > 1) {
                                     dispatch(removeItem(e));
                                   }
                                 }}
@@ -98,7 +111,7 @@ const DigiDeliveryCart = () => {
                                   paddingTop: 5,
                                 }}
                               >
-                                {e.quantity}
+                                {e?.quantity}
                               </h2>
                               <div
                                 onClick={() => dispatch(addItem(e))}
@@ -113,7 +126,7 @@ const DigiDeliveryCart = () => {
 
                           <div class="digigold-cart-product-price">
                             <div class="digigold-cart-product-price-inner">
-                              <span>&#x20B9; {e.quantity * e.basePrice}</span>
+                              <span>&#x20B9; {e?.quantity * e?.basePrice}</span>
                               <span
                                 style={{ cursor: "pointer" }}
                                 onClick={() => dispatch(deleteItem(e))}

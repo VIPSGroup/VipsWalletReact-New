@@ -141,17 +141,13 @@ const DeliverySlice = createSlice({
 
   reducers: {
     addItem: (state, action) => {
-      // console.log(action.payload, "action");
       const index = state.items.findIndex(
         (item) => item.sku === action.payload.sku
       );
-      console.log(index, "index");
       if (index === -1) {
-        console.log("First Time");
         state.items.push({ ...action.payload, quantity: 1 });
       } else {
         if (action.payload.stock > state.items[index].quantity) {
-          console.log("Second Time");
           state.items[index].quantity += 1;
         } else {
           state.coinDetails.qtyMessage = "Sorry You Can't add more item";

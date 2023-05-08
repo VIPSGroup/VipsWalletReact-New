@@ -1,15 +1,4 @@
-import {
-  Button,
-  Card,
-  Checkbox,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Select,
-  Spin,
-} from "antd";
-import TextArea from "antd/es/input/TextArea";
+import { Button, Form, Input, Modal, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../../assets/styles/digigold/digigold-shopping-cart.css";
@@ -18,9 +7,6 @@ import {
   handleKeyPressForName,
   handleMobileKeyPress,
   namePattern,
-  validateMobile,
-  validateName,
-  validatePincode,
 } from "../../../constants";
 import {
   checkDigiPinCode,
@@ -29,12 +15,12 @@ import {
   getDigiAddressList,
   removePinData,
 } from "../../../redux/slices/digiGold/delivery/DeliverySlice";
+import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
 const { Item } = Form;
 const DeliveryCheckout = () => {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.DeliverySlice);
-  const [postName, setPostName] = useState("");
   const [selectAdd, setSelectAdd] = useState();
   const { pinCode, pinLoading } = useSelector(
     (state) => state.DeliverySlice.pinCodeCheck
@@ -56,18 +42,20 @@ const DeliveryCheckout = () => {
   const { AddDelete, AddDelLoading } = useSelector(
     (state) => state.DeliverySlice.deleteAdd
   );
+  const { data: WalletData, loading: walletLoad } = useSelector(
+    (state) => state.walletSlice.walletBalance
+  );
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
   const Username = loggedInUser.UserName;
   const Password = loggedInUser.TRXNPassword;
-
   useEffect(() => {
     dispatch(getDigiAddressList({ Username, Password }));
     setFormdata({ ...formData, mobileNumber: loggedInUser.Mobile });
     setSelectAdd(address.Data?.result[0]?.userAddressId);
+    dispatch(getWalletBalance({ username: Username, password: Password }));
   }, []);
-  console.log(selectAdd, "address");
   const handleFinish = async () => {
     const name = formData.name;
     const mobileNumber = formData.mobileNumber;
@@ -121,6 +109,7 @@ const DeliveryCheckout = () => {
       dispatch(getDigiAddressList({ Username, Password }));
     }
   };
+
   return (
     <>
       <section class="section-align buy-sell-form">
@@ -137,7 +126,7 @@ const DeliveryCheckout = () => {
                     class="accordion digigold-accordion"
                     id="checkout-accordion"
                   >
-                    <Spin spinning={addLoading || AddDelLoading}>
+                    <Spin spinning={addLoading || AddDelLoading || walletLoad}>
                       <div style={{ marginBottom: 20 }} class="box-shadow-1">
                         <div class="shopping-cart-left">
                           <div class="shopping-cart-box-outer shopping-cart-address-bg ">
@@ -238,7 +227,7 @@ const DeliveryCheckout = () => {
 
                       <div
                         id="checkout-box3"
-                        class="collapse"
+                        // class="collapse"
                         aria-labelledby="checkouthead3"
                         data-parent="#checkout-accordion"
                       >
@@ -249,6 +238,7 @@ const DeliveryCheckout = () => {
                                 <div class="custom-control custom-checkbox ">
                                   <input
                                     type="checkbox"
+                                    checked
                                     class="custom-control-input"
                                     id="vips-wallet"
                                   />
@@ -260,7 +250,12 @@ const DeliveryCheckout = () => {
                                       src="images/digigold-images/vips-logo-small.png"
                                       class="img-fluid digigold-payment-debit-vips"
                                     />{" "}
-                                    VIPS Wallet (₹ 5,72,93,773.35)
+                                    VIPS Wallet (₹{" "}
+                                    {parseFloat(
+                                      WalletData?.Data?.Balance
+                                    )?.toLocaleString()}
+                                    ){" "}
+                                    {/* {`${parseFloat(WalletData?.Data?.Balance)} < ${parseFloat}`} */}
                                   </label>
                                 </div>
                               </div>
@@ -273,7 +268,7 @@ const DeliveryCheckout = () => {
                               </div>
                             </div>
 
-                            <div class="digigold-paymet-discount-info">
+                            {/* <div class="digigold-paymet-discount-info">
                               <div class="col-lg-8 col-sm-8 p-0">
                                 <div class="custom-control custom-checkbox ">
                                   <input
@@ -300,7 +295,7 @@ const DeliveryCheckout = () => {
                                   {calculateTotalPrice(items, "basePrice")}
                                 </p>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
 
                           <div class="row digigold-checkout-process justify-content-end">

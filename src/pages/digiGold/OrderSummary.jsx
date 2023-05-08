@@ -290,8 +290,8 @@ const OrderSummary = () => {
     const blockid = blockId;
     const amount = totalAmount ? totalAmount : state.valueinAmt;
     const type = state.valType;
-    const CouponId = couponData.id;
-    const CouponAmount = couponData.CouponAmount;
+    // const CouponId = couponData.id;
+    // const CouponAmount = couponData.CouponAmount;
     const PointType = shopPointLimit ? "SHOPPING" : "";
     const DiscountAmount = shopPointLimit ? FinalShopAmount : 0.0;
 
