@@ -63,8 +63,8 @@ const ShippingAddress = () => {
       ) {
         setSelectedAddress(addressGetData.Data[0]);
       }
-    } else if(addressGetData.ResponseStatus === 0) {
-      setSelectedAddress({})
+    } else if (addressGetData.ResponseStatus === 0) {
+      setSelectedAddress({});
       setAddressList("");
       setLastShippingAddress("");
     }
@@ -288,44 +288,42 @@ const ShippingAddress = () => {
                   </div>
                   {/* {<!-- product card 2 end -->} */}
                 </div>
-{addressList.length<3 && <div class="shopping-cart-add-new-address box-shadow-1">
-                <AddShippingAddressModal />
-                </div>}
-                
+                {addressList.length < 3 && (
+                  <div class="shopping-cart-add-new-address box-shadow-1">
+                    <AddShippingAddressModal />
+                  </div>
+                )}
               </div>
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4 ">
               {/* <div class="shopping-cart-right"> */}
-                <div class="shopping-cart-payment-outer box-shadow-1">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <h3 class="shopping-cart-payment-head">
-                        {" "}
-                        Order Summary{" "}
-                      </h3>
-                    </div>
+              <div class="shopping-cart-payment-outer box-shadow-1">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3 class="shopping-cart-payment-head"> Order Summary </h3>
                   </div>
+                </div>
 
-                  <div class="col-md-12 p-0">
-                    <div class="shopping-cart-payment-summery">
-                      <div class="row mb-3">
-                        <div class="col-7 col-xs-4">
-                          <span> Price : </span>
-                        </div>
-                        <div class="col-5 col-xs-4 text-right">
-                          <span class="shopping-cart-payment-summery-amt">
-                            {" "}
-                            &#x20B9;{" "}
-                            {propsProductsData?.totalAmount &&
-                              parseFloat(
-                                propsProductsData?.totalAmount
-                              ).toLocaleString()}{" "}
-                          </span>
-                        </div>
+                <div class="col-md-12 p-0">
+                  <div class="shopping-cart-payment-summery">
+                    <div class="row mb-3">
+                      <div class="col-7 col-xs-4">
+                        <span> Price : </span>
                       </div>
+                      <div class="col-5 col-xs-4 text-right">
+                        <span class="shopping-cart-payment-summery-amt">
+                          {" "}
+                          &#x20B9;{" "}
+                          {propsProductsData?.totalAmount &&
+                            parseFloat(
+                              propsProductsData?.totalAmount
+                            ).toLocaleString()}{" "}
+                        </span>
+                      </div>
+                    </div>
 
-                      {/* {<div class="row mb-3">
+                    {/* {<div class="row mb-3">
                                         <div class="col-7 col-xs-4">
                                             <span> Shopping Points : </span>
                                         </div>
@@ -343,28 +341,28 @@ const ShippingAddress = () => {
                                         </div>
                                     </div> */}
 
-                      <div class="dropdown-divider"></div>
+                    <div class="dropdown-divider"></div>
 
-                      <div class="row mt-3">
-                        <div class="col-7 col-xs-4">
-                          <span> Total Amount : </span>
-                        </div>
-                        <div class="col-5 col-xs-4 text-right">
-                          <span class="shopping-cart-payment-summery-amt">
-                            {" "}
-                            &#x20B9;{" "}
-                            {propsProductsData?.totalAmount &&
-                              parseFloat(
-                                propsProductsData?.totalAmount
-                              ).toLocaleString()}{" "}
-                          </span>
-                        </div>
+                    <div class="row mt-3">
+                      <div class="col-7 col-xs-4">
+                        <span> Total Amount : </span>
+                      </div>
+                      <div class="col-5 col-xs-4 text-right">
+                        <span class="shopping-cart-payment-summery-amt">
+                          {" "}
+                          &#x20B9;{" "}
+                          {propsProductsData?.totalAmount &&
+                            parseFloat(
+                              propsProductsData?.totalAmount
+                            ).toLocaleString()}{" "}
+                        </span>
                       </div>
                     </div>
+                  </div>
 
-                    <div class="col-md-12">
-                      <div class="shopping-cart-payment-confirm-btn">
-                        {/* <button
+                  <div class="col-md-12">
+                    <div class="shopping-cart-payment-confirm-btn">
+                      {/* <button
                           onClick={onPlaceOrder}
                           class="btn-primery"
                           disabled={selectedAddress ? false : true}
@@ -372,13 +370,17 @@ const ShippingAddress = () => {
                           {" "}
                           Place Order{" "}
                         </button> */}
-                        <ThemeButton onClick={onPlaceOrder} disabled={selectedAddress ? false : true} value={"Place Order"}/>
-                      </div>
+                      <ThemeButton
+                        onClick={onPlaceOrder}
+                        disabled={selectedAddress ? false : true}
+                        value={"Place Order"}
+                      />
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* <div class="shopping-cart-payment-outer box-shadow-1 mt-3">
+              {/* <div class="shopping-cart-payment-outer box-shadow-1 mt-3">
 
                             <div class="row">
                                 <div class="col-md-12">

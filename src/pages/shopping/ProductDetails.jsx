@@ -138,7 +138,7 @@ const ProductDetails = () => {
     const recentProducts = JSON.parse(localStorage.getItem("recent"));
     recentProducts &&
       recentProducts.map((p, i) => {
-        if (productParam.Id == p.Id) {
+        if (productParam?.Id == p?.Id) {
           return true;
         }
         return false;
@@ -160,7 +160,7 @@ const ProductDetails = () => {
   const clearRecentlyViewed = () => {
     const recentProducts = JSON.parse(localStorage.getItem("recent"));
     const unique2 = recentProducts.filter((obj, index) => {
-      return index === recentProducts.findIndex((o) => obj.Id === o.Id);
+      return index === recentProducts.findIndex((o) => obj?.Id === o?.Id);
     });
 
     localStorage.setItem("recent", JSON.stringify(unique2));
@@ -168,7 +168,7 @@ const ProductDetails = () => {
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
     const getCart = cartProducts?.find(
-      (a) => a.product.Id === pro.ProductDetails.Id
+      (a) => a?.product?.Id === pro?.ProductDetails?.Id
     );
     if (getCart) {
       setExistInCart(true);
@@ -211,38 +211,37 @@ const ProductDetails = () => {
     for (let index = 0; index < Allcategories.length; index++) {
       const element = Allcategories[index];
       if (catNam === element.Name) {
-        catId = element.Id;
+        catId = element?.Id;
       }
     }
-    getProductsByCategory(catId).then(response=>{
+    getProductsByCategory(catId).then((response) => {
       // setLoading(false)
-      setSimilar(response.Data)
-    })
+      setSimilar(response.Data);
+    });
   };
 
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
     var p = {};
-setLoading(true)
+    setLoading(true);
     getSingleProductData(productId).then((response) => {
-      setLoading(false)
+      setLoading(false);
       p = response?.Data?.ProductDetails;
       setProduct(response?.Data?.ProductDetails);
       manageRecentlyViewed(response?.Data?.ProductDetails);
       clearRecentlyViewed();
       setProductObj(response?.Data);
 
-      if (p.Size) {
+      if (p?.Size) {
         getSizes(response?.Data?.ProductDetails?.Size);
       }
-      if (p.Color) {
+      if (p?.Color) {
         getColors(response?.Data?.ProductDetails?.Color);
       }
       getProductImages(response?.Data?.ProductDetails);
       checkInCart(response?.Data);
       getSimilarProduct(response?.Data?.ProductDetails?.Category);
     });
-
 
     checkInWishlist();
     window.scrollTo({
@@ -286,7 +285,7 @@ setLoading(true)
   };
 
   const ProductDetailsSection = () => (
-    <Spin spinning={loading} >
+    <Spin spinning={loading}>
       <section class="section-align">
         <div class="container">
           <div class="row">
@@ -294,7 +293,9 @@ setLoading(true)
             <div class="col-lg-6">
               <div class="product-details-left">
                 <div class="product-details-img-outer">
-                  <Carousel swipeable={false} draggable={false}
+                  <Carousel
+                    swipeable={false}
+                    draggable={false}
                     responsive={responsive}
                     infinite={true}
                     className="quick-view-product-img-outer"
@@ -302,11 +303,11 @@ setLoading(true)
                     {productImages &&
                       productImages.map((image, i) => (
                         <div class="quick-view-product-img">
-                          <img 
-                          onError={(e)=>{
-                            productImages.splice(i,1)
-                            setProductImages([...productImages])
-                          }}
+                          <img
+                            onError={(e) => {
+                              productImages.splice(i, 1);
+                              setProductImages([...productImages]);
+                            }}
                             class="img-thumbnail "
                             src={shopadminUrl + image.original}
                             alt="Slide Image"
@@ -329,17 +330,23 @@ setLoading(true)
                       {product?.SalePrice &&
                         product?.SalePrice.toLocaleString()}
                     </span>
-                   
-                    {product?.CostPrice!==0 &&  <> <span class="mr-2 cut">
-                      {" "}
-                      &#x20B9;{" "}
-                      {product?.RetailPrice &&
-                        product?.RetailPrice.toLocaleString()}
-                    </span><span class="product-details-discount">
-                      {" "}
-                      ({product?.CostPrice}% Off){" "}
-                    </span></>}
-                   
+
+                    {product?.CostPrice !== 0 && (
+                      <>
+                        {" "}
+                        <span class="mr-2 cut">
+                          {" "}
+                          &#x20B9;{" "}
+                          {product?.RetailPrice &&
+                            product?.RetailPrice.toLocaleString()}
+                        </span>
+                        <span class="product-details-discount">
+                          {" "}
+                          ({product?.CostPrice}% Off){" "}
+                        </span>
+                      </>
+                    )}
+
                     {product.ShoppingAmt > 0 && (
                       <span class="product-details-cb-badge">
                         {" "}
@@ -429,12 +436,15 @@ setLoading(true)
                     </div>
 
                     <div class="d-flex ml-auto">
-                      <div class="product-details-wishlist" onClick={()=>{
-                        // setErrorMsg('')
-                        // setIsSnackBar(true)
-                        // setSuccessMsg("Product Added Successfully")
-                      }}>
-                        <AddWishListButton 
+                      <div
+                        class="product-details-wishlist"
+                        onClick={() => {
+                          // setErrorMsg('')
+                          // setIsSnackBar(true)
+                          // setSuccessMsg("Product Added Successfully")
+                        }}
+                      >
+                        <AddWishListButton
                           product={product}
                           inWishlistStateChanger={setExistInWishlist}
                           inWishlist={existInWishlist}
@@ -482,7 +492,7 @@ setLoading(true)
                 </div>
 
                 <PincodeCheck
-                  productId={product.Id}
+                  productId={product?.Id}
                   setIsSnackBar={setIsSnackBar}
                   setErrorMsg={setErrorMsg}
                 />
