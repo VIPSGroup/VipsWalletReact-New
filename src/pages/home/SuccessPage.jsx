@@ -4,6 +4,9 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { needHelpUrl } from "../../constants";
 import { useEffect } from "react";
 
+import { decryptPayu } from "../../apiData/payments";
+
+
 const SuccessPage = () => {
     const [searchParams] = useSearchParams();
     const [status, setStatus] = useState("");

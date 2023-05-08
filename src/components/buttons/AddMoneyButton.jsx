@@ -87,10 +87,11 @@ const AddMoneyButton = ({
         <input name="hash" type="hidden" value={callHash()} />
         <input name="email" type="hidden" value={user && user.Emailid} />
         {/* <input name="enforce_paymethod" type="hidden" value="CC" /> */}
-        {!isCreditCardEnable ? <input name="drop_category" type="hidden" value="CC" />
-        :<input name="enforce_paymethod" type="hidden" value="creditcard" />
 
-           }
+        {/* <input name="drop_category" type="hidden" value="CC" /> */}
+        {!isCreditCardEnable ? <input name="drop_category" type="hidden" value="CC" />
+        :<input name="enforce_paymethod" type="hidden" value="creditcard" /> }
+
         <input
           name="surl"
           type="hidden"

@@ -671,9 +671,11 @@ const Router = () => {
         <Route
           path="/payment"
           element={
-            <ProtectedRoute>
-               <SuccessPage />{" "}
-               </ProtectedRoute>
+
+            <ProtectedRoute> 
+              <SuccessPage />{" "}
+              </ProtectedRoute>
+
           }
         />
       </Routes>
