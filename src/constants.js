@@ -11,7 +11,7 @@ export const digiBaseUrl = "http://api.vipswallet.com/api/DigiGold/";
 export const shopadminUrl = "http://shopadmin.vipswallet.com";
 export const vendorPanelAPi = "http://vendor.vipswallet.com/Login/Vendor";
 export const staticTocken = "XMCNBVGDTE734BCU65DW"; //used for getting banners , affiliate etc while calling apis.
-export const currAppVersion = 1.0;
+export const currAppVersion = 1.1;
 // Digi Gold Cart Price Calculation
 export function calculateTotalPrice(products, price) {
   let totalPrice = 0;
