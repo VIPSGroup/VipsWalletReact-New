@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { appType, digiBaseUrl } from "../../../constants";
-
+import {
+  appType,
+  baseApiUrl,
+  currentAppVersion,
+  digiBaseUrl,
+} from "../../../constants";
 export const fetchGoldSilverRates = createAsyncThunk(
   "fetchGoldSilverRates",
   async () => {
@@ -34,6 +38,10 @@ export const BuyDigiGold = async ({
   blockid,
   amount,
   type,
+  CouponId,
+  CouponAmount,
+  PointType,
+  DiscountAmount,
 }) => {
   const formData = new FormData();
   formData.append("username", username);
@@ -43,22 +51,19 @@ export const BuyDigiGold = async ({
   formData.append("quantity", quantity);
   formData.append("blockId", blockid);
   formData.append("AppType", appType);
-  formData.append(
-    "modeOfTransaction",
-    type === "Grams" ? "quantity" : "amount"
-  );
+  formData.append("modeOfTransaction", type);
   formData.append("amount", amount);
+  formData.append("currentAppVersion", currentAppVersion);
+  formData.append("CouponId", CouponId ? CouponId : 0);
+  formData.append("CouponDiscount", CouponAmount ? CouponAmount : 0.0);
+  formData.append("PointType", PointType);
+  formData.append("DiscountAmount", DiscountAmount);
 
   try {
     const res = await axios.post(`${digiBaseUrl}BuyDigiGold`, formData);
     return res.data;
   } catch (error) {}
 };
-
-
-// /^\d*\.?\d{0,4}$/
-
-
 export const SellDigiGold = async ({
   username,
   password,
@@ -68,6 +73,7 @@ export const SellDigiGold = async ({
   blockid,
   userBankId,
   accountName,
+  accountNumber,
   ifscCode,
   OTP,
 }) => {
@@ -80,10 +86,11 @@ export const SellDigiGold = async ({
   formData.append("blockId", blockid);
   formData.append("userBankId", userBankId);
   formData.append("AppType", appType);
-
-  // formData.append("accountName", accountName);
-  // formData.append("ifscCode", ifscCode);
-  formData.append("otp", OTP);
+  formData.append("currentAppVersion", currentAppVersion);
+  formData.append("accountNumber", accountNumber);
+  formData.append("accountName", accountName);
+  formData.append("ifscCode", ifscCode);
+  formData.append("otp", OTP || "");
 
   try {
     const res = await axios.post(`${digiBaseUrl}SellDigiGold`, formData);
@@ -138,6 +145,57 @@ export const UpdateBankAccountDetails = async ({
     return res.data;
   } catch (error) {}
 };
+export const CheckIfscCode = createAsyncThunk(
+  "CheckIfscCode",
+  async ({ ifsc }, thunkAPI) => {
+    try {
+      const res = await axios.get(`https://ifsc.razorpay.com/${ifsc}`);
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+export const CheckSellMetalStatus = createAsyncThunk(
+  "CheckSellMetalStatus",
+  async ({ senderUsername, Password, quantity, metalType }, thunkAPI) => {
+    const formData = new FormData();
+    formData.append("username", senderUsername);
+    formData.append("password", Password);
+    formData.append("metalType", metalType);
+    formData.append("quantity", quantity);
+    try {
+      const res = await axios.post(
+        `${digiBaseUrl}CheckSellMetalStatus`,
+        formData
+      );
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const GetCouponList = createAsyncThunk(
+  "GetCouponList",
+  async (
+    { username, password, ServiceId, PublishedFare, MetalType },
+    thunkAPI
+  ) => {
+    try {
+      const res = await axios.post(`${baseApiUrl}/Coupon/GetCouponList`, {
+        Authentication: {
+          UserName: username,
+          Password: password,
+        },
+        ServiceId: ServiceId,
+        PublishedFare: PublishedFare,
+        MetalType: MetalType,
+      });
+      return res.data;
+    } catch (error) {}
+  }
+);
 
 export const startFetchData = () => (dispatch) => {
   setInterval(() => {
@@ -160,6 +218,18 @@ const digiGoldSlice = createSlice({
       list: "",
       loading: false,
       error: "",
+    },
+    ifsc: {
+      Verified: "",
+      error: "",
+    },
+    coupon: {
+      CouponList: "",
+      CouponLoader: false,
+    },
+    SellMetalStatus: {
+      CheckSellMetStatus: "",
+      CheckSellLoader: false,
     },
   },
   reducers: {
@@ -192,6 +262,40 @@ const digiGoldSlice = createSlice({
     builder.addCase(GetUserBankList.rejected, (state, action) => {
       state.bankList.error = action.error;
       state.bankList.loading = false;
+    });
+    // IFSC Verify
+    builder.addCase(CheckIfscCode.fulfilled, (state, action) => {
+      if (action.payload?.response?.status === 404) {
+        state.ifsc.Verified = 0;
+      } else {
+        state.ifsc.Verified = action.payload.BRANCH;
+      }
+    });
+    builder.addCase(CheckIfscCode.rejected, (state, action) => {
+      state.ifsc.error = action.error;
+    });
+
+    // Coupon Promises
+    builder.addCase(GetCouponList.pending, (state, action) => {
+      state.coupon.CouponLoader = true;
+    });
+    builder.addCase(GetCouponList.fulfilled, (state, action) => {
+      state.coupon.CouponList = action.payload;
+      state.coupon.CouponLoader = false;
+    });
+    builder.addCase(GetCouponList.rejected, (state, action) => {
+      state.coupon.CouponLoader = false;
+    });
+    // Sell Metal Status Check
+    builder.addCase(CheckSellMetalStatus.pending, (state, action) => {
+      state.SellMetalStatus.CheckSellLoader = true;
+    });
+    builder.addCase(CheckSellMetalStatus.fulfilled, (state, action) => {
+      state.SellMetalStatus.CheckSellMetStatus = action.payload;
+      state.SellMetalStatus.CheckSellLoader = false;
+    });
+    builder.addCase(CheckSellMetalStatus.rejected, (state, action) => {
+      state.SellMetalStatus.CheckSellLoader = false;
     });
   },
 });

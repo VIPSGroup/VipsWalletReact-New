@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams, useResolvedPath } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PincodeCheck from "../../components/shopping/PincodeCheck";
 import Carousel from "react-multi-carousel";
@@ -11,19 +11,27 @@ import { googleAnalytics } from "../../constants";
 import ReactGA from "react-ga";
 import AddToCartButton from "../../components/buttons/AddToCartButton";
 import AddWishListButton from "../../components/buttons/AddWishListButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getAllCategories,
+  getNewArrivalProducts,
   getProductsByCategory,
+  getProductsBySubCategory,
+  getPromotionalProduct,
+  removeId,
 } from "../../redux/slices/shopping/productSlice";
 import { MuiSnackBar } from "../../components/common";
 import { Spin } from "antd";
+import ProductHorizontal from "../../components/shopping/ProductHorizontal";
+import { getDealsOfTheDay } from "../../redux/slices/dealsSlice";
+import { checkInWishlist, getProductImages } from "../../utils/CommonFunctions";
 // import { getAllCategories } from "../../apiData/shopping/category";
 
 ReactGA.initialize(googleAnalytics);
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
+  const { state } = useLocation();
   const [product, setProduct] = useState({});
   const [products, setProducts] = useState([]);
   const [productObj, setProductObj] = useState();
@@ -33,7 +41,7 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState([]);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(product.Quantity>=0 ?1 :0);
 
   const [existInCart, setExistInCart] = useState(false);
   const [existInWishlist, setExistInWishlist] = useState(false);
@@ -43,11 +51,18 @@ const ProductDetails = () => {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [similar, setSimilar] = useState([]);
-
+  const [subProducts, setSubProducts] = useState();
+  const { recommendedCatId } = useSelector((state) => state.productSlice);
+  const { activeProducts } = useSelector(
+    (state) => state.productSlice.subCategoryByProduct
+  );
+  const { catProducts } = useSelector(
+    (state) => state.productSlice.categoryByProduct
+  );
   let navigate = useNavigate();
   let { productId, productName } = useParams();
-  var imgArray = [];
 
+  var imgArray = [];
   const getProductImages = (productData) => {
     if (productData.ImageThumbURL1 != null && productData.ImageURL1 != null) {
       const obj = {
@@ -100,7 +115,6 @@ const ProductDetails = () => {
     }
     setProductImages(imgArray);
   };
-
   const checkInWishlist = () => {
     let wishlist = JSON.parse(localStorage.getItem("wishlist"));
     wishlist &&
@@ -138,7 +152,7 @@ const ProductDetails = () => {
     const recentProducts = JSON.parse(localStorage.getItem("recent"));
     recentProducts &&
       recentProducts.map((p, i) => {
-        if (productParam.Id == p.Id) {
+        if (productParam?.Id == p?.Id) {
           return true;
         }
         return false;
@@ -160,7 +174,7 @@ const ProductDetails = () => {
   const clearRecentlyViewed = () => {
     const recentProducts = JSON.parse(localStorage.getItem("recent"));
     const unique2 = recentProducts.filter((obj, index) => {
-      return index === recentProducts.findIndex((o) => obj.Id === o.Id);
+      return index === recentProducts.findIndex((o) => obj?.Id === o?.Id);
     });
 
     localStorage.setItem("recent", JSON.stringify(unique2));
@@ -189,7 +203,6 @@ const ProductDetails = () => {
     };
     let buyNowProductsArray = [];
     buyNowProductsArray.push(buyNowProductDeatils);
-
     setProducts(buyNowProductsArray);
     if (loggedInUser) {
       navigate("/shopping/address", {
@@ -203,48 +216,86 @@ const ProductDetails = () => {
     }
   };
 
-  const getSimilarProduct = async (catNam) => {
-    let catId;
-    const res = await dispatch(getAllCategories());
-    const Allcategories =
-      res.payload.Data.Categories && res.payload.Data.Categories;
-    for (let index = 0; index < Allcategories.length; index++) {
-      const element = Allcategories[index];
-      if (catNam === element.Name) {
-        catId = element.Id;
+  const getSRecommendedProduct = () => {
+    if (!state) {
+      if (recommendedCatId.type === "category") {
+        // dispatch(getProductsByCategory(recommendedCatId.id))
+        getProductsByCategory(recommendedCatId.id).then((response) => {
+          setSimilar(response.Data.filter((a) => a.Quantity >= 1));
+        });
+      } else if (recommendedCatId.type === "subcategory") {
+        const getSubProducts = async () => {
+          const res = await dispatch(
+            getProductsBySubCategory(recommendedCatId.id)
+          );
+          setSubProducts(res.payload.Data.filter((a) => a.Quantity >= 1));
+        };
+        getSubProducts();
+        setSimilar("");
+      }
+    } else {
+      if (state === "dod") {
+        const fetchDOD = async () => {
+          const res = await dispatch(getDealsOfTheDay());
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
+        };
+        fetchDOD();
+        setSubProducts("");
+      } else if (state === "promotional") {
+        const fetchPromotional = async () => {
+          const res = await dispatch(getPromotionalProduct(11));
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
+        };
+        fetchPromotional();
+        setSubProducts("");
+      } else if (state === "newArrival") {
+        const newArrival = async () => {
+          const res = await dispatch(getNewArrivalProducts());
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
+        };
+        newArrival();
+        setSubProducts("");
+      } else if (state === "fashion") {
+        const fetchFashion = async () => {
+          const res = await getProductsByCategory(43);
+          setSimilar(res.Data?.filter((a) => a.Quantity >= 1).slice(0, 15));
+        };
+        fetchFashion();
+        setSubProducts("");
+      } else if (state === "electronics") {
+        const fetchelectronics = async () => {
+          const res = await dispatch(getPromotionalProduct(53));
+          setSimilar(res.payload.Data.filter((a) => a.Quantity >= 1));
+        };
+        fetchelectronics();
+        setSubProducts("");
       }
     }
-    getProductsByCategory(catId).then(response=>{
-      // setLoading(false)
-      setSimilar(response.Data)
-    })
   };
 
   useEffect(() => {
+    getSRecommendedProduct();
     ReactGA.pageview(window.location.pathname);
     var p = {};
-setLoading(true)
+    setLoading(true);
     getSingleProductData(productId).then((response) => {
-      setLoading(false)
+      setLoading(false);
+
       p = response?.Data?.ProductDetails;
       setProduct(response?.Data?.ProductDetails);
       manageRecentlyViewed(response?.Data?.ProductDetails);
       clearRecentlyViewed();
       setProductObj(response?.Data);
 
-      if (p.Size) {
+      if (p?.Size) {
         getSizes(response?.Data?.ProductDetails?.Size);
       }
-      if (p.Color) {
+      if (p?.Color) {
         getColors(response?.Data?.ProductDetails?.Color);
       }
-      getProductImages(response?.Data?.ProductDetails);
+      getProductImages(response?.Data?.ProductDetails,setProductImages);
       checkInCart(response?.Data);
-      getSimilarProduct(response?.Data?.ProductDetails?.Category);
     });
-
-
-    checkInWishlist();
     window.scrollTo({
       top: 0,
       left: 0,
@@ -253,7 +304,7 @@ setLoading(true)
   }, [productId]);
 
   useEffect(() => {
-    checkInWishlist();
+    checkInWishlist(productId,setExistInWishlist);
   }, [wishlistChange]);
 
   const onQtyIncrease = () => {
@@ -285,8 +336,9 @@ setLoading(true)
     },
   };
 
+
   const ProductDetailsSection = () => (
-    <Spin spinning={loading} >
+    <Spin spinning={loading}>
       <section class="section-align">
         <div class="container">
           <div class="row">
@@ -294,7 +346,9 @@ setLoading(true)
             <div class="col-lg-6">
               <div class="product-details-left">
                 <div class="product-details-img-outer">
-                  <Carousel swipeable={false} draggable={false}
+                  <Carousel
+                    swipeable={false}
+                    draggable={false}
                     responsive={responsive}
                     infinite={true}
                     className="quick-view-product-img-outer"
@@ -302,11 +356,11 @@ setLoading(true)
                     {productImages &&
                       productImages.map((image, i) => (
                         <div class="quick-view-product-img">
-                          <img 
-                          onError={(e)=>{
-                            productImages.splice(i,1)
-                            setProductImages([...productImages])
-                          }}
+                          <img
+                            onError={(e) => {
+                              productImages.splice(i, 1);
+                              setProductImages([...productImages]);
+                            }}
                             class="img-thumbnail "
                             src={shopadminUrl + image.original}
                             alt="Slide Image"
@@ -320,7 +374,7 @@ setLoading(true)
 
             <div class="col-lg-6">
               <div class="product-details-info-outer">
-                <h1 class="product-details-title">{product.Name}</h1>
+                <h1 class="product-details-title">{product?.Name}</h1>
                 <div class="product-details-info-box">
                   <div class="product-details-price">
                     <span class="mr-2">
@@ -329,17 +383,23 @@ setLoading(true)
                       {product?.SalePrice &&
                         product?.SalePrice.toLocaleString()}
                     </span>
-                   
-                    {product?.CostPrice!==0 &&  <> <span class="mr-2 cut">
-                      {" "}
-                      &#x20B9;{" "}
-                      {product?.RetailPrice &&
-                        product?.RetailPrice.toLocaleString()}
-                    </span><span class="product-details-discount">
-                      {" "}
-                      ({product?.CostPrice}% Off){" "}
-                    </span></>}
-                   
+
+                    {product?.CostPrice !== 0 && (
+                      <>
+                        {" "}
+                        <span class="mr-2 cut">
+                          {" "}
+                          &#x20B9;{" "}
+                          {product?.RetailPrice &&
+                            product?.RetailPrice.toLocaleString()}
+                        </span>
+                        <span class="product-details-discount">
+                          {" "}
+                          ({product?.CostPrice}% Off){" "}
+                        </span>
+                      </>
+                    )}
+
                     {product.ShoppingAmt > 0 && (
                       <span class="product-details-cb-badge">
                         {" "}
@@ -348,7 +408,7 @@ setLoading(true)
                     )}
                   </div>
                   <div class="product-details-status">
-                    <span> In stock </span>
+                    <span> In stock</span>
                   </div>
                 </div>
 
@@ -429,12 +489,15 @@ setLoading(true)
                     </div>
 
                     <div class="d-flex ml-auto">
-                      <div class="product-details-wishlist" onClick={()=>{
-                        // setErrorMsg('')
-                        // setIsSnackBar(true)
-                        // setSuccessMsg("Product Added Successfully")
-                      }}>
-                        <AddWishListButton 
+                      <div
+                        class="product-details-wishlist"
+                        onClick={() => {
+                          // setErrorMsg('')
+                          // setIsSnackBar(true)
+                          // setSuccessMsg("Product Added Successfully")
+                        }}
+                      >
+                        <AddWishListButton
                           product={product}
                           inWishlistStateChanger={setExistInWishlist}
                           inWishlist={existInWishlist}
@@ -473,10 +536,10 @@ setLoading(true)
                         src="/images/shopping/delivery-icon.svg"
                         class="img-fluid"
                       />{" "}
-                      Delivery By <span> {product.DeliveryEnd} </span>{" "}
+                      Delivery By <span> {product?.DeliveryEnd} </span>{" "}
                     </p>
                     <p class="mb-0">
-                      Sold By <span>{product.Soldby} </span>{" "}
+                      Sold By <span>{product?.Soldby} </span>{" "}
                     </p>
                   </div>
                 </div>
@@ -514,10 +577,35 @@ setLoading(true)
               setError={setErrorMsg}
             />
           </div>
+          {(() => {
+            if (state) {
+              if (state === "wishlist") {
+                return null;
+              } else {
+                return (
+                  <ProductHorizontal
+                    title="Similar Product"
+                    // subtitle="of the Day"
+                    products={similar || subProducts}
+                    description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
+                  />
+                );
+              }
+            } else {
+              return (
+                <ProductHorizontal
+                  title="Similar Product"
+                  // subtitle="of the Day"
+                  products={similar || subProducts}
+                  description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
+                />
+              );
+            }
+          })()}
           {/* <ProductHorizontal
             title="Similar Product"
             // subtitle="of the Day"
-            products={similar?.filter(product=>product.Quantity!==0)}
+            products={similar || subProducts}
             description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
           /> */}
         </div>

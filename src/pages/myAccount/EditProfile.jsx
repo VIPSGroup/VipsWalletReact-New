@@ -304,9 +304,7 @@ const EditProfile = () => {
                         <div class="input-field">
                           <input
                             name="PanCard"
-                            onChange={
-                              formik.handleChange
-                            }
+                            onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             className={
                               formik.errors.PanCard && formik.touched.PanCard
@@ -343,9 +341,7 @@ const EditProfile = () => {
                                 ? formik.values.AadharNo
                                 : ""
                             }
-                            onChange={
-                              formik.handleChange
-                            }
+                            onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             className={
                               formik.errors.AadharNo && formik.touched.AadharNo
@@ -404,7 +400,10 @@ const EditProfile = () => {
                             onBlur={formik.handleBlur}
                             className={
                               formik.errors.PerAddress &&
-                              formik.touched.PerAddress ? " is-invalid" : ""}
+                              formik.touched.PerAddress
+                                ? " is-invalid"
+                                : ""
+                            }
                             id="user-address"
                             type="text"
                             placeholder="&nbsp;"
@@ -432,7 +431,10 @@ const EditProfile = () => {
                           {/* <button type="submit" class="btn-primery">
                             {loading ? <Loading /> : "Save Profile"}
                           </button> */}
-                          <ThemeButton loading={loading} value={"Save Profile"}/>
+                          <ThemeButton
+                            loading={loading}
+                            value={"Save Profile"}
+                          />
                         </div>
                       </div>
                     </div>

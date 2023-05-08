@@ -121,12 +121,6 @@ export const finstockAdd = (
 const paymentSlice = createSlice({
   name: "paymentSlice",
   initialState: {
-    // finOtpGenerate: {
-    //   formCount: 1,
-    //   loading: false,
-    //   error: "",
-    //   taxId: "",
-    // },
     configBySubKey: {
       key:'',
       string:'',
@@ -136,27 +130,6 @@ const paymentSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // builder.addCase(finstockGenerateOtp.pending, (state, action) => {
-    //   state.finOtpGenerate.loading = true;
-    // });
-    // builder.addCase(finstockGenerateOtp.fulfilled, (state, action) => {
-    //   if (action.payload.ResponseStatus === 1) {
-    //     state.finOtpGenerate.formCount = 2;
-    //     state.finOtpGenerate.loading = false;
-    //     state.finOtpGenerate.error = "";
-    //     state.finOtpGenerate.taxId = action.payload.Data.vipstxid;
-    //     // setFormCount(2);
-    //     // setLoading(false);
-    //     // setError("");
-    //     // setTaxId(response.Data.vipstxid);
-    //   } else {
-    //     state.finOtpGenerate.error = action.payload.Remarks;
-    //     state.finOtpGenerate.loading = false;
-
-    //     // setError(response.Remarks);
-    //     // setLoading(false);
-    //   }
-    // });
     builder.addCase(globalConfiguration.pending, (state, action) => {
       state.configBySubKey.loading = true;
     });

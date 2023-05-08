@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
 import { checkGABBalance, addMoneyFromGAB } from "../../apiData/payments";
 import "../../assets/styles/addMoney/addMoney.css";
 import "../../assets/styles/styles.css";
@@ -25,15 +24,15 @@ const AddAmount = () => {
   const dispatch = useDispatch();
   let { option } = useParams();
   useEffect(() => {
-    if(data){
-        if (data.ResponseStatus === 1) {
-          setStatus(data.Data.Status);
-          if (data.Data.Status) {
-            setChargesPer(data.Data.Value);
-          }
+    if (data) {
+      if (data.ResponseStatus === 1) {
+        setStatus(data.Data.Status);
+        if (data.Data.Status) {
+          setChargesPer(data.Data.Value);
         }
+      }
     }
-  }, [data])
+  }, [data]);
   const clickAddFromGAB = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -133,7 +132,8 @@ const AddAmount = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(
-                                parseInt(amount?amount:0) + parseInt(e.target.value)
+                                parseInt(amount ? amount : 0) +
+                                  parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"
@@ -146,7 +146,8 @@ const AddAmount = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(
-                                parseInt(amount?amount:0) + parseInt(e.target.value)
+                                parseInt(amount ? amount : 0) +
+                                  parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"
@@ -159,7 +160,8 @@ const AddAmount = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(
-                                parseInt(amount?amount:0) + parseInt(e.target.value)
+                                parseInt(amount ? amount : 0) +
+                                  parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"
@@ -172,7 +174,8 @@ const AddAmount = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setAmount(
-                                parseInt(amount?amount:0) + parseInt(e.target.value)
+                                parseInt(amount ? amount : 0) +
+                                  parseInt(e.target.value)
                               );
                             }}
                             class="btn-cta"

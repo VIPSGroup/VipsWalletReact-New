@@ -4,17 +4,15 @@ import { digiBaseUrl } from "../../../constants";
 
 export const registerDigiGold = createAsyncThunk(
   "registerDigiGold",
-  async ({ formValue, emailId, password, username }, thunkAPI) => {
-
+  async ({ formValue, emailId, password, username, Otp }, thunkAPI) => {
     const formData = new FormData();
     formData.append("username", username);
     formData.append("password", password);
-    formData.append("mobileNumber", formValue.mobileNumber);
-    formData.append("emailId", emailId);
+    formData.append("mobileNumber", username);
     formData.append("Name", formValue.Name);
     formData.append("userCityId", formValue.userCityId);
     formData.append("userStateId", formValue.userStateId);
-    formData.append("otp", formValue.otp);
+    formData.append("otp", Otp || "");
     try {
       const res = await axios.post(`${digiBaseUrl}SignUp`, formData);
       return res.data;

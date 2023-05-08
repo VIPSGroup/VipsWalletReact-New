@@ -194,12 +194,12 @@
   color:var(--darkText);
 }
 .buy-sell-tab-inner .input input::-webkit-input-placeholder  {
-  opacity: 0;
+  opacity: 0.6;
   transition: opacity 200ms;
   color: var(--darkText);
 }
 .buy-sell-tab-inner .input input::-moz-placeholder {
-  opacity: 0;
+  opacity: 0.6;
   transition: opacity 200ms;
   color: var(--darkText);
 }
@@ -216,10 +216,10 @@
   /* box-shadow: 0 0 0 1px #63b3ed; */
 }
 .buy-sell-tab-inner .input input:focus::-webkit-input-placeholder {
-  opacity: 0.5;
+  opacity: 0;
 }
 .buy-sell-tab-inner .input input:focus::-moz-placeholder {
-  opacity: 0.5;
+  opacity: 0;
 }
 .buy-sell-tab-inner .input input:focus ~ label,
 .buy-sell-tab-inner .input input:not(:placeholder-shown) ~ label {
@@ -228,14 +228,15 @@
   border-radius: 3px;
   top: 7px;
   left: 0;
-  transform: translate3d(0,-22px,0) scale(0.75)
+  transform: translate3d(0,-22px,0) scale(0.75);
+  color: var(--primary);
 }
 .buy-sell-tab-inner .input input:focus ~ label {
   color: var(--primary);
 }
 
 .buy-sell-tab-inner .input input:valid:not(:placeholder-shown) {
-  /* box-shadow: 0 0 0 1px var(--primary) !important; */
+  
   border: 1px solid var(--primary);
 }
 .buy-sell-tab-inner .input input:valid:not(:placeholder-shown) ~ label {
@@ -244,7 +245,7 @@
 }
 
 .buy-sell-tab-inner .input input:invalid:not(:placeholder-shown) {
-  /* box-shadow: 0 0 0 1px var(--primary) !important; */
+  
   border: 1px solid var(--primary);
 }
 .buy-sell-tab-inner .input input:invalid:not(:placeholder-shown) ~ label {
@@ -262,6 +263,7 @@
 
 
 /* price check form end */
+
 
 .sip-box-wrapper{
   margin-top: 15px;
@@ -429,7 +431,8 @@
 }
 
 .digigold-work-div-box .digigold-work-title { 
-  margin-bottom: 15px; 
+  margin-bottom: 15px;
+  height: auto;
 }
 
 .digigold-work-div-box .digigold-work-title h3 {
@@ -449,13 +452,14 @@
 /* digital gold order summery page end */
 .digigold-insert-value{
   text-align: center;
-  margin-top: 30px;
+  margin-top: 16px;
+  padding-bottom: 5px;
   border-bottom: 1px solid var(--borderColor);
 }
 .digigold-insert-title{
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 27px;
+  margin-bottom: 35px;
 }
 .digigold-insert-title span{
   color: var(--primary);
@@ -472,8 +476,9 @@
 }
 .digigold-payble-value{
   text-align: center;
-  margin-top: 15px;
+  margin-top: 18px;
   margin-bottom: 25px;
+  padding-bottom: 5px;
   border-bottom: 1px solid var(--borderColor);
 }
 .digigold-payble-darktest{
@@ -499,7 +504,7 @@
   font-weight: 500;
 }
 .digigold-payment-discount{
-  padding: 2rem 2rem;
+  padding: 1.5rem 1.5rem;
   margin-bottom: 15px;
   /* font-size: 16px;
   font-weight: 400; 
@@ -514,11 +519,11 @@
 }
 
 .digigold-payment-discount .digigold-payment-discount-img{
-  margin: 0 28px 0px 24px;
+  margin: 0 17px 0px 21px;
   width: 24px;
 }
 .digigold-payment-debit-vips{
-  margin: 0 22px 0px 29px;
+  margin: 0 15px 0px 21px;
   width: 30px;
 }
 .digigold-payment-debit-payu{
@@ -526,18 +531,23 @@
   width: 40px;
 }
 
+.digigold-paymet-amt-text{
+  font-size: 16px;
+  color: var(--darkText);
+  margin-bottom: 0;
+}
 .digigold-paymet-discount-amt{
   color: var(--darkText);
   font-weight: 600;
   margin-bottom: 0;
-  font-size: 18px;
+  font-size: 16px;
   text-align: right;
 }
 .digigold-paymet-Prime-amt{
   color: var(--textGray);
   font-weight: 400;
   margin-bottom: 0;
-  font-size: 18px;
+  font-size: 16px;
   text-align: right;
 }
 .digigold-paymet-discount-info label{ 
@@ -545,12 +555,15 @@
   font-size: 16px;
   font-weight: 400; 
   color: var(--darkText);
+  display: flex;
+  align-items: center;
 }
 
 .digigold-addmoney{
   background: var(--primary);
-  padding: 3px 10px;
-  font-size: 14px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: 500;
   color: var(--whiteColor) !important;
   text-decoration: none !important;
   border-radius: 6px;
@@ -561,6 +574,11 @@
 .digigold-order-proceed{
   text-align: center;
   margin-bottom: 35px;
+}
+.digigold-shopingpoint-errormsg{
+  font-size: 12px;
+  color: red;
+  margin-left: 14px;
 }
 /* digital gold order summery page end */
 
@@ -691,6 +709,10 @@
       border-radius: 10px 10px 0px 0px;
       width: 100%;
   }
+  .buy-sell-tab-inner {
+    width: 100%;
+    margin: auto;
+  }
   .buy-sell-option {  
       column-gap: 9%;
       margin: 20px auto;
@@ -792,6 +814,9 @@
       padding: 0;
       margin-bottom: 0;
   }
+  .digigold-work-div-box .digigold-work-title {
+    height: auto;
+  }
   .digigold-work-div-box .digigold-work-title h3 {
       font-size: 16px;
   }
@@ -800,7 +825,10 @@
   }
 
 
-
+  .digigold-paymethod-title {
+    font-size: 15px;
+    font-weight: 500;
+  }
   .digigold-paymet-discount-info {
     display: flex;
     flex-wrap: wrap;
@@ -811,23 +839,40 @@
   }
   .digigold-payment-debit-vips {
     margin: 0 5px 0px 9px;
-    width: 28px;
+    width: 26px;
+  }
+  .digigold-payment-discount .digigold-payment-discount-img {
+    margin: 0 5px 0px 9px;
+    width: 20px;
+  }
+  .digigold-payment-debit-payu {
+    margin: 0 9px 0px 10px;
+    width: 32px;
   }
   .digigold-addmoney {
     font-size: 12px;
-    margin-left: 0px;
+    margin-left: 10px;
+    margin-bottom: 10px;
   }
   .digigold-paymet-discount-info label {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: 400; 
     color: var(--darkText);
+    flex-wrap: wrap;
+  }
+  .digigold-paymet-amt-text {
+    font-size: 14px;
   }
   .digigold-paymet-discount-amt {
-    font-size: 15px;
+    font-size: 14px;
     text-align: left;
   }
-
+  .digigold-shopingpoint-errormsg{
+    margin-left: -17px;
+    margin-top: 10px;
+    line-height: 18px;
+  }
 
 
   .check-green-img {
@@ -984,6 +1029,9 @@
       padding: 0;
       margin-bottom: 0;
   }
+  .digigold-work-div-box .digigold-work-title {
+    height: auto;
+  }
   .digigold-work-div-box .digigold-work-title h3 {
       font-size: 16px;
   }
@@ -992,34 +1040,52 @@
   }
 
 
+  .digigold-paymethod-title {
+    font-size: 16px;
+    font-weight: 500;
+  }
   .digigold-paymet-discount-info {
     display: flex;
     flex-wrap: wrap;
   }
   .digigold-payment-discount {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 1rem 1rem;
     border-radius: 10px;
+  }
+  .digigold-payment-discount .digigold-payment-discount-img {
+    margin: 0 5px 0px 9px;
+    width: 20px;
   }
   .digigold-payment-debit-vips {
     margin: 0 5px 0px 9px;
     width: 28px;
   }
+  .digigold-payment-debit-payu {
+    margin: 0 10px 0px 10px;
+    width: 32px;
+  }
   .digigold-addmoney {
     font-size: 12px;
-    margin-left: 0px;
+    margin-left: 8px;
   }
   .digigold-paymet-discount-info label {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: 400; 
     color: var(--darkText);
+    flex-wrap: wrap;
   }
   .digigold-paymet-discount-amt {
     font-size: 16px;
     text-align: left;
   }
+  .digigold-shopingpoint-errormsg {
+    margin-left: -16px;
+    margin-top: 10px;
+    line-height: 18px;
+  }
 
-
+  
 
   .check-green-img {
       width: 60px;
@@ -1064,10 +1130,31 @@
       justify-content: flex-start;
   }
 
+  .digigold-paymet-discount-amt {
+    font-size: 16px;
+    text-align: right;
+  }
+
 }
 
 
 @media only screen and (min-width: 768px) and (max-width: 991px){
+  .digigold-paymet-discount-info {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .digigold-paymet-discount-info label {
+    flex-wrap: wrap;
+    margin-bottom: 9px;
+  }
+  .digigold-addmoney {
+    margin-left: 10px;
+  }
+  .digigold-shopingpoint-errormsg {
+    margin-left: 10px;
+    margin-top: 10px;
+    line-height: 18px;
+  }
 
   .vault-value-text {
       font-size: 22px;
@@ -1098,6 +1185,9 @@
       flex-wrap: wrap;
       justify-content: flex-start;
   }
+  .digigold-work-div-box .digigold-work-title {
+    height: auto;
+  }
 
 
   .check-green-img {
@@ -1115,6 +1205,28 @@
 
 
 @media only screen and (min-width: 992px) and (max-width: 1280px){
+  .digigold-work-div-box .digigold-work-title {
+    height: auto;
+  }
+  .digigold-work-div-box .digigold-work-title h3 {
+    font-size: 16px;
+  }
+  .digigold-work-div-box {
+    padding: 10px;
+  }
 
+
+  .digigold-payment-debit-vips {
+    margin: 0 7px 0px 10px;
+    width: 26px;
+  }
+  .digigold-payment-debit-payu {
+    margin: 0 8px 0px 14px;
+    width: 34px;
+  }
+  .digigold-paymet-discount-info label {
+    font-size: 14px;
+  }
+  
 
 }

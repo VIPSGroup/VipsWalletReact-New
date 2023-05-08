@@ -12,6 +12,7 @@ const ProductHorizontal = ({
   description,
   subtitle,
   loading,
+  recomType,
 }) => {
   const responsive = {
     superLargeDesktop: {
@@ -50,13 +51,21 @@ const ProductHorizontal = ({
             </div>
             {!loading ? (
               <div className="deals-center productcard-arrow">
-                <Carousel draggable={false} swipeable={false} responsive={responsive} infinite={true}>
+                <Carousel
+                  draggable={false}
+                  swipeable={false}
+                  responsive={responsive}
+                  infinite={true}
+                >
                   {products && products?.length !== 0 ? (
                     products &&
                     products?.slice(0, 9)?.map((p, i) => (
                       <>
                         <div key={i} className="m-3">
-                          <CarouselProductCard product={p} />
+                          <CarouselProductCard
+                            recomType={recomType}
+                            product={p}
+                          />
                         </div>
                       </>
                     ))

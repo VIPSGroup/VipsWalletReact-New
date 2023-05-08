@@ -9,7 +9,10 @@ import { postpaidServiceId } from "../../../constants";
 import { googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
-import {finalRecharge, getServiceDiscounts} from "../../../redux/slices/services/commonSlice";
+import {
+  finalRecharge,
+  getServiceDiscounts,
+} from "../../../redux/slices/services/commonSlice";
 import { MuiSnackBar, ThemeButton } from "../../../components/common";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 
@@ -42,8 +45,12 @@ const RechargeConfirmation = ({ setIsCommonTopNav }) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.walletSlice.walletBalance);
-  const { discount } = useSelector((state) => state.commonSlice.serviceDiscount);
-  const { rechargeData ,loading} = useSelector((state) => state.commonSlice.finalRecharge);
+  const { discount } = useSelector(
+    (state) => state.commonSlice.serviceDiscount
+  );
+  const { rechargeData, loading } = useSelector(
+    (state) => state.commonSlice.finalRecharge
+  );
   const handleClickConfirm = (e) => {
     setShowSuccess(true);
     e.preventDefault();
@@ -78,10 +85,10 @@ setErrorMsg("Something Went wrong, Please try again later")
       if (data?.Data?.length !== 0 || !data) {
         dispatch(getWalletBalance({ username, password }));
       }
-    };
+    }
     return () => {
       setShowSuccess(false);
-      setIsCommonTopNav(true)
+      setIsCommonTopNav(true);
     };
   }, []);
   useEffect(() => {
@@ -90,7 +97,7 @@ setErrorMsg("Something Went wrong, Please try again later")
       const serviceId =
         props?.circleId === 0 ? postpaidServiceId : mobileServiceId;
       setServiceId(serviceId);
-      dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount }));
+      dispatch(getServiceDiscounts({ amt, discountType: selectedDiscount,serviceId: mobileServiceId}));
     }
     if (rechargeData && showSuccess) {
       if (rechargeData.ResponseStatus == 1) {
@@ -178,8 +185,16 @@ setErrorMsg("Something Went wrong, Please try again later")
         <div class="container">
           <div class="payment-head-outer">
             <div class="payment-head">
+               <Link to='/'>
+              <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
+            </Link>
               <div class="go-back">
-                <Link to="/services/mobileRecharge" onClick={()=>{location.state=null}}>
+                <Link
+                  to="/services/mobileRecharge"
+                  onClick={() => {
+                    location.state = null;
+                  }}
+                >
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
                 </Link>
               </div>
@@ -212,10 +227,10 @@ setErrorMsg("Something Went wrong, Please try again later")
                         </p>
                       </div>
                       <div class="mob-paymet-recharge-info">
-                        <p class="mob-paymet-recharge-text">
+                        <p class="mob-paymet-recharge-text mb-0">
                           Amount : <label> &#x20B9; {amt} </label>{" "}
                         </p>
-                        <p class="mob-paymet-recharge-text ml-auto ">
+                        <p class="mob-paymet-recharge-text ml-auto mb-0">
                           Validity :{" "}
                           <label> {props?.plan && props?.plan.validity} </label>{" "}
                         </p>
@@ -335,7 +350,7 @@ setErrorMsg("Something Went wrong, Please try again later")
                             <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
-                                &#x20B9; {amt}{" "}
+                                &#x20B9; {Number(amt).toLocaleString()}{" "}
                               </p>
                             </div>
                           </div>
@@ -368,7 +383,7 @@ setErrorMsg("Something Went wrong, Please try again later")
                         <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
-                            &#x20B9; {amt}{" "}
+                            &#x20B9; {Number(amt).toLocaleString()}{" "}
                           </span>
                         </div>
                       </div>
@@ -417,7 +432,7 @@ setErrorMsg("Something Went wrong, Please try again later")
                         <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
-                            &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? discount?.finalAmount:  discount?.finalAmount?.toFixed(2)}{" "}
+                            &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? Number(discount?.finalAmount).toLocaleString():  Number(discount?.finalAmount?.toFixed(2)).toLocaleString()}{" "}
                           </span>
                         </div>
                       </div>
@@ -459,14 +474,19 @@ setErrorMsg("Something Went wrong, Please try again later")
                             "Confirm Payment"
                           )}{" "}
                         </button> */}
-                        <ThemeButton loading={loading} onClick={handleClickConfirm} value={"Confirm Payment"}/>
+                        <ThemeButton
+                        disabled={amt > data?.Data?.Balance}
+                          loading={loading}
+                          onClick={handleClickConfirm}
+                          value={"Confirm Payment"}
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
               {/* </div> */}
             </div>
-<MuiSnackBar
+            <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
               successMsg={successMsg}

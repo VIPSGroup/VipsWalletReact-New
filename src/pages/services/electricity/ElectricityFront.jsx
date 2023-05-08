@@ -668,7 +668,7 @@ navigate("/login")
                           >
                             {billLoading ? <Loading /> : `Fetch Bill`}
                           </button> */}
-                          <ThemeButton onClick={clickFetchBill} loading={billLoading} value={"Fetch Bill"}/>
+                          <ThemeButton onClick={clickFetchBill} loading={mobileNo.length===10 ? billLoading :false} value={"Fetch Bill"}/>
                         </div>
                       )}
                       {operatorPaymentMode === 2 || showBill ? (

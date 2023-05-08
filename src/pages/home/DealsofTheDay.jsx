@@ -17,10 +17,11 @@ const DealsofTheDay = () => {
   return (
     <>
       <ProductHorizontal
+        recomType={"dod"}
         title="Deals "
         loading={loading}
         subtitle="of the Day"
-        products={data?.Data?.filter(product=>product.Quantity!==0)}
+        products={data?.Data?.filter((product) => product.Quantity !== 0)}
         description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
       />
     </>

@@ -107,3 +107,11 @@
         padding: 15px 15px 15px;
     }
 }
+
+
+@media only screen and (min-width: 992px) and (max-width: 1280px){
+    .delivery-section-head {
+        margin-bottom: 2.6rem;
+    }
+
+}

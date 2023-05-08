@@ -3,42 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const DeliverySlice = createSlice({
   name: "DeliverySlice",
   initialState: {
-    // cart: {
-    //   data: JSON.parse(localStorage.getItem("digiCart")),
-    // },
     items: JSON.parse(localStorage.getItem("digiCart")) || [],
     totalAmount: 0,
   },
-  // reducers: {
-  //   addDigiCart: (state, action) => {
-  //     let item = action.payload;
-  //     const prevCart = JSON.parse(localStorage.getItem("digiCart"));
-  //     let cartToBe = [];
-  //     if (prevCart) {
-  //       cartToBe = [...prevCart];
-  //       if (cartToBe.find((a) => a.data.Id === item.data.Id)) {
-  //         cartToBe = cartToBe.filter((c) => c.data.Id !== item.data.Id);
-  //         const data = action.payload;
-  //         cartToBe.push(data);
-  //       } else if (cartToBe.find((a) => a.data.Id !== item.data.Id)) {
-  //         const data = action.payload;
-  //         cartToBe.push(data);
-  //       }
-  //     } else {
-  //       cartToBe.push(item);
-  //     }
-
-  //     localStorage.setItem("digiCart", JSON.stringify(cartToBe));
-  //     state.cart.data = cartToBe;
-  //   },
-  //   removeCart: (state, action) => {
-  //     const items = JSON.parse(localStorage.getItem("digiCart"));
-  //     const Removed = items.filter((a) => a.data.Id !== action.payload);
-  //     localStorage.setItem("digiCart", JSON.stringify(Removed));
-  //     state.cart.data = Removed;
-  //   },
-
-  // },
 
   reducers: {
     addItem: (state, action) => {
