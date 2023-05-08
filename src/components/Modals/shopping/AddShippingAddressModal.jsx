@@ -8,7 +8,7 @@ import { SelectField } from "../../forms";
 import { addAddress } from "../../../redux/slices/pincodeSlice";
 import { MuiSnackBar, ThemeButton } from "../../common";
 
-const AddShippingAddressModal = () => {
+const AddShippingAddressModal = ({ getAddress }) => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
@@ -18,6 +18,9 @@ const AddShippingAddressModal = () => {
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
+
+  const { Mobile, TRXNPassword } = loggedInUser;
+
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -31,18 +34,38 @@ const AddShippingAddressModal = () => {
       landmark: "",
     },
     validationSchema: yup.object({
-      pincode: yup.string().required("Please Enter Pincode").matches(/^\d{6}$/,"Please Enter Valid Pincode"),
-      fname: yup.string().required("Please Enter First Name").matches( /^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid First Name"),
-      lname: yup.string().required("Please Enter Last Name").matches(/^[a-zA-Z\.\s]{3,20}$/,"Please Enter Valid Last Name"),
-      mobileno: yup.string().min(10,"Please Enter Valid Mobile Number").max(10,"Please Enter Valid Mobile Number").matches(/^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/ ,"Please Enter Valid Mobile Number").required("Please Enter Mobile Number"),
+      pincode: yup
+        .string()
+        .required("Please Enter Pincode")
+        .matches(/^\d{6}$/, "Please Enter Valid Pincode"),
+      fname: yup
+        .string()
+        .required("Please Enter First Name")
+        .matches(/^[a-zA-Z\.\s]{3,20}$/, "Please Enter Valid First Name"),
+      lname: yup
+        .string()
+        .required("Please Enter Last Name")
+        .matches(/^[a-zA-Z\.\s]{3,20}$/, "Please Enter Valid Last Name"),
+      mobileno: yup
+        .string()
+        .min(10, "Please Enter Valid Mobile Number")
+        .max(10, "Please Enter Valid Mobile Number")
+        .matches(
+          /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/,
+          "Please Enter Valid Mobile Number"
+        )
+        .required("Please Enter Mobile Number"),
       addressType: yup.string().required("Please Enter addressType"),
-      address: yup.string().required("Please Enter address") .matches(/.{20,}/,"Address must be at least 20 characters"),
+      address: yup
+        .string()
+        .required("Please Enter address")
+        .matches(/.{20,}/, "Address must be at least 20 characters"),
       landmark: yup.string().required("Please Enter landmark"),
     }),
 
     onSubmit: (values, { resetForm }) => {
       if (!getData.stateError && !getData.cityError) {
-        setLoading(true)
+        setLoading(true);
         addAddress(
           values,
           loggedInUser.Mobile,
@@ -51,12 +74,14 @@ const AddShippingAddressModal = () => {
           getData.cityName
         ).then((response) => {
           if (response.ResponseStatus == 1) {
-            setErrorMsg("")
+            setErrorMsg("");
             setIsSnackBar(true);
             setSuccessMsg(response.Remarks);
-            window.location.reload();
+            handleClose();
+            dispatch(getAddress({ Mobile, TRXNPassword }));
+            // window.location.reload();
           } else {
-            setSuccessMsg("")
+            setSuccessMsg("");
             setIsSnackBar(true);
             setErrorMsg(response.Remarks);
           }
@@ -72,7 +97,7 @@ const AddShippingAddressModal = () => {
 
   useEffect(() => {
     if (formik.values.pincode.toString().length == 6) {
-      getStateCity(formik.values.pincode).then(response=>{
+      getStateCity(formik.values.pincode).then((response) => {
         if (response?.ResponseStatus === 1) {
           setGetData({
             ...getData,
@@ -95,7 +120,7 @@ const AddShippingAddressModal = () => {
             cityError: false,
           });
         }
-      })
+      });
     } else {
       setGetData({
         ...getData,
@@ -282,11 +307,12 @@ const AddShippingAddressModal = () => {
                   </div>
 
                   {/* <div class="shopping-address-select"> */}
-                    <SelectField
-                      pincode={formik.values.pincode}
-                      setGetData={setGetData}
-                      getData={getData} isClass={false}
-                    />
+                  <SelectField
+                    pincode={formik.values.pincode}
+                    setGetData={setGetData}
+                    getData={getData}
+                    isClass={false}
+                  />
                   {/* </div> */}
 
                   <div class="shopping-address-select"></div>
@@ -326,18 +352,11 @@ const AddShippingAddressModal = () => {
                       </label>
                     </div>
                   </div>
-                  <MuiSnackBar
-                    open={isSnackBar}
-                    setOpen={setIsSnackBar}
-                    successMsg={successMsg}
-                    errorMsg={errorMsg}
-                    setSuccess={setSuccessMsg}
-                    setErrorMsg={setErrorMsg}
-                  />
 
                   <div class="modal-footer">
                     <div class="shopping-address-btn">
-                      <ThemeButton onClick={() => {
+                      <ThemeButton
+                        onClick={() => {
                           if (!getData.stateName) {
                             if (!getData.cityName) {
                               setGetData({
@@ -353,7 +372,10 @@ const AddShippingAddressModal = () => {
                               });
                             }
                           }
-                        }} value={"Save Address"} loading={loading}/>
+                        }}
+                        value={"Save Address"}
+                        loading={loading}
+                      />
                       {/* <button
                         type="submit"
                         class="btn-primery"
@@ -419,6 +441,14 @@ const AddShippingAddressModal = () => {
         + Add New Address{" "}
       </button>
       {AddAddressModal()}
+      <MuiSnackBar
+        open={isSnackBar}
+        setOpen={setIsSnackBar}
+        successMsg={successMsg}
+        errorMsg={errorMsg}
+        setSuccess={setSuccessMsg}
+        setErrorMsg={setErrorMsg}
+      />
     </>
   );
 };

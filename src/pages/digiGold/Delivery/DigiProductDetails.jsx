@@ -24,26 +24,8 @@ const DigiProductDetails = ({ setTitle }) => {
 
   const handleClick = () => {
     const TotalAmount = calculateTotal(qty, data.basePrice);
-    // dispatch(addItem(data));
-    navigate("/digigold-cart");
-    // let prevCart = JSON.parse(localStorage.getItem("digi-cart"));
-    // let cartToBe = [];
-    // if (prevCart) {
-    //   cartToBe = [...prevCart];
-    //   if (cartToBe.find((a) => a.Id !== data.Id)) {
-    //     cartToBe.push(data);
-    //   }
-    // } else {
-    //   cartToBe.push(data);
-    // }
-    // localStorage.setItem("digi-cart", JSON.stringify(cartToBe));
+    navigate("/vipsgold-cart");
   };
-  // useEffect(() => {
-  //   if (cartData?.length > 0) {
-  //     const quant = cartData?.find((a) => a.data?.Id === data?.Id).qty;
-  //     quant && setQty(quant);
-  //   }
-  // }, []);
   return (
     <>
       <section class="section-align buy-sell-form">

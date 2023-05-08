@@ -30,6 +30,7 @@ const publicSlice = createSlice({
       let collection = action.payload[0].Data.find(
         (element) => element.Type === action.payload[1]
       );
+
       state.termscondition.data = collection;
       state.termscondition.loading = false;
     });

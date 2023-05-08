@@ -8,7 +8,6 @@ import Modal from "react-bootstrap/Modal";
 import "../../assets/styles/authentication/signupModal.css";
 import { MdArrowBack } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import OTPInput, { ResendOTP } from "otp-input-react";
 import SelectField from "./SelectField";
 import { Loading, MuiSnackBar, ThemeButton } from "../common";
 import {
@@ -18,6 +17,8 @@ import {
   validateReference,
 } from "../../redux/slices/profile/signUpSlice";
 import { resetState } from "../../redux/slices/profile/loginSlice";
+import Otp from "./Otp";
+import { Spin } from "antd";
 
 const SignUpForm = ({ setIsSignIn }) => {
   const navigate = useNavigate();
@@ -166,45 +167,11 @@ const SignUpForm = ({ setIsSignIn }) => {
     signUpFormik.values.password,
     signUpFormik.values.pincode,
   ]);
-  const renderButton2 = (buttonProps) => {
-    return (
-      <div className="resendotp col-12 mx-auto pt-3">
-        <p {...buttonProps} className="col-12 d-block">
-          {buttonProps.remainingTime !== 0 ? (
-            <p>
-              {" "}
-              Please wait for{" "}
-              <span style={{ color: "#CA3060" }}>
-                {" "}
-                {`${buttonProps.remainingTime} sec`}
-              </span>
-            </p>
-          ) : (
-            <p>
-              Not received OTP?{" "}
-              <a>
-                <span
-                  style={{ color: "#CA3060" }}
-                  onClick={(e) => {
-                    setOtp("");
-                    dispatch(
-                      signUpWithOtp({
-                        userName: isUserExist && isUserExist[1],
-                        emailId: signUpFormik.values.emailId,
-                      })
-                    );
-                  }}
-                >
-                  Resend OTP
-                </span>
-              </a>
-            </p>
-          )}
-        </p>
-      </div>
-    );
-  };
-  const renderTime2 = () => React.Fragment;
+ const onArrowBack=(e)=>{
+  e.preventDefault();
+        setSignupFormCount(1);
+        setOtp("");
+ }
   const handlePincode = (e) => {
     const value = e.target.value.replace(/\D/g, "");
     setPincode(value);
@@ -247,15 +214,20 @@ const SignUpForm = ({ setIsSignIn }) => {
       });
     }
   };
+  const resendOtp=(e)=>{
+    e.preventDefault()
+    setOtp("");
+    setSignupFormCount(2)
+    dispatch(
+      signUpWithOtp({
+        userName: isUserExist && isUserExist[1],
+        emailId: signUpFormik.values.emailId,
+      })
+    );
+  }
   const clickVerifySignupOtp = (e) => {
     e.preventDefault();
     dispatch(signUpUser({ ...userDetails, Otp: otp }));
-  };
-  const handleKeyPressForName = (event) => {
-    const charCode = event.which ? event.which : event.keyCode;
-    if (charCode !== 8 && !/^[a-zA-Z ]+$/.test(String.fromCharCode(charCode))) {
-      event.preventDefault();
-    }
   };
   return (
     <>
@@ -263,6 +235,8 @@ const SignUpForm = ({ setIsSignIn }) => {
         show={show}
         onHide={() => {
           setShow(false);
+          navigate("/");
+          dispatch(resetState());
         }}
         centered
         keyboard={false}
@@ -274,99 +248,13 @@ const SignUpForm = ({ setIsSignIn }) => {
         id="exampleModal"
         onExit={() => setShow(false)}
       >
-        {response?.ResponseStatus == 1 && signupFormCount == 2 && !loading ? (
-          <>
-            <button
-              className="close otp-close mt-3"
-              onClick={(e) => {
-                e.preventDefault();
-                setSignupFormCount(1);
-                // isSignIn(true)
-                setOtp("");
-              }}
-            >
-              <MdArrowBack />
-            </button>
-            <section class="loginPage mbTopSpace">
-              <div class="row ">
-                <div class="col-lg-6 otpBgCol order-lg-last d-none d-lg-block">
-                  <div class="row no-gutters1 align-items-center">
-                    <div class="col-12">
-                      <div class="otpLogoCol"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-lg-6 align-self-center">
-                  <div class="otpForm-outer">
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <div class="otp-titleMain formText text-center">
-                          <img src="/images/VipsLogoMain.png" alt="VIPS Logo" />
-                          <h2>OTP Verification</h2>
-                          <div class="otp-send-to">
-                            <p>
-                              Enter the OTP sent to
-                              <label for="">
-                                {" "}
-                                &nbsp; +91 {isUserExist && isUserExist[1]}
-                              </label>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+        {response?.ResponseStatus == 1 && signupFormCount == 2 ? (
+ <Spin spinning={loading}>
+   <Otp otp={otp} setOtp={setOtp} setFormCount={setSignupFormCount} onArrowBack={onArrowBack} mobileno={isUserExist && isUserExist[1]} handleClick={clickVerifySignupOtp} loading={otploading} resendOtp={resendOtp}/>
+ </Spin>
 
-                    <div className="formStyle">
-                      <form>
-                        <div className="row">
-                          <div className="col-lg-12  mx-auto p-0">
-                            <div className="otpform-in">
-                              <div
-                                id="otp"
-                                className="row row-flex justify-content-center mt-1"
-                              >
-                                <OTPInput
-                                  className="text-dark"
-                                  value={otp}
-                                  onChange={setOtp}
-                                  autoFocus
-                                  OTPLength={6}
-                                  otpType="number"
-                                  disabled={false}
-                                />
+          // <Otp otp={otp} setOtp={setOtp} setFormCount={setSignupFormCount} onArrowBack={onArrowBack} mobileno={isUserExist && isUserExist[1]} handleClick={clickVerifySignupOtp} loading={otploading} resendOtp={resendOtp}/>
 
-                                <ResendOTP
-                                  renderButton={renderButton2}
-                                  renderTime={renderTime2}
-                                />
-
-                                <div class="col-lg-12">
-                                  <div class="otp-btnCol btnTopSpace">
-                                    <button
-                                      type="button"
-                                      class="btn otp-btn modal-loading-btn"
-                                      disabled={otp.length === 6 ? false : true}
-                                      onClick={clickVerifySignupOtp}
-                                    >
-                                      {otploading ? (
-                                        <Loading class="" />
-                                      ) : (
-                                        "Verify & Proceed"
-                                      )}
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </>
         ) : (
           <>
             <button
@@ -648,7 +536,7 @@ const SignUpForm = ({ setIsSignIn }) => {
                               >
                                 {" "}
                                 By clicking signup you agree to{" "}
-                                <Link to="/termscondtion" target="_blank">
+                                <Link to="/termscondition" target="_blank">
                                   Terms & Conditions
                                 </Link>{" "}
                               </label>

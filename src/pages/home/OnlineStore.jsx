@@ -35,7 +35,6 @@ const OnlineStore = () => {
       items: 3,
     },
   };
-
   useEffect(() => {
     dispatch(getAffiliate());
   }, []);

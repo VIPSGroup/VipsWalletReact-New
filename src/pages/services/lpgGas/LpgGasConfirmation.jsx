@@ -113,7 +113,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
     }
   }, []);
   useEffect(() => {
-    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
+    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount,serviceId:lpgGasServiceId}))
     if(data?.Data){
       manageInitialPaymentMethod(data?.Data?.Balance);
         // dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
@@ -151,9 +151,9 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
         <div class="container">
           <div class="payment-head-outer">
             <div class="payment-head">
-              {/* <Link class="" to="#">
+              <Link class="" to="/">
               <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
-            </Link> */}
+            </Link>
               <div class="go-back">
                 <Link to="/services/lpggas">
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
@@ -199,7 +199,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                         <p class=""> {props.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
-                        <p class="mob-paymet-recharge-text">
+                        <p class="mob-paymet-recharge-text mb-0">
                           Price : <label> &#x20B9; {amt} </label>{" "}
                         </p>
                       </div>
@@ -343,10 +343,10 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                   <div class="col-md-12 p-0">
                     <div class="mobile-payment-summery">
                       <div class="row mb-3">
-                        <div class="col-7 col-xs-4">
+                        <div class="col-8 col-xs-4">
                           <span> Amount : </span>
                         </div>
-                        <div class="col-5 col-xs-4 text-right">
+                        <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
                             &#x20B9; {amt}{" "}
@@ -356,13 +356,13 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
 
                       {selectedDiscount === "SHOPPING" ? (
                         <div class="row mb-3">
-                          <div class="col-7 col-xs-4">
+                          <div class="col-8 col-xs-4">
                             <span>
                               {" "}
                               Shopping Points ({discount?.discountData?.ShoppingPer} %) :{" "}
                             </span>
                           </div>
-                          <div class="col-5 col-xs-4 text-right">
+                          <div class="col-4 col-xs-4 text-right">
                             <span class="mobile-payment-summery-amt">
                               {" "}
                               -&#x20B9; {discount?.shoppingDiscount}{" "}
@@ -373,13 +373,13 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
 
                       {selectedDiscount == "PRIME" ? (
                         <div class="row mb-3">
-                          <div class="col-7 col-xs-4">
+                          <div class="col-8 col-xs-4">
                             <span>
                               {" "}
                               Prime Points ({discount?.discountData?.PrimePointPer} %) :{" "}
                             </span>
                           </div>
-                          <div class="col-5 col-xs-4 text-right">
+                          <div class="col-4 col-xs-4 text-right">
                             <span class="mobile-payment-summery-amt">
                               {" "}
                               -&#x20B9; {discount.primePointDiscount}{" "}
@@ -391,10 +391,10 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                       <div class="dropdown-divider"></div>
 
                       <div class="row mt-3">
-                        <div class="col-7 col-xs-4">
+                        <div class="col-8 col-xs-4">
                           <span> Total Amount : </span>
                         </div>
-                        <div class="col-5 col-xs-4 text-right">
+                        <div class="col-4 col-xs-4 text-right">
                         <span class="mobile-payment-summery-amt">
                               {" "}
                               &#x20B9; {  
@@ -441,7 +441,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                             "Confirm Payment"
                           )}{" "}
                         </button> */}
-                        <ThemeButton onClick={handleClickConfirm} loading={reLoading} value={"Confirm Payment"}/>
+                        <ThemeButton  disabled={amt > data?.Data?.Balance} onClick={handleClickConfirm} loading={reLoading} value={"Confirm Payment"}/>
                       </div>
                       {showError()}
                     </div>

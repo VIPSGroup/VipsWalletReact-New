@@ -21,7 +21,7 @@ export const getPromotionalProduct = createAsyncThunk(
 );
 export const getSingleProductData = createAsyncThunk(
   "getSingleProductData",
-  async ({productId}, thunkAPI) => {
+  async ({ productId }, thunkAPI) => {
     const formData = new FormData();
     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
     formData.append("Productid", productId);
@@ -30,59 +30,80 @@ export const getSingleProductData = createAsyncThunk(
         `${baseApiUrl}/EcommerceServices/Productdescription`,
         formData
       );
-      let imgArray=[]
-      if(res.data.ResponseStatus===1){
-if (res.data.Data.ProductDetails?.ImageThumbURL1 != null && res.data.Data.ProductDetails?.ImageURL1 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL1,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL1,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL2 != null && res.data.Data.ProductDetails?.ImageURL2 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL2,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL2,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL3 != null && res.data.Data.ProductDetails?.ImageURL3 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL3,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL3,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL4 != null && res.data.Data.ProductDetails?.ImageURL4 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL4,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL4,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL5 != null && res.data.Data.ProductDetails?.ImageURL5 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL5,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL5,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL6 != null && res.data.Data.ProductDetails?.ImageURL6 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL6,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL6,
-  };
-  imgArray.push(obj);
-}
-if (res.data.Data.ProductDetails?.ImageThumbURL7 != null && res.data.Data.ProductDetails?.ImageURL7 != null) {
-  const obj = {
-    original: res.data.Data.ProductDetails?.ImageURL7,
-    thumbnail: res.data.Data.ProductDetails?.ImageThumbURL7,
-  };
-  imgArray.push(obj);
-}
+      let imgArray = [];
+      if (res.data.ResponseStatus === 1) {
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL1 != null &&
+          res.data.Data.ProductDetails?.ImageURL1 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL1,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL1,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL2 != null &&
+          res.data.Data.ProductDetails?.ImageURL2 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL2,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL2,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL3 != null &&
+          res.data.Data.ProductDetails?.ImageURL3 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL3,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL3,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL4 != null &&
+          res.data.Data.ProductDetails?.ImageURL4 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL4,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL4,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL5 != null &&
+          res.data.Data.ProductDetails?.ImageURL5 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL5,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL5,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL6 != null &&
+          res.data.Data.ProductDetails?.ImageURL6 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL6,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL6,
+          };
+          imgArray.push(obj);
+        }
+        if (
+          res.data.Data.ProductDetails?.ImageThumbURL7 != null &&
+          res.data.Data.ProductDetails?.ImageURL7 != null
+        ) {
+          const obj = {
+            original: res.data.Data.ProductDetails?.ImageURL7,
+            thumbnail: res.data.Data.ProductDetails?.ImageThumbURL7,
+          };
+          imgArray.push(obj);
+        }
       }
-      return {response:res.data,imgArray};
+      return { response: res.data, imgArray };
     } catch (error) {
       return error;
     }
@@ -94,51 +115,32 @@ export const getProductsBySubCategory = createAsyncThunk(
     const formData = new FormData();
     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
     formData.append("SubCategoryid", subCategoryId);
-    try {
-      const res = await axios.post(
-        `${baseApiUrl}/EcommerceServices/ProductViaSubCategory`,
-        formData
-      );
-      return res.data;
-    } catch (error) {
-      return error;
-    }
+    return fetch(`${baseApiUrl}/EcommerceServices/ProductViaSubCategory`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .catch((err) => {});
+
   }
 );
-
-export const getProductsByCategory = (categoryId) => {
-  const formData = new FormData();
+export const getProductsByCategory =
+  async (categoryId) => {
+    const formData = new FormData();
   formData.append("tocken", "XMCNBVGDTE734BCU65DW");
   formData.append("Categoryid", categoryId);
-
-  return fetch(`${baseApiUrl}/EcommerceServices/ProductViaCategory`, {
-    method: "POST",
-    body: formData,
-  })
-    .then((data) => {
-      return data.json();
+    return fetch(`${baseApiUrl}/EcommerceServices/ProductViaCategory`, {
+      method: "POST",
+      body: formData,
     })
-    .catch((err) => {});
-};
+      .then((data) => {
+        return data.json();
+      })
+      .catch((err) => {});
 
-// export const getProductsByCategory = createAsyncThunk(
-//   "getProductsByCategory",
-//   async (categoryId) => {
-//     const formData = new FormData();
-//     formData.append("tocken", "XMCNBVGDTE734BCU65DW");
-//     formData.append("Categoryid", categoryId);
-
-//     try {
-//       const res = await axios.post(
-//         `${baseApiUrl}/EcommerceServices/ProductViaCategory`,
-//         formData
-//       );
-//       return res.data;
-//     } catch (error) {
-//       return error;
-//     }
-//   }
-// );
+  };
 
 export const getNewArrivalProducts = createAsyncThunk(
   "getNewArrivalProducts",
@@ -153,7 +155,6 @@ export const getNewArrivalProducts = createAsyncThunk(
     }
   }
 );
-
 export const getAllCategories = createAsyncThunk(
   "getAllCategories",
   async () => {
@@ -180,7 +181,6 @@ export const getSubCategory = createAsyncThunk(
     }
   }
 );
-
 const productSlice = createSlice({
   name: "productSlice",
   initialState: {
@@ -195,13 +195,13 @@ const productSlice = createSlice({
       error: "",
     },
     subCategoryByProduct: {
-      activeProducts: [],
-      loading: false,
+      subCategoryProducts: {},
+      subLoading: false,
       error: "",
     },
     categoryByProduct: {
-      data: [],
-      loading: false,
+      catProducts: [],
+      catLoading: false,
       error: "",
     },
     newArrivalProduct: {
@@ -219,8 +219,16 @@ const productSlice = createSlice({
       loading: false,
       error: "",
     },
+    recommendedCatId: "",
   },
-  reducers: {},
+  reducers: {
+    getRecomId: (state, action) => {
+      state.recommendedCatId = action.payload;
+    },
+    removeId: (state, action) => {
+      state.recommendedCatId = "";
+    }
+  },
   extraReducers: (builder) => {
     // Get Promotional Data
     builder.addCase(getPromotionalProduct.pending, (state, action) => {
@@ -249,28 +257,16 @@ const productSlice = createSlice({
 
     // Get Product By Sub Category
     builder.addCase(getProductsBySubCategory.pending, (state, action) => {
-      state.subCategoryByProduct.loading = true;
+      state.subCategoryByProduct.subLoading = true;
     });
     builder.addCase(getProductsBySubCategory.fulfilled, (state, action) => {
-      state.subCategoryByProduct.activeProducts = action.payload;
-      state.subCategoryByProduct.loading = false;
+      state.subCategoryByProduct.subCategoryProducts = action.payload;
+      state.subCategoryByProduct.subLoading = false;
     });
     builder.addCase(getProductsBySubCategory.rejected, (state, action) => {
+      state.subCategoryByProduct.subLoading = false;
       state.subCategoryByProduct.error = action.error;
     });
-
-    // Get Product By Category
-    // builder.addCase(getProductsByCategory.pending, (state, action) => {
-    //   state.categoryByProduct.loading = true;
-    // });
-    // builder.addCase(getProductsByCategory.fulfilled, (state, action) => {
-    //   state.categoryByProduct.data = action.payload;
-    //   state.categoryByProduct.loading = false;
-    // });
-    // builder.addCase(getProductsByCategory.rejected, (state, action) => {
-    //   state.categoryByProduct.error = action.error;
-    // });
-
     // Get new Arrival Product
     builder.addCase(getNewArrivalProducts.pending, (state, action) => {
       state.newArrivalProduct.loading = true;
@@ -306,5 +302,5 @@ const productSlice = createSlice({
     });
   },
 });
-
+export const { getRecomId, removeId,resetData} = productSlice.actions;
 export default productSlice.reducer;

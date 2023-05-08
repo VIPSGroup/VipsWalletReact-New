@@ -69,7 +69,7 @@ const OnlineStores = () => {
               ))
             ) : (
               // <LatestLoading />
-              <Loading/>
+              <Loading />
             )}
           </div>
         </div>
@@ -226,7 +226,7 @@ const OnlineStores = () => {
                   {" "}
                   Continue{" "}
                 </button> */}
-                <ThemeButton value={"Continue"}/>
+                <ThemeButton value={"Continue"} />
               </div>
             </div>
           </div>

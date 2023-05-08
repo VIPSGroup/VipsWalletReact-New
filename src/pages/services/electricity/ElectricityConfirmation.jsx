@@ -117,7 +117,7 @@ return ()=>{setShowSuccess(false)
   }, []);
 
   useEffect(() => {
-    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount}))
+    dispatch(getServiceDiscounts({amt,discountType:selectedDiscount,serviceId:electricityServiceId}))
     if(data?.Data){
       manageInitialPaymentMethod(data?.Data?.Balance);
     }
@@ -154,9 +154,9 @@ return ()=>{setShowSuccess(false)
         <div class="container">
           <div class="payment-head-outer">
             <div class="payment-head">
-              {/* <Link class="" to="#">
+              <Link class="" to="/">
               <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
-            </Link> */}
+            </Link>
               <div class="go-back">
                 <Link to="/services/electricity">
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
@@ -202,7 +202,7 @@ return ()=>{setShowSuccess(false)
                         <p class=""> {props.operator}</p>
                       </div>
                       <div class="mob-paymet-recharge-info">
-                        <p class="mob-paymet-recharge-text">
+                        <p class="mob-paymet-recharge-text mb-0">
                           Price : <label> &#x20B9; {amt} </label>{" "}
                         </p>
                       </div>
@@ -320,7 +320,7 @@ return ()=>{setShowSuccess(false)
                             <div class="col-lg-4 col-sm-4 p-0">
                               <p class="mob-paymet-discount-amt ml-auto">
                                 {" "}
-                                &#x20B9; {amt}{" "}
+                                &#x20B9; {Number(amt).toLocaleString()}{" "}
                               </p>
                             </div>
                           </div>
@@ -353,7 +353,7 @@ return ()=>{setShowSuccess(false)
                         <div class="col-4 col-xs-4 text-right">
                           <span class="mobile-payment-summery-amt">
                             {" "}
-                            &#x20B9; {amt}{" "}
+                            &#x20B9; {Number(amt).toLocaleString()}{" "}
                           </span>
                         </div>
                       </div>
@@ -401,7 +401,7 @@ return ()=>{setShowSuccess(false)
                         <div class="col-4 col-xs-4 text-right">
                         <span class="mobile-payment-summery-amt">
                               {" "}
-                              &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? discount?.finalAmount:  discount?.finalAmount?.toFixed(2)}{" "}
+                              &#x20B9; {  discount?.finalAmount?.toString().split(".").length===1 ? Number(discount?.finalAmount).toLocaleString():Number(discount?.finalAmount?.toFixed(2)).toLocaleString()}{" "}
                             </span>
                         </div>
                       </div>
@@ -444,7 +444,7 @@ return ()=>{setShowSuccess(false)
                             "Confirm Payment"
                           )}{" "}
                         </button> */}
-                        <ThemeButton loading={reLoading} value={'Confirm Payment'} onClick={handleClickConfirm}/>
+                        <ThemeButton loading={reLoading} value={'Confirm Payment'} onClick={handleClickConfirm}  disabled={amt > data?.Data?.Balance}/>
                       </div>
                       {showError()}
                     </div>

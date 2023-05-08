@@ -34,6 +34,8 @@ const MyWishlist = () => {
     }
   }, []);
 
+  let recomType = "wishlist";
+
   const wishlistSection = () => (
     <>
       <section class="shopping-catagory-outer Promotional">
@@ -57,6 +59,7 @@ const MyWishlist = () => {
                 <div className="col-sm-6 col-md-6 col-lg-3 mb-4">
                   <div class="promo-product-card">
                     <Link
+                      state={recomType}
                       to={
                         product.Quantity !== 0 &&
                         `/shopping/product/${product.Id}/${getReplaceSpace(
@@ -87,16 +90,20 @@ const MyWishlist = () => {
                               {product.SalePrice &&
                                 product.SalePrice.toLocaleString()}
                             </span>
-                            {product.CostPrice!==0 && <> <span class="promo-product-list-price">
-                              <s>
+                            {product.CostPrice !== 0 && (
+                              <>
                                 {" "}
-                                &#x20B9;{" "}
-                                {product.RetailPrice &&
-                                  product.RetailPrice.toLocaleString()}
-                              </s>
-                              ({product.CostPrice}% Off)
-                            </span></>}
-                           
+                                <span class="promo-product-list-price">
+                                  <s>
+                                    {" "}
+                                    &#x20B9;{" "}
+                                    {product.RetailPrice &&
+                                      product.RetailPrice.toLocaleString()}
+                                  </s>
+                                  ({product.CostPrice}% Off)
+                                </span>
+                              </>
+                            )}
                           </div>
                           <div class="promo-product-delivery">
                             <p>Delivery by {product.DeliveryEnd}</p>

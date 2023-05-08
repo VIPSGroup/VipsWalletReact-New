@@ -7,27 +7,28 @@ export const ShoppingCategoryProduct = ({
   categoryId,
   subtitle = "",
   description = "",
+  recomType,
 }) => {
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(false)
-
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true)
-    getProductsByCategory(categoryId).then(response=>{
-      setLoading(false)
-      setProducts(response.Data.filter(product=>product.Quantity!==0))
-    })
+
+    getProductsByCategory(categoryId).then((response) => {
+      setLoading(false);
+      setProducts(response.Data.filter((product) => product.Quantity !== 0));
+    });
   }, []);
-  
   return (
     <>
-        <ProductHorizontal
-          title={title}
-          subtitle={subtitle}
-          products={products?.filter(product=>product.Quantity!==0)}
-          loading={loading}
-          description={description}
-        />
+      <ProductHorizontal
+        recomType={recomType}
+        title={title}
+        subtitle={subtitle}
+        products={products?.filter((product) => product.Quantity !== 0)}
+        loading={loading}
+        description={description}
+      />
     </>
   );
 };

@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useResolvedPath } from "react-router-dom";
 
 import "../../assets/styles/shopping/quickViewModal.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,8 +15,10 @@ import { getReplaceSpace } from "../../constant/Constants";
 import { getSingleProductData } from "../../redux/slices/shopping/productSlice";
 import { MuiSnackBar, ThemeButton } from "../common";
 import { Spin } from "antd";
+import { getProductImages } from "../../utils/CommonFunctions";
 
-const QuickViewModal = ({ productId }) => {
+const QuickViewModal = ({ productId, recomType }) => {
+  const { pathname } = useResolvedPath();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [sizes, setSizes] = useState([]);
@@ -25,17 +27,15 @@ const QuickViewModal = ({ productId }) => {
 
   const [productObj, setProductObj] = useState();
   const [productImages, setProductImages] = useState([]);
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState(product?.Quantity>=0 ?1 :0);
   const [products, setProducts] = useState([]);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [existInCart, setExistInCart] = useState(false);
-  const [existInWishlist, setExistInWishlist] = useState(false);
   const [wishlistChange, setWishlistChange] = useState(false);
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  // const [loggedInUser, setLoggedInUser] = useState();
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
@@ -47,22 +47,12 @@ const QuickViewModal = ({ productId }) => {
   const imgArray = [];
   let navigate = useNavigate();
 
-  const checkInWishlist = () => {
-    let wishlist = JSON.parse(localStorage.getItem("wishlist"));
-    wishlist &&
-      wishlist.map((w, i) => {
-        if (w?.Id?.toString() === productId) {
-          setExistInWishlist(true);
-        }
-      });
-  };
-
   const handleClose = () => {
     setShowModal(false);
   };
 
   const getSizes = (sizeString) => {
-    const sizeSplit = sizeString.split(",").filter(function (str) {
+    const sizeSplit = sizeString?.split(",").filter(function (str) {
       return /\S/.test(str);
     });
 
@@ -70,66 +60,11 @@ const QuickViewModal = ({ productId }) => {
     setSelectedSize(sizeSplit[0]);
   };
   const getColors = (colorString) => {
-    const colorSplit = colorString.split(",");
+    const colorSplit = colorString?.split(",");
 
     setColors(colorSplit);
     setSelectedColor(colorSplit[0]);
   };
-
-  const getProductImages = (productData) => {
-    if (productData?.ImageThumbURL1 != null && productData?.ImageURL1 != null) {
-      const obj = {
-        original: productData?.ImageURL1,
-        thumbnail: productData?.ImageThumbURL1,
-      };
-      imgArray.push(obj);
-    }
-    if (productData?.ImageThumbURL2 != null && productData?.ImageURL2 != null) {
-      const obj = {
-        original: productData?.ImageURL2,
-        thumbnail: productData?.ImageThumbURL2,
-      };
-      imgArray.push(obj);
-    }
-    if (productData?.ImageThumbURL3 != null && productData?.ImageURL3 != null) {
-      const obj = {
-        original: productData?.ImageURL3,
-        thumbnail: productData?.ImageThumbURL3,
-      };
-      imgArray.push(obj);
-    }
-    if (productData?.ImageThumbURL4 != null && productData?.ImageURL4 != null) {
-      const obj = {
-        original: productData?.ImageURL4,
-        thumbnail: productData?.ImageThumbURL4,
-      };
-      imgArray.push(obj);
-    }
-    if (productData?.ImageThumbURL5 != null && productData?.ImageURL5 != null) {
-      const obj = {
-        original: productData?.ImageURL5,
-        thumbnail: productData?.ImageThumbURL5,
-      };
-      imgArray.push(obj);
-    }
-    if (productData?.ImageThumbURL6 != null && productData?.ImageURL6 != null) {
-      const obj = {
-        original: productData?.ImageURL6,
-        thumbnail: productData?.ImageThumbURL6,
-      };
-      imgArray.push(obj);
-    }
-    if (productData?.ImageThumbURL7 != null && productData?.ImageURL7 != null) {
-      const obj = {
-        original: productData?.ImageURL7,
-        thumbnail: productData?.ImageThumbURL7,
-      };
-      imgArray.push(obj);
-    }
-
-    setProductImages(imgArray);
-  };
-
   const handleColorChange = (e) => {
     setSelectedColor(e.target.value);
   };
@@ -148,9 +83,9 @@ const QuickViewModal = ({ productId }) => {
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
     cartProducts &&
-    cartProducts.map((c, i) => {
-      if (c?.product?.Id == pro?.ProductDetails?.Id) {
-        setExistInCart(true);
+      cartProducts.map((c, i) => {
+        if (c?.product?.Id == pro?.ProductDetails?.Id) {
+          setExistInCart(true);
         }
       });
   };
@@ -197,7 +132,7 @@ const QuickViewModal = ({ productId }) => {
     if (p?.Color) {
       getColors(data.response?.Data.ProductDetails.Color);
     }
-    getProductImages(data?.response?.Data?.ProductDetails);
+    getProductImages(data?.response?.Data?.ProductDetails,setProductImages);
     const buyNowProductDeatils = {
       product: data.response?.Data?.ProductDetails,
       charges: data.response?.Data?.ProductTax,
@@ -209,14 +144,15 @@ const QuickViewModal = ({ productId }) => {
     buyNowProductsArray.push(buyNowProductDeatils);
 
     setProducts(buyNowProductsArray);
-    checkInWishlist();
-    return ()=>{
+
+    return () => {
       setExistInCart(false);
-    }
+    };
   }, [data]);
   useEffect(() => {
-    checkInWishlist();
   }, [wishlistChange]);
+
+  let wish = "wishlist";
 
   const quickModal = () => (
     <>
@@ -283,27 +219,28 @@ const QuickViewModal = ({ productId }) => {
         <div class="col-lg-6">
           <div class="quick-view-product">
             <>
-            <Carousel swipeable={false} draggable={false}
-                    responsive={responsive}
-                    infinite={true}
-                    className="quick-view-product-img-outer"
-                  >
-                    {productImages &&
-                      productImages.map((image, i) => (
-                        <div class="quick-view-product-img">
-                          <img 
-                          onError={(e)=>{
-                            productImages.splice(i,1)
-                            setProductImages([...productImages])
-                           
-                          }}
-                            class="img-thumbnail "
-                            src={shopadminUrl + image.original}
-                            alt="Slide Image"
-                          />
-                        </div>
-                      ))}
-                  </Carousel>
+              <Carousel
+                swipeable={false}
+                draggable={false}
+                responsive={responsive}
+                infinite={true}
+                className="quick-view-product-img-outer"
+              >
+                {productImages &&
+                  productImages.map((image, i) => (
+                    <div class="quick-view-product-img">
+                      <img
+                        onError={(e) => {
+                          productImages.splice(i, 1);
+                          setProductImages([...productImages]);
+                        }}
+                        class="img-thumbnail "
+                        src={shopadminUrl + image.original}
+                        alt="Slide Image"
+                      />
+                    </div>
+                  ))}
+              </Carousel>
             </>
           </div>
         </div>
@@ -469,7 +406,13 @@ const QuickViewModal = ({ productId }) => {
                       navigate(
                         `/shopping/product/${product?.Id}/${getReplaceSpace(
                           product?.Name
-                        )}`
+                        )}`,
+                        {
+                          state:
+                            pathname === "/shopping/wishlist"
+                              ? wish
+                              : recomType,
+                        }
                       );
                   } else {
                     navigateToLogin();
@@ -499,7 +442,7 @@ const QuickViewModal = ({ productId }) => {
       <button
         onClick={() => {
           product?.Quantity !== 0 && setShowModal(true);
-          dispatch(getSingleProductData({productId}));
+          dispatch(getSingleProductData({ productId }));
         }}
         type="button"
         class="btn-cta"

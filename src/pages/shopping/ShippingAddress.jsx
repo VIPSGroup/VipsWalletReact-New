@@ -268,7 +268,10 @@ const ShippingAddress = () => {
 
                             <div class="shopping-cart-address-btns">
                               <div class="shopping-cart-edit-product-btn p-0">
-                                <UpdateShippingAddressModal addressProp={a} />
+                                <UpdateShippingAddressModal
+                                  getAddress={getAddress}
+                                  addressProp={a}
+                                />
                               </div>
 
                               <div class="shopping-cart-remove-address p-0">
@@ -290,7 +293,9 @@ const ShippingAddress = () => {
                 </div>
                 {addressList.length < 3 && (
                   <div class="shopping-cart-add-new-address box-shadow-1">
-                    <AddShippingAddressModal />
+
+                    <AddShippingAddressModal getAddress={getAddress} />
+
                   </div>
                 )}
               </div>

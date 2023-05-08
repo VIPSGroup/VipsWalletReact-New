@@ -45,10 +45,10 @@
     text-align: center;
   }
   .add-money-btn button{
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 500;
     background: none;  
-      padding: 10px 32px;
+    padding: 7px 24px;
   }
 
    
@@ -350,10 +350,10 @@
   text-align: center;
 }
 .send-money-btn button{
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 500;
   background: none;  
-    padding: 10px 32px;
+  padding: 7px 24px;
 }
 
 .send-money-amt label{

@@ -30,6 +30,7 @@ import walletSlice from "./slices/payment/walletSlice";
 import DeliverySlice from "./slices/digiGold/DeliverySlice";
 import paymentSlice from "./slices/payment/paymentSlice";
 
+import DigiGiftSlice from "./slices/digiGold/gift/DigiGiftSlice";
 
 const store = configureStore({
   reducer: {
@@ -60,11 +61,16 @@ const store = configureStore({
     userProfileSlice: userProfileSlice,
     publicSlice: publicSlice,
     DeliverySlice: DeliverySlice,
+    DigiGiftSlice: DigiGiftSlice,
+    coreSlice: coreSlice,
   },
 });
 
 store.subscribe(() => {
-  localStorage.setItem("digiCart", JSON.stringify(store.getState().DeliverySlice.items));
+  localStorage.setItem(
+    "digiCart",
+    JSON.stringify(store.getState().DeliverySlice.items)
+  );
 });
 
 export default store;

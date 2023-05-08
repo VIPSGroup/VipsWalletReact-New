@@ -646,7 +646,7 @@ const DeliveryCheckout = () => {
                         <div class="card-body">
                           <div class="">
                             <div class="digigold-paymet-discount-info mb-4">
-                              <div class="col-lg-8 p-0">
+                              <div class="col-lg-8 col-sm-8 p-0">
                                 <div class="custom-control custom-checkbox ">
                                   <input
                                     type="checkbox"
@@ -658,14 +658,14 @@ const DeliveryCheckout = () => {
                                     for="vips-wallet"
                                   >
                                     <img
-                                      src="images/digigold-images/Vipslogo.png"
+                                      src="images/digigold-images/vips-logo-small.png"
                                       class="img-fluid digigold-payment-debit-vips"
                                     />{" "}
                                     VIPS Wallet (₹ 5,72,93,773.35)
                                   </label>
                                 </div>
                               </div>
-                              <div class="col-lg-4 p-0">
+                              <div class="col-lg-4 col-sm-4 p-0">
                                 <p class="digigold-paymet-discount-amt">
                                   {" "}
                                   &#x20B9;{" "}
@@ -675,7 +675,7 @@ const DeliveryCheckout = () => {
                             </div>
 
                             <div class="digigold-paymet-discount-info">
-                              <div class="col-lg-8 p-0">
+                              <div class="col-lg-8 col-sm-8 p-0">
                                 <div class="custom-control custom-checkbox ">
                                   <input
                                     type="checkbox"
@@ -694,8 +694,8 @@ const DeliveryCheckout = () => {
                                   </label>
                                 </div>
                               </div>
-                              <div class="col-lg-4 p-0">
-                                <p class="digigold-paymet-Prime-amt">
+                              <div class="col-lg-4 col-sm-4 p-0">
+                                <p class="digigold-paymet-discount-amt">
                                   {" "}
                                   &#x20B9;
                                   {calculateTotalPrice(items, "basePrice")}
@@ -724,7 +724,7 @@ const DeliveryCheckout = () => {
                         {items.map((e) => {
                           return (
                             <div class="row flex-nowrap p-2">
-                              <div class="">
+                              <div class="mr-2">
                                 <span>
                                   {" "}
                                   <img

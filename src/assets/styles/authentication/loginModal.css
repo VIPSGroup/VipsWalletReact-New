@@ -33,10 +33,13 @@
     width: 160px;
     cursor: pointer;
     background-color: var(--primary);
+    border-color: var(--primary);
     color: var(--whiteColor); 
 }
 .login-btn:hover{
     color: var(--whiteColor);
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .login-modal .modal-dialog {

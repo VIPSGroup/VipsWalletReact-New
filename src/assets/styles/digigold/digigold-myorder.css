@@ -58,6 +58,32 @@
 }
 
 
+/* .ant-table-content{
+  overflow-x: scroll;
+} */
+.ant-table-content {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--blackColor);
+}
+
+.ant-table-content::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.ant-table-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--blackColor);
+}
+.ant-table-content::-webkit-scrollbar-track {
+  background: none;
+}
+.ant-table-content::-webkit-scrollbar-thumb {
+  background-color: var(--borderColor) ;
+  border-radius: 6px;
+  
+}
+
 
 /* order summery popup start */
 .digigoldorderdetails-modal .modal-dialog {
@@ -73,13 +99,13 @@
 }
 
 .digigoldorderdetails-outer{
-    padding: 15px 20px 20px;
+    padding: 0px 0px 0px;
 }
 .digigoldorderdetails-title{
     font-size: 18px;
     font-weight: 500;
     border-bottom: 1px solid var(--borderColor);
-    padding-bottom: 10px;
+    padding-bottom: 15px;
     text-align: center;
     color: var(--secondary);
 }
@@ -96,6 +122,8 @@
     color: var(--primary);
     font-size: 14px;
     font-weight: 500;
+    display: inline-flex;
+    grid-column-gap: 5px;
 }
 
 /* order summery popup end */
