@@ -92,6 +92,8 @@ const SignInForm = ({setIsSignIn,isSignIn,Username}) => {
       setErrorMsg(response?.Remarks);
     }
     if (forgotPassData?.ResponseStatus === 1 && forgotPasswordUserName) {
+      loginPasswordFormik.values.password=''
+      loginUsernameFormik.values.username=forgotPasswordUserName
       setFormCount(1);
       setErrorMsg("");
       setIsSnackBar(true);

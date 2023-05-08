@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  walletReport,
-  rechargeBillsReport,
-  shoppingReport,
-  cashbackReport,
-  allCashbackReport,
-  shoppingPointReport,
-  primePointReport,
-} from "../../apiData/user/passbook";
 import "../../assets/styles/myAccount/passbook.css";
 import ReactGA from "react-ga";
 import { googleAnalytics } from "../../constants";
 import { useSelector } from "react-redux";
 import { Loading } from "../../components/common";
+import { allCashbackReport, cashbackReport, primePointReport, rechargeBillsReport, shoppingPointReport, shoppingReport, walletReport } from "../../redux/slices/payment/PassbookSlice";
 ReactGA.initialize(googleAnalytics);
 
 const Passbook = () => {
@@ -70,8 +62,8 @@ const Passbook = () => {
     walletReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then(
       (response) => {
         setLoading(false);
-        setWalletHistory(response.Data);
-        setActiveHistory(response.Data);
+        setWalletHistory(response?.Data);
+        setActiveHistory(response?.Data);
       }
     );
     rechargeBillsReport(
@@ -80,18 +72,18 @@ const Passbook = () => {
       toDate
     ).then((response) => {
       setLoading(false);
-      setRechargeHistory(response.Data);
+      setRechargeHistory(response?.Data);
     });
     shoppingReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then(
       (response) => {
         setLoading(false);
-        setShoppingHistory(response.Data);
+        setShoppingHistory(response?.Data);
       }
     );
     cashbackReport(loggedInUser.Mobile, loggedInUser.TRXNPassword, toDate).then(
       (response) => {
         setLoading(false);
-        setCashbackHistory(response.CashbackHistory);
+        setCashbackHistory(response?.CashbackHistory);
       }
     );
     allCashbackReport(
@@ -100,7 +92,7 @@ const Passbook = () => {
       toDate
     ).then((response) => {
       setLoading(false);
-      setAllCashbackHistory(response.Data);
+      setAllCashbackHistory(response?.Data);
     });
     shoppingPointReport(
       loggedInUser.Mobile,
@@ -108,7 +100,7 @@ const Passbook = () => {
       toDate
     ).then((response) => {
       setLoading(false);
-      setShoppingPointHistory(response.Data);
+      setShoppingPointHistory(response?.Data);
     });
     primePointReport(
       loggedInUser.Mobile,
@@ -116,7 +108,7 @@ const Passbook = () => {
       toDate
     ).then((response) => {
       setLoading(false);
-      setPrimePointHistory(response.Data);
+      setPrimePointHistory(response?.Data);
     });
   }, []);
 
@@ -412,25 +404,6 @@ const Passbook = () => {
                       Cashbacks{" "}
                     </button>{" "}
                   </li>
-                  {/* <li>
-                    {" "}
-                    <button
-                      onClick={handleTabClick}
-                      class=""
-                      value="allCashback"
-                      style={{
-                        borderBottom:
-                          selectedTab === "allCashback"
-                            ? `3px solid #CA3060`
-                            : `white`,
-                        color:
-                          selectedTab === "allCashback" ? `#CA3060` : `Black`,
-                      }}
-                    >
-                      {" "}
-                      All Cashback{" "}
-                    </button>{" "}
-                  </li> */}
                   <li>
                     {" "}
                     <button
@@ -501,32 +474,7 @@ const Passbook = () => {
                       ? cashbackHistoryCard(a)
                       : null
                   )
-                )}
-
-                {/* <div class="service-loader-outer">
-                  {loading ? (
-                    <Loading color="#CA3060" class="" />
-                  ) : activeHistory && activeHistory .length < 1 ? (
-                    <div class="text-center">
-                      <img src="/images/No_Data.svg" />
-                    </div>
-                  ) : null}
-                </div>
-                 */}
-                {/* {activeHistory &&
-                  activeHistory.map((a, i) =>
-                    selectedTab === "wallet" ||
-                    selectedTab === "shoppingPoint" ||
-                    selectedTab === "primePoint"
-                      ? walletHistoryCard(a)
-                      : selectedTab === "recharge"
-                      ? rechargeHistoryCard(a)
-                      : selectedTab === "shopping"
-                      ? shoppingHistoryCard(a)
-                      : selectedTab === "cashback"
-                      ? cashbackHistoryCard(a)
-                      : null
-                  )} */}
+                )}              
               </div>
             </div>
           </div>

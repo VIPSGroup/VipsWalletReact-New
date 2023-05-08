@@ -16,7 +16,7 @@ const AllTermsAndCondition = ({ title, type }) => {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname);
     dispatch(getDynamicContent(type));
-  }, []);
+  }, [title]);
   function htmlDecode(input) {
     const parser = new DOMParser();
 
