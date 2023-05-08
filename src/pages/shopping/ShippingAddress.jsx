@@ -268,10 +268,7 @@ const ShippingAddress = () => {
 
                             <div class="shopping-cart-address-btns">
                               <div class="shopping-cart-edit-product-btn p-0">
-                                <UpdateShippingAddressModal
-                                  getAddress={getAddress}
-                                  addressProp={a}
-                                />
+                                <UpdateShippingAddressModal addressProp={a} />
                               </div>
 
                               <div class="shopping-cart-remove-address p-0">
@@ -293,9 +290,7 @@ const ShippingAddress = () => {
                 </div>
                 {addressList.length < 3 && (
                   <div class="shopping-cart-add-new-address box-shadow-1">
-
-                    <AddShippingAddressModal getAddress={getAddress} />
-
+                    <AddShippingAddressModal />
                   </div>
                 )}
               </div>
@@ -336,7 +331,6 @@ const ShippingAddress = () => {
                                             <span class="shopping-cart-payment-summery-amt"> -&#x20B9; 0.00 </span>
                                         </div>
                                     </div>
-
                                     <div class="row mb-3">
                                         <div class="col-7 col-xs-4">
                                             <span> Shipping Charges : </span>
@@ -386,7 +380,6 @@ const ShippingAddress = () => {
               </div>
 
               {/* <div class="shopping-cart-payment-outer box-shadow-1 mt-3">
-
                             <div class="row">
                                 <div class="col-md-12">
                                     <h3 class="shopping-cart-payment-head"> Return / Refund Policy </h3>
