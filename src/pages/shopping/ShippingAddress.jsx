@@ -293,7 +293,9 @@ const ShippingAddress = () => {
                 </div>
                 {addressList.length < 3 && (
                   <div class="shopping-cart-add-new-address box-shadow-1">
+
                     <AddShippingAddressModal getAddress={getAddress} />
+
                   </div>
                 )}
               </div>

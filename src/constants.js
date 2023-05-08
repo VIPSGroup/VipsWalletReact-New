@@ -5,6 +5,7 @@ const themeColor = "#393186";
 // export const baseApiUrl = "https://api.vipswallet.com/api";
 
 export const baseApiUrl = "https://api.vipswallet.com/api";
+
 export const digiBaseUrl = "https://api.vipswallet.com/api/DigiGold/";
 
 // export const baseApiUrl = "http://webplat.vipswallet.com/api/";

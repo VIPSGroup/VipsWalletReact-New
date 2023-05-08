@@ -182,7 +182,7 @@ const ProductDetails = () => {
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
     const getCart = cartProducts?.find(
-      (a) => a.product.Id === pro.ProductDetails.Id
+      (a) => a?.product?.Id === pro?.ProductDetails?.Id
     );
     if (getCart) {
       setExistInCart(true);
@@ -215,6 +215,7 @@ const ProductDetails = () => {
       navigate("/login");
     }
   };
+
 
   const getSRecommendedProduct = () => {
     if (!state) {
@@ -271,6 +272,7 @@ const ProductDetails = () => {
         setSubProducts("");
       }
     }
+
   };
 
   useEffect(() => {
@@ -296,6 +298,9 @@ const ProductDetails = () => {
       getProductImages(response?.Data?.ProductDetails,setProductImages);
       checkInCart(response?.Data);
     });
+
+    checkInWishlist();
+
     window.scrollTo({
       top: 0,
       left: 0,
@@ -545,7 +550,7 @@ const ProductDetails = () => {
                 </div>
 
                 <PincodeCheck
-                  productId={product.Id}
+                  productId={product?.Id}
                   setIsSnackBar={setIsSnackBar}
                   setErrorMsg={setErrorMsg}
                 />
