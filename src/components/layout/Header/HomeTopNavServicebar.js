@@ -10,7 +10,7 @@ const HomeTopNavServicebar = () => {
         <div class="container-fluid">
           <div class="bottom-header-outer">
             <div class="top-serv-box">
-              <Link to="/services/mobileRecharge">
+              <Link to="/services/mobile-recharge">
                 <div class="top-serv-box-icon">
                   <img
                     src="images/services/recharge.svg"
@@ -58,7 +58,7 @@ const HomeTopNavServicebar = () => {
             </div>
 
             <div class="top-serv-box">
-              <Link to="/services/digitalCable">
+              <Link to="/services/digital-cable">
                 <div class="top-serv-box-icon">
                   <img
                     src="images/services/digital-cable.svg"
@@ -94,7 +94,7 @@ const HomeTopNavServicebar = () => {
             </div>
 
             <div class="top-serv-box">
-              <Link to="/services/lpggas">
+              <Link to="/services/lpg-gas">
                 <div class="top-serv-box-icon">
                   <img
                     src="images/services/lpg-gas.svg"

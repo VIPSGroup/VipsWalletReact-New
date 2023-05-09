@@ -11,10 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import PincodeCheck from "./PincodeCheck";
 import AddToCartButton from "../buttons/AddToCartButton";
 import { shopadminUrl } from "../../constant/Baseurls";
-import { getReplaceSpace } from "../../constant/Constants";
+// import { getReplaceSpace } from "../../constant/Constants";
 import { getSingleProductData } from "../../redux/slices/shopping/productSlice";
 import { MuiSnackBar, ThemeButton } from "../common";
 import { Spin } from "antd";
+import { getReplaceSpace } from "../../constants";
 
 const QuickViewModal = ({ productId }) => {
   const dispatch = useDispatch();
@@ -148,9 +149,9 @@ const QuickViewModal = ({ productId }) => {
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
     cartProducts &&
-    cartProducts.map((c, i) => {
-      if (c?.product?.Id == pro?.ProductDetails?.Id) {
-        setExistInCart(true);
+      cartProducts.map((c, i) => {
+        if (c?.product?.Id == pro?.ProductDetails?.Id) {
+          setExistInCart(true);
         }
       });
   };
@@ -210,9 +211,9 @@ const QuickViewModal = ({ productId }) => {
 
     setProducts(buyNowProductsArray);
     checkInWishlist();
-    return ()=>{
+    return () => {
       setExistInCart(false);
-    }
+    };
   }, [data]);
   useEffect(() => {
     checkInWishlist();
@@ -283,27 +284,28 @@ const QuickViewModal = ({ productId }) => {
         <div class="col-lg-6">
           <div class="quick-view-product">
             <>
-            <Carousel swipeable={false} draggable={false}
-                    responsive={responsive}
-                    infinite={true}
-                    className="quick-view-product-img-outer"
-                  >
-                    {productImages &&
-                      productImages.map((image, i) => (
-                        <div class="quick-view-product-img">
-                          <img 
-                          onError={(e)=>{
-                            productImages.splice(i,1)
-                            setProductImages([...productImages])
-                           
-                          }}
-                            class="img-thumbnail "
-                            src={shopadminUrl + image.original}
-                            alt="Slide Image"
-                          />
-                        </div>
-                      ))}
-                  </Carousel>
+              <Carousel
+                swipeable={false}
+                draggable={false}
+                responsive={responsive}
+                infinite={true}
+                className="quick-view-product-img-outer"
+              >
+                {productImages &&
+                  productImages.map((image, i) => (
+                    <div class="quick-view-product-img">
+                      <img
+                        onError={(e) => {
+                          productImages.splice(i, 1);
+                          setProductImages([...productImages]);
+                        }}
+                        class="img-thumbnail "
+                        src={shopadminUrl + image.original}
+                        alt="Slide Image"
+                      />
+                    </div>
+                  ))}
+              </Carousel>
             </>
           </div>
         </div>
@@ -462,7 +464,7 @@ const QuickViewModal = ({ productId }) => {
               setErrorMsg={setErrorMsg}
             />
             <div class="quick-view-all-details mb-4">
-              <a
+              <span
                 onClick={() => {
                   if (loggedInUser) {
                     product?.Quantity !== 0 &&
@@ -477,7 +479,7 @@ const QuickViewModal = ({ productId }) => {
                 }}
               >
                 See Complete Details
-              </a>
+              </span>
             </div>
           </div>
         </div>
@@ -499,7 +501,7 @@ const QuickViewModal = ({ productId }) => {
       <button
         onClick={() => {
           product?.Quantity !== 0 && setShowModal(true);
-          dispatch(getSingleProductData({productId}));
+          dispatch(getSingleProductData({ productId }));
         }}
         type="button"
         class="btn-cta"

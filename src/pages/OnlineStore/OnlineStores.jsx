@@ -8,6 +8,7 @@ import { getAffiliate } from "../../redux/slices/onlineStoreSlice";
 // import { LatestLoading } from "../../components/common/Loading";
 import { Loading, ThemeButton } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading";
+import DynamicMeta from "../../components/SEO/DynamicMeta";
 ReactGA.initialize(googleAnalytics);
 
 const OnlineStores = () => {
@@ -228,6 +229,10 @@ const OnlineStores = () => {
 
   return (
     <>
+      <DynamicMeta
+        title={"Online Stores - VIPS Wallet"}
+        canonical={"https://vipswallet.com/online-stores"}
+      />
       {section()}
       {/* {popup()} */}
       {/* <Footer /> */}

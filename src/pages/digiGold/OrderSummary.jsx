@@ -754,7 +754,7 @@ const OrderSummary = () => {
                                     {walletShow && (
                                       <Link
                                         className="digigold-addmoney"
-                                        to={"/addMoney/options"}
+                                        to={"/add-money/options"}
                                         // style={{
                                         //   backgroundColor: "blue ",
                                         //   color: "white",

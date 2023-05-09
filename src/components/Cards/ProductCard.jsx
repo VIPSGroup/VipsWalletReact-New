@@ -22,6 +22,8 @@ const ProductCard = ({ product, wishlistCard }) => {
       });
   };
 
+  console.log("Product")
+
   useEffect(() => {
     checkInWishlist(product.Id,setExistInWishlist);
   }, [wishlistChange]);

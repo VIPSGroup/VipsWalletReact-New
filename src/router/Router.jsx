@@ -56,7 +56,13 @@ import Wishlist from "../pages/shopping/MyWishlist";
 import Cart from "../pages/shopping/Cart";
 import ShippingAddress from "../pages/shopping/ShippingAddress";
 import Checkout from "../pages/shopping/ShoppingCheckout";
-import { DigiGoldHome, DigiProfile, Gift, MyOrdersPage, OrderSummary } from "../pages/digiGold";
+import {
+  DigiGoldHome,
+  DigiProfile,
+  Gift,
+  MyOrdersPage,
+  OrderSummary,
+} from "../pages/digiGold";
 
 import AllTermsAndCondition from "../pages/publicPages/TermsAndConditions";
 import DeliveryHome from "../pages/digiGold/Delivery/DeliveryHome";
@@ -71,7 +77,7 @@ const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
   const [isBottomTopNav, setIsBottomTopNav] = useState(false);
   const [isCommonTopNav, setIsCommonTopNav] = useState(true);
-  const [active, setActive] = useState(0); 
+  const [active, setActive] = useState(0);
   const [title, setTitle] = useState("");
   return (
     <>
@@ -79,10 +85,10 @@ const Router = () => {
         isHomeTopNav={isHomeTopNav}
         isBottomTopNav={isBottomTopNav}
         isCommonTopNav={isCommonTopNav}
-        setActive={setActive} title={title}
-
-      />   
-         <Routes>
+        setActive={setActive}
+        title={title}
+      />
+      <Routes>
         <Route
           element={<Homepage setIsHomeTopNav={setIsHomeTopNav} />}
           path="/"
@@ -100,9 +106,9 @@ const Router = () => {
           }
         />
         <Route path="/login" element={<Login />} />
-        <Route path="/addMoney/options" element={<PaymentOptions />} />
+        <Route path="/add-money/options" element={<PaymentOptions />} />
         <Route
-          path="/addMoney/:option/amount"
+          path="/add-money/:option/amount"
           element={
             <ProtectedRoute>
               {" "}
@@ -113,7 +119,7 @@ const Router = () => {
 
         {/** Mobile Recharge */}
         <Route
-          path="/services/mobileRecharge"
+          path="/services/mobile-recharge"
           element={
             <ProtectedRoute>
               {" "}
@@ -204,7 +210,7 @@ const Router = () => {
 
         {/** LPG Gas */}
         <Route
-          path="/services/lpggas"
+          path="/services/lpg-gas"
           element={
             <ProtectedRoute>
               {" "}
@@ -225,7 +231,7 @@ const Router = () => {
         {/**...................... */}
 
         <Route
-          path="/services/digitalCable"
+          path="/services/digital-cable"
           element={
             <ProtectedRoute>
               {" "}
@@ -252,7 +258,7 @@ const Router = () => {
           }
         />
         <Route
-          path="/services/insurancepremium"
+          path="/services/insurance-premium"
           element={
             <ProtectedRoute>
               {" "}
@@ -280,7 +286,7 @@ const Router = () => {
           }
         />
         <Route
-          path="/services/loanrepayment"
+          path="/services/loan-repayment"
           element={
             <ProtectedRoute>
               {" "}
@@ -289,7 +295,7 @@ const Router = () => {
           }
         />
         <Route
-          path="/services/creditcard"
+          path="/services/credit-card"
           element={
             <ProtectedRoute>
               {" "}
@@ -298,7 +304,7 @@ const Router = () => {
           }
         />
         <Route
-          path="/services/housingsociety"
+          path="/services/housing-society"
           element={
             <ProtectedRoute>
               {" "}
@@ -307,7 +313,7 @@ const Router = () => {
           }
         />
         <Route
-          path="/services/hospitalbills"
+          path="/services/hospital-bills"
           element={
             <ProtectedRoute>
               {" "}
@@ -316,7 +322,7 @@ const Router = () => {
           }
         />
         <Route
-          path="/services/subscriptionfees"
+          path="/services/subscription-fees"
           element={
             <ProtectedRoute>
               {" "}
@@ -325,7 +331,7 @@ const Router = () => {
           }
         />
         <Route
-          path="/services/clubassociation"
+          path="/services/club-association"
           element={
             <ProtectedRoute>
               {" "}
@@ -334,7 +340,7 @@ const Router = () => {
           }
         />
         <Route
-          path="/services/municipaltax"
+          path="/services/municipal-tax"
           element={
             <ProtectedRoute>
               {" "}
@@ -343,7 +349,7 @@ const Router = () => {
           }
         />
         <Route
-          path="/services/municipalservices"
+          path="/services/municipal-services"
           element={
             <ProtectedRoute>
               {" "}
@@ -397,7 +403,7 @@ const Router = () => {
         <Route path="/vipsgold-orders" element={<MyOrdersPage />} />
          */}
         {/* <Route path="/vipsgold/gift" element={<Gift />} /> */}
-                {/* <Route
+        {/* <Route
           path="/vipsgold-delivery"
           element={<DeliveryHome setIsCommonTopNav={setIsCommonTopNav} />}
         /> */}
@@ -473,7 +479,7 @@ const Router = () => {
           element={
             <ProtectedRoute>
               {" "}
-              <PrimeConfirmation   setIsCommonTopNav={setIsCommonTopNav} />{" "}
+              <PrimeConfirmation setIsCommonTopNav={setIsCommonTopNav} />{" "}
             </ProtectedRoute>
           }
         />
@@ -489,7 +495,7 @@ const Router = () => {
         />
 
         <Route
-          path="/myaccount"
+          path="/my-account"
           element={
             <ProtectedRoute>
               {" "}
@@ -523,24 +529,22 @@ const Router = () => {
           path="/shopping/:categoryName/:categoryId"
           element={
             // <ProtectedRoute>
-              // {" "}
-              <ProductListing />
+            // {" "}
+            <ProductListing />
             // </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/product/:productId/:productName"
-          element={
-              <ProductDetails />
-          }
+          element={<ProductDetails />}
         />
         <Route
           path="/shopping/wishlist"
           element={
             // <ProtectedRoute>
-              // {" "}
-              <Wishlist />
-              // {" "}
+            // {" "}
+            <Wishlist />
+            // {" "}
             // </ProtectedRoute>
           }
         />
@@ -548,8 +552,8 @@ const Router = () => {
           path="/shopping/cart"
           element={
             // <ProtectedRoute>
-              // {" "}
-              <Cart setIsHomeTopNav={setIsHomeTopNav} />
+            // {" "}
+            <Cart setIsHomeTopNav={setIsHomeTopNav} />
             // </ProtectedRoute>
           }
         />
@@ -557,20 +561,18 @@ const Router = () => {
           path="/shopping/address"
           element={
             <ProtectedRoute>
-               {" "}
-              <ShippingAddress />
-               {" "}
-             </ProtectedRoute>
+              {" "}
+              <ShippingAddress />{" "}
+            </ProtectedRoute>
           }
         />
         <Route
           path="/shopping/checkout"
           element={
             <ProtectedRoute>
-            {" "}
-              <Checkout />
               {" "}
-             </ProtectedRoute>
+              <Checkout />{" "}
+            </ProtectedRoute>
           }
         />
 
@@ -613,14 +615,14 @@ const Router = () => {
           path="/contactus"
           element={<ContactUs setIsBottomTopNav={setIsBottomTopNav} />}
         />
-        <Route path="/onlinestores" element={<OnlineStores />} />
+        <Route path="/online-stores" element={<OnlineStores />} />
 
         <Route
           path="/payment"
           element={
-            <ProtectedRoute> 
+            <ProtectedRoute>
               <SuccessPage />{" "}
-              </ProtectedRoute>
+            </ProtectedRoute>
           }
         />
       </Routes>

@@ -162,10 +162,11 @@ export const getDouble = (num) => {
   return (Math.round(num * 100) / 100).toFixed(2);
 };
 
-export const getReplaceSpace = (str) => {
-  if (str && str !== "undefine") {
-    return str.replace(/\s+/g, "-").replace("/", "-");
-  } else {
-    return str;
-  }
-};
+// export const getReplaceSpace = (str) => {
+//   console.log("tu inside hai")
+//   if (str && str !== "undefine") {
+//     return str.replace(/\s+/g, "-").replace("/", "-");
+//   } else {
+//     return str;
+//   }
+// };

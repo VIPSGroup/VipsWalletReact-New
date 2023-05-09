@@ -8,12 +8,15 @@ import { Loading } from "../../components/common";
 import { LatestLoading } from "../../components/common/Loading";
 import { getAffiliate } from "../../redux/slices/onlineStoreSlice";
 import { useNavigate } from "react-router-dom";
+import DynamicMeta from "../../components/SEO/DynamicMeta";
 
 const OnlineStore = () => {
   const dispatch = useDispatch();
- const navigate= useNavigate()
+  const navigate = useNavigate();
   const { data, loading } = useSelector((state) => state.onlineStoreSlice);
-  const { loggedInUser } = useSelector( state => state.loginSlice.loggetInWithOTP );
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -46,16 +49,18 @@ const OnlineStore = () => {
         <div class="container">
           <div class="container">
             <div class="section-head">
-              <h1 class="section-head-title">
+              <h2 class="section-head-title">
                 <span>Online</span> Stores
-              </h1>
+              </h2>
               <p className="section-head-subtitle">
                 Shop your favourite products from our connected online stores.
               </p>
             </div>
           </div>
           {data.Data && !loading ? (
-            <Carousel swipeable={false} draggable={false}
+            <Carousel
+              swipeable={false}
+              draggable={false}
               responsive={responsive}
               infinite={true}
               className="online-store-row"
@@ -87,7 +92,7 @@ const OnlineStore = () => {
             </Carousel>
           ) : (
             // <LatestLoading />
-            <Loading/>
+            <Loading />
           )}
         </div>
       </section>

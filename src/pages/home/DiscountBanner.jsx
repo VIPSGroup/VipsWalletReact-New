@@ -9,7 +9,7 @@ import "../../assets/styles/home/discountBanner.css"
            
                  <div class="bgimage">
                    <div class="discount-banner-content">
-                     <h1>UP TO <span> 60% </span> OFF </h1>
+                     <h2>UP TO <span> 60% </span> OFF </h2>
                      <p>Shopping experience that feels like luxury!</p>
                      <Link to="/shopping/Furniture/7" type="button" class="btn btn-cta">Shop Now</Link>
                    </div>

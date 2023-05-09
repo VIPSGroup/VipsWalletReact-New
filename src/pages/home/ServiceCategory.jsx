@@ -10,9 +10,9 @@ const ServiceCategory = () => {
         <div class="container">
           <div class="container">
             <div class="section-head">
-              <h1 class="section-head-title">
+              <h2 class="section-head-title">
                 <span>Recharge</span> & Pay Bills
-              </h1>
+              </h2>
               <p className="section-head-subtitle">
                 Ease the transaction and payments hassle with tech that's
                 convenient to use.
@@ -65,7 +65,7 @@ const ServiceArr = [
   {
     img: "/images/services/recharge.svg",
     title: "Recharge",
-    route: "/services/mobilerecharge",
+    route: "/services/mobile-recharge",
     desc: "Get Instant 2% Cashback On Mobile Recharge",
   },
   {
@@ -77,7 +77,7 @@ const ServiceArr = [
   {
     img: "/images/services/digital-cable.svg",
     title: "Digital Cabel",
-    route: "/services/digitalCable",
+    route: "/services/digital-cable",
     desc: "Conveniently recharge your digital cable connection..",
   },
   {

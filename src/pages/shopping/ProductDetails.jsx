@@ -138,7 +138,7 @@ const ProductDetails = () => {
     const recentProducts = JSON.parse(localStorage.getItem("recent"));
     recentProducts &&
       recentProducts.map((p, i) => {
-        if (productParam.Id == p.Id) {
+        if (productParam?.Id == p?.Id) {
           return true;
         }
         return false;
@@ -160,7 +160,7 @@ const ProductDetails = () => {
   const clearRecentlyViewed = () => {
     const recentProducts = JSON.parse(localStorage.getItem("recent"));
     const unique2 = recentProducts.filter((obj, index) => {
-      return index === recentProducts.findIndex((o) => obj.Id === o.Id);
+      return index === recentProducts.findIndex((o) => obj?.Id === o?.Id);
     });
 
     localStorage.setItem("recent", JSON.stringify(unique2));
@@ -168,7 +168,7 @@ const ProductDetails = () => {
   const checkInCart = (pro) => {
     let cartProducts = JSON.parse(localStorage.getItem("cart"));
     const getCart = cartProducts?.find(
-      (a) => a.product.Id === pro.ProductDetails.Id
+      (a) => a?.product?.Id === pro.ProductDetails?.Id
     );
     if (getCart) {
       setExistInCart(true);
@@ -211,7 +211,7 @@ const ProductDetails = () => {
     for (let index = 0; index < Allcategories.length; index++) {
       const element = Allcategories[index];
       if (catNam === element.Name) {
-        catId = element.Id;
+        catId = element?.Id;
       }
     }
     getProductsByCategory(catId).then(response=>{

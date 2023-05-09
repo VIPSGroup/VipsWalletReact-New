@@ -31,7 +31,7 @@ export const HomeBottomServiceMenu = [
   {
     img: "images/services/recharge.svg",
     title: "Recharge",
-    route: "/services/mobileRecharge",
+    route: "/services/mobile-recharge",
   },
   {
     img: "images/services/dth.svg",
@@ -51,7 +51,7 @@ export const HomeBottomServiceMenu = [
   {
     img: "images/services/digital-cable.svg",
     title: " Digital Cable",
-    route: "/services/digitalCable",
+    route: "/services/digital-cable",
   },
   {
     img: "images/services/landline.svg",

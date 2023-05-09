@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
-import Footer from '../../components/layout/Footer/Footer';
+import React, { useState } from "react";
+import Footer from "../../components/layout/Footer/Footer";
 import "../../assets/styles/services/serviceIndex.css";
 import "../../assets/styles/styles.css";
 import { Link } from "react-router-dom";
-import { MuiSnackBar } from '../../components/common';
+import { MuiSnackBar } from "../../components/common";
+import DynamicMeta from "../../components/SEO/DynamicMeta";
 
 const Services = () => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const section = () => (
     <>
+      <DynamicMeta
+        title={"Services - VIPS Wallet"}
+        canonical={"https://vipswallet.com/services"}
+      />
       {/*<!-- service promo banner start -->*/}
       <section class="service-page-section-align services-promo-banner">
         <div class="container">
@@ -80,9 +85,9 @@ const Services = () => {
         <div class="container">
           <div class="container">
             <div class="section-head">
-              <h1 class="section-head-title">
+              <h2 class="section-head-title">
                 <span>Recharge</span> & Pay Bills
-              </h1>
+              </h2>
               <p class="section-head-subtitle">
                 Ease the transaction and payments hassle with tech that's
                 convenient to use.
@@ -94,7 +99,7 @@ const Services = () => {
 
           <div class="services-box-outer">
             <div class="services-box-inner">
-              <Link to="/services/mobileRecharge" class="services-div-outer">
+              <Link to="/services/mobile-recharge" class="services-div-outer">
                 <div class="services-div-box">
                   <div class="services-page-icon">
                     <img
@@ -148,7 +153,7 @@ const Services = () => {
             </div>
 
             <div class="services-box-inner">
-              <Link to="/services/digitalCable" class="services-div-outer">
+              <Link to="/services/digital-cable" class="services-div-outer">
                 <div class="services-div-box">
                   <div class="services-page-icon">
                     <img
@@ -177,9 +182,9 @@ const Services = () => {
         <div class="container">
           <div class="container">
             <div class="section-head">
-              <h1 class="section-head-title">
+              <h2 class="section-head-title">
                 <span>Pay Bills of Utilities</span>
-              </h1>
+              </h2>
               <p class="section-head-subtitle">
                 Your all basic necessity bills can be taken care of using VIPS
                 Wallet.
@@ -244,7 +249,7 @@ const Services = () => {
               </div>
 
               <div class="services-box-inner">
-                <Link to="/services/lpggas" class="services-div-outer">
+                <Link to="/services/lpg-gas" class="services-div-outer">
                   <div class="services-div-box">
                     <div class="services-page-icon">
                       <img
@@ -262,7 +267,10 @@ const Services = () => {
               </div>
 
               <div class="services-box-inner">
-                <Link to="/services/insurancepremium" class="services-div-outer">
+                <Link
+                  to="/services/insurance-premium"
+                  class="services-div-outer"
+                >
                   <div class="services-div-box">
                     <div class="services-page-icon">
                       <img
@@ -319,9 +327,9 @@ const Services = () => {
                 <Link
                   to="/services"
                   class="services-div-outer"
-                  onClick={()=>{
-                    setIsSnackBar(true)
-                    setErrorMsg("Service will be coming soon..")
+                  onClick={() => {
+                    setIsSnackBar(true);
+                    setErrorMsg("Service will be coming soon..");
                   }}
                 >
                   <div class="services-div-box">
@@ -350,9 +358,9 @@ const Services = () => {
         <div class="container">
           <div class="container">
             <div class="section-head">
-              <h1 class="section-head-title">
+              <h2 class="section-head-title">
                 <span>Financial Services & Taxes</span>
-              </h1>
+              </h2>
               <p class="section-head-subtitle">
                 Either it be loan repayment, tax or any other financial bill,
                 VIPS Wallet can help you with easy transactions for it.
@@ -363,7 +371,7 @@ const Services = () => {
           <div class="row">
             <div class="services-box-outer">
               <div class="services-box-inner">
-                <Link to="/services/loanrepayment" class="services-div-outer">
+                <Link to="/services/loan-repayment" class="services-div-outer">
                   <div class="services-div-box">
                     <div class="services-page-icon">
                       <img
@@ -381,7 +389,7 @@ const Services = () => {
               </div>
 
               <div class="services-box-inner">
-                <Link to="/services/creditcard" class="services-div-outer">
+                <Link to="/services/credit-card" class="services-div-outer">
                   <div class="services-div-box">
                     <div class="services-page-icon">
                       <img
@@ -399,7 +407,7 @@ const Services = () => {
               </div>
 
               <div class="services-box-inner">
-                <Link to="/services/housingsociety" class="services-div-outer">
+                <Link to="/services/housing-society" class="services-div-outer">
                   <div class="services-div-box">
                     <div class="services-page-icon">
                       <img
@@ -417,7 +425,7 @@ const Services = () => {
               </div>
 
               <div class="services-box-inner">
-                <Link to="/services/hospitalbills" class="services-div-outer">
+                <Link to="/services/hospital-bills" class="services-div-outer">
                   <div class="services-div-box">
                     <div class="services-page-icon">
                       <img
@@ -435,7 +443,10 @@ const Services = () => {
               </div>
 
               <div class="services-box-inner">
-                <Link to="/services/subscriptionfees" class="services-div-outer">
+                <Link
+                  to="/services/subscription-fees"
+                  class="services-div-outer"
+                >
                   <div class="services-div-box">
                     <div class="services-page-icon">
                       <img
@@ -453,7 +464,7 @@ const Services = () => {
               </div>
 
               <div class="services-box-inner">
-                <Link to="/services/clubassociation" class="services-div-outer">
+                <Link to="/services/club-association" class="services-div-outer">
                   <div class="services-div-box">
                     <div class="services-page-icon">
                       <img
@@ -471,7 +482,7 @@ const Services = () => {
               </div>
 
               <div class="services-box-inner">
-                <Link to="/services/municipaltax" class="services-div-outer">
+                <Link to="/services/municipal-tax" class="services-div-outer">
                   <div class="services-div-box">
                     <div class="services-page-icon">
                       <img
@@ -490,7 +501,7 @@ const Services = () => {
 
               <div class="services-box-inner">
                 <Link
-                  to="/services/municipalservices"
+                  to="/services/municipal-services"
                   class="services-div-outer"
                 >
                   <div class="services-div-box">
@@ -517,15 +528,15 @@ const Services = () => {
 
   return (
     <>
-    {section()}
-    <MuiSnackBar
-                    open={isSnackBar}
-                    setOpen={setIsSnackBar}
-                    errorMsg={errorMsg}
-                    setErrorMsg={setErrorMsg}
-                  />
-  </>
-  )
-}
+      {section()}
+      <MuiSnackBar
+        open={isSnackBar}
+        setOpen={setIsSnackBar}
+        errorMsg={errorMsg}
+        setErrorMsg={setErrorMsg}
+      />
+    </>
+  );
+};
 
-export default Services
+export default Services;

@@ -51,9 +51,9 @@ const ShopByCategory = () => {
         <div class="container-fluid">
           <div class="container">
             <div class="section-head pt-1">
-              <h1 class="section-head-title">
+              <h2 class="section-head-title">
                 <span>Shop</span> By Shopping Category
-              </h1>
+              </h2>
               <p className="section-head-subtitle">
                 We've got every shopping mood covered!
               </p>
@@ -61,32 +61,37 @@ const ShopByCategory = () => {
           </div>
 
           <div class="shopby-outer">
-              <div class="row">
-            <div class="container-fluid shopby-carousel">
-              <Carousel swipeable={false} draggable={false}
-                responsive={responsive}
-                infinite={true}
-              >
- {ShopByCat.map((e, i) => {
-                  return (
-                    <div key={i} class="m-3">
-                      <div class="shopby-product">
-                        <Link to={e.route}>
-                          <div class="shopby-img">
-                            <img src={e.img} alt="Product" class="img-fluid" />
-                          </div>
-                          <div class="shopby-text">
-                            <div class="shopby-product-title">
-                              <h3>{e.title}</h3>
+            <div class="row">
+              <div class="container-fluid shopby-carousel">
+                <Carousel
+                  swipeable={false}
+                  draggable={false}
+                  responsive={responsive}
+                  infinite={true}
+                >
+                  {ShopByCat.map((e, i) => {
+                    return (
+                      <div key={i} class="m-3">
+                        <div class="shopby-product">
+                          <Link to={e.route.toLowerCase()}>
+                            <div class="shopby-img">
+                              <img
+                                src={e.img}
+                                alt="Product"
+                                class="img-fluid"
+                              />
                             </div>
-                          </div>
-                        </Link>
+                            <div class="shopby-text">
+                              <div class="shopby-product-title">
+                                <h3>{e.title}</h3>
+                              </div>
+                            </div>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </Carousel>
-               
+                    );
+                  })}
+                </Carousel>
 
                 <div class="col-md-12 text-center mt-4">
                   <div class="view-all-btn">

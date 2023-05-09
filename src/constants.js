@@ -138,7 +138,6 @@ export function digitPrecision({ sGramResult, type }) {
   }
 }
 
-
 export const getServiceId = (serviceName) => {
   if (serviceName && serviceName.includes("broadband")) {
     return broadbandServiceId;
@@ -193,7 +192,11 @@ export const getDouble = (num) => {
 
 export const getReplaceSpace = (str) => {
   if (str && str !== "undefine") {
-    return str.replace(/\s+/g, "-").replace("/", "-");
+    return str
+      ?.toLowerCase()
+      ?.replace(/\s+/g, "-")
+      ?.replace("/", "")
+      .replace(/[^\w\s-]/g, "");
   } else {
     return str;
   }
@@ -207,7 +210,6 @@ export const getTransactionId = () => {
   return finalHash;
 };
 
-
 export function getFixedDecimalNumber(input, precision) {
   if (input.toString().split(".").pop().length > precision) {
     return parseFloat(
@@ -218,4 +220,4 @@ export function getFixedDecimalNumber(input, precision) {
   } else {
     return input;
   }
-};
+}

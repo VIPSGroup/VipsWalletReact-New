@@ -168,7 +168,7 @@ const PaymentOptions = () => {
                         <div class="add-money-btn">
                           <Link
                             type="button"
-                            to={`/addMoney/${selectedPaymentOption}/amount`}
+                            to={`/add-money/${selectedPaymentOption}/amount`}
                             class="btn-primery"
                             style={{ textDecoration: "none" }}
                           >

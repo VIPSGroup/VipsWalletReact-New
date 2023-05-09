@@ -216,7 +216,7 @@ const Downloadurl = [
 const UsefullLinks = [
   {
     title: "My Account",
-    route: "/myaccount",
+    route: "/my-account",
   },
   {
     title: "About us",

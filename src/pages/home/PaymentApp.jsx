@@ -15,9 +15,9 @@ const PaymentApp = () => {
               <div class="container">
                 <div class="row">
                   <div class="col-md-6 col-lg-5 payment-app-banner-content">
-                    <h1 class="payment-app-banner-title">
+                    <h2 class="payment-app-banner-title">
                       India's Most - Loved Payment App
-                    </h1>
+                    </h2>
 
                     <p class="payment-app-banner-p">
                       VIPS Wallet application is available on Google Play Store

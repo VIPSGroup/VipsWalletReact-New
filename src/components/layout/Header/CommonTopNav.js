@@ -261,12 +261,12 @@ const handleSidebar=()=>{
                     {/* <!-- End Level one --> */}
 
                     <li class="nav-item">
-                      <Link class="nav-link" to="/onlinestores"   style={{
-                          borderBottomWidth: pathname === "/onlinestores" && 2,
+                      <Link class="nav-link" to="/online-stores"   style={{
+                          borderBottomWidth: pathname === "/online-stores" && 2,
                           borderBottomColor:
-                            pathname === "/onlinestores" && "#CA3060",
+                            pathname === "/online-stores" && "#CA3060",
                           borderBottomStyle:
-                            pathname === "/onlinestores" && "solid",
+                            pathname === "/online-stores" && "solid",
                         }}>
                         Online Stores
                       </Link>
@@ -408,7 +408,7 @@ const handleSidebar=()=>{
                                 <div class="nav-wallet-btn">
                                   <Link
                                     type="button"
-                                    to="/addMoney/options"
+                                    to="/add-money/options"
                                     class="btn-cta"
                                     style={{ textDecoration: "none" }}
                                   >
@@ -469,7 +469,7 @@ const handleSidebar=()=>{
                           </Link>
                         </li>
                         <li>
-                          <Link class="dropdown-item" to="/myaccount">
+                          <Link class="dropdown-item" to="/my-account">
                             My Profile
                           </Link>
                         </li>
@@ -549,7 +549,7 @@ const handleSidebar=()=>{
             <div class="container-fluid">
               <div class="navbar-bottom-services-outer">
                 <div class="navbar-bottom-serv-box">
-                  <Link to="/services/mobileRecharge">
+                  <Link to="/services/mobile-recharge">
                     <img src="/images/services/white-recharge.svg" />
 
                     <span class="navbar-bottom-serv-box-title">Recharge</span>
@@ -581,7 +581,7 @@ const handleSidebar=()=>{
                 </div>
 
                 <div class="navbar-bottom-serv-box">
-                  <Link to="/services/digitalCable">
+                  <Link to="/services/digital-cable">
                     <img src="/images/services/white-digital-cable.svg" />
                     <span class="navbar-bottom-serv-box-title">
                       Digital Cable
@@ -733,7 +733,7 @@ const handleSidebar=()=>{
           </li>
 
           <li onClick={handleSidebar}>
-            <Link to="/onlinestores"> Online Stores</Link>
+            <Link to="/online-stores"> Online Stores</Link>
           </li>
           {/* <li>
             <Link to="/vipsgold"> VIPS Gold</Link>

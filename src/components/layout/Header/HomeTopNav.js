@@ -116,7 +116,7 @@ useEffect(() => {
                     {/* {<!-- End Level one -->} */}
 
                     <li class="nav-item">
-                      <Link class="nav-link" to="/onlinestores">
+                      <Link class="nav-link" to="/online-stores">
                         {" "}
                         Online Stores{" "}
                       </Link>
@@ -254,7 +254,7 @@ useEffect(() => {
                               <div class="nav-wallet-btn">
                                 <Link
                                   type="button"
-                                  to="/addMoney/options"
+                                  to="/add-money/options"
                                   class="btn-cta"
                                   style={{ textDecoration: "none" }}
                                 >
@@ -312,7 +312,7 @@ useEffect(() => {
                         </Link>
                       </li>
                       <li>
-                        <Link class="dropdown-item" to="/myaccount">
+                        <Link class="dropdown-item" to="/my-account">
                           My Profile
                         </Link>
                       </li>
@@ -359,7 +359,7 @@ useEffect(() => {
           <div class="container-fluid">
             <div class="navbar-bottom-services-outer">
               <div class="navbar-bottom-serv-box">
-                <Link to="/services/mobileRecharge">
+                <Link to="/services/mobile-recharge">
                   <img src="/images/services/white-recharge.svg" />
                   <span class="navbar-bottom-serv-box-title">Recharge</span>
                 </Link>
@@ -387,7 +387,7 @@ useEffect(() => {
               </div>
 
               <div class="navbar-bottom-serv-box">
-                <Link to="/services/digitalCable">
+                <Link to="/services/digital-cable">
                   <img src="/images/services/white-digital-cable.svg" />
                   <span class="navbar-bottom-serv-box-title">
                     Digital Cable
@@ -459,7 +459,7 @@ useEffect(() => {
           </li>
 
           <li onClick={handleSidebar}>
-            <Link to="/onlinestores"> Online Stores</Link>
+            <Link to="/online-stores"> Online Stores</Link>
           </li>
           {/* <li>
 

@@ -22,9 +22,9 @@ const BannerTopNav = () => {
   const { data, loading } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
-  const handleSidebar=()=>{
+  const handleSidebar = () => {
     document.getElementById("sidebar").classList.remove("active");
-  }
+  };
   const clickLogout = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -83,24 +83,32 @@ const BannerTopNav = () => {
                 <div class="collapse navbar-collapse" id="navbar">
                   <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
-                      <Link class="nav-link" to="/"  style={{
+                      <Link
+                        class="nav-link"
+                        to="/"
+                        style={{
                           borderBottomWidth: pathname === "/" && 2,
                           borderBottomColor: pathname === "/" && "#CA3060",
                           borderBottomStyle: pathname === "/" && "solid",
-                        }}>
+                        }}
+                      >
                         Home <span class="sr-only">(current)</span>
                       </Link>
                     </li>
 
                     {/* { <!-- Level one dropdown -->} */}
                     <li class="nav-item ">
-                      <Link to="/shopping" class="nav-link "  style={{
+                      <Link
+                        to="/shopping"
+                        class="nav-link "
+                        style={{
                           borderBottomWidth: pathname === "/shopping" && 2,
                           borderBottomColor:
                             pathname === "/shopping" && "#CA3060",
                           borderBottomStyle:
                             pathname === "/shopping" && "solid",
-                        }}>
+                        }}
+                      >
                         Shopping
                       </Link>
                     </li>
@@ -108,26 +116,34 @@ const BannerTopNav = () => {
 
             <!-- Level one dropdown -->} */}
                     <li class="nav-item ">
-                      <Link to="/services" class="nav-link " style={{
+                      <Link
+                        to="/services"
+                        class="nav-link "
+                        style={{
                           borderBottomWidth: pathname === "/services" && 2,
                           borderBottomColor:
                             pathname === "/services" && "#CA3060",
                           borderBottomStyle:
                             pathname === "/services" && "solid",
-                        }}>
+                        }}
+                      >
                         Services
                       </Link>
                     </li>
                     {/* { <!-- End Level one -->} */}
 
                     <li class="nav-item">
-                      <Link class="nav-link" to="/onlinestores" style={{
-                          borderBottomWidth: pathname === "/onlinestores" && 2,
+                      <Link
+                        class="nav-link"
+                        to="/online-stores"
+                        style={{
+                          borderBottomWidth: pathname === "/online-stores" && 2,
                           borderBottomColor:
-                            pathname === "/onlinestores" && "#CA3060",
+                            pathname === "/online-stores" && "#CA3060",
                           borderBottomStyle:
-                            pathname === "/onlinestores" && "solid",
-                        }}>
+                            pathname === "/online-stores" && "solid",
+                        }}
+                      >
                         Online Stores
                       </Link>
                     </li>
@@ -158,7 +174,7 @@ const BannerTopNav = () => {
                   >
                     {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
                     <Badge count={cartCount && cartCount?.length}>
-                    <AiOutlineShoppingCart className="nav-icon" />
+                      <AiOutlineShoppingCart className="nav-icon" />
                     </Badge>
                     <span class="d-xl-block d-none d-md-none d-sm-none">
                       {" "}
@@ -214,9 +230,7 @@ const BannerTopNav = () => {
                           <span class="nav-wallet-amt">
                             {" "}
                             &#x20B9;
-                            {!loading && data
-                              ? data?.Data?.Balance
-                              : "..."}
+                            {!loading && data ? data?.Data?.Balance : "..."}
                           </span>
                         </div>
                         <div class="dropdown-divider"></div>
@@ -259,7 +273,7 @@ const BannerTopNav = () => {
                               <div class="nav-wallet-btn">
                                 <Link
                                   type="button"
-                                  to="/addMoney/options"
+                                  to="/add-money/options"
                                   class="btn-cta"
                                   style={{ textDecoration: "none" }}
                                 >
@@ -321,7 +335,7 @@ const BannerTopNav = () => {
                           </Link>
                         </li>
                         <li>
-                          <Link class="dropdown-item" to="/myaccount">
+                          <Link class="dropdown-item" to="/my-account">
                             My Profile
                           </Link>
                         </li>
@@ -444,7 +458,7 @@ export const Services = [
   {
     title: "Recharge",
     img: "/images/services/white-recharge.svg",
-    route: "/services/mobileRecharge",
+    route: "/services/mobile-recharge",
   },
   {
     title: "DTH",
@@ -464,7 +478,7 @@ export const Services = [
   {
     title: "Digital Cable",
     img: "/images/services/white-digital-cable.svg",
-    route: "/services/digitalCable",
+    route: "/services/digital-cable",
   },
   {
     title: "Landline",
@@ -479,7 +493,7 @@ export const Services = [
   {
     title: "LPG Gas",
     img: "/images/services/white-recharge.svg",
-    route: "/services/lpgGas",
+    route: "/services/lpg-gas",
   },
 ];
 
@@ -498,7 +512,7 @@ export const Nav = [
   },
   {
     title: "Online Stores",
-    route: "/onlinestores",
+    route: "/online-stores",
   },
   {
     title: "Become a Supplier",

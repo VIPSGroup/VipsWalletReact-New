@@ -321,7 +321,7 @@ useEffect(() => {
                       <div className="alert alert-danger d-block mt-4">
                         Wallet Balance less than the Amount.{" "}
                         <a
-                          href="/addMoney/options"
+                          href="/add-money/options"
                           className="text-decoration-none text-primery"
                           style={{ textDecoration: "none" }}
                         >

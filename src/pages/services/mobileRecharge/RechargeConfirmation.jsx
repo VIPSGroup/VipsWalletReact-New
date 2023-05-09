@@ -179,7 +179,7 @@ setErrorMsg("Something Went wrong, Please try again later")
           <div class="payment-head-outer">
             <div class="payment-head">
               <div class="go-back">
-                <Link to="/services/mobileRecharge" onClick={()=>{location.state=null}}>
+                <Link to="/services/mobile-recharge" onClick={()=>{location.state=null}}>
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
                 </Link>
               </div>
@@ -426,7 +426,7 @@ setErrorMsg("Something Went wrong, Please try again later")
                       <div className="alert alert-danger d-block mt-4">
                         Wallet Balance less than the Amount.{" "}
                         <Link
-                          to="/addMoney/options"
+                          to="/add-money/options"
                           className="text-decoration-none text-primery"
                           style={{ textDecoration: "none" }}
                         >

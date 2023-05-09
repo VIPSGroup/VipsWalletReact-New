@@ -9,6 +9,7 @@ import { LatestLoading } from "../../components/common/Loading";
 import Footer from "../../components/layout/Footer/Footer";
 import { googleAnalytics } from "../../constants";
 import { getAffiliate } from "../../redux/slices/onlineStoreSlice";
+import DynamicMeta from "../../components/SEO/DynamicMeta";
 ReactGA.initialize(googleAnalytics);
 
 const OnlineStores = () => {
@@ -69,7 +70,7 @@ const OnlineStores = () => {
               ))
             ) : (
               // <LatestLoading />
-              <Loading/>
+              <Loading />
             )}
           </div>
         </div>
@@ -226,7 +227,7 @@ const OnlineStores = () => {
                   {" "}
                   Continue{" "}
                 </button> */}
-                <ThemeButton value={"Continue"}/>
+                <ThemeButton value={"Continue"} />
               </div>
             </div>
           </div>
@@ -237,6 +238,10 @@ const OnlineStores = () => {
 
   return (
     <>
+      <DynamicMeta
+        title={"Online Stores - VIPS Wallet"}
+        canonical={"https://vipswallet.com/online-stores"}
+      />
       {section()}
       {/* {popup()} */}
       {/* <Footer /> */}

@@ -386,7 +386,7 @@ const TopMenu = ({ balance }) => {
                 </li>
                 <li className="nav-item">
                   {" "}
-                  <a className="nav-link" href="/onlinestores" data-abc="true">
+                  <a className="nav-link" href="/online-stores" data-abc="true">
                     Online Stores
                   </a>{" "}
                 </li>

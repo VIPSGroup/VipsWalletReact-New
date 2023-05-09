@@ -5,7 +5,11 @@ import "react-multi-carousel/lib/styles.css";
 
 // import { getSliderBannerImages } from "../../apiData/media/home";
 // import { getAllCategories } from "../../apiData/shopping/category";
-import { fashionCategoryId, electronicCategoryId } from "../../constants";
+import {
+  fashionCategoryId,
+  electronicCategoryId,
+  getReplaceSpace,
+} from "../../constants";
 import { Link } from "react-router-dom";
 import TopSlider from "../../components/Sliders/shopping/TopSlider";
 import DealsofTheDay from "../home/DealsofTheDay";
@@ -16,11 +20,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllCategories } from "../../redux/slices/shopping/productSlice";
 import { getSliderBannerImage } from "../../redux/slices/bannerSlice";
 import { Loading } from "../../components/common";
+import DynamicMeta from "../../components/SEO/DynamicMeta";
 
 const ShoppingHome = () => {
   const dispatch = useDispatch();
-  const [bannerImages, setBannerImages] = useState([]);
-  const [categories, setCategories] = useState([]);
 
   const { data, loading } = useSelector((state) => state.productSlice.AllCat);
   const { SliderBanners } = useSelector((state) => state.bannerSlice);
@@ -60,7 +63,9 @@ const ShoppingHome = () => {
             <div class="col-md-12">
               <div class="shopping-catagory-nav-outer">
                 {data ? (
-                  <Carousel swipeable={false} draggable={false}
+                  <Carousel
+                    swipeable={false}
+                    draggable={false}
                     responsive={responsive}
                     infinite={true}
                     className="container"
@@ -69,8 +74,13 @@ const ShoppingHome = () => {
                       data.Data.Categories?.map((c, i) =>
                         c.Name == "Exclusive/Membership" ? null : (
                           <div class="shopping-catagory-box">
-                            <Link to={`/shopping/${c.Name}/${c.Id}`}>
+                            <Link
+                              to={`/shopping/${getReplaceSpace(c.Name)}/${
+                                c.Id
+                              }`}
+                            >
                               <img
+                                alt="Category"
                                 src={
                                   `http://shopadmin.vipswallet.com/Content/Images/categories/` +
                                   c.ImageUrl
@@ -86,7 +96,7 @@ const ShoppingHome = () => {
                   </Carousel>
                 ) : (
                   // <LatestLoading />
-                  <Loading/>
+                  <Loading />
                 )}
               </div>
             </div>
@@ -125,6 +135,10 @@ const ShoppingHome = () => {
 
   return (
     <>
+      <DynamicMeta
+        title={"Shopping - VIPS Wallet"}
+        canonical={"https://vipswallet.com/shopping"}
+      />
       {shoppingCategoryBar()}
 
       <TopSlider banners={SliderBanners.Data} id={5} />

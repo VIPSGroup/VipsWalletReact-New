@@ -41,16 +41,21 @@ const ProductHorizontal = ({
           <div class="container">
             <div class="container">
               <div class="section-head">
-                <h1 class="section-head-title">
+                <h2 class="section-head-title">
                   <span>{title}</span>
                   {subtitle}
-                </h1>
+                </h2>
                 <p className="section-head-subtitle">{description}</p>
               </div>
             </div>
             {!loading ? (
               <div className="deals-center productcard-arrow">
-                <Carousel draggable={false} swipeable={false} responsive={responsive} infinite={true}>
+                <Carousel
+                  draggable={false}
+                  swipeable={false}
+                  responsive={responsive}
+                  infinite={true}
+                >
                   {products && products?.length !== 0 ? (
                     products &&
                     products?.slice(0, 9)?.map((p, i) => (

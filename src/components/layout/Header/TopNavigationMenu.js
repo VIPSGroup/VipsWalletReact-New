@@ -269,7 +269,7 @@ const TopNavigationMenu = ({ serviceCategoryBar = true }) => {
                   {/* <!-- End Level one --> */}
 
                   <li class="nav-item">
-                    <a class="nav-link" href="/onlinestores">
+                    <a class="nav-link" href="/online-stores">
                       Online Stores
                     </a>
                   </li>
@@ -402,7 +402,7 @@ const TopNavigationMenu = ({ serviceCategoryBar = true }) => {
                             <div class="nav-wallet-btn">
                               <a
                                 type="button"
-                                href="/addMoney/options"
+                                href="/add-money/options"
                                 class="btn-cta"
                                 style={{ textDecoration: "none" }}
                               >
@@ -455,7 +455,7 @@ const TopNavigationMenu = ({ serviceCategoryBar = true }) => {
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/myaccount">
+                      <a class="dropdown-item" href="/my-account">
                         My Profile
                       </a>
                     </li>
@@ -471,7 +471,7 @@ const TopNavigationMenu = ({ serviceCategoryBar = true }) => {
                       </a>
                     </li>
                     {/* <li>
-                      <a class="dropdown-item" href="/myaccount">
+                      <a class="dropdown-item" href="/my-account">
                         Change Password
                       </a>
                     </li> */}
@@ -565,7 +565,7 @@ const TopNavigationMenu = ({ serviceCategoryBar = true }) => {
                 </div>} */}
 
                 <div class="top-serv-box">
-                  <a href="/services/mobileRecharge">
+                  <a href="/services/mobile-recharge">
                     <img src="/icons/categoryIcons/card.png" />
                     <span class="top-serv-box-title">Recharge</span>
                   </a>
@@ -593,7 +593,7 @@ const TopNavigationMenu = ({ serviceCategoryBar = true }) => {
                 </div>
 
                 <div class="top-serv-box">
-                  <a href="/services/common/digitalCable">
+                  <a href="/services/common/digital-cable">
                     <img src="/icons/categoryIcons/card.png" />
                     <span class="top-serv-box-title">Digital Cabel</span>
                   </a>
@@ -689,7 +689,7 @@ const TopNavigationMenu = ({ serviceCategoryBar = true }) => {
                   </a>
                 </div>} */}
                 <div class="box top-service-box">
-                  <a href="/services/mobileRecharge">
+                  <a href="/services/mobile-recharge">
                     <img src="/icons/categoryIcons/card.png" />
                     <br />
                     Recharge
@@ -857,7 +857,7 @@ const TopNavigationMenu = ({ serviceCategoryBar = true }) => {
           </li>
 
           <li>
-            <Link to="/onlinestores"> Online Stores</Link>
+            <Link to="/online-stores"> Online Stores</Link>
           </li>
           <li>
             <Link to={vendorPanelAPi} target="_blank">

@@ -155,7 +155,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
               <img src="/images/VipsLogoMain.png" alt="VIPS Logo" class="img-fluid payment-head-logo" />
             </Link> */}
               <div class="go-back">
-                <Link to="/services/lpggas">
+                <Link to="/services/lpg-gas">
                   <i class="fa-solid fa-arrow-left"> </i>Go back{" "}
                 </Link>
               </div>
@@ -408,7 +408,7 @@ dispatch(LPGBillPay({username:loggedInUser.Mobile,password:loggedInUser.TRXNPass
                       <div className="alert alert-danger d-block mt-4">
                         Wallet Balance less than the Amount.{" "}
                         <Link
-                          to="/addMoney/options"
+                          to="/add-money/options"
                           className="text-decoration-none text-primery"
                           style={{ textDecoration: "none" }}
                         >

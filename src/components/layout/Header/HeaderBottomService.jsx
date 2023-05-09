@@ -29,7 +29,7 @@ export const HeaderBottomMenu = [
   {
     img: "/images/services/white-recharge.svg",
     title: "Recharge",
-    route: "/services/mobileRecharge",
+    route: "/services/mobile-recharge",
   },
   {
     img: "/images/services/white-dth.svg",
@@ -49,7 +49,7 @@ export const HeaderBottomMenu = [
   {
     img: "/images/services/white-digital-cable.svg",
     title: " Digital Cable",
-    route: "/services/digitalCable",
+    route: "/services/digital-cable",
   },
   {
     img: "/images/services/white-landline.svg",

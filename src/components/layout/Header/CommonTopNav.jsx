@@ -137,7 +137,7 @@ const CommonTopNav = () => {
                               <div class="nav-wallet-btn">
                                 <Link
                                   type="button"
-                                  to="/addMoney/options"
+                                  to="/add-money/options"
                                   class="btn-cta"
                                   style={{ textDecoration: "none" }}
                                 >
@@ -194,7 +194,7 @@ const CommonTopNav = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link class="dropdown-item" to="/myaccount">
+                        <Link class="dropdown-item" to="/my-account">
                           My Profile
                         </Link>
                       </li>

@@ -411,7 +411,7 @@ return ()=>{setShowSuccess(false)
                       <div className="alert alert-danger d-block mt-4">
                         Wallet Balance less than the Amount.{" "}
                         <Link
-                          to="/addMoney/options"
+                          to="/add-money/options"
                           className="text-decoration-none text-primery"
                           style={{ textDecoration: "none" }}
                         >

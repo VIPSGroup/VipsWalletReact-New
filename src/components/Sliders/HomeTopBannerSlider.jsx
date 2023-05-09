@@ -35,11 +35,11 @@ const HomeTopBannerSlider = () => {
 
   const getServiceId=id=>{
 switch (id) {
-  case 1 || 4:navigate("/services/mobileRecharge")
+  case 1 || 4:navigate("/services/mobile-recharge")
     break;
   case 2:navigate("/services/dth")
     break;
-  case 5:navigate("/services/insurancepremium")
+  case 5:navigate("/services/insurance-premium")
   break;
   case 6:navigate("/services/electricity")
     break;
@@ -51,27 +51,27 @@ switch (id) {
     break;
   case 11:navigate("/services/landline")
     break;
-  case 33:navigate("/services/lpggas")
+  case 33:navigate("/services/lpg-gas")
     break;
   case 36:navigate("/services/fastag")
     break;
-  case 39:navigate("/services/loanrepayment")
+  case 39:navigate("/services/loan-repayment")
     break;
-  case 43:navigate("/services/digitalCable")
+  case 43:navigate("/services/digital-cable")
     break;
-  case 44:navigate("/services/municipaltax")
+  case 44:navigate("/services/municipal-tax")
     break;
-  case 45:navigate("/services/municipalservices")
+  case 45:navigate("/services/municipal-services")
     break;
-  case 46:navigate("/services/housingsociety")
+  case 46:navigate("/services/housing-society")
     break;
-  case 47:navigate("/services/hospitalbills")
+  case 47:navigate("/services/hospital-bills")
     break;
-  case 48:navigate("/services/subscriptionfees")
+  case 48:navigate("/services/subscription-fees")
     break;
-  case 49:navigate("/services/creditcard")
+  case 49:navigate("/services/credit-card")
     break;
-  case 50:navigate("/services/clubassociation")
+  case 50:navigate("/services/club-association")
     break;
 
   default:navigate("/")
