@@ -103,7 +103,7 @@ const CarouselProductCard = ({ product, wishlistCard, recomType }) => {
         )}
       </div>
 
-      {product.Quantity === 0 && (
+      {product.Quantity <= 0 && (
         <div class="sold-badge-overlay-lft">
           <span class="sold-badge-top-left sold-badge-lft sold-badge-bg-lft">
             SOLD OUT

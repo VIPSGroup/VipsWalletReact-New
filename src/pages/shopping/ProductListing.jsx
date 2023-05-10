@@ -227,7 +227,7 @@ const ProductListing = () => {
           <div class="row">
             {activeProducts &&
               activeProducts
-                ?.filter((product) => product.Quantity !== 0)
+                ?.filter((product) => product.Quantity >0)
                 .map((product, i) => <ProductCard product={product} />)}
           </div>
         </div>

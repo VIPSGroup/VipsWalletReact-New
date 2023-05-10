@@ -346,16 +346,6 @@ const QuickViewModal = ({ productId, recomType }) => {
                     <i class="fa-solid fa-plus"></i>{" "}
                   </div>
                 </div>
-
-                <div class="quick-view-wishlist">
-                  {/* <AddWishListButton
-                    product={product}
-                    inWishlist={existInWishlist}
-                    inWishlistStateChanger={setExistInWishlist}
-                    stateChanger={setWishlistChange}
-                    wishlistState={wishlistChange}
-                  /> */}
-                </div>
               </div>
             </div>
 
@@ -368,18 +358,9 @@ const QuickViewModal = ({ productId, recomType }) => {
                   quantity={qty}
                   alreadyInCart={existInCart}
                 />
+                
+                <ThemeButton onClick={clickBuyNow} value={"Buy Now"} disabled={product?.Quantity<=0} />
 
-                {/* <button
-                  onClick={clickBuyNow}
-                  class="btn btn-primery"
-                  type="button"
-                >
-                  {" "}
-                  Buy Now{" "}
-                </button> */}
-                <ThemeButton onClick={clickBuyNow} value={"Buy Now"} />
-
-                {/* {<button onClick={(e)=>{e.preventDefault();navigate('/shopping/address',{state:{products:products,totalAmount:product.SalePrice*qty}});}} class="btn btn-primery" type="button"> Buy Now </button>} */}
               </div>
             </div>
 

@@ -72,7 +72,7 @@ dispatch(removeCart(id))
     setIsHomeTopNav(false);
     ReactGA.pageview(window.location.pathname);
   }, []);
-
+  
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("cart"));
     data && setCartProducts(data);
@@ -127,12 +127,6 @@ dispatch(removeCart(id))
             </div>
           </div>
         </div>
-
-        {/* <div class="container">
-          <div class="col-12">
-            
-          </div>
-        </div> */}
 
         <div class="row">
           {/* { <!-- shopping-cart start --> } */}
@@ -296,28 +290,6 @@ dispatch(removeCart(id))
 
                       <div class="col-md-12">
                         <div class="shopping-cart-payment-confirm-btn">
-                          {/* <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (totalAmount > 0) {
-                                if (loggedInUser) {
-                                  navigate("/shopping/address", {
-                                    state: {
-                                      products: cartProducts,
-                                      totalAmount: totalAmount,
-                                    },
-                                  });
-                                } else {
-                                  navigate("/login");
-                                }
-                              }
-                            }}
-                            class="btn-primery"
-                            disabled={cartProducts.length < 1 ? true : false}
-                          >
-                            {" "}
-                            Place Order{" "}
-                          </button> */}
                           <ThemeButton onClick={(e) => {
                               e.preventDefault();
                               if (totalAmount > 0) {
@@ -337,30 +309,7 @@ dispatch(removeCart(id))
                       </div>
                     </div>
                   </div>
-
-                  {/* <div class="shopping-cart-payment-outer box-shadow-1 mt-3">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <h3 class="shopping-cart-payment-head">
-                        {" "}
-                        Return / Refund Policy{" "}
-                      </h3>
-                    </div>
-                  </div> */}
-
-                  {/* <div class="col-md-12 p-0">
-                    <div class="shopping-cart-refund-policy">
-                      <p>
-                        {" "}
-                        In case of return, we ensure quick refunds. Full amount
-                        will be refunded excluding Convenience Fee
-                      </p>
-                      <Link to="#">Read Policy</Link>
-                    </div>
-                  </div> */}
-                  {/* </div> */}
                 </div>
-              {/* </div> */}
             </div>
           )}
 

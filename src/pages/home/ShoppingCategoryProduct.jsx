@@ -16,7 +16,8 @@ export const ShoppingCategoryProduct = ({
 
     getProductsByCategory(categoryId).then((response) => {
       setLoading(false);
-      setProducts(response.Data.filter((product) => product.Quantity !== 0));
+      // setProducts(response.Data);
+      setProducts(response.Data.filter(item=>item.Quantity>0));
     });
   }, []);
   return (
@@ -25,7 +26,7 @@ export const ShoppingCategoryProduct = ({
         recomType={recomType}
         title={title}
         subtitle={subtitle}
-        products={products?.filter((product) => product.Quantity !== 0)}
+        products={products}
         loading={loading}
         description={description}
       />

@@ -438,11 +438,6 @@ const ProductDetails = () => {
                     <div class="d-flex ml-auto">
                       <div
                         class="product-details-wishlist"
-                        onClick={() => {
-                          // setErrorMsg('')
-                          // setIsSnackBar(true)
-                          // setSuccessMsg("Product Added Successfully")
-                        }}
                       >
                         <AddWishListButton
                           product={product}
@@ -468,7 +463,7 @@ const ProductDetails = () => {
                     <button
                       onClick={clickBuyNow}
                       class="btn btn-primery"
-                      type="button"
+                      type="button" disabled={product?.Quantity<=0}
                     >
                       {" "}
                       Buy Now{" "}
