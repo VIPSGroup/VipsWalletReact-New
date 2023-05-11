@@ -47,6 +47,7 @@ const CommonTopNav = ({
   const { logData, loading: logLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
+  const { items: VipsCart } = useSelector((state) => state.DeliverySlice);
 
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
@@ -273,44 +274,67 @@ const CommonTopNav = ({
             <div class="collapse navbar-collapse d-flex flex-row align-self-start justify-content-end">
               <ul class="navbar-nav nabar-right-icon ml-auto flex-row align-self-start">
                 {pathname !== "/vipsgold" &&
-                  pathname !== "/vipsgold-order-summary/:" &&
-                  pathname !== "/vipsgold-profile" &&
-                  pathname !== "/vipsgold-orders" &&
-                  pathname !== "/vipsgold-gift" &&
-                  pathname !== "/vipsgold-faq" &&
-                  pathname !== "/vipsgold-termscondtion" &&
-                  pathname !== `/vipsgold-delivery/${title}` && (
-                    <>
-                      <li class="nav-item">
-                        <Link class="nav-link nav-icons" to="/shopping/cart">
-                          <Badge count={cartCount && cartCount?.length}>
-                            <AiOutlineShoppingCart className="nav-icon" />
-                          </Badge>
-                          {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
-                          <span class="d-xl-block d-none d-md-none d-sm-none">
-                            {" "}
-                            My Cart{" "}
-                          </span>
-                        </Link>
-                      </li>
-                      <li class="nav-item">
-                        <Link
-                          class="nav-link nav-icons"
-                          to="/shopping/wishlist"
-                          role="button"
-                        >
-                          {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
-                          <Badge count={wishCount && wishCount?.length}>
-                            <AiOutlineHeart className="nav-icon" />
-                          </Badge>
-                          <span class="d-xl-block d-none d-md-none d-sm-none">
-                            {" "}
-                            Wishlist{" "}
-                          </span>
-                        </Link>
-                      </li>
-                    </>
-                  )}
+                pathname !== "/vipsgold-order-summary/:" &&
+                pathname !== "/vipsgold-profile" &&
+                pathname !== "/vipsgold-orders" &&
+                pathname !== "/vipsgold-gift" &&
+                pathname !== "/vipsgold-faq" &&
+                pathname !== "/vipsgold-delivery" &&
+                pathname !== "/vipsgold-cart" &&
+                pathname !== "/vipsgold-checkout" &&
+                pathname !== "/vipsgold-termscondtion" &&
+                pathname !== `/vipsgold-delivery/${title}` ? (
+                  <>
+                    <li class="nav-item">
+                      <Link class="nav-link nav-icons" to="/shopping/cart">
+                        <Badge count={cartCount && cartCount?.length}>
+                          <AiOutlineShoppingCart className="nav-icon" />
+                        </Badge>
+                        {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
+                        <span class="d-xl-block d-none d-md-none d-sm-none">
+                          {" "}
+                          My Cart{" "}
+                        </span>
+                      </Link>
+                    </li>
+                    <li class="nav-item">
+                      <Link
+                        class="nav-link nav-icons"
+                        to="/shopping/wishlist"
+                        role="button"
+                      >
+                        {/* <img src="images/cart-icon.png" class="img-fluid nav-icon" /> */}
+                        <Badge count={wishCount && wishCount?.length}>
+                          <AiOutlineHeart className="nav-icon" />
+                        </Badge>
+                        <span class="d-xl-block d-none d-md-none d-sm-none">
+                          {" "}
+                          Wishlist{" "}
+                        </span>
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <li class="nav-item">
+                    <Link
+                      style={{ marginBottom: -15 }}
+                      class="nav-link nav-icons"
+                      to="/vipsgold-cart"
+                    >
+                      <Badge
+                        showZero={VipsCart.length === 0}
+                        count={VipsCart && VipsCart.length}
+                      >
+                        <AiOutlineShoppingCart className="nav-icon" />
+                      </Badge>
+                      {/* { <img src="/icons/cart.png" class="img-fluid nav-icon" />} */}
+                      {/* <span class="d-xl-block d-none d-md-none d-sm-none">
+                        {" "}
+                        My Cart{" "}
+                      </span> */}
+                    </Link>
+                  </li>
+                )}
 
                 {loggedInUser &&
                   pathname !== "/vipsgold" &&
@@ -319,7 +343,10 @@ const CommonTopNav = ({
                   pathname !== "/vipsgold-gift" &&
                   pathname !== "/vipsgold-orders" &&
                   pathname !== "/vipsgold-faq" &&
+                  pathname !== "/vipsgold-cart" &&
+                  pathname !== "/vipsgold-checkout" &&
                   pathname !== "/vipsgold-termscondtion" &&
+                  pathname !== "/vipsgold-delivery" &&
                   pathname !== `/vipsgold-delivery/${title}` && (
                     <li class="nav-item">
                       <Link
@@ -429,7 +456,10 @@ const CommonTopNav = ({
                   pathname !== "/vipsgold-orders" &&
                   pathname !== "/vipsgold-delivery" &&
                   pathname !== "/vipsgold-faq" &&
+                  pathname !== "/vipsgold-cart" &&
+                  pathname !== "/vipsgold-checkout" &&
                   pathname !== "/vipsgold-termscondtion" &&
+                  pathname !== "/vipsgold-delivery" &&
                   pathname !== `/vipsgold-delivery/${title}` ? (
                     <li class="nav-item dropdown login-dropdown">
                       <Link
@@ -535,6 +565,8 @@ const CommonTopNav = ({
           pathname !== "/vipsgold-gift" &&
           pathname !== "/vipsgold-delivery" &&
           pathname !== "/vipsgold-faq" &&
+          pathname !== "/vipsgold-cart" &&
+          pathname !== "/vipsgold-checkout" &&
           pathname !== "/vipsgold-termscondtion" &&
           pathname !== `/vipsgold-delivery/${title}` ? (
             <div class="container-fluid">
@@ -771,7 +803,6 @@ const CommonTopNav = ({
       </nav>
     </>
   );
-
   return (
     <>
       {section()}

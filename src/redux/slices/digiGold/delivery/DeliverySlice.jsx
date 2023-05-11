@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { digiBaseUrl } from "../../../../constants";
+import { appType, currAppVersion, digiBaseUrl } from "../../../../constants";
 
 export const getMetalProductlist = createAsyncThunk(
   "getMetalProductlist",
   async ({ page }, thunkAPI) => {
     const formData = new FormData();
     formData.append("page", page);
-    formData.append("count", 20);
+    formData.append("count", 10);
     try {
       const res = await axios.post(`${digiBaseUrl}GetProductList`, formData);
       return res.data;
@@ -91,6 +91,59 @@ export const deleteDigiAddress = createAsyncThunk(
     }
   }
 );
+export const deliveryPlaceOrder = createAsyncThunk(
+  "deliveryPlaceOrder",
+  async ({ Data }, thunkAPI) => {
+    const {
+      Username,
+      Password,
+      Useraddressid,
+      address,
+      shippingCharges,
+      items,
+      otp,
+    } = Data;
+    const formData = new URLSearchParams();
+    formData.append("Username", Username);
+    formData.append("Password", Password);
+    formData.append("otp", otp ? otp : "");
+    formData.append("AppType", appType);
+    formData.append("currentAppVersion", currAppVersion);
+    formData.append("Useraddressid", Useraddressid);
+    formData.append("addressId", Useraddressid);
+    formData.append("address", address);
+    formData.append("shippingCharges", shippingCharges);
+    items.forEach((item, index) => {
+      formData.append(`product[${index}][sku]`, item.sku);
+      formData.append(`product[${index}][quantity]`, item.quantity);
+    });
+    try {
+      const res = await axios.post(`${digiBaseUrl}order`, formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+export const getDeliveryOrderDetails = createAsyncThunk(
+  "getDeliveryOrderDetails",
+  async ({ Username, Password, merchantOrderId }, thunkAPI) => {
+    try {
+      const formData = new FormData();
+      formData.append("Username", Username);
+      formData.append("Password", Password);
+      formData.append("merchantOrderId", merchantOrderId);
+      const res = await axios.post(`${digiBaseUrl}Orderinfo`, formData);
+      return res.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
 
 export const checkDigiPinCode = createAsyncThunk(
   "checkDigiPinCode",
@@ -110,7 +163,6 @@ const DeliverySlice = createSlice({
   name: "DeliverySlice",
   initialState: {
     items: JSON.parse(localStorage.getItem("digiCart")) || [],
-
     totalAmount: 0,
     coinList: {
       list: "",
@@ -137,20 +189,52 @@ const DeliverySlice = createSlice({
       AddDelete: "",
       AddDelLoading: false,
     },
+    placeOrder: {
+      placeLoader: false,
+      response: "",
+    },
+    getOrderDetails: {
+      orderDetails: "",
+      orderDetailLoad: false,
+    },
   },
 
   reducers: {
     addItem: (state, action) => {
-      const index = state.items.findIndex(
-        (item) => item.sku === action.payload.sku
-      );
-      if (index === -1) {
-        state.items.push({ ...action.payload, quantity: 1 });
+      const { sku } = action.payload;
+      const existingItem = state.items.find((item) => item.sku === sku);
+      if (existingItem) {
+        // If item already exists in the cart, increment the quantity
+        existingItem.quantity += 1;
       } else {
-        if (action.payload.stock > state.items[index].quantity) {
-          state.items[index].quantity += 1;
+        // Otherwise, add the item to the cart with initial quantity of 1
+        state.items.push({ ...action.payload, quantity: 1 });
+      }
+      // Update localStorage with the updated cart state
+      localStorage.setItem("digiCart", JSON.stringify(state.items));
+      // },
+    },
+    increaseQuantity: (state, action) => {
+      const { sku } = action.payload;
+      const existingItem = state.items.find((item) => item.sku === sku);
+      if (existingItem) {
+        // Increase the quantity of the item in the cart
+        existingItem.quantity += 1;
+      }
+      // Update localStorage with the updated cart state
+      localStorage.setItem("digiCart", JSON.stringify(state.items));
+    },
+    decreaseQuantity: (state, action) => {
+      const { sku } = action.payload;
+      const existingItem = state.items.find((item) => item.sku === sku);
+      if (existingItem) {
+        // Decrease the quantity of the item in the cart
+        if (existingItem.quantity > 1) {
+          existingItem.quantity -= 1;
         }
       }
+      // Update localStorage with the updated cart state
+      localStorage.setItem("digiCart", JSON.stringify(state.items));
     },
     removeItem: (state, action) => {
       const index = state.items.findIndex(
@@ -174,6 +258,11 @@ const DeliverySlice = createSlice({
     },
     removePinData: (state, action) => {
       state.pinCodeCheck.pinCode = "";
+    },
+    clearCart: (state, action) => {
+      const clear = [];
+      state.items = clear;
+      localStorage.setItem("digiCart", JSON.stringify(clear));
     },
   },
   extraReducers: (builder) => {
@@ -241,8 +330,36 @@ const DeliverySlice = createSlice({
     builder.addCase(deleteDigiAddress.rejected, (state, action) => {
       state.deleteAdd.AddDelLoading = false;
     });
+
+    builder.addCase(deliveryPlaceOrder.pending, (state, action) => {
+      state.placeOrder.placeLoader = true;
+    });
+    builder.addCase(deliveryPlaceOrder.fulfilled, (state, action) => {
+      state.placeOrder.response = action.payload;
+      state.placeOrder.placeLoader = false;
+    });
+    builder.addCase(deliveryPlaceOrder.rejected, (state, action) => {
+      state.placeOrder.placeLoader = false;
+    });
+    builder.addCase(getDeliveryOrderDetails.pending, (state, action) => {
+      state.getOrderDetails.orderDetailLoad = true;
+    });
+    builder.addCase(getDeliveryOrderDetails.fulfilled, (state, action) => {
+      state.getOrderDetails.orderDetails = action.payload;
+      state.getOrderDetails.orderDetailLoad = false;
+    });
+    builder.addCase(getDeliveryOrderDetails.rejected, (state, action) => {
+      state.getOrderDetails.orderDetailLoad = false;
+    });
   },
 });
-export const { addItem, removeItem, deleteItem, removePinData } =
-  DeliverySlice.actions;
+export const {
+  addItem,
+  removeItem,
+  deleteItem,
+  removePinData,
+  increaseQuantity,
+  decreaseQuantity,
+  clearCart,
+} = DeliverySlice.actions;
 export default DeliverySlice.reducer;

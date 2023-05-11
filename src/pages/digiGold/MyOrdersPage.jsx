@@ -13,8 +13,10 @@ import {
   MyOrders,
 } from "../../redux/slices/digiGold/userProfileSlice";
 import { CurrentRateSection } from "./MyVault";
+import { useNavigate } from "react-router-dom";
 
 const MyOrdersPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [dataSource, setDataSource] = useState([]);
   const [tab, setTab] = useState("Buy");
@@ -146,6 +148,39 @@ const MyOrdersPage = () => {
         align: "right",
       },
     ];
+  } else if (tab === "Delivery") {
+    columns = [
+      {
+        title: "Date",
+        dataIndex: "date",
+        key: "date",
+      },
+      {
+        title: "Merchant ID",
+        dataIndex: "merchantID",
+        key: "merchantID",
+      },
+      {
+        title: "Quantity (gms)",
+        dataIndex: "qty",
+        key: "qty",
+      },
+      {
+        title: "Ship To",
+        dataIndex: "shipTo",
+        key: "shipTo",
+      },
+      {
+        title: "Total Paid",
+        dataIndex: "paid",
+        key: "paid",
+      },
+      {
+        title: "Action",
+        dataIndex: "status",
+        key: "status",
+      },
+    ];
   }
 
   const handleDownloadInvoice = async (TrxnID) => {
@@ -191,6 +226,19 @@ const MyOrdersPage = () => {
             className="text-gray-500 "
           >
             <Moment format="DD-MM-YYYY">{item?.AddDate}</Moment>
+          </h2>
+        </>
+      ),
+      merchantID: (
+        <>
+          <h2
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+            }}
+            className="text-gray-500 "
+          >
+            {item?.MerchantTransactionId}
           </h2>
         </>
       ),
@@ -369,6 +417,34 @@ const MyOrdersPage = () => {
           </h2>
         </>
       ),
+      shipTo: (
+        <>
+          <h2
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              // color: FilterClass(item),
+            }}
+            className="text-gray-500"
+          >
+            {item?.DeliveryAddress?.slice(0, 30)}
+          </h2>
+        </>
+      ),
+      paid: (
+        <>
+          <h2
+            style={{
+              fontSize: 14,
+              fontWeight: "400",
+              // color: FilterClass(item),
+            }}
+            className="text-gray-500"
+          >
+            ₹ {item?.ShippingCharges?.toFixed(2)}
+          </h2>
+        </>
+      ),
       invoice: (
         <>
           {item?.TransactionType === "Buy" ? (
@@ -393,11 +469,23 @@ const MyOrdersPage = () => {
           )}
         </>
       ),
+      status: (
+        <>
+          <Button
+            onClick={() => {
+              navigate("/vipsgold-order-details", {
+                state: item?.MerchantTransactionId,
+              });
+            }}
+          >
+            Order Details
+          </Button>
+        </>
+      ),
     }));
 
   return (
     <>
-      {/* <CommonTopNav /> */}
       <section class="digi-gold-section-wrapper buy-sell-form">
         <div class="container">
           <div class="digital-gold-section-head">
@@ -445,13 +533,7 @@ const MyOrdersPage = () => {
                               Sell{" "}
                             </button>{" "}
                           </li>
-                          {/* <li>
-                            {" "}
-                            <button onClick={() => setTab("Delivery")} class="">
-                              {" "}
-                              Delivery{" "}
-                            </button>{" "}
-                          </li> */}
+
                           <li>
                             {" "}
                             <button
@@ -466,6 +548,20 @@ const MyOrdersPage = () => {
                               {" "}
                               Gift{" "}
                             </button>{" "}
+                          </li>
+                          <li>
+                            <button
+                              style={{
+                                borderBottomWidth: 2,
+                                borderBottomColor: "black",
+                                borderBottomStyle:
+                                  tab === "Delivery" && "solid",
+                              }}
+                              onClick={() => setTab("Delivery")}
+                              class=""
+                            >
+                              Delivery
+                            </button>
                           </li>
                         </ul>
                       </div>
@@ -504,16 +600,28 @@ const MyOrdersPage = () => {
           {/* <!-- <div class="row no-gutters1"> --> */}
           <div class="digigoldorderdetails-outer">
             <div class="">
-              <p class="digigoldorderdetails-title">Order Details</p>
+              <p class="digigoldorderdetails-title">
+                {modalData.TransactionType === "Delivery"
+                  ? "Delivery Status"
+                  : "Order Details"}
+              </p>
               <div class="digigoldorderdetails-summery">
                 <div class="row mb-3">
                   <div class="col-xl-5 col-sm-6">
-                    <span> Transaction ID: </span>
+                    <span>
+                      {" "}
+                      {modalData.TransactionType === "Delivery"
+                        ? "Merchant"
+                        : "Transaction"}{" "}
+                      ID:{" "}
+                    </span>
                   </div>
                   <div class="col-xl-7 col-sm-6 text-sm-right">
                     <span class="digigoldorderdetails-amt">
                       {" "}
-                      {modalData?.TransactionId}
+                      {modalData.TransactionType === "Delivery"
+                        ? modalData.MerchantTransactionId
+                        : modalData?.TransactionId}
                     </span>
                   </div>
                 </div>
@@ -531,26 +639,39 @@ const MyOrdersPage = () => {
 
                 <div class="row mb-3">
                   <div class="col-xl-6 col-sm-4">
-                    <span> Narration : </span>
+                    <span>
+                      {" "}
+                      {modalData.TransactionType === "Delivery"
+                        ? "Ship To"
+                        : "Narration"}{" "}
+                      :{" "}
+                    </span>
                   </div>
                   <div class="col-xl-6 col-sm-8 text-sm-right">
                     <span class="digigoldorderdetails-amt">
-                      {`${
-                        modalData?.TransactionType?.toLowerCase() === "buy"
-                          ? `${modalData?.MetalType?.toUpperCase()} Bought ${modalData?.Quantity?.toFixed(
-                              4
-                            )} gm`
-                          : `${modalData?.MetalType?.toUpperCase()} Sold ${modalData?.Quantity?.toFixed(
-                              4
-                            )} gm`
-                      }`}
+                      {modalData.TransactionType === "Delivery"
+                        ? modalData.DeliveryAddress
+                        : `${
+                            modalData?.TransactionType?.toLowerCase() === "buy"
+                              ? `${modalData?.MetalType?.toUpperCase()} Bought ${modalData?.Quantity?.toFixed(
+                                  4
+                                )} gm`
+                              : `${modalData?.MetalType?.toUpperCase()} Sold ${modalData?.Quantity?.toFixed(
+                                  4
+                                )} gm`
+                          }`}
                     </span>
                   </div>
                 </div>
 
                 <div class="row mb-3">
                   <div class="col-xl-6 col-sm-4">
-                    <span> Rate per 1 gm (&#x20B9;): </span>
+                    <span>
+                      {" "}
+                      {modalData.TransactionType === "Delivery"
+                        ? "Quantity"
+                        : `Rate per 1 gm `}
+                    </span>
                   </div>
                   <div class="col-xl-6 col-sm-8 text-sm-right">
                     <span class="digigoldorderdetails-amt">

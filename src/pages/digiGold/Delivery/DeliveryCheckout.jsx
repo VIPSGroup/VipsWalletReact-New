@@ -10,22 +10,34 @@ import {
 } from "../../../constants";
 import {
   checkDigiPinCode,
+  clearCart,
   createDigiAddress,
   deleteDigiAddress,
+  deliveryPlaceOrder,
   getDigiAddressList,
   removePinData,
 } from "../../../redux/slices/digiGold/delivery/DeliverySlice";
 import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
+import OTPModal from "../../../components/common/OTPModal";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { MuiSnackBar } from "../../../components/common";
 
 const { Item } = Form;
 const DeliveryCheckout = () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const { items } = useSelector((state) => state.DeliverySlice);
   const [selectAdd, setSelectAdd] = useState();
   const { pinCode, pinLoading } = useSelector(
     (state) => state.DeliverySlice.pinCodeCheck
   );
   const [modalOpen, setModalOpen] = useState(false);
+  const [otp, setOtp] = useState();
+  const [step, setStep] = useState();
   const [formData, setFormdata] = useState({
     name: "",
     mobileNumber: "",
@@ -42,6 +54,9 @@ const DeliveryCheckout = () => {
   const { AddDelete, AddDelLoading } = useSelector(
     (state) => state.DeliverySlice.deleteAdd
   );
+  const { response, placeLoader } = useSelector(
+    (state) => state.DeliverySlice.placeOrder
+  );
   const { data: WalletData, loading: walletLoad } = useSelector(
     (state) => state.walletSlice.walletBalance
   );
@@ -53,10 +68,13 @@ const DeliveryCheckout = () => {
   useEffect(() => {
     dispatch(getDigiAddressList({ Username, Password }));
     setFormdata({ ...formData, mobileNumber: loggedInUser.Mobile });
-    setSelectAdd(address.Data?.result[0]?.userAddressId);
+
     dispatch(getWalletBalance({ username: Username, password: Password }));
   }, []);
-  const handleFinish = async () => {
+  useEffect(() => {
+    setSelectAdd(address.Data?.result[0]);
+  }, [address]);
+  const handleAddressAdd = async () => {
     const name = formData.name;
     const mobileNumber = formData.mobileNumber;
     const email = formData.email;
@@ -85,7 +103,12 @@ const DeliveryCheckout = () => {
         mobileNumber: "",
         pincode: "",
       });
+      setIsSnackBar(true);
+      setSuccessMsg(res.payload.Remarks);
       dispatch(getDigiAddressList({ Username, Password }));
+    } else {
+      setIsSnackBar(true);
+      setErrorMsg(res.payload.Remarks);
     }
   };
   useEffect(() => {
@@ -107,10 +130,71 @@ const DeliveryCheckout = () => {
       res.payload.Data.statusCode === 200
     ) {
       dispatch(getDigiAddressList({ Username, Password }));
+      setIsSnackBar(true);
+      setSuccessMsg("Address Delete Successfully");
+    } else {
+      setIsSnackBar(true);
+      setErrorMsg(res.payload.Remarks);
     }
   };
 
-  return (
+  const handlePlaceOrder = async () => {
+    const Data = {
+      Username: Username,
+      Password: Password,
+      Useraddressid: selectAdd.userAddressId,
+      shippingCharges: calculateTotalPrice(items, "basePrice"),
+      address: selectAdd.address,
+      otp: otp,
+      items: items,
+    };
+    const res = await dispatch(deliveryPlaceOrder({ Data }));
+    if (res.payload.ResponseStatus === 2 && res.payload.ErrorCode === 200) {
+      setStep(1);
+      setIsSnackBar(true);
+      setSuccessMsg(res.payload.Remarks);
+    } else {
+      setIsSnackBar(true);
+      setErrorMsg(res.payload.Remarks);
+    }
+    if (
+      res.payload.ResponseStatus === 1 &&
+      res.payload?.Data?.statusCode === 200
+    ) {
+      setStep(2);
+      dispatch(clearCart());
+    } else {
+      setIsSnackBar(true);
+      setErrorMsg(res.payload.Remarks);
+    }
+    if (res.payload.ResponseStatus === 0) {
+      setIsSnackBar(true);
+      setErrorMsg(res.payload.Remarks);
+    }
+  };
+  const resendOtp = () => {
+    const Data = {
+      Username: Username,
+      Password: Password,
+      Useraddressid: selectAdd.userAddressId,
+      shippingCharges: calculateTotalPrice(items, "basePrice"),
+      address: selectAdd.address,
+      otp: "",
+      items: items,
+    };
+    dispatch(deliveryPlaceOrder({ Data }));
+  };
+
+  const handleClose = () => {
+    setStep("");
+    setOtp("");
+  };
+  useEffect(() => {
+    return () => {
+      window.history.replaceState({}, state);
+    };
+  }, []);
+  return state ? (
     <>
       <section class="section-align buy-sell-form">
         <div class="container-fluid">
@@ -138,7 +222,13 @@ const DeliveryCheckout = () => {
                               </p>
                               {address?.Data?.result.length < 3 && (
                                 <Button
-                                  onClick={() => setModalOpen(true)}
+                                  onClick={() => {
+                                    setModalOpen(true);
+                                    setFormdata({
+                                      ...formData,
+                                      mobileNumber: loggedInUser.Mobile,
+                                    });
+                                  }}
                                   style={{ marginRight: 16 }}
                                 >
                                   Add Address
@@ -158,14 +248,13 @@ const DeliveryCheckout = () => {
                                       <div>
                                         <label>
                                           <input
-                                            onChange={() =>
-                                              setSelectAdd(e.userAddressId)
-                                            }
+                                            onChange={() => setSelectAdd(e)}
                                             type="radio"
                                             name="radio-button"
                                             value={selectAdd}
                                             checked={
-                                              selectAdd === e.userAddressId
+                                              selectAdd?.userAddressId ===
+                                              e?.userAddressId
                                             }
                                           />
                                           <span></span>
@@ -173,15 +262,14 @@ const DeliveryCheckout = () => {
                                       </div>
                                       <div class="address-info-inner">
                                         <p class="shopping-cart-user-name">
-                                          Deepak Rathor{" "}
+                                          {e.name}
                                           {/* <span class="location-badge">
                                             {" "}
                                             Home
                                           </span>{" "} */}
                                         </p>
                                         <p class="shopping-cart-user-address">
-                                          Shanthi Layout, Rammurthi Nagar,
-                                          Bangalore, 560016
+                                          {`${e.address}, ${e.pincode}`}
                                         </p>
                                         <p class="shopping-cart-user-mobno">
                                           Mobile : +91 7723970629
@@ -300,7 +388,14 @@ const DeliveryCheckout = () => {
 
                           <div class="row digigold-checkout-process justify-content-end">
                             <div class="digigold-checkout-btn mt-4">
-                              <button class="btn btn-primery">Pay Now</button>
+                              <Button
+                                loading={step !== 1 && placeLoader}
+                                type="primary"
+                                onClick={handlePlaceOrder}
+                                class="btn btn-primery"
+                              >
+                                Pay Now
+                              </Button>
                             </div>
                           </div>
                         </div>
@@ -361,6 +456,15 @@ const DeliveryCheckout = () => {
             </div>
           </div>
         </div>
+        <OTPModal
+          Otp={otp}
+          setOtp={setOtp}
+          step={step}
+          handleClose={handleClose}
+          load={placeLoader}
+          handleClick={handlePlaceOrder}
+          resendOtp={resendOtp}
+        />
       </section>
       <Modal
         onCancel={() => {
@@ -369,7 +473,6 @@ const DeliveryCheckout = () => {
             name: "",
             email: "",
             address: "",
-            mobileNumber: "",
             pincode: "",
           });
           dispatch(removePinData());
@@ -380,7 +483,7 @@ const DeliveryCheckout = () => {
       >
         <h5>Add Address</h5>
         <Form
-          onFinish={handleFinish}
+          onFinish={handleAddressAdd}
           fields={[
             {
               name: "name",
@@ -508,7 +611,64 @@ const DeliveryCheckout = () => {
           </Item>
         </Form>
       </Modal>
+      <Modal
+        footer={[]}
+        width={500}
+        open={step === 2}
+        onCancel={() => {
+          setStep("");
+          navigate("/vipsgold-delivery");
+        }}
+      >
+        <div class="order-confirm-success-modal-body">
+          <div class="col-md-12">
+            {/* { <!-- success animation start -->} */}
+            <div class="order-confirm-seccess-box">
+              <div class="order-confirm-success-inner success-animation">
+                {/* { <!-- <img src="images/recharge-success.svg" class="img-fluid order-confirm-success-img" />  -->} */}
+
+                {/* {<script src="pay-animations/success-animation.js"></script>
+                              <lottie-player src="pay-animations/success-popup-animation.json" background="transparent"  speed="1" class="success" autoplay></lottie-player>} */}
+
+                <img
+                  src="/images/shopping/shopping-success.svg"
+                  class="mb-4"
+                  alt="Success"
+                />
+
+                <p class="order-confirm-success-msg">
+                  Your order has been received
+                </p>
+                <p class="order-confirm-success-text">
+                  Thank you for your purchase!
+                </p>
+
+                <p>
+                  You will receive an order confirmation email with details of
+                  your order.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-confirm-success-btn">
+            <Link type="button" to="/vipsgold-orders" class="btn-primery">
+              Go to My Orders
+            </Link>
+          </div>
+        </div>
+      </Modal>
+      <MuiSnackBar
+        open={isSnackBar}
+        setOpen={setIsSnackBar}
+        successMsg={successMsg}
+        errorMsg={errorMsg}
+        setSuccess={setSuccessMsg}
+        setError={setErrorMsg}
+      />
     </>
+  ) : (
+    <Navigate to={"/vipsgold-delivery"} />
   );
 };
 

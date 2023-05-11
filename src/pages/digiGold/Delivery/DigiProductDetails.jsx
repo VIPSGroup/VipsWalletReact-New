@@ -4,7 +4,9 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../../../assets/styles/digigold/digigold-delivery-product-details.css";
 import {
   addItem,
+  decreaseQuantity,
   getMetalProductDetails,
+  increaseQuantity,
   removeItem,
 } from "../../../redux/slices/digiGold/delivery/DeliverySlice";
 import MyVault from "../MyVault";
@@ -15,15 +17,11 @@ export function calculateTotal(quantity, price) {
   return quantity * price;
 }
 const DigiProductDetails = ({ setTitle }) => {
-  // const [goldQty, setGoldQty] = useState();
-  // const [silverQty, setSilverQty] = useState();
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const { items } = useSelector((state) => state.DeliverySlice);
-  const { proDetails, qtyMessage } = useSelector(
-    (state) => state.DeliverySlice.coinDetails
-  );
+
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
   );
@@ -32,7 +30,6 @@ const DigiProductDetails = ({ setTitle }) => {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [qty, setQty] = useState(1);
   const location = useLocation();
   const data = location.state;
   const { title } = useParams();
@@ -42,18 +39,61 @@ const DigiProductDetails = ({ setTitle }) => {
     const password = loggedInUser.TRXNPassword;
     dispatch(loginDigiGold({ username, password }));
   }, []);
-  const handleClick = () => {
-    const res = items.find((a) => a.sku === data.sku);
-    if (!res) {
-      const Product = proDetails.Data.result.data;
-      dispatch(addItem(Product));
+  const handleClick = (e) => {
+    const GoldBalance = logData.Data.GoldGrams;
+    const SilverBalance = logData.Data.SilverGrams;
+    let goldQty = 0;
+    let silverQty = 0;
+    items.forEach((item) => {
+      const productWeight = parseFloat(item.productWeight);
+      const quantity = parseInt(item.quantity);
+      if (item.metalType === "gold") {
+        goldQty += quantity * productWeight;
+      } else if (item.metalType === "silver") {
+        silverQty += quantity * productWeight;
+      }
+    });
+
+    if (e.metalType === "gold") {
+      if (items.find((a) => a.sku === e.sku)) {
+        navigate("/vipsgold-cart");
+      } else {
+        if (
+          GoldBalance >
+          (goldQty
+            ? goldQty + parseFloat(e.productWeight)
+            : parseFloat(e.productWeight))
+        ) {
+          dispatch(addItem(e));
+          navigate("/vipsgold-cart");
+        } else {
+          setIsSnackBar(true);
+          setErrorMsg("You don't have enough gold to Deliver");
+        }
+      }
+    } else {
+      if (items.find((a) => a.sku === e.sku)) {
+        navigate("/vipsgold-cart");
+      } else {
+        if (
+          SilverBalance >
+          (silverQty
+            ? silverQty + parseFloat(e.productWeight)
+            : parseFloat(e.productWeight))
+        ) {
+          dispatch(addItem(e));
+          navigate("/vipsgold-cart");
+        } else {
+          setIsSnackBar(true);
+          setErrorMsg("You don't have enough silver to Deliver");
+        }
+      }
     }
-    navigate("/vipsgold-cart");
   };
   useEffect(() => {
     const sku = data.sku;
     dispatch(getMetalProductDetails({ sku }));
-  }, [data]);
+  }, [data, dispatch]);
 
   const responsive = {
     superLargeDesktop: {
@@ -75,42 +115,37 @@ const DigiProductDetails = ({ setTitle }) => {
     },
   };
 
-  const addItemCart = () => {
-    const Product = proDetails.Data.result.data;
-    const GoldBalance = logData.Data.GoldGrams;
-    const SilverBalance = logData.Data.SilverGrams;
-    let goldQty = 0;
-    let silverQty = 0;
-    items.forEach((item) => {
-      const productWeight = parseFloat(item.productWeight);
-      const quantity = parseInt(item.quantity);
-      if (item.metalType === "gold") {
-        goldQty += quantity * productWeight;
-      } else if (item.metalType === "silver") {
-        silverQty += quantity * productWeight;
-      }
-    });
-    if (Product.metalType === "silver") {
-      console.log(silverQty, "silverQty");
-      if (SilverBalance > silverQty) {
-        dispatch(addItem(Product));
-      } else {
-        setIsSnackBar(true);
-        setErrorMsg("You don't have a enough silver to add more qty");
-      }
-    } else if (Product.metalType === "gold") {
-      if (GoldBalance > goldQty) {
-        console.log(goldQty, "goldQty");
+  // const IncreaseQty = (e) => {
+  //   const GoldBalance = logData.Data.GoldGrams;
+  //   const SilverBalance = logData.Data.SilverGrams;
+  //   let goldQty = 0;
+  //   let silverQty = 0;
+  //   items.forEach((item) => {
+  //     const productWeight = parseFloat(item.productWeight);
+  //     const quantity = parseInt(item.quantity);
+  //     if (item.metalType === "gold") {
+  //       goldQty += quantity * productWeight;
+  //     } else if (item.metalType === "silver") {
+  //       silverQty += quantity * productWeight;
+  //     }
+  //   });
 
-        dispatch(addItem(Product));
-      } else {
-        setIsSnackBar(true);
-        setErrorMsg("You don't have a enough Gold to add more qty");
-      }
-    }
-  };
-
-  console.log(items, "items");
+  //   if (e.metalType === "gold") {
+  //     if (GoldBalance > goldQty + parseFloat(e.productWeight)) {
+  //       dispatch(increaseQuantity(e));
+  //     } else {
+  //       setIsSnackBar(true);
+  //       setErrorMsg("You don't have enough gold to add more qty  ");
+  //     }
+  //   } else {
+  //     if (SilverBalance > silverQty + parseFloat(e.productWeight)) {
+  //       dispatch(increaseQuantity(e));
+  //     } else {
+  //       setIsSnackBar(true);
+  //       setErrorMsg("You don't have enough silver to add more qty  ");
+  //     }
+  //   }
+  // };
 
   return (
     <>
@@ -197,19 +232,9 @@ const DigiProductDetails = ({ setTitle }) => {
                       </div>
 
                       <div class="">
-                        <div class="digigold-product-details-choose-quantity">
+                        {/* <div class="digigold-product-details-choose-quantity">
                           <div
-                            // onClick={() => {
-                            //   qty > 1 && setQty(qty - 1);
-                            // }}
-                            onClick={() => {
-                              if (
-                                items?.find((a) => a.Id === data.Id)?.quantity >
-                                1
-                              ) {
-                                dispatch(removeItem(data));
-                              }
-                            }}
+                            onClick={() => dispatch(decreaseQuantity(data))}
                             class="value-button decrease-sign"
                             id="decrease"
                           >
@@ -230,23 +255,15 @@ const DigiProductDetails = ({ setTitle }) => {
                                 ?.quantity ??
                                 0)}
                           </h2>
-                          {/* <input
-                            type="number"
-                            class="quantity-number"
-                            id="number"
-                            value="0"
-                          /> */}
+
                           <div
-                            // onClick={() => {
-                            //   setQty(qty + 1);
-                            // }}
-                            onClick={addItemCart}
+                            onClick={() => IncreaseQty(data)}
                             class="value-button increase-sign"
                             id="increase"
                           >
                             <i class="fa-solid fa-plus"></i>{" "}
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

@@ -9,16 +9,15 @@ import { getMetalProductlist } from "../../../redux/slices/digiGold/delivery/Del
 const DeliveryHome = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [perPage, setPerPage] = useState(20);
   const [page, setPage] = useState(1);
   const { items } = useSelector((state) => state.DeliverySlice);
   const { list, listLoading } = useSelector(
     (state) => state.DeliverySlice.coinList
   );
-
   useEffect(() => {
     dispatch(getMetalProductlist({ page }));
   }, []);
-  // console.log(list.Data.result.data, "list.Data.result.data");
   return (
     <>
       <section class="section-align buy-sell-form">
@@ -112,12 +111,33 @@ const DeliveryHome = () => {
                   );
                 })}
               </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignContent: "center",
+                  marginTop: 20,
+                  marginBottom: 20,
+                }}
+              >
+                <Pagination
+                  // hideOnSinglePage={true}
+                  nextIcon={list?.Data?.result?.pagination?.hasMore}
+                  responsive
+                  defaultCurrent={page}
+                  current={page}
+                  pageSize={perPage}
+                  total={list?.Data?.result?.pagination?.count}
+                  hideOnSinglePage
+                  onChange={(page, pageSize) => {
+                    setPage(page);
+                    dispatch(getMetalProductlist({ page }));
+                  }}
+                />
+              </div>
             </div>
           </div>
         </section>
-        <div className="">
-          <Pagination defaultCurrent={1} total={50}/>
-        </div>
       </Spin>
     </>
   );

@@ -3,6 +3,7 @@ import OTPInput, { ResendOTP } from "otp-input-react";
 import { Button, Form, Input, Modal, Spin } from "antd";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const OTPModal = ({
   step,
@@ -10,7 +11,6 @@ const OTPModal = ({
   setOtp,
   Otp,
   handleClick,
-  setStep,
   load,
   resendOtp,
   handleClose,
@@ -42,15 +42,7 @@ const OTPModal = ({
             <p>
               Not received OTP?{" "}
               <a {...buttonProps}>
-                <span
-                  style={{ color: "#CA3060" }}
-                  // onClick={(e) => {
-                  //   e.preventDefault();
-                  //   setOtp("");
-                  //   dispatch(loginUser({ userName, password }));
-                  // }}
-                  onClick={resendOtp}
-                >
+                <span style={{ color: "#CA3060" }} onClick={resendOtp}>
                   {" "}
                   Resend OTP
                 </span>
@@ -61,21 +53,13 @@ const OTPModal = ({
       </div>
     );
   };
-
   return (
     <>
       <Modal
         footer={[]}
         maskClosable={false}
         centered
-        onCancel={
-          handleClose
-          //   () => {
-          //   setOtp("");
-          //   navigate(route);
-          //   setStep("");
-          // }
-        }
+        onCancel={handleClose}
         open={step === 1}
       >
         <div class="align-self-center">

@@ -16,13 +16,16 @@ import { checkPrime } from "../../redux/slices/primeUserSlice";
 import { Link } from "react-router-dom";
 const Homepage = ({ setIsHomeTopNav }) => {
   const { loggedInUser } = useSelector(
-    state => state.loginSlice.loggetInWithOTP
+    (state) => state.loginSlice.loggetInWithOTP
   );
   const [isPrime, setIsPrime] = useState(false);
   useEffect(() => {
-    if(loggedInUser){
-    checkPrime({userName:loggedInUser.UserName, password:loggedInUser.TRXNPassword}).then((response) => {
-      if (response.ResponseStatus === 1) {
+    if (loggedInUser) {
+      checkPrime({
+        userName: loggedInUser.UserName,
+        password: loggedInUser.TRXNPassword,
+      }).then((response) => {
+        if (response.ResponseStatus === 1) {
           setIsPrime(true);
         }
       });
@@ -55,8 +58,13 @@ const Homepage = ({ setIsHomeTopNav }) => {
       <HomeBottomServiceBar />
       <ShopByCategory />
       <ServiceCategory />
-      <GameBanner/>
-      <ShoppingCategoryProduct title="VIPS" subtitle=" Promotional"  description="Discover all the VIPS merchandise here!" categoryId={11}/>
+      <GameBanner />
+      <ShoppingCategoryProduct
+        title="VIPS"
+        subtitle=" Promotional"
+        description="Discover all the VIPS merchandise here!"
+        categoryId={11}
+      />
       <OnlineStore />
       {!isPrime && loggedInUser && <PrimeMembership />}
       <DealsofTheDay />

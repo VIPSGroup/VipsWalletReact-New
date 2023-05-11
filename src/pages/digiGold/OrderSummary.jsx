@@ -338,8 +338,7 @@ const OrderSummary = () => {
   // Gold & Silver Sell Logic
   const handleSellSubmit = async () => {
     setSellLoad(true);
-    // const username = state.username;
-    // const password = state.password;
+
     const lockPrice = lockprice;
     const metalType = state.metalType;
     const quantity = currentGram;
@@ -692,7 +691,9 @@ const OrderSummary = () => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? shopPointLimit ?  "col-lg-3 col-sm-6" :   "col-lg-3 col-sm-6"
+                                ? shopPointLimit
+                                  ? "col-lg-3 col-sm-6"
+                                  : "col-lg-3 col-sm-6"
                                 : "col-lg-3 col-sm-4"
                             } `}
                           >
@@ -706,7 +707,9 @@ const OrderSummary = () => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? shopPointLimit ?  "col-lg-3 col-sm-6" : "col-lg-2 col-sm-6"
+                                ? shopPointLimit
+                                  ? "col-lg-3 col-sm-6"
+                                  : "col-lg-2 col-sm-6"
                                 : "col-lg-3 col-sm-4"
                             } `}
                           >
@@ -731,7 +734,9 @@ const OrderSummary = () => {
                           <div
                             class={`${
                               state?.type === "buy"
-                                ? shopPointLimit ?  "col-lg-3 col-sm-6" : "col-lg-2 col-sm-6"
+                                ? shopPointLimit
+                                  ? "col-lg-3 col-sm-6"
+                                  : "col-lg-2 col-sm-6"
                                 : "col-lg-3 col-sm-4"
                             } `}
                           >
@@ -746,7 +751,9 @@ const OrderSummary = () => {
                             <div
                               class={`${
                                 state?.type === "buy"
-                                  ?shopPointLimit ?  "col-lg-3 col-sm-6" :  "col-lg-2 col-sm-6"
+                                  ? shopPointLimit
+                                    ? "col-lg-3 col-sm-6"
+                                    : "col-lg-2 col-sm-6"
                                   : "col-lg-3  col-sm-4"
                               } `}
                             >
@@ -760,7 +767,11 @@ const OrderSummary = () => {
 
                           <div
                             class={`${
-                              state?.type === "buy" ? shopPointLimit ?  "col-lg-6" :  "col-lg-3" : "col-lg-3"
+                              state?.type === "buy"
+                                ? shopPointLimit
+                                  ? "col-lg-6"
+                                  : "col-lg-3"
+                                : "col-lg-3"
                             } `}
                           >
                             <p class="digigold-insert-darktext">Total Amount</p>

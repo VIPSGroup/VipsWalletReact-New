@@ -5,32 +5,85 @@ import "../../../assets/styles/digigold/digigold-shopping-cart.css";
 import { calculateTotalPrice } from "../../../constants";
 import {
   addItem,
+  decreaseQuantity,
   deleteItem,
+  increaseQuantity,
   removeItem,
 } from "../../../redux/slices/digiGold/delivery/DeliverySlice";
+import { loginDigiGold } from "../../../redux/slices/digiGold/registerDigiSlice";
+import MyVault from "../MyVault";
+import { useState } from "react";
+import { MuiSnackBar } from "../../../components/common";
 
 const DigiDeliveryCart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isSnackBar, setIsSnackBar] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const { items } = useSelector((state) => state.DeliverySlice);
-
+  const { logData, loading: digiLogLoading } = useSelector(
+    (state) => state.registerDigiSlice.login
+  );
+  const { loggedInUser, loading: logLoading } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
   const calculateBasePrice = () => {
     const totalBasePrice = items.reduce(
       (acc, product) => acc + parseFloat(product.basePrice),
       0
     );
-    console.log(totalBasePrice, "total");
   };
-  console.log(items, "items");
   useEffect(() => {
     calculateBasePrice();
+    const username = loggedInUser.UserName;
+    const password = loggedInUser.TRXNPassword;
+    dispatch(loginDigiGold({ username, password }));
   }, []);
+
+  const IncreaseQty = (e) => {
+    const GoldBalance = logData.Data.GoldGrams;
+    const SilverBalance = logData.Data.SilverGrams;
+    let goldQty = 0;
+    let silverQty = 0;
+    items.forEach((item) => {
+      const productWeight = parseFloat(item.productWeight);
+      const quantity = parseInt(item.quantity);
+      if (item.metalType === "gold") {
+        goldQty += quantity * productWeight;
+      } else if (item.metalType === "silver") {
+        silverQty += quantity * productWeight;
+      }
+    });
+
+    if (e.metalType === "gold") {
+      if (GoldBalance > goldQty + parseFloat(e.productWeight)) {
+        dispatch(increaseQuantity(e));
+      } else {
+        setIsSnackBar(true);
+        setErrorMsg("You don't have enough gold to add more qty  ");
+      }
+    } else {
+      if (SilverBalance > silverQty + parseFloat(e.productWeight)) {
+        dispatch(increaseQuantity(e));
+      } else {
+        setIsSnackBar(true);
+        setErrorMsg("You don't have enough silver to add more qty  ");
+      }
+    }
+  };
+
   return (
     <>
       <section class="section-align buy-sell-form">
         <div class="container-fluid">
           <div class="digigold-work-section-head delivery-section-head">
             <h1 class="section-head-title py-2">VIPS Gold Cart</h1>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <MyVault />
+            </div>
           </div>
 
           {/* <!-- product details start --> */}
@@ -92,9 +145,10 @@ const DigiDeliveryCart = () => {
                             <div class="digigold-cart-product-choose-quantity">
                               <div
                                 onClick={() => {
-                                  if (e?.quantity > 1) {
-                                    dispatch(removeItem(e));
-                                  }
+                                  // if (e?.quantity > 1) {
+                                  //   dispatch(removeItem(e));
+                                  // }
+                                  dispatch(decreaseQuantity(e));
                                 }}
                                 class="value-button decrease-sign"
                                 id="decrease"
@@ -114,7 +168,7 @@ const DigiDeliveryCart = () => {
                                 {e?.quantity}
                               </h2>
                               <div
-                                onClick={() => dispatch(addItem(e))}
+                                onClick={() => IncreaseQty(e)}
                                 class="value-button increase-sign"
                                 id="increase"
                               >
@@ -202,12 +256,15 @@ const DigiDeliveryCart = () => {
                               <span> Delivery Fee : </span>
                             </div>
                             <div class="col-5 col-xs-4 text-right">
-                              <span class=""> &#x20B9; 00 </span>
+                              <span class="">
+                                {" "}
+                                &#x20B9;{" "}
+                                {calculateTotalPrice(items, "basePrice")}{" "}
+                              </span>
                             </div>
                           </div>
 
-                          <div class="dropdown-divider"></div>
-
+                          {/* <div class="dropdown-divider"></div> */}
                           <div class="row mt-3">
                             <div class="col-7 col-xs-4">
                               <span class="digigold-cart-summery-dark-text">
@@ -230,6 +287,14 @@ const DigiDeliveryCart = () => {
             </div>
           )}
         </div>
+        <MuiSnackBar
+          open={isSnackBar}
+          setOpen={setIsSnackBar}
+          successMsg={successMsg}
+          errorMsg={errorMsg}
+          setSuccess={setSuccessMsg}
+          setError={setErrorMsg}
+        />
       </section>
     </>
   );
