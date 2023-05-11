@@ -12,6 +12,7 @@ import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import { getOperators } from "../../../redux/slices/services/commonSlice";
 import { MuiSnackBar, ThemeButton } from "../../../components/common";
+import DynamicMeta from "../../../components/SEO/DynamicMeta";
 
 ReactGA.initialize(googleAnalytics);
 const DthFront = ({ props }) => {
@@ -25,17 +26,18 @@ const DthFront = ({ props }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
-  const { operatorsList } = useSelector(state => state.commonSlice.operators );
-  const { loggedInUser } = useSelector(state => state.loginSlice.loggetInWithOTP);
-const dispatch= useDispatch()
+  const { operatorsList } = useSelector((state) => state.commonSlice.operators);
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
+  const dispatch = useDispatch();
   useEffect(() => {
-    if(loggedInUser){
+    if (loggedInUser) {
       ReactGA.pageview(window.location.pathname);
-      dispatch(getOperators(dthServiceId))
-    }else{
-      navigate("/login")
+      dispatch(getOperators(dthServiceId));
+    } else {
+      navigate("/login");
     }
-   
   }, [props]);
 
   const handleMobileNo = (e) => {
@@ -95,10 +97,7 @@ const dispatch= useDispatch()
               <div class="mob-left-sticky box-shadow-1">
                 <div class="row">
                   <div class="col-md-12 mobile-recharge-content-head">
-                    <h3 class="mobile-recharge-title">
-                      {" "}
-                      Pay DTH Bill{" "}
-                    </h3>
+                    <h3 class="mobile-recharge-title"> Pay DTH Bill </h3>
                   </div>
                 </div>
                 <form>
@@ -190,7 +189,7 @@ const dispatch= useDispatch()
                           {" "}
                           Continue{" "}
                         </button> */}
-                        <ThemeButton onClick={onNext} value={"Continue"}/>
+                        <ThemeButton onClick={onNext} value={"Continue"} />
                       </div>
                     </div>
                   </div>
@@ -206,7 +205,7 @@ const dispatch= useDispatch()
                 type={"dth"}
               />
             </div>
-{/* {isSnackBar && <SnackBar errorMsg={errorMsg}/>} */}
+            {/* {isSnackBar && <SnackBar errorMsg={errorMsg}/>} */}
             <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
@@ -220,6 +219,22 @@ const dispatch= useDispatch()
       </section>
     </div>
   );
-  return <div className="color-body">{rechargeSection()}</div>;
+  return (
+    <div className="color-body">
+      <DynamicMeta
+        title={
+          "DTH Recharge Online: Airtel, Dish TV, Tata Sky, Sun Direct, d2h, Tata Play & More"
+        }
+        canonical={"https://www.vipswallet.com/services/dth"}
+        metaDescription={
+          "Experience seamless DTH recharges for Airtel, Dish TV, Tata Sky, Sun Direct, d2h, Tata Play & Videocon d2h. Instant online recharge for your favorite channels & packs. Secure and user-friendly."
+        }
+        keywords={
+          "airtel dth recharge, dish tv recharge, tata sky recharge online, airtel dish tv recharge, sun direct online recharge, d2h recharge online, tata play recharge online, videocon d2h recharge online"
+        }
+      />
+      {rechargeSection()}
+    </div>
+  );
 };
 export default DthFront;

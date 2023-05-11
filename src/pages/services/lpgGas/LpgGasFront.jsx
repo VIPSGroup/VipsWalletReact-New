@@ -12,9 +12,13 @@ import { lpgGasServiceId, googleAnalytics } from "../../../constants";
 
 import ReactGA from "react-ga";
 import { Loading, MuiSnackBar, ThemeButton } from "../../../components/common";
-import { fetchLPGBill, getInputFieldsByOperator } from "../../../redux/slices/services/LpgGasSlice";
+import {
+  fetchLPGBill,
+  getInputFieldsByOperator,
+} from "../../../redux/slices/services/LpgGasSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getOperatorsByServiceId } from "../../../redux/slices/services/servicesSlice";
+import DynamicMeta from "../../../components/SEO/DynamicMeta";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -35,7 +39,7 @@ const LpgGasFront = ({ props }) => {
   const [successMsg, setSuccessMsg] = useState("");
   const [billAmount, setBillAmount] = useState(0);
   const [inputFields, setInputFields] = useState([]);
-  const [isClick, setIsClick] = useState(false)
+  const [isClick, setIsClick] = useState(false);
   //indane gas states
   const [selectDropDownValue, setSelectDropDownValue] = useState(
     "Distributor Code And Consumer Number"
@@ -49,13 +53,19 @@ const LpgGasFront = ({ props }) => {
   ];
 
   let navigate = useNavigate();
-const dispatch= useDispatch()
-const { loggedInUser } = useSelector(
-  state => state.loginSlice.loggetInWithOTP
-);
-const { operatorsList } = useSelector(state => state.servicesSlice.operators );
-const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
-const { billData,loading } = useSelector(state => state.LpgGasSlice.lpgBill );
+  const dispatch = useDispatch();
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
+  );
+  const { operatorsList } = useSelector(
+    (state) => state.servicesSlice.operators
+  );
+  const { operatorData } = useSelector(
+    (state) => state.fastagSlice.inputFieldOperator
+  );
+  const { billData, loading } = useSelector(
+    (state) => state.LpgGasSlice.lpgBill
+  );
   const getTodaysDate = () => {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -71,8 +81,8 @@ const { billData,loading } = useSelector(state => state.LpgGasSlice.lpgBill );
   };
 
   const callInputFields = (ourCode) => {
-    setIsClick(true)
-    dispatch(getInputFieldsByOperator(ourCode))
+    setIsClick(true);
+    dispatch(getInputFieldsByOperator(ourCode));
   };
 
   const pushInArray = (searchKey, data) => {
@@ -238,7 +248,13 @@ const { billData,loading } = useSelector(state => state.LpgGasSlice.lpgBill );
           obj.MobileNumber = mobileNo;
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
-dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword}))
+          dispatch(
+            fetchLPGBill({
+              obj,
+              username: loggedInUser.Mobile,
+              password: loggedInUser.TRXNPassword,
+            })
+          );
         }
       } else {
         setErrorSnackBar("Enter Valid Mobile Number");
@@ -248,28 +264,28 @@ dispatch(fetchLPGBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TR
     }
   };
   useEffect(() => {
-if(loggedInUser){
-  ReactGA.pageview(window.location.pathname);
-  dispatch(getOperatorsByServiceId("33"))
-}else{
-navigate("/login")
-}
+    if (loggedInUser) {
+      ReactGA.pageview(window.location.pathname);
+      dispatch(getOperatorsByServiceId("33"));
+    } else {
+      navigate("/login");
+    }
   }, [props]);
-  
+
   useEffect(() => {
-    if(billData.ResponseStatus===1){
-      if(billData.Data.ResponseMessage==="Successful"){
-     setShowBill(true);
-                   setBillFetchData(billData.Data);
-                   setBillAmount(parseFloat(billData.Data.BillAmount));
-   }else{
-     setBillFetchError(billData.Data.ResponseMessage);
-   }
-   }else if(billData.ResponseStatus===0){
-     setIsSnackBar(true)
-     setErrorMsg(billData.Remarks)
-   }
-  }, [billData])
+    if (billData.ResponseStatus === 1) {
+      if (billData.Data.ResponseMessage === "Successful") {
+        setShowBill(true);
+        setBillFetchData(billData.Data);
+        setBillAmount(parseFloat(billData.Data.BillAmount));
+      } else {
+        setBillFetchError(billData.Data.ResponseMessage);
+      }
+    } else if (billData.ResponseStatus === 0) {
+      setIsSnackBar(true);
+      setErrorMsg(billData.Remarks);
+    }
+  }, [billData]);
   const handleMobileNo = (e) => {
     const value = e.target.value.replace(/\D/g, "");
     setMobileNo(value);
@@ -712,13 +728,20 @@ navigate("/login")
                           >
                             {loading ? <Loading /> : `Fetch Bill`}
                           </button> */}
-                          <ThemeButton loading={loading} onClick={clickFetchBill} value={"Fetch Bill"}/>
+                          <ThemeButton
+                            loading={loading}
+                            onClick={clickFetchBill}
+                            value={"Fetch Bill"}
+                          />
                         </div>
                       )}
                       {operatorPaymentMode === 2 ||
                         (showBill && (
                           <div class="mobile-recharge-btn">
-                            <ThemeButton onClick={onClickContinue} value={"Continue"}/>
+                            <ThemeButton
+                              onClick={onClickContinue}
+                              value={"Continue"}
+                            />
                             {/* <button
                               onClick={onClickContinue}
                               class="btn-primery"
@@ -756,6 +779,16 @@ navigate("/login")
 
   return (
     <div className="color-body">
+      <DynamicMeta
+        title={
+          "LPS Gas Online Payment | Quick & Secure Indane, Bharat, HP Gas Payments"
+        }
+        canonical={"https://www.vipswallet.com/services/lpggas"}
+        metaDescription={
+          "Pay your Indane, Bharat, HP gas bills online with ease. Experience fast, secure, and hassle-free payments for your LPG gas needs through our user-friendly platform."
+        }
+        keywords={"indane gas online payment, lpg gas"}
+      />
       {rechargeSection()}
     </div>
   );

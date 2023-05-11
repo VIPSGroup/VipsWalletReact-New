@@ -55,8 +55,16 @@ const Homepage = ({ setIsHomeTopNav }) => {
   return (
     <>
       <DynamicMeta
-        title={"VIPS Wallet: Bill Payments, Recharges, Insurance, DTH & More"}
-        canonical={"https://vipswallet.com/"}
+        title={
+          "VIPS Wallet: UPI Payments, Bill Payments, Recharges, Insurance, DTH & More"
+        }
+        canonical={"https://www.vipswallet.com/"}
+        metaDescription={
+          "Discover a seamless experience with our online wallet for UPI payments. Make all your transactions quick, secure, and hassle-free with our user-friendly virtual wallet. Manage your finances at your fingertips."
+        }
+        keywords={
+          "online wallet, payments wallet, virtual wallet, UPI payments"
+        }
       />
       {!isPrime && loggedInUser ? primeFixed() : null}
       <HomeTopBannerSlider />

@@ -6,8 +6,18 @@ import RecentHistory from "../../../components/services/RecentHistory";
 import { fastagServiceId, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
-import { ErrorText, Loading, MuiSnackBar, ThemeButton } from "../../../components/common";
-import { fetchBill, getFastagOperators, getInputFieldsByOperator } from "../../../redux/slices/services/fastagSlice";
+import {
+  ErrorText,
+  Loading,
+  MuiSnackBar,
+  ThemeButton,
+} from "../../../components/common";
+import {
+  fetchBill,
+  getFastagOperators,
+  getInputFieldsByOperator,
+} from "../../../redux/slices/services/fastagSlice";
+import DynamicMeta from "../../../components/SEO/DynamicMeta";
 ReactGA.initialize(googleAnalytics);
 
 const FastagFront = ({ props }) => {
@@ -24,27 +34,33 @@ const FastagFront = ({ props }) => {
   const [isSnackBar, setIsSnackBar] = useState(false);
   const [billAmount, setBillAmount] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
-  const [isClick, setIsClick] = useState(false)
+  const [isClick, setIsClick] = useState(false);
 
   const [inputFields, setInputFields] = useState([]);
-const dispatch= useDispatch()
+  const dispatch = useDispatch();
   let navigate = useNavigate();
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { operatorsList } = useSelector(state => state.fastagSlice.fastgOperators );
-  const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
-  const { billData ,billLoading} = useSelector(state => state.fastagSlice.getBill );
+  const { operatorsList } = useSelector(
+    (state) => state.fastagSlice.fastgOperators
+  );
+  const { operatorData } = useSelector(
+    (state) => state.fastagSlice.inputFieldOperator
+  );
+  const { billData, billLoading } = useSelector(
+    (state) => state.fastagSlice.getBill
+  );
   const callInputFields = (ourCode) => {
     // setIsClick(true)
-    dispatch(getInputFieldsByOperator(ourCode))
+    dispatch(getInputFieldsByOperator(ourCode));
   };
 
   const handleAllFieldInput = (e, index) => {
     setBillFetchError("");
     setShowBill(false);
     let data = [...inputFields];
-    let newArray=  inputFields.slice()
+    let newArray = inputFields.slice();
     let value = e.target.value.toUpperCase();
 
     data[index].fieldValue = value;
@@ -53,18 +69,20 @@ const dispatch= useDispatch()
       data[index].regex ? data[index].regex : "^[A-Z0-9]{7,10}$"
     );
     if (!value.match(regex)) {
-      newArray[index].validate=false
-      setInputFields(newArray)
+      newArray[index].validate = false;
+      setInputFields(newArray);
     } else {
-      newArray[index].validate=true
-      setInputFields(newArray)
+      newArray[index].validate = true;
+      setInputFields(newArray);
     }
-    if(data[index].regex=='' && e.target.value==''){
-      newArray[index].validate=false
-      setInputFields(newArray)
+    if (data[index].regex == "" && e.target.value == "") {
+      newArray[index].validate = false;
+      setInputFields(newArray);
     }
     setInputFields(data);
-    return ()=>{setIsClick(false)}
+    return () => {
+      setIsClick(false);
+    };
   };
 
   const handleOperatorSelection = (e, o) => {
@@ -85,7 +103,7 @@ const dispatch= useDispatch()
     setBillFetchError("");
     if (selectedOperator) {
       if (mobileNo && mobileNo.length === 10) {
-        let validateBBPSField = inputFields.filter((o) => o.fieldValue === '');
+        let validateBBPSField = inputFields.filter((o) => o.fieldValue === "");
         if (validateBBPSField.length !== 0) {
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
@@ -98,7 +116,13 @@ const dispatch= useDispatch()
           obj.MobileNumber = mobileNo;
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
-          dispatch(fetchBill({obj,username: loggedInUser.Mobile,password:loggedInUser.TRXNPassword}))
+          dispatch(
+            fetchBill({
+              obj,
+              username: loggedInUser.Mobile,
+              password: loggedInUser.TRXNPassword,
+            })
+          );
         }
       } else {
         setIsSnackBar(true);
@@ -110,51 +134,50 @@ const dispatch= useDispatch()
     }
   };
   useEffect(() => {
-  if(loggedInUser){
-    ReactGA.pageview(window.location.pathname);
-    if(operatorData.length===0){
-      dispatch(getFastagOperators())
+    if (loggedInUser) {
+      ReactGA.pageview(window.location.pathname);
+      if (operatorData.length === 0) {
+        dispatch(getFastagOperators());
+      }
+      if (operatorData) {
+        operatorData.map((d, i) => {
+          const arr = [];
+          arr.push({
+            fieldName: d.name,
+            fieldValue: "",
+            regex: d.Regex,
+            validate: true,
+          });
+          setInputFields(arr);
+        });
+      }
+    } else {
+      navigate("/login");
     }
-    if(operatorData ){
-      operatorData.map((d, i) => {
-        const arr = []
-        arr.push({
-          fieldName: d.name,
-          fieldValue: "",
-          regex: d.Regex,
-          validate: true,
-        })
-        setInputFields(arr);
-    });
+  }, [props, operatorData]);
+
+  useEffect(() => {
+    if (billData.ResponseStatus === 1) {
+      if (billData.Data.ResponseMessage === "Successful") {
+        setShowBill(true);
+        setBillFetchData(billData.Data);
+        setBillAmount(parseFloat(billData.Data.BillAmount));
+      } else {
+        setBillFetchError(billData.Data.ResponseMessage);
+      }
+    } else if (billData.ResponseStatus === 0) {
+      setIsSnackBar(true);
+      setErrorMsg(billData.Remarks);
     }
-  }else{
-    navigate("/login")
-  }
-  }, [props,operatorData,]);
-
-useEffect(() => {
-  if(billData.ResponseStatus===1){
-    if(billData.Data.ResponseMessage==="Successful"){
-   setShowBill(true);
-                 setBillFetchData(billData.Data);
-                 setBillAmount(parseFloat(billData.Data.BillAmount));
- }else{
-   setBillFetchError(billData.Data.ResponseMessage);
- }
- }else if(billData.ResponseStatus===0){
-   setIsSnackBar(true)
-   setErrorMsg(billData.Remarks)
- }
-  // if(billData.ResponseMessage==="Successful"){
-  //   // setInputFields([...inputFields,inputFields.validate=true])
-  //   setShowBill(true);
-  //                 setBillFetchData(billData);
-  //                 setBillAmount(parseFloat(billData.BillAmount));
-  // }else{
-  //   setBillFetchError(billData.ResponseMessage);
-  // }
-}, [billData])
-
+    // if(billData.ResponseMessage==="Successful"){
+    //   // setInputFields([...inputFields,inputFields.validate=true])
+    //   setShowBill(true);
+    //                 setBillFetchData(billData);
+    //                 setBillAmount(parseFloat(billData.BillAmount));
+    // }else{
+    //   setBillFetchError(billData.ResponseMessage);
+    // }
+  }, [billData]);
 
   const handleMobileNo = (e) => {
     const value = e.target.value.replace(/\D/g, "");
@@ -376,7 +399,9 @@ useEffect(() => {
                             type="button"
                             data-toggle="dropdown"
                             aria-expanded="false"
-                            onClick={()=>{setIsClick(true)}}
+                            onClick={() => {
+                              setIsClick(true);
+                            }}
                           >
                             {selectedOperator ? selectedOperator : "Operator"}
                           </button>
@@ -439,33 +464,34 @@ useEffect(() => {
                         </div>
                       </div>
                     ) : null}
-                    {selectedOperator && inputFields.map((input, i) => (
-                      <div class="row">
-                        <div class="col-lg-12 mobile-recharge-field p-0">
-                          <div class="input-field">
-                            <input
-                              onChange={(e) => {
-                                handleAllFieldInput(e, i);
-                              }}
-                              name={input.fieldName}
-                              placeholder="&nbsp;"
-                              id="referral-mobile"
-                              type="text"
-                              required
-                              style={{ textTransform: "uppercase" }}
+                    {selectedOperator &&
+                      inputFields.map((input, i) => (
+                        <div class="row">
+                          <div class="col-lg-12 mobile-recharge-field p-0">
+                            <div class="input-field">
+                              <input
+                                onChange={(e) => {
+                                  handleAllFieldInput(e, i);
+                                }}
+                                name={input.fieldName}
+                                placeholder="&nbsp;"
+                                id="referral-mobile"
+                                type="text"
+                                required
+                                style={{ textTransform: "uppercase" }}
                               />
-                            <label for="referral-mobile">
-                              {input.fieldName}
-                            </label>
+                              <label for="referral-mobile">
+                                {input.fieldName}
+                              </label>
+                            </div>
+                            {!inputFields[i].validate ? (
+                              <ErrorText
+                                error={`Please enter valid ${inputFields[i].fieldName}`}
+                              />
+                            ) : null}
                           </div>
-                          {!inputFields[i].validate ? (
-                            <ErrorText
-                              error={`Please enter valid ${inputFields[i].fieldName}`}
-                            />
-                          ) : null}
                         </div>
-                      </div>
-                    ))}
+                      ))}
 
                     <div class="row">
                       <div class="col-lg-12 electricity-bill-field p-0">
@@ -492,14 +518,18 @@ useEffect(() => {
                       </div>
                     </div>
 
-                    {showBill && mobileNo.length===10 && fetchBillSection()}
+                    {showBill && mobileNo.length === 10 && fetchBillSection()}
 
-                    {mobileNo.length===10 && showBillFetchError()}
+                    {mobileNo.length === 10 && showBillFetchError()}
 
                     <div class="col-md-12">
                       {!showBill && (
                         <div class="mobile-recharge-btn">
-                          <ThemeButton loading={billLoading} onClick={clickFetchBill} value={"Fetch Bill"}/>
+                          <ThemeButton
+                            loading={billLoading}
+                            onClick={clickFetchBill}
+                            value={"Fetch Bill"}
+                          />
                           {/* <button
                             onClick={!loading && clickFetchBill}
                             class="btn-primery"
@@ -521,7 +551,10 @@ useEffect(() => {
                             {" "}
                             Continue{" "}
                           </button> */}
-                          <ThemeButton value={"Continue"} onClick={onClickContinue}/>
+                          <ThemeButton
+                            value={"Continue"}
+                            onClick={onClickContinue}
+                          />
                         </div>
                       )}
                     </div>
@@ -534,7 +567,7 @@ useEffect(() => {
             <div class="col-sm-12 col-md-12 col-lg-7 mobile-recharge-right-outer">
               <RecentHistory type="FastTag" serviceId={fastagServiceId} />
             </div>
-{/* {isSnackBar && <SnackBar errorMsg={errorMsg}/>} */}
+            {/* {isSnackBar && <SnackBar errorMsg={errorMsg}/>} */}
             <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
@@ -548,7 +581,23 @@ useEffect(() => {
       </section>
     </div>
   );
-  return <div className="color-body">{rechargeSection()}</div>;
+  return (
+    <div className="color-body">
+      <DynamicMeta
+        title={
+          "Fastag Recharge Online: ICICI, HDFC, Axis, SBI, IndusInd & Kotak | Instant & Secure"
+        }
+        canonical={"https://www.vipswallet.com/services/fastag"}
+        metaDescription={
+          "Easily recharge your Fastag for ICICI, HDFC, Axis, SBI, IndusInd and Kotak banks. Enjoy quick, secure, and hassle-free Fastag recharge online for seamless toll payments on highways."
+        }
+        keywords={
+          "fastag recharge, icici fastag, hdfc fastag, axis bank fastag, sbi fastag recharge,hdfc fastag recharge, icici fastag recharge, axis bank fastag recharge, indusind fastag, kotak fastag, axis fastag recharge, fastag recharge online, kotak fastag recharge"
+        }
+      />
+      {rechargeSection()}
+    </div>
+  );
 };
 
 export default FastagFront;

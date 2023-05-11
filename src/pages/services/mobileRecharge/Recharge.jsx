@@ -14,9 +14,14 @@ import {
   RecentHistory,
 } from "../../../components/services";
 import BrowsePlans from "./BrowsePlans";
-import { getActiveApi, getCircleAndOperatorByNumber, getRechargeCircleList } from "../../../redux/slices/services/rechargeSlice";
+import {
+  getActiveApi,
+  getCircleAndOperatorByNumber,
+  getRechargeCircleList,
+} from "../../../redux/slices/services/rechargeSlice";
 import { getOperators } from "../../../redux/slices/services/commonSlice";
 import { MuiSnackBar, ThemeButton } from "../../../components/common";
+import DynamicMeta from "../../../components/SEO/DynamicMeta";
 
 ReactGA.initialize(googleAnalytics);
 
@@ -34,13 +39,17 @@ const Recharge = ({ props }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   let navigate = useNavigate();
- const dispatch= useDispatch()
-  const { loggedInUser } = useSelector(state => state.loginSlice.loggetInWithOTP);
-  const { browseApi } = useSelector( state => state.rechargeSlice.browsePlan );
-  const { operatorsList } = useSelector(state => state.commonSlice.operators );
-  const { rechargeCircleList } = useSelector(state => state.rechargeSlice.rechargeCircle
+  const dispatch = useDispatch();
+  const { loggedInUser } = useSelector(
+    (state) => state.loginSlice.loggetInWithOTP
   );
-  const { circleAndOperator } = useSelector(state => state.rechargeSlice.circleAndOperatorByNumber
+  const { browseApi } = useSelector((state) => state.rechargeSlice.browsePlan);
+  const { operatorsList } = useSelector((state) => state.commonSlice.operators);
+  const { rechargeCircleList } = useSelector(
+    (state) => state.rechargeSlice.rechargeCircle
+  );
+  const { circleAndOperator } = useSelector(
+    (state) => state.rechargeSlice.circleAndOperatorByNumber
   );
   const getTodaysDate = () => {
     const today = new Date();
@@ -78,36 +87,35 @@ const Recharge = ({ props }) => {
   };
 
   useEffect(() => {
-    if(loggedInUser){
+    if (loggedInUser) {
       ReactGA.pageview(window.location.pathname);
-      dispatch(getActiveApi())
-      dispatch(getRechargeCircleList())
+      dispatch(getActiveApi());
+      dispatch(getRechargeCircleList());
       getOperatorsApi(mobileServiceId);
-  
-       if(circleAndOperator && circleAndOperator[0]){
-       setSelectedCircle(circleAndOperator[0].Circle);
-          setSelectedOperator(circleAndOperator[0].OperatorName.split("-")[0]);
-          setSelectedOperatorId(
-            circleAndOperator[0].OperatorId === 151
-              ? "JIO"
-              : circleAndOperator[0].OperatorId
-          );
-          setSelectedCircleId(circleAndOperator[0].CircleId);
-  
-          operatorsList.forEach((o, i) => {
-            if (o.OperatorName == circleAndOperator[0].OperatorName) {
-              setOpImgUrl(o.Image);
-            }
-          });
-        }
-    }else{
-      navigate("/login")
+
+      if (circleAndOperator && circleAndOperator[0]) {
+        setSelectedCircle(circleAndOperator[0].Circle);
+        setSelectedOperator(circleAndOperator[0].OperatorName.split("-")[0]);
+        setSelectedOperatorId(
+          circleAndOperator[0].OperatorId === 151
+            ? "JIO"
+            : circleAndOperator[0].OperatorId
+        );
+        setSelectedCircleId(circleAndOperator[0].CircleId);
+
+        operatorsList.forEach((o, i) => {
+          if (o.OperatorName == circleAndOperator[0].OperatorName) {
+            setOpImgUrl(o.Image);
+          }
+        });
+      }
+    } else {
+      navigate("/login");
     }
-  
-  }, [props,circleAndOperator]);
+  }, [props, circleAndOperator]);
 
   const getOperatorsApi = (serviceId) => {
-    dispatch(getOperators(serviceId))
+    dispatch(getOperators(serviceId));
   };
 
   const handleMobileNo = (e) => {
@@ -116,7 +124,7 @@ const Recharge = ({ props }) => {
     setIsSnackBar(false);
     if (e.target.value.length === 10) {
       if (rechargeType === "Prepaid") {
-        dispatch(getCircleAndOperatorByNumber(e.target.value))
+        dispatch(getCircleAndOperatorByNumber(e.target.value));
       }
     }
   };
@@ -245,7 +253,9 @@ const Recharge = ({ props }) => {
                           <button
                             className={
                               "dropdown-toggle select-toggle select-type" +
-                              (selectedOperator && mobileNo.length===10 ? "Active" : "")
+                              (selectedOperator && mobileNo.length === 10
+                                ? "Active"
+                                : "")
                             }
                             value={selectedOperator}
                             type="button"
@@ -254,7 +264,7 @@ const Recharge = ({ props }) => {
                           >
                             <span class="dropdown-text-limit">
                               {" "}
-                              {selectedOperator && mobileNo.length===10
+                              {selectedOperator && mobileNo.length === 10
                                 ? selectedOperator
                                 : "Operator"}{" "}
                             </span>
@@ -288,7 +298,9 @@ const Recharge = ({ props }) => {
                             <button
                               className={
                                 "dropdown-toggle select-toggle select-type" +
-                                (selectedCircle && mobileNo.length===10 ? "Active" : "")
+                                (selectedCircle && mobileNo.length === 10
+                                  ? "Active"
+                                  : "")
                               }
                               type="button"
                               data-toggle="dropdown"
@@ -296,7 +308,7 @@ const Recharge = ({ props }) => {
                             >
                               <span class="dropdown-text-limit">
                                 {" "}
-                                {selectedCircle && mobileNo.length===10
+                                {selectedCircle && mobileNo.length === 10
                                   ? selectedCircle
                                   : "Circle"}{" "}
                               </span>
@@ -344,7 +356,7 @@ const Recharge = ({ props }) => {
                     <div class="col-md-12">
                       {rechargeType == "Prepaid" ? (
                         <div class="mobile-recharge-btn">
-                          <ThemeButton onClick={clickNext} value={"Continue"}/>
+                          <ThemeButton onClick={clickNext} value={"Continue"} />
                           {/* <button
                             onClick={clickNext}
                             class="btn-primery"
@@ -356,7 +368,10 @@ const Recharge = ({ props }) => {
                         </div>
                       ) : (
                         <div class="mobile-recharge-btn">
-                          <ThemeButton onClick={onPostPaid} value={"Continue"}/>
+                          <ThemeButton
+                            onClick={onPostPaid}
+                            value={"Continue"}
+                          />
                           {/* <button
                             onClick={onPostPaid}
                             class="btn-primery"
@@ -381,7 +396,7 @@ const Recharge = ({ props }) => {
                 type={"Mobile"}
               />
             </div>
-{/* {isSnackBar && <SnackBar errorMsg={errorMsg} />} */}
+            {/* {isSnackBar && <SnackBar errorMsg={errorMsg} />} */}
             <MuiSnackBar
               open={isSnackBar}
               setOpen={setIsSnackBar}
@@ -397,6 +412,18 @@ const Recharge = ({ props }) => {
   );
   return (
     <div className="color-body">
+      <DynamicMeta
+        title={
+          "Online Mobile Recharge: Jio, Airtel, BSNL & Vi| Prepaid Recharge Plans"
+        }
+        canonical={"https://www.vipswallet.com/services/mobileRecharge"}
+        metaDescription={
+          "Simplify your online mobile recharge with our platform. Instant Jio, Airtel, BSNL, Vi prepaid recharges available. Fast, secure & hassle-free recharging experience."
+        }
+        keywords={
+          "online mobile recharge, jio recharge online, airtel online recharge, bsnl online recharge, vodafone recharge online, airtel recharge prepaid, vodafone recharge prepaid, idea recharge online, vi recharge online"
+        }
+      />
       {browseApi.Id == 10 ? (
         sectionCount === 1 ? (
           rechargeSection()
@@ -439,7 +466,6 @@ const Recharge = ({ props }) => {
             circleId={selectedCircleId}
             setSection={setSectionCount}
           />} */}
-      
     </div>
   );
 };

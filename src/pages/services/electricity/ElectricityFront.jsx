@@ -12,8 +12,15 @@ import { electricityServiceId, googleAnalytics } from "../../../constants";
 import ReactGA from "react-ga";
 import { useDispatch, useSelector } from "react-redux";
 import { Loading, MuiSnackBar, ThemeButton } from "../../../components/common";
-import { fetchBill, getInputFieldsByOperator } from "../../../redux/slices/services/fastagSlice";
-import { getElectricityOperators, getSubdivisionData } from "../../../redux/slices/services/electricitySlice";
+import {
+  fetchBill,
+  getInputFieldsByOperator,
+} from "../../../redux/slices/services/fastagSlice";
+import {
+  getElectricityOperators,
+  getSubdivisionData,
+} from "../../../redux/slices/services/electricitySlice";
+import DynamicMeta from "../../../components/SEO/DynamicMeta";
 ReactGA.initialize(googleAnalytics);
 
 const ElectricityFront = ({ props }) => {
@@ -36,53 +43,61 @@ const ElectricityFront = ({ props }) => {
   const [selectSubdivision, setSelectSubdivision] = useState();
   const [subdivisionCode, setSubdivisionCode] = useState();
   const [city, setSelectCity] = useState();
-  const [isClick, setIsClick] = useState(false)
+  const [isClick, setIsClick] = useState(false);
   let citys = ["Agra", "Ahmedabad", "Bhiwandi", "SMK", "Surat"];
   const [inputFields, setInputFields] = useState([]);
 
- const dispatch= useDispatch()
+  const dispatch = useDispatch();
   let navigate = useNavigate();
   const { loggedInUser } = useSelector(
     (state) => state.loginSlice.loggetInWithOTP
   );
-  const { operatorsList } = useSelector(state => state.electricitySlice.electricityOperators );
-  const { billData ,billLoading} = useSelector(state => state.fastagSlice.getBill );
-  const { operatorData } = useSelector(state => state.fastagSlice.inputFieldOperator );
-  const { subDivisionData } = useSelector(state => state.electricitySlice.getSubdivisionData );
+  const { operatorsList } = useSelector(
+    (state) => state.electricitySlice.electricityOperators
+  );
+  const { billData, billLoading } = useSelector(
+    (state) => state.fastagSlice.getBill
+  );
+  const { operatorData } = useSelector(
+    (state) => state.fastagSlice.inputFieldOperator
+  );
+  const { subDivisionData } = useSelector(
+    (state) => state.electricitySlice.getSubdivisionData
+  );
 
   const callInputFields = (ourCode) => {
     // setIsClick(true)
-    dispatch(getInputFieldsByOperator(ourCode))
+    dispatch(getInputFieldsByOperator(ourCode));
 
-      if (ourCode === jharkandOpCode) {
-        getSubdivision(ourCode);
-      } else if (ourCode === torrentOpCode) {
-        setSelectCity(citys[0]);
-      }
+    if (ourCode === jharkandOpCode) {
+      getSubdivision(ourCode);
+    } else if (ourCode === torrentOpCode) {
+      setSelectCity(citys[0]);
+    }
   };
 
   const handleAllFieldInput = (e, index) => {
     setBillFetchError("");
     setShowBill(false);
     let data = [...inputFields];
-    let newArray=  inputFields.slice()
+    let newArray = inputFields.slice();
     data[index].fieldValue = e.target.value.toUpperCase();
 
     const regex = RegExp(data[index].regex);
     if (!e.target.value.match(regex)) {
-      newArray[index].validate=false
-      setInputFields(newArray)
+      newArray[index].validate = false;
+      setInputFields(newArray);
       // inputFields[index].validate = false;
     } else {
-      newArray[index].validate=true
-      setInputFields(newArray)
+      newArray[index].validate = true;
+      setInputFields(newArray);
       // inputFields[index].validate = true;
     }
-    if(data[index].regex=='' && e.target.value==''){
-      newArray[index].validate=false
-      setInputFields(newArray)
+    if (data[index].regex == "" && e.target.value == "") {
+      newArray[index].validate = false;
+      setInputFields(newArray);
     }
-setIsClick(true)
+    setIsClick(true);
     setInputFields(data);
   };
 
@@ -112,7 +127,7 @@ setIsClick(true)
 
     if (selectedOperator) {
       if (mobileNo && mobileNo.length === 10) {
-        let validateBBPSField = inputFields.filter((o) => o.fieldValue === '');
+        let validateBBPSField = inputFields.filter((o) => o.fieldValue === "");
         if (validateBBPSField.length !== 0) {
           setIsSnackBar(true);
           setErrorMsg(`Please enter valid ${validateBBPSField[0].fieldName} `);
@@ -125,7 +140,13 @@ setIsClick(true)
           obj.MobileNumber = mobileNo;
           obj.OperatorCode = selectedOperatorId;
           obj.Ip = "123";
-dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNPassword}))
+          dispatch(
+            fetchBill({
+              obj,
+              username: loggedInUser.Mobile,
+              password: loggedInUser.TRXNPassword,
+            })
+          );
         }
       } else {
         setIsSnackBar(true);
@@ -137,43 +158,41 @@ dispatch(fetchBill({obj,username:loggedInUser.Mobile,password:loggedInUser.TRXNP
     }
   };
   useEffect(() => {
-   if(loggedInUser){
-    ReactGA.pageview(window.location.pathname);
-    // if(operatorData.length===0){
-      dispatch(getElectricityOperators())
-    // }
-    const arr = []
-    if(operatorData){
-      operatorData.map((d, i) => {
-        
-        arr.push({
-          fieldName: d.name,
-          fieldValue: "",
-          regex: d.Regex,
-          validate: true,
-        })
-      });
+    if (loggedInUser) {
+      ReactGA.pageview(window.location.pathname);
+      // if(operatorData.length===0){
+      dispatch(getElectricityOperators());
+      // }
+      const arr = [];
+      if (operatorData) {
+        operatorData.map((d, i) => {
+          arr.push({
+            fieldName: d.name,
+            fieldValue: "",
+            regex: d.Regex,
+            validate: true,
+          });
+        });
+      }
+      setIsClick(true);
+      setInputFields(arr);
+    } else {
+      navigate("/login");
     }
-    setIsClick(true)
-    setInputFields(arr);
-   }else{
-navigate("/login")
-   }
-
-  }, [props,operatorData]);
+  }, [props, operatorData]);
   useEffect(() => {
-    if(billData.ResponseStatus===1){
-      if(billData.Data.ResponseMessage==="Successful"){
-     setShowBill(true);
-                   setBillFetchData(billData.Data);
-                   setBillAmount(parseFloat(billData.Data.BillAmount));
-   }else{
-     setBillFetchError(billData.Data.ResponseMessage);
-   }
-   }else if(billData.ResponseStatus===0){
-     setIsSnackBar(true)
-     setErrorMsg(billData.Remarks)
-   }
+    if (billData.ResponseStatus === 1) {
+      if (billData.Data.ResponseMessage === "Successful") {
+        setShowBill(true);
+        setBillFetchData(billData.Data);
+        setBillAmount(parseFloat(billData.Data.BillAmount));
+      } else {
+        setBillFetchError(billData.Data.ResponseMessage);
+      }
+    } else if (billData.ResponseStatus === 0) {
+      setIsSnackBar(true);
+      setErrorMsg(billData.Remarks);
+    }
     // if(billData.ResponseMessage==="Successful"){
     //   setShowBill(true);
     //                 setBillFetchData(billData);
@@ -181,17 +200,17 @@ navigate("/login")
     // }else{
     //   setBillFetchError(billData.ResponseMessage);
     // }
-  }, [billData])
+  }, [billData]);
   useEffect(() => {
-    if(subDivisionData){
+    if (subDivisionData) {
       setSubdivision(sortSubdivision(subDivisionData));
-      setSelectSubdivision( subDivisionData[36]?.Name);
-      setSubdivisionCode( subDivisionData[36]?.SubDivisionCode);
-  }
-  }, [subDivisionData])
-  
+      setSelectSubdivision(subDivisionData[36]?.Name);
+      setSubdivisionCode(subDivisionData[36]?.SubDivisionCode);
+    }
+  }, [subDivisionData]);
+
   const getSubdivision = (ourCode) => {
-    dispatch(getSubdivisionData(ourCode))
+    dispatch(getSubdivisionData(ourCode));
   };
 
   const handleMobileNo = (e) => {
@@ -207,9 +226,9 @@ navigate("/login")
   };
 
   const sortSubdivision = (subdivision) => {
-    let _sortSubdivision = subdivision.slice().sort((a, b) =>
-      a.Name > b.Name ? 1 : -1
-    );
+    let _sortSubdivision = subdivision
+      .slice()
+      .sort((a, b) => (a.Name > b.Name ? 1 : -1));
     return _sortSubdivision;
   };
 
@@ -597,7 +616,8 @@ navigate("/login")
                       ? jharkandOperatorFields()
                       : city
                       ? torrentOperatorFields()
-                      : selectedOperator && inputFields.map((input, i) => (
+                      : selectedOperator &&
+                        inputFields.map((input, i) => (
                           <div class="row">
                             <div class="col-lg-12 mobile-recharge-field p-0">
                               <div class="input-field">
@@ -656,7 +676,7 @@ navigate("/login")
 
                     {showBill && mobileNo && fetchBillSection()}
 
-                    {mobileNo.length===10 && showBillFetchError()}
+                    {mobileNo.length === 10 && showBillFetchError()}
 
                     <div class="col-md-12">
                       {!showBill && operatorPaymentMode !== 2 && (
@@ -668,7 +688,11 @@ navigate("/login")
                           >
                             {billLoading ? <Loading /> : `Fetch Bill`}
                           </button> */}
-                          <ThemeButton onClick={clickFetchBill} loading={billLoading} value={"Fetch Bill"}/>
+                          <ThemeButton
+                            onClick={clickFetchBill}
+                            loading={billLoading}
+                            value={"Fetch Bill"}
+                          />
                         </div>
                       )}
                       {operatorPaymentMode === 2 || showBill ? (
@@ -681,7 +705,10 @@ navigate("/login")
                             {" "}
                             Continue{" "}
                           </button> */}
-                          <ThemeButton onClick={onClickContinue} value={"Continue"}/>
+                          <ThemeButton
+                            onClick={onClickContinue}
+                            value={"Continue"}
+                          />
                         </div>
                       ) : (
                         <div></div>
@@ -713,6 +740,18 @@ navigate("/login")
 
   return (
     <div className="color-body">
+      <DynamicMeta
+        title={
+          "Pay Electricity Bill Online: UPPCL, KSEB, BESCOM & More | Fast & Secure Bill Payment"
+        }
+        canonical={"https://www.vipswallet.com/services/electricity"}
+        metaDescription={
+          "Simplify your electricity bill payments with our online platform. Instant UPPCL, KSEB, and BESCOM bill payments. Easily check and pay your bijli bill online with a few clicks. Safe & user-friendly."
+        }
+        keywords={
+          "pay electricity bill, electricity bill payment, pay electricity bill online, uppcl bill, uppcl bill pay, bijli bill check, uppcl bill payment, kseb bill payment,  electricity bill payment online,  bescom online payment"
+        }
+      />
       {rechargeSection()}
     </div>
   );
