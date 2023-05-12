@@ -4,6 +4,7 @@ import { operartorsUrl } from "../../constants";
 import { getRechargeHistory } from "../../redux/slices/services/commonSlice";
 import { getCircleAndOperatorByNumber } from "../../redux/slices/services/rechargeSlice";
 import { Loading } from "../common";
+// import "./../../../public/images/logos/vips-logo-small.png";
 
 const RecentHistory = ({
   setMobileNo,
@@ -28,9 +29,9 @@ const {loading,rechargeHistoryList}= useSelector(state => state.commonSlice.rech
 
   const { loggedInUser } = useSelector(
     state => state.loginSlice.loggetInWithOTP);
+    console.log(rechargeHistoryList);
   useEffect(() => {
     const toDate = getTodaysDate();
-
 if(loggedInUser){
   dispatch(getRechargeHistory({userName:loggedInUser.Mobile,password:loggedInUser.TRXNPassword,to:toDate,serviceId,type}))
 }
@@ -64,7 +65,7 @@ if(loggedInUser){
                           {" "}
                           <img
                             alt=""
-                            src={operartorsUrl + `${r.Image}`}
+                            src={r.Image==null ?"/images/logos/vips-logo-small.png": `${operartorsUrl}${r.Image}`}
                             class="recharge-operator-img"
                           />{" "}
                         </td>
