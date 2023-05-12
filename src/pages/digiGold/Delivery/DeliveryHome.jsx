@@ -15,9 +15,33 @@ const DeliveryHome = () => {
   const { list, listLoading } = useSelector(
     (state) => state.DeliverySlice.coinList
   );
+  const [sort, setSort] = useState("All");
+  const [filtered, setFiltered] = useState([]);
   useEffect(() => {
     dispatch(getMetalProductlist({ page }));
   }, []);
+  useEffect(() => {
+    setFiltered(list?.Data?.result?.data);
+  }, [list]);
+
+  const handleChange = (e) => {
+    // const Fil = list?.Data?.result?.data.filter((a) => a.metalType === e);
+    // Fil.length === 0 ? setFiltered(list?.Data?.result?.data) : setFiltered(Fil);
+    // console.log(e, "ee");
+
+    if (e === "gold") {
+      setFiltered(
+        list?.Data?.result?.data.filter((a) => a.metalType === "gold")
+      );
+    } else if (e === "silver") {
+      setFiltered(
+        list?.Data?.result?.data.filter((a) => a.metalType === "silver")
+      );
+    } else if (e === "all") {
+      setFiltered(list?.Data?.result?.data);
+    }
+  };
+
   return (
     <>
       <section class="section-align buy-sell-form">
@@ -42,17 +66,26 @@ const DeliveryHome = () => {
         <section class="delivery-charges">
           <div class="container-fluid">
             <div class="col-11 delivery-charges-outer">
-              <div class="digigold-work-section-head">
+              {/* <div class="digigold-work-section-head">
                 <h1 class="section-head-title">Making & Delivery Charges</h1>
-              </div>
+              </div> */}
               <div class="row">
                 <div class="col-12">
                   <div class="row justify-content-end digigold-product-select">
-                    <Select placeholder="All" style={{ width: 150 }}>
-                      <Select.Option value="All">All</Select.Option>
-                      <Select.Option value="Coin">Coin</Select.Option>
-                      <Select.Option value="Jewellery">Jewellery</Select.Option>
-                      <Select.Option value="Bar">Bar</Select.Option>
+                    <Select
+                      onChange={handleChange}
+                      placeholder="All"
+                      style={{ width: 200 }}
+                    >
+                      <Select.Option value="all">All</Select.Option>
+                      <Select.Option value="gold">Gold</Select.Option>
+                      <Select.Option value="silver">Silver</Select.Option>
+                      {/* <Select.Option value="lth">
+                        Price : Low to High
+                      </Select.Option>
+                      <Select.Option value="htl">
+                        Price : High to Low
+                      </Select.Option> */}
                     </Select>
 
                     <div
@@ -71,7 +104,7 @@ const DeliveryHome = () => {
                   </div>
                 </div>
 
-                {list?.Data?.result?.data?.map((e) => {
+                {filtered?.map((e) => {
                   return (
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                       <div class="digi-coin-wrapper">

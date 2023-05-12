@@ -21,6 +21,7 @@ import { getWalletBalance } from "../../../redux/slices/payment/walletSlice";
 import OTPModal from "../../../components/common/OTPModal";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { MuiSnackBar } from "../../../components/common";
+import { async } from "q";
 
 const { Item } = Form;
 const DeliveryCheckout = () => {
@@ -72,7 +73,7 @@ const DeliveryCheckout = () => {
     dispatch(getWalletBalance({ username: Username, password: Password }));
   }, []);
   useEffect(() => {
-    setSelectAdd(address.Data?.result[0]);
+    setSelectAdd(address.Data?.result[address?.Data?.result?.length - 1]);
   }, [address]);
   const handleAddressAdd = async () => {
     const name = formData.name;
@@ -105,10 +106,12 @@ const DeliveryCheckout = () => {
       });
       setIsSnackBar(true);
       setSuccessMsg(res.payload.Remarks);
+      setErrorMsg("");
       dispatch(getDigiAddressList({ Username, Password }));
-    } else {
+    } else if (res.payload.ResponseStatus === 0) {
       setIsSnackBar(true);
       setErrorMsg(res.payload.Remarks);
+      setSuccessMsg("");
     }
   };
   useEffect(() => {
@@ -132,9 +135,11 @@ const DeliveryCheckout = () => {
       dispatch(getDigiAddressList({ Username, Password }));
       setIsSnackBar(true);
       setSuccessMsg("Address Delete Successfully");
-    } else {
+      setErrorMsg("");
+    } else if (res.payload.ResponseStatus === 0) {
       setIsSnackBar(true);
       setErrorMsg(res.payload.Remarks);
+      setSuccessMsg("");
     }
   };
 
@@ -149,13 +154,13 @@ const DeliveryCheckout = () => {
       items: items,
     };
     const res = await dispatch(deliveryPlaceOrder({ Data }));
-    if (res.payload.ResponseStatus === 2 && res.payload.ErrorCode === 200) {
+    console.log(res, "res");
+    if (res.payload.ResponseStatus === 2) {
+      console.log("Kya hua bhai");
       setStep(1);
       setIsSnackBar(true);
       setSuccessMsg(res.payload.Remarks);
-    } else {
-      setIsSnackBar(true);
-      setErrorMsg(res.payload.Remarks);
+      setErrorMsg("");
     }
     if (
       res.payload.ResponseStatus === 1 &&
@@ -163,16 +168,14 @@ const DeliveryCheckout = () => {
     ) {
       setStep(2);
       dispatch(clearCart());
-    } else {
-      setIsSnackBar(true);
-      setErrorMsg(res.payload.Remarks);
     }
     if (res.payload.ResponseStatus === 0) {
       setIsSnackBar(true);
       setErrorMsg(res.payload.Remarks);
+      setSuccessMsg("");
     }
   };
-  const resendOtp = () => {
+  const resendOtp = async () => {
     const Data = {
       Username: Username,
       Password: Password,
@@ -182,7 +185,12 @@ const DeliveryCheckout = () => {
       otp: "",
       items: items,
     };
-    dispatch(deliveryPlaceOrder({ Data }));
+    const res = await dispatch(deliveryPlaceOrder({ Data }));
+    if (res.payload.ResponseStatus === 2) {
+      setIsSnackBar(true);
+      setSuccessMsg(res.payload.Remarks);
+      setErrorMsg("");
+    }
   };
 
   const handleClose = () => {
@@ -564,9 +572,13 @@ const DeliveryCheckout = () => {
           </Item>
           <Item
             name="address"
-            rules={[{ required: true, message: "Please enter your address!" }]}
+            rules={[
+              { required: true, message: "Please enter your address!" },
+              { min: 10, message: "Min 10 Character Required" },
+            ]}
           >
             <Input.TextArea
+              minLength={10}
               onChange={(e) =>
                 setFormdata({ ...formData, address: e.target.value })
               }
@@ -579,13 +591,14 @@ const DeliveryCheckout = () => {
               name="pincode"
               rules={[
                 { required: true, message: "Please enter your pincode!" },
-                {
-                  pattern: /^[0-9]{6}$/,
-                  message: "Please enter a valid pincode!",
-                },
+                // {
+                //   pattern: /^[0-9]{6}$/,
+                //   message: "Please enter a valid pincode!",
+                // },
               ]}
             >
               <Input
+                onKeyPress={handleMobileKeyPress}
                 maxLength={6}
                 onChange={(e) =>
                   setFormdata({ ...formData, pincode: e.target.value })
@@ -605,7 +618,18 @@ const DeliveryCheckout = () => {
             </Item>
           </Spin>
           <Item>
-            <Button loading={AddLoading} htmlType="submit" type="primary">
+            <Button
+              disabled={
+                pinCode[0]?.Status === "Error" ||
+                !formData.mobileNumber ||
+                !formData.name ||
+                !formData.address ||
+                !formData.pincode
+              }
+              loading={AddLoading}
+              htmlType="submit"
+              type="primary"
+            >
               Submit
             </Button>
           </Item>
@@ -652,7 +676,12 @@ const DeliveryCheckout = () => {
           </div>
 
           <div class="order-confirm-success-btn">
-            <Link type="button" to="/vipsgold-orders" class="btn-primery">
+            <Link
+              state={"delivery"}
+              type="button"
+              to="/vipsgold-orders"
+              class="btn-primery"
+            >
               Go to My Orders
             </Link>
           </div>

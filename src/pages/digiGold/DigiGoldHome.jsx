@@ -818,7 +818,7 @@ const DigiGoldHome = ({
       <SuccessModal
         modal={modal}
         response={response}
-        route={"/vipsgold-orders"}
+        route={["/vipsgold-orders", active === 2 && "gift"]}
         handleCloseGiftSuccess={handleCloseGiftSuccess}
       />
       <UserNotExist />
@@ -851,17 +851,17 @@ export const quickServiceArr = [
   //   img: "sip-icon.svg",
   //   title: "SIP",
   // },
-  // {
-  //   img: "delivery-icon.svg",
-  //   title: "DELIVERY",
-  //   route: "/vipsgold-delivery",
-  // },
   {
     img: "gold_gift_icon.svg",
     title: "Gift",
     buy: 2,
-
     route: "/vipsgold",
+  },
+  {
+    img: "delivery-icon.svg",
+    title: "DELIVERY",
+    route: "/vipsgold-delivery",
+    buy: 3,
   },
   // {
   //   img: "my-orders-icon.svg",

@@ -28,7 +28,7 @@ const SuccessModal = ({ modal, response, route, handleCloseGiftSuccess }) => {
           <div class="digigold-success-btn">
             <button
               onClick={() => {
-                navigate(route);
+                navigate(route[0], { state: route[1] });
               }}
               class="btn btn-primery"
             >

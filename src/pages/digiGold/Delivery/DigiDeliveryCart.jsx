@@ -158,12 +158,14 @@ const DigiDeliveryCart = () => {
                               </div>
                               <h2
                                 style={{
-                                  fontSize: 20,
-                                  alignSelf: "center",
-                                  paddingRight: 12,
-                                  paddingLeft: 12,
-                                  paddingTop: 5,
+                                  fontSize: 17,
+                                  // alignSelf: "center",
+                                  // paddingRight: 12,
+                                  // paddingLeft: 12,
+                                   paddingTop: 7,
+                                  // border : '1px solid gray'
                                 }}
+                                class="quantity-number"
                               >
                                 {e?.quantity}
                               </h2>

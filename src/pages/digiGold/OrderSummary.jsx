@@ -1656,7 +1656,7 @@ const OrderSummary = () => {
             <button
               onClick={() => {
                 localStorage.removeItem("valueType");
-                navigate("/vipsgold-orders");
+                navigate("/vipsgold-orders", { state: state.type });
               }}
               class="btn btn-primery"
             >

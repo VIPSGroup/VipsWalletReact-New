@@ -155,9 +155,7 @@ const DigiProductDetails = ({ setTitle }) => {
           <div class="digigold-work-section-head delivery-section-head">
             <h1 class="section-head-title py-2">Product Details</h1>
             <p class="col-lg-8 m-auto digigold-section-subtitle">
-              The price mentioned here is a nominal fee for manufacturing and
-              delivering the article at your doorstep. You need to have
-              sufficient quantity of gold and silver to request delivery.
+              {data.description}
             </p>
           </div>
 
@@ -227,43 +225,72 @@ const DigiProductDetails = ({ setTitle }) => {
                         </span>
                         <span class="digigold-product-details-status">
                           {" "}
-                          (Making & Delivery Charges){" "}
+                          (Inclusive of all taxes){" "}
                         </span>
                       </div>
 
                       <div class="">
-                        {/* <div class="digigold-product-details-choose-quantity">
-                          <div
+                        <div
+                          style={{
+                            backgroundColor: "#f8f9fb",
+                            border: "1px solid lightblue",
+                            borderRadius: 7,
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            paddingLeft: 10,
+                            paddingRight: 10,
+                            paddingTop: 7,
+                          }}
+                          // class="digigold-product-details-choose-quantity"
+                        >
+                          {/* <div
                             onClick={() => dispatch(decreaseQuantity(data))}
                             class="value-button decrease-sign"
                             id="decrease"
                           >
                             {" "}
                             <i class="fa-solid fa-minus"></i>{" "}
-                          </div>
+                          </div> */}
                           <h2
                             style={{
-                              fontSize: 20,
-                              alignSelf: "center",
-                              paddingRight: 12,
-                              paddingLeft: 12,
-                              paddingTop: 5,
+                              fontSize: 17,
+                              // alignSelf: "center",
+                              // paddingRight: 12,
+                              // paddingLeft: 12,
+                              // paddingTop: 5,
+                            }}
+                          >
+                            Quantity :
+                          </h2>
+                          <h2
+                            style={{
+                              fontSize: 17,
+                              padding: 3,
+                              borderRadius: 10,
+                              // alignSelf: "center",
+                              paddingRight: 10,
+                              paddingLeft: 10,
+                              // paddingTop: 5,
+                              marginLeft: 6,
+                              border: "1px lightblue solid",
+                              backgroundColor: "white",
                             }}
                           >
                             {items &&
                               (items?.find((a) => a.sku === data.sku)
                                 ?.quantity ??
-                                0)}
+                                1)}
                           </h2>
 
-                          <div
-                            onClick={() => IncreaseQty(data)}
+                          {/* <div
+                            // onClick={() => IncreaseQty(data)}
                             class="value-button increase-sign"
                             id="increase"
                           >
                             <i class="fa-solid fa-plus"></i>{" "}
-                          </div>
-                        </div> */}
+                          </div> */}
+                        </div>
                       </div>
                     </div>
                   </div>

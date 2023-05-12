@@ -281,6 +281,7 @@ const CommonTopNav = ({
                 pathname !== "/vipsgold-faq" &&
                 pathname !== "/vipsgold-delivery" &&
                 pathname !== "/vipsgold-cart" &&
+                pathname !== "/vipsgold-order-details"&&
                 pathname !== "/vipsgold-checkout" &&
                 pathname !== "/vipsgold-termscondtion" &&
                 pathname !== `/vipsgold-delivery/${title}` ? (
@@ -345,6 +346,7 @@ const CommonTopNav = ({
                   pathname !== "/vipsgold-faq" &&
                   pathname !== "/vipsgold-cart" &&
                   pathname !== "/vipsgold-checkout" &&
+                  pathname !== "/vipsgold-order-details"&&
                   pathname !== "/vipsgold-termscondtion" &&
                   pathname !== "/vipsgold-delivery" &&
                   pathname !== `/vipsgold-delivery/${title}` && (
@@ -458,6 +460,7 @@ const CommonTopNav = ({
                   pathname !== "/vipsgold-faq" &&
                   pathname !== "/vipsgold-cart" &&
                   pathname !== "/vipsgold-checkout" &&
+                  pathname !== "/vipsgold-order-details"&&
                   pathname !== "/vipsgold-termscondtion" &&
                   pathname !== "/vipsgold-delivery" &&
                   pathname !== `/vipsgold-delivery/${title}` ? (
@@ -566,6 +569,7 @@ const CommonTopNav = ({
           pathname !== "/vipsgold-delivery" &&
           pathname !== "/vipsgold-faq" &&
           pathname !== "/vipsgold-cart" &&
+          pathname !== "/vipsgold-order-details"&&
           pathname !== "/vipsgold-checkout" &&
           pathname !== "/vipsgold-termscondtion" &&
           pathname !== `/vipsgold-delivery/${title}` ? (
@@ -705,7 +709,7 @@ const CommonTopNav = ({
                     <span class="navbar-bottom-serv-box-title">Gift</span>
                   </Link>
                 </div>
-                <div class="navbar-bottom-serv-box">
+                {/* <div class="navbar-bottom-serv-box">
                   <div
                     // href="#"
                     onClick={() => {
@@ -720,7 +724,7 @@ const CommonTopNav = ({
                     />
                     <span class="navbar-bottom-serv-box-title">SIP</span>
                   </div>
-                </div>
+                </div> */}
 
                 <div class="navbar-bottom-serv-box">
                   <Link

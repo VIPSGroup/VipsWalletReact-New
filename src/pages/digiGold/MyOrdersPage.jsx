@@ -13,11 +13,12 @@ import {
   MyOrders,
 } from "../../redux/slices/digiGold/userProfileSlice";
 import { CurrentRateSection } from "./MyVault";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const MyOrdersPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { state } = useLocation();
   const [dataSource, setDataSource] = useState([]);
   const [tab, setTab] = useState("Buy");
   const [modal, setModal] = useState(false);
@@ -57,6 +58,9 @@ const MyOrdersPage = () => {
   useEffect(() => {
     setDataSource(ordersList?.Data);
   }, [ordersList]);
+  useEffect(() => {
+    setTab(state.charAt(0).toUpperCase() + state.slice(1));
+  }, [state]);
 
   var columns;
   if (tab === "Buy") {
