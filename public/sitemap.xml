@@ -1,0 +1,35 @@
+<!-- 
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.mysite.com/</loc>
+    <lastmod>2022-08-27</lastmod>
+  </url>
+  <url>
+    <loc>https://www.mysite.com/blogs/</loc>
+    <lastmod>2022-08-27</lastmod>
+  </url>
+</urlset> -->
+
+import xml.etree.ElementTree as ET
+
+# XML content
+xml_content = '''<url>
+    <loc>https://www.mysite.com/</loc>
+    <lastmod>2022-08-27</lastmod>
+</url>'''
+
+# Parse the XML content
+root = ET.fromstring(xml_content)
+
+# Define the XML namespace
+namespace = {'ns': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+
+# Map the XML object to a dictionary
+url_dict = {}
+for child in root:
+    tag = child.tag.split('}')[-1]  # Remove the namespace prefix
+    url_dict[tag] = child.text
+
+# Print the mapped dictionary
+print(url_dict)
