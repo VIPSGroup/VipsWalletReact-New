@@ -37,9 +37,9 @@ const DeliveryOrderDetails = () => {
           </div>
           <Spin spinning={orderDetailLoad}>
             <div class="col-lg-10 m-auto digigold-delivery-order-wrapper">
-              <div class="col-lg-12 delivery-reorder-btn">
+              {/* <div class="col-lg-12 delivery-reorder-btn">
                 <button class="">Reorder</button>
-              </div>
+              </div> */}
 
               <div class="row digigold-delivery-details">
                 <div class="col-lg-4 col-md-6 col-sm-6 delivery-details-box">

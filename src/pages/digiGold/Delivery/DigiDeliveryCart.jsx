@@ -14,6 +14,7 @@ import { loginDigiGold } from "../../../redux/slices/digiGold/registerDigiSlice"
 import MyVault from "../MyVault";
 import { useState } from "react";
 import { MuiSnackBar } from "../../../components/common";
+import { Button } from "antd";
 
 const DigiDeliveryCart = () => {
   const dispatch = useDispatch();
@@ -88,9 +89,27 @@ const DigiDeliveryCart = () => {
 
           {/* <!-- product details start --> */}
           {items.length === 0 ? (
-            <div class=" text-center cart-no-data empty-cart">
-              <h3 class="nodata-title mb-4">Cart is Empty</h3>
-              <img style={{ width: 500 }} src="/images/empty_cart.svg" />
+            <div
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+                flexDirection: "column",
+              }}
+              className=""
+            >
+              <div class=" text-center cart-no-data empty-cart">
+                <h3 class="nodata-title mb-4">Cart is Empty</h3>
+                <img style={{ width: 500 }} src="/images/empty_cart.svg" />
+              </div>
+              <Button
+                onClick={() => navigate("/vipsgold-delivery")}
+                style={{ marginTop: 40 }}
+                size="large"
+                type="primary"
+              >
+                Back to Delivery
+              </Button>
             </div>
           ) : (
             <div class="col-lg-10 m-auto digigold-shopping-cart-wrapper">
@@ -124,7 +143,7 @@ const DigiDeliveryCart = () => {
                         <div class="digigold-cart-product">
                           <div class="digigold-cart-product-details">
                             <div class="digigold-cart-product-image">
-                              {/* <img alt="" src={e?.productImages[0].url} /> */}
+                              <img alt="" src={e?.productImages[0]?.url} />
                             </div>
                             <div class="digigold-cart-product-title">
                               <p class="digigold-cart-product-name">
@@ -162,7 +181,7 @@ const DigiDeliveryCart = () => {
                                   // alignSelf: "center",
                                   // paddingRight: 12,
                                   // paddingLeft: 12,
-                                   paddingTop: 7,
+                                  paddingTop: 7,
                                   // border : '1px solid gray'
                                 }}
                                 class="quantity-number"

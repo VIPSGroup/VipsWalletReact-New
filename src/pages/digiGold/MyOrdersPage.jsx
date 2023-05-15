@@ -58,8 +58,9 @@ const MyOrdersPage = () => {
   useEffect(() => {
     setDataSource(ordersList?.Data);
   }, [ordersList]);
+  console.log(state, "state")
   useEffect(() => {
-    setTab(state.charAt(0).toUpperCase() + state.slice(1));
+    setTab(state ? state?.charAt(0)?.toUpperCase() + state?.slice(1) : "Buy");
   }, [state]);
 
   var columns;
@@ -164,11 +165,11 @@ const MyOrdersPage = () => {
         dataIndex: "merchantID",
         key: "merchantID",
       },
-      {
-        title: "Quantity (gms)",
-        dataIndex: "qty",
-        key: "qty",
-      },
+      // {
+      //   title: "Quantity (gms)",
+      //   dataIndex: "qty",
+      //   key: "qty",
+      // },
       {
         title: "Ship To",
         dataIndex: "shipTo",

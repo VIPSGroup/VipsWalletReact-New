@@ -308,8 +308,8 @@ export const subscriptionServiceId = 48;
 export const clubAndAssociationServiceId = 50;
 export const municipalTaxServiceId = 44;
 export const municipalServicesServiceId = 45;
-export const digiGoldServiceId = 54; //For Live DigiID
-// export const digiGoldServiceId = 57; //For Staging DigiID
+// export const digiGoldServiceId = 54; //For Live DigiID
+export const digiGoldServiceId = 57; //For Staging DigiID
 export const currentAppVersion = pakcage.version;
 
 export const jharkandOpCode = "JBVNL0000JHA01";

@@ -196,6 +196,7 @@ const DeliveryCheckout = () => {
   const handleClose = () => {
     setStep("");
     setOtp("");
+    navigate("/vipsgold-cart");
   };
   useEffect(() => {
     return () => {
@@ -245,13 +246,12 @@ const DeliveryCheckout = () => {
                             </div>
 
                             <div class="shopping-cart-address-card">
-                              <p class="shopping-cart-address-card-title">
-                                {" "}
-                                Default Address{" "}
-                              </p>
                               {address?.Data?.result?.map((e) => {
                                 return (
                                   <div class="shopping-cart-address-outer ">
+                                    {/* <p class="shopping-cart-address-card-title">
+                                      Default Address
+                                    </p> */}
                                     <div class="col-sm-10 col-md-10 col-lg-10 shopping-cart-address-info p-0">
                                       <div>
                                         <label>
