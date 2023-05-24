@@ -44,9 +44,8 @@ const InspiredByBrowsingHistory = () => {
           title="Inspired "
           subtitle="By Browsing History"
           products={products}
-          description="P.S - Don’t keep scrolling or browning, shop them now, before the VIPS Wallet deal and the price is gone.
+          description="Products you’ve viewed recently. P.S - Don’t keep scrolling or browning, shop them now, before the VIPS Wallet deal and the price is gone.
         "
-          subtitleDesc={"Products you’ve viewed recently."}
         />
       )}
     </>

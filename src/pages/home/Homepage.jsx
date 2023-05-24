@@ -75,7 +75,7 @@ const Homepage = ({ setIsHomeTopNav }) => {
       <ShoppingCategoryProduct
         title="VIPS"
         subtitle=" Product"
-        description="VIPS Wallet shopping portal also offers custom VIPS-labelled products. Shop the look only on VIPS Wallet. Explore the merchandise we offer!       "
+        description="VIPS Wallet shopping portal also offers custom VIPS-labelled products. Shop the look only on VIPS Wallet. Explore the merchandise we offer!"
         categoryId={11}
         subtitleDesc={"Join the trend like others."}
       />

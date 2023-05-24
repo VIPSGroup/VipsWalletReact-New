@@ -21,9 +21,8 @@ const DealsofTheDay = () => {
         loading={loading}
         subtitle="of the Day"
         products={data?.Data?.filter((product) => product.Quantity !== 0)}
-        description="VIPS Wallet offers competitive deals and low prices on selected products each day. For a better shopping experience, check the section daily to shop for your most awaited product at a low cost as compared to other shopping portals.
+        description="Exclusive deals only for VIPS Wallet users. VIPS Wallet offers competitive deals and low prices on selected products each day. For a better shopping experience, check the section daily to shop for your most awaited product at a low cost as compared to other shopping portals.
         "
-        subtitleDesc={"Exclusive deals only for VIPS Wallet users."}
       />
     </>
   );
