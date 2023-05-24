@@ -108,8 +108,8 @@ export const deliveryPlaceOrder = createAsyncThunk(
     const formData = new URLSearchParams();
     formData.append("Username", Username);
     formData.append("Password", Password);
-    formData.append("goldGram", goldGram);
-    formData.append("silverGram", silverGram);
+    formData.append("goldGram", goldGram || 0);
+    formData.append("silverGram", silverGram || 0);
     formData.append("otp", otp ? otp : "");
     formData.append("AppType", appType);
     formData.append("currentAppVersion", currAppVersion);

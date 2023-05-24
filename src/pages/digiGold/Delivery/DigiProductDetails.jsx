@@ -21,6 +21,9 @@ const DigiProductDetails = ({ setTitle }) => {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const { items } = useSelector((state) => state.DeliverySlice);
+  const { proDetails } = useSelector(
+    (state) => state.DeliverySlice.coinDetails
+  );
 
   const { logData, loading: digiLogLoading } = useSelector(
     (state) => state.registerDigiSlice.login
@@ -64,8 +67,13 @@ const DigiProductDetails = ({ setTitle }) => {
             ? goldQty + parseFloat(e.productWeight)
             : parseFloat(e.productWeight))
         ) {
-          dispatch(addItem(e));
-          navigate("/vipsgold-cart");
+          if (goldQty < e.stock) {
+            dispatch(addItem(e));
+            navigate("/vipsgold-cart");
+          }else {
+            setIsSnackBar(true);
+            setErrorMsg("You can't add more qty");
+          }
         } else {
           setIsSnackBar(true);
           setErrorMsg("You don't have enough gold to Deliver");
@@ -81,8 +89,13 @@ const DigiProductDetails = ({ setTitle }) => {
             ? silverQty + parseFloat(e.productWeight)
             : parseFloat(e.productWeight))
         ) {
-          dispatch(addItem(e));
-          navigate("/vipsgold-cart");
+          if (silverQty < e.stock) {
+            dispatch(addItem(e));
+            navigate("/vipsgold-cart");
+          }else {
+            setIsSnackBar(true);
+            setErrorMsg("You can't add more qty");
+          }
         } else {
           setIsSnackBar(true);
           setErrorMsg("You don't have enough silver to Deliver");
@@ -385,7 +398,7 @@ const DigiProductDetails = ({ setTitle }) => {
                   <div class="digigold-product-details-info-box">
                     <div class="digigold-product-details-btn">
                       <button
-                        onClick={() => handleClick(data)}
+                        onClick={() => handleClick(proDetails.Data.result.data)}
                         class="btn btn-primery"
                         type="button"
                       >

@@ -7,6 +7,7 @@ import {
   addItem,
   decreaseQuantity,
   deleteItem,
+  getMetalProductDetails,
   increaseQuantity,
   removeItem,
 } from "../../../redux/slices/digiGold/delivery/DeliverySlice";
@@ -20,6 +21,7 @@ const DigiDeliveryCart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isSnackBar, setIsSnackBar] = useState(false);
+  const [stock, setStock] = useState();
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const { items } = useSelector((state) => state.DeliverySlice);
@@ -41,8 +43,12 @@ const DigiDeliveryCart = () => {
     const password = loggedInUser.TRXNPassword;
     dispatch(loginDigiGold({ username, password }));
   }, []);
-
-  const IncreaseQty = (e) => {
+  const IncreaseQty = async (e) => {
+    // const sku = e.sku;
+    // if (!stock) {
+    //   const res = await dispatch(getMetalProductDetails({ sku }));
+    //   setStock(res.payload.Data.result.data.stock);
+    // }
     const GoldBalance = logData.Data.GoldGrams;
     const SilverBalance = logData.Data.SilverGrams;
     let goldQty = 0;
@@ -59,21 +65,30 @@ const DigiDeliveryCart = () => {
 
     if (e.metalType === "gold") {
       if (GoldBalance > goldQty + parseFloat(e.productWeight)) {
-        dispatch(increaseQuantity(e));
+        if (goldQty < items.find((a) => a.sku === e.sku).stock) {
+          dispatch(increaseQuantity(e));
+        } else {
+          setIsSnackBar(true);
+          setErrorMsg("You can't add more qty  ");
+        }
       } else {
         setIsSnackBar(true);
         setErrorMsg("You don't have enough gold to add more qty  ");
       }
     } else {
       if (SilverBalance > silverQty + parseFloat(e.productWeight)) {
-        dispatch(increaseQuantity(e));
+        if (silverQty < items.find((a) => a.sku === e.sku).stock) {
+          dispatch(increaseQuantity(e));
+        } else {
+          setIsSnackBar(true);
+          setErrorMsg("You can't add more qty  ");
+        }
       } else {
         setIsSnackBar(true);
         setErrorMsg("You don't have enough silver to add more qty  ");
       }
     }
   };
-
   return (
     <>
       <section class="section-align buy-sell-form">

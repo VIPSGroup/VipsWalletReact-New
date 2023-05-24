@@ -40,7 +40,6 @@ const MyOrdersPage = () => {
   const { loading: SellLoad } = useSelector(
     (state) => state.userProfileSlice.sellStatus
   );
-  // const { pdfData } = useSelector((state) => state.userProfileSlice.invoice);
 
   useEffect(() => {
     if (loggedInUser) {
@@ -58,7 +57,6 @@ const MyOrdersPage = () => {
   useEffect(() => {
     setDataSource(ordersList?.Data);
   }, [ordersList]);
-  console.log(state, "state")
   useEffect(() => {
     setTab(state ? state?.charAt(0)?.toUpperCase() + state?.slice(1) : "Buy");
   }, [state]);
