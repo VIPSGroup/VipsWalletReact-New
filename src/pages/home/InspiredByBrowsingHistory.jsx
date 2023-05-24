@@ -39,13 +39,16 @@ const InspiredByBrowsingHistory = () => {
 
   return (
     <>
-    {products && <ProductHorizontal
-        title="Inspired "
-        subtitle="By Browsing History"
-        products={products}
-        description=""
-      />}
-      
+      {products && (
+        <ProductHorizontal
+          title="Inspired "
+          subtitle="By Browsing History"
+          products={products}
+          description="P.S - Don’t keep scrolling or browning, shop them now, before the VIPS Wallet deal and the price is gone.
+        "
+          subtitleDesc={"Products you’ve viewed recently."}
+        />
+      )}
     </>
   );
 };

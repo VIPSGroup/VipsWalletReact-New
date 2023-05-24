@@ -12,6 +12,7 @@ const ProductHorizontal = ({
   description,
   subtitle,
   loading,
+  subtitleDesc,
 }) => {
   const responsive = {
     superLargeDesktop: {
@@ -45,7 +46,13 @@ const ProductHorizontal = ({
                   <span>{title}</span>
                   {subtitle}
                 </h2>
-                <p className="section-head-subtitle">{description}</p>
+                <p className="section-head-subtitle">{subtitleDesc}</p>
+                <p className="section-head-subtitle">{`${
+                  description.split(".")[0]
+                }, ${description.split(".")[1]} `}</p>
+                <p className="section-head-subtitle">
+                  {description.split(".")[2]}
+                </p>
               </div>
             </div>
             {!loading ? (

@@ -53,7 +53,11 @@ const OnlineStore = () => {
                 <span>Online</span> Stores
               </h2>
               <p className="section-head-subtitle">
-                Shop your favourite products from our connected online stores.
+                Offering you multiple stores to shop from.{" "}
+              </p>
+              <p className="section-head-subtitle">
+                Browse your online shopping options from multiple platforms and
+                make the most of the infinite options offered by VIPS Wallet.
               </p>
             </div>
           </div>

@@ -74,9 +74,10 @@ const Homepage = ({ setIsHomeTopNav }) => {
       <GameBanner />
       <ShoppingCategoryProduct
         title="VIPS"
-        subtitle=" Promotional"
-        description="Discover all the VIPS merchandise here!"
+        subtitle=" Product"
+        description="VIPS Wallet shopping portal also offers custom VIPS-labelled products. Shop the look only on VIPS Wallet. Explore the merchandise we offer!       "
         categoryId={11}
+        subtitleDesc={"Join the trend like others."}
       />
       <OnlineStore />
       <PrimeMembership />

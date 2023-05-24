@@ -72,6 +72,7 @@ import DigiDeliveryCart from "../pages/digiGold/Delivery/DigiDeliveryCart";
 import DeliveryCheckout from "../pages/digiGold/Delivery/DeliveryCheckout";
 import DeliveryOrderDetails from "../pages/digiGold/Delivery/DeliveryOrderDetails";
 import SuccessPage from "../pages/home/SuccessPage";
+import NotFound from "../pages/publicPages/NotFound";
 
 const Router = () => {
   const [isHomeTopNav, setIsHomeTopNav] = useState(false);
@@ -95,6 +96,7 @@ const Router = () => {
         >
           <Route path="/login" element={<Login />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
 
         <Route
           path="/sendMoney"

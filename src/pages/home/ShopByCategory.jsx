@@ -52,10 +52,13 @@ const ShopByCategory = () => {
           <div class="container">
             <div class="section-head pt-1">
               <h2 class="section-head-title">
-                <span>Shop</span> By Shopping Category
+                <span>Shop</span> From Your Favourite Category
               </h2>
               <p className="section-head-subtitle">
-                We've got every shopping mood covered!
+                VIPS Wallet offers you a variety of categories to pick from and
+                fulfil your shopping needs. From clothing, lifestyle, and
+                electronic gadgets, to day to day essential products, we have
+                them all.
               </p>
             </div>
           </div>

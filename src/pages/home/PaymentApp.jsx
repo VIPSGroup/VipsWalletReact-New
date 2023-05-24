@@ -20,9 +20,17 @@ const PaymentApp = () => {
                     </h2>
 
                     <p class="payment-app-banner-p">
-                      VIPS Wallet application is available on Google Play Store
-                      and App Store. Download now for a trouble-free shopping
-                      experience. .
+                      1M+ Downloads on Google Play Store
+                    </p>
+                    <p class="payment-app-banner-p">
+                      VIPS Wallet is one of the best-rated applications, with
+                      more than 1 million downloads on the Google Play Store.
+                      <br />
+                      <br />
+                      If you want to experience online shopping heaven,
+                      inclusive of instant and best offers and cashback on every
+                      recharge, download the VIPS Wallet application now.
+                      Available on both Google Play Store and App Store.
                     </p>
 
                     <div class="row">

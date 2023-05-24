@@ -20,8 +20,10 @@ const DealsofTheDay = () => {
         title="Deals "
         loading={loading}
         subtitle="of the Day"
-        products={data?.Data?.filter(product=>product.Quantity!==0)}
-        description="Exciting, fresh deals on a daily basis. Buy your wishlist products at low cost!"
+        products={data?.Data?.filter((product) => product.Quantity !== 0)}
+        description="VIPS Wallet offers competitive deals and low prices on selected products each day. For a better shopping experience, check the section daily to shop for your most awaited product at a low cost as compared to other shopping portals.
+        "
+        subtitleDesc={"Exclusive deals only for VIPS Wallet users."}
       />
     </>
   );

@@ -14,8 +14,8 @@ const ServiceCategory = () => {
                 <span>Recharge</span> & Pay Bills
               </h2>
               <p className="section-head-subtitle">
-                Ease the transaction and payments hassle with tech that's
-                convenient to use.
+                Whatever your online payment requirement would be, VIPS Wallet
+                offers them all under one roof.
               </p>
             </div>
           </div>
@@ -66,49 +66,49 @@ const ServiceArr = [
     img: "/images/services/recharge.svg",
     title: "Recharge",
     route: "/services/mobile-recharge",
-    desc: "Get Instant 2% Cashback On Mobile Recharge",
+    desc: "Do your online mobile recharge on VIPS Wallet and receive a cashback of 2% on every recharge.",
   },
   {
     img: "/images/services/dth.svg",
     title: "DTH",
     route: "/services/dth",
-    desc: "Get Instant 2% Cashback On DTH Recharge",
+    desc: "Recharge your DTH connections using VIPS Wallet and avail of 2% cashback.",
   },
   {
     img: "/images/services/digital-cable.svg",
     title: "Digital Cabel",
     route: "/services/digital-cable",
-    desc: "Conveniently recharge your digital cable connection..",
+    desc: "Keep your T.V. connection running with an online recharge from VIPS Wallet every month.    ",
   },
   {
     img: "/images/services/broadBand.svg",
     title: "BroadBand",
     route: "/services/BroadBand",
-    desc: "Get Instant 3% Shopping Points On BroadBand",
+    desc: "Don’t let the latest updates pause, recharge your broadband with VIPS Wallet, and receive 3% shopping points.",
   },
   {
     img: "/images/services/electricity.svg",
     title: "Electricity",
     route: "/services/electricity",
-    desc: "Get Instant 5% Shopping Points On Electricity",
+    desc: "Pay your electricity bill easily and add extra 5% shopping points to your VIPS Wallet account.",
   },
   {
     img: "/images/services/fastag.svg",
     title: "Fastag",
     route: "/services/fastag",
-    desc: "Get Instant 5% Shopping Points On Fastag",
+    desc: "Avoid paying double the toll cost, add money to your Fastag walled with VIPS Wallet and enjoy extra 5% shopping points credit to your VIPS Wallet account.",
   },
   {
     img: "/images/services/landline.svg",
     title: "LandLine",
     route: "/services/landline",
-    desc: "Get Instant 3% Shopping Points On LandLine",
+    desc: "Keep your closed ones always a call away, recharge your landline with VIPS Wallet and get 3% shopping points credited to your wallet account. ",
   },
   {
     img: "/images/services/piped-gas.svg",
     title: "Gas",
     route: "/services/gas",
-    desc: "Get Instant 5% Shopping Points On Gas",
+    desc: "Skip past stepping out for gas payment; VIPS Wallet offers you a gas payment service with 5% shopping points.",
   },
 ];
 
