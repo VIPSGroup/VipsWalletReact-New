@@ -53,7 +53,7 @@ export const createDigiAddress = createAsyncThunk(
     Password,
     name,
     mobileNumber,
-    email,
+    // email,
     address,
     pincode,
   }) => {
@@ -62,7 +62,7 @@ export const createDigiAddress = createAsyncThunk(
     formData.append("Password", Password);
     formData.append("name", name);
     formData.append("mobileNumber", mobileNumber);
-    formData.append("email", email);
+    // formData.append("email", email);
     formData.append("address", address);
     formData.append("pincode", pincode);
     try {
@@ -97,6 +97,8 @@ export const deliveryPlaceOrder = createAsyncThunk(
     const {
       Username,
       Password,
+      goldGram,
+      silverGram,
       Useraddressid,
       address,
       shippingCharges,
@@ -106,6 +108,8 @@ export const deliveryPlaceOrder = createAsyncThunk(
     const formData = new URLSearchParams();
     formData.append("Username", Username);
     formData.append("Password", Password);
+    formData.append("goldGram", goldGram);
+    formData.append("silverGram", silverGram);
     formData.append("otp", otp ? otp : "");
     formData.append("AppType", appType);
     formData.append("currentAppVersion", currAppVersion);

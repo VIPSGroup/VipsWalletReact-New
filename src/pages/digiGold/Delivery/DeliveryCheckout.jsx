@@ -26,6 +26,7 @@ import { async } from "q";
 const { Item } = Form;
 const DeliveryCheckout = () => {
   const { state } = useLocation();
+  console.log(state, "state");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSnackBar, setIsSnackBar] = useState(false);
@@ -42,8 +43,9 @@ const DeliveryCheckout = () => {
   const [formData, setFormdata] = useState({
     name: "",
     mobileNumber: "",
-    email: "",
-    address: "",
+    flat: "",
+    area: "",
+    landmark: "",
     pincode: "",
   });
   const { address, addLoading } = useSelector(
@@ -78,8 +80,8 @@ const DeliveryCheckout = () => {
   const handleAddressAdd = async () => {
     const name = formData.name;
     const mobileNumber = formData.mobileNumber;
-    const email = formData.email;
-    const address = formData.address;
+    // const email = formData.email;
+    const address = `${formData.flat}, ${formData.area}, ${formData.landmark}`;
     const pincode = formData.pincode;
     const res = await dispatch(
       createDigiAddress({
@@ -87,7 +89,6 @@ const DeliveryCheckout = () => {
         Password,
         name,
         mobileNumber,
-        email,
         address,
         pincode,
       })
@@ -99,10 +100,11 @@ const DeliveryCheckout = () => {
       setModalOpen(false);
       setFormdata({
         name: "",
-        email: "",
-        address: "",
-        mobileNumber: "",
+        flat: "",
+        area: "",
+        landmark: "",
         pincode: "",
+        mobileNumber: "",
       });
       setIsSnackBar(true);
       setSuccessMsg(res.payload.Remarks);
@@ -144,6 +146,20 @@ const DeliveryCheckout = () => {
   };
 
   const handlePlaceOrder = async () => {
+    var goldGram = 0;
+    var silverGram = 0;
+    for (var i = 0; i < items.length; i++) {
+      var product = items[i];
+      var metalType = product.metalType;
+      var quantity = product.quantity;
+      var productWeight = parseFloat(product.productWeight);
+
+      if (metalType === "gold") {
+        goldGram += quantity * productWeight;
+      } else if (metalType === "silver") {
+        silverGram += quantity * productWeight;
+      }
+    }
     const Data = {
       Username: Username,
       Password: Password,
@@ -152,9 +168,11 @@ const DeliveryCheckout = () => {
       address: selectAdd.address,
       otp: otp,
       items: items,
+      goldGram: goldGram,
+      silverGram: silverGram,
     };
+
     const res = await dispatch(deliveryPlaceOrder({ Data }));
-    console.log(res, "res");
     if (res.payload.ResponseStatus === 2) {
       console.log("Kya hua bhai");
       setStep(1);
@@ -479,8 +497,9 @@ const DeliveryCheckout = () => {
           setModalOpen(false);
           setFormdata({
             name: "",
-            email: "",
-            address: "",
+            flat: "",
+            area: "",
+            landmark: "",
             pincode: "",
           });
           dispatch(removePinData());
@@ -502,12 +521,16 @@ const DeliveryCheckout = () => {
               value: formData.mobileNumber,
             },
             {
-              name: "email",
-              value: formData.email,
+              name: "flat",
+              value: formData.flat,
             },
             {
-              name: "address",
-              value: formData.address,
+              name: "area",
+              value: formData.area,
+            },
+            {
+              name: "landmark",
+              value: formData.landmark,
             },
             {
               name: "pincode",
@@ -556,21 +579,57 @@ const DeliveryCheckout = () => {
             />
           </Item>
           <Item
-            name="email"
+            name="flat"
             rules={[
-              // { required: true, message: "Please enter your email address!" },
-              { type: "email", message: "Please enter a valid email address!" },
+              {
+                pattern: /[A-Za-z0-9 .,-/]/,
+                message: "Please enter a valid Flat",
+              },
             ]}
           >
             <Input
               onChange={(e) =>
-                setFormdata({ ...formData, email: e.target.value })
+                setFormdata({ ...formData, flat: e.target.value })
               }
-              value={formData.email}
-              placeholder="Enter Email Address"
+              value={formData.flat}
+              placeholder="Flat, House no., Building, Colony"
             />
           </Item>
           <Item
+            name="area"
+            rules={[
+              {
+                pattern: /[A-Za-z0-9 .,-/]/,
+                message: "Please enter a valid Area",
+              },
+            ]}
+          >
+            <Input
+              onChange={(e) =>
+                setFormdata({ ...formData, area: e.target.value })
+              }
+              value={formData.area}
+              placeholder="Area, Street, Sector, Village"
+            />
+          </Item>
+          <Item
+            name="landmark"
+            rules={[
+              {
+                pattern: /[A-Za-z0-9 .,-/]/,
+                message: "Please enter a valid landmark",
+              },
+            ]}
+          >
+            <Input
+              onChange={(e) =>
+                setFormdata({ ...formData, landmark: e.target.value })
+              }
+              value={formData.landmark}
+              placeholder="Landmark (nearby/opposite)"
+            />
+          </Item>
+          {/* <Item
             name="address"
             rules={[
               { required: true, message: "Please enter your address!" },
@@ -585,7 +644,7 @@ const DeliveryCheckout = () => {
               value={formData.address}
               placeholder="Enter Address"
             />
-          </Item>
+          </Item> */}
           <Spin spinning={pinLoading}>
             <Item
               name="pincode"
@@ -623,7 +682,9 @@ const DeliveryCheckout = () => {
                 pinCode[0]?.Status === "Error" ||
                 !formData.mobileNumber ||
                 !formData.name ||
-                !formData.address ||
+                !formData.landmark ||
+                !formData.flat ||
+                !formData.area ||
                 !formData.pincode
               }
               loading={AddLoading}
