@@ -15,7 +15,7 @@ import { MuiSnackBar } from "../../components/common";
 import { globalConfiguration } from "../../redux/slices/payment/paymentSlice";
 
 const PaymentOptions = () => {
-  const [selectedPaymentOption, setSelectedPaymentOption] = useState("GAB");
+  const [selectedPaymentOption, setSelectedPaymentOption] = useState("Payu");
   const [GABBalance, setGABBalance] = useState(0);
   const [coinPrice, setCoinPrice] = useState("");
   const [isSnackBar, setIsSnackBar] = useState(false);
@@ -68,7 +68,7 @@ const PaymentOptions = () => {
 
                   <div class="add-money-body select-payment-method">
                     <form>
-                      <label>
+                      {/* <label>
                         <input
                           onChange={handleChange}
                           type="radio"
@@ -84,7 +84,7 @@ const PaymentOptions = () => {
                           />{" "}
                           Affiliate (&#x20B9; {GABBalance})
                         </span>
-                      </label>
+                      </label> */}
                       <label>
                         <input
                           onChange={handleChange}
@@ -122,7 +122,7 @@ const PaymentOptions = () => {
                         </span>
                       </label>
 
-                      <label>
+                      {/* <label>
                         <input
                           onChange={handleChange}
                           type="radio"
@@ -138,7 +138,7 @@ const PaymentOptions = () => {
                           />{" "}
                           VIPS Token (&#x20B9; {getDouble(coinPrice)}){" "}
                         </span>
-                      </label>
+                      </label> */}
                     </form>
                   </div>
 

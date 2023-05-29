@@ -100,7 +100,7 @@ const PaymentOptions = () => {
 
                   <div class="add-money-body select-payment-method">
                     <form>
-                      <label>
+                      {/* <label>
                         <input
                           onChange={handleChange}
                           type="radio"
@@ -116,7 +116,7 @@ const PaymentOptions = () => {
                           />{" "}
                           Affiliate (&#x20B9; {GABBalance})
                         </span>
-                      </label>
+                      </label> */}
                       <label>
                         <input
                           onChange={handleChange}
@@ -135,7 +135,7 @@ const PaymentOptions = () => {
                         </span>
                       </label>
                       
-                      <label>
+                      {/* <label>
                         <input
                           onChange={handleChange}
                           type="radio"
@@ -151,7 +151,7 @@ const PaymentOptions = () => {
                           />{" "}
                           VIPS Token (&#x20B9; {getDouble(coinPrice)}){" "}
                         </span>
-                      </label>
+                      </label> */}
                     </form>
                   </div>
 

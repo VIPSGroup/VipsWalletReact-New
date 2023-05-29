@@ -83,7 +83,7 @@ const AddMoneyButton = ({
           type="hidden"
           value={`https://api.vipswallet.com/Home/PostHitURL?code=${user.UserName}`}
         />
-        <input name="key" type="hidden" value={key} />
+        <input name="key" type="hidden" value='e9ZmdY' />
         <input name="hash" type="hidden" value={callHash()} />
         <input name="email" type="hidden" value={user && user.Emailid} />
         {/* <input name="enforce_paymethod" type="hidden" value="CC" /> */}
