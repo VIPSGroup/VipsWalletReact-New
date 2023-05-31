@@ -128,7 +128,7 @@ const AccountWireframe = () => {
                     </div>
                   </div>
 
-                  <div class="my-account-info-box">
+                  {/* <div class="my-account-info-box">
                     <div class="pf-account-info">
                       <p class="pf-account-info-text"> Affiliate Balance </p>
                       <p class="pf-account-info-amount">
@@ -139,7 +139,7 @@ const AccountWireframe = () => {
                           : "Loading..."}
                       </p>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div class="my-account-info-box">
                     <div class="pf-account-info">

@@ -42,7 +42,7 @@ const Homepage = ({ setIsHomeTopNav }) => {
               <img src="/images/crowns_icon.svg" />
             </span>
             <span class="prime-text"> Get Prime Membership </span>
-          </Link>
+        </Link>
         </li>
       </ul>
     </div>
@@ -50,7 +50,7 @@ const Homepage = ({ setIsHomeTopNav }) => {
   );
   return (
     <>
-      {!isPrime && loggedInUser ? primeFixed() : null}
+      {/* {!isPrime && loggedInUser ? primeFixed() : null} */}
       <HomeTopBannerSlider />
       <HomeBottomServiceBar />
       <ShopByCategory />
